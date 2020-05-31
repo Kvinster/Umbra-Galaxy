@@ -14,30 +14,32 @@ namespace STP.Behaviour.Meta {
 
         StarSystemsGraphInfo _graphInfo;
         MetaTimeManager      _timeManager;
-
-        BaseStarSystem _curSystem;
-        BaseStarSystem _destSystem;
-
+        
         int     _pathStartDay;
         int     _pathEndDay;
         Promise _movePromise;
 
         readonly Dictionary<(string, string), int> _distanceCache = new Dictionary<(string, string), int>();
+        
+        public BaseStarSystem CurSystem  { get; private set; }
+        public BaseStarSystem DestSystem { get; private set; }
+
+        public bool IsMoving => (DestSystem && !_timeManager.IsPaused);
 
         void Update() {
-            if ( !_destSystem ) {
+            if ( !DestSystem ) {
                 return;
             }
             var progress = (_timeManager.CurDay - _pathStartDay + _timeManager.DayProgress) /
                            (_pathEndDay - _pathStartDay);
-            transform.position = Vector2.Lerp(_curSystem.transform.position, _destSystem.transform.position, progress);
+            transform.position = Vector2.Lerp(CurSystem.transform.position, DestSystem.transform.position, progress);
         }
         
         protected override void InitInternal(MetaStarter starter) {
             _graphInfo   = starter.StarSystemsGraphInfo;
             _timeManager = starter.TimeManager;
 
-            _curSystem = StartSystem;
+            CurSystem = StartSystem;
         }
 
         public bool CanMoveTo(BaseStarSystem destSystem, bool silent = true) {
@@ -47,9 +49,9 @@ namespace STP.Behaviour.Meta {
                 }
                 return false;
             }
-            if ( _curSystem == destSystem ) {
+            if ( CurSystem == destSystem ) {
                 if ( !silent ) {
-                    Debug.LogErrorFormat("Current and destination system are the same system '{0}'", _curSystem.Name);
+                    Debug.LogErrorFormat("Current and destination system are the same system '{0}'", CurSystem.Name);
                 }
                 return false;
             }
@@ -59,7 +61,7 @@ namespace STP.Behaviour.Meta {
                 }
                 return false;
             }
-            var distance = GetDistance(_curSystem.Name, destSystem.Name);
+            var distance = GetDistance(CurSystem.Name, destSystem.Name);
             if ( distance <= 0 ) {
                 return false;
             }
@@ -76,24 +78,24 @@ namespace STP.Behaviour.Meta {
             if ( !CanMoveTo(destSystem, false) ) {
                 return Promise.Rejected(new Exception($"Can't move to {destSystem.Name}"));
             }
-            var distance = GetDistance(_curSystem.Name, destSystem.Name);
-            _destSystem   = destSystem;
+            var distance = GetDistance(CurSystem.Name, destSystem.Name);
             PlayerState.Instance.Fuel -= distance;
+            DestSystem    = destSystem;
             _pathStartDay = _timeManager.CurDay;
             _pathEndDay   = _pathStartDay + distance;
             _timeManager.OnPausedChanged += OnTimePausedChanged;
             _movePromise = new Promise();
             _timeManager.Unpause(_pathEndDay);
             transform.rotation =
-                Quaternion.Euler(0, 0, Vector2.SignedAngle(new Vector3(0, 1), _destSystem.transform.position - transform.position));
+                Quaternion.Euler(0, 0, Vector2.SignedAngle(new Vector3(0, 1), DestSystem.transform.position - transform.position));
             return _movePromise;
         }
 
         void OnTimePausedChanged(bool isPaused) {
-            if ( _destSystem && isPaused && (_timeManager.CurDay == _pathEndDay) ) {
-                transform.position = _destSystem.transform.position;
-                _curSystem  = _destSystem;
-                _destSystem = null;
+            if ( DestSystem && isPaused && (_timeManager.CurDay == _pathEndDay) ) {
+                transform.position = DestSystem.transform.position;
+                CurSystem  = DestSystem;
+                DestSystem = null;
                 _timeManager.OnPausedChanged -= OnTimePausedChanged;
                 _movePromise.Resolve();
                 _movePromise = null;
