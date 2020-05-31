@@ -78,6 +78,7 @@ namespace STP.Behaviour.Meta {
             }
             var distance = GetDistance(_curSystem.Name, destSystem.Name);
             _destSystem   = destSystem;
+            PlayerState.Instance.Fuel -= distance;
             _pathStartDay = _timeManager.CurDay;
             _pathEndDay   = _pathStartDay + distance;
             _timeManager.OnPausedChanged += OnTimePausedChanged;

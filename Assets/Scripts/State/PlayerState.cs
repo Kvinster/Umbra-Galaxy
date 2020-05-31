@@ -20,7 +20,7 @@ namespace STP.State {
         public readonly Dictionary<string, int> Inventory = new Dictionary<string, int>();
 
         // TODO: set for the sake of testing, revert
-        int _fuel = 100;
+        int _fuel = 50;
         public int Fuel {
             get => _fuel;
             set {
