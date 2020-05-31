@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+using System.Collections.Generic;
 
 namespace STP.State {
     public class PlayerState {
@@ -11,6 +12,7 @@ namespace STP.State {
                 if ( _instance == null ) {
                     _instance = new PlayerState();
                 }
+                
                 return _instance;
             }
         }
