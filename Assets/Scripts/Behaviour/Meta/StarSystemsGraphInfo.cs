@@ -27,7 +27,36 @@ namespace STP.Behaviour.Meta {
             }
         }
 
-        [HideInInspector]
-        public List<StarSystemPair> StarSystemPairs = new List<StarSystemPair>();
+        [SerializeField]
+        List<StarSystemPair> StarSystemPairs = new List<StarSystemPair>();
+
+        public List<StarSystemPair> GetStarSystemPairsInEditor() {
+#if UNITY_EDITOR
+            return StarSystemPairs;
+#else
+            return null;
+#endif
+        }
+        
+        public int GetDistance(string aStarSystem, string bStarSystem) {
+            if ( aStarSystem == bStarSystem ) {
+                return 0;
+            }
+            return GetPair(aStarSystem, bStarSystem)?.Distance ?? -1;
+        }
+
+        StarSystemPair GetPair(string aStarSystem, string bStarSystem) {
+            if ( aStarSystem == bStarSystem ) {
+                return null;
+            }
+            foreach ( var pair in StarSystemPairs ) {
+                if ( ((pair.A == aStarSystem) && (pair.B == bStarSystem)) ||
+                     ((pair.A == bStarSystem) && (pair.B == aStarSystem)) ) {
+                    return pair;
+                }
+            }
+            Debug.LogErrorFormat("Can't find pair for ('{0}', '{1}')", aStarSystem, bStarSystem);
+            return null;
+        }
     }
 }

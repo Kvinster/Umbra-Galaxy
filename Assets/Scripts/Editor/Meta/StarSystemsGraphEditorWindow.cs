@@ -39,7 +39,7 @@ namespace STP.Editor.Meta {
         void RefreshSystemsFromGraph() {
             _starSystems.Clear();
             _pairs.Clear();
-            foreach ( var pair in _graphInfo.StarSystemPairs ) {
+            foreach ( var pair in _graphInfo.GetStarSystemPairsInEditor() ) {
                 if ( !_starSystems.Contains(pair.A) ) {
                     _starSystems.Add(pair.A);
                 }
@@ -139,9 +139,10 @@ namespace STP.Editor.Meta {
         }
 
         void Save() {
-            _graphInfo.StarSystemPairs.Clear();
+            var graphPairs = _graphInfo.GetStarSystemPairsInEditor();
+            graphPairs.Clear();
             foreach ( var pair in _pairs ) {
-                _graphInfo.StarSystemPairs.Add(pair);
+                graphPairs.Add(pair);
             }
             EditorUtility.SetDirty(_graphInfo);
         }

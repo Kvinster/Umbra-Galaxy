@@ -13,12 +13,33 @@ MonoBehaviour:
   m_Name: StarSystems
   m_EditorClassIdentifier: 
   StarSystemPairs:
-  - A: Essenlenaile
+  - A: Capital
+    B: Essenlenaile
+    Distance: 1
+  - A: Capital
+    B: Home
+    Distance: 1
+  - A: Capital
     B: LV-426
+    Distance: 3
+  - A: Capital
+    B: Terra
+    Distance: 2
+  - A: Essenlenaile
+    B: Home
     Distance: 1
   - A: Essenlenaile
+    B: LV-426
+    Distance: 3
+  - A: Essenlenaile
     B: Terra
-    Distance: 33
+    Distance: 1
+  - A: Home
+    B: LV-426
+    Distance: 1
+  - A: Home
+    B: Terra
+    Distance: 1
   - A: LV-426
     B: Terra
-    Distance: 4
+    Distance: 1

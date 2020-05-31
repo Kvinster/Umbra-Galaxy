@@ -19,7 +19,7 @@ namespace STP.Editor.Meta {
             }
             GUILayout.Space(10);
             var width = Screen.width / 2f;
-            foreach ( var pair in graphInfo.StarSystemPairs ) {
+            foreach ( var pair in graphInfo.GetStarSystemPairsInEditor() ) {
                 GUILayout.BeginHorizontal();
                 GUILayout.Label($"'{pair.A}' x '{pair.B}':", GUILayout.Width(width));
                 GUILayout.Label(pair.Distance.ToString(), GUILayout.Width(width));
