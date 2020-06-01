@@ -84,6 +84,7 @@ GameObject:
   - component: {fileID: 468571120225148628}
   - component: {fileID: 468571120225148629}
   - component: {fileID: 468571120225148626}
+  - component: {fileID: 468571120706785261}
   m_Layer: 5
   m_Name: CoreUI
   m_TagString: Untagged
@@ -121,9 +122,9 @@ Canvas:
   m_GameObject: {fileID: 468571120225148627}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 10
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -172,6 +173,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &468571120706785261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468571120225148627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53510651a6b8c9c41b4cc74d674ecad5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FastTravelButton: {fileID: 9184065555202916933}
+  InventoryCountText: {fileID: 3087335788357616740}
 --- !u!1 &535981873618061861
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +223,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -148, y: -63.2}
+  m_AnchoredPosition: {x: -148, y: -63.199707}
   m_SizeDelta: {x: 243.2691, y: 71.948944}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3600872061349078711
@@ -592,7 +607,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 143, y: -56.507}
+  m_AnchoredPosition: {x: 143, y: -56.507324}
   m_SizeDelta: {x: 228.88605, y: 58.5625}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1765344192089682455

@@ -3,8 +3,8 @@
 using STP.Utils;
 
 namespace STP.View {
-    public abstract class CoreComponent : GameComponent {
-		public static readonly HashSet<CoreComponent> Instances = new HashSet<CoreComponent>();
+    public abstract class CoreBehaviour : GameBehaviour {
+		public static readonly HashSet<CoreBehaviour> Instances = new HashSet<CoreBehaviour>();
     
 		protected void OnEnable() {
 			Instances.Add(this);

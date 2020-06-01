@@ -1,16 +1,19 @@
-﻿using STP.Utils;
+﻿using STP.State;
+using STP.Utils;
 
 namespace STP.View {
-    public class CoreStarter : GameComponent
-    {
+    public class CoreStarter : GameBehaviour {
+        public PlayerState   State => PlayerState.Instance;
+        
+        public CoreShipState ShipState;
+        
         void Start() {
-            foreach (var comp in CoreComponent.Instances) {
+            ShipState = new CoreShipState();
+            foreach (var comp in CoreBehaviour.Instances) {
                 comp.Init(this);
             }        
         }
 
-        protected override void CheckDescription() {
-            throw new System.NotImplementedException();
-        }
+        protected override void CheckDescription() { }
     }
 }
