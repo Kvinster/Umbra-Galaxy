@@ -1,4 +1,6 @@
-﻿using STP.State;
+﻿using UnityEngine;
+
+using STP.State;
 using STP.Utils;
 
 namespace STP.View {
@@ -9,6 +11,8 @@ namespace STP.View {
         
         void Start() {
             ShipState = new CoreShipState();
+            Application.targetFrameRate = Screen.currentResolution.refreshRate;
+            QualitySettings.vSyncCount  = 0;
             foreach (var comp in CoreBehaviour.Instances) {
                 comp.Init(this);
             }        
