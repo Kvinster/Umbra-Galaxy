@@ -21,21 +21,21 @@ namespace STP.Gameplay {
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
         
-        void FixedUpdate() {
+        void Update() {
             var horizontalDirection = Input.GetAxis("Horizontal");
             var verticalDirection   = Input.GetAxis("Vertical");
-            var xOffset             = Speed  * horizontalDirection;
-            var yOffest             = Speed  * verticalDirection;
-            var offsetVector        = new Vector3(xOffset, yOffest, 0.0f);
-            var movingVector        = new Vector2(horizontalDirection, verticalDirection);
-            var movingVectorN       = movingVector.normalized;
-            if ( movingVectorN == Vector2.zero ) {
-                movingVectorN = Vector2.right;
+            if ( Mathf.Abs(horizontalDirection) > float.Epsilon || Mathf.Abs(verticalDirection) > float.Epsilon ) {
+                var xOffset             = Speed  * horizontalDirection;
+                var yOffest             = Speed  * verticalDirection;
+                var offsetVector        = new Vector3(xOffset, yOffest, 0.0f);
+                var movingVector        = new Vector2(horizontalDirection, verticalDirection);
+                var movingVectorN       = movingVector.normalized;
+                var dstAngle            = Mathf.Atan2(movingVectorN.x, -movingVectorN.y) / Mathf.PI * 180;
+                transform.rotation      = Quaternion.AngleAxis(dstAngle, Vector3.forward);
+                // transform.position      += offsetVector;
+                _rigidbody2D.velocity = offsetVector;
             }
-            var dstAngle            = Mathf.Atan2(movingVectorN.x, -movingVectorN.y) / Mathf.PI * 180;
-            transform.rotation      = Quaternion.AngleAxis(dstAngle, Vector3.forward);
-            //transform.position      += offsetVector;
-            _rigidbody2D.velocity = offsetVector;
+            
             _timer += Time.deltaTime;
             if ( Input.GetButton("Fire1") && (_timer > BulletPeriod) ) {
                 var direction = transform.rotation * Vector3.down;
