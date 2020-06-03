@@ -22,6 +22,11 @@ namespace STP.Gameplay {
         }
         
         void Update() {
+            TryMovePlayer();
+            TryShoot();
+        }
+
+        void TryMovePlayer() {
             var horizontalDirection = Input.GetAxis("Horizontal");
             var verticalDirection   = Input.GetAxis("Vertical");
             if ( Mathf.Abs(horizontalDirection) > float.Epsilon || Mathf.Abs(verticalDirection) > float.Epsilon ) {
@@ -32,10 +37,11 @@ namespace STP.Gameplay {
                 var movingVectorN       = movingVector.normalized;
                 var dstAngle            = Mathf.Atan2(movingVectorN.x, -movingVectorN.y) / Mathf.PI * 180;
                 transform.rotation      = Quaternion.AngleAxis(dstAngle, Vector3.forward);
-                // transform.position      += offsetVector;
                 _rigidbody2D.velocity = offsetVector;
             }
-            
+        }
+
+        void TryShoot() {
             _timer += Time.deltaTime;
             if ( Input.GetButton("Fire1") && (_timer > BulletPeriod) ) {
                 var direction = transform.rotation * Vector3.down;
