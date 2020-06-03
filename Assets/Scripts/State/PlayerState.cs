@@ -24,20 +24,37 @@ namespace STP.State {
         public int Fuel {
             get => _fuel;
             set {
-                if ( _fuel == value ) {
-                    return;
-                }
                 if ( (value < 0) || (value > MaxFuel) ) {
                     Debug.LogWarningFormat("New fuel value is outside the acceptable range: '{0}'", value);
                     value = Mathf.Clamp(value, 0, MaxFuel);
+                }
+                if ( _fuel == value ) {
+                    return;
                 }
                 _fuel = value;
                 OnFuelChanged?.Invoke(_fuel);
             }
         }
 
+        int _money = 0;
+        public int Money {
+            get => _money;
+            set {
+                if ( value < 0 ) {
+                    Debug.LogWarningFormat("New money value is below zero: '{0}'", value);
+                    value = 0;
+                }
+                if ( _money == value ) {
+                    return;
+                }
+                _money = value;
+                OnMoneyChanged?.Invoke(_money);
+            }
+        }
+
         public event Action OnInventoryChanged;
         public event Action<int> OnFuelChanged;
+        public event Action<int> OnMoneyChanged;
 
         public bool HasInInventory(string itemName, int amount = 1) {
             return _inventory.ContainsKey(itemName) && (_inventory[itemName] >= amount);
