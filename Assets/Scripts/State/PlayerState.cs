@@ -57,6 +57,14 @@ namespace STP.State {
         public event Action<int> OnFuelChanged;
         public event Action<int> OnMoneyChanged;
 
+        public Dictionary<string, int>.Enumerator GetInventoryEnumerator() {
+            return _inventory.GetEnumerator();
+        }
+
+        public int GetInventoryItemAmount(string itemName) {
+            return _inventory.ContainsKey(itemName) ? _inventory[itemName] : -1;
+        }
+
         public bool HasInInventory(string itemName, int amount = 1) {
             return _inventory.ContainsKey(itemName) && (_inventory[itemName] >= amount);
         }
