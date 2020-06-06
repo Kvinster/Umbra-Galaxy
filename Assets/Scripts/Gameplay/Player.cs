@@ -8,6 +8,7 @@ namespace STP.Gameplay {
         const int   BulletSpeed  = 400;
         const float BulletPeriod = 0.1f;
         
+        public Transform     TeleportPoint;
         public Transform     BulletLauncher;
         public BulletCreator BulletCreator;
 
@@ -48,6 +49,11 @@ namespace STP.Gameplay {
                 BulletCreator.CreateBulletOn(BulletLauncher.position, direction, BulletSpeed);
                 _timer = 0f;
             }
+        }
+
+        void TeleportToMothership() {
+            _rigidbody2D.velocity = Vector2.zero;
+            transform.position = TeleportPoint.position;
         }
     }
 }

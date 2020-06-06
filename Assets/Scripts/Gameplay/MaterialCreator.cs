@@ -23,12 +23,12 @@ namespace STP.Gameplay {
             }
         }
 
-        public GameObject CreateMaterial(string itemName, Transform root) {
+        public GameObject CreateMaterial(string itemName, Vector3 position) {
             if ( !_materialPrefabs.ContainsKey(itemName) ) {
                 Debug.LogError(string.Format("Can't find material {0} in loaded materials", itemName));
                 return null;
             }
-            var go = GameObject.Instantiate(_materialPrefabs[itemName], root);
+            var go = GameObject.Instantiate(_materialPrefabs[itemName], position, Quaternion.identity);
             go.GetComponent<CollectableItem>().Init(_starter);
             return go;
         }

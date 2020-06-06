@@ -1,4 +1,5 @@
 ﻿using STP.State;
+using UnityEngine.SceneManagement;
 
 namespace STP.Gameplay {
     public class CoreManager {
@@ -19,6 +20,11 @@ namespace STP.Gameplay {
                 _playerState.AddToInventory(item.Key, item.Value);
             }
             _shipState.DropAllItems();
+        }
+
+        public void GoToShop() {
+            SendItemsToMothership();
+            SceneManager.LoadScene("Meta");
         }
     }
 }

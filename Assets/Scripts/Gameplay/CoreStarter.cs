@@ -1,21 +1,23 @@
-﻿using STP.Gameplay;
+﻿using STP.State;
+using STP.Utils;
+using STP.View;
 using UnityEngine;
 
-using STP.State;
-using STP.Utils;
-
-namespace STP.View {
+namespace STP.Gameplay {
     public class CoreStarter : GameBehaviour {
-        public PlayerState   State => PlayerState.Instance;
+        public OverlayManager  OverlayManager;
+        public PlayerState     State => PlayerState.Instance;
         
-        public CoreShipState   ShipState       {get; private set;}
-        public MaterialCreator MaterialCreator {get; private set;}
-        public CoreManager     CoreManager     {get; private set;}
+        public CoreShipState     ShipState       {get; private set;}
+        public MaterialCreator   MaterialCreator {get; private set;}
+        public CoreManager       CoreManager     {get; private set;}
+        public CoreOverlayHelper OverlayHelper   {get; private set;}
         
         void Start() {
             ShipState       = new CoreShipState();
             MaterialCreator = new MaterialCreator(this);
             CoreManager     = new CoreManager(State, ShipState);
+            OverlayHelper   = new CoreOverlayHelper(this);
             foreach (var comp in CoreBehaviour.Instances) {
                 comp.Init(this);
             }        
