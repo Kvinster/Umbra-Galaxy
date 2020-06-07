@@ -8,7 +8,6 @@ namespace STP.View {
         
         public ItemCounterUI ItemCounterUI;
         public Button        FastTravelButton;
-    
         
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, FastTravelButton, ItemCounterUI);
 

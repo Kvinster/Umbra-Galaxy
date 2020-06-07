@@ -47,21 +47,17 @@ namespace STP.Gameplay {
             var horizontalDirection = Input.GetAxis("Horizontal");
             var verticalDirection   = Input.GetAxis("Vertical");
             if ( Mathf.Abs(horizontalDirection) > float.Epsilon || Mathf.Abs(verticalDirection) > float.Epsilon ) {
-                var xOffset             = Speed  * horizontalDirection;
-                var yOffest             = Speed  * verticalDirection;
-                var offsetVector        = new Vector3(xOffset, yOffest, 0.0f);
-                var movingVector        = new Vector2(horizontalDirection, verticalDirection);
-                var movingVectorN       = movingVector.normalized;
-                var dstAngle            = Mathf.Atan2(movingVectorN.x, -movingVectorN.y) / Mathf.PI * 180;
-                transform.rotation      = Quaternion.AngleAxis(dstAngle, Vector3.forward);
-                _rigidbody2D.velocity   = offsetVector;
+                var offsetVector = Speed * new Vector2(horizontalDirection, verticalDirection);
+                MoveUtils.ApplyMovingVector(_rigidbody2D, transform, offsetVector);
             }
         }
+
+        
 
         void TryShoot() {
             _timer += Time.deltaTime;
             if ( Input.GetButton("Fire1") && (_timer > BulletPeriod) ) {
-                var direction = transform.rotation * Vector3.down;
+                var direction = transform.rotation * Vector3.up;
                 BulletCreator.CreateBulletOn(BulletLauncher.position, direction, BulletSpeed);
                 _timer = 0f;
             }
