@@ -370,7 +370,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &194620071
 GameObject:
@@ -414,7 +414,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &209343357
 GameObject:
@@ -615,7 +615,7 @@ RectTransform:
   - {fileID: 1813742605}
   - {fileID: 641986045}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1704,8 +1704,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Camera: {fileID: 1750072075}
   CameraTransform: {fileID: 1750072076}
-  Player: {fileID: 1813742605}
-  Background: {fileID: 881345641}
 --- !u!81 &1750072074
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1768,7 +1766,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1813742604
 GameObject:
@@ -1886,7 +1884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9aff71d07014a438c9d8dfd2265b760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mothership: {fileID: 1820773892}
+  Camera: {fileID: 1750072073}
   BulletLauncher: {fileID: 278816484}
   BulletCreator: {fileID: 1813742607}
 --- !u!60 &1813742609
@@ -2081,6 +2079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f79468812004ed7a144990796e9a4d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TeleportPoint: {fileID: 1874893859}
 --- !u!61 &1820773897
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2496,7 +2495,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1236968081739883081
 PrefabInstance:
@@ -2548,7 +2547,7 @@ PrefabInstance:
     - target: {fileID: 468571120225148631, guid: 7cb361345a5be0c4f8bf074892422582,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 468571120225148631, guid: 7cb361345a5be0c4f8bf074892422582,
         type: 3}
@@ -2697,7 +2696,7 @@ PrefabInstance:
     - target: {fileID: 6174134335378012464, guid: d57166a777a103f49915a4026152d8c7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6174134335378012464, guid: d57166a777a103f49915a4026152d8c7,
         type: 3}

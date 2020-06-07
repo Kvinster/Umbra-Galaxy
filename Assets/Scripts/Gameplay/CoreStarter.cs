@@ -1,7 +1,8 @@
-﻿using STP.State;
+﻿using UnityEngine;
+
+using STP.State;
 using STP.Utils;
 using STP.View;
-using UnityEngine;
 
 namespace STP.Gameplay {
     public class CoreStarter : GameBehaviour {

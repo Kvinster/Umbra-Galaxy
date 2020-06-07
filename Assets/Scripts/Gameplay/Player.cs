@@ -1,23 +1,30 @@
-﻿using STP.Utils;
-using System;
-using UnityEngine;
+﻿using UnityEngine;
+
+using STP.State.Core;
+using STP.Utils;
+using STP.View;
 
 namespace STP.Gameplay {
-    public class Player : GameBehaviour{
+    public class Player : CoreBehaviour{
         const int   Speed        = 200;
         const int   BulletSpeed  = 400;
         const float BulletPeriod = 0.1f;
         
-        public Transform     TeleportPoint;
+        public FollowCamera  Camera;
         public Transform     BulletLauncher;
         public BulletCreator BulletCreator;
 
-        float _timer;
+        float           _timer;
+        PlayerShipState _shipState;
+        Rigidbody2D     _rigidbody2D;
         
-        Rigidbody2D _rigidbody2D;
-        
-        protected override void CheckDescription() { }
+        protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, BulletCreator, BulletLauncher, Camera);
 
+        public override void Init(CoreStarter starter) {
+            _shipState = starter.CoreManager.PlayerShipState;
+            _shipState.StateChangedManually += OnChangedState;
+        }
+        
         void Start() {
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
@@ -25,8 +32,17 @@ namespace STP.Gameplay {
         void Update() {
             TryMovePlayer();
             TryShoot();
+            _shipState.Position = transform.position;
+            _shipState.Velocity = _rigidbody2D.velocity;
+            Camera.UpdatePos(_shipState.Position);
         }
 
+        void OnChangedState() {
+            transform.position    = _shipState.Position;
+            _rigidbody2D.velocity = _shipState.Velocity;
+            Camera.UpdatePos(_shipState.Position);
+        }
+        
         void TryMovePlayer() {
             var horizontalDirection = Input.GetAxis("Horizontal");
             var verticalDirection   = Input.GetAxis("Vertical");
@@ -38,7 +54,7 @@ namespace STP.Gameplay {
                 var movingVectorN       = movingVector.normalized;
                 var dstAngle            = Mathf.Atan2(movingVectorN.x, -movingVectorN.y) / Mathf.PI * 180;
                 transform.rotation      = Quaternion.AngleAxis(dstAngle, Vector3.forward);
-                _rigidbody2D.velocity = offsetVector;
+                _rigidbody2D.velocity   = offsetVector;
             }
         }
 
@@ -49,11 +65,6 @@ namespace STP.Gameplay {
                 BulletCreator.CreateBulletOn(BulletLauncher.position, direction, BulletSpeed);
                 _timer = 0f;
             }
-        }
-
-        void TeleportToMothership() {
-            _rigidbody2D.velocity = Vector2.zero;
-            transform.position = TeleportPoint.position;
         }
     }
 }

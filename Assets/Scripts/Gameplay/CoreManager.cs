@@ -1,8 +1,14 @@
-﻿using STP.State;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine.SceneManagement;
+using UnityEngine;
+
+using STP.State;
+using STP.State.Core;
 
 namespace STP.Gameplay {
     public class CoreManager {
+        public PlayerShipState PlayerShipState {get; private set;} = new PlayerShipState();
+        public MotherShipState MotherShipState {get; private set;} = new MotherShipState();
+        
         readonly PlayerState   _playerState;
         readonly CoreShipState _shipState;
 
@@ -25,6 +31,12 @@ namespace STP.Gameplay {
         public void GoToShop() {
             SendItemsToMothership();
             SceneManager.LoadScene("Meta");
+        }
+
+        public void TeleportToMothership() {
+            PlayerShipState.Position               = MotherShipState.TeleportPosition;
+            PlayerShipState.Velocity               = Vector2.zero;
+            PlayerShipState.TriggerChangeEvent();
         }
     }
 }

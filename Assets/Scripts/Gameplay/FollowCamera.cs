@@ -1,23 +1,24 @@
 ﻿using UnityEngine;
 
+using STP.State.Core;
 using STP.Utils;
 
-public class FollowCamera : GameBehaviour {
-    public Camera        Camera;
-    public Transform     CameraTransform;
-    public RectTransform Player;
-    public RectTransform Background;
+namespace STP.Gameplay {
+    public class FollowCamera : GameBehaviour {
+        public Camera        Camera;
+        public Transform     CameraTransform;
+    
+        PlayerShipState _state;
+    
+        protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, Camera, CameraTransform);
 
-    protected override void CheckDescription() =>
-        ProblemChecker.LogErrorIfNullOrEmpty(this, Camera, Player, Background);
+        public void UpdatePos(Vector2 playerPosition) {
+            CameraTransform.position = new Vector3(playerPosition.x, playerPosition.y, -10f);
+        }
+        
+        void Start() {
+            Camera.orthographicSize = Screen.height / 2.0f;
+        }
 
-    void Start() {
-        Camera.orthographicSize = Screen.height / 2.0f;
     }
-
-    void Update() {
-        CameraTransform.position = GetPlayerPosition();
-    }
-
-    Vector3 GetPlayerPosition() => new Vector3(Player.position.x, Player.position.y, -10f);
 }

@@ -1,10 +1,7 @@
-﻿using STP.Gameplay;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
-using STP.State;
+using STP.Gameplay;
 using STP.Utils;
-
-using TMPro;
 
 namespace STP.View {
     public class CoreUI : CoreBehaviour {
@@ -16,6 +13,7 @@ namespace STP.View {
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, FastTravelButton, ItemCounterUI);
 
         public override void Init(CoreStarter starter) {
+            FastTravelButton.onClick.AddListener(starter.CoreManager.TeleportToMothership);
         }
 
     }

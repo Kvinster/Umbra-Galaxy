@@ -3,7 +3,6 @@
 using System.Collections.Generic;
 
 using STP.State;
-using STP.View;
 
 namespace STP.Gameplay {
     public class MaterialCreator {
