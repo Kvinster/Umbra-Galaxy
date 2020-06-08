@@ -6,20 +6,20 @@ using STP.State;
 
 namespace STP.Gameplay {
     public class MaterialCreator {
-        CoreStarter _starter;
+        const string PrefabsPath = "Prefabs/CoreMaterials/";
         
-        const string PrefabsPathFormat = "Prefabs/CoreMaterials/{0}";
+        CoreStarter _starter;
+        Transform   _root;
+        
         Dictionary<string, GameObject> _materialPrefabs = new Dictionary<string, GameObject>();
         
         public MaterialCreator(CoreStarter starter) {
             _starter = starter;
-            foreach ( var material in ItemNames.AllItems ) {
-                var path = string.Format(PrefabsPathFormat, material);
-                var go   = Resources.Load<GameObject>(path);
-                if ( go ) {
-                    _materialPrefabs.Add(material, go);
-                }
+            var materials = Resources.LoadAll<GameObject>(PrefabsPath);
+            foreach ( var material in materials ) {
+                _materialPrefabs.Add(material.name, material);
             }
+            _root = starter.MaterialSpawnStock;
         }
 
         public GameObject CreateRandomMaterial(Vector3 position) {
@@ -32,7 +32,8 @@ namespace STP.Gameplay {
                 Debug.LogError(string.Format("Can't find material {0} in loaded materials", itemName));
                 return null;
             }
-            var go = GameObject.Instantiate(_materialPrefabs[itemName], position, Quaternion.identity);
+            var go = GameObject.Instantiate(_materialPrefabs[itemName], _root);
+            go.transform.position = position;
             go.GetComponent<CollectableItem>().Init(_starter);
             return go;
         }

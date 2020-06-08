@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using STP.State;
+using UnityEngine;
 
 using STP.State.Core;
 using STP.Utils;
@@ -12,17 +13,18 @@ namespace STP.Gameplay {
         
         public FollowCamera  Camera;
         public Transform     BulletLauncher;
-        public BulletCreator BulletCreator;
-
-        float           _timer;
-        PlayerShipState _shipState;
-        Rigidbody2D     _rigidbody2D;
         
-        protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, BulletCreator, BulletLauncher, Camera);
+        float           _timer;
+        Rigidbody2D     _rigidbody2D;
+        PlayerShipState _shipState;
+        BulletCreator   _bulletCreator;
+
+        protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, BulletLauncher, Camera);
 
         public override void Init(CoreStarter starter) {
-            _shipState = starter.CoreManager.PlayerShipState;
+            _shipState                       = starter.CoreManager.PlayerShipState;
             _shipState.StateChangedManually += OnChangedState;
+            _bulletCreator                   = starter.BulletCreator;
         }
         
         void Start() {
@@ -58,7 +60,7 @@ namespace STP.Gameplay {
             _timer += Time.deltaTime;
             if ( Input.GetButton("Fire1") && (_timer > BulletPeriod) ) {
                 var direction = transform.rotation * Vector3.up;
-                BulletCreator.CreateBulletOn(BulletLauncher.position, direction, BulletSpeed);
+                _bulletCreator.CreateBullet(BulletNames.PlayerBullet, BulletLauncher.position, direction, BulletSpeed);
                 _timer = 0f;
             }
         }
