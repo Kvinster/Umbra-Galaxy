@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 using STP.Behaviour.Meta;
+using STP.Common;
+using System.Linq;
 
 namespace STP.Editor.Meta {
     public class StarSystemsGraphEditorWindow : EditorWindow {
@@ -13,6 +15,8 @@ namespace STP.Editor.Meta {
         readonly List<string> _starSystems = new List<string>();
         readonly HashSet<StarSystemsGraphInfo.StarSystemPair> _pairs =
             new HashSet<StarSystemsGraphInfo.StarSystemPair>();
+        readonly List<StarSystemsGraphInfo.StarSystemStartInfo> _startInfos =
+            new List<StarSystemsGraphInfo.StarSystemStartInfo>();
         
         void OnGUI() {
             if ( _graphInfo ) {
@@ -36,16 +40,61 @@ namespace STP.Editor.Meta {
             }
         }
 
+        void DrawWithGraph() {
+            GUILayout.BeginScrollView(Vector2.zero, false, false);
+            _graphInfo = EditorGUILayout.ObjectField(new GUIContent("Star Systems Graph Info"), _graphInfo,
+                typeof(StarSystemsGraphInfo), false) as StarSystemsGraphInfo;
+            GUILayout.Space(10);
+            DrawDistanceTable();
+            GUILayout.Space(10);
+            DrawStartInfos();
+            GUILayout.Space(10);
+            if ( GUILayout.Button("Refresh systems from graph") ) {
+                RefreshSystemsFromGraph();
+            }
+            if ( GUILayout.Button("Refresh systems from active scene") ) {
+                RefreshSystemsFromActiveScene();
+            }
+            if ( GUILayout.Button("Save") ) {
+                Save();
+            }
+            GUILayout.EndScrollView();
+        }
+
         void RefreshSystemsFromGraph() {
+            void TryAddStarSystem(string starSystem) {
+                if ( !_starSystems.Contains(starSystem) ) {
+                    _starSystems.Add(starSystem);
+                }
+            }
+
+            void TryAddStartInfo(string starSystem) {
+                if ( _startInfos.All(x => x.Name != starSystem) ) {
+                    _startInfos.Add(new StarSystemsGraphInfo.StarSystemStartInfo { 
+                        Name       = starSystem,
+                        Faction    = Faction.Unknown,
+                        StartMoney = 0
+                    });
+                }
+            }
+            
             _starSystems.Clear();
             _pairs.Clear();
+            _startInfos.Clear();
+            foreach ( var startInfo in _graphInfo.GetStarSystemStartInfosInEditor() ) {
+                TryAddStarSystem(startInfo.Name);
+                _startInfos.Add(new StarSystemsGraphInfo.StarSystemStartInfo {
+                    Name       = startInfo.Name,
+                    Faction    = startInfo.Faction,
+                    StartMoney = startInfo.StartMoney,
+                    Portrait   = startInfo.Portrait,
+                });
+            }
             foreach ( var pair in _graphInfo.GetStarSystemPairsInEditor() ) {
-                if ( !_starSystems.Contains(pair.A) ) {
-                    _starSystems.Add(pair.A);
-                }
-                if ( !_starSystems.Contains(pair.B) ) {
-                    _starSystems.Add(pair.B);
-                }
+                TryAddStarSystem(pair.A);
+                TryAddStarSystem(pair.B);
+                TryAddStartInfo(pair.A);
+                TryAddStartInfo(pair.B);
                 _pairs.Add(new StarSystemsGraphInfo.StarSystemPair {
                     A        = pair.A,
                     B        = pair.B,
@@ -54,19 +103,7 @@ namespace STP.Editor.Meta {
             }
         }
 
-        void DrawWithGraph() {
-            _graphInfo = EditorGUILayout.ObjectField(new GUIContent("Star Systems Graph Info"), _graphInfo,
-                typeof(StarSystemsGraphInfo), false) as StarSystemsGraphInfo;
-            if ( GUILayout.Button("Refresh systems") ) {
-                RefreshSystems();
-            }
-            DrawTable();
-            if ( GUILayout.Button("Save") ) {
-                Save();
-            }
-        }
-
-        void RefreshSystems() {
+        void RefreshSystemsFromActiveScene() {
             var scene = SceneManager.GetActiveScene();
             if ( scene == default ) {
                 return;
@@ -100,7 +137,7 @@ namespace STP.Editor.Meta {
             }
         }
 
-        void DrawTable() {
+        void DrawDistanceTable() {
             if ( _starSystems.Count == 0 ) {
                 RefreshSystemsFromGraph();
                 if ( _starSystems.Count == 0 ) {
@@ -138,11 +175,45 @@ namespace STP.Editor.Meta {
             }
         }
 
+        void DrawStartInfos() {
+            var headerStyle = new GUIStyle(GUI.skin.GetStyle("Label")) {
+                alignment = TextAnchor.UpperCenter,
+                fontStyle = FontStyle.Bold,
+                fontSize  = 16
+            };
+            GUILayout.Label("Star Systems Common Info", headerStyle);
+            var totalWidth = Screen.width - 20f;
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("System Name", EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.15f));
+            GUILayout.Label("Faction", EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.2f));
+            GUILayout.Label("Start Money", EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.2f));
+            GUILayout.Label("Portrait", EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.2f));
+            GUILayout.EndHorizontal();
+            foreach ( var startInfo in _startInfos ) {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label(startInfo.Name, GUILayout.Width(totalWidth * 0.15f));
+                startInfo.Faction =
+                    (Faction) EditorGUILayout.EnumPopup(startInfo.Faction, GUILayout.Width(totalWidth * 0.2f));
+                var startMoneyText =
+                    GUILayout.TextField(startInfo.StartMoney.ToString(), GUILayout.Width(totalWidth * 0.2f));
+                if ( int.TryParse(startMoneyText, out var startMoney) && (startMoney >= 0) ) {
+                    startInfo.StartMoney = startMoney;
+                }
+                startInfo.Portrait = EditorGUILayout.ObjectField(startInfo.Portrait, typeof(Sprite), false) as Sprite;
+                GUILayout.EndHorizontal();
+            }
+        }
+
         void Save() {
             var graphPairs = _graphInfo.GetStarSystemPairsInEditor();
             graphPairs.Clear();
             foreach ( var pair in _pairs ) {
                 graphPairs.Add(pair);
+            }
+            var graphStartInfos = _graphInfo.GetStarSystemStartInfosInEditor();
+            graphStartInfos.Clear();
+            foreach ( var startInfo in _startInfos ) {
+                graphStartInfos.Add(startInfo);
             }
             EditorUtility.SetDirty(_graphInfo);
         }

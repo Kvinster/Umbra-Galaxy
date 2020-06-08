@@ -10,8 +10,6 @@ using RSG;
 
 namespace STP.Behaviour.Meta {
     public sealed class PlayerShipMovementController : BaseMetaComponent {
-        public BaseStarSystem StartSystem;
-
         StarSystemsGraphInfo _graphInfo;
         MetaTimeManager      _timeManager;
         
@@ -39,7 +37,7 @@ namespace STP.Behaviour.Meta {
             _graphInfo   = starter.StarSystemsGraphInfo;
             _timeManager = starter.TimeManager;
 
-            CurSystem = StartSystem;
+            CurSystem = starter.StartStarSystem;
         }
 
         public bool CanMoveTo(BaseStarSystem destSystem, bool silent = true) {

@@ -43,3 +43,24 @@ MonoBehaviour:
   - A: LV-426
     B: Terra
     Distance: 1
+  StarSystemStartInfos:
+  - Name: Capital
+    Faction: 1
+    StartMoney: 10000
+    Portrait: {fileID: 21300000, guid: 953c47c832aa52140b25a1314608058b, type: 3}
+  - Name: Essenlenaile
+    Faction: 2
+    StartMoney: 1000
+    Portrait: {fileID: 21300000, guid: 0625bdf5403169242a45cf392b34fa72, type: 3}
+  - Name: Home
+    Faction: 3
+    StartMoney: 2000
+    Portrait: {fileID: 21300000, guid: 3e4488522bc0ed943a6ccd38990d2401, type: 3}
+  - Name: LV-426
+    Faction: 1
+    StartMoney: 3000
+    Portrait: {fileID: 21300000, guid: aee6446d61c6b7645967a53e99c92d0e, type: 3}
+  - Name: Terra
+    Faction: 2
+    StartMoney: 4000
+    Portrait: {fileID: 21300000, guid: 2ceab78187844a54cbce498eb8d76c90, type: 3}

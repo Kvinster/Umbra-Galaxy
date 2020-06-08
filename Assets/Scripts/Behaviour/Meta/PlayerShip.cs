@@ -1,5 +1,7 @@
 ﻿using STP.Behaviour.Starter;
 
+using RSG;
+
 namespace STP.Behaviour.Meta {
     public sealed class PlayerShip : BaseMetaComponent {
         public PlayerShipMovementController MovementController;
@@ -7,10 +9,13 @@ namespace STP.Behaviour.Meta {
         protected override void InitInternal(MetaStarter starter) {
         }
 
-        public void TryMoveTo(BaseStarSystem starSystem) {
+        public bool TryMoveTo(BaseStarSystem starSystem, out IPromise movePromise) {
             if ( MovementController.CanMoveTo(starSystem) ) {
-                MovementController.MoveTo(starSystem);
+                movePromise = MovementController.MoveTo(starSystem);
+                return true;
             }
+            movePromise = null;
+            return false;
         }
     }
 }
