@@ -22,6 +22,11 @@ namespace STP.Gameplay {
             }
         }
 
+        public GameObject CreateRandomMaterial(Vector3 position) {
+            var random = Random.Range(0, ItemNames.AllItems.Length);
+            return CreateMaterial(ItemNames.AllItems[random], position);
+        }
+
         public GameObject CreateMaterial(string itemName, Vector3 position) {
             if ( !_materialPrefabs.ContainsKey(itemName) ) {
                 Debug.LogError(string.Format("Can't find material {0} in loaded materials", itemName));

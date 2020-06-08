@@ -13,8 +13,7 @@ namespace STP.Gameplay {
         }
         
         public void GetDamage(int damageAmount = 1) {
-            var random = Random.Range(0, ItemNames.AllItems.Length);
-            _materialCreator.CreateMaterial(ItemNames.AllItems[random], transform.position);
+            _materialCreator.CreateRandomMaterial(transform.position);
             Destroy(gameObject);
         }
     }
