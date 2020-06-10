@@ -28,8 +28,10 @@ namespace STP.Gameplay {
             _shipState.DropAllItems();
         }
 
-        public void GoToShop() {
-            SendItemsToMothership();
+        public void GoToShop(bool sendItems) {
+            if ( sendItems ) {
+                SendItemsToMothership();
+            }
             SceneManager.LoadScene("Meta");
         }
 

@@ -15,14 +15,14 @@ namespace STP.Gameplay {
         }
         
         void OnTriggerEnter2D(Collider2D other) {
-            var playerComp = other.gameObject.GetComponent<Player>();
+            var playerComp = other.gameObject.GetComponent<PlayerShip>();
             if ( playerComp ) {
-                _overlayHelper.ShowMothershipOverlay();
+                _overlayHelper.TryShowMothershipOverlay();
             }
         }
         
         void OnTriggerExit2D(Collider2D other) {
-            _overlayHelper.HideMothershipOverlay();
+            _overlayHelper.HideOverlays();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace STP.Gameplay {
         public string ItemName;
 
         void OnTriggerEnter2D(Collider2D other) {
-            if ( !other.GetComponent<Player>() ) {
+            if ( !other.GetComponent<PlayerShip>() ) {
                 return;
             }
             if ( _coreManager.TryAddItemToShip(ItemName) ) {

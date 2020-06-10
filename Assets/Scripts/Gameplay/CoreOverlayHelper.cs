@@ -5,17 +5,29 @@ namespace STP.Gameplay {
         readonly OverlayManager _overlayManager;
         readonly CoreManager    _coreManager;
 
+        bool HasOpenedOverlay => _overlayManager.HasOpenedOverlay();
+        
         public CoreOverlayHelper(CoreStarter starter) {
             _overlayManager = starter.OverlayManager;
             _coreManager    = starter.CoreManager;
         }
 
-        public void ShowMothershipOverlay() {
+        public void TryShowMothershipOverlay() {
+            if ( HasOpenedOverlay ) {
+                return;
+            }
             _overlayManager.ShowMothershipOverlay((x)=>x.Init(_coreManager));
         }
+        
+        public void TryShowGameoverOverlay() {
+            if ( HasOpenedOverlay ) {
+                return;
+            }
+            _overlayManager.ShowGameoverOverlay((x)=>x.Init(_coreManager));
+        }
 
-        public void HideMothershipOverlay() {
-            _overlayManager.HideMothershipOverlay();
+        public void HideOverlays() {
+            _overlayManager.HideAllOverlays();
         }
     }
 }
