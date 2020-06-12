@@ -3,7 +3,6 @@
 using STP.State;
 using STP.State.Core;
 using STP.Utils;
-using STP.View;
 
 namespace STP.Gameplay {
     public class PlayerShip : BaseShip {
@@ -41,7 +40,7 @@ namespace STP.Gameplay {
 
         protected override void OnShipDestroy() {
             Destroy(gameObject);
-            _overlayHelper.TryShowGameoverOverlay();
+            _overlayHelper.ShowGameoverOverlay();
         }
         
         protected override void TryShoot() {

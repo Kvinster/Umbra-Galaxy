@@ -19,10 +19,8 @@ namespace STP.Gameplay {
             _overlayManager.ShowMothershipOverlay((x)=>x.Init(_coreManager));
         }
         
-        public void TryShowGameoverOverlay() {
-            if ( HasOpenedOverlay ) {
-                return;
-            }
+        public void ShowGameoverOverlay() {
+            _overlayManager.HideAllOverlays();
             _overlayManager.ShowGameoverOverlay((x)=>x.Init(_coreManager));
         }
 
