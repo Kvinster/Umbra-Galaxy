@@ -137,6 +137,7 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
 
         void OnPlayerMoneyChanged(int newMoney) {
             UpdatePlayerMoneyText(newMoney);
+            UpdateRefillFuelButton();
         }
 
         void OnPlayerFuelChanged(int newFuel) {
