@@ -108,7 +108,7 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
 
         void UpdateFuelPrice() {
             if ( CanSellFuel ) {
-                _fuelPrice = (PlayerState.MaxFuel - PlayerState.Instance.Fuel) * 100;
+                _fuelPrice = (PlayerState.MaxFuel - PlayerState.Instance.Fuel) * 10;
                 FuelPriceText.text = string.Format(RefillFuelButtonTextTemplate, _fuelPrice);
             } else {
                 _fuelPrice = -1;
