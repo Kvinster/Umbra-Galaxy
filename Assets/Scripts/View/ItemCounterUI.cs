@@ -4,7 +4,7 @@ using STP.Utils;
 using TMPro;
 
 namespace STP.View {
-    public class ItemCounterUI : CoreBehaviour {
+    public class ItemCounterUI : GameBehaviour {
         const string TextFormat = "{0}/{1}";
         
         public TMP_Text  InventoryCountText;
@@ -14,7 +14,7 @@ namespace STP.View {
         
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, InventoryCountText);
 
-        public override void Init(CoreStarter starter) {
+        public void Init(CoreStarter starter) {
             _shipState = starter.ShipState;
             _isInited  = true;
         }
