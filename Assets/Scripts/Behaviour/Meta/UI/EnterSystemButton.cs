@@ -1,19 +1,15 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace STP.Behaviour.Meta.UI {
     public sealed class EnterSystemButton : MonoBehaviour {
-        public Image  Image;
         public Button Button;
 
         MetaUiCanvas    _owner;
+        PlayerShip      _playerShip;
         MetaTimeManager _timeManager;
 
-        string _curStarSystemName;
-
         void Reset() {
-            Image  = GetComponent<Image>();
             Button = GetComponent<Button>();
         }
 
@@ -23,18 +19,14 @@ namespace STP.Behaviour.Meta.UI {
             }
         }
 
-        public void CommonInit(BaseStarSystem startStarSystem, MetaUiCanvas owner, MetaTimeManager timeManager) {
-            _curStarSystemName = startStarSystem.Name;
-            _owner             = owner;
-            _timeManager       = timeManager;
+        public void CommonInit(MetaUiCanvas owner, PlayerShip playerShip, MetaTimeManager timeManager) {
+            _owner       = owner;
+            _playerShip  = playerShip;
+            _timeManager = timeManager;
             
             _timeManager.OnPausedChanged += OnPauseChanged;
 
             Button.onClick.AddListener(OnClick);
-        }
-
-        public void Init(string starSystemName) {
-            _curStarSystemName = starSystemName;
         }
 
         void OnPauseChanged(bool isPaused) {
@@ -42,7 +34,7 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         void OnClick() {
-            _owner.ShowFactionSystemWindow(_curStarSystemName);
+            _owner.ShowFactionSystemWindow(_playerShip.CurSystem.Name);
         }
     }
 }

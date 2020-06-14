@@ -11,7 +11,7 @@ namespace STP.Behaviour.Meta.UI {
             DebugInfoText.Init(starter);
             DebugInfoText.gameObject.SetActive(true);
 
-            EnterSystemButton.CommonInit(starter.StartStarSystem, this, starter.TimeManager);
+            EnterSystemButton.CommonInit(this, starter.PlayerShip, starter.TimeManager);
             EnterSystemButton.gameObject.SetActive(true);
 
             FactionSystemWindow.CommonInit(this, starter);
@@ -42,10 +42,6 @@ namespace STP.Behaviour.Meta.UI {
 
         public void HideInventoryItemSellWindow() {
             InventoryItemSellWindow.gameObject.SetActive(false);
-        }
-
-        public void OnPlayerArriveToSystem(string starSystemName) {
-            EnterSystemButton.Init(starSystemName);
         }
     }
 }
