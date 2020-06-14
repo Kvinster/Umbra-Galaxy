@@ -3,19 +3,21 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using System.Collections.Generic;
+using System.Linq;
 
 using STP.Behaviour.Meta;
 using STP.Common;
-using System.Linq;
 
 namespace STP.Editor.Meta {
     public class StarSystemsGraphEditorWindow : EditorWindow {
+        public static StarSystemsGraphEditorWindow Instance { get; private set; }
+        
         StarSystemsGraphInfo _graphInfo;
         
-        readonly List<string> _starSystems = new List<string>();
-        readonly HashSet<StarSystemsGraphInfo.StarSystemPair> _pairs =
+        public readonly List<string> StarSystems = new List<string>();
+        public readonly HashSet<StarSystemsGraphInfo.StarSystemPair> Pairs =
             new HashSet<StarSystemsGraphInfo.StarSystemPair>();
-        readonly List<StarSystemsGraphInfo.StarSystemStartInfo> _startInfos =
+        public readonly List<StarSystemsGraphInfo.StarSystemStartInfo> StartInfos =
             new List<StarSystemsGraphInfo.StarSystemStartInfo>();
         
         void OnGUI() {
@@ -29,6 +31,20 @@ namespace STP.Editor.Meta {
         public void SetGraph(StarSystemsGraphInfo graphInfo) {
             _graphInfo = graphInfo;
             RefreshSystemsFromGraph();
+        }
+
+        public int GetDistance(string aStarSystem, string bStarSystem) {
+            if ( aStarSystem == bStarSystem ) {
+                return 0;
+            }
+            return GetPair(aStarSystem, bStarSystem)?.Distance ?? 0;
+        }
+        
+        public void SetDistance(string aStarSystem, string bStarSystem, int distance) {
+            var pair = GetPair(aStarSystem, bStarSystem);
+            if ( pair != null ) {
+                pair.Distance = distance;
+            }
         }
 
         void DrawNoGraph() {
@@ -63,14 +79,14 @@ namespace STP.Editor.Meta {
 
         void RefreshSystemsFromGraph() {
             void TryAddStarSystem(string starSystem) {
-                if ( !_starSystems.Contains(starSystem) ) {
-                    _starSystems.Add(starSystem);
+                if ( !StarSystems.Contains(starSystem) ) {
+                    StarSystems.Add(starSystem);
                 }
             }
 
             void TryAddStartInfo(string starSystem) {
-                if ( _startInfos.All(x => x.Name != starSystem) ) {
-                    _startInfos.Add(new StarSystemsGraphInfo.StarSystemStartInfo { 
+                if ( StartInfos.All(x => x.Name != starSystem) ) {
+                    StartInfos.Add(new StarSystemsGraphInfo.StarSystemStartInfo { 
                         Name       = starSystem,
                         Faction    = Faction.Unknown,
                         StartMoney = 0
@@ -78,12 +94,12 @@ namespace STP.Editor.Meta {
                 }
             }
             
-            _starSystems.Clear();
-            _pairs.Clear();
-            _startInfos.Clear();
+            StarSystems.Clear();
+            Pairs.Clear();
+            StartInfos.Clear();
             foreach ( var startInfo in _graphInfo.GetStarSystemStartInfosInEditor() ) {
                 TryAddStarSystem(startInfo.Name);
-                _startInfos.Add(new StarSystemsGraphInfo.StarSystemStartInfo {
+                StartInfos.Add(new StarSystemsGraphInfo.StarSystemStartInfo {
                     Name       = startInfo.Name,
                     Faction    = startInfo.Faction,
                     StartMoney = startInfo.StartMoney,
@@ -95,7 +111,7 @@ namespace STP.Editor.Meta {
                 TryAddStarSystem(pair.B);
                 TryAddStartInfo(pair.A);
                 TryAddStartInfo(pair.B);
-                _pairs.Add(new StarSystemsGraphInfo.StarSystemPair {
+                Pairs.Add(new StarSystemsGraphInfo.StarSystemPair {
                     A        = pair.A,
                     B        = pair.B,
                     Distance = pair.Distance
@@ -109,55 +125,61 @@ namespace STP.Editor.Meta {
                 return;
             }
             var rootGameObjects = scene.GetRootGameObjects();
-            _starSystems.Clear();
-            _pairs.Clear();
+            StarSystems.Clear();
+            Pairs.Clear();
+            StartInfos.Clear();
             foreach ( var rootGameObject in rootGameObjects ) {
                 foreach ( var starSystem in rootGameObject.GetComponentsInChildren<BaseStarSystem>() ) {
-                    if ( _starSystems.Contains(starSystem.Name) ) {
+                    if ( StarSystems.Contains(starSystem.Name) ) {
                         Debug.LogErrorFormat("Duplicate star system name '{0}'", starSystem.Name);
                         continue;
                     }
-                    _starSystems.Add(starSystem.Name);
+                    StarSystems.Add(starSystem.Name);
                 }
             }
-            _starSystems.Sort();
-            foreach ( var starSystem in _starSystems ) {
-                foreach ( var otherStarSystem in _starSystems ) {
+            StarSystems.Sort();
+            foreach ( var starSystem in StarSystems ) {
+                foreach ( var otherStarSystem in StarSystems ) {
                     if ( starSystem == otherStarSystem ) {
                         continue;
                     }
                     if ( GetPair(starSystem, otherStarSystem, true) == null ) {
-                        _pairs.Add(new StarSystemsGraphInfo.StarSystemPair {
+                        Pairs.Add(new StarSystemsGraphInfo.StarSystemPair {
                             A        = starSystem,
                             B        = otherStarSystem,
                             Distance = 0
                         });
                     }
                 }
+                StartInfos.Add(new StarSystemsGraphInfo.StarSystemStartInfo {
+                    Name     = starSystem,
+                    Faction  = Faction.Unknown,
+                    Portrait = null
+                });
             }
         }
 
         void DrawDistanceTable() {
-            if ( _starSystems.Count == 0 ) {
+            if ( StarSystems.Count == 0 ) {
                 RefreshSystemsFromGraph();
-                if ( _starSystems.Count == 0 ) {
+                if ( StarSystems.Count == 0 ) {
                     return;
                 }
             }
-            var width = Screen.width * 0.6f / _starSystems.Count;
+            var width = Screen.width * 0.6f / StarSystems.Count;
             GUILayout.BeginHorizontal();
             GUILayout.Label("", GUILayout.Width(width));
-            foreach ( var starSystem in _starSystems ) {
+            foreach ( var starSystem in StarSystems ) {
                 GUILayout.Label(starSystem, EditorStyles.boldLabel, GUILayout.Width(width));
             }
             GUILayout.EndHorizontal();
-            foreach ( var starSystem in _starSystems ) {
+            foreach ( var starSystem in StarSystems ) {
                 GUILayout.BeginHorizontal();
-                for ( var i = 0; i < _starSystems.Count + 1; ++i ) {
+                for ( var i = 0; i < StarSystems.Count + 1; ++i ) {
                     if ( i == 0 ) {
                         GUILayout.Label(starSystem, EditorStyles.boldLabel, GUILayout.Width(width));
                     } else {
-                        var otherStarSystem = _starSystems[i - 1];
+                        var otherStarSystem = StarSystems[i - 1];
                         if ( starSystem == otherStarSystem ) {
                             GUI.enabled = false;
                             GUILayout.TextField("0",GUILayout.Width(width));
@@ -165,7 +187,7 @@ namespace STP.Editor.Meta {
                         } else {
                             var text = GUILayout.TextField(GetDistance(starSystem, otherStarSystem).ToString(),
                                 GUILayout.Width(width));
-                            if ( int.TryParse(text, out var distance) && (distance > 0) ) {
+                            if ( int.TryParse(text, out var distance) && (distance >= 0) ) {
                                 SetDistance(starSystem, otherStarSystem, distance);
                             }
                         }
@@ -189,7 +211,7 @@ namespace STP.Editor.Meta {
             GUILayout.Label("Start Money", EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.2f));
             GUILayout.Label("Portrait", EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.2f));
             GUILayout.EndHorizontal();
-            foreach ( var startInfo in _startInfos ) {
+            foreach ( var startInfo in StartInfos ) {
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(startInfo.Name, GUILayout.Width(totalWidth * 0.15f));
                 startInfo.Faction =
@@ -207,36 +229,22 @@ namespace STP.Editor.Meta {
         void Save() {
             var graphPairs = _graphInfo.GetStarSystemPairsInEditor();
             graphPairs.Clear();
-            foreach ( var pair in _pairs ) {
+            foreach ( var pair in Pairs ) {
                 graphPairs.Add(pair);
             }
             var graphStartInfos = _graphInfo.GetStarSystemStartInfosInEditor();
             graphStartInfos.Clear();
-            foreach ( var startInfo in _startInfos ) {
+            foreach ( var startInfo in StartInfos ) {
                 graphStartInfos.Add(startInfo);
             }
             EditorUtility.SetDirty(_graphInfo);
-        }
-
-        int GetDistance(string aStarSystem, string bStarSystem) {
-            if ( aStarSystem == bStarSystem ) {
-                return 0;
-            }
-            return GetPair(aStarSystem, bStarSystem)?.Distance ?? 0;
-        }
-        
-        void SetDistance(string aStarSystem, string bStarSystem, int distance) {
-            var pair = GetPair(aStarSystem, bStarSystem);
-            if ( pair != null ) {
-                pair.Distance = distance;
-            }
         }
 
         StarSystemsGraphInfo.StarSystemPair GetPair(string aStarSystem, string bStarSystem, bool silent = false) {
             if ( aStarSystem == bStarSystem ) {
                 return null;
             }
-            foreach ( var pair in _pairs ) {
+            foreach ( var pair in Pairs ) {
                 if ( ((pair.A == aStarSystem) && (pair.B == bStarSystem)) ||
                      ((pair.A == bStarSystem) && (pair.B == aStarSystem)) ) {
                     return pair;
@@ -247,7 +255,22 @@ namespace STP.Editor.Meta {
             }
             return null;
         }
-        
+
+        void OnEnable() {
+            Instance = this;
+            if ( _graphInfo ) {
+                RefreshSystemsFromGraph();
+            } else {
+                RefreshSystemsFromActiveScene();
+            }
+        }
+
+        void OnDisable() {
+            if ( Instance == this ) {
+                Instance = null;
+            }
+        }
+
         [MenuItem("Meta/StarSystemsGraphEditor")]
         public static void Init() {
             var window = (StarSystemsGraphEditorWindow) GetWindow(typeof(StarSystemsGraphEditorWindow));
