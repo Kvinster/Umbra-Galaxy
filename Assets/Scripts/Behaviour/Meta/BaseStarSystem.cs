@@ -34,6 +34,8 @@ namespace STP.Behaviour.Meta {
                 EventTrigger.triggers.Add(entry);
             }
 
+            starter.StarSystemsManager.RegisterStarSystem(this);
+
             InitSpecific(starter);
         }
 

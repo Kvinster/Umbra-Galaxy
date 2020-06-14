@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using STP.Behaviour.Meta;
 using STP.Common;
+using STP.Utils;
 
 namespace STP.State {
     public sealed class StarSystemsController {
@@ -12,10 +13,19 @@ namespace STP.State {
         public static StarSystemsController Instance => _instance ?? (_instance = new StarSystemsController().Init());
 
         StarSystemsGraphInfo _graphInfo;
+
+        readonly List<StarSystemPath>             _cachedPaths      = new List<StarSystemPath>();
+        readonly Dictionary<string, List<string>> _cachedNeighbours = new Dictionary<string, List<string>>();
+        
+        readonly List<string> _starSystemNames = new List<string>();
         
         readonly Dictionary<string, StarSystemState> _starSystemStates = new Dictionary<string, StarSystemState>();
 
         public event Action<string, int> OnStarSystemMoneyChanged;
+
+        public bool HasStarSystem(string starSystemName) {
+            return _starSystemNames.Contains(starSystemName);
+        }
 
         public int GetStarSystemMoney(string starSystemName) {
             return TryGetStarSystemState(starSystemName, out var starSystemState) ? starSystemState.Money : -1;
@@ -55,6 +65,14 @@ namespace STP.State {
             return _graphInfo.GetStarSystemPortrait(starSystemName);
         }
 
+        public StarSystemPath GetPath(string aStarSystem, string bStarSystem) {
+            if ( !TryFindPath(aStarSystem, bStarSystem, out var path) ) {
+                path = CalcPath(aStarSystem, bStarSystem);
+                _cachedPaths.Add(path);
+            }
+            return path;
+        }
+
         StarSystemsController Init() {
             _graphInfo = Resources.Load<StarSystemsGraphInfo>("Meta/StarSystems");
             if ( !_graphInfo ) {
@@ -62,10 +80,39 @@ namespace STP.State {
                 return null;
             }
             foreach ( var startInfo in _graphInfo.GetStarSystemStartInfos() ) {
+                _starSystemNames.Add(startInfo.Name);
                 _starSystemStates.Add(startInfo.Name,
                     new StarSystemState(startInfo.Name, startInfo.Faction, startInfo.StartMoney));
             }
             return this;
+        }
+
+        bool TryFindPath(string aStarSystemName, string bStarSystemName, out StarSystemPath path) {
+            foreach ( var tmpPath in _cachedPaths ) {
+                if ( ((tmpPath.StartStarSystemName == aStarSystemName) &&
+                      (tmpPath.FinishStarSystemName == bStarSystemName)) ||
+                     ((tmpPath.StartStarSystemName == bStarSystemName) &&
+                      (tmpPath.FinishStarSystemName == aStarSystemName)) ) {
+                    path = tmpPath;
+                    return true;
+                }
+            }
+            path = null;
+            return false;
+        }
+
+        StarSystemPath CalcPath(string aStarSystemName, string bStarSystemName) {
+            var (path, length) = DijkstraPathFinder.GetPath(aStarSystemName, bStarSystemName, _starSystemNames,
+                GetDistance, GetNeighbouringStarSystems);
+            return new StarSystemPath(path, length);
+        }
+
+        List<string> GetNeighbouringStarSystems(string starSystemName) {
+            if ( !_cachedNeighbours.TryGetValue(starSystemName, out var neighbours) ) {
+                neighbours = _graphInfo.GetNeighbouringStarSystems(starSystemName);
+                _cachedNeighbours.Add(starSystemName, neighbours);
+            }
+            return neighbours;
         }
 
         bool TryGetStarSystemState(string starSystemName, out StarSystemState starSystemState) {

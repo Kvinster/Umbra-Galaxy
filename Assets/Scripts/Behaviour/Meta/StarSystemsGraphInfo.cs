@@ -67,6 +67,19 @@ namespace STP.Behaviour.Meta {
             return GetPair(aStarSystem, bStarSystem)?.Distance ?? -1;
         }
 
+        public List<string> GetNeighbouringStarSystems(string starSystemName) {
+            var res = new List<string>();
+            foreach ( var pair in StarSystemPairs ) {
+                if ( (pair.A == starSystemName) && !res.Contains(pair.B) ) {
+                    res.Add(pair.B);
+                }
+                if ( (pair.B == starSystemName) && !res.Contains(pair.A) ) {
+                    res.Add(pair.A);
+                } 
+            }
+            return res;
+        }
+
         public Faction GetStarSystemFaction(string starSystemName) {
             return TryGetStarSystemStartInfo(starSystemName, out var startInfo) ? startInfo.Faction : Faction.Unknown;
         }
