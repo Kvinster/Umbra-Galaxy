@@ -7,42 +7,48 @@ using System.Linq;
 using STP.Common;
 
 namespace STP.Behaviour.Meta {
-    [CreateAssetMenu(menuName = "Create StarSystemsGraphInfo", fileName = "StarSystems")]
-    public sealed class StarSystemsGraphInfo : ScriptableObject {
-        [Serializable]
-        public sealed class StarSystemPair {
-            public string A;
-            public string B;
-            public int    Distance;
-
-            bool Equals(StarSystemPair other) {
-                return A == other.A && B == other.B;
-            }
-
-            public override bool Equals(object obj) {
-                return ReferenceEquals(this, obj) || obj is StarSystemPair other && Equals(other);
-            }
-
-            public override int GetHashCode() {
-                unchecked {
-                    return ((A != null ? A.GetHashCode() : 0) * 397) ^ (B != null ? B.GetHashCode() : 0);
-                }
-            }
-        }
-
+    [Serializable]
+    public class StarSystemsGraphInfo {
         [Serializable]
         public sealed class StarSystemStartInfo {
             public string  Name;
             public Faction Faction;
             public int     StartMoney;
             public Sprite  Portrait;
+
+            public StarSystemStartInfo Clone() {
+                return new StarSystemStartInfo {
+                    Name       = Name,
+                    Faction    = Faction,
+                    StartMoney = StartMoney,
+                    Portrait   = Portrait
+                };
+            }
+
+            public bool CheckValidity() {
+                if ( string.IsNullOrEmpty(Name) ) {
+                    Debug.LogErrorFormat("StarSystemStartInfo: Name is null or empty");
+                    return false;
+                }
+                if ( Faction == Faction.Unknown ) {
+                    Debug.LogErrorFormat("StarSystemStartInfo: Faction is unknown");
+                    return false;
+                }
+                if ( StartMoney < 0 ) {
+                    Debug.LogErrorFormat("StarSystemStartInfo: StartMoney is less than zero");
+                    return false;
+                }
+                return true;
+            }
         }
+
+        [SerializeField]
+        List<StarSystemStartInfo> StarSystemStartInfos = new List<StarSystemStartInfo>();
 
         [SerializeField]
         List<StarSystemPair> StarSystemPairs = new List<StarSystemPair>();
 
-        [SerializeField]
-        List<StarSystemStartInfo> StarSystemStartInfos = new List<StarSystemStartInfo>();
+        public List<string> StarSystems => StarSystemStartInfos.Select(x => x.Name).ToList();
 
         public List<StarSystemPair> GetStarSystemPairsInEditor() {
 #if UNITY_EDITOR
@@ -90,6 +96,67 @@ namespace STP.Behaviour.Meta {
 
         public List<StarSystemStartInfo> GetStarSystemStartInfos() {
             return StarSystemStartInfos;
+        }
+
+        public bool CheckValidity() {
+            if ( StarSystemPairs.Count == 0 ) {
+                Debug.LogError("StarSystemPairs.Count == 0");
+                return false;
+            }
+            if ( StarSystemStartInfos.Count == 0 ) {
+                Debug.LogError("StarSystemStartInfos.Count == 0");
+                return false;
+            }
+            foreach ( var starSystemStartInfo in StarSystemStartInfos ) {
+                if ( StarSystemStartInfos.Any(x =>
+                    (x != starSystemStartInfo) && (x.Name == starSystemStartInfo.Name)) ) {
+                    Debug.LogErrorFormat("Duplicate StarSystemStartInfo entries for '{0}'", starSystemStartInfo.Name);
+                    return false;
+                }
+            }
+            var starSystemNames = StarSystemStartInfos.Select(x => x.Name).ToList();
+            foreach ( var pair in StarSystemPairs ) {
+                if ( !starSystemNames.Contains(pair.A) ) {
+                    Debug.LogErrorFormat(
+                        "Unmentioned in StarSystemStartInfos star system '{0}' is used in StarSystemPairs", pair.A);
+                    return false;
+                }
+                if ( !starSystemNames.Contains(pair.B) ) {
+                    Debug.LogErrorFormat(
+                        "Unmentioned in StarSystemStartInfos star system '{0}' is used in StarSystemPairs", pair.B);
+                    return false;
+                }
+            }
+            foreach ( var starSystemName in starSystemNames ) {
+                var count = StarSystemPairs.Count(x => ((x.A == starSystemName) || (x.B == starSystemName))); 
+                if ( count != starSystemNames.Count - 1 ) {
+                    Debug.LogErrorFormat("Invalid number of pairs mentioning star system '{0}': '{1}'", starSystemName,
+                        count);
+                    return false;
+                }
+            }
+            foreach ( var pair in StarSystemPairs ) {
+                if ( !pair.CheckValidity() ) {
+                    return false;
+                }
+            }
+            foreach ( var startInfo in StarSystemStartInfos ) {
+                if ( !startInfo.CheckValidity() ) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public StarSystemsGraphInfo Clone() {
+            var newInfo = new StarSystemsGraphInfo();
+            foreach ( var pair in StarSystemPairs ) {
+                newInfo.StarSystemPairs.Add(pair.Clone());
+            }
+            foreach ( var startInfo in StarSystemStartInfos ) {
+                newInfo.StarSystemStartInfos.Add(startInfo.Clone());
+            }
+            return newInfo;
         }
 
         StarSystemPair GetPair(string aStarSystem, string bStarSystem) {

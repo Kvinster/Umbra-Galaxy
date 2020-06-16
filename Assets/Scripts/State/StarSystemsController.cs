@@ -74,11 +74,12 @@ namespace STP.State {
         }
 
         StarSystemsController Init() {
-            _graphInfo = Resources.Load<StarSystemsGraphInfo>("Meta/StarSystems");
-            if ( !_graphInfo ) {
+            var graphInfoScriptableObject = Resources.Load<StarSystemsGraphInfoScriptableObject>("Meta/StarSystems");
+            if ( !graphInfoScriptableObject ) {
                 Debug.LogError("Can't load StarSystemsGraphInfo");
                 return null;
             }
+            _graphInfo = graphInfoScriptableObject.StarSystemsGraphInfo.Clone();
             foreach ( var startInfo in _graphInfo.GetStarSystemStartInfos() ) {
                 _starSystemNames.Add(startInfo.Name);
                 _starSystemStates.Add(startInfo.Name,

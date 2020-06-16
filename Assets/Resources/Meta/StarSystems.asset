@@ -12,55 +12,430 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a7309c5706546ada034da94b71247ad, type: 3}
   m_Name: StarSystems
   m_EditorClassIdentifier: 
-  StarSystemPairs:
-  - A: Capital
-    B: Essenlenaile
-    Distance: 1
-  - A: Capital
-    B: Home
-    Distance: 1
-  - A: Capital
-    B: LV-426
-    Distance: 3
-  - A: Capital
-    B: Terra
-    Distance: 2
-  - A: Essenlenaile
-    B: Home
-    Distance: 1
-  - A: Essenlenaile
-    B: LV-426
-    Distance: 3
-  - A: Essenlenaile
-    B: Terra
-    Distance: 1
-  - A: Home
-    B: LV-426
-    Distance: 1
-  - A: Home
-    B: Terra
-    Distance: 1
-  - A: LV-426
-    B: Terra
-    Distance: 1
-  StarSystemStartInfos:
-  - Name: Capital
-    Faction: 1
-    StartMoney: 10000
-    Portrait: {fileID: 21300000, guid: 953c47c832aa52140b25a1314608058b, type: 3}
-  - Name: Essenlenaile
-    Faction: 2
-    StartMoney: 1000
-    Portrait: {fileID: 21300000, guid: 0625bdf5403169242a45cf392b34fa72, type: 3}
-  - Name: Home
-    Faction: 3
-    StartMoney: 2000
-    Portrait: {fileID: 21300000, guid: 3e4488522bc0ed943a6ccd38990d2401, type: 3}
-  - Name: LV-426
-    Faction: 1
-    StartMoney: 3000
-    Portrait: {fileID: 21300000, guid: aee6446d61c6b7645967a53e99c92d0e, type: 3}
-  - Name: Terra
-    Faction: 2
-    StartMoney: 4000
-    Portrait: {fileID: 21300000, guid: 2ceab78187844a54cbce498eb8d76c90, type: 3}
+  StarSystemsGraphInfo:
+    StarSystemStartInfos:
+    - Name: Bastion
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: Battlestar
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: Cradle
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: Defendor
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: Essenlenaile
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: Hyperion
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: Last Stand
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: LV-117
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: LV-234
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: LV-351
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: LV-479
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: LV-480
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: New Home
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: Quastar
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: Unsuan
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    - Name: Veritas
+      Faction: 1
+      StartMoney: 0
+      Portrait: {fileID: 0}
+    StarSystemPairs:
+    - A: Bastion
+      B: Battlestar
+      Distance: 4
+    - A: Bastion
+      B: Cradle
+      Distance: 0
+    - A: Bastion
+      B: Defendor
+      Distance: 2
+    - A: Bastion
+      B: Essenlenaile
+      Distance: 0
+    - A: Bastion
+      B: Hyperion
+      Distance: 0
+    - A: Bastion
+      B: Last Stand
+      Distance: 0
+    - A: Bastion
+      B: LV-117
+      Distance: 0
+    - A: Bastion
+      B: LV-234
+      Distance: 0
+    - A: Bastion
+      B: LV-351
+      Distance: 0
+    - A: Bastion
+      B: LV-479
+      Distance: 0
+    - A: Bastion
+      B: LV-480
+      Distance: 0
+    - A: Bastion
+      B: New Home
+      Distance: 0
+    - A: Bastion
+      B: Quastar
+      Distance: 0
+    - A: Bastion
+      B: Unsuan
+      Distance: 0
+    - A: Bastion
+      B: Veritas
+      Distance: 0
+    - A: Battlestar
+      B: Cradle
+      Distance: 0
+    - A: Battlestar
+      B: Defendor
+      Distance: 1
+    - A: Battlestar
+      B: Essenlenaile
+      Distance: 0
+    - A: Battlestar
+      B: Hyperion
+      Distance: 0
+    - A: Battlestar
+      B: Last Stand
+      Distance: 1
+    - A: Battlestar
+      B: LV-117
+      Distance: 4
+    - A: Battlestar
+      B: LV-234
+      Distance: 0
+    - A: Battlestar
+      B: LV-351
+      Distance: 0
+    - A: Battlestar
+      B: LV-479
+      Distance: 0
+    - A: Battlestar
+      B: LV-480
+      Distance: 0
+    - A: Battlestar
+      B: New Home
+      Distance: 0
+    - A: Battlestar
+      B: Quastar
+      Distance: 0
+    - A: Battlestar
+      B: Unsuan
+      Distance: 0
+    - A: Battlestar
+      B: Veritas
+      Distance: 0
+    - A: Cradle
+      B: Defendor
+      Distance: 0
+    - A: Cradle
+      B: Essenlenaile
+      Distance: 0
+    - A: Cradle
+      B: Hyperion
+      Distance: 0
+    - A: Cradle
+      B: Last Stand
+      Distance: 1
+    - A: Cradle
+      B: LV-117
+      Distance: 2
+    - A: Cradle
+      B: LV-234
+      Distance: 0
+    - A: Cradle
+      B: LV-351
+      Distance: 0
+    - A: Cradle
+      B: LV-479
+      Distance: 0
+    - A: Cradle
+      B: LV-480
+      Distance: 0
+    - A: Cradle
+      B: New Home
+      Distance: 1
+    - A: Cradle
+      B: Quastar
+      Distance: 1
+    - A: Cradle
+      B: Unsuan
+      Distance: 0
+    - A: Cradle
+      B: Veritas
+      Distance: 0
+    - A: Defendor
+      B: Essenlenaile
+      Distance: 0
+    - A: Defendor
+      B: Hyperion
+      Distance: 2
+    - A: Defendor
+      B: Last Stand
+      Distance: 2
+    - A: Defendor
+      B: LV-117
+      Distance: 0
+    - A: Defendor
+      B: LV-234
+      Distance: 0
+    - A: Defendor
+      B: LV-351
+      Distance: 0
+    - A: Defendor
+      B: LV-479
+      Distance: 0
+    - A: Defendor
+      B: LV-480
+      Distance: 0
+    - A: Defendor
+      B: New Home
+      Distance: 0
+    - A: Defendor
+      B: Quastar
+      Distance: 0
+    - A: Defendor
+      B: Unsuan
+      Distance: 0
+    - A: Defendor
+      B: Veritas
+      Distance: 0
+    - A: Essenlenaile
+      B: Hyperion
+      Distance: 0
+    - A: Essenlenaile
+      B: Last Stand
+      Distance: 0
+    - A: Essenlenaile
+      B: LV-117
+      Distance: 0
+    - A: Essenlenaile
+      B: LV-234
+      Distance: 0
+    - A: Essenlenaile
+      B: LV-351
+      Distance: 0
+    - A: Essenlenaile
+      B: LV-479
+      Distance: 0
+    - A: Essenlenaile
+      B: LV-480
+      Distance: 0
+    - A: Essenlenaile
+      B: New Home
+      Distance: 0
+    - A: Essenlenaile
+      B: Quastar
+      Distance: 0
+    - A: Essenlenaile
+      B: Unsuan
+      Distance: 2
+    - A: Essenlenaile
+      B: Veritas
+      Distance: 2
+    - A: Hyperion
+      B: Last Stand
+      Distance: 4
+    - A: Hyperion
+      B: LV-117
+      Distance: 0
+    - A: Hyperion
+      B: LV-234
+      Distance: 0
+    - A: Hyperion
+      B: LV-351
+      Distance: 0
+    - A: Hyperion
+      B: LV-479
+      Distance: 0
+    - A: Hyperion
+      B: LV-480
+      Distance: 0
+    - A: Hyperion
+      B: New Home
+      Distance: 0
+    - A: Hyperion
+      B: Quastar
+      Distance: 0
+    - A: Hyperion
+      B: Unsuan
+      Distance: 0
+    - A: Hyperion
+      B: Veritas
+      Distance: 0
+    - A: Last Stand
+      B: LV-117
+      Distance: 3
+    - A: Last Stand
+      B: LV-234
+      Distance: 0
+    - A: Last Stand
+      B: LV-351
+      Distance: 0
+    - A: Last Stand
+      B: LV-479
+      Distance: 0
+    - A: Last Stand
+      B: LV-480
+      Distance: 0
+    - A: Last Stand
+      B: New Home
+      Distance: 1
+    - A: Last Stand
+      B: Quastar
+      Distance: 0
+    - A: Last Stand
+      B: Unsuan
+      Distance: 0
+    - A: Last Stand
+      B: Veritas
+      Distance: 0
+    - A: LV-117
+      B: LV-234
+      Distance: 3
+    - A: LV-117
+      B: LV-351
+      Distance: 3
+    - A: LV-117
+      B: LV-479
+      Distance: 0
+    - A: LV-117
+      B: LV-480
+      Distance: 0
+    - A: LV-117
+      B: New Home
+      Distance: 0
+    - A: LV-117
+      B: Quastar
+      Distance: 4
+    - A: LV-117
+      B: Unsuan
+      Distance: 0
+    - A: LV-117
+      B: Veritas
+      Distance: 0
+    - A: LV-234
+      B: LV-351
+      Distance: 0
+    - A: LV-234
+      B: LV-479
+      Distance: 4
+    - A: LV-234
+      B: LV-480
+      Distance: 0
+    - A: LV-234
+      B: New Home
+      Distance: 0
+    - A: LV-234
+      B: Quastar
+      Distance: 0
+    - A: LV-234
+      B: Unsuan
+      Distance: 0
+    - A: LV-234
+      B: Veritas
+      Distance: 0
+    - A: LV-351
+      B: LV-479
+      Distance: 0
+    - A: LV-351
+      B: LV-480
+      Distance: 4
+    - A: LV-351
+      B: New Home
+      Distance: 0
+    - A: LV-351
+      B: Quastar
+      Distance: 0
+    - A: LV-351
+      B: Unsuan
+      Distance: 0
+    - A: LV-351
+      B: Veritas
+      Distance: 0
+    - A: LV-479
+      B: LV-480
+      Distance: 6
+    - A: LV-479
+      B: New Home
+      Distance: 0
+    - A: LV-479
+      B: Quastar
+      Distance: 0
+    - A: LV-479
+      B: Unsuan
+      Distance: 0
+    - A: LV-479
+      B: Veritas
+      Distance: 0
+    - A: LV-480
+      B: New Home
+      Distance: 0
+    - A: LV-480
+      B: Quastar
+      Distance: 0
+    - A: LV-480
+      B: Unsuan
+      Distance: 0
+    - A: LV-480
+      B: Veritas
+      Distance: 0
+    - A: New Home
+      B: Quastar
+      Distance: 1
+    - A: New Home
+      B: Unsuan
+      Distance: 2
+    - A: New Home
+      B: Veritas
+      Distance: 0
+    - A: Quastar
+      B: Unsuan
+      Distance: 1
+    - A: Quastar
+      B: Veritas
+      Distance: 0
+    - A: Unsuan
+      B: Veritas
+      Distance: 2

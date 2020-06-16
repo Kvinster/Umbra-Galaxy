@@ -4,13 +4,21 @@ using UnityEngine;
 using System.Collections.Generic;
 
 using STP.Behaviour.Meta;
+using System.Linq;
 
 namespace STP.Editor.Meta {
-    [CustomEditor(typeof(StarSystemsGraphInfo))]
+    [CustomEditor(typeof(StarSystemsGraphInfoScriptableObject))]
     public class StarSystemGraphInspector : UnityEditor.Editor {
         static readonly Color SeparatorLineColor = new Color(0.5f,0.5f,0.5f, 1);
 
-        (string a, string b) _selectedPair = default;
+        StarSystemsGraphEditorWindow _window;
+        SceneView                    _sceneView;
+        List<BaseStarSystem>         _allSystems     = null;
+        List<BaseStarSystem>         _visibleSystems = null;
+
+        (string a, string b) _selectedPair => ((_visibleSystems != null) && (_visibleSystems.Count == 2))
+            ? (_visibleSystems[0].Name, _visibleSystems[1].Name)
+            : default;
 
         void OnEnable() {
             SceneView.onSceneGUIDelegate += OnSceneGUI;
@@ -21,7 +29,7 @@ namespace STP.Editor.Meta {
         }
 
         public override void OnInspectorGUI() {
-            var graphInfo = target as StarSystemsGraphInfo;
+            var graphInfo = target as StarSystemsGraphInfoScriptableObject;
             if ( !graphInfo ) {
                 return;
             }
@@ -33,40 +41,17 @@ namespace STP.Editor.Meta {
                     window.SetGraph(graphInfo);
                 }
             } else {
+                if ( GUILayout.Button("Select all") ) {
+                    _visibleSystems.Clear();
+                    _visibleSystems.AddRange(_allSystems);
+                    _sceneView.Repaint();
+                }
+                if ( GUILayout.Button("Clear all") ) {
+                    _visibleSystems.Clear();
+                    _sceneView.Repaint();
+                }
                 DrawSelectedPairInspector();
             }
-            // GUILayout.Space(10);
-            // var width = Screen.width / 2f;
-            // var list = graphInfo.GetStarSystemPairsInEditor();
-            // for ( var i = 0; i < list.Count; i++ ) {
-            //     var pair = list[i];
-            //     GUILayout.BeginHorizontal();
-            //     GUILayout.Label($"'{pair.A}' x '{pair.B}':", GUILayout.Width(width));
-            //     GUILayout.Label(pair.Distance.ToString(), GUILayout.Width(width));
-            //     GUILayout.EndHorizontal();
-            //     if ( i != list.Count - 1 ) {
-            //         DrawLine(1);
-            //     }
-            // }
-            // GUILayout.Space(10);
-            // DrawLine(3);
-            // GUILayout.Space(10);
-            // width = Screen.width / 3f;
-            // GUILayout.BeginHorizontal();
-            // GUILayout.Label("Star System", EditorStyles.boldLabel, GUILayout.Width(width));
-            // GUILayout.Label("Faction", EditorStyles.boldLabel, GUILayout.Width(width));
-            // GUILayout.Label("Start money", EditorStyles.boldLabel, GUILayout.Width(width));
-            // GUILayout.EndHorizontal();
-            // foreach ( var startInfo in graphInfo.GetStarSystemStartInfosInEditor() ) {
-            //     GUILayout.BeginHorizontal();
-            //     GUILayout.Label(startInfo.Name, GUILayout.Width(width));
-            //     GUILayout.Label(startInfo.Faction.ToString(), GUILayout.Width(width));
-            //     GUILayout.Label(startInfo.StartMoney.ToString(), GUILayout.Width(width));
-            //     GUILayout.EndHorizontal();
-            // }
-            // GUILayout.Space(10);
-            // DrawLine(3);
-            // GUILayout.Space(10);
         }
 
         void DrawLine(float height) {
@@ -76,67 +61,96 @@ namespace STP.Editor.Meta {
 
         void OnSceneGUI(SceneView sceneView) {
             if ( StarSystemsGraphEditorWindow.Instance ) {
-                DrawDistances(sceneView, StarSystemsGraphEditorWindow.Instance);
+                _sceneView = sceneView;
+                _window    = StarSystemsGraphEditorWindow.Instance;
+                if ( _allSystems == null ) {
+                    _allSystems = new List<BaseStarSystem>();
+                    _allSystems.AddRange(FindObjectsOfType<BaseStarSystem>());
+                }
+                if ( _visibleSystems == null ) {
+                    _visibleSystems = new List<BaseStarSystem>();
+                    _visibleSystems.AddRange(_allSystems);
+                }
+                DrawDistances();
+                DrawSystemButtons();
             }
         }
-        
-        void DrawDistances(SceneView sceneView, StarSystemsGraphEditorWindow window) {
-            var starSystemsComps = FindObjectsOfType<BaseStarSystem>();
-            // var dict = new Dictionary<string, BaseStarSystem>();
-            // foreach ( var starSystemName in window.StarSystems ) {
-            //     var success = false;
-            //     foreach ( var comp in starSystemsComps ) {
-            //         if ( comp.Name == starSystemName ) {
-            //             dict.Add(starSystemName, comp);
-            //             success = true;
-            //             break;
-            //         }
-            //     }
-            //     if ( !success ) {
-            //         Debug.LogErrorFormat("Can't find BaseStarSystem component for graph star system '{0}'",
-            //             starSystemName);
-            //         return;
-            //     }
-            // }
-            foreach ( var comp in starSystemsComps ) {
-                foreach ( var otherComp in starSystemsComps ) {
-                    if ( comp.Name == otherComp.Name ) {
-                        continue;
-                    }
-                    var newPair      = (comp.Name, otherComp.Name);
-                    var compPos      = comp.transform.position;
-                    var otherCompPos = otherComp.transform.position;
-                    var lineCenter   = (compPos + otherCompPos) / 2f;
-                    var distance     = window.GetDistance(comp.Name, otherComp.Name);
-                    var sceneSize    = sceneView.camera.orthographicSize;
-                    var style        = new GUIStyle(GUI.skin.label) {
-                        normal = {
-                            textColor = Color.red,
-                        },
-                        fontSize      = Mathf.CeilToInt(3400 / sceneSize),
-                        alignment     = TextAnchor.MiddleCenter,
-                        stretchWidth  = true,
-                        stretchHeight = true,
-                        contentOffset = new Vector2(-350f / sceneSize, -1400f / sceneSize),
-                    };
-                    if ( Mathf.Approximately(distance, 0f) ) {
-                        Handles.DrawDottedLine(compPos, otherCompPos, 7f);
+
+        void DrawSystemButtons() {
+            var oldColor = Handles.color;
+            var buttonSize = 20f;
+            foreach ( var system in _allSystems ) {
+                var isVisible = _visibleSystems.Contains(system);
+                Handles.color = isVisible ? Color.red : Color.green;
+                Handles.DrawSolidArc(system.transform.position, new Vector3(0, 0, 1), Vector2.right, 360, buttonSize);
+                if ( Handles.Button(system.transform.position, Quaternion.identity, buttonSize, buttonSize,
+                    Handles.CircleHandleCap) ) {
+                    if ( isVisible ) {
+                        _visibleSystems.Remove(system);
                     } else {
-                        Handles.DrawLine(compPos, otherCompPos);
+                        _visibleSystems.Add(system);
                     }
-                    var oldPrimaryColor = Handles.color;
-                    Handles.color = (newPair == _selectedPair) ? Color.green : Color.white;
-                    var buttonSize = 15f;
-                    Handles.DrawSolidArc(lineCenter, new Vector3(0, 0, 1), Vector2.right, 360, buttonSize);
-                    if ( Handles.Button(lineCenter,
-                        Quaternion.identity, buttonSize, buttonSize, Handles.CircleHandleCap) ) {
-                        _selectedPair = (_selectedPair == newPair) ? default : newPair; 
-                        Repaint();
-                    }
-                    Handles.color = oldPrimaryColor;
-                    Handles.Label(lineCenter, (distance <= 0) ? "+" : distance.ToString(), style);
+                    Repaint();
                 }
             }
+            Handles.color = oldColor;
+        }
+        
+        void DrawDistances() {
+            var starSystemsComps = FindObjectsOfType<BaseStarSystem>();
+            if ( _selectedPair == default ) {
+                foreach ( var comp in starSystemsComps ) {
+                    if ( !_visibleSystems.Contains(comp) ) {
+                        continue;
+                    }
+                    foreach ( var otherComp in starSystemsComps ) {
+                        if ( !_visibleSystems.Contains(otherComp) ) {
+                            continue;
+                        }
+                        DrawDistances(comp, otherComp);
+                    }
+                }
+            } else {
+                var aStarSystem = starSystemsComps.Where(x => x.Name == _selectedPair.a).ToList();
+                var bStarSystem = starSystemsComps.Where(x => x.Name == _selectedPair.b).ToList();
+                DrawDistances(aStarSystem[0], bStarSystem[0]);
+            }
+        }
+
+        void DrawDistances(BaseStarSystem aStarSystem, BaseStarSystem bStarSystem) {
+            if ( aStarSystem.Name == bStarSystem.Name ) {
+                return;
+            }
+            var distance     = _window.GetDistance(aStarSystem.Name, bStarSystem.Name);
+            if ( Mathf.Approximately(distance, 0f) ) {
+                return;
+            }
+            var newPair      = (aStarSystem.Name, bStarSystem.Name);
+            var compPos      = aStarSystem.transform.position;
+            var otherCompPos = bStarSystem.transform.position;
+            var lineCenter   = (compPos + otherCompPos) / 2f;
+            var sceneSize    = _sceneView.camera.orthographicSize;
+            var style        = new GUIStyle(GUI.skin.label) {
+                normal = {
+                    textColor = Color.red,
+                },
+                fontSize      = Mathf.CeilToInt(3400 / sceneSize),
+                alignment     = TextAnchor.MiddleCenter,
+                stretchWidth  = true,
+                stretchHeight = true,
+                contentOffset = new Vector2(-350f / sceneSize, -1400f / sceneSize),
+            };
+            var oldPrimaryColor = Handles.color;
+            Handles.color = (newPair == _selectedPair) ? Color.green : Color.white;
+            if ( Mathf.Approximately(distance, 0f) ) {
+                Handles.DrawDottedLine(compPos, otherCompPos, 7f);
+            } else {
+                Handles.DrawLine(compPos, otherCompPos);
+            }
+            var buttonSize = 15f;
+            Handles.DrawSolidArc(lineCenter, new Vector3(0, 0, 1), Vector2.right, 360, buttonSize);
+            Handles.color = oldPrimaryColor;
+            Handles.Label(lineCenter, distance.ToString(), style);
         }
 
         void DrawSelectedPairInspector() {
