@@ -58,7 +58,8 @@ namespace STP.State {
         }
         
         public int GetDistance(string aStarSystem, string bStarSystem) {
-            return _graphInfo.GetDistance(aStarSystem, bStarSystem);
+            var distance = _graphInfo.GetDistance(aStarSystem, bStarSystem); 
+            return (distance == 0) ? (int.MaxValue / 2) : distance;
         }
 
         public Sprite GetStarSystemPortrait(string starSystemName) {
