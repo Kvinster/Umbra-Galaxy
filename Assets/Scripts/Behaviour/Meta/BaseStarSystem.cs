@@ -16,11 +16,13 @@ namespace STP.Behaviour.Meta {
 
         protected void OnValidate() {
 #if UNITY_EDITOR
-            gameObject.name = Name;
-            if ( StarSystemNameText && !string.IsNullOrEmpty(gameObject.scene.name) &&
-                 (StarSystemNameText.text != Name) ) {
-                StarSystemNameText.text = Name;
-                UnityEditor.EditorUtility.SetDirty(StarSystemNameText);
+            if ( UnityEditor.PrefabUtility.IsPartOfPrefabInstance(this) ) {
+                gameObject.name = Name;
+                if ( StarSystemNameText && !string.IsNullOrEmpty(gameObject.scene.name) &&
+                     (StarSystemNameText.text != Name) ) {
+                    StarSystemNameText.text = Name;
+                    UnityEditor.EditorUtility.SetDirty(StarSystemNameText);
+                }
             }
 #endif
         }
