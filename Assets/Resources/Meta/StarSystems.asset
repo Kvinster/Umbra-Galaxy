@@ -14,69 +14,69 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StarSystemsGraphInfo:
     StarSystemStartInfos:
-    - Name: Bastion
-      Faction: 1
-      StartMoney: 0
-      Portrait: {fileID: 0}
-    - Name: Battlestar
-      Faction: 1
-      StartMoney: 0
-      Portrait: {fileID: 0}
     - Name: Cradle
       Faction: 1
-      StartMoney: 0
-      Portrait: {fileID: 0}
-    - Name: Defendor
-      Faction: 1
-      StartMoney: 0
-      Portrait: {fileID: 0}
-    - Name: Essenlenaile
-      Faction: 1
-      StartMoney: 0
-      Portrait: {fileID: 0}
-    - Name: Hyperion
-      Faction: 1
-      StartMoney: 0
-      Portrait: {fileID: 0}
-    - Name: Last Stand
-      Faction: 1
-      StartMoney: 0
+      StartMoney: 1000000
       Portrait: {fileID: 0}
     - Name: LV-117
       Faction: 1
-      StartMoney: 0
-      Portrait: {fileID: 0}
+      StartMoney: 5000
+      Portrait: {fileID: 21300000, guid: 953c47c832aa52140b25a1314608058b, type: 3}
     - Name: LV-234
       Faction: 1
-      StartMoney: 0
+      StartMoney: 4000
       Portrait: {fileID: 0}
     - Name: LV-351
       Faction: 1
-      StartMoney: 0
+      StartMoney: 3000
       Portrait: {fileID: 0}
     - Name: LV-479
       Faction: 1
-      StartMoney: 0
+      StartMoney: 2000
       Portrait: {fileID: 0}
     - Name: LV-480
       Faction: 1
-      StartMoney: 0
+      StartMoney: 1000
+      Portrait: {fileID: 0}
+    - Name: Bastion
+      Faction: 2
+      StartMoney: 4000
+      Portrait: {fileID: 0}
+    - Name: Battlestar
+      Faction: 2
+      StartMoney: 9000
+      Portrait: {fileID: 0}
+    - Name: Defendor
+      Faction: 2
+      StartMoney: 5000
+      Portrait: {fileID: 0}
+    - Name: Hyperion
+      Faction: 2
+      StartMoney: 4000
+      Portrait: {fileID: 0}
+    - Name: Last Stand
+      Faction: 2
+      StartMoney: 10000
+      Portrait: {fileID: 0}
+    - Name: Essenlenaile
+      Faction: 3
+      StartMoney: 6000
       Portrait: {fileID: 0}
     - Name: New Home
-      Faction: 1
-      StartMoney: 0
+      Faction: 3
+      StartMoney: 10000
       Portrait: {fileID: 0}
     - Name: Quastar
-      Faction: 1
-      StartMoney: 0
+      Faction: 3
+      StartMoney: 10000
       Portrait: {fileID: 0}
     - Name: Unsuan
-      Faction: 1
-      StartMoney: 0
+      Faction: 3
+      StartMoney: 8000
       Portrait: {fileID: 0}
     - Name: Veritas
-      Faction: 1
-      StartMoney: 0
+      Faction: 3
+      StartMoney: 6000
       Portrait: {fileID: 0}
     StarSystemPairs:
     - A: Bastion
