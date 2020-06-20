@@ -51,6 +51,44 @@ namespace STP.Editor.Meta {
             }
         }
 
+        public Faction GetFaction(string starSystem) {
+            return (GetStartInfo(starSystem)?.Faction ?? Faction.Unknown);
+        }
+
+        public void SetFaction(string starSystem, Faction faction) {
+            var startInfo = GetStartInfo(starSystem);
+            if ( startInfo != null ) {
+                startInfo.Faction = faction;
+            }
+        }
+
+        public int GetMoney(string starSystem) {
+            return (GetStartInfo(starSystem)?.StartMoney ?? -1);
+        }
+
+        public void SetMoney(string starSystem, int money) {
+            var startInfo = GetStartInfo(starSystem);
+            if ( startInfo == null ) {
+                return;
+            }
+            if ( money < 0 ) {
+                Debug.LogError("New start money for system '{0}' is less than zero");
+                return;
+            }
+            startInfo.StartMoney = money;
+        }
+
+        public Sprite GetPortrait(string starSystem) {
+            return GetStartInfo(starSystem)?.Portrait;
+        }
+
+        public void SetPortrait(string starSystem, Sprite portrait) {
+            var startInfo = GetStartInfo(starSystem);
+            if ( startInfo != null ) {
+                startInfo.Portrait = portrait;
+            }
+        }
+
         void DrawNoGraph() {
             GUILayout.Label("StarSystemsGraphInfo required", EditorStyles.boldLabel);
             _graphInfoScriptableObject = EditorGUILayout.ObjectField(new GUIContent("Star Systems Graph Info"),
@@ -77,6 +115,12 @@ namespace STP.Editor.Meta {
             GUILayout.Space(10);
             if ( GUILayout.Button("Refresh systems from graph") ) {
                 _graphInfo = _graphInfoScriptableObject.StarSystemsGraphInfo.Clone();
+                _graphInfo.GetStarSystemStartInfosInEditor().Sort((a, b) => {
+                    if ( a.Faction != b.Faction ) {
+                        return (((int)a.Faction < (int) b.Faction) ? -1 : 1);
+                    }
+                    return string.CompareOrdinal(a.Name, b.Name);
+                });
             }
             if ( GUILayout.Button("Refresh systems from active scene") ) {
                 RefreshSystemsFromActiveScene();
@@ -136,6 +180,7 @@ namespace STP.Editor.Meta {
         }
 
         void DrawDistanceTable() {
+            // ReSharper disable once UseNullPropagation
             if ( _graphInfo == null ) {
                 return;
             }
@@ -175,6 +220,10 @@ namespace STP.Editor.Meta {
         }
 
         void DrawStartInfos() {
+            var startInfos = _graphInfo.GetStarSystemStartInfosInEditor();
+            if ( startInfos.Count == 0 ) {
+                return;
+            }
             var headerStyle = new GUIStyle(GUI.skin.GetStyle("Label")) {
                 alignment = TextAnchor.UpperCenter,
                 fontStyle = FontStyle.Bold,
@@ -188,8 +237,12 @@ namespace STP.Editor.Meta {
             GUILayout.Label("Start Money", EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.2f));
             GUILayout.Label("Portrait",    EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.2f));
             GUILayout.EndHorizontal();
-            var startInfos = _graphInfo.GetStarSystemStartInfosInEditor();
+            var prevFaction = startInfos[0].Faction;
             foreach ( var startInfo in startInfos ) {
+                if ( startInfo.Faction != prevFaction ) {
+                    GUILayout.Space(10);
+                    prevFaction = startInfo.Faction;
+                }
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(startInfo.Name, GUILayout.Width(totalWidth * 0.15f));
                 startInfo.Faction =
@@ -221,6 +274,21 @@ namespace STP.Editor.Meta {
             }
             if ( !silent ) {
                 Debug.LogErrorFormat("Can't find pair for ('{0}', '{1}')", aStarSystem, bStarSystem);
+            }
+            return null;
+        }
+
+        StarSystemsGraphInfo.StarSystemStartInfo GetStartInfo(string starSystem, bool silent = false) {
+            if ( string.IsNullOrEmpty(starSystem) ) {
+                return null;
+            }
+            foreach ( var startInfo in _graphInfo.GetStarSystemStartInfosInEditor() ) {
+                if ( startInfo.Name == starSystem ) {
+                    return startInfo;
+                }
+            }
+            if ( !silent ) {
+                Debug.LogErrorFormat("Can't find start info for '{0}'", starSystem);
             }
             return null;
         }

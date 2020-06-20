@@ -2,9 +2,10 @@
 using UnityEngine;
 
 using System.Collections.Generic;
+using System.Linq;
 
 using STP.Behaviour.Meta;
-using System.Linq;
+using STP.Common;
 
 namespace STP.Editor.Meta {
     [CustomEditor(typeof(StarSystemsGraphInfoScriptableObject))]
@@ -19,6 +20,10 @@ namespace STP.Editor.Meta {
         (string a, string b) _selectedPair => ((_visibleSystems != null) && (_visibleSystems.Count == 2))
             ? (_visibleSystems[0].Name, _visibleSystems[1].Name)
             : default;
+
+        string _selectedSystem => ((_visibleSystems != null) && (_visibleSystems.Count == 1))
+            ? _visibleSystems[0].Name
+            : string.Empty;
 
         void OnEnable() {
             SceneView.onSceneGUIDelegate += OnSceneGUI;
@@ -51,6 +56,7 @@ namespace STP.Editor.Meta {
                     _sceneView.Repaint();
                 }
                 DrawSelectedPairInspector();
+                DrawSelectedSystemInspector();
             }
         }
 
@@ -163,6 +169,36 @@ namespace STP.Editor.Meta {
                 window.GetDistance(_selectedPair.a, _selectedPair.b).ToString());
             if ( int.TryParse(text, out var distance) && (distance >= 0) ) {
                 window.SetDistance(_selectedPair.a, _selectedPair.b, distance);
+                window.Repaint();
+            }
+        }
+
+        void DrawSelectedSystemInspector() {
+            if ( !StarSystemsGraphEditorWindow.Instance || string.IsNullOrEmpty(_selectedSystem) ) {
+                return;
+            }
+            var window = StarSystemsGraphEditorWindow.Instance;
+            
+            GUILayout.Label(_selectedSystem);
+
+            EditorGUI.BeginChangeCheck();
+            
+            var curFaction = window.GetFaction(_selectedSystem);
+            curFaction = (Faction)EditorGUILayout.EnumPopup("Faction", curFaction);
+
+            var curMoney = window.GetMoney(_selectedSystem);
+            var newMoneyText = EditorGUILayout.TextField("Start Money", curMoney.ToString());
+            if ( int.TryParse(newMoneyText, out var newMoney) && (newMoney >= 0) ) {
+                curMoney = newMoney;
+            }
+
+            var curPortrait = window.GetPortrait(_selectedSystem); 
+            curPortrait = EditorGUILayout.ObjectField("Portrait", curPortrait, typeof(Sprite), false) as Sprite;
+
+            if ( EditorGUI.EndChangeCheck() ) {
+                window.SetFaction(_selectedSystem, curFaction);
+                window.SetMoney(_selectedSystem, curMoney);
+                window.SetPortrait(_selectedSystem, curPortrait);
                 window.Repaint();
             }
         }
