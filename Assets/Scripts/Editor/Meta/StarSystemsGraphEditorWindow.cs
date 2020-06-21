@@ -166,7 +166,7 @@ namespace STP.Editor.Meta {
                         });
                     }
                 }
-                startInfos.Add(new StarSystemsGraphInfo.StarSystemStartInfo {
+                startInfos.Add(new StarSystemStartInfo {
                     Name     = starSystem,
                     Faction  = Faction.A,
                     Portrait = null
@@ -278,7 +278,7 @@ namespace STP.Editor.Meta {
             return null;
         }
 
-        StarSystemsGraphInfo.StarSystemStartInfo GetStartInfo(string starSystem, bool silent = false) {
+        StarSystemStartInfo GetStartInfo(string starSystem, bool silent = false) {
             if ( string.IsNullOrEmpty(starSystem) ) {
                 return null;
             }
