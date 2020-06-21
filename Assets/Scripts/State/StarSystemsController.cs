@@ -75,7 +75,9 @@ namespace STP.State {
         }
 
         StarSystemsController Init() {
-            var graphInfoScriptableObject = Resources.Load<StarSystemsGraphInfoScriptableObject>("Meta/StarSystems");
+            var graphInfoScriptableObject =
+                Resources.Load<StarSystemsGraphInfoScriptableObject>(StarSystemsGraphInfoScriptableObject
+                    .ResourcesPath);
             if ( !graphInfoScriptableObject ) {
                 Debug.LogError("Can't load StarSystemsGraphInfo");
                 return null;
