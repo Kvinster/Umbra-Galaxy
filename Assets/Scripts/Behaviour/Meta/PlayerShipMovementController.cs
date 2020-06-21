@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 using System;
-using System.Collections.Generic;
 
 using STP.Behaviour.Starter;
 using STP.State;
@@ -41,7 +40,13 @@ namespace STP.Behaviour.Meta {
             _timeManager        = starter.TimeManager;
             _starSystemsManager = starter.StarSystemsManager;
 
-            CurSystem = starter.StartStarSystem;
+            var curSystemName = PlayerState.Instance.CurSystem;
+            foreach ( var starSystem in FindObjectsOfType<BaseStarSystem>() ) {
+                if ( starSystem.Name == curSystemName ) {
+                    CurSystem = starSystem;
+                    transform.position = CurSystem.transform.position;
+                }
+            }
         }
 
         public bool CanMoveTo(BaseStarSystem destSystem, bool silent = true) {

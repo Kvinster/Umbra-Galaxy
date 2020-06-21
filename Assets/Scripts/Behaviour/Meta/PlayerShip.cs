@@ -1,4 +1,5 @@
 ﻿using STP.Behaviour.Starter;
+using STP.State;
 
 using RSG;
 
@@ -13,7 +14,10 @@ namespace STP.Behaviour.Meta {
 
         public bool TryMoveTo(BaseStarSystem starSystem, out IPromise movePromise) {
             if ( MovementController.CanMoveTo(starSystem) ) {
-                movePromise = MovementController.MoveTo(starSystem);
+                movePromise = MovementController.MoveTo(starSystem)
+                    .Then(() => {
+                        PlayerState.Instance.CurSystem = starSystem.Name;
+                    });
                 return true;
             }
             movePromise = null;

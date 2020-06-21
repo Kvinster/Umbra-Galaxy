@@ -6,6 +6,8 @@ using System.Collections.Generic;
 namespace STP.State {
     public class PlayerState {
         public const int MaxFuel = 50;
+
+        public string CurSystem = "Cradle";
         
         static PlayerState _instance;
         public static PlayerState Instance {
