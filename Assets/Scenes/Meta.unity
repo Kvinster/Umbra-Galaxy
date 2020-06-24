@@ -2386,7 +2386,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95b72868803e4bfbaeecb7beafbd7bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartStarSystem: {fileID: 355799864}
   PlayerShip: {fileID: 2140605370}
   MetaUiCanvas: {fileID: 1303543676}
   TimeManager: {fileID: 239190767}
@@ -4125,18 +4124,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 337796554}
   m_CullTransparentMesh: 0
---- !u!114 &355799864 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8175569123250484036, guid: 48257934837531d419c6469e9f87ee84,
-    type: 3}
-  m_PrefabInstance: {fileID: 1993349951}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12a4a81de7694164abb0c3919f305781, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &368157989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14838,22 +14825,22 @@ PrefabInstance:
     - target: {fileID: 585815121226924998, guid: 48257934837531d419c6469e9f87ee84,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 585815121226924998, guid: 48257934837531d419c6469e9f87ee84,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 585815121226924998, guid: 48257934837531d419c6469e9f87ee84,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 585815121226924998, guid: 48257934837531d419c6469e9f87ee84,
         type: 3}
       propertyPath: m_textInfo.pageCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2819884258068672814, guid: 48257934837531d419c6469e9f87ee84,
         type: 3}

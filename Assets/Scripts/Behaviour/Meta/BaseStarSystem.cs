@@ -2,11 +2,13 @@
 using UnityEngine.EventSystems;
 
 using STP.Behaviour.Starter;
+using STP.Utils.PropertyAttribute;
 
 using TMPro;
 
 namespace STP.Behaviour.Meta {
     public abstract class BaseStarSystem : BaseMetaComponent {
+        [StarSystemName]
         public string Name;
         [Space]
         public TMP_Text     StarSystemNameText;

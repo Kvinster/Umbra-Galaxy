@@ -16,6 +16,8 @@ namespace STP.Editor.Meta {
         StarSystemsGraphInfoScriptableObject _graphInfoScriptableObject;
         StarSystemsGraphInfo _graphInfo;
 
+        public List<string> StarSystems => _graphInfo.StarSystems;
+
         void OnGUI() {
             if ( !_graphInfoScriptableObject ) {
                 _graphInfo = null;
