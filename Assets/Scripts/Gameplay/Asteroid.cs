@@ -1,6 +1,4 @@
-﻿using STP.State;
-using STP.View;
-using Random = UnityEngine.Random;
+﻿using STP.View;
 
 namespace STP.Gameplay {
     public class Asteroid : CoreBehaviour, IDestructable{

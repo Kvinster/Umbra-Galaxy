@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 468571120225148629}
   - component: {fileID: 468571120225148626}
   - component: {fileID: 468571120706785261}
+  - component: {fileID: 1236968081739883083}
   m_Layer: 5
   m_Name: CoreUI
   m_TagString: Untagged
@@ -132,8 +133,8 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1477654825
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &468571120225148629
 MonoBehaviour:
@@ -187,8 +188,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemCounterUI: {fileID: 6322169046348129063}
-  FastTravelUI: {fileID: 995942699}
+  FastTravelUI: {fileID: 1236968081739883083}
   Pointer: {fileID: 6858918183841638937}
+--- !u!114 &1236968081739883083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468571120225148627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfefdcb5f2594a9c817ec20edcb9fbb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FastTravelButton: {fileID: 9184065555202916933}
 --- !u!1 &535981873618061861
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +240,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -148, y: -63.199707}
+  m_AnchoredPosition: {x: -148, y: -63.200195}
   m_SizeDelta: {x: 243.2691, y: 71.948944}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3600872061349078711
@@ -599,7 +613,6 @@ GameObject:
   - component: {fileID: 1765344192089682455}
   - component: {fileID: 4576830460871867563}
   - component: {fileID: 9184065555202916933}
-  - component: {fileID: 995942699}
   m_Layer: 5
   m_Name: FastTravelButton
   m_TagString: Untagged
@@ -624,7 +637,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 143, y: -56.507324}
+  m_AnchoredPosition: {x: 143, y: -56.506836}
   m_SizeDelta: {x: 228.88605, y: 58.5625}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1765344192089682455
@@ -702,19 +715,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &995942699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126669654254195619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfefdcb5f2594a9c817ec20edcb9fbb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FastTravelButton: {fileID: 9184065555202916933}
 --- !u!1 &4649335238411487926
 GameObject:
   m_ObjectHideFlags: 0

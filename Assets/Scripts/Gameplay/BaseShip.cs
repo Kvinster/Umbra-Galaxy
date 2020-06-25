@@ -6,6 +6,7 @@ using UnityEngine;
 namespace STP.Gameplay {
     public abstract class BaseShip : CoreBehaviour, IDestructable {
         public Transform BulletLauncher;
+        public HpBar     HpBar;
 
         protected Rigidbody2D Rigidbody2D;
         protected ShipState   ShipState;
@@ -14,7 +15,7 @@ namespace STP.Gameplay {
 
         BulletCreator _bulletCreator;
         WeaponInfo    _weapon;
-        ShipInfo      _ship;
+        ShipInfo      _shipInfo;
         
         bool          _inited;
 
@@ -25,6 +26,7 @@ namespace STP.Gameplay {
             if ( ShipState.Hp <= 0 ) {
                 OnShipDestroy();
             }
+            HpBar.UpdateBar(((float)ShipState.Hp) / _shipInfo.Hp);
         }
 
         protected void InternalInit(CoreStarter starter, WeaponInfo weapon, ShipInfo shipInfo) {
@@ -32,12 +34,14 @@ namespace STP.Gameplay {
             _bulletCreator = starter.BulletCreator;
             Rigidbody2D    = GetComponent<Rigidbody2D>();
             _inited        = true;
-            _ship          = shipInfo;
-            ShipState     = new ShipState(_ship.Hp);
+            _shipInfo      = shipInfo;
+            ShipState      = new ShipState(_shipInfo.Hp);
+            HpBar.Init();
+            HpBar.UpdateBar(1f);
         }
         
         protected void Move(Vector2 direction) {
-            var offsetVector = _ship.MaxSpeed * direction;
+            var offsetVector = _shipInfo.MaxSpeed * direction;
             MoveUtils.ApplyMovingVector(Rigidbody2D, transform, offsetVector);
         }
 
