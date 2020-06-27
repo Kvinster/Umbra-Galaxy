@@ -73,6 +73,7 @@ namespace STP.Gameplay {
 
         void OnPatrolling() {
             Move(MovingDirection);
+            Rotate(MovingDirection);
             if ( CloseToPoint ) {
                 _nextRoutePoint  = (_nextRoutePoint + 1) % Route.Count;
             }
@@ -88,6 +89,7 @@ namespace STP.Gameplay {
             var chasingDirection = chasingVector.normalized;
             var distanceToPlayer = chasingVector.magnitude;
             Move(chasingDirection);
+            Rotate(chasingDirection);
             TryShoot();
             if ( distanceToPlayer >= OutChaseRadius ) {
                 _state = EnemyState.Patrolling;    

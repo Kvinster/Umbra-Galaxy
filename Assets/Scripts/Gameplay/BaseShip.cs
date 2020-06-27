@@ -40,10 +40,15 @@ namespace STP.Gameplay {
             HpBar.UpdateBar(1f);
         }
         
-        protected void Move(Vector2 direction) {
+        protected void Move(Vector2 direction) { 
             var offsetVector = _shipInfo.MaxSpeed * direction;
-            MoveUtils.ApplyMovingVector(Rigidbody2D, transform, offsetVector);
+            MoveUtils.ApplyMovingVector(Rigidbody2D, offsetVector);
         }
+        
+        protected void Rotate(Vector2 viewDirection) {
+            MoveUtils.ApplyViewVector(transform, viewDirection);
+        }
+        
 
         protected virtual void TryShoot() {
             if ( _timer < _weapon.FirePeriod ) {

@@ -56,10 +56,15 @@ namespace STP.Gameplay {
         }
         
         void TryMove() {
+            var pointerDirection    = (Vector2) (Camera.Camera.ScreenToWorldPoint(Input.mousePosition) - transform.position);
             var horizontalDirection = Input.GetAxis("Horizontal");
             var verticalDirection   = Input.GetAxis("Vertical");
-            if ( Mathf.Abs(horizontalDirection) > float.Epsilon || Mathf.Abs(verticalDirection) > float.Epsilon ) {
-                Move(new Vector2(horizontalDirection, verticalDirection));
+            var moveDirection       = new Vector2(horizontalDirection, verticalDirection);
+            if ( moveDirection != Vector2.zero ) {
+                Move(moveDirection);
+            }
+            if ( pointerDirection != Vector2.zero ) {
+                Rotate(pointerDirection);
             }
         }
     }
