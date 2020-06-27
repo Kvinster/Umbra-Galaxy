@@ -382,6 +382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 194620073}
   - component: {fileID: 194620072}
+  - component: {fileID: 194620074}
   m_Layer: 0
   m_Name: Starter
   m_TagString: Untagged
@@ -403,6 +404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletSpawnStock: {fileID: 2135475646}
   MaterialSpawnStock: {fileID: 1022387611}
+  UnityContext: {fileID: 194620074}
   OverlayManager: {fileID: 9210820899372257153}
 --- !u!4 &194620073
 Transform:
@@ -418,6 +420,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &194620074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 194620071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ead9db763ec84f33a9e2ba5236807689, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &209343357
 GameObject:
   m_ObjectHideFlags: 0
@@ -1935,18 +1949,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &995942698 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9184065555202916933, guid: 7cb361345a5be0c4f8bf074892422582,
-    type: 3}
-  m_PrefabInstance: {fileID: 1236968081739883081}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1022387610
 GameObject:
   m_ObjectHideFlags: 0
@@ -4177,48 +4179,18 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 468571120706785261, guid: 7cb361345a5be0c4f8bf074892422582,
-        type: 3}
-      propertyPath: FastTravelUI
-      value: 
-      objectReference: {fileID: 1236968081739883083}
-    - target: {fileID: 2779667497230798403, guid: 7cb361345a5be0c4f8bf074892422582,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -56.506836
-      objectReference: {fileID: 0}
     - target: {fileID: 6858918183841638937, guid: 7cb361345a5be0c4f8bf074892422582,
         type: 3}
       propertyPath: MotherShip
       value: 
       objectReference: {fileID: 1820773892}
-    - target: {fileID: 7079614482221853954, guid: 7cb361345a5be0c4f8bf074892422582,
+    - target: {fileID: 7354842369011398209, guid: 7cb361345a5be0c4f8bf074892422582,
         type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -63.200195
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 995942699, guid: 7cb361345a5be0c4f8bf074892422582, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7cb361345a5be0c4f8bf074892422582, type: 3}
---- !u!1 &1236968081739883082 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 468571120225148627, guid: 7cb361345a5be0c4f8bf074892422582,
-    type: 3}
-  m_PrefabInstance: {fileID: 1236968081739883081}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1236968081739883083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1236968081739883082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfefdcb5f2594a9c817ec20edcb9fbb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FastTravelButton: {fileID: 995942698}
 --- !u!1001 &5827973641066208332
 PrefabInstance:
   m_ObjectHideFlags: 0

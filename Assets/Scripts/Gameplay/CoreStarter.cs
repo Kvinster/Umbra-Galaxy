@@ -6,8 +6,9 @@ using STP.View;
 
 namespace STP.Gameplay {
     public class CoreStarter : GameBehaviour {
-        public Transform BulletSpawnStock;
-        public Transform MaterialSpawnStock;
+        public Transform    BulletSpawnStock;
+        public Transform    MaterialSpawnStock;
+        public UnityContext UnityContext;
         
         public OverlayManager  OverlayManager;
         public PlayerState     State => PlayerState.Instance;
@@ -18,11 +19,13 @@ namespace STP.Gameplay {
         public CoreManager       CoreManager     {get; private set;}
         public CoreOverlayHelper OverlayHelper   {get; private set;}
         
+        protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, BulletSpawnStock, MaterialSpawnStock, UnityContext);
+        
         void Start() {
             ShipState       = new CoreShipState();
             BulletCreator   = new BulletCreator(this);
             MaterialCreator = new MaterialCreator(this);
-            CoreManager     = new CoreManager(State, ShipState);
+            CoreManager     = new CoreManager(State, ShipState, UnityContext);
             OverlayHelper   = new CoreOverlayHelper(this);
             foreach (var comp in CoreBehaviour.Instances) {
                 comp.Init(this);
@@ -31,7 +34,5 @@ namespace STP.Gameplay {
             Application.targetFrameRate = Screen.currentResolution.refreshRate;
             QualitySettings.vSyncCount  = 0;
         }
-
-        protected override void CheckDescription() { }
     }
 }
