@@ -80,6 +80,18 @@ namespace STP.Editor.Meta {
             startInfo.StartMoney = money;
         }
 
+        public int GetSurvivalChance(string starSystem) {
+            return (GetStartInfo(starSystem)?.BaseSurvivalChance ?? -1);
+        }
+
+        public void SetSurvivalChance(string starSystem, int survivalChance) {
+            var startInfo = GetStartInfo(starSystem);
+            if ( startInfo == null ) {
+                return;
+            }
+            startInfo.BaseSurvivalChance = survivalChance;
+        }
+
         public Sprite GetPortrait(string starSystem) {
             return GetStartInfo(starSystem)?.Portrait;
         }
@@ -190,7 +202,7 @@ namespace STP.Editor.Meta {
             if ( (starSystems == null) || (starSystems.Count == 0) ) {
                 return;
             }
-            var width = Screen.width * 0.6f / starSystems.Count;
+            var width = Screen.width * 0.9f / (starSystems.Count + 1);
             GUILayout.BeginHorizontal();
             GUILayout.Label("", GUILayout.Width(width));
             foreach ( var starSystem in starSystems ) {
@@ -234,10 +246,11 @@ namespace STP.Editor.Meta {
             GUILayout.Label("Star Systems Common Info", headerStyle);
             var totalWidth = Screen.width - 20f;
             GUILayout.BeginHorizontal();
-            GUILayout.Label("System Name", EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.15f));
-            GUILayout.Label("Faction",     EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.2f));
-            GUILayout.Label("Start Money", EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.2f));
-            GUILayout.Label("Portrait",    EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.2f));
+            GUILayout.Label("System Name",     EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.15f));
+            GUILayout.Label("Faction",         EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.2f));
+            GUILayout.Label("Start Money",     EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.2f));
+            GUILayout.Label("Survival Chance", EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.2f));
+            GUILayout.Label("Portrait",        EditorStyles.boldLabel, GUILayout.Width(totalWidth * 0.2f));
             GUILayout.EndHorizontal();
             var prevFaction = startInfos[0].Faction;
             foreach ( var startInfo in startInfos ) {
@@ -253,6 +266,11 @@ namespace STP.Editor.Meta {
                     GUILayout.TextField(startInfo.StartMoney.ToString(), GUILayout.Width(totalWidth * 0.2f));
                 if ( int.TryParse(startMoneyText, out var startMoney) && (startMoney >= 0) ) {
                     startInfo.StartMoney = startMoney;
+                }
+                var survivalChanceText =
+                    GUILayout.TextField(startInfo.BaseSurvivalChance.ToString(), GUILayout.Width(totalWidth * 0.2f));
+                if ( int.TryParse(survivalChanceText, out var survivalChance) ) {
+                    startInfo.BaseSurvivalChance = survivalChance;
                 }
                 startInfo.Portrait = EditorGUILayout.ObjectField(startInfo.Portrait, typeof(Sprite), false) as Sprite;
                 GUILayout.EndHorizontal();

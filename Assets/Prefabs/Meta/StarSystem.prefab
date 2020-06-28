@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 224272311226923812}
   - component: {fileID: 4120699286043589815}
   m_Layer: 0
-  m_Name: Dummy
+  m_Name: StarSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,6 +50,7 @@ MonoBehaviour:
   Name: 
   StarSystemNameText: {fileID: 585815121226924998}
   EventTrigger: {fileID: 4120699286043589815}
+  SpriteRenderer: {fileID: 3655457266663573806}
 --- !u!212 &3655457266663573806
 SpriteRenderer:
   m_ObjectHideFlags: 0

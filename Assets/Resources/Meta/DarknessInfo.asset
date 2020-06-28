@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 096d17ecb2cb47c189fbdcc3dd611bd2, type: 3}
+  m_Name: DarknessInfo
+  m_EditorClassIdentifier: 
+  DarknessPaths:
+  - Path:
+    - LV-480
+    - LV-479
+    - LV-351
+    - LV-234
+    - LV-117
+  - Path:
+    - Hyperion
+    - Bastion
+    - Defendor
+    - Battlestar
+    - Last Stand
+  - Path:
+    - Essenlenaile
+    - Veritas
+    - Unsuan
+    - Quastar
+    - New Home

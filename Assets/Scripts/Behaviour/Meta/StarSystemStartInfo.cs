@@ -10,14 +10,16 @@ namespace STP.Behaviour.Meta {
         public string  Name;
         public Faction Faction;
         public int     StartMoney;
+        public int     BaseSurvivalChance;
         public Sprite  Portrait;
 
         public StarSystemStartInfo Clone() {
             return new StarSystemStartInfo {
-                Name       = Name,
-                Faction    = Faction,
-                StartMoney = StartMoney,
-                Portrait   = Portrait
+                Name               = Name,
+                Faction            = Faction,
+                StartMoney         = StartMoney,
+                BaseSurvivalChance = BaseSurvivalChance,
+                Portrait           = Portrait
             };
         }
 

@@ -12,5 +12,11 @@ namespace STP.Behaviour.Meta {
             Path       = new List<string>(path);
             PathLength = pathLength;
         }
+
+        public StarSystemPath Reversed() {
+            var reversedPath = new List<string>(Path);
+            reversedPath.Reverse();
+            return new StarSystemPath(reversedPath, PathLength);
+        }
     }
 }

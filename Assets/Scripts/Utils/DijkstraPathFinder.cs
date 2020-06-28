@@ -9,7 +9,7 @@ namespace STP.Utils {
             var marks     = new Dictionary<string, int>();
             var paths     = new Dictionary<string, List<string>>();
             var listNodes = new List<string>(nodes);
-            paths[startNode] = new List<string>();
+            paths[startNode] = new List<string> { startNode };
             foreach ( var node in listNodes ) {
                 marks.Add(node, (node == startNode) ? 0 : int.MaxValue);
             }

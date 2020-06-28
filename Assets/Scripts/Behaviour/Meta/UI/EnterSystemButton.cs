@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+using STP.State;
+
 namespace STP.Behaviour.Meta.UI {
     public sealed class EnterSystemButton : MonoBehaviour {
         public Button Button;
@@ -23,18 +25,28 @@ namespace STP.Behaviour.Meta.UI {
             _owner       = owner;
             _playerShip  = playerShip;
             _timeManager = timeManager;
-            
-            _timeManager.OnPausedChanged += OnPauseChanged;
+
+            _playerShip.OnCusSystemChanged += OnPlayerShipCurSystemChanged;
+            _timeManager.OnPausedChanged   += OnPauseChanged;
 
             Button.onClick.AddListener(OnClick);
         }
 
         void OnPauseChanged(bool isPaused) {
-            Button.gameObject.SetActive(isPaused);
+            UpdateActive(isPaused, _playerShip.CurSystem.Name);
+        }
+
+        void OnPlayerShipCurSystemChanged(string playerCurSystem) {
+            UpdateActive(_timeManager.IsPaused, playerCurSystem);
         }
 
         void OnClick() {
             _owner.ShowFactionSystemWindow(_playerShip.CurSystem.Name);
+        }
+
+        void UpdateActive(bool isPaused, string playerCurSystem) {
+            Button.gameObject.SetActive(
+                isPaused && StarSystemsController.Instance.GetStarSystemActive(playerCurSystem));
         }
     }
 }

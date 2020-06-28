@@ -192,12 +192,19 @@ namespace STP.Editor.Meta {
                 curMoney = newMoney;
             }
 
+            var curSurvivalChance     = window.GetSurvivalChance(_selectedSystem);
+            var newSurvivalChanceText = EditorGUILayout.TextField("Survival Chance", curSurvivalChance.ToString());
+            if ( int.TryParse(newSurvivalChanceText, out var newSurvivalChance) ) {
+                curSurvivalChance = newSurvivalChance;
+            }
+
             var curPortrait = window.GetPortrait(_selectedSystem); 
             curPortrait = EditorGUILayout.ObjectField("Portrait", curPortrait, typeof(Sprite), false) as Sprite;
 
             if ( EditorGUI.EndChangeCheck() ) {
                 window.SetFaction(_selectedSystem, curFaction);
                 window.SetMoney(_selectedSystem, curMoney);
+                window.SetSurvivalChance(_selectedSystem, curSurvivalChance);
                 window.SetPortrait(_selectedSystem, curPortrait);
                 window.Repaint();
             }

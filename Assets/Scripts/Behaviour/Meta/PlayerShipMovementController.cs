@@ -18,11 +18,25 @@ namespace STP.Behaviour.Meta {
 
         StarSystemPath _curPath;
         int            _nextNodeIndex;
-        
-        public BaseStarSystem CurSystem  { get; private set; }
+
+        BaseStarSystem _curSystem;
+
         public BaseStarSystem DestSystem { get; private set; }
 
+        public BaseStarSystem CurSystem {
+            get => _curSystem;
+            private set {
+                if ( _curSystem == value ) {
+                    return;
+                }
+                _curSystem = value;
+                OnCurSystemChanged?.Invoke(_curSystem.Name);
+            }
+        }
+
         public bool IsMoving => (DestSystem && !_timeManager.IsPaused);
+
+        public event Action<string> OnCurSystemChanged;
 
         BaseStarSystem NextSystem =>
             ((_curPath != null) ? _starSystemsManager.GetStarSystem(_curPath.Path[_nextNodeIndex]) : null);
@@ -41,12 +55,8 @@ namespace STP.Behaviour.Meta {
             _starSystemsManager = starter.StarSystemsManager;
 
             var curSystemName = PlayerState.Instance.CurSystem;
-            foreach ( var starSystem in FindObjectsOfType<BaseStarSystem>() ) {
-                if ( starSystem.Name == curSystemName ) {
-                    CurSystem = starSystem;
-                    transform.position = CurSystem.transform.position;
-                }
-            }
+            CurSystem = starter.StarSystemsManager.GetStarSystem(curSystemName);
+            transform.position = CurSystem.transform.position;
         }
 
         public bool CanMoveTo(BaseStarSystem destSystem, bool silent = true) {
@@ -75,6 +85,12 @@ namespace STP.Behaviour.Meta {
             if ( path.PathLength > PlayerState.Instance.Fuel ) {
                 return false;
             }
+            for ( var i = 1; i < path.Path.Count; i++ ) {
+                var starSystem = path.Path[i];
+                if ( !StarSystemsController.Instance.GetStarSystemActive(starSystem) ) {
+                    return false;
+                }
+            }
             return true;
         }
 
@@ -83,7 +99,7 @@ namespace STP.Behaviour.Meta {
                 return Promise.Rejected(new Exception($"Can't move to {destSystem.Name}"));
             }
             _curPath       = StarSystemsController.Instance.GetPath(CurSystem.Name, destSystem.Name);
-            _nextNodeIndex = 0;
+            _nextNodeIndex = 1;
             DestSystem = destSystem;
             var nextDistance =
                 StarSystemsController.Instance.GetDistance(CurSystem.Name, _curPath.Path[_nextNodeIndex]);
@@ -103,25 +119,32 @@ namespace STP.Behaviour.Meta {
             if ( DestSystem && isPaused && (_timeManager.CurDay == _pathEndDay) ) {
                 var nextSystem = NextSystem;
                 transform.position = nextSystem.transform.position;
-                CurSystem  = nextSystem;
+                CurSystem = nextSystem;
                 if ( nextSystem == DestSystem ) {
-                    DestSystem = null;
-                    _timeManager.OnPausedChanged -= OnTimePausedChanged;
-                    _movePromise.Resolve();
-                    _movePromise = null;
+                    FinishMovement();
                 } else {
                     ++_nextNodeIndex;
-                    var nextDistance = StarSystemsController.Instance.GetDistance(CurSystem.Name,
-                        _curPath.Path[_nextNodeIndex]);
-                    _pathStartDay = _timeManager.CurDay;
-                    _pathEndDay   = _pathStartDay + nextDistance;
-                    PlayerState.Instance.Fuel -= nextDistance;
-                    _timeManager.Unpause(_pathEndDay);
-                    transform.rotation =
-                        Quaternion.Euler(0, 0,
+                    nextSystem = NextSystem;
+                    if ( StarSystemsController.Instance.GetStarSystemActive(nextSystem.Name) ) {
+                        var nextDistance = StarSystemsController.Instance.GetDistance(CurSystem.Name, nextSystem.Name);
+                        _pathStartDay = _timeManager.CurDay;
+                        _pathEndDay   = _pathStartDay + nextDistance;
+                        PlayerState.Instance.Fuel -= nextDistance;
+                        _timeManager.Unpause(_pathEndDay);
+                        transform.rotation = Quaternion.Euler(0, 0,
                             Vector2.SignedAngle(new Vector3(0, 1), NextSystem.transform.position - transform.position));
+                    } else {
+                        FinishMovement();
+                    }
                 }
             }
+        }
+
+        void FinishMovement() {
+            DestSystem = null;
+            _timeManager.OnPausedChanged -= OnTimePausedChanged;
+            _movePromise.Resolve();
+            _movePromise = null;
         }
     }
 }

@@ -21,7 +21,8 @@ namespace STP.State {
         
         readonly Dictionary<string, StarSystemState> _starSystemStates = new Dictionary<string, StarSystemState>();
 
-        public event Action<string, int> OnStarSystemMoneyChanged;
+        public event Action<string, int>  OnStarSystemMoneyChanged;
+        public event Action<string, bool> OnStarSystemActiveChanged;
 
         public bool HasStarSystem(string starSystemName) {
             return _starSystemNames.Contains(starSystemName);
@@ -35,6 +36,22 @@ namespace STP.State {
             return TryGetStarSystemState(starSystemName, out var starSystemState)
                 ? starSystemState.Faction
                 : Faction.Unknown;
+        }
+
+        public bool GetStarSystemActive(string starSystemName) {
+            return TryGetStarSystemState(starSystemName, out var starSystemState) && starSystemState.IsActive;
+        }
+
+        public void SetStarSystemActive(string starSystemName, bool isActive) {
+            if ( TryGetStarSystemState(starSystemName, out var starSystemState) &&
+                 (starSystemState.IsActive != isActive) ) {
+                starSystemState.IsActive = isActive;
+                OnStarSystemActiveChanged?.Invoke(starSystemName, isActive);
+            }
+        }
+
+        public int GetStarSystemSurvivalChance(string starSystemName) {
+            return TryGetStarSystemState(starSystemName, out var starSystemState) ? starSystemState.SurvivalChance : -1;
         }
 
         public bool TrySubStarSystemMoney(string starSystemName, int subMoney) {
@@ -71,7 +88,14 @@ namespace STP.State {
                 path = CalcPath(aStarSystem, bStarSystem);
                 _cachedPaths.Add(path);
             }
-            return path;
+            if ( (path.StartStarSystemName == aStarSystem) && (path.FinishStarSystemName == bStarSystem) ) {
+                return path;
+            }
+            if ( (path.StartStarSystemName == bStarSystem) && (path.FinishStarSystemName == aStarSystem) ) {
+                return path.Reversed();
+            }
+            Debug.LogError("Unsupported scenario");
+            return null;
         }
 
         StarSystemsController Init() {
@@ -86,7 +110,8 @@ namespace STP.State {
             foreach ( var startInfo in _graphInfo.GetStarSystemStartInfos() ) {
                 _starSystemNames.Add(startInfo.Name);
                 _starSystemStates.Add(startInfo.Name,
-                    new StarSystemState(startInfo.Name, startInfo.Faction, startInfo.StartMoney));
+                    new StarSystemState(startInfo.Name, startInfo.Faction, startInfo.StartMoney,
+                        startInfo.BaseSurvivalChance));
             }
             return this;
         }

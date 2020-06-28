@@ -17,66 +17,82 @@ MonoBehaviour:
     - Name: Cradle
       Faction: 1
       StartMoney: 1000000
+      BaseSurvivalChance: 80
       Portrait: {fileID: 0}
     - Name: LV-117
       Faction: 1
       StartMoney: 5000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 21300000, guid: 953c47c832aa52140b25a1314608058b, type: 3}
     - Name: LV-234
       Faction: 1
       StartMoney: 4000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 0}
     - Name: LV-351
       Faction: 1
       StartMoney: 3000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 0}
     - Name: LV-479
       Faction: 1
       StartMoney: 2000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 0}
     - Name: LV-480
       Faction: 1
       StartMoney: 1000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 0}
     - Name: Bastion
       Faction: 2
       StartMoney: 4000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 0}
     - Name: Battlestar
       Faction: 2
       StartMoney: 9000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 0}
     - Name: Defendor
       Faction: 2
       StartMoney: 5000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 0}
     - Name: Hyperion
       Faction: 2
       StartMoney: 4000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 0}
     - Name: Last Stand
       Faction: 2
       StartMoney: 10000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 0}
     - Name: Essenlenaile
       Faction: 3
       StartMoney: 6000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 0}
     - Name: New Home
       Faction: 3
       StartMoney: 10000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 0}
     - Name: Quastar
       Faction: 3
       StartMoney: 10000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 0}
     - Name: Unsuan
       Faction: 3
       StartMoney: 8000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 0}
     - Name: Veritas
       Faction: 3
       StartMoney: 6000
+      BaseSurvivalChance: 50
       Portrait: {fileID: 0}
     StarSystemPairs:
     - A: Bastion

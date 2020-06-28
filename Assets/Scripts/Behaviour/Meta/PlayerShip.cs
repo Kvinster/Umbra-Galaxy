@@ -1,4 +1,6 @@
-﻿using STP.Behaviour.Starter;
+﻿using System;
+
+using STP.Behaviour.Starter;
 using STP.State;
 
 using RSG;
@@ -8,8 +10,11 @@ namespace STP.Behaviour.Meta {
         public PlayerShipMovementController MovementController;
 
         public BaseStarSystem CurSystem => MovementController.CurSystem;
+
+        public event Action<string> OnCusSystemChanged;
         
         protected override void InitInternal(MetaStarter starter) {
+            MovementController.OnCurSystemChanged += OnCurSystemChanged;
         }
 
         public bool TryMoveTo(BaseStarSystem starSystem, out IPromise movePromise) {
@@ -22,6 +27,10 @@ namespace STP.Behaviour.Meta {
             }
             movePromise = null;
             return false;
+        }
+
+        void OnCurSystemChanged(string curSystem) {
+            OnCusSystemChanged?.Invoke(curSystem);
         }
     }
 }

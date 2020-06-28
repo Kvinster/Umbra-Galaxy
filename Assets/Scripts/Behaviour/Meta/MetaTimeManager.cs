@@ -2,6 +2,8 @@
 
 using System;
 
+using STP.State;
+
 namespace STP.Behaviour.Meta {
     public sealed class MetaTimeManager : MonoBehaviour {
         const float DayToSec = 2f;
@@ -24,14 +26,10 @@ namespace STP.Behaviour.Meta {
                 }
             }
         }
-
-        int _curDay = 0;
+        
         public int CurDay {
-            get => _curDay;
-            private set {
-                _curDay = value;
-                OnDayChanged?.Invoke(_curDay);
-            }
+            get => TimeController.Instance.CurDay;
+            private set => TimeController.Instance.CurDay = value;
         }
 
         public float DayProgress {
@@ -44,7 +42,6 @@ namespace STP.Behaviour.Meta {
         }
 
         public event Action<bool> OnPausedChanged;
-        public event Action<int>  OnDayChanged; 
 
         void Update() {
             if ( IsPaused ) {
