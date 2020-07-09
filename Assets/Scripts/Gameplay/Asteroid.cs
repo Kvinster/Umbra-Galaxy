@@ -10,7 +10,7 @@ namespace STP.Gameplay {
             _materialCreator = starter.MaterialCreator;
         }
         
-        public void GetDamage(int damageAmount = 1) {
+        public void GetDamage(float damageAmount = 1) {
             _materialCreator.CreateRandomMaterial(transform.position);
             Destroy(gameObject);
         }

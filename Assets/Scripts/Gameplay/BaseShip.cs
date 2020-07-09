@@ -1,27 +1,29 @@
-﻿using STP.State.Core;
+﻿using UnityEngine;
+
+using STP.Gameplay.WeaponGroup.Controls;
+using STP.State.Core;
 using STP.Utils;
 using STP.View;
-using UnityEngine;
 
 namespace STP.Gameplay {
     public abstract class BaseShip : CoreBehaviour, IDestructable {
         public Transform BulletLauncher;
         public HpBar     HpBar;
 
-        protected Rigidbody2D Rigidbody2D;
-        protected ShipState   ShipState;
+        protected Rigidbody2D    Rigidbody2D;
+        protected ShipState      ShipState;
+        protected IWeaponControl WeaponControl;
 
-        float         _timer;
+        float          _timer;
 
-        BulletCreator _bulletCreator;
-        WeaponInfo    _weapon;
-        ShipInfo      _shipInfo;
+        BulletCreator  _bulletCreator;
+        ShipInfo       _shipInfo;
         
-        bool          _inited;
+        bool           _inited;
 
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, BulletLauncher);
 
-        public void GetDamage(int damageAmount = 1) {
+        public void GetDamage(float damageAmount = 1) {
             ShipState.Hp -= damageAmount;
             if ( ShipState.Hp <= 0 ) {
                 OnShipDestroy();
@@ -29,17 +31,17 @@ namespace STP.Gameplay {
             HpBar.UpdateBar(((float)ShipState.Hp) / _shipInfo.Hp);
         }
 
-        protected void InternalInit(CoreStarter starter, WeaponInfo weapon, ShipInfo shipInfo) {
-            _weapon        = weapon;
+        protected void InternalInit(CoreStarter starter, ShipInfo shipInfo) {
             _bulletCreator = starter.BulletCreator;
             Rigidbody2D    = GetComponent<Rigidbody2D>();
             _inited        = true;
             _shipInfo      = shipInfo;
             ShipState      = new ShipState(_shipInfo.Hp);
+            
             HpBar.Init();
             HpBar.UpdateBar(1f);
         }
-        
+
         protected void Move(Vector2 direction) { 
             var offsetVector = _shipInfo.MaxSpeed * direction;
             MoveUtils.ApplyMovingVector(Rigidbody2D, offsetVector);
@@ -50,13 +52,8 @@ namespace STP.Gameplay {
         }
         
 
-        protected virtual void TryShoot() {
-            if ( _timer < _weapon.FirePeriod ) {
-                return;
-            }
-            var direction = transform.rotation * Vector3.up;
-            _bulletCreator.CreateBullet(_weapon.BulletType, BulletLauncher.position, direction, _weapon.BulletSpeed);
-            _timer = 0f;
+        protected virtual void UpdateWeaponControlState() {
+            WeaponControl.UpdateControl(Time.deltaTime);
         }
 
         protected virtual void Update() {

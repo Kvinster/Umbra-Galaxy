@@ -1,8 +1,12 @@
-﻿namespace STP.Utils {
+﻿using UnityEngine;
+
+namespace STP.Utils {
     public class Timer {
         public float TimePassed {get; private set;}
         public float Interval   {get; private set;}
         public float LeftTime   => Interval - TimePassed;
+        
+        public float NormalizedProgress => (Interval > float.Epsilon) ? Mathf.Clamp01(TimePassed / Interval) : 0.0f;
 
         public void Start(float interval, float passedTime = 0f) {
             Interval   = interval;
