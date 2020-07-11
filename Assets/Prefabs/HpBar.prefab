@@ -122,7 +122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurHp: {fileID: 5827973640971715504}
-  FullBar: {fileID: 5827973642586818780}
+  BarBase: {fileID: 5827973642586818780}
+  HideIfFull: 0
 --- !u!1 &5827973642586818754
 GameObject:
   m_ObjectHideFlags: 0

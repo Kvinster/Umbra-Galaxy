@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using System.Collections.Generic;
+
 using STP.Gameplay.WeaponGroup;
 using STP.Gameplay.WeaponViews;
 using STP.State;
@@ -33,7 +35,8 @@ namespace STP.Gameplay {
             MaterialCreator   = new MaterialCreator(this);
             CoreManager       = new CoreManager(State, ShipState, UnityContext);
             OverlayHelper     = new CoreOverlayHelper(this);
-            foreach (var comp in CoreBehaviour.Instances) {
+            var behaviours = new HashSet<CoreBehaviour>(CoreBehaviour.Instances);
+            foreach (var comp in behaviours) {
                 comp.Init(this);
             }        
             //Settings for smooth gameplay

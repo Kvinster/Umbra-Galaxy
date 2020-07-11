@@ -17,14 +17,16 @@ namespace STP.Gameplay {
             _starter = starter;
             var materials = Resources.LoadAll<GameObject>(PrefabsPath);
             foreach ( var material in materials ) {
-                _materialPrefabs.Add(material.name, material);
+                _materialPrefabs.Add(material.name, material); 
             }
             _root = starter.MaterialSpawnStock;
         }
-
-        public GameObject CreateRandomMaterial(Vector3 position) {
-            var random = Random.Range(0, ItemNames.AllItems.Length);
-            return CreateMaterial(ItemNames.AllItems[random], position);
+        
+        public GameObject CreateRandomMaterial(Vector3 position, List<string> materialList = null) {
+            var selectedMaterialList = ((materialList != null) && (materialList.Count > 0)) ? materialList : ItemNames.UsualItems;
+            var randomIndex          = Random.Range(0, selectedMaterialList.Count);
+            var materialName         = selectedMaterialList[randomIndex];
+            return CreateMaterial(materialName, position);
         }
 
         public GameObject CreateMaterial(string itemName, Vector3 position) {

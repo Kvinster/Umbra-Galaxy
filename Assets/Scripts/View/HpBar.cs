@@ -4,12 +4,15 @@ using UnityEngine.UI;
 namespace STP.View {
     public class HpBar : MonoBehaviour {
         public Image CurHp;
-        public Image FullBar;
-
+        public Image BarBase;
+        public bool  HideIfFull;
+        
         float _fullBarSize;
+        
 
         public void Init() {
-            _fullBarSize = FullBar.rectTransform.sizeDelta.x;
+            _fullBarSize = BarBase.rectTransform.sizeDelta.x;
+            UpdateBar(1f);
         }
         
         //leftHp - parameter between 0 and 1. 0 - no Hp. 1 - full Hp
@@ -17,6 +20,7 @@ namespace STP.View {
             var x    = Mathf.Clamp01(leftHp) * _fullBarSize;
             var y    = CurHp.rectTransform.sizeDelta.y;
             CurHp.rectTransform.sizeDelta = new Vector2(x, y);
+            BarBase.gameObject.SetActive(!HideIfFull || (1f - leftHp > float.Epsilon));
         }
     }
 }
