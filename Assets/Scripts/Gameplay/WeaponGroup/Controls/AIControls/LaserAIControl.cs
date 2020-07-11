@@ -15,11 +15,9 @@ namespace STP.Gameplay.WeaponGroup.Controls.AIControls {
         public override void UpdateControl(float timePassed) {
             base.UpdateControl(timePassed);
             if ( (_lastState != _aiShip.State) && (_aiShip.State == EnemyState.Patrolling) ) {
-                Debug.Log("Enemy: try stop shoot");
                 Weapon.TryStopShoot();
             }
             if ( _aiShip.State == EnemyState.Chase ) {
-                Debug.Log("Enemy: try shoot");
                 Weapon.TryShoot();
             }
             _lastState = _aiShip.State;
