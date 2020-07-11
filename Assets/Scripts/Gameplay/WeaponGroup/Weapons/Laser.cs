@@ -13,7 +13,6 @@ namespace STP.Gameplay.WeaponGroup.Weapons {
         
         public void TryStopShoot() {
             CurState = WeaponState.CHARGED;
-            Debug.Log("laser CHARGED");
         }
 
         protected override void AutoTransitions(float passedTime) { }

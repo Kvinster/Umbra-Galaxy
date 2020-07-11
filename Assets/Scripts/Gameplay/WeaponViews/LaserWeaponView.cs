@@ -6,6 +6,7 @@ namespace STP.Gameplay.WeaponViews {
     public class LaserWeaponView : BaseWeaponView {
         public Beam Beam;
         BaseWeapon _weapon;
+        Collider2D _ownerCollider;
         
         RaycastHit2D[] _hits = new RaycastHit2D[10];
         
@@ -14,6 +15,7 @@ namespace STP.Gameplay.WeaponViews {
                 return;
             }
             _weapon               = laserWeapon;
+            _ownerCollider        = ownerShip.GetComponent<Collider2D>();
             _weapon.StateChanged += OnWeaponStateChanged; 
             OnWeaponStateChanged(_weapon.CurState);
         }
@@ -28,12 +30,12 @@ namespace STP.Gameplay.WeaponViews {
 
         void Update() {
             if ( _weapon.CurState == WeaponState.FIRE ) {
-                var hitsCount = Physics2D.RaycastNonAlloc(Beam.transform.position, Beam.transform.TransformDirection(Beam.transform.localRotation * Vector2.up), _hits, 1000000, 1);
+                var hitsCount = Physics2D.RaycastNonAlloc(Beam.transform.position, Beam.transform.TransformDirection(Beam.transform.localRotation * Vector2.up), _hits, 1000000);
                 var minDistance    = float.MaxValue;
                 var minDistanceHit = -1;
                 for ( var i = 0; i < hitsCount; i++ ) {
                     var hit = _hits[i];
-                    if ( hit.collider && !hit.collider.isTrigger && hit.distance < minDistance) {
+                    if ( hit.collider && !hit.collider.isTrigger && hit.distance < minDistance && (hit.collider != _ownerCollider) ) {
                         minDistance    = hit.distance;
                         minDistanceHit = i;
                     }
