@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-using STP.Gameplay.WeaponGroup;
 using STP.Gameplay.WeaponGroup.Weapons;
 using STP.State.Core;
 using STP.Utils;
@@ -25,6 +24,7 @@ namespace STP.Gameplay {
             _shipState.StateChangedManually += OnChangedState;
             _overlayHelper                   = starter.OverlayHelper;
             WeaponControl                    = starter.WeaponCreator.GetManualWeapon(Weapons.Laser);
+            starter.WeaponViewCreator.AddWeaponView(this, WeaponControl.GetControlledWeapon());
             InternalInit(starter, new ShipInfo(Hp, ShipSpeed));
         }
         
@@ -49,16 +49,14 @@ namespace STP.Gameplay {
         }
         
         void TryMove() {
-            var pointerDirection    = (Vector2) (Camera.Camera.ScreenToWorldPoint(Input.mousePosition) - transform.position);
+            var pointerOffset       = (Vector2) Input.mousePosition - new Vector2(Screen.width/2, Screen.height/2);
             var horizontalDirection = Input.GetAxis("Horizontal");
             var verticalDirection   = Input.GetAxis("Vertical");
             var moveDirection       = new Vector2(horizontalDirection, verticalDirection);
             if ( moveDirection != Vector2.zero ) {
                 Move(moveDirection);
             }
-            if ( pointerDirection != Vector2.zero ) {
-                Rotate(pointerDirection);
-            }
+            Rotate(pointerOffset);
         }
     }
 }

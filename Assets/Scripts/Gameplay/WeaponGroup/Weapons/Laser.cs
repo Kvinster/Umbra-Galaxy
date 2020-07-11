@@ -3,9 +3,12 @@ using UnityEngine;
 
 namespace STP.Gameplay.WeaponGroup.Weapons {
     public class Laser : BaseWeapon {
+        public override string Name => Weapons.Laser;
+        
         public void TryShoot() {
-            CurState = WeaponState.FIRE;
-            Debug.Log("Laser FIRE");
+            if ( CurState != WeaponState.FIRE ) {
+                CurState = WeaponState.FIRE;
+            }
         }
         
         public void TryStopShoot() {

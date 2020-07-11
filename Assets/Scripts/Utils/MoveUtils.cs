@@ -9,7 +9,7 @@ namespace STP.Utils {
         public static void ApplyViewVector(Transform transform, Vector2 viewDirection) {
             var viewDirectionN   = viewDirection.normalized;
             var dstAngle         = Mathf.Atan2(-viewDirectionN.x, viewDirectionN.y) / Mathf.PI * 180;
-            transform.rotation   = Quaternion.AngleAxis(dstAngle, Vector3.forward);
+            transform.rotation   = Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(dstAngle, Vector3.forward), 0.5f);
         }
     }
 }

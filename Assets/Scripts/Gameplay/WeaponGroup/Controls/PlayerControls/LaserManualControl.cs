@@ -12,7 +12,7 @@ namespace STP.Gameplay.WeaponGroup.Controls.PlayerControls {
                 Weapon.TryShoot();
             }
             else {
-                if ( Weapon.CurState == Weapons.WeaponState.FIRE ) {
+                if ( Weapon.CurState == WeaponState.FIRE ) {
                     Weapon.TryStopShoot();
                 }
             }

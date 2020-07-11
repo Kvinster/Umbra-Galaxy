@@ -14,7 +14,7 @@ namespace STP.Gameplay.WeaponGroup {
         public IWeaponControl GetManualWeapon(string weaponName) {
             switch ( weaponName ) {
                 case Weapons.Weapons.Bullets:
-                    return new BulletManualControl(new Gun(), _bulletCreator);
+                    return new BulletManualControl(new Gun(400, 0.1f));
                 case Weapons.Weapons.Laser:
                     return new LaserManualControl(new Laser());
             }
@@ -24,7 +24,7 @@ namespace STP.Gameplay.WeaponGroup {
         public IWeaponControl GetAIWeaponController(string weaponName, EnemyShip enemyShip) {
             switch ( weaponName ) {
                 case Weapons.Weapons.Bullets:
-                    return new BulletAIControl(new Gun(), enemyShip);
+                    return new BulletAIControl(new Gun(400, 0.5f), enemyShip);
                 case Weapons.Weapons.Laser:
                     return new LaserAIControl(new Laser(), enemyShip);
             }

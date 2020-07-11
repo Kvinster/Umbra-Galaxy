@@ -3,29 +3,34 @@ using UnityEngine;
 
 namespace STP.Gameplay.WeaponGroup.Weapons {
     public class Gun : BaseWeapon {
+        readonly Timer _timer = new Timer();
         
-        protected Timer Timer = new Timer();
+        float _reloadTime;
         
-        public int BulletSpeed => 200;
-
+        public float BulletSpeed {get;}
+        
+        public override string Name => Weapons.Bullets;
+        
+        public Gun(float bulletSpeed, float reloadTime) {
+            BulletSpeed = bulletSpeed;
+            _reloadTime = reloadTime;
+        }
+        
         public void TryShoot() {
             if ( CurState == WeaponState.CHARGED ) {
                 CurState = WeaponState.FIRE;
-                Debug.Log("FIRE");
-                return;
             }
-            Debug.Log("Nothing");
         }
-
+        
         protected override void AutoTransitions(float passedTime) {
             switch ( CurState ) {
                 case WeaponState.IDLE:
-                    Timer.Start(3);
+                    _timer.Start(_reloadTime);
                     CurState = WeaponState.CHARGE;
                     break;
                 case WeaponState.CHARGE:
-                    if ( Timer.Tick(passedTime) ) {
-                        Timer.Stop();
+                    if ( _timer.Tick(passedTime) ) {
+                        _timer.Stop();
                         CurState = WeaponState.CHARGED;
                     }
                     break;

@@ -7,7 +7,7 @@ using STP.View;
 
 namespace STP.Gameplay {
     public abstract class BaseShip : CoreBehaviour, IDestructable {
-        public Transform BulletLauncher;
+        public Transform WeaponMountPoint;
         public HpBar     HpBar;
 
         protected Rigidbody2D    Rigidbody2D;
@@ -21,7 +21,7 @@ namespace STP.Gameplay {
         
         bool           _inited;
 
-        protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, BulletLauncher);
+        protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, WeaponMountPoint);
 
         public void GetDamage(float damageAmount = 1) {
             ShipState.Hp -= damageAmount;

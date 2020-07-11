@@ -8,8 +8,6 @@ namespace STP.Gameplay {
         const string PrefabsPathFormat     = "Prefabs/Bullets/";
         const string BeamPrefabsPathFormat = "Prefabs/Beams/";
         
-        const string BeamName              = "beam";
-        
         Dictionary<string, GameObject> _bulletPrefabs = new Dictionary<string, GameObject>();
         Dictionary<string, GameObject> _beamPrefabs   = new Dictionary<string, GameObject>();
         Transform                      _root;
@@ -36,18 +34,6 @@ namespace STP.Gameplay {
             var rigidbody             = bullet.GetComponent<Rigidbody2D>();
             rigidbody.velocity        = flyDirection.normalized * speed;
             return bullet;
-        }
-        
-        
-        public GameObject CreateBeam(Transform source, BaseWeapon sourceWeapon) {
-            if ( !_beamPrefabs.ContainsKey(BeamName) ) {
-                Debug.LogError(string.Format("Can't find bullet {0} in loaded beams", BeamName));
-                return null;
-            }
-            var beam     = Object.Instantiate(_bulletPrefabs[BeamName], source);
-            var beamComp = beam.GetComponent<Beam>();
-            beamComp.Init(sourceWeapon);
-            return beam;
         }
     }
 }

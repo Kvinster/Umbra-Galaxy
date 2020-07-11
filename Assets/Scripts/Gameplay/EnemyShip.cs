@@ -41,7 +41,7 @@ namespace STP.Gameplay {
             transform.position = Route[StartRoutePointIndex].position;
             _nextRoutePoint    = (StartRoutePointIndex + 1) % Route.Count;
             State              = EnemyState.Patrolling;
-            WeaponControl      = starter.WeaponCreator.GetAIWeaponController(Weapons.Laser, this);
+            WeaponControl      = starter.WeaponCreator.GetAIWeaponController(Weapons.Bullets, this);
             InternalInit(starter, new ShipInfo(Hp, ShipSpeed));
         }
 

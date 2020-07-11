@@ -4,31 +4,18 @@ using STP.Gameplay.WeaponGroup.Weapons;
 
 namespace STP.Gameplay {
     public class Beam : MonoBehaviour{
-        const int dps = 1;
+        public SpriteRenderer    BeamRenderer;
         
-        BaseWeapon _weapon;
-
-        public void Init(BaseWeapon weapon) {
-            _weapon = weapon;
+        const int dps = 5;
+        
+        public void SetLength(float length) {
+            BeamRenderer.size = new Vector2(BeamRenderer.size.x, length);
         }
         
-        void Update() {
-            if ( _weapon == null ) {
-                return;
-            }
-            if ( _weapon.CurState == WeaponState.CHARGED ) {
-                Destroy(gameObject);
-            }
-        }
-
-        void OnTriggerStay2D(Collider2D other) {
-            if ( _weapon == null ) {
-                return;
-            }
+        public void DealDamage(Collider2D other) {
             var damage = dps * Time.deltaTime;
             var ship = other.GetComponent<IDestructable>();
-            ship.GetDamage(damage);
+            ship?.GetDamage(damage);
         }
-
     }
 }

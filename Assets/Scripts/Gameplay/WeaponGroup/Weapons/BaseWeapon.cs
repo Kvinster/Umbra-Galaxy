@@ -3,17 +3,17 @@
         IDLE,
         CHARGE,
         CHARGED,
-        FIRE,
-        COOLDOWN
+        FIRE
     }
 
     public class Weapons {
         public const string Bullets = "bullets";
         public const string Laser   = "laser";
-        public const string Lance   = "lance";
     }
 
     public abstract class BaseWeapon {
+        public abstract string Name { get; }
+        
         WeaponState _state;
         public WeaponState CurState {
             get => _state;
