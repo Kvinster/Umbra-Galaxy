@@ -2250,8 +2250,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 39.4}
+  m_SizeDelta: {x: 19.49065, y: 19.49065}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1503390146
 PrefabInstance:
@@ -3056,9 +3056,9 @@ GameObject:
   - component: {fileID: 1820773892}
   - component: {fileID: 1820773894}
   - component: {fileID: 1820773895}
-  - component: {fileID: 1820773893}
   - component: {fileID: 1820773896}
   - component: {fileID: 1820773897}
+  - component: {fileID: 1820773893}
   m_Layer: 0
   m_Name: Mothership
   m_TagString: Untagged
@@ -3086,8 +3086,8 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 139}
   m_SizeDelta: {x: 220, y: 118}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!61 &1820773893
-BoxCollider2D:
+--- !u!70 &1820773893
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -3100,18 +3100,8 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 220, y: 118}
-    newSize: {x: 118, y: 220}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 220, y: 118}
-  m_EdgeRadius: 0
+  m_Size: {x: 220, y: 118.8}
+  m_Direction: 1
 --- !u!222 &1820773894
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4053,10 +4043,60 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 772205320193691902, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 772205320193691902, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 772205320193691902, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 772205320193691902, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 772205320193691902, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1718961533446217390, guid: d57166a777a103f49915a4026152d8c7,
         type: 3}
       propertyPath: m_Name
       value: Overlays
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532005076258004121, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532005076258004121, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532005076258004121, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532005076258004121, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532005076258004121, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6174134335378012464, guid: d57166a777a103f49915a4026152d8c7,
         type: 3}
@@ -4161,6 +4201,56 @@ PrefabInstance:
     - target: {fileID: 6174134335378012464, guid: d57166a777a103f49915a4026152d8c7,
         type: 3}
       propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6820886588235598839, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6820886588235598839, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6820886588235598839, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6820886588235598839, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6820886588235598839, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8083147570376009216, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8083147570376009216, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8083147570376009216, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8083147570376009216, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8083147570376009216, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
