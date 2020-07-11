@@ -41,7 +41,8 @@ namespace STP.Gameplay {
             transform.position = Route[StartRoutePointIndex].position;
             _nextRoutePoint    = (StartRoutePointIndex + 1) % Route.Count;
             State              = EnemyState.Patrolling;
-            WeaponControl      = starter.WeaponCreator.GetAIWeaponController(Weapons.Bullets, this);
+            WeaponControl      = starter.WeaponCreator.GetAIWeaponController(Weapons.Laser, this);
+            starter.WeaponViewCreator.AddWeaponView(this, WeaponControl.GetControlledWeapon());
             InternalInit(starter, new ShipInfo(Hp, ShipSpeed));
         }
 
@@ -67,6 +68,7 @@ namespace STP.Gameplay {
                     Debug.LogError(string.Format("Invalid state {0} Ignored.", State), this);
                     break;
             }
+            UpdateWeaponControlState();
         }
 
         void OnPatrolling() {
@@ -88,7 +90,6 @@ namespace STP.Gameplay {
             var distanceToPlayer = chasingVector.magnitude;
             Move(chasingDirection);
             Rotate(chasingDirection);
-            UpdateWeaponControlState();
             if ( distanceToPlayer >= OutChaseRadius ) {
                 State = EnemyState.Patrolling;    
             }
