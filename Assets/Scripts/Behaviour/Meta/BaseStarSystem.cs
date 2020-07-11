@@ -1,34 +1,22 @@
-﻿using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine.EventSystems;
 
 using STP.Behaviour.Starter;
-using STP.Utils.PropertyAttribute;
-
+using STP.Common;
 using TMPro;
 
 namespace STP.Behaviour.Meta {
     public abstract class BaseStarSystem : BaseMetaComponent {
-        [StarSystemName]
-        public string Name;
-        [Space]
         public TMP_Text     StarSystemNameText;
         public EventTrigger EventTrigger;
 
         protected PlayerShip PlayerShip;
-
-        protected void OnValidate() {
-#if UNITY_EDITOR
-            if ( UnityEditor.PrefabUtility.IsPartOfPrefabInstance(this) ) {
-                gameObject.name = Name;
-                if ( StarSystemNameText && !string.IsNullOrEmpty(gameObject.scene.name) &&
-                     (StarSystemNameText.text != Name) ) {
-                    StarSystemNameText.text = Name;
-                    UnityEditor.EditorUtility.SetDirty(StarSystemNameText);
-                }
-            }
-#endif
-        }
         
+        public abstract string Id { get; }
+        
+        public abstract StarSystemType Type { get; }
+
+        public override bool HighPriorityInit => true;
+
         protected sealed override void InitInternal(MetaStarter starter) {
             PlayerShip = starter.PlayerShip;
             
@@ -51,6 +39,6 @@ namespace STP.Behaviour.Meta {
             }
         }
         
-        protected virtual void OnPlayerArrive() { }
+        protected virtual void OnPlayerArrive(bool success) { }
     }
 }

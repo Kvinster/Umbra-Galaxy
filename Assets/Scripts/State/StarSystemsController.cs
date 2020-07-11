@@ -13,85 +13,92 @@ namespace STP.State {
         public static StarSystemsController Instance => _instance ?? (_instance = new StarSystemsController().Init());
 
         StarSystemsGraphInfo _graphInfo;
+        
+        readonly List<string> _starSystemIds = new List<string>();
 
-        readonly List<StarSystemPath>             _cachedPaths      = new List<StarSystemPath>();
-        readonly Dictionary<string, List<string>> _cachedNeighbours = new Dictionary<string, List<string>>();
-        
-        readonly List<string> _starSystemNames = new List<string>();
-        
-        readonly Dictionary<string, StarSystemState> _starSystemStates = new Dictionary<string, StarSystemState>();
+        readonly Dictionary<string, FactionSystemState> _factionSystemStates =
+            new Dictionary<string, FactionSystemState>();
+
+        readonly Dictionary<string, ShardSystemState> _shardSystemStates = new Dictionary<string, ShardSystemState>();
 
         public event Action<string, int>  OnStarSystemMoneyChanged;
         public event Action<string, bool> OnStarSystemActiveChanged;
 
-        public bool HasStarSystem(string starSystemName) {
-            return _starSystemNames.Contains(starSystemName);
+        public bool HasStarSystem(string starSystemId) {
+            return _starSystemIds.Contains(starSystemId);
+        }
+        
+        public int GetDistance(string aStarSystemId, string bStarSystemId) {
+            var distance = _graphInfo.GetDistance(aStarSystemId, bStarSystemId); 
+            return (distance == 0) ? (int.MaxValue / 2) : distance;
         }
 
-        public int GetStarSystemMoney(string starSystemName) {
-            return TryGetStarSystemState(starSystemName, out var starSystemState) ? starSystemState.Money : -1;
+        public string GetStarSystemName(string starSystemId) {
+            return TryGetFactionSystemState(starSystemId, out var starSystemState, true)
+                ? starSystemState.Name
+                : _graphInfo.GetStarSystemName(starSystemId);
         }
 
-        public Faction GetStarSystemFaction(string starSystemName) {
-            return TryGetStarSystemState(starSystemName, out var starSystemState)
+        public int GetFactionSystemMoney(string starSystemId) {
+            return TryGetFactionSystemState(starSystemId, out var starSystemState) ? starSystemState.Money : -1;
+        }
+
+        public Faction GetFactionSystemFaction(string starSystemId) {
+            return TryGetFactionSystemState(starSystemId, out var starSystemState)
                 ? starSystemState.Faction
                 : Faction.Unknown;
         }
 
-        public bool GetStarSystemActive(string starSystemName) {
-            return TryGetStarSystemState(starSystemName, out var starSystemState) && starSystemState.IsActive;
+        public bool GetFactionSystemActive(string starSystemId) {
+            return TryGetFactionSystemState(starSystemId, out var starSystemState) && starSystemState.IsActive;
         }
 
-        public void SetStarSystemActive(string starSystemName, bool isActive) {
-            if ( TryGetStarSystemState(starSystemName, out var starSystemState) &&
+        public void SetFactionSystemActive(string starSystemId, bool isActive) {
+            if ( TryGetFactionSystemState(starSystemId, out var starSystemState) &&
                  (starSystemState.IsActive != isActive) ) {
                 starSystemState.IsActive = isActive;
-                OnStarSystemActiveChanged?.Invoke(starSystemName, isActive);
+                OnStarSystemActiveChanged?.Invoke(starSystemId, isActive);
             }
         }
 
-        public int GetStarSystemSurvivalChance(string starSystemName) {
-            return TryGetStarSystemState(starSystemName, out var starSystemState) ? starSystemState.SurvivalChance : -1;
+        public int GetFactionSystemSurvivalChance(string starSystemId) {
+            return TryGetFactionSystemState(starSystemId, out var starSystemState) ? starSystemState.SurvivalChance : -1;
         }
 
-        public bool TrySubStarSystemMoney(string starSystemName, int subMoney) {
-            if ( !TryGetStarSystemState(starSystemName, out var starSystemState) ) {
+        public bool TrySubFactionSystemMoney(string starSystemId, int subMoney) {
+            if ( !TryGetFactionSystemState(starSystemId, out var starSystemState) ) {
                 return false;
             }
             if ( starSystemState.Money >= subMoney ) {
                 starSystemState.Money -= subMoney;
-                OnStarSystemMoneyChanged?.Invoke(starSystemName, starSystemState.Money);
+                OnStarSystemMoneyChanged?.Invoke(starSystemId, starSystemState.Money);
                 return true;
             }
             return false;
         }
 
-        public void AddStarSystemMoney(string starSystemName, int addMoney) {
-            if ( !TryGetStarSystemState(starSystemName, out var starSystemState) ) {
+        public void AddFactionSystemMoney(string starSystemId, int addMoney) {
+            if ( !TryGetFactionSystemState(starSystemId, out var starSystemState) ) {
                 return;
             }
             starSystemState.Money += addMoney;
-            OnStarSystemMoneyChanged?.Invoke(starSystemName, starSystemState.Money);
-        }
-        
-        public int GetDistance(string aStarSystem, string bStarSystem) {
-            var distance = _graphInfo.GetDistance(aStarSystem, bStarSystem); 
-            return (distance == 0) ? (int.MaxValue / 2) : distance;
+            OnStarSystemMoneyChanged?.Invoke(starSystemId, starSystemState.Money);
         }
 
-        public Sprite GetStarSystemPortrait(string starSystemName) {
-            return _graphInfo.GetStarSystemPortrait(starSystemName);
+        public Sprite GetFactionSystemPortrait(string starSystemId) {
+            return _graphInfo.GetStarSystemPortrait(starSystemId);
         }
 
-        public StarSystemPath GetPath(string aStarSystem, string bStarSystem) {
-            if ( !TryFindPath(aStarSystem, bStarSystem, out var path) ) {
-                path = CalcPath(aStarSystem, bStarSystem);
-                _cachedPaths.Add(path);
-            }
-            if ( (path.StartStarSystemName == aStarSystem) && (path.FinishStarSystemName == bStarSystem) ) {
+        public bool GetShardSystemActive(string starSystemId) {
+            return TryGetShardSystemState(starSystemId, out var shardSystemState) && shardSystemState.IsActive;
+        }
+
+        public StarSystemPath GetPath(string aStarSystemId, string bStarSystemId) {
+            var path = CalcPath(aStarSystemId, bStarSystemId);
+            if ( (path.StartStarSystemId == aStarSystemId) && (path.FinishStarSystemId == bStarSystemId) ) {
                 return path;
             }
-            if ( (path.StartStarSystemName == bStarSystem) && (path.FinishStarSystemName == aStarSystem) ) {
+            if ( (path.StartStarSystemId == bStarSystemId) && (path.FinishStarSystemId == aStarSystemId) ) {
                 return path.Reversed();
             }
             Debug.LogError("Unsupported scenario");
@@ -107,46 +114,94 @@ namespace STP.State {
                 return null;
             }
             _graphInfo = graphInfoScriptableObject.StarSystemsGraphInfo.Clone();
-            foreach ( var startInfo in _graphInfo.GetStarSystemStartInfos() ) {
-                _starSystemNames.Add(startInfo.Name);
-                _starSystemStates.Add(startInfo.Name,
-                    new StarSystemState(startInfo.Name, startInfo.Faction, startInfo.StartMoney,
-                        startInfo.BaseSurvivalChance));
+            foreach ( var factionSystemInfo in _graphInfo.FactionSystemInfos ) {
+                _starSystemIds.Add(factionSystemInfo.Id);
+                _factionSystemStates.Add(factionSystemInfo.Id,
+                    new FactionSystemState(factionSystemInfo.Id, factionSystemInfo.Name, factionSystemInfo.Faction,
+                        factionSystemInfo.StartMoney, factionSystemInfo.BaseSurvivalChance));
+            }
+            foreach ( var shardInfo in _graphInfo.ShardSystemInfos ) {
+                _starSystemIds.Add(shardInfo.Id);
+                // TODO: set actual isActive
+                _shardSystemStates.Add(shardInfo.Id, new ShardSystemState(shardInfo.Id, true));
             }
             return this;
         }
 
-        bool TryFindPath(string aStarSystemName, string bStarSystemName, out StarSystemPath path) {
-            foreach ( var tmpPath in _cachedPaths ) {
-                if ( ((tmpPath.StartStarSystemName == aStarSystemName) &&
-                      (tmpPath.FinishStarSystemName == bStarSystemName)) ||
-                     ((tmpPath.StartStarSystemName == bStarSystemName) &&
-                      (tmpPath.FinishStarSystemName == aStarSystemName)) ) {
-                    path = tmpPath;
-                    return true;
-                }
-            }
-            path = null;
-            return false;
-        }
-
-        StarSystemPath CalcPath(string aStarSystemName, string bStarSystemName) {
-            var (path, length) = DijkstraPathFinder.GetPath(aStarSystemName, bStarSystemName, _starSystemNames,
+        StarSystemPath CalcPath(string aStarSystemId, string bStarSystemId) {
+            var (path, length) = DijkstraPathFinder.GetPath(aStarSystemId, bStarSystemId, _starSystemIds,
                 GetDistance, GetNeighbouringStarSystems);
             return new StarSystemPath(path, length);
         }
 
-        List<string> GetNeighbouringStarSystems(string starSystemName) {
-            if ( !_cachedNeighbours.TryGetValue(starSystemName, out var neighbours) ) {
-                neighbours = _graphInfo.GetNeighbouringStarSystems(starSystemName);
-                _cachedNeighbours.Add(starSystemName, neighbours);
+        List<string> GetNeighbouringStarSystems(string startSystemId, string starSystemId) {
+            var neighbours = _graphInfo.GetNeighbouringStarSystems(starSystemId);
+            for ( var i = neighbours.Count - 1; i >= 0; i-- ) {
+                var neighbourId = neighbours[i];
+                if ( neighbourId == startSystemId ) {
+                    continue;
+                }
+                switch ( GetStarSystemType(neighbourId) ) {
+                    case StarSystemType.Faction: {
+                        if ( !TryGetFactionSystemState(neighbourId, out var factionSystemState) ) {
+                            neighbours.RemoveAt(i);
+                            break;
+                        }
+                        if ( !factionSystemState.IsActive ) {
+                            neighbours.RemoveAt(i);
+                        }
+                        break;
+                    }
+                    case StarSystemType.Shard: {
+                        if ( !TryGetShardSystemState(neighbourId, out var shardSystemState) ) {
+                            neighbours.RemoveAt(i);
+                            break;
+                        }
+                        if ( !shardSystemState.IsActive ) {
+                            neighbours.RemoveAt(i);
+                        }
+                        break;
+                    }
+                    default: {
+                        neighbours.RemoveAt(i);
+                        break;
+                    }
+                }
             }
             return neighbours;
         }
 
-        bool TryGetStarSystemState(string starSystemName, out StarSystemState starSystemState) {
-            if ( !_starSystemStates.TryGetValue(starSystemName, out starSystemState) ) {
-                Debug.LogErrorFormat("Can't find state for '{0}'", starSystemName);
+        StarSystemType GetStarSystemType(string starSystemId) {
+            foreach ( var factionSystemInfo in _graphInfo.FactionSystemInfos ) {
+                if ( factionSystemInfo.Id == starSystemId ) {
+                    return StarSystemType.Faction;
+                }
+            }
+            foreach ( var shardInfo in _graphInfo.ShardSystemInfos ) {
+                if ( shardInfo.Id == starSystemId ) {
+                    return StarSystemType.Shard;
+                }
+            }
+            Debug.LogErrorFormat("Can't find star system info for id '{0}'", starSystemId);
+            return StarSystemType.Unknown;
+        }
+
+        bool TryGetFactionSystemState(string starSystemId, out FactionSystemState factionSystemState,
+            bool silent = false) {
+            if ( !_factionSystemStates.TryGetValue(starSystemId, out factionSystemState) ) {
+                if ( !silent ) {
+                    Debug.LogErrorFormat("Can't find state for '{0}'", starSystemId);
+                }
+                return false;
+            }
+            return true;
+        }
+
+        bool TryGetShardSystemState(string starSystemId, out ShardSystemState shardSystemState, bool silent = false) {
+            if ( !_shardSystemStates.TryGetValue(starSystemId, out shardSystemState) ) {
+                if ( !silent ) {
+                    Debug.LogErrorFormat("Can't find state for '{0}'", starSystemId);
+                }
                 return false;
             }
             return true;

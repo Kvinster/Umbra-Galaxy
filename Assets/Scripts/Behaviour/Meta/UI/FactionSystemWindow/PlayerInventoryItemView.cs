@@ -14,7 +14,7 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
         public Button   Button;
 
         string _itemName;
-        string _starSystemName;
+        string _starSystemId;
         
         InventoryItemInfos _inventoryItemInfos;
 
@@ -26,9 +26,9 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
             Button.onClick.AddListener(OnClick);
         }
 
-        public void Init(string itemName, string starSystemName) {
-            _itemName       = itemName;
-            _starSystemName = starSystemName;
+        public void Init(string itemName, string starSystemId) {
+            _itemName     = itemName;
+            _starSystemId = starSystemId;
             
             if ( !PlayerState.Instance.HasInInventory(itemName) ) {
                 Debug.LogErrorFormat("No item '{0}' in player's inventory", itemName);
@@ -40,7 +40,7 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
         }
 
         void OnClick() {
-            _metaUiCanvas.ShowInventoryItemSellWindow(_itemName, _starSystemName);
+            _metaUiCanvas.ShowInventoryItemSellWindow(_itemName, _starSystemId);
         }
     }
 }

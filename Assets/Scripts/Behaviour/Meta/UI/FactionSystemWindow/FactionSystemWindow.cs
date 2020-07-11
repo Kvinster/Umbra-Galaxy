@@ -37,7 +37,7 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
         
         MetaUiCanvas _owner;
 
-        string _starSystemName;
+        string _starSystemId;
         
         int _fuelPrice;
 
@@ -53,10 +53,10 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
             PlayerInventoryView.CommonInit(owner, starter.InventoryItemInfos);
         }
 
-        public void Show(string starSystemName) {
-            _starSystemName = starSystemName;
+        public void Show(string starSystemId) {
+            _starSystemId = starSystemId;
             
-            PlayerInventoryView.Init(starSystemName);
+            PlayerInventoryView.Init(starSystemId);
 
             var ps = PlayerState.Instance;
             PlayerNameText.text = string.Format(PlayerNameTextTemplate, "Player");
@@ -64,16 +64,16 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
             UpdatePlayerFuelText(ps.Fuel);
 
             var ssc = StarSystemsController.Instance;
-            StarSystemPortrait.sprite  = ssc.GetStarSystemPortrait(starSystemName);
-            StarSystemNameText.text    = string.Format(StarSystemNameTextTemplate, starSystemName);
+            StarSystemPortrait.sprite  = ssc.GetFactionSystemPortrait(starSystemId);
+            StarSystemNameText.text    = string.Format(StarSystemNameTextTemplate, ssc.GetStarSystemName(starSystemId));
             StarSystemFactionText.text = string.Format(StarSystemFactionTextTemplate,
-                ssc.GetStarSystemFaction(starSystemName));
+                ssc.GetFactionSystemFaction(starSystemId));
             StarSystemMoneyText.text =
-                string.Format(StarSystemMoneyTextTemplate, ssc.GetStarSystemMoney(starSystemName));
+                string.Format(StarSystemMoneyTextTemplate, ssc.GetFactionSystemMoney(starSystemId));
 
             UpdateFuelPrice();
             UpdateRefillFuelButton();
-            UpdateStarSystemMoneyText(StarSystemsController.Instance.GetStarSystemMoney(_starSystemName));
+            UpdateStarSystemMoneyText(StarSystemsController.Instance.GetFactionSystemMoney(_starSystemId));
 
             ps.OnMoneyChanged += OnPlayerMoneyChanged;
             ps.OnFuelChanged  += OnPlayerFuelChanged;
@@ -82,7 +82,7 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
         }
 
         void Hide() {
-            _starSystemName = null;
+            _starSystemId = null;
             
             PlayerInventoryView.Deinit();
             
@@ -116,8 +116,8 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
             }
         }
 
-        void OnStarSystemMoneyChanged(string starSystemName, int newMoney) {
-            if ( _starSystemName == starSystemName ) {
+        void OnStarSystemMoneyChanged(string starSystemId, int newMoney) {
+            if ( _starSystemId == starSystemId ) {
                 UpdateStarSystemMoneyText(newMoney);
             }
         }

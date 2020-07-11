@@ -28,7 +28,7 @@ namespace STP.Behaviour.Meta.UI {
         int    _resultPrice;
         string _starSystemName;
 
-        bool CanSell => (_resultPrice <= StarSystemsController.Instance.GetStarSystemMoney(_starSystemName));
+        bool CanSell => (_resultPrice <= StarSystemsController.Instance.GetFactionSystemMoney(_starSystemName));
 
         public void CommonInit(MetaUiCanvas owner, InventoryItemInfos inventoryItemInfos) {
             _owner              = owner;
@@ -102,7 +102,7 @@ namespace STP.Behaviour.Meta.UI {
                 return;
             }
             if ( PlayerState.Instance.TryTakeFromInventory(_itemName, AmountPair.CurValue) &&
-                 StarSystemsController.Instance.TrySubStarSystemMoney(_starSystemName, _resultPrice) ) {
+                 StarSystemsController.Instance.TrySubFactionSystemMoney(_starSystemName, _resultPrice) ) {
                 PlayerState.Instance.Money += _resultPrice;
 
                 var inventoryAmount = PlayerState.Instance.GetInventoryItemAmount(_itemName);

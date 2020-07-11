@@ -39,9 +39,12 @@ namespace STP.Behaviour.Meta.UI {
 
             _stringBuilder.AppendLine("<size=150%>Player</size>");
             if ( _playerShip.MovementController.CurSystem ) {
-                    _stringBuilder.AppendLine($"CurSystem: {_playerShip.MovementController.CurSystem.Name}");
+                var ssc = StarSystemsController.Instance;
+                _stringBuilder.AppendLine(
+                    $"CurSystem: {ssc.GetStarSystemName(_playerShip.MovementController.CurSystem.Id)}");
                 if ( _playerShip.MovementController.IsMoving ) {
-                    _stringBuilder.AppendLine($"DestSystem: {_playerShip.MovementController.DestSystem.Name}");
+                    _stringBuilder.AppendLine(
+                        $"DestSystem: {ssc.GetStarSystemName(_playerShip.MovementController.DestSystem.Id)}");
                 }
             }
             _stringBuilder.AppendLine($"Fuel: {PlayerState.Instance.Fuel}");

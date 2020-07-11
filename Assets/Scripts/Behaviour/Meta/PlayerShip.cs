@@ -17,12 +17,9 @@ namespace STP.Behaviour.Meta {
             MovementController.OnCurSystemChanged += OnCurSystemChanged;
         }
 
-        public bool TryMoveTo(BaseStarSystem starSystem, out IPromise movePromise) {
+        public bool TryMoveTo(BaseStarSystem starSystem, out IPromise<bool> movePromise) {
             if ( MovementController.CanMoveTo(starSystem) ) {
-                movePromise = MovementController.MoveTo(starSystem)
-                    .Then(() => {
-                        PlayerState.Instance.CurSystem = starSystem.Name;
-                    });
+                movePromise = MovementController.MoveTo(starSystem);
                 return true;
             }
             movePromise = null;

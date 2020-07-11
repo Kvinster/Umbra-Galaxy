@@ -14,20 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DarknessPaths:
   - Path:
-    - LV-480
-    - LV-479
-    - LV-351
-    - LV-234
-    - LV-117
+    - 48f5068b4ec93fb41a62cfc3c4e6b38f
+    - b3392afa326e5aa4e92031420452b402
+    - bb60678d64a1a9140a92600ea6fa1568
+    - 958508762e1669a48bcb0c240cbe3367
+    - eb9e378c36157884d8c4c88df0d2501d
   - Path:
-    - Hyperion
-    - Bastion
-    - Defendor
-    - Battlestar
-    - Last Stand
+    - afe30c5be888e874f9677cece5ccc873
+    - e353514ece8132b47b7bbc5c234b2f33
+    - 5cda78cf2ef19054b86c6a9c4c88c013
+    - 74462c7c53badc6458e6301b9160ff06
+    - 413ad74c2dc99ea4e9abee3cadcf9bf9
   - Path:
-    - Essenlenaile
-    - Veritas
-    - Unsuan
-    - Quastar
-    - New Home
+    - 42175a4094c753e479dc0ab5bf3a15f2
+    - 656bdd195fe451649b3330d16f9682ef
+    - 0b65e25d932f0dc4d9c6507d2f5c79dc
+    - 501f552058afd464c91d3e44bbf53c7d
+    - ff03f2688380ae3429a45386b37006db

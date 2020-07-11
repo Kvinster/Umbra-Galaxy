@@ -6,10 +6,16 @@ namespace STP.Behaviour.Starter {
     public abstract class BaseGameComponent<T> : MonoBehaviour where T : BaseStarter<T> {
         public static readonly List<BaseGameComponent<T>> Instances = new List<BaseGameComponent<T>>();
         
+        public virtual bool HighPriorityInit => false;
+        
         protected bool IsInit { get; private set; }
 
         protected void OnEnable() {
-            Instances.Add(this);
+            if ( HighPriorityInit ) {
+                Instances.Insert(0, this);
+            } else {
+                Instances.Add(this);
+            }
         }
 
         protected void OnDisable() {

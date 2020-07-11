@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 using System;
 using System.Collections.Generic;
@@ -9,60 +10,118 @@ using STP.Common;
 namespace STP.Behaviour.Meta {
     [Serializable]
     public class StarSystemsGraphInfo {
-        [SerializeField]
-        List<StarSystemStartInfo> StarSystemStartInfos = new List<StarSystemStartInfo>();
+        public List<StarSystemPair>        StarSystemPairs    = new List<StarSystemPair>();
+        [FormerlySerializedAs("StarSystemStartInfos")]
+        public List<FactionStarSystemInfo> FactionSystemInfos = new List<FactionStarSystemInfo>();
+        public List<ShardStarSystemInfo>   ShardSystemInfos   = new List<ShardStarSystemInfo>();
 
-        [SerializeField]
-        List<StarSystemPair> StarSystemPairs = new List<StarSystemPair>();
+        public List<string> FactionStarSystemsIds => FactionSystemInfos.Select(x => x.Id).ToList();
+        public List<string> ShardSystemsIds       => ShardSystemInfos.Select(x => x.Id).ToList();
+        public List<string> AllStarSystemsIds     => FactionStarSystemsIds.Concat(ShardSystemsIds).ToList(); 
 
-        public List<string> StarSystems => StarSystemStartInfos.Select(x => x.Name).ToList();
-
-        public List<StarSystemPair> GetStarSystemPairsInEditor() {
-#if UNITY_EDITOR
-            return StarSystemPairs;
-#else
-            return null;
-#endif
-        }
-
-        public List<StarSystemStartInfo> GetStarSystemStartInfosInEditor() {
-#if UNITY_EDITOR
-            return StarSystemStartInfos;
-#else
-            return null;
-#endif
-        }
-        
-        public int GetDistance(string aStarSystem, string bStarSystem) {
-            if ( aStarSystem == bStarSystem ) {
+        public int GetDistance(string aStarSystemId, string bStarSystemId) {
+            if ( aStarSystemId == bStarSystemId ) {
                 return 0;
             }
-            return GetPair(aStarSystem, bStarSystem)?.Distance ?? -1;
+            return GetPair(aStarSystemId, bStarSystemId)?.Distance ?? -1;
+        }
+        
+        public void SetDistance(string aStarSystemId, string bStarSystemId, int distance) {
+            var pair = GetPair(aStarSystemId, bStarSystemId);
+            if ( pair != null ) {
+                pair.Distance = distance;
+            }
         }
 
-        public List<string> GetNeighbouringStarSystems(string starSystemName) {
+        public Faction GetFaction(string starSystemId) {
+            return TryGetFactionSystemInfo(starSystemId, out var systemInfo)
+                ? systemInfo.Faction
+                : Faction.Unknown;
+        }
+
+        public void SetFaction(string starSystemId, Faction faction) {
+            if ( TryGetFactionSystemInfo(starSystemId, out var systemInfo) ) {
+                systemInfo.Faction = faction;
+            }
+        }
+
+        public int GetMoney(string starSystemId) {
+            return TryGetFactionSystemInfo(starSystemId, out var systemInfo)
+                ? systemInfo.StartMoney
+                : -1;
+        }
+
+        public void SetMoney(string starSystemId, int money) {
+            if ( money < 0 ) {
+                Debug.LogError("New start money for system '{0}' is less than zero");
+                return;
+            }
+            if ( TryGetFactionSystemInfo(starSystemId, out var systemInfo) ) {
+                systemInfo.StartMoney = money;
+            }
+        }
+
+        public int GetSurvivalChance(string starSystemId) {
+            return TryGetFactionSystemInfo(starSystemId, out var systemInfo)
+                ? systemInfo.BaseSurvivalChance
+                : -1;
+        }
+
+        public void SetSurvivalChance(string starSystemId, int survivalChance) {
+            if ( TryGetFactionSystemInfo(starSystemId, out var systemInfo) ) {
+                systemInfo.BaseSurvivalChance = survivalChance;
+            }
+        }
+
+        public Sprite GetPortrait(string starSystemId) {
+            return TryGetFactionSystemInfo(starSystemId, out var systemInfo)
+                ? systemInfo.Portrait
+                : null;
+        }
+
+        public void SetPortrait(string starSystemId, Sprite portrait) {
+            if ( TryGetFactionSystemInfo(starSystemId, out var systemInfo) ) {
+                systemInfo.Portrait = portrait;
+            }
+        }
+
+        public List<string> GetNeighbouringStarSystems(string starSystemId) {
             var res = new List<string>();
             foreach ( var pair in StarSystemPairs ) {
-                if ( (pair.A == starSystemName) && !res.Contains(pair.B) ) {
+                if ( (pair.A == starSystemId) && !res.Contains(pair.B) ) {
                     res.Add(pair.B);
                 }
-                if ( (pair.B == starSystemName) && !res.Contains(pair.A) ) {
+                if ( (pair.B == starSystemId) && !res.Contains(pair.A) ) {
                     res.Add(pair.A);
                 } 
             }
             return res;
         }
 
-        public Faction GetStarSystemFaction(string starSystemName) {
-            return TryGetStarSystemStartInfo(starSystemName, out var startInfo) ? startInfo.Faction : Faction.Unknown;
+        public string GetStarSystemName(string starSystemId) {
+            if ( TryGetFactionSystemInfo(starSystemId, out var factionStarSystemInfo, true) ) {
+                return factionStarSystemInfo.Name;
+            } else if ( TryGetShardSystemInfo(starSystemId, out var shardStarSystemInfo, true) ) {
+                return shardStarSystemInfo.Name;
+            }
+            Debug.LogErrorFormat("Can't find star system info for id '{0}'", starSystemId);
+            return null;
         }
 
-        public Sprite GetStarSystemPortrait(string starSystemName) {
-            return TryGetStarSystemStartInfo(starSystemName, out var startInfo) ? startInfo.Portrait : null;
+        public string GetFactionSystemName(string starSystemId) {
+            return TryGetFactionSystemInfo(starSystemId, out var systemInfo) ? systemInfo.Name : null;
         }
 
-        public List<StarSystemStartInfo> GetStarSystemStartInfos() {
-            return StarSystemStartInfos;
+        public string GetShardSystemName(string starSystemId) {
+            return TryGetShardSystemInfo(starSystemId, out var shardInfo) ? shardInfo.Name : null;
+        }
+
+        public Faction GetStarSystemFaction(string starSystemId) {
+            return TryGetFactionSystemInfo(starSystemId, out var startInfo) ? startInfo.Faction : Faction.Unknown;
+        }
+
+        public Sprite GetStarSystemPortrait(string starSystemId) {
+            return TryGetFactionSystemInfo(starSystemId, out var startInfo) ? startInfo.Portrait : null;
         }
 
         public bool CheckValidity() {
@@ -70,33 +129,33 @@ namespace STP.Behaviour.Meta {
                 Debug.LogError("StarSystemPairs.Count == 0");
                 return false;
             }
-            if ( StarSystemStartInfos.Count == 0 ) {
+            if ( FactionSystemInfos.Count == 0 ) {
                 Debug.LogError("StarSystemStartInfos.Count == 0");
                 return false;
             }
-            foreach ( var starSystemStartInfo in StarSystemStartInfos ) {
-                if ( StarSystemStartInfos.Any(x =>
-                    (x != starSystemStartInfo) && (x.Name == starSystemStartInfo.Name)) ) {
-                    Debug.LogErrorFormat("Duplicate StarSystemStartInfo entries for '{0}'", starSystemStartInfo.Name);
+            foreach ( var starSystemStartInfo in FactionSystemInfos ) {
+                if ( FactionSystemInfos.Any(x =>
+                    (x != starSystemStartInfo) && (x.Id == starSystemStartInfo.Id)) ) {
+                    Debug.LogErrorFormat("Duplicate StarSystemStartInfo entries for '{0}'", starSystemStartInfo.Id);
                     return false;
                 }
             }
-            var starSystemNames = StarSystemStartInfos.Select(x => x.Name).ToList();
+            var starSystemIds = FactionSystemInfos.Select(x => x.Id).ToList();
             foreach ( var pair in StarSystemPairs ) {
-                if ( !starSystemNames.Contains(pair.A) ) {
+                if ( !starSystemIds.Contains(pair.A) ) {
                     Debug.LogErrorFormat(
                         "Unmentioned in StarSystemStartInfos star system '{0}' is used in StarSystemPairs", pair.A);
                     return false;
                 }
-                if ( !starSystemNames.Contains(pair.B) ) {
+                if ( !starSystemIds.Contains(pair.B) ) {
                     Debug.LogErrorFormat(
                         "Unmentioned in StarSystemStartInfos star system '{0}' is used in StarSystemPairs", pair.B);
                     return false;
                 }
             }
-            foreach ( var starSystemName in starSystemNames ) {
+            foreach ( var starSystemName in starSystemIds ) {
                 var count = StarSystemPairs.Count(x => ((x.A == starSystemName) || (x.B == starSystemName))); 
-                if ( count != starSystemNames.Count - 1 ) {
+                if ( count != starSystemIds.Count - 1 ) {
                     Debug.LogErrorFormat("Invalid number of pairs mentioning star system '{0}': '{1}'", starSystemName,
                         count);
                     return false;
@@ -107,8 +166,13 @@ namespace STP.Behaviour.Meta {
                     return false;
                 }
             }
-            foreach ( var startInfo in StarSystemStartInfos ) {
-                if ( !startInfo.CheckValidity() ) {
+            foreach ( var factionSystemInfo in FactionSystemInfos ) {
+                if ( !factionSystemInfo.CheckValidity() ) {
+                    return false;
+                }
+            }
+            foreach ( var shardInfo in ShardSystemInfos ) {
+                if ( !shardInfo.CheckValidity() ) {
                     return false;
                 }
             }
@@ -120,36 +184,129 @@ namespace STP.Behaviour.Meta {
             foreach ( var pair in StarSystemPairs ) {
                 newInfo.StarSystemPairs.Add(pair.Clone());
             }
-            foreach ( var startInfo in StarSystemStartInfos ) {
-                newInfo.StarSystemStartInfos.Add(startInfo.Clone());
+            foreach ( var startInfo in FactionSystemInfos ) {
+                newInfo.FactionSystemInfos.Add(startInfo.Clone());
+            }
+            foreach ( var shardInfo in ShardSystemInfos ) {
+                newInfo.ShardSystemInfos.Add(shardInfo.Clone());
             }
             return newInfo;
         }
 
-        StarSystemPair GetPair(string aStarSystem, string bStarSystem) {
-            if ( aStarSystem == bStarSystem ) {
+        public StarSystemPair GetPair(string aStarSystemId, string bStarSystemId) {
+            if ( aStarSystemId == bStarSystemId ) {
                 return null;
             }
             foreach ( var pair in StarSystemPairs ) {
-                if ( ((pair.A == aStarSystem) && (pair.B == bStarSystem)) ||
-                     ((pair.A == bStarSystem) && (pair.B == aStarSystem)) ) {
+                if ( ((pair.A == aStarSystemId) && (pair.B == bStarSystemId)) ||
+                     ((pair.A == bStarSystemId) && (pair.B == aStarSystemId)) ) {
                     return pair;
                 }
             }
-            Debug.LogErrorFormat("Can't find pair for ('{0}', '{1}')", aStarSystem, bStarSystem);
+            Debug.LogErrorFormat("Can't find pair for ('{0}', '{1}')", aStarSystemId, bStarSystemId);
             return null;
         }
 
-        bool TryGetStarSystemStartInfo(string starSystemName, out StarSystemStartInfo startInfo) {
-            foreach ( var tmpStartInfo in StarSystemStartInfos ) {
-                if ( tmpStartInfo.Name == starSystemName ) {
-                    startInfo = tmpStartInfo;
+        public bool TryGetFactionSystemInfo(string starSystemId, out FactionStarSystemInfo info, bool silent = false) {
+            foreach ( var tmpStartInfo in FactionSystemInfos ) {
+                if ( tmpStartInfo.Id == starSystemId ) {
+                    info = tmpStartInfo;
                     return true;
                 }
             }
-            Debug.LogErrorFormat("Can't find StarSystemStartInfo for star system '{0}'", starSystemName);
-            startInfo = null;
+            if ( !silent ) {
+                Debug.LogErrorFormat("Can't find FactionStarSystemInfo for star system '{0}'", starSystemId);
+            }
+            info = null;
             return false;
+        }
+
+        public bool TryGetShardSystemInfo(string starSystemId, out ShardStarSystemInfo info, bool silent = false) {
+            foreach ( var tmpStartInfo in ShardSystemInfos ) {
+                if ( tmpStartInfo.Id == starSystemId ) {
+                    info = tmpStartInfo;
+                    return true;
+                }
+            }
+            if ( !silent ) {
+                Debug.LogErrorFormat("Can't find ShardSystemInfo for star system '{0}'", starSystemId);
+            }
+            info = null;
+            return false;
+        }
+
+        public void AddFactionStarSystem() {
+            var newSystem = new FactionStarSystemInfo {
+                Id                 = Guid.NewGuid().ToString(),
+                Name               = string.Empty,
+                BaseSurvivalChance = 50,
+                Faction            = Faction.Unknown,
+                StartMoney         = 0,
+                Portrait           = null,
+            };
+            FactionSystemInfos.Add(newSystem);
+            foreach ( var starSystemId in AllStarSystemsIds ) {
+                if ( starSystemId == newSystem.Id ) {
+                    continue;
+                }
+                StarSystemPairs.Add(new StarSystemPair {
+                    A        = starSystemId,
+                    B        = newSystem.Id,
+                    Distance = 0
+                });
+            } 
+        }
+
+        public void RemoveFactionStarSystem(string starSystemId) {
+            for ( var i = 0; i < FactionSystemInfos.Count; i++ ) {
+                var starSystemInfo = FactionSystemInfos[i];
+                if ( starSystemInfo.Id == starSystemId ) {
+                    FactionSystemInfos.RemoveAt(i);
+                    break;
+                }
+            }
+            for ( var i = StarSystemPairs.Count - 1; i >= 0; i-- ) {
+                var pair = StarSystemPairs[i];
+                if ( (pair.A == starSystemId) || (pair.B == starSystemId) ) {
+                    StarSystemPairs.RemoveAt(i);
+                }
+            }
+            Debug.Assert(CheckValidity(), "Graph is now invalid");
+        }
+
+        public void AddShardStarSystem() {
+            var newSystem = new ShardStarSystemInfo {
+                Id   = Guid.NewGuid().ToString(),
+                Name = string.Empty,
+            };
+            ShardSystemInfos.Add(newSystem);
+            foreach ( var starSystemId in AllStarSystemsIds ) {
+                if ( starSystemId == newSystem.Id ) {
+                    continue;
+                }
+                StarSystemPairs.Add(new StarSystemPair {
+                    A        = starSystemId,
+                    B        = newSystem.Id,
+                    Distance = 0
+                });
+            } 
+        }
+
+        public void RemoveShardStarSystem(string starSystemId) {
+            for ( var i = 0; i < ShardSystemInfos.Count; i++ ) {
+                var starSystemInfo = ShardSystemInfos[i];
+                if ( starSystemInfo.Id == starSystemId ) {
+                    ShardSystemInfos.RemoveAt(i);
+                    break;
+                }
+            }
+            for ( var i = StarSystemPairs.Count - 1; i >= 0; i-- ) {
+                var pair = StarSystemPairs[i];
+                if ( (pair.A == starSystemId) || (pair.B == starSystemId) ) {
+                    StarSystemPairs.RemoveAt(i);
+                }
+            }
+            Debug.Assert(CheckValidity(), "Graph is now invalid");
         }
     }
 }

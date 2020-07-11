@@ -24,11 +24,11 @@ namespace STP.State {
                 var ssc = StarSystemsController.Instance;
                 foreach ( var path in _darknessInfoHolder.DarknessPaths ) {
                     foreach ( var starSystem in path.Path ) {
-                        if ( ssc.GetStarSystemActive(starSystem) ) {
-                            var chance = ssc.GetStarSystemSurvivalChance(starSystem);
+                        if ( ssc.GetFactionSystemActive(starSystem) ) {
+                            var chance = ssc.GetFactionSystemSurvivalChance(starSystem);
                             var roll   = Random.Range(0, 100);
                             if ( roll > chance ) {
-                                ssc.SetStarSystemActive(starSystem, false);
+                                ssc.SetFactionSystemActive(starSystem, false);
                             }
                             break;
                         }

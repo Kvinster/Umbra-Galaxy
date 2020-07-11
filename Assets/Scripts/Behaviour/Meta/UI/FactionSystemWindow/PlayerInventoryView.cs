@@ -9,7 +9,7 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
     public sealed class PlayerInventoryView : MonoBehaviour {
         public List<PlayerInventoryItemView> ItemViews = new List<PlayerInventoryItemView>();
 
-        string _starSystemName;
+        string _starSystemId;
 
         void Reset() {
             GetComponentsInChildren(ItemViews);
@@ -22,8 +22,8 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
             }
         }
 
-        public void Init(string starSystemName) {
-            _starSystemName = starSystemName;
+        public void Init(string starSystemId) {
+            _starSystemId = starSystemId;
             
             var playerInventoryEnum = PlayerState.Instance.GetInventoryEnumerator();
             var itemViewIndex       = 0;
@@ -33,7 +33,7 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
                     break;
                 }
                 var itemView = ItemViews[itemViewIndex++];
-                itemView.Init(playerInventoryEnum.Current.Key, starSystemName);
+                itemView.Init(playerInventoryEnum.Current.Key, starSystemId);
                 itemView.gameObject.SetActive(true);
             }
             for ( ; itemViewIndex < ItemViews.Count; ++itemViewIndex ) {
@@ -44,14 +44,14 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
         }
 
         public void Deinit() {
-            _starSystemName = null;
+            _starSystemId = null;
             
             ResetViews();
             PlayerState.Instance.OnInventoryChanged -= OnInventoryChanged;
         }
 
         void OnInventoryChanged() {
-            Init(_starSystemName);
+            Init(_starSystemId);
         }
 
         void ResetViews() {

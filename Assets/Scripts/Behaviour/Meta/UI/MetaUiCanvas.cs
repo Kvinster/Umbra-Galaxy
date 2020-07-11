@@ -11,7 +11,7 @@ namespace STP.Behaviour.Meta.UI {
             DebugInfoText.Init(starter);
             DebugInfoText.gameObject.SetActive(true);
 
-            EnterSystemButton.CommonInit(this, starter.PlayerShip, starter.TimeManager);
+            EnterSystemButton.CommonInit(this, starter.PlayerShip, starter.TimeManager, starter.StarSystemsManager);
             EnterSystemButton.gameObject.SetActive(true);
 
             FactionSystemWindow.CommonInit(this, starter);
@@ -21,12 +21,12 @@ namespace STP.Behaviour.Meta.UI {
             InventoryItemSellWindow.gameObject.SetActive(false);
         }
 
-        public void ShowFactionSystemWindow(string starSystemName) {
+        public void ShowFactionSystemWindow(string starSystemId) {
             DebugInfoText.gameObject.SetActive(false);
             EnterSystemButton.gameObject.SetActive(false);
             FactionSystemWindow.gameObject.SetActive(true);
 
-            FactionSystemWindow.Show(starSystemName);
+            FactionSystemWindow.Show(starSystemId);
         }
 
         public void HideFactionSystemWindow() {
@@ -35,8 +35,8 @@ namespace STP.Behaviour.Meta.UI {
             FactionSystemWindow.gameObject.SetActive(false);
         }
 
-        public void ShowInventoryItemSellWindow(string itemName, string starSystemName) {
-            InventoryItemSellWindow.Show(itemName, starSystemName);
+        public void ShowInventoryItemSellWindow(string itemName, string starSystemId) {
+            InventoryItemSellWindow.Show(itemName, starSystemId);
             InventoryItemSellWindow.gameObject.SetActive(true);
         }
 

@@ -1,30 +1,30 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using STP.Behaviour.Starter;
 using STP.Common;
-using STP.State;
 using STP.Utils.PropertyAttribute;
 
 namespace STP.Behaviour.Meta {
-    public sealed class FactionStarSystem : BaseStarSystem {
-        [FactionStarSystemId]
-        public string         IdText;
-        public SpriteRenderer SpriteRenderer;
+    public sealed class ShardStarSystem : BaseStarSystem {
+        [ShardStarSystemId]
+        public string IdText;
 
         public override string Id => IdText;
 
-        public override StarSystemType Type => StarSystemType.Faction;
-
+        public override StarSystemType Type => StarSystemType.Shard;
+        
         void OnValidate() {
 #if UNITY_EDITOR
-            if ( UnityEditor.PrefabUtility.IsPartOfPrefabInstance(this) ) {
+            if ( !UnityEditor.PrefabUtility.IsPartOfAnyPrefab(this) ||
+                 UnityEditor.PrefabUtility.IsPartOfPrefabInstance(this) ) {
                 var graphInfo =
                     Resources.Load<StarSystemsGraphInfoScriptableObject>(StarSystemsGraphInfoScriptableObject
                         .ResourcesPath);
                 if ( !graphInfo ) {
                     return;
                 }
-                var starSystemName = graphInfo.StarSystemsGraphInfo.GetFactionSystemName(Id);
+                var starSystemName = graphInfo.StarSystemsGraphInfo.GetShardSystemName(Id);
                 gameObject.name = starSystemName;
                 if ( StarSystemNameText && !string.IsNullOrEmpty(gameObject.scene.name) &&
                      (StarSystemNameText.text != starSystemName) ) {
@@ -35,20 +35,13 @@ namespace STP.Behaviour.Meta {
 #endif
         }
 
-        void OnDestroy() {
-            StarSystemsController.Instance.OnStarSystemActiveChanged -= OnStarSystemActiveChanged;
-        }
-
         protected override void InitSpecific(MetaStarter starter) {
-            StarSystemsController.Instance.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
-            OnStarSystemActiveChanged(Id, StarSystemsController.Instance.GetFactionSystemActive(Id));
         }
 
-        void OnStarSystemActiveChanged(string starSystemId, bool isActive) {
-            if ( starSystemId != Id ) {
-                return;
+        protected override void OnPlayerArrive(bool success) {
+            if ( success ) {
+                SceneManager.LoadScene("CoreLevel1");
             }
-            SpriteRenderer.color = isActive ? Color.white : Color.gray;
         }
     }
 }

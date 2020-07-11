@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+using STP.Common;
 using STP.State;
 
 namespace STP.Behaviour.Meta.UI {
     public sealed class EnterSystemButton : MonoBehaviour {
         public Button Button;
 
-        MetaUiCanvas    _owner;
-        PlayerShip      _playerShip;
-        MetaTimeManager _timeManager;
+        MetaUiCanvas       _owner;
+        PlayerShip         _playerShip;
+        MetaTimeManager    _timeManager;
+        StarSystemsManager _starSystemsManager;
 
         void Reset() {
             Button = GetComponent<Button>();
@@ -21,10 +23,12 @@ namespace STP.Behaviour.Meta.UI {
             }
         }
 
-        public void CommonInit(MetaUiCanvas owner, PlayerShip playerShip, MetaTimeManager timeManager) {
-            _owner       = owner;
-            _playerShip  = playerShip;
-            _timeManager = timeManager;
+        public void CommonInit(MetaUiCanvas owner, PlayerShip playerShip, MetaTimeManager timeManager,
+            StarSystemsManager starSystemsManager) {
+            _owner              = owner;
+            _playerShip         = playerShip;
+            _timeManager        = timeManager;
+            _starSystemsManager = starSystemsManager;
 
             _playerShip.OnCusSystemChanged += OnPlayerShipCurSystemChanged;
             _timeManager.OnPausedChanged   += OnPauseChanged;
@@ -33,7 +37,7 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         void OnPauseChanged(bool isPaused) {
-            UpdateActive(isPaused, _playerShip.CurSystem.Name);
+            UpdateActive(isPaused, _playerShip.CurSystem.Id);
         }
 
         void OnPlayerShipCurSystemChanged(string playerCurSystem) {
@@ -41,12 +45,13 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         void OnClick() {
-            _owner.ShowFactionSystemWindow(_playerShip.CurSystem.Name);
+            _owner.ShowFactionSystemWindow(_playerShip.CurSystem.Id);
         }
 
         void UpdateActive(bool isPaused, string playerCurSystem) {
             Button.gameObject.SetActive(
-                isPaused && StarSystemsController.Instance.GetStarSystemActive(playerCurSystem));
+                isPaused && (_starSystemsManager.GetStarSystem(playerCurSystem).Type == StarSystemType.Faction) &&
+                StarSystemsController.Instance.GetFactionSystemActive(playerCurSystem));
         }
     }
 }

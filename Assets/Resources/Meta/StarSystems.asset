@@ -13,445 +13,513 @@ MonoBehaviour:
   m_Name: StarSystems
   m_EditorClassIdentifier: 
   StarSystemsGraphInfo:
-    StarSystemStartInfos:
-    - Name: Cradle
+    StarSystemPairs:
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: 74462c7c53badc6458e6301b9160ff06
+      Distance: 4
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: bd6537e4a0b08a2449e4d595f48ab96e
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: 5cda78cf2ef19054b86c6a9c4c88c013
+      Distance: 2
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: 42175a4094c753e479dc0ab5bf3a15f2
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: afe30c5be888e874f9677cece5ccc873
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: eb9e378c36157884d8c4c88df0d2501d
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: 958508762e1669a48bcb0c240cbe3367
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: bb60678d64a1a9140a92600ea6fa1568
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: b3392afa326e5aa4e92031420452b402
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: ff03f2688380ae3429a45386b37006db
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: 501f552058afd464c91d3e44bbf53c7d
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: bd6537e4a0b08a2449e4d595f48ab96e
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: 5cda78cf2ef19054b86c6a9c4c88c013
+      Distance: 1
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: 42175a4094c753e479dc0ab5bf3a15f2
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: afe30c5be888e874f9677cece5ccc873
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      Distance: 1
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: eb9e378c36157884d8c4c88df0d2501d
+      Distance: 4
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: 958508762e1669a48bcb0c240cbe3367
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: bb60678d64a1a9140a92600ea6fa1568
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: b3392afa326e5aa4e92031420452b402
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: ff03f2688380ae3429a45386b37006db
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: 501f552058afd464c91d3e44bbf53c7d
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 0
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: 5cda78cf2ef19054b86c6a9c4c88c013
+      Distance: 0
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: 42175a4094c753e479dc0ab5bf3a15f2
+      Distance: 0
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: afe30c5be888e874f9677cece5ccc873
+      Distance: 0
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      Distance: 1
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: eb9e378c36157884d8c4c88df0d2501d
+      Distance: 2
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: 958508762e1669a48bcb0c240cbe3367
+      Distance: 0
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: bb60678d64a1a9140a92600ea6fa1568
+      Distance: 0
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: b3392afa326e5aa4e92031420452b402
+      Distance: 0
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      Distance: 0
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: ff03f2688380ae3429a45386b37006db
+      Distance: 1
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: 501f552058afd464c91d3e44bbf53c7d
+      Distance: 1
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Distance: 0
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 0
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: 42175a4094c753e479dc0ab5bf3a15f2
+      Distance: 0
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: afe30c5be888e874f9677cece5ccc873
+      Distance: 2
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      Distance: 2
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: eb9e378c36157884d8c4c88df0d2501d
+      Distance: 0
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: 958508762e1669a48bcb0c240cbe3367
+      Distance: 0
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: bb60678d64a1a9140a92600ea6fa1568
+      Distance: 0
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: b3392afa326e5aa4e92031420452b402
+      Distance: 0
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      Distance: 0
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: ff03f2688380ae3429a45386b37006db
+      Distance: 0
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: 501f552058afd464c91d3e44bbf53c7d
+      Distance: 0
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Distance: 0
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 0
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: afe30c5be888e874f9677cece5ccc873
+      Distance: 0
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      Distance: 0
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: eb9e378c36157884d8c4c88df0d2501d
+      Distance: 0
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: 958508762e1669a48bcb0c240cbe3367
+      Distance: 0
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: bb60678d64a1a9140a92600ea6fa1568
+      Distance: 0
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: b3392afa326e5aa4e92031420452b402
+      Distance: 0
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      Distance: 0
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: ff03f2688380ae3429a45386b37006db
+      Distance: 0
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: 501f552058afd464c91d3e44bbf53c7d
+      Distance: 0
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Distance: 2
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 2
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      Distance: 4
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: eb9e378c36157884d8c4c88df0d2501d
+      Distance: 0
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: 958508762e1669a48bcb0c240cbe3367
+      Distance: 0
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: bb60678d64a1a9140a92600ea6fa1568
+      Distance: 0
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: b3392afa326e5aa4e92031420452b402
+      Distance: 0
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      Distance: 0
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: ff03f2688380ae3429a45386b37006db
+      Distance: 0
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: 501f552058afd464c91d3e44bbf53c7d
+      Distance: 0
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Distance: 0
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 0
+    - A: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      B: eb9e378c36157884d8c4c88df0d2501d
+      Distance: 3
+    - A: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      B: 958508762e1669a48bcb0c240cbe3367
+      Distance: 0
+    - A: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      B: bb60678d64a1a9140a92600ea6fa1568
+      Distance: 0
+    - A: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      B: b3392afa326e5aa4e92031420452b402
+      Distance: 0
+    - A: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      B: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      Distance: 0
+    - A: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      B: ff03f2688380ae3429a45386b37006db
+      Distance: 1
+    - A: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      B: 501f552058afd464c91d3e44bbf53c7d
+      Distance: 0
+    - A: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      B: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Distance: 0
+    - A: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 0
+    - A: eb9e378c36157884d8c4c88df0d2501d
+      B: 958508762e1669a48bcb0c240cbe3367
+      Distance: 3
+    - A: eb9e378c36157884d8c4c88df0d2501d
+      B: bb60678d64a1a9140a92600ea6fa1568
+      Distance: 3
+    - A: eb9e378c36157884d8c4c88df0d2501d
+      B: b3392afa326e5aa4e92031420452b402
+      Distance: 0
+    - A: eb9e378c36157884d8c4c88df0d2501d
+      B: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      Distance: 0
+    - A: eb9e378c36157884d8c4c88df0d2501d
+      B: ff03f2688380ae3429a45386b37006db
+      Distance: 0
+    - A: eb9e378c36157884d8c4c88df0d2501d
+      B: 501f552058afd464c91d3e44bbf53c7d
+      Distance: 4
+    - A: eb9e378c36157884d8c4c88df0d2501d
+      B: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Distance: 0
+    - A: eb9e378c36157884d8c4c88df0d2501d
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 0
+    - A: 958508762e1669a48bcb0c240cbe3367
+      B: bb60678d64a1a9140a92600ea6fa1568
+      Distance: 0
+    - A: 958508762e1669a48bcb0c240cbe3367
+      B: b3392afa326e5aa4e92031420452b402
+      Distance: 4
+    - A: 958508762e1669a48bcb0c240cbe3367
+      B: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      Distance: 0
+    - A: 958508762e1669a48bcb0c240cbe3367
+      B: ff03f2688380ae3429a45386b37006db
+      Distance: 0
+    - A: 958508762e1669a48bcb0c240cbe3367
+      B: 501f552058afd464c91d3e44bbf53c7d
+      Distance: 0
+    - A: 958508762e1669a48bcb0c240cbe3367
+      B: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Distance: 0
+    - A: 958508762e1669a48bcb0c240cbe3367
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 0
+    - A: bb60678d64a1a9140a92600ea6fa1568
+      B: b3392afa326e5aa4e92031420452b402
+      Distance: 0
+    - A: bb60678d64a1a9140a92600ea6fa1568
+      B: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      Distance: 4
+    - A: bb60678d64a1a9140a92600ea6fa1568
+      B: ff03f2688380ae3429a45386b37006db
+      Distance: 0
+    - A: bb60678d64a1a9140a92600ea6fa1568
+      B: 501f552058afd464c91d3e44bbf53c7d
+      Distance: 0
+    - A: bb60678d64a1a9140a92600ea6fa1568
+      B: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Distance: 0
+    - A: bb60678d64a1a9140a92600ea6fa1568
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 0
+    - A: b3392afa326e5aa4e92031420452b402
+      B: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      Distance: 6
+    - A: b3392afa326e5aa4e92031420452b402
+      B: ff03f2688380ae3429a45386b37006db
+      Distance: 0
+    - A: b3392afa326e5aa4e92031420452b402
+      B: 501f552058afd464c91d3e44bbf53c7d
+      Distance: 0
+    - A: b3392afa326e5aa4e92031420452b402
+      B: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Distance: 0
+    - A: b3392afa326e5aa4e92031420452b402
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 0
+    - A: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      B: ff03f2688380ae3429a45386b37006db
+      Distance: 0
+    - A: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      B: 501f552058afd464c91d3e44bbf53c7d
+      Distance: 0
+    - A: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      B: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Distance: 0
+    - A: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 0
+    - A: ff03f2688380ae3429a45386b37006db
+      B: 501f552058afd464c91d3e44bbf53c7d
+      Distance: 1
+    - A: ff03f2688380ae3429a45386b37006db
+      B: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Distance: 2
+    - A: ff03f2688380ae3429a45386b37006db
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 0
+    - A: 501f552058afd464c91d3e44bbf53c7d
+      B: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Distance: 1
+    - A: 501f552058afd464c91d3e44bbf53c7d
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 0
+    - A: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      B: 656bdd195fe451649b3330d16f9682ef
+      Distance: 2
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 0
+    - A: eb9e378c36157884d8c4c88df0d2501d
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 0
+    - A: 958508762e1669a48bcb0c240cbe3367
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 0
+    - A: bb60678d64a1a9140a92600ea6fa1568
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 0
+    - A: b3392afa326e5aa4e92031420452b402
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 0
+    - A: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 0
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 0
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 0
+    - A: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 0
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 0
+    - A: ff03f2688380ae3429a45386b37006db
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 2
+    - A: 501f552058afd464c91d3e44bbf53c7d
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 0
+    - A: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 2
+    - A: 656bdd195fe451649b3330d16f9682ef
+      B: 236389d88252c8b44afd0113d9c9ca23
+      Distance: 0
+    FactionSystemInfos:
+    - Id: bd6537e4a0b08a2449e4d595f48ab96e
+      Name: Cradle
       Faction: 1
       StartMoney: 1000000
       BaseSurvivalChance: 80
-      Portrait: {fileID: 0}
-    - Name: LV-117
+      Portrait: {fileID: 21300000, guid: 0625bdf5403169242a45cf392b34fa72, type: 3}
+    - Id: eb9e378c36157884d8c4c88df0d2501d
+      Name: LV-117
       Faction: 1
       StartMoney: 5000
       BaseSurvivalChance: 50
       Portrait: {fileID: 21300000, guid: 953c47c832aa52140b25a1314608058b, type: 3}
-    - Name: LV-234
+    - Id: 958508762e1669a48bcb0c240cbe3367
+      Name: LV-234
       Faction: 1
       StartMoney: 4000
       BaseSurvivalChance: 50
-      Portrait: {fileID: 0}
-    - Name: LV-351
+      Portrait: {fileID: 21300000, guid: 3e4488522bc0ed943a6ccd38990d2401, type: 3}
+    - Id: bb60678d64a1a9140a92600ea6fa1568
+      Name: LV-351
       Faction: 1
       StartMoney: 3000
       BaseSurvivalChance: 50
-      Portrait: {fileID: 0}
-    - Name: LV-479
+      Portrait: {fileID: 21300000, guid: 2ceab78187844a54cbce498eb8d76c90, type: 3}
+    - Id: b3392afa326e5aa4e92031420452b402
+      Name: LV-479
       Faction: 1
       StartMoney: 2000
       BaseSurvivalChance: 50
-      Portrait: {fileID: 0}
-    - Name: LV-480
+      Portrait: {fileID: 21300000, guid: aee6446d61c6b7645967a53e99c92d0e, type: 3}
+    - Id: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      Name: LV-480
       Faction: 1
       StartMoney: 1000
       BaseSurvivalChance: 50
-      Portrait: {fileID: 0}
-    - Name: Bastion
+      Portrait: {fileID: 21300000, guid: 2ceab78187844a54cbce498eb8d76c90, type: 3}
+    - Id: e353514ece8132b47b7bbc5c234b2f33
+      Name: Bastion
       Faction: 2
       StartMoney: 4000
       BaseSurvivalChance: 50
-      Portrait: {fileID: 0}
-    - Name: Battlestar
+      Portrait: {fileID: 21300000, guid: 0625bdf5403169242a45cf392b34fa72, type: 3}
+    - Id: 74462c7c53badc6458e6301b9160ff06
+      Name: Battlestar
       Faction: 2
       StartMoney: 9000
       BaseSurvivalChance: 50
-      Portrait: {fileID: 0}
-    - Name: Defendor
+      Portrait: {fileID: 21300000, guid: 3e4488522bc0ed943a6ccd38990d2401, type: 3}
+    - Id: 5cda78cf2ef19054b86c6a9c4c88c013
+      Name: Defendor
       Faction: 2
       StartMoney: 5000
       BaseSurvivalChance: 50
-      Portrait: {fileID: 0}
-    - Name: Hyperion
+      Portrait: {fileID: 21300000, guid: aee6446d61c6b7645967a53e99c92d0e, type: 3}
+    - Id: afe30c5be888e874f9677cece5ccc873
+      Name: Hyperion
       Faction: 2
       StartMoney: 4000
       BaseSurvivalChance: 50
-      Portrait: {fileID: 0}
-    - Name: Last Stand
+      Portrait: {fileID: 21300000, guid: 3e4488522bc0ed943a6ccd38990d2401, type: 3}
+    - Id: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      Name: Last Stand
       Faction: 2
       StartMoney: 10000
       BaseSurvivalChance: 50
-      Portrait: {fileID: 0}
-    - Name: Essenlenaile
+      Portrait: {fileID: 21300000, guid: 2ceab78187844a54cbce498eb8d76c90, type: 3}
+    - Id: 42175a4094c753e479dc0ab5bf3a15f2
+      Name: Essenlenaile
       Faction: 3
       StartMoney: 6000
       BaseSurvivalChance: 50
-      Portrait: {fileID: 0}
-    - Name: New Home
+      Portrait: {fileID: 21300000, guid: 953c47c832aa52140b25a1314608058b, type: 3}
+    - Id: ff03f2688380ae3429a45386b37006db
+      Name: New Home
       Faction: 3
       StartMoney: 10000
       BaseSurvivalChance: 50
-      Portrait: {fileID: 0}
-    - Name: Quastar
+      Portrait: {fileID: 21300000, guid: 0625bdf5403169242a45cf392b34fa72, type: 3}
+    - Id: 501f552058afd464c91d3e44bbf53c7d
+      Name: Quastar
       Faction: 3
       StartMoney: 10000
       BaseSurvivalChance: 50
-      Portrait: {fileID: 0}
-    - Name: Unsuan
+      Portrait: {fileID: 21300000, guid: 3e4488522bc0ed943a6ccd38990d2401, type: 3}
+    - Id: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      Name: Unsuan
       Faction: 3
       StartMoney: 8000
       BaseSurvivalChance: 50
-      Portrait: {fileID: 0}
-    - Name: Veritas
+      Portrait: {fileID: 21300000, guid: aee6446d61c6b7645967a53e99c92d0e, type: 3}
+    - Id: 656bdd195fe451649b3330d16f9682ef
+      Name: Veritas
       Faction: 3
       StartMoney: 6000
       BaseSurvivalChance: 50
-      Portrait: {fileID: 0}
-    StarSystemPairs:
-    - A: Bastion
-      B: Battlestar
-      Distance: 4
-    - A: Bastion
-      B: Cradle
-      Distance: 0
-    - A: Bastion
-      B: Defendor
-      Distance: 2
-    - A: Bastion
-      B: Essenlenaile
-      Distance: 0
-    - A: Bastion
-      B: Hyperion
-      Distance: 0
-    - A: Bastion
-      B: Last Stand
-      Distance: 0
-    - A: Bastion
-      B: LV-117
-      Distance: 0
-    - A: Bastion
-      B: LV-234
-      Distance: 0
-    - A: Bastion
-      B: LV-351
-      Distance: 0
-    - A: Bastion
-      B: LV-479
-      Distance: 0
-    - A: Bastion
-      B: LV-480
-      Distance: 0
-    - A: Bastion
-      B: New Home
-      Distance: 0
-    - A: Bastion
-      B: Quastar
-      Distance: 0
-    - A: Bastion
-      B: Unsuan
-      Distance: 0
-    - A: Bastion
-      B: Veritas
-      Distance: 0
-    - A: Battlestar
-      B: Cradle
-      Distance: 0
-    - A: Battlestar
-      B: Defendor
-      Distance: 1
-    - A: Battlestar
-      B: Essenlenaile
-      Distance: 0
-    - A: Battlestar
-      B: Hyperion
-      Distance: 0
-    - A: Battlestar
-      B: Last Stand
-      Distance: 1
-    - A: Battlestar
-      B: LV-117
-      Distance: 4
-    - A: Battlestar
-      B: LV-234
-      Distance: 0
-    - A: Battlestar
-      B: LV-351
-      Distance: 0
-    - A: Battlestar
-      B: LV-479
-      Distance: 0
-    - A: Battlestar
-      B: LV-480
-      Distance: 0
-    - A: Battlestar
-      B: New Home
-      Distance: 0
-    - A: Battlestar
-      B: Quastar
-      Distance: 0
-    - A: Battlestar
-      B: Unsuan
-      Distance: 0
-    - A: Battlestar
-      B: Veritas
-      Distance: 0
-    - A: Cradle
-      B: Defendor
-      Distance: 0
-    - A: Cradle
-      B: Essenlenaile
-      Distance: 0
-    - A: Cradle
-      B: Hyperion
-      Distance: 0
-    - A: Cradle
-      B: Last Stand
-      Distance: 1
-    - A: Cradle
-      B: LV-117
-      Distance: 2
-    - A: Cradle
-      B: LV-234
-      Distance: 0
-    - A: Cradle
-      B: LV-351
-      Distance: 0
-    - A: Cradle
-      B: LV-479
-      Distance: 0
-    - A: Cradle
-      B: LV-480
-      Distance: 0
-    - A: Cradle
-      B: New Home
-      Distance: 1
-    - A: Cradle
-      B: Quastar
-      Distance: 1
-    - A: Cradle
-      B: Unsuan
-      Distance: 0
-    - A: Cradle
-      B: Veritas
-      Distance: 0
-    - A: Defendor
-      B: Essenlenaile
-      Distance: 0
-    - A: Defendor
-      B: Hyperion
-      Distance: 2
-    - A: Defendor
-      B: Last Stand
-      Distance: 2
-    - A: Defendor
-      B: LV-117
-      Distance: 0
-    - A: Defendor
-      B: LV-234
-      Distance: 0
-    - A: Defendor
-      B: LV-351
-      Distance: 0
-    - A: Defendor
-      B: LV-479
-      Distance: 0
-    - A: Defendor
-      B: LV-480
-      Distance: 0
-    - A: Defendor
-      B: New Home
-      Distance: 0
-    - A: Defendor
-      B: Quastar
-      Distance: 0
-    - A: Defendor
-      B: Unsuan
-      Distance: 0
-    - A: Defendor
-      B: Veritas
-      Distance: 0
-    - A: Essenlenaile
-      B: Hyperion
-      Distance: 0
-    - A: Essenlenaile
-      B: Last Stand
-      Distance: 0
-    - A: Essenlenaile
-      B: LV-117
-      Distance: 0
-    - A: Essenlenaile
-      B: LV-234
-      Distance: 0
-    - A: Essenlenaile
-      B: LV-351
-      Distance: 0
-    - A: Essenlenaile
-      B: LV-479
-      Distance: 0
-    - A: Essenlenaile
-      B: LV-480
-      Distance: 0
-    - A: Essenlenaile
-      B: New Home
-      Distance: 0
-    - A: Essenlenaile
-      B: Quastar
-      Distance: 0
-    - A: Essenlenaile
-      B: Unsuan
-      Distance: 2
-    - A: Essenlenaile
-      B: Veritas
-      Distance: 2
-    - A: Hyperion
-      B: Last Stand
-      Distance: 4
-    - A: Hyperion
-      B: LV-117
-      Distance: 0
-    - A: Hyperion
-      B: LV-234
-      Distance: 0
-    - A: Hyperion
-      B: LV-351
-      Distance: 0
-    - A: Hyperion
-      B: LV-479
-      Distance: 0
-    - A: Hyperion
-      B: LV-480
-      Distance: 0
-    - A: Hyperion
-      B: New Home
-      Distance: 0
-    - A: Hyperion
-      B: Quastar
-      Distance: 0
-    - A: Hyperion
-      B: Unsuan
-      Distance: 0
-    - A: Hyperion
-      B: Veritas
-      Distance: 0
-    - A: Last Stand
-      B: LV-117
-      Distance: 3
-    - A: Last Stand
-      B: LV-234
-      Distance: 0
-    - A: Last Stand
-      B: LV-351
-      Distance: 0
-    - A: Last Stand
-      B: LV-479
-      Distance: 0
-    - A: Last Stand
-      B: LV-480
-      Distance: 0
-    - A: Last Stand
-      B: New Home
-      Distance: 1
-    - A: Last Stand
-      B: Quastar
-      Distance: 0
-    - A: Last Stand
-      B: Unsuan
-      Distance: 0
-    - A: Last Stand
-      B: Veritas
-      Distance: 0
-    - A: LV-117
-      B: LV-234
-      Distance: 3
-    - A: LV-117
-      B: LV-351
-      Distance: 3
-    - A: LV-117
-      B: LV-479
-      Distance: 0
-    - A: LV-117
-      B: LV-480
-      Distance: 0
-    - A: LV-117
-      B: New Home
-      Distance: 0
-    - A: LV-117
-      B: Quastar
-      Distance: 4
-    - A: LV-117
-      B: Unsuan
-      Distance: 0
-    - A: LV-117
-      B: Veritas
-      Distance: 0
-    - A: LV-234
-      B: LV-351
-      Distance: 0
-    - A: LV-234
-      B: LV-479
-      Distance: 4
-    - A: LV-234
-      B: LV-480
-      Distance: 0
-    - A: LV-234
-      B: New Home
-      Distance: 0
-    - A: LV-234
-      B: Quastar
-      Distance: 0
-    - A: LV-234
-      B: Unsuan
-      Distance: 0
-    - A: LV-234
-      B: Veritas
-      Distance: 0
-    - A: LV-351
-      B: LV-479
-      Distance: 0
-    - A: LV-351
-      B: LV-480
-      Distance: 4
-    - A: LV-351
-      B: New Home
-      Distance: 0
-    - A: LV-351
-      B: Quastar
-      Distance: 0
-    - A: LV-351
-      B: Unsuan
-      Distance: 0
-    - A: LV-351
-      B: Veritas
-      Distance: 0
-    - A: LV-479
-      B: LV-480
-      Distance: 6
-    - A: LV-479
-      B: New Home
-      Distance: 0
-    - A: LV-479
-      B: Quastar
-      Distance: 0
-    - A: LV-479
-      B: Unsuan
-      Distance: 0
-    - A: LV-479
-      B: Veritas
-      Distance: 0
-    - A: LV-480
-      B: New Home
-      Distance: 0
-    - A: LV-480
-      B: Quastar
-      Distance: 0
-    - A: LV-480
-      B: Unsuan
-      Distance: 0
-    - A: LV-480
-      B: Veritas
-      Distance: 0
-    - A: New Home
-      B: Quastar
-      Distance: 1
-    - A: New Home
-      B: Unsuan
-      Distance: 2
-    - A: New Home
-      B: Veritas
-      Distance: 0
-    - A: Quastar
-      B: Unsuan
-      Distance: 1
-    - A: Quastar
-      B: Veritas
-      Distance: 0
-    - A: Unsuan
-      B: Veritas
-      Distance: 2
+      Portrait: {fileID: 21300000, guid: 2ceab78187844a54cbce498eb8d76c90, type: 3}
+    ShardSystemInfos:
+    - Id: 236389d88252c8b44afd0113d9c9ca23
+      Name: Shard-0
+      Level: 0

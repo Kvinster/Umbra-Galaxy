@@ -7,7 +7,7 @@ namespace STP.State {
     public class PlayerState {
         public const int MaxFuel = 50;
 
-        public string CurSystem = "Cradle";
+        public string CurSystemId = "bd6537e4a0b08a2449e4d595f48ab96e"; // Cradle
         
         static PlayerState _instance;
         public static PlayerState Instance {

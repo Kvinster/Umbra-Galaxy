@@ -17,13 +17,14 @@ namespace STP.Editor.Meta {
         List<BaseStarSystem>         _allSystems     = null;
         List<BaseStarSystem>         _visibleSystems = null;
 
-        (string a, string b) _selectedPair => ((_visibleSystems != null) && (_visibleSystems.Count == 2))
-            ? (_visibleSystems[0].Name, _visibleSystems[1].Name)
-            : default;
+        (BaseStarSystem a, BaseStarSystem b) _selectedPair =>
+            ((_visibleSystems != null) && (_visibleSystems.Count == 2))
+                ? (_visibleSystems[0], _visibleSystems[1])
+                : default;
 
-        string _selectedSystem => ((_visibleSystems != null) && (_visibleSystems.Count == 1))
-            ? _visibleSystems[0].Name
-            : string.Empty;
+        BaseStarSystem _selectedSystem => ((_visibleSystems != null) && (_visibleSystems.Count == 1))
+            ? _visibleSystems[0]
+            : null;
 
         void OnEnable() {
             SceneView.onSceneGUIDelegate += OnSceneGUI;
@@ -42,7 +43,7 @@ namespace STP.Editor.Meta {
                 if ( GUILayout.Button("Open editor window") ) {
                     StarSystemsGraphEditorWindow.Init();
                     var window =
-                        (StarSystemsGraphEditorWindow) EditorWindow.GetWindow(typeof(StarSystemsGraphEditorWindow));
+                        (StarSystemsGraphEditorWindow)EditorWindow.GetWindow(typeof(StarSystemsGraphEditorWindow));
                     window.SetGraph(graphInfo);
                 }
             } else {
@@ -117,21 +118,21 @@ namespace STP.Editor.Meta {
                     }
                 }
             } else {
-                var aStarSystem = starSystemsComps.Where(x => x.Name == _selectedPair.a).ToList();
-                var bStarSystem = starSystemsComps.Where(x => x.Name == _selectedPair.b).ToList();
+                var aStarSystem = starSystemsComps.Where(x => x.Id == _selectedPair.a.Id).ToList();
+                var bStarSystem = starSystemsComps.Where(x => x.Id == _selectedPair.b.Id).ToList();
                 DrawDistances(aStarSystem[0], bStarSystem[0]);
             }
         }
 
         void DrawDistances(BaseStarSystem aStarSystem, BaseStarSystem bStarSystem) {
-            if ( aStarSystem.Name == bStarSystem.Name ) {
+            if ( aStarSystem.Id == bStarSystem.Id ) {
                 return;
             }
-            var distance     = _window.GetDistance(aStarSystem.Name, bStarSystem.Name);
+            var distance     = _window.GraphInfo.GetDistance(aStarSystem.Id, bStarSystem.Id);
             if ( Mathf.Approximately(distance, 0f) ) {
                 return;
             }
-            var newPair      = (aStarSystem.Name, bStarSystem.Name);
+            var newPair      = (aStarSystem, bStarSystem);
             var compPos      = aStarSystem.transform.position;
             var otherCompPos = bStarSystem.transform.position;
             var lineCenter   = (compPos + otherCompPos) / 2f;
@@ -163,50 +164,61 @@ namespace STP.Editor.Meta {
             if ( !StarSystemsGraphEditorWindow.Instance || (_selectedPair == default) ) {
                 return;
             }
-            GUILayout.Label($"{_selectedPair.a} x {_selectedPair.b}");
             var window = StarSystemsGraphEditorWindow.Instance;
+            GUILayout.Label(
+                $"{window.GraphInfo.GetStarSystemName(_selectedPair.a.Id)} x {window.GraphInfo.GetStarSystemName(_selectedPair.b.Id)}");
             var text = EditorGUILayout.TextField("Distance",
-                window.GetDistance(_selectedPair.a, _selectedPair.b).ToString());
+                window.GraphInfo.GetDistance(_selectedPair.a.Id, _selectedPair.b.Id).ToString());
             if ( int.TryParse(text, out var distance) && (distance >= 0) ) {
-                window.SetDistance(_selectedPair.a, _selectedPair.b, distance);
+                window.GraphInfo.SetDistance(_selectedPair.a.Id, _selectedPair.b.Id, distance);
                 window.Repaint();
             }
         }
 
         void DrawSelectedSystemInspector() {
-            if ( !StarSystemsGraphEditorWindow.Instance || string.IsNullOrEmpty(_selectedSystem) ) {
+            if ( !StarSystemsGraphEditorWindow.Instance || !_selectedSystem ) {
                 return;
             }
             var window = StarSystemsGraphEditorWindow.Instance;
             
-            GUILayout.Label(_selectedSystem);
+            GUILayout.Label(window.GraphInfo.GetStarSystemName(_selectedSystem.Id));
 
             EditorGUI.BeginChangeCheck();
-            
-            var curFaction = window.GetFaction(_selectedSystem);
-            curFaction = (Faction)EditorGUILayout.EnumPopup("Faction", curFaction);
 
-            var curMoney = window.GetMoney(_selectedSystem);
-            var newMoneyText = EditorGUILayout.TextField("Start Money", curMoney.ToString());
-            if ( int.TryParse(newMoneyText, out var newMoney) && (newMoney >= 0) ) {
-                curMoney = newMoney;
-            }
+            switch ( _selectedSystem ) {
+                case FactionStarSystem factionStarSystem: {
+                    var systemId   = factionStarSystem.Id;
+                    var curFaction = window.GraphInfo.GetFaction(systemId);
+                    curFaction = (Faction)EditorGUILayout.EnumPopup("Faction", curFaction);
 
-            var curSurvivalChance     = window.GetSurvivalChance(_selectedSystem);
-            var newSurvivalChanceText = EditorGUILayout.TextField("Survival Chance", curSurvivalChance.ToString());
-            if ( int.TryParse(newSurvivalChanceText, out var newSurvivalChance) ) {
-                curSurvivalChance = newSurvivalChance;
-            }
+                    var curMoney = window.GraphInfo.GetMoney(systemId);
+                    var newMoneyText = EditorGUILayout.TextField("Start Money", curMoney.ToString());
+                    if ( int.TryParse(newMoneyText, out var newMoney) && (newMoney >= 0) ) {
+                        curMoney = newMoney;
+                    }
 
-            var curPortrait = window.GetPortrait(_selectedSystem); 
-            curPortrait = EditorGUILayout.ObjectField("Portrait", curPortrait, typeof(Sprite), false) as Sprite;
+                    var curSurvivalChance     = window.GraphInfo.GetSurvivalChance(systemId);
+                    var newSurvivalChanceText = EditorGUILayout.TextField("Survival Chance", curSurvivalChance.ToString());
+                    if ( int.TryParse(newSurvivalChanceText, out var newSurvivalChance) ) {
+                        curSurvivalChance = newSurvivalChance;
+                    }
 
-            if ( EditorGUI.EndChangeCheck() ) {
-                window.SetFaction(_selectedSystem, curFaction);
-                window.SetMoney(_selectedSystem, curMoney);
-                window.SetSurvivalChance(_selectedSystem, curSurvivalChance);
-                window.SetPortrait(_selectedSystem, curPortrait);
-                window.Repaint();
+                    var curPortrait = window.GraphInfo.GetPortrait(systemId); 
+                    curPortrait = EditorGUILayout.ObjectField("Portrait", curPortrait, typeof(Sprite), false) as Sprite;
+
+                    if ( EditorGUI.EndChangeCheck() ) {
+                        window.GraphInfo.SetFaction(systemId, curFaction);
+                        window.GraphInfo.SetMoney(systemId, curMoney);
+                        window.GraphInfo.SetSurvivalChance(systemId, curSurvivalChance);
+                        window.GraphInfo.SetPortrait(systemId, curPortrait);
+                        window.Repaint();
+                    }
+                    break;
+                }
+                case ShardStarSystem shardStarSystem: {
+                    var systemId = shardStarSystem.Id;
+                    break;
+                }
             }
         }
     }

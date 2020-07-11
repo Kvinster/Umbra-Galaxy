@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+using System.Collections.Generic;
 
 namespace STP.Behaviour.Starter {
     public abstract class BaseStarter : MonoBehaviour {
