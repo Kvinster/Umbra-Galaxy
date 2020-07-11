@@ -6,7 +6,7 @@ using STP.Utils;
 
 namespace STP.Gameplay {
     public class PlayerShip : BaseShip {
-        const int   Hp           = 4;
+        const int   Hp           = 99;
         const float ShipSpeed    = 250f;
         
         public FollowCamera Camera;
