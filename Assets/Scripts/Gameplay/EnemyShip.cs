@@ -46,8 +46,7 @@ namespace STP.Gameplay {
             InternalInit(new ShipInfo(Hp, ShipSpeed));
         }
 
-        protected override void Update() {
-            base.Update();
+        protected void Update() {
             OnShipState();
         }
 

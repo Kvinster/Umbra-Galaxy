@@ -28,8 +28,7 @@ namespace STP.Gameplay {
             InternalInit(new ShipInfo(Hp, ShipSpeed));
         }
         
-        protected override void Update() {
-            base.Update();
+        protected void Update() {
             TryMove();
             UpdateWeaponControlState();
             _shipState.Position = transform.position;

@@ -15,8 +15,6 @@ namespace STP.Gameplay {
         protected IWeaponControl WeaponControl;
 
         ShipInfo       _shipInfo;
-        
-        bool           _inited;
 
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, WeaponMountPoint);
 
@@ -30,7 +28,6 @@ namespace STP.Gameplay {
 
         protected void InternalInit(ShipInfo shipInfo) {
             Rigidbody2D    = GetComponent<Rigidbody2D>();
-            _inited        = true;
             _shipInfo      = shipInfo;
             ShipState      = new ShipState(_shipInfo.Hp);
             

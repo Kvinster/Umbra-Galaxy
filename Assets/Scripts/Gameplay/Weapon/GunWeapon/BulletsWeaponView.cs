@@ -12,8 +12,6 @@ namespace STP.Gameplay.WeaponViews {
         BulletCreator _bulletCreator;
         string        _bulletType;
         
-        bool _inited;
-        
         void OnWeaponStateChanged(WeaponState newWeaponState) {
             if ( newWeaponState == WeaponState.FIRE ) {
                 _bulletCreator.CreateBullet(_bulletType, BulletLaunchPoint.position, _ship.transform.rotation * Vector2.up, _weapon.BulletSpeed);  
@@ -33,7 +31,6 @@ namespace STP.Gameplay.WeaponViews {
             _weapon.StateChanged += OnWeaponStateChanged;   
             _bulletCreator        = starter.BulletCreator;
             _bulletType           = Bullets.PlayerBullet;
-            _inited               = true;
         }
     }
 }
