@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using STP.Behaviour.Starter;
 using STP.Common;
@@ -42,6 +43,12 @@ namespace STP.Behaviour.Meta {
         protected override void InitSpecific(MetaStarter starter) {
             StarSystemsController.Instance.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
             OnStarSystemActiveChanged(Id, StarSystemsController.Instance.GetFactionSystemActive(Id));
+        }
+
+        protected override void OnPlayerArrive(bool success) {
+            if ( success && !StarSystemsController.Instance.GetFactionSystemActive(Id) ) {
+                SceneManager.LoadScene("CoreLevel1");
+            }
         }
 
         void OnStarSystemActiveChanged(string starSystemId, bool isActive) {

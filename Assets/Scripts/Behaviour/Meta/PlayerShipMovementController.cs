@@ -87,7 +87,7 @@ namespace STP.Behaviour.Meta {
             if ( path.PathLength > PlayerState.Instance.Fuel ) {
                 return false;
             }
-            for ( var i = 1; i < path.Path.Count; i++ ) {
+            for ( var i = 1; i < path.Path.Count - 1; i++ ) {
                 var starSystem = path.Path[i];
                 if ( (_starSystemsManager.GetStarSystem(starSystem).Type == StarSystemType.Faction) &&
                      !StarSystemsController.Instance.GetFactionSystemActive(starSystem) ) {
@@ -128,9 +128,7 @@ namespace STP.Behaviour.Meta {
                 } else {
                     ++_nextNodeIndex;
                     nextSystem = NextSystem;
-                    if ( ((nextSystem.Type == StarSystemType.Faction) &&
-                          StarSystemsController.Instance.GetFactionSystemActive(nextSystem.Id)) ||
-                         ((nextSystem.Type == StarSystemType.Shard) &&
+                    if ( ((nextSystem.Type == StarSystemType.Shard) &&
                           StarSystemsController.Instance.GetShardSystemActive(nextSystem.Id)) ) {
                         var nextDistance = StarSystemsController.Instance.GetDistance(CurSystem.Id, nextSystem.Id);
                         _pathStartDay = _timeManager.CurDay;

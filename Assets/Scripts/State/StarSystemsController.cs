@@ -140,20 +140,14 @@ namespace STP.State {
             return new StarSystemPath(path, length);
         }
 
-        List<string> GetNeighbouringStarSystems(string startSystemId, string starSystemId) {
+        List<string> GetNeighbouringStarSystems(string starSystemId) {
             var neighbours = _graphInfo.GetNeighbouringStarSystems(starSystemId);
             for ( var i = neighbours.Count - 1; i >= 0; i-- ) {
-                var neighbourId = neighbours[i];
-                if ( neighbourId == startSystemId ) {
-                    continue;
-                }
-                switch ( GetStarSystemType(neighbourId) ) {
+                var neighbourId   = neighbours[i];
+                var neighbourType = GetStarSystemType(neighbourId);
+                switch ( neighbourType ) {
                     case StarSystemType.Faction: {
-                        if ( !TryGetFactionSystemState(neighbourId, out var factionSystemState) ) {
-                            neighbours.RemoveAt(i);
-                            break;
-                        }
-                        if ( !factionSystemState.IsActive ) {
+                        if ( !TryGetFactionSystemState(neighbourId, out _) ) {
                             neighbours.RemoveAt(i);
                         }
                         break;
@@ -169,6 +163,7 @@ namespace STP.State {
                         break;
                     }
                     default: {
+                        Debug.LogErrorFormat("Unsupported system type '{0}'", neighbourType.ToString());
                         neighbours.RemoveAt(i);
                         break;
                     }
