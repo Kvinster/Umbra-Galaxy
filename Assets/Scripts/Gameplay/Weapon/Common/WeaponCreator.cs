@@ -1,4 +1,5 @@
 ﻿using STP.Gameplay.Weapon.GunWeapon;
+using STP.Gameplay.Weapon.LanceWeapon;
 using STP.Gameplay.Weapon.LaserWeapon;
 
 namespace STP.Gameplay.Weapon.Common {
@@ -10,6 +11,8 @@ namespace STP.Gameplay.Weapon.Common {
                     return new BulletManualControl(new Gun(400, 0.1f));
                 case Weapons.Laser:
                     return new LaserManualControl(new Laser());
+                case Weapons.Lance:
+                    return new LanceManualControl(new Lance());
             }
             return null;
         }
@@ -20,6 +23,8 @@ namespace STP.Gameplay.Weapon.Common {
                     return new BulletAIControl(new Gun(400, 0.5f), enemyShip);
                 case Weapons.Laser:
                     return new LaserAIControl(new Laser(), enemyShip);
+                case Weapons.Lance:
+                    return new LanceAIControl(new Lance(), enemyShip);
             }
             return null;
         }

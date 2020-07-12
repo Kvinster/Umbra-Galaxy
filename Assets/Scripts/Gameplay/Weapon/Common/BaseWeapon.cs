@@ -9,6 +9,7 @@
     public class Weapons {
         public const string Bullets = "bullets";
         public const string Laser   = "laser";
+        public const string Lance   = "lance";
     }
 
     public abstract class BaseWeapon {

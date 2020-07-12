@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace STP.Gameplay.Weapon.Common {
     public class BulletCreator {
-        const string PrefabsPathFormat     = "Prefabs/Bullets/";
+        const string PrefabsPathFormat = "Prefabs/Bullets/";
         
         Dictionary<string, GameObject> _bulletPrefabs = new Dictionary<string, GameObject>();
         Transform                      _root;

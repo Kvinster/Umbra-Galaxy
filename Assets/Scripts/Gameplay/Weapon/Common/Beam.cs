@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace STP.Gameplay.Weapon.LaserWeapon {
+namespace STP.Gameplay.Weapon.Common {
     public class Beam : MonoBehaviour{
         public SpriteRenderer BeamRenderer;
         
@@ -11,7 +11,10 @@ namespace STP.Gameplay.Weapon.LaserWeapon {
         }
         
         public void DealDamage(Collider2D other) {
-            var damage = Dps * Time.deltaTime;
+            DealDamage(other, Dps * Time.deltaTime);
+        }
+        
+        public void DealDamage(Collider2D other, float damage) {
             var ship = other.GetComponent<IDestructable>();
             ship?.GetDamage(damage);
         }

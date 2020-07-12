@@ -23,7 +23,7 @@ namespace STP.Gameplay {
             _shipState                       = starter.CoreManager.PlayerShipState;
             _shipState.StateChangedManually += OnChangedState;
             _overlayHelper                   = starter.OverlayHelper;
-            WeaponControl                    = starter.WeaponCreator.GetManualWeapon(Weapons.Laser);
+            WeaponControl                    = starter.WeaponCreator.GetManualWeapon(Weapons.Lance);
             starter.WeaponViewCreator.AddWeaponView(this, WeaponControl.GetControlledWeapon());
             InternalInit(new ShipInfo(Hp, ShipSpeed));
         }

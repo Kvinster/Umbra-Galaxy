@@ -30,16 +30,7 @@ namespace STP.Gameplay.Weapon.LaserWeapon {
 
         void Update() {
             if ( _weapon.CurState == WeaponState.FIRE ) {
-                var hitsCount = Physics2D.RaycastNonAlloc(Beam.transform.position, Beam.transform.TransformDirection(Beam.transform.localRotation * Vector2.up), _hits, 1000000);
-                var minDistance    = float.MaxValue;
-                var minDistanceHit = -1;
-                for ( var i = 0; i < hitsCount; i++ ) {
-                    var hit = _hits[i];
-                    if ( hit.collider && !hit.collider.isTrigger && hit.distance < minDistance && (hit.collider != _ownerCollider) ) {
-                        minDistance    = hit.distance;
-                        minDistanceHit = i;
-                    }
-                }
+                var minDistanceHit = DoRaycast();
                 if ( minDistanceHit != -1 ) {
                     Beam.SetLength (_hits[minDistanceHit].distance);
                     Beam.DealDamage(_hits[minDistanceHit].collider);
@@ -48,6 +39,22 @@ namespace STP.Gameplay.Weapon.LaserWeapon {
                     Beam.SetLength(1000000);
                 }
             }
+        }
+        
+        int DoRaycast() {
+            var hitsCount = Physics2D.RaycastNonAlloc(Beam.transform.position,
+                Beam.transform.TransformDirection(Beam.transform.localRotation * Vector2.up), _hits, 1000000);
+            var minDistance = float.MaxValue;
+            var minDistanceHit = -1;
+            for ( var i = 0; i < hitsCount; i++ ) {
+                var hit = _hits[i];
+                if ( hit.collider && !hit.collider.isTrigger && hit.distance < minDistance &&
+                     (hit.collider != _ownerCollider) ) {
+                    minDistance = hit.distance;
+                    minDistanceHit = i;
+                }
+            }
+            return minDistanceHit;
         }
 
         void OnDrawGizmos() {
