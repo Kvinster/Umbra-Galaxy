@@ -40,6 +40,7 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
         string _starSystemId;
         
         int _fuelPrice;
+        int _fuelAmount;
 
         bool CanSellFuel      => (PlayerState.Instance.Fuel < PlayerState.MaxFuel);
         bool PlayerCanBuyFuel => CanSellFuel && (PlayerState.Instance.Money >= _fuelPrice);
@@ -108,7 +109,15 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
 
         void UpdateFuelPrice() {
             if ( CanSellFuel ) {
-                _fuelPrice = (PlayerState.MaxFuel - PlayerState.Instance.Fuel) * 10;
+                var ps         = PlayerState.Instance;
+                var playerFuel = ps.Fuel;
+                _fuelPrice = (PlayerState.MaxFuel - playerFuel) * 10;
+                if ( ps.Money < _fuelPrice ) {
+                    _fuelAmount = ps.Money / 10;
+                    _fuelPrice  = _fuelAmount * 10;
+                } else {
+                    _fuelAmount = PlayerState.MaxFuel - playerFuel;
+                }
                 FuelPriceText.text = string.Format(RefillFuelButtonTextTemplate, _fuelPrice);
             } else {
                 _fuelPrice = -1;
@@ -129,7 +138,7 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
         void OnRefillFuelClick() {
             if ( PlayerCanBuyFuel ) {
                 PlayerState.Instance.Money -= _fuelPrice;
-                PlayerState.Instance.Fuel = PlayerState.MaxFuel;
+                PlayerState.Instance.Fuel  += _fuelAmount;
             } else {
                 Debug.LogError("Unsupported scenario");
             }
@@ -137,6 +146,7 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
 
         void OnPlayerMoneyChanged(int newMoney) {
             UpdatePlayerMoneyText(newMoney);
+            UpdateFuelPrice();
             UpdateRefillFuelButton();
         }
 
