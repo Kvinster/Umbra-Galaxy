@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-using STP.Gameplay.WeaponGroup.Weapons;
+using STP.Gameplay.Weapon.Common;
 
-namespace STP.Gameplay.WeaponGroup.Controls.PlayerControls {
+namespace STP.Gameplay.Weapon.LaserWeapon {
     public class LaserManualControl : BaseWeaponControl<Laser> {
         public LaserManualControl(Laser weapon) : base(weapon) { }
 

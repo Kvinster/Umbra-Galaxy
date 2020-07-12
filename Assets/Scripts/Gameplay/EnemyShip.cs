@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
 using System.Collections.Generic;
-using STP.Gameplay.WeaponGroup;
-using STP.Gameplay.WeaponGroup.Weapons;
+
+using STP.Gameplay.Weapon.Common;
 using STP.State.Core;
 
 namespace STP.Gameplay {
@@ -43,7 +43,7 @@ namespace STP.Gameplay {
             State              = EnemyState.Patrolling;
             WeaponControl      = starter.WeaponCreator.GetAIWeaponController(Weapons.Laser, this);
             starter.WeaponViewCreator.AddWeaponView(this, WeaponControl.GetControlledWeapon());
-            InternalInit(starter, new ShipInfo(Hp, ShipSpeed));
+            InternalInit(new ShipInfo(Hp, ShipSpeed));
         }
 
         protected override void Update() {

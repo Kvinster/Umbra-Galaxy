@@ -2,8 +2,7 @@
 
 using System.Collections.Generic;
 
-using STP.Gameplay.WeaponGroup;
-using STP.Gameplay.WeaponViews;
+using STP.Gameplay.Weapon.Common;
 using STP.State;
 using STP.Utils;
 using STP.View;
@@ -30,7 +29,7 @@ namespace STP.Gameplay {
         void Start() {
             ShipState         = new CoreShipState();
             BulletCreator     = new BulletCreator(this);
-            WeaponCreator     = new WeaponCreator(BulletCreator);
+            WeaponCreator     = new WeaponCreator();
             WeaponViewCreator = new WeaponViewCreator(this);
             MaterialCreator   = new MaterialCreator(this);
             CoreManager       = new CoreManager(State, ShipState, UnityContext);

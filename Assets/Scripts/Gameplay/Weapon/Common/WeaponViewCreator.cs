@@ -2,9 +2,7 @@
 
 using System.Collections.Generic;
 
-using STP.Gameplay.WeaponGroup.Weapons;
-
-namespace STP.Gameplay.WeaponViews {
+namespace STP.Gameplay.Weapon.Common {
     public class WeaponViewCreator {
         const string PrefabsPathFormat = "Prefabs/WeaponViews/";
         readonly CoreStarter _starter;

@@ -1,7 +1,7 @@
-﻿using STP.Utils;
-using UnityEngine;
+﻿using STP.Gameplay.Weapon.Common;
+using STP.Utils;
 
-namespace STP.Gameplay.WeaponGroup.Weapons {
+namespace STP.Gameplay.Weapon.GunWeapon {
     public class Gun : BaseWeapon {
         readonly Timer _timer = new Timer();
         

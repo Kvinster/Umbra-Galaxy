@@ -1,8 +1,6 @@
-﻿using UnityEngine;
+﻿using STP.Gameplay.Weapon.Common;
 
-using STP.Gameplay.WeaponGroup.Weapons;
-
-namespace STP.Gameplay.WeaponGroup.Controls.AIControls {
+namespace STP.Gameplay.Weapon.LaserWeapon {
     public class LaserAIControl : BaseWeaponControl<Laser> {
         readonly EnemyShip  _aiShip;
         EnemyState          _lastState;

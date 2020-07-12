@@ -1,4 +1,4 @@
-﻿namespace STP.Gameplay.WeaponGroup.Weapons {
+﻿namespace STP.Gameplay.Weapon.Common {
     public enum WeaponState {
         IDLE,
         CHARGE,

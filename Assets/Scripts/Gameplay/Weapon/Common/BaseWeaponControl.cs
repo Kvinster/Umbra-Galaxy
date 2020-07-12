@@ -1,6 +1,4 @@
-﻿using STP.Gameplay.WeaponGroup.Weapons;
-
-namespace STP.Gameplay.WeaponGroup.Controls {
+﻿namespace STP.Gameplay.Weapon.Common {
     public interface IWeaponControl {
         void       UpdateControl(float timePassed);
         BaseWeapon GetControlledWeapon();

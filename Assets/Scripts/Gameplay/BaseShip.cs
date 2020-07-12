@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-using STP.Gameplay.WeaponGroup.Controls;
+using STP.Gameplay.Weapon.Common;
 using STP.State.Core;
 using STP.Utils;
 using STP.View;
@@ -14,9 +14,6 @@ namespace STP.Gameplay {
         protected ShipState      ShipState;
         protected IWeaponControl WeaponControl;
 
-        float          _timer;
-
-        BulletCreator  _bulletCreator;
         ShipInfo       _shipInfo;
         
         bool           _inited;
@@ -31,8 +28,7 @@ namespace STP.Gameplay {
             HpBar.UpdateBar(((float)ShipState.Hp) / _shipInfo.Hp);
         }
 
-        protected void InternalInit(CoreStarter starter, ShipInfo shipInfo) {
-            _bulletCreator = starter.BulletCreator;
+        protected void InternalInit(ShipInfo shipInfo) {
             Rigidbody2D    = GetComponent<Rigidbody2D>();
             _inited        = true;
             _shipInfo      = shipInfo;
@@ -52,15 +48,8 @@ namespace STP.Gameplay {
         }
         
 
-        protected virtual void UpdateWeaponControlState() {
+        protected void UpdateWeaponControlState() {
             WeaponControl.UpdateControl(Time.deltaTime);
-        }
-
-        protected virtual void Update() {
-            if ( !_inited ) {
-                return;
-            }
-            _timer += Time.deltaTime;
         }
 
         protected abstract void OnShipDestroy();

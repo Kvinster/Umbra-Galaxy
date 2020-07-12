@@ -1,9 +1,8 @@
-﻿using STP.Gameplay.WeaponGroup.Weapons;
-using UnityEngine;
+﻿using UnityEngine;
 
 using System.Collections.Generic;
 
-namespace STP.Gameplay {
+namespace STP.Gameplay.Weapon.Common {
     public class BulletCreator {
         const string PrefabsPathFormat     = "Prefabs/Bullets/";
         const string BeamPrefabsPathFormat = "Prefabs/Beams/";

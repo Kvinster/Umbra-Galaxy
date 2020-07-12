@@ -1,7 +1,6 @@
-﻿using STP.Utils;
-using UnityEngine;
+﻿using STP.Gameplay.Weapon.Common;
 
-namespace STP.Gameplay.WeaponGroup.Weapons {
+namespace STP.Gameplay.Weapon.LaserWeapon {
     public class Laser : BaseWeapon {
         public override string Name => Weapons.Laser;
         

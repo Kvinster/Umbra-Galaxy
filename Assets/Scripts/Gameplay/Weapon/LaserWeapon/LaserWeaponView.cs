@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-using STP.Gameplay.WeaponGroup.Weapons;
+using STP.Gameplay.Weapon.Common;
 
-namespace STP.Gameplay.WeaponViews {
+namespace STP.Gameplay.Weapon.LaserWeapon {
     public class LaserWeaponView : BaseWeaponView {
         public Beam Beam;
         BaseWeapon _weapon;

@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 
-using STP.Gameplay.WeaponGroup.Weapons;
-using STP.State;
+using STP.Gameplay.Weapon.Common;
 
-namespace STP.Gameplay.WeaponGroup.Controls.PlayerControls {
+namespace STP.Gameplay.Weapon.GunWeapon {
    
     public class BulletManualControl : BaseWeaponControl<Gun> {
         Rigidbody2D   _playerShipRigidbody;

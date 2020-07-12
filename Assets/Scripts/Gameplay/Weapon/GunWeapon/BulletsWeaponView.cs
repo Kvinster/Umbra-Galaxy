@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-
-using STP.Gameplay.WeaponGroup.Weapons;
+﻿using STP.Gameplay.Weapon.Common;
+using STP.Gameplay.Weapon.GunWeapon;
+using UnityEngine;
 using STP.State;
 
 namespace STP.Gameplay.WeaponViews {

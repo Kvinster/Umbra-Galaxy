@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-using STP.Gameplay.WeaponGroup.Weapons;
+using STP.Gameplay.Weapon.Common;
 using STP.State.Core;
 using STP.Utils;
 
@@ -25,7 +25,7 @@ namespace STP.Gameplay {
             _overlayHelper                   = starter.OverlayHelper;
             WeaponControl                    = starter.WeaponCreator.GetManualWeapon(Weapons.Laser);
             starter.WeaponViewCreator.AddWeaponView(this, WeaponControl.GetControlledWeapon());
-            InternalInit(starter, new ShipInfo(Hp, ShipSpeed));
+            InternalInit(new ShipInfo(Hp, ShipSpeed));
         }
         
         protected override void Update() {

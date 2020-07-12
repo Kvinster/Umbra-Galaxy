@@ -1,7 +1,6 @@
-﻿using STP.Gameplay.WeaponGroup.Weapons;
-using STP.Utils;
+﻿using STP.Utils;
 
-namespace STP.Gameplay.WeaponViews {
+namespace STP.Gameplay.Weapon.Common {
     public abstract class BaseWeaponView : GameBehaviour{
         protected override void CheckDescription() { }
         

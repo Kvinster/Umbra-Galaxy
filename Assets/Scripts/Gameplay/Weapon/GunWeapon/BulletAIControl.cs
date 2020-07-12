@@ -1,6 +1,6 @@
-﻿using STP.Gameplay.WeaponGroup.Weapons;
+﻿using STP.Gameplay.Weapon.Common;
 
-namespace STP.Gameplay.WeaponGroup.Controls.AIControls {
+namespace STP.Gameplay.Weapon.GunWeapon {
     public class BulletAIControl : BaseWeaponControl<Gun> {
         readonly EnemyShip     _aiShip;
 
