@@ -12,6 +12,7 @@ namespace STP.Behaviour.Common {
         public sealed class ItemInfo {
             public string ItemName;
             public int    ItemBasePrice;
+            public int    ItemBaseSurvivalChanceInc;
             public Sprite ItemInventoryIcon;
         }
 
@@ -23,6 +24,10 @@ namespace STP.Behaviour.Common {
 
         public int GetItemBasePrice(string itemName) {
             return TryGetItemInfo(itemName, out var itemInfo) ? itemInfo.ItemBasePrice : -1;
+        }
+
+        public int GetItemBaseSurvivalChanceInc(string itemName) {
+            return TryGetItemInfo(itemName, out var itemInfo) ? itemInfo.ItemBaseSurvivalChanceInc : -1;
         }
 
         bool TryGetItemInfo(string itemName, out ItemInfo itemInfo) {

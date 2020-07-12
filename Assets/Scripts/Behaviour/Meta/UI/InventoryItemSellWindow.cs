@@ -26,9 +26,9 @@ namespace STP.Behaviour.Meta.UI {
 
         string _itemName;
         int    _resultPrice;
-        string _starSystemName;
+        string _starSystemId;
 
-        bool CanSell => (_resultPrice <= StarSystemsController.Instance.GetFactionSystemMoney(_starSystemName));
+        bool CanSell => (_resultPrice <= StarSystemsController.Instance.GetFactionSystemMoney(_starSystemId));
 
         public void CommonInit(MetaUiCanvas owner, InventoryItemInfos inventoryItemInfos) {
             _owner              = owner;
@@ -43,9 +43,9 @@ namespace STP.Behaviour.Meta.UI {
             }
         }
 
-        public void Show(string itemName, string starSystemName) {
-            _itemName       = itemName;
-            _starSystemName = starSystemName;
+        public void Show(string itemName, string starSystemId) {
+            _itemName     = itemName;
+            _starSystemId = starSystemId;
             
             ItemNameText.text = itemName;
             ItemIcon.sprite   = _inventoryItemInfos.GetItemInventoryIcon(itemName);
@@ -63,8 +63,8 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         void Hide() {
-            _itemName       = null;
-            _starSystemName = null;
+            _itemName     = null;
+            _starSystemId = null;
             
             PricePair.OnValueChanged  -= OnPriceChanged;
             PricePair.Deinit();
@@ -101,11 +101,16 @@ namespace STP.Behaviour.Meta.UI {
                 Debug.LogErrorFormat("Unsupported scenario");
                 return;
             }
-            if ( PlayerState.Instance.TryTakeFromInventory(_itemName, AmountPair.CurValue) &&
-                 StarSystemsController.Instance.TrySubFactionSystemMoney(_starSystemName, _resultPrice) ) {
-                PlayerState.Instance.Money += _resultPrice;
+            var ps     = PlayerState.Instance;
+            var ssc    = StarSystemsController.Instance;
+            var amount = AmountPair.CurValue;
+            if ( ps.TryTakeFromInventory(_itemName, amount) &&
+                 ssc.TrySubFactionSystemMoney(_starSystemId, _resultPrice) ) {
+                ps.Money += _resultPrice;
+                ssc.AddFactionSystemSurvivalChance(_starSystemId,
+                    _inventoryItemInfos.GetItemBaseSurvivalChanceInc(_itemName) * amount);
 
-                var inventoryAmount = PlayerState.Instance.GetInventoryItemAmount(_itemName);
+                var inventoryAmount = ps.GetInventoryItemAmount(_itemName);
                 if ( inventoryAmount <= 0 ) {
                     Hide();
                 } else {

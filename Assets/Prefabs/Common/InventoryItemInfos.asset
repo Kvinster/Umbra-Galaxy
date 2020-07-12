@@ -15,10 +15,13 @@ MonoBehaviour:
   ItemInfos:
   - ItemName: mineral
     ItemBasePrice: 10
+    ItemBaseSurvivalChanceInc: 1
     ItemInventoryIcon: {fileID: 0}
   - ItemName: scrap
     ItemBasePrice: 1
+    ItemBaseSurvivalChanceInc: 0
     ItemInventoryIcon: {fileID: 0}
   - ItemName: fuel_tank
     ItemBasePrice: 50
+    ItemBaseSurvivalChanceInc: 0
     ItemInventoryIcon: {fileID: 0}

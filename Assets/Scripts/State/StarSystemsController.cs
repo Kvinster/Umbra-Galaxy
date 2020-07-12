@@ -65,6 +65,12 @@ namespace STP.State {
             return TryGetFactionSystemState(starSystemId, out var starSystemState) ? starSystemState.SurvivalChance : -1;
         }
 
+        public void AddFactionSystemSurvivalChance(string starSystemId, int addSurvivalChance) {
+            if ( TryGetFactionSystemState(starSystemId, out var factionSystemState) ) {
+                factionSystemState.SurvivalChance += addSurvivalChance;
+            }
+        }
+
         public bool TrySubFactionSystemMoney(string starSystemId, int subMoney) {
             if ( !TryGetFactionSystemState(starSystemId, out var starSystemState) ) {
                 return false;
