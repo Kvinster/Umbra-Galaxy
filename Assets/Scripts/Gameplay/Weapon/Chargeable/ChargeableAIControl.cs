@@ -1,11 +1,11 @@
 ﻿using STP.Gameplay.Weapon.Common;
 
-namespace STP.Gameplay.Weapon.LanceWeapon {
-    public class LanceAIControl : BaseWeaponControl<Lance> {
+namespace STP.Gameplay.Weapon.Chargeable {
+    public class ChargeableAIControl : BaseWeaponControl<ChargeableWeapon> {
         readonly EnemyShip  _aiShip;
         EnemyState          _lastState;
         
-        public LanceAIControl(Lance weapon, EnemyShip aiShip) : base(weapon) {
+        public ChargeableAIControl(ChargeableWeapon weapon, EnemyShip aiShip) : base(weapon) {
             _aiShip    = aiShip;
             _lastState = aiShip.State;
         }

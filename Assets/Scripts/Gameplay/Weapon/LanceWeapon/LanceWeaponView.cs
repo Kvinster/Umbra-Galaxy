@@ -26,7 +26,6 @@ namespace STP.Gameplay.Weapon.LanceWeapon {
         }
 
         void OnWeaponStateChanged(WeaponState newWeaponState) {
-            print($"State {newWeaponState}");
             ChargingImage.SetActive(newWeaponState == WeaponState.CHARGE || newWeaponState == WeaponState.CHARGED);
             if ( newWeaponState == WeaponState.FIRE ) {
                 Beam.gameObject.SetActive(true);
@@ -45,7 +44,6 @@ namespace STP.Gameplay.Weapon.LanceWeapon {
             }
             if ( _weapon.CurState == WeaponState.FIRE ) {
                 DoRaycast();
-                print("FIRE");
                 Beam.SetLength(1000000);
             }
         }
@@ -56,7 +54,7 @@ namespace STP.Gameplay.Weapon.LanceWeapon {
             for ( var i = 0; i < hitsCount; i++ ) {
                 var hit = _hits[i];
                 if ( hit.collider && !hit.collider.isTrigger && (hit.collider != _ownerCollider) ) {
-                    Beam.DealDamage(_hits[i].collider, Lance.Damage);
+                    Beam.DealDamage(_hits[i].collider, _weapon.Damage);
                 }
             }
         }

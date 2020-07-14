@@ -2,9 +2,9 @@
 
 using STP.Gameplay.Weapon.Common;
 
-namespace STP.Gameplay.Weapon.LanceWeapon {
-    public class LanceManualControl : BaseWeaponControl<Lance> {
-        public LanceManualControl(Lance weapon) : base(weapon) { }
+namespace STP.Gameplay.Weapon.Chargeable {
+    public class ChargeableManualControl : BaseWeaponControl<ChargeableWeapon> {
+        public ChargeableManualControl(ChargeableWeapon weapon) : base(weapon) { }
 
         public override void UpdateControl(float timePassed) {
             base.UpdateControl(timePassed);
