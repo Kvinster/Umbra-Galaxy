@@ -10,6 +10,12 @@ using RSG;
 
 namespace STP.Behaviour.Meta {
     public sealed class PlayerShipMovementController : BaseMetaComponent {
+        public enum State {
+            Idle,
+            Selected,
+            Moving
+        }
+        
         MetaTimeManager    _timeManager;
         StarSystemsManager _starSystemsManager;
         
@@ -20,9 +26,20 @@ namespace STP.Behaviour.Meta {
         StarSystemPath _curPath;
         int            _nextNodeIndex;
 
+        BaseStarSystem _destSystem;
         BaseStarSystem _curSystem;
+        State          _curState = State.Idle;
 
-        public BaseStarSystem DestSystem { get; private set; }
+        public BaseStarSystem DestSystem {
+            get => _destSystem;
+            private set {
+                if ( _destSystem == value ) {
+                    return;
+                }
+                _destSystem = value;
+                OnDestSystemChanged?.Invoke(_destSystem);
+            }
+        }
 
         public BaseStarSystem CurSystem {
             get => _curSystem;
@@ -38,13 +55,26 @@ namespace STP.Behaviour.Meta {
 
         public bool IsMoving => (DestSystem && !_timeManager.IsPaused);
 
-        public event Action<string> OnCurSystemChanged;
+        public State CurState { 
+            get => _curState;
+            private set {
+                if ( _curState == value ) {
+                    return;
+                }
+                _curState = value;
+                OnCurStateChanged?.Invoke(_curState);
+            }
+        }
+
+        public event Action<string>         OnCurSystemChanged;
+        public event Action<State>          OnCurStateChanged;
+        public event Action<BaseStarSystem> OnDestSystemChanged;
 
         BaseStarSystem NextSystem =>
             ((_curPath != null) ? _starSystemsManager.GetStarSystem(_curPath.Path[_nextNodeIndex]) : null);
 
         void Update() {
-            if ( !DestSystem ) {
+            if ( CurState != State.Moving ) {
                 return;
             }
             var progress = (_timeManager.CurDay - _pathStartDay + _timeManager.DayProgress) /
@@ -59,6 +89,7 @@ namespace STP.Behaviour.Meta {
             var curSystemId = PlayerState.Instance.CurSystemId;
             CurSystem = starter.StarSystemsManager.GetStarSystem(curSystemId);
             transform.position = CurSystem.transform.position;
+            CurState = State.Idle;
         }
         
         public bool CanMoveTo(BaseStarSystem destSystem, bool silent = true) {
@@ -90,13 +121,26 @@ namespace STP.Behaviour.Meta {
             return true;
         }
 
-        public IPromise<bool> MoveTo(BaseStarSystem destSystem) {
-            if ( !CanMoveTo(destSystem, false) ) {
-                return Promise<bool>.Rejected(new Exception($"Can't move to {destSystem.Id}"));
+        public void TrySelect(BaseStarSystem destSystem) {
+            if ( (CurState != State.Idle) && (CurState != State.Selected) ) {
+                Debug.LogErrorFormat("Invalid state '{0}'", CurState.ToString());
+                return;
             }
-            _curPath       = StarSystemsController.Instance.GetPath(CurSystem.Id, destSystem.Id);
-            _nextNodeIndex = 1;
             DestSystem = destSystem;
+            CurState   = State.Selected;
+        }
+
+        public IPromise<bool> Move() {
+            if ( !CanMoveTo(DestSystem, false) ) {
+                return Promise<bool>.Rejected(new Exception($"Can't move to {DestSystem.Id}"));
+            }
+            if ( CurState != State.Selected ) {
+                Debug.LogErrorFormat("Invalid state '{0}'", CurState.ToString());
+                return Promise<bool>.Rejected(new Exception($"Invalid state '{CurState.ToString()}'"));
+            }
+            _curPath       = StarSystemsController.Instance.GetPath(CurSystem.Id, DestSystem.Id);
+            _nextNodeIndex = 1;
+            DestSystem = DestSystem;
             var nextDistance =
                 StarSystemsController.Instance.GetDistance(CurSystem.Id, _curPath.Path[_nextNodeIndex]);
             PlayerState.Instance.Fuel -= nextDistance;
@@ -108,11 +152,12 @@ namespace STP.Behaviour.Meta {
             transform.rotation =
                 Quaternion.Euler(0, 0,
                     Vector2.SignedAngle(new Vector3(0, 1), NextSystem.transform.position - transform.position));
+            CurState = State.Moving;
             return _movePromise;
         }
 
         void OnTimePausedChanged(bool isPaused) {
-            if ( DestSystem && isPaused && (_timeManager.CurDay == _pathEndDay) ) {
+            if ( (CurState == State.Moving) && isPaused && (_timeManager.CurDay == _pathEndDay) ) {
                 var nextSystem = NextSystem;
                 transform.position = nextSystem.transform.position;
                 CurSystem = nextSystem;
@@ -142,6 +187,7 @@ namespace STP.Behaviour.Meta {
             _timeManager.OnPausedChanged -= OnTimePausedChanged;
             _movePromise.Resolve(success);
             _movePromise = null;
+            CurState = State.Idle;
         }
     }
 }

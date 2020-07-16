@@ -35,8 +35,19 @@ namespace STP.Behaviour.Meta {
         protected abstract void InitSpecific(MetaStarter starter);
 
         protected virtual void OnClick() {
-            if ( PlayerShip.TryMoveTo(this, out var promise) ) {
-                promise.Then(OnPlayerArrive);
+            switch ( PlayerShipMovementController.CurState ) {
+                case PlayerShipMovementController.State.Idle: {
+                    PlayerShipMovementController.TrySelect(this);
+                    break;
+                }
+                case PlayerShipMovementController.State.Selected: {
+                    if ( PlayerShipMovementController.DestSystem == this ) {
+                        PlayerShipMovementController.Move().Then(OnPlayerArrive);
+                    } else {
+                        PlayerShipMovementController.TrySelect(this);
+                    }
+                    break;
+                }
             }
         }
         
