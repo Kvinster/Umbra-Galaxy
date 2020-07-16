@@ -87,13 +87,6 @@ namespace STP.Behaviour.Meta {
             if ( path.PathLength > PlayerState.Instance.Fuel ) {
                 return false;
             }
-            for ( var i = 1; i < path.Path.Count - 1; i++ ) {
-                var starSystem = path.Path[i];
-                if ( (_starSystemsManager.GetStarSystem(starSystem).Type == StarSystemType.Faction) &&
-                     !StarSystemsController.Instance.GetFactionSystemActive(starSystem) ) {
-                    return false;
-                }
-            }
             return true;
         }
 
