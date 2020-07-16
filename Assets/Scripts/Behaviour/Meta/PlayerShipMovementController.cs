@@ -128,8 +128,8 @@ namespace STP.Behaviour.Meta {
                 } else {
                     ++_nextNodeIndex;
                     nextSystem = NextSystem;
-                    if ( ((nextSystem.Type == StarSystemType.Shard) &&
-                          StarSystemsController.Instance.GetShardSystemActive(nextSystem.Id)) ) {
+                    if ( (nextSystem.Type != StarSystemType.Shard) ||
+                         StarSystemsController.Instance.GetShardSystemActive(nextSystem.Id) ) {
                         var nextDistance = StarSystemsController.Instance.GetDistance(CurSystem.Id, nextSystem.Id);
                         _pathStartDay = _timeManager.CurDay;
                         _pathEndDay   = _pathStartDay + nextDistance;
