@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 using STP.Behaviour.Starter;
 using STP.Common;
-using STP.State;
+using STP.State.Meta;
 using STP.Utils.PropertyAttribute;
 
 namespace STP.Behaviour.Meta {

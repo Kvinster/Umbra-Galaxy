@@ -7,7 +7,7 @@ using STP.Behaviour.Meta;
 using STP.Common;
 using STP.Utils;
 
-namespace STP.State {
+namespace STP.State.Meta {
     public sealed class StarSystemsController {
         static StarSystemsController _instance;
         public static StarSystemsController Instance => _instance ?? (_instance = new StarSystemsController().Init());

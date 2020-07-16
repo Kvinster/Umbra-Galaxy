@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 using STP.Common;
-using STP.State;
+using STP.State.Meta;
 
 namespace STP.Behaviour.Meta.UI {
     public sealed class EnterSystemButton : MonoBehaviour {

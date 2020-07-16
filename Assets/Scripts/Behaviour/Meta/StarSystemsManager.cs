@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-using STP.State;
+using STP.State.Meta;
 
 namespace STP.Behaviour.Meta {
     public sealed class StarSystemsManager {

@@ -2,7 +2,7 @@
 
 using STP.Behaviour.Meta;
 
-namespace STP.State {
+namespace STP.State.Meta {
     public sealed class DarknessController {
         public const int DarknessHitTime = 5; 
         

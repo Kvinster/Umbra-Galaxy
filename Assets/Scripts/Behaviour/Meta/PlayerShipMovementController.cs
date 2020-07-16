@@ -5,6 +5,7 @@ using System;
 using STP.Behaviour.Starter;
 using STP.Common;
 using STP.State;
+using STP.State.Meta;
 
 using RSG;
 

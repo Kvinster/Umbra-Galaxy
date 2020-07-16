@@ -1,6 +1,6 @@
 ﻿using STP.Common;
 
-namespace STP.State {
+namespace STP.State.Meta {
     public sealed class FactionSystemState {
         public readonly string Id;
 

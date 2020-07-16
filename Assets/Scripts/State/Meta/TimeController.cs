@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace STP.State {
+namespace STP.State.Meta {
     public sealed class TimeController {
         static TimeController _instance;
         public static TimeController Instance => _instance ?? (_instance = new TimeController());

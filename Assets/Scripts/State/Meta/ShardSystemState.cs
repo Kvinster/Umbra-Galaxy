@@ -1,4 +1,4 @@
-﻿namespace STP.State {
+﻿namespace STP.State.Meta {
     public sealed class ShardSystemState {
         public readonly string Id;
 
