@@ -2,6 +2,7 @@
 
 using STP.Behaviour.Starter;
 using STP.Common;
+
 using TMPro;
 
 namespace STP.Behaviour.Meta {
@@ -9,7 +10,7 @@ namespace STP.Behaviour.Meta {
         public TMP_Text     StarSystemNameText;
         public EventTrigger EventTrigger;
 
-        protected PlayerShip PlayerShip;
+        protected PlayerShipMovementController PlayerShipMovementController;
         
         public abstract string Id { get; }
         
@@ -18,7 +19,7 @@ namespace STP.Behaviour.Meta {
         public override bool HighPriorityInit => true;
 
         protected sealed override void InitInternal(MetaStarter starter) {
-            PlayerShip = starter.PlayerShip;
+            PlayerShipMovementController = starter.PlayerShip.MovementController;
             
             if ( EventTrigger ) {
                 var entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerUp };

@@ -11,7 +11,8 @@ namespace STP.Behaviour.Meta.UI {
             DebugInfoText.Init(starter);
             DebugInfoText.gameObject.SetActive(true);
 
-            EnterSystemButton.CommonInit(this, starter.PlayerShip, starter.TimeManager, starter.StarSystemsManager);
+            EnterSystemButton.CommonInit(this, starter.PlayerShip.MovementController, starter.TimeManager,
+                starter.StarSystemsManager);
             EnterSystemButton.gameObject.SetActive(true);
 
             FactionSystemWindow.CommonInit(this, starter);

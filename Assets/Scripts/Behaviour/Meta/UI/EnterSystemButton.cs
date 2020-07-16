@@ -8,10 +8,10 @@ namespace STP.Behaviour.Meta.UI {
     public sealed class EnterSystemButton : MonoBehaviour {
         public Button Button;
 
-        MetaUiCanvas       _owner;
-        PlayerShip         _playerShip;
-        MetaTimeManager    _timeManager;
-        StarSystemsManager _starSystemsManager;
+        MetaUiCanvas                 _owner;
+        PlayerShipMovementController _playerShipMovementController;
+        MetaTimeManager              _timeManager;
+        StarSystemsManager           _starSystemsManager;
 
         void Reset() {
             Button = GetComponent<Button>();
@@ -23,21 +23,21 @@ namespace STP.Behaviour.Meta.UI {
             }
         }
 
-        public void CommonInit(MetaUiCanvas owner, PlayerShip playerShip, MetaTimeManager timeManager,
-            StarSystemsManager starSystemsManager) {
-            _owner              = owner;
-            _playerShip         = playerShip;
-            _timeManager        = timeManager;
-            _starSystemsManager = starSystemsManager;
+        public void CommonInit(MetaUiCanvas owner, PlayerShipMovementController playerShipMovementController,
+            MetaTimeManager timeManager, StarSystemsManager starSystemsManager) {
+            _owner                        = owner;
+            _playerShipMovementController = playerShipMovementController;
+            _timeManager                  = timeManager;
+            _starSystemsManager           = starSystemsManager;
 
-            _playerShip.OnCusSystemChanged += OnPlayerShipCurSystemChanged;
-            _timeManager.OnPausedChanged   += OnPauseChanged;
+            _playerShipMovementController.OnCurSystemChanged += OnPlayerShipCurSystemChanged;
+            _timeManager.OnPausedChanged                     += OnPauseChanged;
 
             Button.onClick.AddListener(OnClick);
         }
 
         void OnPauseChanged(bool isPaused) {
-            UpdateActive(isPaused, _playerShip.CurSystem.Id);
+            UpdateActive(isPaused, _playerShipMovementController.CurSystem.Id);
         }
 
         void OnPlayerShipCurSystemChanged(string playerCurSystem) {
@@ -45,7 +45,7 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         void OnClick() {
-            _owner.ShowFactionSystemWindow(_playerShip.CurSystem.Id);
+            _owner.ShowFactionSystemWindow(_playerShipMovementController.CurSystem.Id);
         }
 
         void UpdateActive(bool isPaused, string playerCurSystem) {
