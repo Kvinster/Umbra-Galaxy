@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 
 using STP.Common;
+using STP.State;
 using STP.State.Meta;
 
 namespace STP.Behaviour.Meta.UI {
@@ -32,6 +33,8 @@ namespace STP.Behaviour.Meta.UI {
 
             _playerShipMovementController.OnCurSystemChanged += OnPlayerShipCurSystemChanged;
             _timeManager.OnPausedChanged                     += OnPauseChanged;
+
+            OnPlayerShipCurSystemChanged(PlayerState.Instance.CurSystemId);
 
             Button.onClick.AddListener(OnClick);
         }
