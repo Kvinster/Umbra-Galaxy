@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace STP.State {
     public class PlayerState {
-        public const int MaxFuel = 50;
+        public const int MaxFuel = 100;
 
         public string CurSystemId = "bd6537e4a0b08a2449e4d595f48ab96e"; // Cradle
         
@@ -23,7 +23,7 @@ namespace STP.State {
         readonly Dictionary<string, int> _inventory = new Dictionary<string, int>();
 
         // TODO: set for the sake of testing, revert
-        int _fuel = 50;
+        int _fuel = MaxFuel;
         public int Fuel {
             get => _fuel;
             set {
