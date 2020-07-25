@@ -29,6 +29,7 @@ namespace STP.State.Meta {
                             var roll   = Random.Range(0, 100);
                             if ( roll > chance ) {
                                 ssc.SetFactionSystemActive(starSystem, false);
+                                ProgressController.Instance.OnStarSystemCaptured(starSystem);
                             }
                             break;
                         }
