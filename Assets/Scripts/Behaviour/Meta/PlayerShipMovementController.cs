@@ -92,35 +92,6 @@ namespace STP.Behaviour.Meta {
             transform.position = CurSystem.transform.position;
             CurState = State.Idle;
         }
-        
-        public bool CanMoveTo(BaseStarSystem destSystem, bool silent = true) {
-            if ( !destSystem ) {
-                if ( !silent ) {
-                    Debug.LogError("Destination systems is null");
-                }
-                return false;
-            }
-            if ( CurSystem == destSystem ) {
-                if ( !silent ) {
-                    Debug.LogErrorFormat("Current and destination system are the same system '{0}'", CurSystem.Id);
-                }
-                return false;
-            }
-            if ( !_timeManager.IsPaused ) {
-                if ( !silent ) {
-                    Debug.LogError("Can't start movement when the time is moving");
-                }
-                return false;
-            }
-            var path = StarSystemsController.Instance.GetPath(CurSystem.Id, destSystem.Id);
-            if ( path == null ) {
-                return false;
-            }
-            if ( path.PathLength > PlayerState.Instance.Fuel ) {
-                return false;
-            }
-            return true;
-        }
 
         public void TrySelect(BaseStarSystem destSystem) {
             if ( (CurState != State.Idle) && (CurState != State.Selected) ) {
@@ -155,6 +126,35 @@ namespace STP.Behaviour.Meta {
                     Vector2.SignedAngle(new Vector3(0, 1), NextSystem.transform.position - transform.position));
             CurState = State.Moving;
             return _movePromise;
+        }
+        
+        bool CanMoveTo(BaseStarSystem destSystem, bool silent = true) {
+            if ( !destSystem ) {
+                if ( !silent ) {
+                    Debug.LogError("Destination systems is null");
+                }
+                return false;
+            }
+            if ( CurSystem == destSystem ) {
+                if ( !silent ) {
+                    Debug.LogErrorFormat("Current and destination system are the same system '{0}'", CurSystem.Id);
+                }
+                return false;
+            }
+            if ( !_timeManager.IsPaused ) {
+                if ( !silent ) {
+                    Debug.LogError("Can't start movement when the time is moving");
+                }
+                return false;
+            }
+            var path = StarSystemsController.Instance.GetPath(CurSystem.Id, destSystem.Id);
+            if ( path == null ) {
+                return false;
+            }
+            if ( path.PathLength > PlayerState.Instance.Fuel ) {
+                return false;
+            }
+            return true;
         }
 
         void OnTimePausedChanged(bool isPaused) {
