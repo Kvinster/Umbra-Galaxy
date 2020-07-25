@@ -25,3 +25,7 @@ MonoBehaviour:
     ItemBasePrice: 50
     ItemBaseSurvivalChanceInc: 0
     ItemInventoryIcon: {fileID: 0}
+  - ItemName: meta_item
+    ItemBasePrice: 0
+    ItemBaseSurvivalChanceInc: 100
+    ItemInventoryIcon: {fileID: 0}

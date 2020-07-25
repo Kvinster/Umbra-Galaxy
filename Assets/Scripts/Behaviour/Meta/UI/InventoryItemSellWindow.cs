@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using STP.Behaviour.Common;
 using STP.Behaviour.Utils;
+using STP.Common;
 using STP.State;
 using STP.State.Meta;
 
@@ -22,7 +23,8 @@ namespace STP.Behaviour.Meta.UI {
         public Button              SellButton;
         public List<Button>        CloseWindowButtons;
 
-        MetaUiCanvas     _owner;
+        StarSystemsManager _starSystemsManager;
+        MetaUiCanvas       _owner;
         InventoryItemInfos _inventoryItemInfos;
 
         string _itemName;
@@ -31,7 +33,9 @@ namespace STP.Behaviour.Meta.UI {
 
         bool CanSell => (_resultPrice <= StarSystemsController.Instance.GetFactionSystemMoney(_starSystemId));
 
-        public void CommonInit(MetaUiCanvas owner, InventoryItemInfos inventoryItemInfos) {
+        public void CommonInit(StarSystemsManager starSystemsManager, MetaUiCanvas owner,
+            InventoryItemInfos inventoryItemInfos) {
+            _starSystemsManager = starSystemsManager;
             _owner              = owner;
             _inventoryItemInfos = inventoryItemInfos;
 
@@ -110,6 +114,11 @@ namespace STP.Behaviour.Meta.UI {
                 ps.Money += _resultPrice;
                 ssc.AddFactionSystemSurvivalChance(_starSystemId,
                     _inventoryItemInfos.GetItemBaseSurvivalChanceInc(_itemName) * amount);
+                
+                if ( _starSystemsManager.GetStarSystem(_starSystemId).Type == StarSystemType.Faction ) {
+                    ProgressController.Instance.OnSellItemToFaction(_itemName, amount,
+                        ssc.GetFactionSystemFaction(_starSystemId));
+                }
 
                 var inventoryAmount = ps.GetInventoryItemAmount(_itemName);
                 if ( inventoryAmount <= 0 ) {
