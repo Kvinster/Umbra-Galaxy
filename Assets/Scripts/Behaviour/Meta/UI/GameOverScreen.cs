@@ -49,6 +49,8 @@ namespace STP.Behaviour.Meta.UI {
             _owner = owner;
 
             ProgressController.Instance.OnGameFinished += OnGameFinished;
+
+            gameObject.SetActive(true);
         }
 
         void OnGameFinished(bool win) {
