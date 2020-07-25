@@ -9,9 +9,13 @@ namespace STP.Behaviour.Meta {
         MetaTimeManager _timeManager;
 
         void Update() {
-            if ( Input.GetKeyDown(KeyCode.Space) && _timeManager.IsPaused ) {
-                _timeManager.Unpause(_timeManager.CurDay + 1);
-            }
+            if ( Input.GetKeyDown(KeyCode.Space) ) {
+                if ( _timeManager.IsPaused ) {
+                    _timeManager.Unpause(_timeManager.CurDay + 1);
+                } else if ( MovementController.IsMoving ) {
+                    MovementController.InterruptMoving();
+                }
+            } 
         }
 
         protected override void InitInternal(MetaStarter starter) {

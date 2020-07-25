@@ -23,6 +23,7 @@ namespace STP.Behaviour.Meta {
         int           _pathStartDay;
         int           _pathEndDay;
         Promise<bool> _movePromise;
+        bool          _interrupt;
 
         StarSystemPath _curPath;
         int            _nextNodeIndex;
@@ -127,6 +128,14 @@ namespace STP.Behaviour.Meta {
             CurState = State.Moving;
             return _movePromise;
         }
+
+        public void InterruptMoving() {
+            if ( !IsMoving ) {
+                Debug.LogError("Can't interrupt: not moving");
+                return;
+            }
+            _interrupt = true;
+        }
         
         bool CanMoveTo(BaseStarSystem destSystem, bool silent = true) {
             if ( !destSystem ) {
@@ -167,8 +176,8 @@ namespace STP.Behaviour.Meta {
                 } else {
                     ++_nextNodeIndex;
                     nextSystem = NextSystem;
-                    if ( (nextSystem.Type != StarSystemType.Shard) ||
-                         StarSystemsController.Instance.GetShardSystemActive(nextSystem.Id) ) {
+                    if ( !_interrupt && ((nextSystem.Type != StarSystemType.Shard) ||
+                          StarSystemsController.Instance.GetShardSystemActive(nextSystem.Id)) ) {
                         var nextDistance = StarSystemsController.Instance.GetDistance(CurSystem.Id, nextSystem.Id);
                         _pathStartDay = _timeManager.CurDay;
                         _pathEndDay   = _pathStartDay + nextDistance;
@@ -188,6 +197,7 @@ namespace STP.Behaviour.Meta {
             _timeManager.OnPausedChanged -= OnTimePausedChanged;
             _movePromise.Resolve(success);
             _movePromise = null;
+            _interrupt   = false;
             CurState = State.Idle;
         }
     }
