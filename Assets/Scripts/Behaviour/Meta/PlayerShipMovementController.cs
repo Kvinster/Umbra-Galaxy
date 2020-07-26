@@ -99,6 +99,9 @@ namespace STP.Behaviour.Meta {
                 Debug.LogErrorFormat("Invalid state '{0}'", CurState.ToString());
                 return;
             }
+            if ( destSystem == CurSystem ) {
+                return;
+            }
             DestSystem = destSystem;
             CurState   = State.Selected;
         }
