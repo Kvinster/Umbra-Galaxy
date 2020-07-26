@@ -50,6 +50,7 @@ MonoBehaviour:
   StarSystemNameText: {fileID: 4033252030349742905}
   EventTrigger: {fileID: 501708042941983816}
   IdText: 
+  SpriteRenderer: {fileID: 964630008382118353}
 --- !u!212 &964630008382118353
 SpriteRenderer:
   m_ObjectHideFlags: 0

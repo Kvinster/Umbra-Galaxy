@@ -3,12 +3,15 @@ using UnityEngine.SceneManagement;
 
 using STP.Behaviour.Starter;
 using STP.Common;
+using STP.State.Meta;
 using STP.Utils.PropertyAttribute;
 
 namespace STP.Behaviour.Meta {
     public sealed class ShardStarSystem : BaseStarSystem {
         [ShardStarSystemId]
         public string IdText;
+
+        public SpriteRenderer SpriteRenderer;
 
         public override string Id => IdText;
 
@@ -35,13 +38,35 @@ namespace STP.Behaviour.Meta {
 #endif
         }
 
+        void OnDestroy() {
+            StarSystemsController.Instance.OnStarSystemActiveChanged -= OnStarSystemActiveChanged;
+        }
+
         protected override void InitSpecific(MetaStarter starter) {
+            var ssc = StarSystemsController.Instance;
+            ssc.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
+            OnStarSystemActiveChanged(Id, ssc.GetShardSystemActive(Id));
+        }
+
+        protected override void OnClick() {
+            if ( StarSystemsController.Instance.GetShardSystemActive(Id) ) {
+                base.OnClick();
+            }
         }
 
         protected override void OnPlayerArrive(bool success) {
             if ( success ) {
+                StarSystemsController.Instance.SetShardSystemActive(Id, false);
                 SceneManager.LoadScene("CoreLevel1");
             }
+        }
+
+        void OnStarSystemActiveChanged(string starSystemId, bool isActive) {
+            if ( starSystemId != Id ) {
+                return;
+            }
+            gameObject.SetActive(isActive);
+            SpriteRenderer.enabled = isActive;
         }
     }
 }
