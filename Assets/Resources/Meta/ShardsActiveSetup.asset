@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShardActiveSetups:
   - ShardId: 236389d88252c8b44afd0113d9c9ca23
-    ActivationDay: 1
-    ActivationPeriod: 3
+    ActivePeriods:
+    - ActivationDay: 1
+      ActivationPeriod: 3
+    - ActivationDay: 5
+      ActivationPeriod: 3

@@ -11,9 +11,14 @@ namespace STP.Behaviour.Meta {
         [Serializable]
         public sealed class ShardActiveSetup {
             [ShardStarSystemId]
-            public string ShardId;
-            public int    ActivationDay;
-            public int    ActivationPeriod;
+            public string                  ShardId;
+            public List<ShardActivePeriod> ActivePeriods = new List<ShardActivePeriod>();
+        }
+
+        [Serializable]
+        public sealed class ShardActivePeriod {
+            public int ActivationDay;
+            public int ActivationPeriod;
         }
         
         public const string FullAssetPath = "Assets/Resources/Meta/ShardsActiveSetup.asset";

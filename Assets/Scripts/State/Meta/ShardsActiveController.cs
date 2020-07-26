@@ -29,11 +29,14 @@ namespace STP.State.Meta {
             _starSystemsController = StarSystemsController.Instance;
             var curDay = _timeController.CurDay;
             foreach ( var shardActiveSetup in _shardsActiveSetup.ShardActiveSetups ) {
-                if ( (shardActiveSetup.ActivationDay > curDay) ||
-                     (shardActiveSetup.ActivationDay + shardActiveSetup.ActivationPeriod < curDay) ) {
-                    _starSystemsController.SetShardSystemActive(shardActiveSetup.ShardId, false);
-                } else {
-                    _starSystemsController.SetShardSystemActive(shardActiveSetup.ShardId, true);
+                foreach ( var activePeriod in shardActiveSetup.ActivePeriods ) {
+                    if ( (activePeriod.ActivationDay > curDay) ||
+                         (activePeriod.ActivationDay + activePeriod.ActivationPeriod < curDay) ) {
+                        _starSystemsController.SetShardSystemActive(shardActiveSetup.ShardId, false);
+                    } else {
+                        _starSystemsController.SetShardSystemActive(shardActiveSetup.ShardId, true);
+                        break;
+                    }
                 }
             }
             
@@ -42,11 +45,15 @@ namespace STP.State.Meta {
 
         void OnCurDayChanged(int curDay) {
             foreach ( var shardActiveSetup in _shardsActiveSetup.ShardActiveSetups ) {
-                if ( shardActiveSetup.ActivationDay == curDay ) {
-                    _starSystemsController.SetShardSystemActive(shardActiveSetup.ShardId, true);
-                }
-                if ( shardActiveSetup.ActivationDay + shardActiveSetup.ActivationPeriod == curDay ) {
-                    _starSystemsController.SetShardSystemActive(shardActiveSetup.ShardId, false);
+                foreach ( var activePeriod in shardActiveSetup.ActivePeriods ) {
+                    if ( activePeriod.ActivationDay == curDay ) {
+                        _starSystemsController.SetShardSystemActive(shardActiveSetup.ShardId, true);
+                        break;
+                    }
+                    if ( activePeriod.ActivationDay + activePeriod.ActivationPeriod == curDay ) {
+                        _starSystemsController.SetShardSystemActive(shardActiveSetup.ShardId, false);
+                        break;
+                    }
                 }
             }
         }
