@@ -177,10 +177,15 @@ namespace STP.Behaviour.Meta {
                 if ( nextSystem == DestSystem ) {
                     FinishMovement(true);
                 } else {
+                    if ( CurSystem.InterruptOnPlayerArriveIntermediate ) {
+                        FinishMovement(false);
+                        CurSystem.OnPlayerArrive(true);
+                        return;
+                    }
                     ++_nextNodeIndex;
                     nextSystem = NextSystem;
                     if ( !_interrupt && ((nextSystem.Type != StarSystemType.Shard) ||
-                          StarSystemsController.Instance.GetShardSystemActive(nextSystem.Id)) ) {
+                                         StarSystemsController.Instance.GetShardSystemActive(nextSystem.Id)) ) {
                         var nextDistance = StarSystemsController.Instance.GetDistance(CurSystem.Id, nextSystem.Id);
                         _pathStartDay = _timeManager.CurDay;
                         _pathEndDay   = _pathStartDay + nextDistance;

@@ -18,6 +18,10 @@ namespace STP.Behaviour.Meta {
 
         public override bool HighPriorityInit => true;
 
+        public virtual bool InterruptOnPlayerArriveIntermediate => false;
+        
+        public virtual void OnPlayerArrive(bool success) { }
+
         protected sealed override void InitInternal(MetaStarter starter) {
             PlayerShipMovementController = starter.PlayerShip.MovementController;
             
@@ -50,7 +54,5 @@ namespace STP.Behaviour.Meta {
                 }
             }
         }
-        
-        protected virtual void OnPlayerArrive(bool success) { }
     }
 }

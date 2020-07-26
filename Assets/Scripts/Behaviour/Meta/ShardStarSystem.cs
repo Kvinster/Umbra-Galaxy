@@ -16,7 +16,9 @@ namespace STP.Behaviour.Meta {
         public override string Id => IdText;
 
         public override StarSystemType Type => StarSystemType.Shard;
-        
+
+        public override bool InterruptOnPlayerArriveIntermediate => true;
+
         void OnValidate() {
 #if UNITY_EDITOR
             if ( !UnityEditor.PrefabUtility.IsPartOfAnyPrefab(this) ||
@@ -42,6 +44,13 @@ namespace STP.Behaviour.Meta {
             StarSystemsController.Instance.OnStarSystemActiveChanged -= OnStarSystemActiveChanged;
         }
 
+        public override void OnPlayerArrive(bool success) {
+            if ( success ) {
+                StarSystemsController.Instance.SetShardSystemActive(Id, false);
+                SceneManager.LoadScene("CoreLevel1");
+            }
+        }
+
         protected override void InitSpecific(MetaStarter starter) {
             var ssc = StarSystemsController.Instance;
             ssc.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
@@ -51,13 +60,6 @@ namespace STP.Behaviour.Meta {
         protected override void OnClick() {
             if ( StarSystemsController.Instance.GetShardSystemActive(Id) ) {
                 base.OnClick();
-            }
-        }
-
-        protected override void OnPlayerArrive(bool success) {
-            if ( success ) {
-                StarSystemsController.Instance.SetShardSystemActive(Id, false);
-                SceneManager.LoadScene("CoreLevel1");
             }
         }
 

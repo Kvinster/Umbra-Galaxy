@@ -16,6 +16,9 @@ namespace STP.Behaviour.Meta {
 
         public override StarSystemType Type => StarSystemType.Faction;
 
+        public override bool InterruptOnPlayerArriveIntermediate =>
+            !StarSystemsController.Instance.GetFactionSystemActive(Id);
+
         void OnValidate() {
 #if UNITY_EDITOR
             if ( UnityEditor.PrefabUtility.IsPartOfPrefabInstance(this) ) {
@@ -40,15 +43,15 @@ namespace STP.Behaviour.Meta {
             StarSystemsController.Instance.OnStarSystemActiveChanged -= OnStarSystemActiveChanged;
         }
 
-        protected override void InitSpecific(MetaStarter starter) {
-            StarSystemsController.Instance.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
-            OnStarSystemActiveChanged(Id, StarSystemsController.Instance.GetFactionSystemActive(Id));
-        }
-
-        protected override void OnPlayerArrive(bool success) {
+        public override void OnPlayerArrive(bool success) {
             if ( success && !StarSystemsController.Instance.GetFactionSystemActive(Id) ) {
                 SceneManager.LoadScene("CoreLevel1");
             }
+        }
+
+        protected override void InitSpecific(MetaStarter starter) {
+            StarSystemsController.Instance.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
+            OnStarSystemActiveChanged(Id, StarSystemsController.Instance.GetFactionSystemActive(Id));
         }
 
         void OnStarSystemActiveChanged(string starSystemId, bool isActive) {
