@@ -40,6 +40,7 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
                 ItemViews[itemViewIndex].gameObject.SetActive(false);
             }
 
+            PlayerState.Instance.OnInventoryChanged -= OnInventoryChanged;
             PlayerState.Instance.OnInventoryChanged += OnInventoryChanged;
         }
 
