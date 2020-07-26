@@ -1,10 +1,10 @@
-﻿using STP.Gameplay.Weapon.Common;
-using STP.Gameplay.Weapon.GunWeapon;
-using UnityEngine;
+﻿using UnityEngine;
+
+using STP.Gameplay.Weapon.Common;
 using STP.State;
 
-namespace STP.Gameplay.WeaponViews {
-    public class BulletsWeaponView : BaseWeaponView {
+namespace STP.Gameplay.Weapon.GunWeapon {
+    public class GunWeaponView : BaseWeaponView {
         public Transform BulletLaunchPoint;
         
         BaseShip      _ship;
