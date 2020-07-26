@@ -7,7 +7,12 @@ namespace STP.State.Meta {
         public const int DarknessHitTime = 5; 
         
         static DarknessController _instance;
-        public static DarknessController Instance => _instance ?? (_instance = new DarknessController());
+        public static DarknessController Instance {
+            get {
+                TryCreate();
+                return _instance;
+            }
+        }
 
         readonly DarknessInfoHolder _darknessInfoHolder;
         readonly TimeController     _timeController;

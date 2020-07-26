@@ -10,7 +10,12 @@ using STP.Utils;
 namespace STP.State.Meta {
     public sealed class StarSystemsController {
         static StarSystemsController _instance;
-        public static StarSystemsController Instance => _instance ?? (_instance = new StarSystemsController().Init());
+        public static StarSystemsController Instance {
+            get {
+                TryCreate();
+                return _instance;
+            }
+        }
 
         StarSystemsGraphInfo _graphInfo;
         
@@ -209,6 +214,13 @@ namespace STP.State.Meta {
                 return false;
             }
             return true;
+        }
+
+        [RuntimeInitializeOnLoadMethod]
+        static void TryCreate() {
+            if ( _instance == null ) {
+                _instance = new StarSystemsController().Init();
+            }
         }
     }
 }
