@@ -138,8 +138,10 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
 
         void OnRefillFuelClick() {
             if ( PlayerCanBuyFuel ) {
-                PlayerState.Instance.Money -= _fuelPrice;
-                PlayerState.Instance.Fuel  += _fuelAmount;
+                var price  = _fuelPrice;
+                var amount = _fuelAmount;
+                PlayerState.Instance.Money -= price;
+                PlayerState.Instance.Fuel  += amount;
             } else {
                 Debug.LogError("Unsupported scenario");
             }
