@@ -28,6 +28,7 @@ namespace STP.State.Meta {
 
         public event Action<string, int>  OnStarSystemMoneyChanged;
         public event Action<string, bool> OnStarSystemActiveChanged;
+        public event Action<string, int>  OnStarSystemSurvivalChanceChanged;
 
         public bool HasStarSystem(string starSystemId) {
             return _starSystemIds.Contains(starSystemId);
@@ -71,8 +72,12 @@ namespace STP.State.Meta {
         }
 
         public void AddFactionSystemSurvivalChance(string starSystemId, int addSurvivalChance) {
+            if ( addSurvivalChance == 0 ) {
+                return;
+            }
             if ( TryGetFactionSystemState(starSystemId, out var factionSystemState) ) {
                 factionSystemState.SurvivalChance += addSurvivalChance;
+                OnStarSystemSurvivalChanceChanged?.Invoke(starSystemId, factionSystemState.SurvivalChance);
             }
         }
 
