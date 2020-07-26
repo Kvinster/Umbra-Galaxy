@@ -25,6 +25,10 @@ namespace STP.Gameplay.Weapon.Common {
         }
         
         public void AddWeaponView(BaseShip ship, BaseWeapon weapon) {
+            if ( weapon == null ) {
+                Debug.LogError("weapon object is null. Can't init view for it.");
+                return;
+            }
             var weaponName = weapon.Name;
             if ( !_weaponViewsPrefabs.ContainsKey(weaponName) ) {
                 Debug.LogError(string.Format("Can't find weapon view {0}", weaponName));

@@ -46,7 +46,7 @@ namespace STP.Gameplay {
         
 
         protected void UpdateWeaponControlState() {
-            WeaponControl.UpdateControl(Time.deltaTime);
+            WeaponControl?.UpdateControl(Time.deltaTime);
         }
 
         protected abstract void OnShipDestroy();
