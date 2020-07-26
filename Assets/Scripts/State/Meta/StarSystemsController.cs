@@ -140,10 +140,13 @@ namespace STP.State.Meta {
             return new StarSystemPath(path, length);
         }
 
-        List<string> GetNeighbouringStarSystems(string starSystemId) {
+        List<string> GetNeighbouringStarSystems(string startStarSystemId, string starSystemId) {
             var neighbours = _graphInfo.GetNeighbouringStarSystems(starSystemId);
             for ( var i = neighbours.Count - 1; i >= 0; i-- ) {
                 var neighbourId   = neighbours[i];
+                if ( neighbourId == startStarSystemId ) {
+                    continue;
+                }
                 var neighbourType = GetStarSystemType(neighbourId);
                 switch ( neighbourType ) {
                     case StarSystemType.Faction: {
