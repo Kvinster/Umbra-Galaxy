@@ -7,15 +7,16 @@
     }
 
     public class Weapons {
-        public const string Bullets = "bullets";
+        public const string Gun     = "bullets";
+        public const string ShotGun = "shotgun";
         public const string Laser   = "laser";
         public const string Lance   = "lance";
         public const string Impulse = "impulse";
     }
 
     public abstract class BaseWeapon {
-        public abstract string Name { get; }
-        
+        public virtual string Name => string.Empty;
+
         WeaponState _state;
         public WeaponState CurState {
             get => _state;

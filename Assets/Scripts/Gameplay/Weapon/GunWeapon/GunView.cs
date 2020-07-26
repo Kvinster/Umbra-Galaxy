@@ -4,7 +4,7 @@ using STP.Gameplay.Weapon.Common;
 using STP.State;
 
 namespace STP.Gameplay.Weapon.GunWeapon {
-    public class GunWeaponView : BaseWeaponView {
+    public class GunView : BaseWeaponView {
         public Transform BulletLaunchPoint;
         
         BaseShip      _ship;
@@ -14,7 +14,7 @@ namespace STP.Gameplay.Weapon.GunWeapon {
         
         void OnWeaponStateChanged(WeaponState newWeaponState) {
             if ( newWeaponState == WeaponState.FIRE ) {
-                _bulletCreator.CreateBullet(_bulletType, BulletLaunchPoint.position, _ship.transform.rotation * Vector2.up, _weapon.BulletSpeed);  
+                _bulletCreator.CreateBullet(_ship, _bulletType, BulletLaunchPoint.position, transform.rotation * Vector2.up, _weapon.BulletSpeed);  
             }
         }
 

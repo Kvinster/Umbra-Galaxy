@@ -9,7 +9,7 @@ namespace STP.Gameplay.Weapon.GunWeapon {
         
         public float BulletSpeed {get;}
         
-        public override string Name => Weapons.Bullets;
+        public override string Name => Weapons.Gun;
         
         public Gun(float bulletSpeed, float reloadTime) {
             BulletSpeed = bulletSpeed;
