@@ -104,6 +104,16 @@ namespace STP.State.Meta {
             return TryGetShardSystemState(starSystemId, out var shardSystemState) && shardSystemState.IsActive;
         }
 
+        public void SetShardSystemActive(string starSystemId, bool isActive) {
+            if ( TryGetShardSystemState(starSystemId, out var shardSystemState) ) {
+                if ( shardSystemState.IsActive == isActive ) {
+                    return;
+                }
+                shardSystemState.IsActive = isActive;
+                OnStarSystemActiveChanged?.Invoke(starSystemId, isActive);
+            }
+        }
+
         public StarSystemPath GetPath(string aStarSystemId, string bStarSystemId) {
             var path = CalcPath(aStarSystemId, bStarSystemId);
             if ( (path.StartStarSystemId == aStarSystemId) && (path.FinishStarSystemId == bStarSystemId) ) {
