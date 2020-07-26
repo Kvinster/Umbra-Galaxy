@@ -17,7 +17,6 @@ namespace STP.Behaviour.Meta.UI {
         
         public TMP_Text            ItemNameText;
         public Image               ItemIcon;
-        public SliderTextFieldPair PricePair;
         public SliderTextFieldPair AmountPair;
         public TMP_Text            ResultPriceText;
         public Button              SellButton;
@@ -28,6 +27,7 @@ namespace STP.Behaviour.Meta.UI {
         InventoryItemInfos _inventoryItemInfos;
 
         string _itemName;
+        int    _itemPrice;
         int    _resultPrice;
         string _starSystemId;
 
@@ -40,7 +40,6 @@ namespace STP.Behaviour.Meta.UI {
             _inventoryItemInfos = inventoryItemInfos;
 
             AmountPair.CommonInit();
-            PricePair.CommonInit();
 
             SellButton.onClick.AddListener(OnSellClick);
             foreach ( var closeWindowButton in CloseWindowButtons ) {
@@ -58,21 +57,17 @@ namespace STP.Behaviour.Meta.UI {
             var inventoryAmount = PlayerState.Instance.GetInventoryItemAmount(_itemName);
             AmountPair.Init(1, inventoryAmount);
 
-            var basePrice = _inventoryItemInfos.GetItemBasePrice(itemName);
-            PricePair.Init(Mathf.FloorToInt(basePrice * 0.9f), Mathf.CeilToInt(basePrice * 1.1f));
+            _itemPrice = _inventoryItemInfos.GetItemBasePrice(itemName);
             
-            PricePair.OnValueChanged  += OnPriceChanged;
             AmountPair.OnValueChanged += OnAmountChanged;
 
-            UpdateResultPrice(PricePair.CurValue, AmountPair.CurValue);
+            UpdateResultPrice(AmountPair.CurValue);
         }
 
         void Hide() {
             _itemName     = null;
             _starSystemId = null;
             
-            PricePair.OnValueChanged  -= OnPriceChanged;
-            PricePair.Deinit();
             AmountPair.OnValueChanged -= OnAmountChanged;
             AmountPair.Deinit();
 
@@ -87,16 +82,12 @@ namespace STP.Behaviour.Meta.UI {
             AmountPair.SetBorderValues(1, inventoryAmount);
         }
 
-        void OnPriceChanged(int newPrice) {
-            UpdateResultPrice(newPrice, AmountPair.CurValue);
-        }
-
         void OnAmountChanged(int newAmount) {
-            UpdateResultPrice(PricePair.CurValue, newAmount);
+            UpdateResultPrice(newAmount);
         }
 
-        void UpdateResultPrice(int price, int amount) {
-            _resultPrice = price * amount;
+        void UpdateResultPrice(int amount) {
+            _resultPrice = _itemPrice * amount;
             ResultPriceText.text = string.Format(ResultPriceTextTemplate, _resultPrice);
             SellButton.interactable = CanSell;
         }
