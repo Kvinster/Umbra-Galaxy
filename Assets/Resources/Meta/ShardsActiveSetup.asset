@@ -17,5 +17,19 @@ MonoBehaviour:
     ActivePeriods:
     - ActivationDay: 1
       ActivationPeriod: 3
-    - ActivationDay: 5
-      ActivationPeriod: 3
+  - ShardId: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+    ActivePeriods:
+    - ActivationDay: 6
+      ActivationPeriod: 6
+  - ShardId: b182bcf4-d087-4ec0-809b-6fdf66520944
+    ActivePeriods:
+    - ActivationDay: 10
+      ActivationPeriod: 6
+  - ShardId: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+    ActivePeriods:
+    - ActivationDay: 14
+      ActivationPeriod: 6
+  - ShardId: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+    ActivePeriods:
+    - ActivationDay: 18
+      ActivationPeriod: 6

@@ -422,6 +422,228 @@ MonoBehaviour:
     - A: 656bdd195fe451649b3330d16f9682ef
       B: 236389d88252c8b44afd0113d9c9ca23
       Distance: 0
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: eb9e378c36157884d8c4c88df0d2501d
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: 958508762e1669a48bcb0c240cbe3367
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: bb60678d64a1a9140a92600ea6fa1568
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: b3392afa326e5aa4e92031420452b402
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 2
+    - A: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 1
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: ff03f2688380ae3429a45386b37006db
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: 501f552058afd464c91d3e44bbf53c7d
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: 656bdd195fe451649b3330d16f9682ef
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: 236389d88252c8b44afd0113d9c9ca23
+      B: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Distance: 0
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: eb9e378c36157884d8c4c88df0d2501d
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 1
+    - A: 958508762e1669a48bcb0c240cbe3367
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 1
+    - A: bb60678d64a1a9140a92600ea6fa1568
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: b3392afa326e5aa4e92031420452b402
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: ff03f2688380ae3429a45386b37006db
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: 501f552058afd464c91d3e44bbf53c7d
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 1
+    - A: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: 656bdd195fe451649b3330d16f9682ef
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: 236389d88252c8b44afd0113d9c9ca23
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      B: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Distance: 0
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: eb9e378c36157884d8c4c88df0d2501d
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: 958508762e1669a48bcb0c240cbe3367
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: bb60678d64a1a9140a92600ea6fa1568
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: b3392afa326e5aa4e92031420452b402
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: ff03f2688380ae3429a45386b37006db
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: 501f552058afd464c91d3e44bbf53c7d
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 1
+    - A: 656bdd195fe451649b3330d16f9682ef
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 1
+    - A: 236389d88252c8b44afd0113d9c9ca23
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: b182bcf4-d087-4ec0-809b-6fdf66520944
+      B: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Distance: 0
+    - A: bd6537e4a0b08a2449e4d595f48ab96e
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: eb9e378c36157884d8c4c88df0d2501d
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: 958508762e1669a48bcb0c240cbe3367
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: bb60678d64a1a9140a92600ea6fa1568
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 2
+    - A: b3392afa326e5aa4e92031420452b402
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: 48f5068b4ec93fb41a62cfc3c4e6b38f
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: e353514ece8132b47b7bbc5c234b2f33
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: 74462c7c53badc6458e6301b9160ff06
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 2
+    - A: 5cda78cf2ef19054b86c6a9c4c88c013
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: afe30c5be888e874f9677cece5ccc873
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: 413ad74c2dc99ea4e9abee3cadcf9bf9
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: 42175a4094c753e479dc0ab5bf3a15f2
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: ff03f2688380ae3429a45386b37006db
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: 501f552058afd464c91d3e44bbf53c7d
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: 0b65e25d932f0dc4d9c6507d2f5c79dc
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: 656bdd195fe451649b3330d16f9682ef
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: 236389d88252c8b44afd0113d9c9ca23
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: b182bcf4-d087-4ec0-809b-6fdf66520944
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
+    - A: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      B: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Distance: 0
     FactionSystemInfos:
     - Id: bd6537e4a0b08a2449e4d595f48ab96e
       Name: Cradle
@@ -522,4 +744,16 @@ MonoBehaviour:
     ShardSystemInfos:
     - Id: 236389d88252c8b44afd0113d9c9ca23
       Name: Shard-0
+      Level: 0
+    - Id: e27b1bb7-6c73-4a9a-adf8-b03b185c56f5
+      Name: Shard-1
+      Level: 0
+    - Id: b182bcf4-d087-4ec0-809b-6fdf66520944
+      Name: Shard-2
+      Level: 0
+    - Id: eeab760a-45a8-4ec2-9ac2-1a1b5bc046b9
+      Name: Shard-3
+      Level: 0
+    - Id: 1f67bdcd-bbd9-4d1b-bc25-c0f2600fccf7
+      Name: Shard-4
       Level: 0
