@@ -17,6 +17,8 @@ namespace STP.State {
 
         readonly ProgressControllerState _state = new ProgressControllerState();
 
+        public bool IsActive { get; private set; } = true;
+
         public Dictionary<Faction, int> UberArtifacts => _state.UberArtifacts;
 
         public event Action<bool> OnGameFinished;
@@ -35,7 +37,7 @@ namespace STP.State {
             if ( UberArtifacts.ContainsKey(buyerFaction) ) {
                 UberArtifacts[buyerFaction] += artifactsAmount;
                 if ( UberArtifacts[buyerFaction] >= GameFinishingArtifactsAmount ) {
-                    OnGameFinished?.Invoke(true);
+                    FinishGame(true);
                 }
             } else {
                 Debug.LogErrorFormat("Unsupported faction '{0}'", buyerFaction.ToString());
@@ -44,8 +46,13 @@ namespace STP.State {
 
         public void OnStarSystemCaptured(string starSystemId) {
             if ( starSystemId == CradleId ) {
-                OnGameFinished?.Invoke(false);
+                FinishGame(false);
             }
+        }
+
+        void FinishGame(bool win) {
+            IsActive = false;
+            OnGameFinished?.Invoke(win);
         }
     }
 }

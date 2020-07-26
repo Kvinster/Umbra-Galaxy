@@ -2,6 +2,7 @@
 
 using STP.Behaviour.Starter;
 using STP.Common;
+using STP.State;
 
 using TMPro;
 
@@ -39,6 +40,9 @@ namespace STP.Behaviour.Meta {
         protected abstract void InitSpecific(MetaStarter starter);
 
         protected virtual void OnClick() {
+            if ( !ProgressController.Instance.IsActive ) {
+                return;
+            }
             switch ( PlayerShipMovementController.CurState ) {
                 case PlayerShipMovementController.State.Idle: {
                     PlayerShipMovementController.TrySelect(this);

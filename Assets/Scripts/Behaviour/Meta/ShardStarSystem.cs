@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 using STP.Behaviour.Starter;
 using STP.Common;
+using STP.State;
 using STP.State.Meta;
 using STP.Utils.PropertyAttribute;
 
@@ -45,6 +46,9 @@ namespace STP.Behaviour.Meta {
         }
 
         public override void OnPlayerArrive(bool success) {
+            if ( !ProgressController.Instance.IsActive ) {
+                return;
+            }
             if ( success ) {
                 StarSystemsController.Instance.SetShardSystemActive(Id, false);
                 SceneManager.LoadScene("CoreLevel1");
