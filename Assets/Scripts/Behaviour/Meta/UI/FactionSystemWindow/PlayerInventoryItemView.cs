@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+using System;
+
 using STP.Behaviour.Common;
 using STP.State;
 
@@ -13,23 +15,19 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
         public TMP_Text ItemAmountText;
         public Button   Button;
 
-        string _itemName;
-        string _starSystemId;
-        
-        InventoryItemInfos _inventoryItemInfos;
+        string                 _itemName;
+        string                 _starSystemId;
+        Action<string, string> _showInventoryItemSellWindow;
+        InventoryItemInfos     _inventoryItemInfos;
 
-        MetaUiCanvas _metaUiCanvas;
-
-        public void CommonInit(InventoryItemInfos inventoryItemInfos, MetaUiCanvas metaUiCanvas) {
-            _metaUiCanvas       = metaUiCanvas;
-            _inventoryItemInfos = inventoryItemInfos;
-            Button.onClick.AddListener(OnClick);
-        }
-
-        public void Init(string itemName, string starSystemId) {
-            _itemName     = itemName;
-            _starSystemId = starSystemId;
+        public void Init(string itemName, string starSystemId, Action<string, string> showInventoryItemSellWindow, InventoryItemInfos inventoryItemInfos) {
+            _itemName                    = itemName;
+            _starSystemId                = starSystemId;
+            _showInventoryItemSellWindow = showInventoryItemSellWindow;
+            _inventoryItemInfos          = inventoryItemInfos;
             
+            Button.onClick.AddListener(OnClick);
+
             if ( !PlayerState.Instance.HasInInventory(itemName) ) {
                 Debug.LogErrorFormat("No item '{0}' in player's inventory", itemName);
                 return;
@@ -39,8 +37,16 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
             ItemIcon.sprite     = _inventoryItemInfos.GetItemInventoryIcon(itemName);
         }
 
+        public void Deinit() {
+            _itemName                    = null;
+            _starSystemId                = null;
+            _showInventoryItemSellWindow = null;
+
+            Button.onClick.RemoveAllListeners();
+        }
+
         void OnClick() {
-            _metaUiCanvas.ShowInventoryItemSellWindow(_itemName, _starSystemId);
+            _showInventoryItemSellWindow?.Invoke(_itemName, _starSystemId);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace STP.Behaviour.Meta {
                 } else if ( MovementController.IsMoving ) {
                     MovementController.InterruptMoving();
                 }
-            } 
+            }
         }
 
         protected override void InitInternal(MetaStarter starter) {

@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-using STP.Behaviour.Starter;
+using STP.Behaviour.Common;
+using STP.Common.Windows;
 using STP.State;
 using STP.State.Meta;
 
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
-    public sealed class FactionSystemWindow : MonoBehaviour {
+    public sealed class FactionSystemWindow : BaseWindow {
         const string PlayerNameTextTemplate  = "Name: {0}";
         const string PlayerFuelTextTemplate  = "Fuel: {0}";
         const string PlayerMoneyTextTemplate = "Money: {0}";
@@ -45,8 +46,6 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
         public Button HideWindowButton;
 
         public PlayerInventoryView PlayerInventoryView;
-        
-        MetaUiCanvas _owner;
 
         string _starSystemId;
         
@@ -56,19 +55,16 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
         bool CanSellFuel      => (PlayerState.Instance.Fuel < PlayerState.MaxFuel);
         bool PlayerCanBuyFuel => CanSellFuel && (PlayerState.Instance.Money >= _fuelPrice);
         
-        public void CommonInit(MetaUiCanvas owner, MetaStarter starter) {
-            _owner = owner;
-
+        public void Init(string starSystemId, StarSystemsManager starSystemsManager, InventoryItemInfos inventoryItemInfos) {
+            _starSystemId = starSystemId;
+            
             RefillFuelButton.onClick.AddListener(OnRefillFuelClick);
             HideWindowButton.onClick.AddListener(Hide);
             
-            PlayerInventoryView.CommonInit(owner, starter.InventoryItemInfos);
-        }
-
-        public void Show(string starSystemId) {
-            _starSystemId = starSystemId;
-            
-            PlayerInventoryView.Init(starSystemId);
+            PlayerInventoryView.Init(starSystemId, inventoryItemInfos, (itemName, systemId) => {
+                WindowManager.Instance.Show<InventoryItemSellWindow>(x =>
+                    x.Init(itemName, systemId, starSystemsManager, inventoryItemInfos));
+            });
 
             var ps = PlayerState.Instance;
             PlayerNameText.text = string.Format(PlayerNameTextTemplate, "Player");
@@ -95,18 +91,19 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
             StarSystemsController.Instance.OnStarSystemSurvivalChanceChanged += OnStarSystemSurvivalChanceChanged;
         }
 
-        void Hide() {
+        protected override void Deinit() {
             _starSystemId = null;
             
             PlayerInventoryView.Deinit();
+            
+            RefillFuelButton.onClick.RemoveAllListeners();
+            HideWindowButton.onClick.RemoveAllListeners();
             
             PlayerState.Instance.OnMoneyChanged -= OnPlayerMoneyChanged;
             PlayerState.Instance.OnFuelChanged  -= OnPlayerFuelChanged;
 
             StarSystemsController.Instance.OnStarSystemMoneyChanged          -= OnStarSystemMoneyChanged;
             StarSystemsController.Instance.OnStarSystemSurvivalChanceChanged -= OnStarSystemSurvivalChanceChanged;
-
-            _owner.HideFactionSystemWindow();
         }
 
         void UpdatePlayerMoneyText(int playerMoney) {

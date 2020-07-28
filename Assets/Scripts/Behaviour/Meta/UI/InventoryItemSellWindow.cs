@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using STP.Behaviour.Common;
 using STP.Behaviour.Utils;
 using STP.Common;
+using STP.Common.Windows;
 using STP.State;
 using STP.State.Meta;
 
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class InventoryItemSellWindow : MonoBehaviour {
+    public sealed class InventoryItemSellWindow : BaseWindow {
         const string ResultPriceTextTemplate = "Result price: {0}";
         
         public TMP_Text            ItemNameText;
@@ -23,7 +24,6 @@ namespace STP.Behaviour.Meta.UI {
         public List<Button>        CloseWindowButtons;
 
         StarSystemsManager _starSystemsManager;
-        MetaUiCanvas       _owner;
         InventoryItemInfos _inventoryItemInfos;
 
         string _itemName;
@@ -33,29 +33,23 @@ namespace STP.Behaviour.Meta.UI {
 
         bool CanSell => (_resultPrice <= StarSystemsController.Instance.GetFactionSystemMoney(_starSystemId));
 
-        public void CommonInit(StarSystemsManager starSystemsManager, MetaUiCanvas owner,
-            InventoryItemInfos inventoryItemInfos) {
+        public void Init(string itemName, string starSystemId, StarSystemsManager starSystemsManager, InventoryItemInfos inventoryItemInfos) {
             _starSystemsManager = starSystemsManager;
-            _owner              = owner;
             _inventoryItemInfos = inventoryItemInfos;
-
-            AmountPair.CommonInit();
-
-            SellButton.onClick.AddListener(OnSellClick);
-            foreach ( var closeWindowButton in CloseWindowButtons ) {
-                closeWindowButton.onClick.AddListener(Hide);
-            }
-        }
-
-        public void Show(string itemName, string starSystemId) {
-            _itemName     = itemName;
-            _starSystemId = starSystemId;
+            _itemName           = itemName;
+            _starSystemId       = starSystemId;
             
             ItemNameText.text = itemName;
             ItemIcon.sprite   = _inventoryItemInfos.GetItemInventoryIcon(itemName);
 
             var inventoryAmount = PlayerState.Instance.GetInventoryItemAmount(_itemName);
+            AmountPair.CommonInit();
             AmountPair.Init(1, inventoryAmount);
+            
+            SellButton.onClick.AddListener(OnSellClick);
+            foreach ( var closeWindowButton in CloseWindowButtons ) {
+                closeWindowButton.onClick.AddListener(Hide);
+            }
 
             _itemPrice = _inventoryItemInfos.GetItemBasePrice(itemName);
             
@@ -64,14 +58,19 @@ namespace STP.Behaviour.Meta.UI {
             UpdateResultPrice(AmountPair.CurValue);
         }
 
-        void Hide() {
-            _itemName     = null;
-            _starSystemId = null;
+        protected override void Deinit() {
+            _starSystemsManager = null;
+            _inventoryItemInfos = null;
+            _itemName           = null;
+            _starSystemId       = null;
             
             AmountPair.OnValueChanged -= OnAmountChanged;
             AmountPair.Deinit();
 
-            _owner.HideInventoryItemSellWindow();
+            SellButton.onClick.RemoveAllListeners();
+            foreach ( var closeWindowButton in CloseWindowButtons ) {
+                closeWindowButton.onClick.RemoveAllListeners();
+            }
         }
 
         void UpdateAmount(int inventoryAmount) {
