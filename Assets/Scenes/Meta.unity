@@ -581,6 +581,7 @@ GameObject:
   - component: {fileID: 239190769}
   - component: {fileID: 239190768}
   - component: {fileID: 239190767}
+  - component: {fileID: 239190770}
   m_Layer: 0
   m_Name: Starter
   m_TagString: Untagged
@@ -631,6 +632,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &239190770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239190766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47e13d068a2641deb24af2e59d5c6ea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AiShipsRoot: {fileID: 1107974710}
+  AiShipPrefab: {fileID: 1356777524850848036, guid: 46679da3c8cb9c24fb966d9f5cc411aa,
+    type: 3}
 --- !u!1 &249797904
 GameObject:
   m_ObjectHideFlags: 0
@@ -2639,6 +2655,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48257934837531d419c6469e9f87ee84, type: 3}
+--- !u!1 &1107974709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1107974710}
+  m_Layer: 0
+  m_Name: AiShips
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1107974710
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107974709}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1119219063
 PrefabInstance:
   m_ObjectHideFlags: 0

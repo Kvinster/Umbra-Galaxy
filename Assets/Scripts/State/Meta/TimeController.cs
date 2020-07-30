@@ -18,6 +18,6 @@ namespace STP.State.Meta {
             }
         }
 
-        public Action<int> OnCurDayChanged;
+        public event Action<int> OnCurDayChanged;
     }
 }

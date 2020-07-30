@@ -88,6 +88,9 @@ namespace STP.Behaviour.Meta {
         public List<string> GetNeighbouringStarSystems(string starSystemId) {
             var res = new List<string>();
             foreach ( var pair in StarSystemPairs ) {
+                if ( pair.Distance <= 0 ) {
+                    continue;
+                }
                 if ( (pair.A == starSystemId) && !res.Contains(pair.B) ) {
                     res.Add(pair.B);
                 }

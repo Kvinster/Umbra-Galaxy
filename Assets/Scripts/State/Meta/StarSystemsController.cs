@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using STP.Behaviour.Meta;
 using STP.Common;
@@ -38,11 +39,19 @@ namespace STP.State.Meta {
             var distance = _graphInfo.GetDistance(aStarSystemId, bStarSystemId); 
             return (distance == 0) ? (int.MaxValue / 2) : distance;
         }
+        
+        public List<string> GetNeighbourStarSystemIds(string starSystemId) {
+            return _graphInfo.GetNeighbouringStarSystems(starSystemId);
+        }
 
         public string GetStarSystemName(string starSystemId) {
             return TryGetFactionSystemState(starSystemId, out var starSystemState, true)
                 ? starSystemState.Name
                 : _graphInfo.GetStarSystemName(starSystemId);
+        }
+
+        public List<string> GetFactionSystemIds() {
+            return _factionSystemStates.Select(x => x.Key).ToList();
         }
 
         public int GetFactionSystemMoney(string starSystemId) {
@@ -131,6 +140,21 @@ namespace STP.State.Meta {
             return null;
         }
 
+        public StarSystemType GetStarSystemType(string starSystemId) {
+            foreach ( var factionSystemInfo in _graphInfo.FactionSystemInfos ) {
+                if ( factionSystemInfo.Id == starSystemId ) {
+                    return StarSystemType.Faction;
+                }
+            }
+            foreach ( var shardInfo in _graphInfo.ShardSystemInfos ) {
+                if ( shardInfo.Id == starSystemId ) {
+                    return StarSystemType.Shard;
+                }
+            }
+            Debug.LogErrorFormat("Can't find star system info for id '{0}'", starSystemId);
+            return StarSystemType.Unknown;
+        }
+
         StarSystemsController Init() {
             var graphInfoScriptableObject =
                 Resources.Load<StarSystemsGraphInfoScriptableObject>(StarSystemsGraphInfoScriptableObject
@@ -193,21 +217,6 @@ namespace STP.State.Meta {
                 }
             }
             return neighbours;
-        }
-
-        StarSystemType GetStarSystemType(string starSystemId) {
-            foreach ( var factionSystemInfo in _graphInfo.FactionSystemInfos ) {
-                if ( factionSystemInfo.Id == starSystemId ) {
-                    return StarSystemType.Faction;
-                }
-            }
-            foreach ( var shardInfo in _graphInfo.ShardSystemInfos ) {
-                if ( shardInfo.Id == starSystemId ) {
-                    return StarSystemType.Shard;
-                }
-            }
-            Debug.LogErrorFormat("Can't find star system info for id '{0}'", starSystemId);
-            return StarSystemType.Unknown;
         }
 
         bool TryGetFactionSystemState(string starSystemId, out FactionSystemState factionSystemState,
