@@ -13,7 +13,7 @@ namespace STP.Gameplay.Weapon.GunWeapon {
         string        _bulletType;
         
         void OnWeaponStateChanged(WeaponState newWeaponState) {
-            if ( newWeaponState == WeaponState.FIRE ) {
+            if ( newWeaponState == WeaponState.Fire ) {
                 _bulletCreator.CreateBullet(_ship, _bulletType, BulletLaunchPoint.position, transform.rotation * Vector2.up, _weapon.BulletSpeed);  
             }
         }

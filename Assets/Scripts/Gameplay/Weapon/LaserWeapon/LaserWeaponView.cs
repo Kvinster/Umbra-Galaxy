@@ -21,7 +21,7 @@ namespace STP.Gameplay.Weapon.LaserWeapon {
         }
 
         void OnWeaponStateChanged(WeaponState newWeaponState) {
-            Beam.gameObject.SetActive(newWeaponState == WeaponState.FIRE);
+            Beam.gameObject.SetActive(newWeaponState == WeaponState.Fire);
         }
 
         void OnDestroy() {
@@ -29,7 +29,7 @@ namespace STP.Gameplay.Weapon.LaserWeapon {
         }
 
         void Update() {
-            if ( _weapon.CurState == WeaponState.FIRE ) {
+            if ( _weapon.CurState == WeaponState.Fire ) {
                 var minDistanceHit = DoRaycast();
                 if ( minDistanceHit != -1 ) {
                     Beam.SetLength (_hits[minDistanceHit].distance);

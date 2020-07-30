@@ -26,8 +26,8 @@ namespace STP.Gameplay.Weapon.LanceWeapon {
         }
 
         void OnWeaponStateChanged(WeaponState newWeaponState) {
-            ChargingImage.SetActive(newWeaponState == WeaponState.CHARGE || newWeaponState == WeaponState.CHARGED);
-            if ( newWeaponState == WeaponState.FIRE ) {
+            ChargingImage.SetActive(newWeaponState == WeaponState.Charge || newWeaponState == WeaponState.Charged);
+            if ( newWeaponState == WeaponState.Fire ) {
                 Beam.gameObject.SetActive(true);
                 _timer.Start(0.2f);
             }
@@ -42,7 +42,7 @@ namespace STP.Gameplay.Weapon.LanceWeapon {
                 Beam.gameObject.SetActive(false);
                 _timer.Stop();
             }
-            if ( _weapon.CurState == WeaponState.FIRE ) {
+            if ( _weapon.CurState == WeaponState.Fire ) {
                 DoRaycast();
                 Beam.SetLength(1000000);
             }

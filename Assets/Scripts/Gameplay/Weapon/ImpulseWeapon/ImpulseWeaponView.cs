@@ -31,7 +31,7 @@ namespace STP.Gameplay.Weapon.ImpulseWeapon {
         }
 
         void OnWeaponStateChanged(WeaponState newWeaponState) {
-            if ( newWeaponState == WeaponState.FIRE ) {
+            if ( newWeaponState == WeaponState.Fire ) {
                 _disapperaTimer.Start(0.2f);
                 _isDisappearing = true;
                 _objects.RemoveWhere((x)=>!x);

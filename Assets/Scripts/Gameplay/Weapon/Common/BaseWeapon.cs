@@ -1,21 +1,23 @@
 ﻿namespace STP.Gameplay.Weapon.Common {
     public enum WeaponState {
-        IDLE,
-        CHARGE,
-        CHARGED,
-        FIRE
+        Idle,
+        Charge,
+        Charged,
+        Fire
     }
 
-    public class Weapons {
-        public const string Gun     = "bullets";
-        public const string ShotGun = "shotgun";
-        public const string Laser   = "laser";
-        public const string Lance   = "lance";
-        public const string Impulse = "impulse";
+    public enum WeaponType {
+        Gun     = 0,
+        Shotgun = 1,
+        Laser   = 2,
+        Lance   = 3,
+        Impulse = 4,
+        
+        Unknown = -1,
     }
 
     public abstract class BaseWeapon {
-        public virtual string Name => string.Empty;
+        public virtual WeaponType Name => WeaponType.Unknown;
 
         WeaponState _state;
         public WeaponState CurState {

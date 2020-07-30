@@ -10,18 +10,16 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
     public sealed class PlayerInventoryView : MonoBehaviour {
         public List<PlayerInventoryItemView> ItemViews = new List<PlayerInventoryItemView>();
 
-        string                 _starSystemId;
-        InventoryItemInfos     _inventoryItemInfos;
-        Action<string, string> _showInventoryItemSellWindow;
+        InventoryItemInfos _inventoryItemInfos;
+
+        public event Action<string> OnItemClick;
 
         void Reset() {
             GetComponentsInChildren(ItemViews);
         }
 
-        public void Init(string starSystemId, InventoryItemInfos inventoryItemInfos, Action<string, string> showInventoryItemSellWindow) {
-            _starSystemId                = starSystemId;
-            _inventoryItemInfos          = inventoryItemInfos;
-            _showInventoryItemSellWindow = showInventoryItemSellWindow;
+        public void Init(InventoryItemInfos inventoryItemInfos) {
+            _inventoryItemInfos = inventoryItemInfos;
 
             PlayerState.Instance.OnInventoryChanged -= OnInventoryChanged;
             PlayerState.Instance.OnInventoryChanged += OnInventoryChanged;
@@ -39,9 +37,10 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
                 }
                 var itemView = ItemViews[itemViewIndex++];
                 itemView.Deinit();
-                itemView.Init(playerInventoryEnum.Current.Key, _starSystemId, _showInventoryItemSellWindow,
-                    _inventoryItemInfos);
+                itemView.Init(playerInventoryEnum.Current.Key, _inventoryItemInfos);
                 itemView.gameObject.SetActive(true);
+                itemView.OnClick -= OnItemClickInternal;
+                itemView.OnClick += OnItemClickInternal;
             }
             for ( ; itemViewIndex < ItemViews.Count; ++itemViewIndex ) {
                 ItemViews[itemViewIndex].gameObject.SetActive(false);
@@ -49,17 +48,20 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
         }
 
         public void Deinit() {
-            _starSystemId                = null;
-            _inventoryItemInfos          = null;
-            _showInventoryItemSellWindow = null;
+            _inventoryItemInfos = null;
 
             ResetViews();
 
             foreach ( var itemView in ItemViews ) {
+                itemView.OnClick -= OnItemClickInternal;
                 itemView.Deinit();
             }
             
             PlayerState.Instance.OnInventoryChanged -= OnInventoryChanged;
+        }
+
+        void OnItemClickInternal(string itemName) {
+            OnItemClick?.Invoke(itemName);
         }
 
         void OnInventoryChanged() {

@@ -13,30 +13,30 @@ namespace STP.Gameplay.Weapon.Chargeable {
         bool _timerWorking;
 
         public void PressCharging() {
-            if ( CurState == WeaponState.IDLE ) {
-                CurState = WeaponState.CHARGE;
+            if ( CurState == WeaponState.Idle ) {
+                CurState = WeaponState.Charge;
             }
         }
 
         public void DropCharge() {
-            CurState = WeaponState.IDLE;
+            CurState = WeaponState.Idle;
             _timerWorking = false;
         }
 
         public void ReleaseCharging() {
-            if ( CurState == WeaponState.CHARGE ) {
+            if ( CurState == WeaponState.Charge ) {
                 DropCharge();
             }
 
-            if ( CurState == WeaponState.CHARGED ) {
+            if ( CurState == WeaponState.Charged ) {
                 Debug.Log($"FIRE");
-                CurState = WeaponState.FIRE;
+                CurState = WeaponState.Fire;
             }
         }
         
         protected override void AutoTransitions(float passedTime) {
             switch ( CurState ) {
-                case WeaponState.CHARGE:
+                case WeaponState.Charge:
                     Debug.Log($"TIME {Timer.LeftTime}");
                     if ( !_timerWorking ) {
                         Timer.Start(ChargingTime);    
@@ -45,11 +45,11 @@ namespace STP.Gameplay.Weapon.Chargeable {
                     if ( Timer.Tick(passedTime) ) {
                         Timer.Stop();
                         _timerWorking = false;
-                        CurState = WeaponState.CHARGED;
+                        CurState = WeaponState.Charged;
                     }
                     break;
-                case WeaponState.FIRE:
-                    CurState = WeaponState.IDLE;
+                case WeaponState.Fire:
+                    CurState = WeaponState.Idle;
                     break;
             }
         }

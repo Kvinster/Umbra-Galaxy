@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 
+using STP.Gameplay.Weapon.Common;
+
 namespace STP.State {
     public class PlayerState {
         public const int MaxFuel = 100;
@@ -55,9 +57,26 @@ namespace STP.State {
             }
         }
 
-        public event Action OnInventoryChanged;
-        public event Action<int> OnFuelChanged;
-        public event Action<int> OnMoneyChanged;
+        WeaponType _curWeaponType = WeaponType.Gun;
+        public WeaponType CurWeaponType {
+            get => _curWeaponType;
+            set {
+                if ( value == WeaponType.Unknown ) {
+                    Debug.LogError("Trying to set CurWeaponType to Unknown");
+                    return;
+                }
+                if ( _curWeaponType == value ) {
+                    return;
+                }
+                _curWeaponType = value;
+                OnWeaponChanged?.Invoke(_curWeaponType);
+            }
+        }
+
+        public event Action             OnInventoryChanged;
+        public event Action<int>        OnFuelChanged;
+        public event Action<int>        OnMoneyChanged;
+        public event Action<WeaponType> OnWeaponChanged;
 
         public Dictionary<string, int>.Enumerator GetInventoryEnumerator() {
             return _inventory.GetEnumerator();

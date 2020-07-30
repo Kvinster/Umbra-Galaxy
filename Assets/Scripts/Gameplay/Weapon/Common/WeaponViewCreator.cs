@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 
+using System;
 using System.Collections.Generic;
+
+using Object = UnityEngine.Object;
 
 namespace STP.Gameplay.Weapon.Common {
     public class WeaponViewCreator {
         const string PrefabsPathFormat = "Prefabs/WeaponViews/";
         readonly CoreStarter _starter;
 
-        readonly Dictionary<string, GameObject> _weaponViewsPrefabs = new Dictionary<string, GameObject>();
+        readonly Dictionary<WeaponType, GameObject> _weaponViewsPrefabs = new Dictionary<WeaponType, GameObject>();
         
         public WeaponViewCreator(CoreStarter starter) {
             var bullets = Resources.LoadAll<GameObject>(PrefabsPathFormat);
             foreach ( var bullet in bullets ) {
-                _weaponViewsPrefabs.Add(bullet.name, bullet);
+                _weaponViewsPrefabs.Add((WeaponType)Enum.Parse(typeof(WeaponType), bullet.name, true), bullet);
             }
             _starter = starter;
         }

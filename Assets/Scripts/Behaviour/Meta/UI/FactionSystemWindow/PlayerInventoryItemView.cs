@@ -15,18 +15,16 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
         public TMP_Text ItemAmountText;
         public Button   Button;
 
-        string                 _itemName;
-        string                 _starSystemId;
-        Action<string, string> _showInventoryItemSellWindow;
-        InventoryItemInfos     _inventoryItemInfos;
+        string             _itemName;
+        InventoryItemInfos _inventoryItemInfos;
 
-        public void Init(string itemName, string starSystemId, Action<string, string> showInventoryItemSellWindow, InventoryItemInfos inventoryItemInfos) {
-            _itemName                    = itemName;
-            _starSystemId                = starSystemId;
-            _showInventoryItemSellWindow = showInventoryItemSellWindow;
-            _inventoryItemInfos          = inventoryItemInfos;
+        public event Action<string> OnClick;
+
+        public void Init(string itemName, InventoryItemInfos inventoryItemInfos) {
+            _itemName           = itemName;
+            _inventoryItemInfos = inventoryItemInfos;
             
-            Button.onClick.AddListener(OnClick);
+            Button.onClick.AddListener(OnClickInternal);
 
             if ( !PlayerState.Instance.HasInInventory(itemName) ) {
                 Debug.LogErrorFormat("No item '{0}' in player's inventory", itemName);
@@ -38,15 +36,13 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
         }
 
         public void Deinit() {
-            _itemName                    = null;
-            _starSystemId                = null;
-            _showInventoryItemSellWindow = null;
+            _itemName = null;
 
             Button.onClick.RemoveAllListeners();
         }
 
-        void OnClick() {
-            _showInventoryItemSellWindow?.Invoke(_itemName, _starSystemId);
+        void OnClickInternal() {
+            OnClick?.Invoke(_itemName);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using STP.Behaviour.Common;
 using STP.Behaviour.Starter;
@@ -8,12 +9,15 @@ namespace STP.Behaviour.Meta.UI {
     public sealed class MetaUiCanvas : BaseMetaComponent {
         public MetaDebugInfoText DebugInfoText;
         public EnterSystemButton EnterSystemButton;
+        public InventoryButton   InventoryButton;
         public GameOverScreen    GameOverScreen;
         
         StarSystemsManager _starSystemsManager;
         InventoryItemInfos _inventoryItemInfos;
         
         WindowManager WindowManager => WindowManager.Instance;
+
+        readonly List<Type> _ignoreWindowTypes = new List<Type> { typeof(InventoryItemSellWindow) };
 
         void OnDestroy() {
             WindowManager.OnWindowShown  -= OnWindowShown;
@@ -31,6 +35,10 @@ namespace STP.Behaviour.Meta.UI {
                 starter.StarSystemsManager);
             EnterSystemButton.gameObject.SetActive(true);
 
+            InventoryButton.CommonInit(this, starter.PlayerShip.MovementController, starter.TimeManager,
+                starter.StarSystemsManager);
+            InventoryButton.gameObject.SetActive(true);
+
             GameOverScreen.CommonInit(this);
             GameOverScreen.gameObject.SetActive(false);
 
@@ -46,6 +54,14 @@ namespace STP.Behaviour.Meta.UI {
                 x.Init(starSystemId, _starSystemsManager, _inventoryItemInfos));
         }
 
+        public void ShowInventoryWindow() {
+            DebugInfoText.gameObject.SetActive(false);
+            EnterSystemButton.gameObject.SetActive(false);
+            InventoryButton.gameObject.SetActive(false);
+
+            WindowManager.Show<InventoryWindow.InventoryWindow>(x => x.Init(_inventoryItemInfos));
+        }
+
         public void ShowGameOverScreen() {
             GameOverScreen.gameObject.SetActive(true);
         }
@@ -55,9 +71,10 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         void OnWindowHidden(Type windowType) {
-            if ( windowType == typeof(FactionSystemWindow.FactionSystemWindow) ) {
+            if ( !_ignoreWindowTypes.Contains(windowType) ) {
                 DebugInfoText.gameObject.SetActive(true);
                 EnterSystemButton.gameObject.SetActive(true);
+                InventoryButton.gameObject.SetActive(true);
             }
         }
     }
