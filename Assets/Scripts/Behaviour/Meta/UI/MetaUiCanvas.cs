@@ -15,6 +15,11 @@ namespace STP.Behaviour.Meta.UI {
         
         WindowManager WindowManager => WindowManager.Instance;
 
+        void OnDestroy() {
+            WindowManager.OnWindowShown  -= OnWindowShown;
+            WindowManager.OnWindowHidden -= OnWindowHidden;
+        }
+
         protected override void InitInternal(MetaStarter starter) {
             _starSystemsManager = starter.StarSystemsManager;
             _inventoryItemInfos = starter.InventoryItemInfos;

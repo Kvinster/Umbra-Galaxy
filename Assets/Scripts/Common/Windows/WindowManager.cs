@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 using System;
 using System.Collections.Generic;
@@ -66,8 +67,7 @@ namespace STP.Common.Windows {
         }
 
         public void Hide(Type windowType) {
-            // var windowType = typeof(T);
-            var windowId   = ActiveWindowId.Empty;
+            var windowId = ActiveWindowId.Empty;
             foreach ( var activeWindowId in _activeWindows ) {
                 if ( activeWindowId.WindowType == windowType ) {
                     windowId = activeWindowId;
@@ -91,22 +91,36 @@ namespace STP.Common.Windows {
             OnWindowHidden?.Invoke(windowType);
         }
 
+        void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode) {
+            UpdateCanvasCamera();
+        }
+
+        void UpdateCanvasCamera() {
+            _uiCanvas.worldCamera = Camera.main;
+        }
+
         WindowManager Init() {
             var canvasGo = new GameObject("[UICanvas]");
             Object.DontDestroyOnLoad(canvasGo);
             var rectTrans = canvasGo.AddComponent<RectTransform>();
             rectTrans.sizeDelta = new Vector2(1920, 1080);
             _uiCanvas = canvasGo.AddComponent<Canvas>();
-            _uiCanvas.overrideSorting = true;
+            _uiCanvas.overrideSorting  = true;
             _uiCanvas.sortingLayerName = "UI";
-            _uiCanvas.sortingOrder = 0;
+            _uiCanvas.sortingOrder     = 0;
+            _uiCanvas.renderMode       = RenderMode.ScreenSpaceCamera;
+            _uiCanvas.planeDistance    = 50f;
+            UpdateCanvasCamera();
 
             var scaler = canvasGo.AddComponent<CanvasScaler>();
-            scaler.referenceResolution = new Vector2(1920, 1080);
-            scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-            scaler.matchWidthOrHeight = 1f;
+            scaler.referenceResolution    = new Vector2(1920, 1080);
+            scaler.referencePixelsPerUnit = 1f;
+            scaler.screenMatchMode        = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+            scaler.matchWidthOrHeight     = 1f;
 
             canvasGo.AddComponent<GraphicRaycaster>();
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
             
             return this;
         }
