@@ -1,5 +1,5 @@
 ﻿namespace STP.State {
-    public class BulletNames {
+    public class Bullets {
         public const string PlayerBullet  = "playerBullet";
         public const string EnemyBullet   = "enemyBullet";
         

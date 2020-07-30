@@ -12,7 +12,7 @@ namespace STP.View {
 
         public override void Init(CoreStarter starter) {
             ItemCounterUI.Init(starter);
-            FastTravelUI.Init(starter);
+            FastTravelUI.Init(starter.CoreManager);
             Pointer.Init(starter.CoreManager.PlayerShipState);
         }
     }

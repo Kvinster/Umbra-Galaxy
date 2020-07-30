@@ -3,18 +3,26 @@ using UnityEngine;
 
 using STP.State;
 using STP.State.Core;
+using STP.Utils;
 
 namespace STP.Gameplay {
     public class CoreManager {
-        public PlayerShipState PlayerShipState {get; private set;} = new PlayerShipState();
-        public MotherShipState MotherShipState {get; private set;} = new MotherShipState();
+        const float FastTravelEngineChargingTime = 3f;
+        
+        public FastTravelEngine FastTravelEngine {get;} = new FastTravelEngine();
+        public PlayerShipState  PlayerShipState  {get;} = new PlayerShipState();
+        public MotherShipState  MotherShipState  {get;} = new MotherShipState();
         
         readonly PlayerState   _playerState;
         readonly CoreShipState _shipState;
+        readonly UnityContext  _unityContext;
 
-        public CoreManager(PlayerState state, CoreShipState shipState) {
-            _playerState = state;
-            _shipState   = shipState;
+        public CoreManager(PlayerState state, CoreShipState shipState, UnityContext context) {
+            _playerState  = state;
+            _shipState    = shipState;
+            _unityContext = context;
+            _unityContext.AddUpdateCallback(FastTravelEngine.UpdateEngineState);
+            FastTravelEngine.Init(FastTravelEngineChargingTime);
         }
 
         public bool TryAddItemToShip(string material, int amount = 1) {

@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using STP.Utils;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace STP.View {
     public class OverlayManager : GameBehaviour{
@@ -13,7 +12,7 @@ namespace STP.View {
         
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, MotherShipOverlay);
 
-        void Awake() {
+        void Start() {
             _allOverlays = new List<IOverlay>{MotherShipOverlay, GameoverOverlay};
             HideAllOverlays();
         }

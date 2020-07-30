@@ -17,7 +17,7 @@ namespace STP.View {
         bool  _lastMothershipState;
         float _textOffset;
 
-        Rect VisibleRect => new Rect((Vector2)Canvas.position - Canvas.sizeDelta/2, Canvas.sizeDelta);
+        Rect VisibleRect => new Rect((Vector2)Canvas.position - Canvas.sizeDelta * Canvas.localScale/2, Canvas.sizeDelta * Canvas.localScale);
         
         
         bool MotherShipInVisibleArea {

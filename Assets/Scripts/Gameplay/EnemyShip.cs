@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-using STP.State;
+using STP.Gameplay.Weapon.Common;
 using STP.State.Core;
 
 namespace STP.Gameplay {
@@ -17,9 +17,6 @@ namespace STP.Gameplay {
         const float ChaseRadius     = 350f;
         const float OutChaseRadius  = 500;
         
-        const int   BulletSpeed     = 400;
-        const float BulletPeriod    = 1f;
-        
         const float ShipSpeed       = 150f;
         const int   Hp              = 2;
         
@@ -30,7 +27,7 @@ namespace STP.Gameplay {
         PlayerShipState _playerShipState;
         MaterialCreator _materialCreator;
         
-        EnemyState _state = EnemyState.None;
+        public EnemyState State {get; private set;} = EnemyState.None;
         
         Vector3 NextPoint       => Route[_nextRoutePoint].position;
         Vector2 MovingVector    => (NextPoint - transform.position);
@@ -43,12 +40,13 @@ namespace STP.Gameplay {
             _playerShipState   = starter.CoreManager.PlayerShipState;
             transform.position = Route[StartRoutePointIndex].position;
             _nextRoutePoint    = (StartRoutePointIndex + 1) % Route.Count;
-            _state             = EnemyState.Patrolling;
-            InternalInit(starter, new WeaponInfo(BulletNames.EnemyBullet, BulletPeriod, BulletSpeed), new ShipInfo(Hp, ShipSpeed));
+            State              = EnemyState.Patrolling;
+            WeaponControl      = starter.WeaponCreator.GetAIWeaponController(Weapons.Laser, this);
+            starter.WeaponViewCreator.AddWeaponView(this, WeaponControl.GetControlledWeapon());
+            InternalInit(new ShipInfo(Hp, ShipSpeed));
         }
 
-        protected override void Update() {
-            base.Update();
+        protected void Update() {
             OnShipState();
         }
 
@@ -58,7 +56,7 @@ namespace STP.Gameplay {
         }
 
         void OnShipState() {
-            switch ( _state ) {
+            switch ( State ) {
                 case EnemyState.Patrolling:
                     OnPatrolling();
                     break;
@@ -66,20 +64,22 @@ namespace STP.Gameplay {
                     OnChase();
                     break;
                 default:
-                    Debug.LogError(string.Format("Invalid state {0} Ignored.", _state), this);
+                    Debug.LogError(string.Format("Invalid state {0} Ignored.", State), this);
                     break;
             }
+            UpdateWeaponControlState();
         }
 
         void OnPatrolling() {
             Move(MovingDirection);
+            Rotate(MovingDirection);
             if ( CloseToPoint ) {
                 _nextRoutePoint  = (_nextRoutePoint + 1) % Route.Count;
             }
             var chasingVector     = _playerShipState.Position - (Vector2) transform.position;
             var distanceToPlayer  = chasingVector.magnitude;
             if ( distanceToPlayer < ChaseRadius) {
-                _state = EnemyState.Chase;    
+                State = EnemyState.Chase;    
             }
         }
 
@@ -88,9 +88,9 @@ namespace STP.Gameplay {
             var chasingDirection = chasingVector.normalized;
             var distanceToPlayer = chasingVector.magnitude;
             Move(chasingDirection);
-            TryShoot();
+            Rotate(chasingDirection);
             if ( distanceToPlayer >= OutChaseRadius ) {
-                _state = EnemyState.Patrolling;    
+                State = EnemyState.Patrolling;    
             }
         }
         
