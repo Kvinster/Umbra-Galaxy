@@ -95,10 +95,18 @@ namespace STP.Common.Windows {
 
         void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode) {
             UpdateCanvasCamera();
+            HideAllWindows();
         }
 
         void UpdateCanvasCamera() {
             _uiCanvas.worldCamera = Camera.main;
+        }
+
+        void HideAllWindows() {
+            while ( _activeWindows.Count > 0 ) {
+                var window = _activeWindows.Peek();
+                Hide(window.WindowType);
+            }
         }
 
         WindowManager Init() {
@@ -109,7 +117,7 @@ namespace STP.Common.Windows {
             _uiCanvas = canvasGo.AddComponent<Canvas>();
             _uiCanvas.overrideSorting  = true;
             _uiCanvas.sortingLayerName = "UI";
-            _uiCanvas.sortingOrder     = 0;
+            _uiCanvas.sortingOrder     = 1;
             _uiCanvas.renderMode       = RenderMode.ScreenSpaceCamera;
             _uiCanvas.planeDistance    = 50f;
             UpdateCanvasCamera();
