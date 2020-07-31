@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5418968983722120174}
   - component: {fileID: 6347006290974452847}
   - component: {fileID: 7759824508394390397}
+  - component: {fileID: 7160522130942805965}
   m_Layer: 0
   m_Name: AIShip
   m_TagString: Untagged
@@ -93,3 +94,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShipIcon: {fileID: 6347006290974452847}
+--- !u!114 &7160522130942805965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356777524850848036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fecea3105364f54b9a5ed16aa40781c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteRenderer: {fileID: 6347006290974452847}
+  Sprites:
+  - {fileID: 21300000, guid: b1413f0ea86c80d4cae9d032a77b4e1a, type: 3}
+  - {fileID: 21300000, guid: 61e59b1fda79e7b41a570b7442f1061c, type: 3}
+  - {fileID: 21300000, guid: b1fe158aabab6c64784af93aae1c89f3, type: 3}
+  - {fileID: 21300000, guid: 213d6ba1baa7dda47b3d7925092aa0d6, type: 3}
+  - {fileID: 21300000, guid: d29ce4d900efa74458711fbc1ca9159e, type: 3}
