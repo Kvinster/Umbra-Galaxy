@@ -48,7 +48,6 @@ namespace STP.Behaviour.Meta.UI {
                         $"DestSystem: {ssc.GetStarSystemName(_playerShip.MovementController.DestSystem.Id)}");
                 }
             }
-            _stringBuilder.AppendLine($"Fuel: {PlayerState.Instance.Fuel}");
             
             Text.text = _stringBuilder.ToString();
         }

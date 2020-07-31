@@ -9,7 +9,6 @@ namespace STP.Behaviour.Meta.UI {
     public sealed class MetaUiCanvas : BaseMetaComponent {
         public MetaDebugInfoText DebugInfoText;
         public EnterSystemButton EnterSystemButton;
-        public InventoryButton   InventoryButton;
         public MetaNewsBlock     NewsBlock;
         public GameOverScreen    GameOverScreen;
         
@@ -36,10 +35,6 @@ namespace STP.Behaviour.Meta.UI {
                 starter.StarSystemsManager);
             EnterSystemButton.gameObject.SetActive(true);
 
-            InventoryButton.CommonInit(this, starter.PlayerShip.MovementController, starter.TimeManager,
-                starter.StarSystemsManager);
-            InventoryButton.gameObject.SetActive(true);
-
             NewsBlock.Init(starter.TimeManager);
             NewsBlock.gameObject.SetActive(true);
 
@@ -53,20 +48,10 @@ namespace STP.Behaviour.Meta.UI {
         public void ShowFactionSystemWindow(string starSystemId) {
             DebugInfoText.gameObject.SetActive(false);
             EnterSystemButton.gameObject.SetActive(false);
-            InventoryButton.gameObject.SetActive(false);
             NewsBlock.gameObject.SetActive(false);
 
             WindowManager.Show<FactionSystemWindow.FactionSystemWindow>(x =>
                 x.Init(starSystemId, _starSystemsManager, _inventoryItemInfos));
-        }
-
-        public void ShowInventoryWindow() {
-            DebugInfoText.gameObject.SetActive(false);
-            EnterSystemButton.gameObject.SetActive(false);
-            InventoryButton.gameObject.SetActive(false);
-            NewsBlock.gameObject.SetActive(false);
-
-            WindowManager.Show<InventoryWindow.InventoryWindow>(x => x.Init(_inventoryItemInfos));
         }
 
         public void ShowGameOverScreen() {
@@ -81,7 +66,6 @@ namespace STP.Behaviour.Meta.UI {
             if ( !_ignoreWindowTypes.Contains(windowType) ) {
                 DebugInfoText.gameObject.SetActive(true);
                 EnterSystemButton.gameObject.SetActive(true);
-                InventoryButton.gameObject.SetActive(true);
                 NewsBlock.gameObject.SetActive(true);
             }
         }
