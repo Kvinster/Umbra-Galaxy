@@ -10,6 +10,7 @@ namespace STP.Behaviour.Meta.UI {
         public MetaDebugInfoText DebugInfoText;
         public EnterSystemButton EnterSystemButton;
         public InventoryButton   InventoryButton;
+        public MetaNewsBlock     NewsBlock;
         public GameOverScreen    GameOverScreen;
         
         StarSystemsManager _starSystemsManager;
@@ -39,6 +40,9 @@ namespace STP.Behaviour.Meta.UI {
                 starter.StarSystemsManager);
             InventoryButton.gameObject.SetActive(true);
 
+            NewsBlock.Init(starter.TimeManager);
+            NewsBlock.gameObject.SetActive(true);
+
             GameOverScreen.CommonInit(this);
             GameOverScreen.gameObject.SetActive(false);
 
@@ -49,6 +53,8 @@ namespace STP.Behaviour.Meta.UI {
         public void ShowFactionSystemWindow(string starSystemId) {
             DebugInfoText.gameObject.SetActive(false);
             EnterSystemButton.gameObject.SetActive(false);
+            InventoryButton.gameObject.SetActive(false);
+            NewsBlock.gameObject.SetActive(false);
 
             WindowManager.Show<FactionSystemWindow.FactionSystemWindow>(x =>
                 x.Init(starSystemId, _starSystemsManager, _inventoryItemInfos));
@@ -58,6 +64,7 @@ namespace STP.Behaviour.Meta.UI {
             DebugInfoText.gameObject.SetActive(false);
             EnterSystemButton.gameObject.SetActive(false);
             InventoryButton.gameObject.SetActive(false);
+            NewsBlock.gameObject.SetActive(false);
 
             WindowManager.Show<InventoryWindow.InventoryWindow>(x => x.Init(_inventoryItemInfos));
         }
@@ -75,6 +82,7 @@ namespace STP.Behaviour.Meta.UI {
                 DebugInfoText.gameObject.SetActive(true);
                 EnterSystemButton.gameObject.SetActive(true);
                 InventoryButton.gameObject.SetActive(true);
+                NewsBlock.gameObject.SetActive(true);
             }
         }
     }

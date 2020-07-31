@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 
+using System;
+
 using STP.Behaviour.Meta;
+
+using Random = UnityEngine.Random;
 
 namespace STP.State.Meta {
     public sealed class DarknessController {
@@ -16,6 +20,8 @@ namespace STP.State.Meta {
 
         readonly DarknessInfoHolder _darknessInfoHolder;
         readonly TimeController     _timeController;
+
+        public event Action<string, bool> OnStarSystemAttack;
 
         DarknessController() {
             _darknessInfoHolder = Resources.Load<DarknessInfoHolder>(DarknessInfoHolder.ResourcesPath);
@@ -35,6 +41,9 @@ namespace STP.State.Meta {
                             if ( roll > chance ) {
                                 ssc.SetFactionSystemActive(starSystem, false);
                                 ProgressController.Instance.OnStarSystemCaptured(starSystem);
+                                OnStarSystemAttack?.Invoke(starSystem, true);
+                            } else {
+                                OnStarSystemAttack?.Invoke(starSystem, false);
                             }
                             break;
                         }
