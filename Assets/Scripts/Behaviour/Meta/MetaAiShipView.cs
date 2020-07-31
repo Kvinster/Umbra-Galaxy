@@ -11,7 +11,8 @@ namespace STP.Behaviour.Meta {
         StarSystemsManager _starSystemsManager;
         MetaTimeManager    _timeManager;
         
-        TimeController  _timeController;
+        TimeController        _timeController;
+        StarSystemsController _starSystemsController;
 
         BaseStarSystem _curSystem;
         BaseStarSystem _destSystem;
@@ -21,7 +22,8 @@ namespace STP.Behaviour.Meta {
         public MetaAiShipState State { get; private set; }
 
         void OnDestroy() {
-            _timeController.OnCurDayChanged -= OnCurDayChanged;
+            _timeController.OnCurDayChanged                  -= OnCurDayChanged;
+            _starSystemsController.OnStarSystemActiveChanged -= OnStarSystemActiveChanged;
         }
 
         void Update() {
@@ -44,14 +46,17 @@ namespace STP.Behaviour.Meta {
             _starSystemsManager = starSystemsManager;
             _timeManager        = timeManager;
 
+            _timeController = TimeController.Instance;
+            _timeController.OnCurDayChanged += OnCurDayChanged;
+            
+            _starSystemsController = StarSystemsController.Instance;
+            _starSystemsController.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
+            
             UpdateShipIconActive();
             if ( State.CurMode == MetaAiShipMode.Moving ) {
                 UpdateRotation();
             } 
             UpdateSystems();
-
-            _timeController = TimeController.Instance;
-            _timeController.OnCurDayChanged += OnCurDayChanged;
         }
 
         void UpdateSystems() {
@@ -97,6 +102,12 @@ namespace STP.Behaviour.Meta {
                         break;
                     }
                 }
+            }
+        }
+
+        void OnStarSystemActiveChanged(string starSystemId, bool isActive) {
+            if ( !isActive && (State.CurMode == MetaAiShipMode.Stationary) && (State.CurSystemId == starSystemId) ) {
+                _aiShipManager.Kill(this);
             }
         }
     }

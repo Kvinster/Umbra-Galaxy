@@ -75,6 +75,13 @@ namespace STP.Behaviour.Meta {
             }
         }
 
+        public void Kill(MetaAiShipView aiShipView) {
+            var masc = MetaAiShipsController.Instance;
+            if ( masc.TryUnregisterAiShip(aiShipView.Id) ) {
+                Destroy(aiShipView.gameObject);
+            }
+        }
+
         protected override void InitInternal(MetaStarter starter) {
             _starSystemsManager = starter.StarSystemsManager;
             _timeManager        = starter.TimeManager;
