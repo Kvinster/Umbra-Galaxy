@@ -7,7 +7,12 @@ namespace STP.Behaviour.Meta.UI {
     public sealed class MetaNewsBlock : MonoBehaviour {
         const string StarSystemCapturedTemplate = "System {0} has been captured by the Darkness";
         const string StarSystemRepelTemplate    = "System {0} successfully repelled attack of the Darkness";
-        
+
+        public GameObject FoldedRoot;
+        public GameObject UnfoldedRoot;
+        public Button     FoldButton;
+        public Button     UnfoldButton;
+        [Space]
         public Transform  HeadlinesRoot;
         public GameObject HeadlinePrefab;
         public ScrollRect HeadlinesScrollRect;
@@ -26,6 +31,16 @@ namespace STP.Behaviour.Meta.UI {
             _starSystemsController = StarSystemsController.Instance;
             _darknessController    = DarknessController.Instance;
             _darknessController.OnStarSystemAttack += OnStarSystemAttack;
+
+            FoldButton.onClick.AddListener(() => SetFolded(true));
+            UnfoldButton.onClick.AddListener(() => SetFolded(false));
+
+            SetFolded(false);
+        }
+
+        void SetFolded(bool isFolded) {
+            FoldedRoot.SetActive(isFolded);
+            UnfoldedRoot.SetActive(!isFolded);
         }
 
         void OnStarSystemAttack(string starSystemId, bool starSystemCaptured) {
