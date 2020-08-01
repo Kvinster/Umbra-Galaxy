@@ -3251,7 +3251,7 @@ PrefabInstance:
     - target: {fileID: 3662155497999076045, guid: ffcbe7efc60249a438be2c9408559f5c,
         type: 3}
       propertyPath: m_text
-      value: Fuel
+      value: Inventory
       objectReference: {fileID: 0}
     - target: {fileID: 5940245829426780984, guid: ffcbe7efc60249a438be2c9408559f5c,
         type: 3}
