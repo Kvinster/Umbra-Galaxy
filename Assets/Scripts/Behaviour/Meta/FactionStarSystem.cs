@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using System.Collections.Generic;
+
 using STP.Behaviour.Starter;
 using STP.Common;
 using STP.State;
@@ -9,6 +11,12 @@ using STP.Utils.PropertyAttribute;
 
 namespace STP.Behaviour.Meta {
     public sealed class FactionStarSystem : BaseStarSystem {
+        static readonly Dictionary<Faction, Color> FactionToColor = new Dictionary<Faction, Color> {
+            { Faction.A, Color.green },
+            { Faction.B, Color.yellow },
+            { Faction.C, Color.cyan }
+        };
+
         [FactionStarSystemId]
         public string         IdText;
         public SpriteRenderer SpriteRenderer;
@@ -62,7 +70,9 @@ namespace STP.Behaviour.Meta {
             if ( starSystemId != Id ) {
                 return;
             }
-            SpriteRenderer.color = isActive ? Color.white : Color.gray;
+            SpriteRenderer.color = isActive
+                ? FactionToColor[StarSystemsController.Instance.GetFactionSystemFaction(Id)]
+                : Color.gray;
         }
     }
 }
