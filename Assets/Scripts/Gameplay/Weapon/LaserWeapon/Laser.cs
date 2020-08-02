@@ -2,16 +2,16 @@
 
 namespace STP.Gameplay.Weapon.LaserWeapon {
     public class Laser : BaseWeapon {
-        public override string Name => Weapons.Laser;
+        public override WeaponType Name => WeaponType.Laser;
         
         public void TryShoot() {
-            if ( CurState != WeaponState.FIRE ) {
-                CurState = WeaponState.FIRE;
+            if ( CurState != WeaponState.Fire ) {
+                CurState = WeaponState.Fire;
             }
         }
         
         public void TryStopShoot() {
-            CurState = WeaponState.CHARGED;
+            CurState = WeaponState.Charged;
         }
 
         protected override void AutoTransitions(float passedTime) { }

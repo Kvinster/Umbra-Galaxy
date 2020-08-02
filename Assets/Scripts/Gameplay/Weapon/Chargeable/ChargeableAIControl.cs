@@ -16,10 +16,10 @@ namespace STP.Gameplay.Weapon.Chargeable {
                 Weapon.DropCharge();
             }
             if ( _aiShip.State == EnemyState.Chase ) {
-                if ( Weapon.CurState == WeaponState.IDLE ) {
+                if ( Weapon.CurState == WeaponState.Idle ) {
                     Weapon.PressCharging();   
                 }
-                if ( Weapon.CurState == WeaponState.CHARGED ) {
+                if ( Weapon.CurState == WeaponState.Charged ) {
                     Weapon.ReleaseCharging();   
                 }
             }

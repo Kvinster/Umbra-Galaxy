@@ -12,7 +12,7 @@ namespace STP.Gameplay.Weapon.LaserWeapon {
                 Weapon.TryShoot();
             }
             else {
-                if ( Weapon.CurState == WeaponState.FIRE ) {
+                if ( Weapon.CurState == WeaponState.Fire ) {
                     Weapon.TryStopShoot();
                 }
             }

@@ -9,7 +9,7 @@ namespace STP.Gameplay.Weapon.GunWeapon {
         
         public float BulletSpeed {get;}
         
-        public override string Name => Weapons.Gun;
+        public override WeaponType Name => WeaponType.Gun;
         
         public Gun(float bulletSpeed, float reloadTime) {
             BulletSpeed = bulletSpeed;
@@ -18,25 +18,25 @@ namespace STP.Gameplay.Weapon.GunWeapon {
         }
         
         public void TryShoot() {
-            if ( CurState == WeaponState.CHARGED ) {
-                CurState = WeaponState.FIRE;
+            if ( CurState == WeaponState.Charged ) {
+                CurState = WeaponState.Fire;
             }
         }
         
         protected override void AutoTransitions(float passedTime) {
             switch ( CurState ) {
-                case WeaponState.IDLE:
+                case WeaponState.Idle:
                     _timer.Start(_reloadTime);
-                    CurState = WeaponState.CHARGE;
+                    CurState = WeaponState.Charge;
                     break;
-                case WeaponState.CHARGE:
+                case WeaponState.Charge:
                     if ( _timer.Tick(passedTime) ) {
                         _timer.Stop();
-                        CurState = WeaponState.CHARGED;
+                        CurState = WeaponState.Charged;
                     }
                     break;
-                case WeaponState.FIRE:
-                    CurState = WeaponState.IDLE;
+                case WeaponState.Fire:
+                    CurState = WeaponState.Idle;
                     break;
             }
         }

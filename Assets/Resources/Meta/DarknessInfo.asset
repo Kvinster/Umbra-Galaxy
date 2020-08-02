@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 096d17ecb2cb47c189fbdcc3dd611bd2, type: 3}
+  m_Name: DarknessInfo
+  m_EditorClassIdentifier: 
+  DarknessPaths:
+  - Path:
+    - 48f5068b4ec93fb41a62cfc3c4e6b38f
+    - b3392afa326e5aa4e92031420452b402
+    - bb60678d64a1a9140a92600ea6fa1568
+    - 958508762e1669a48bcb0c240cbe3367
+    - eb9e378c36157884d8c4c88df0d2501d
+    - bd6537e4a0b08a2449e4d595f48ab96e
+  - Path:
+    - afe30c5be888e874f9677cece5ccc873
+    - e353514ece8132b47b7bbc5c234b2f33
+    - 5cda78cf2ef19054b86c6a9c4c88c013
+    - 74462c7c53badc6458e6301b9160ff06
+    - 413ad74c2dc99ea4e9abee3cadcf9bf9
+    - bd6537e4a0b08a2449e4d595f48ab96e
+  - Path:
+    - 42175a4094c753e479dc0ab5bf3a15f2
+    - 656bdd195fe451649b3330d16f9682ef
+    - 0b65e25d932f0dc4d9c6507d2f5c79dc
+    - 501f552058afd464c91d3e44bbf53c7d
+    - ff03f2688380ae3429a45386b37006db
+    - bd6537e4a0b08a2449e4d595f48ab96e

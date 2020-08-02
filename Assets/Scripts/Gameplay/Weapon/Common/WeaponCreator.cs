@@ -9,17 +9,17 @@ using STP.Gameplay.Weapon.ShotgunWeapon;
 namespace STP.Gameplay.Weapon.Common {
     public class WeaponCreator {
         
-        public IWeaponControl GetManualWeapon(string weaponName) {
-            switch ( weaponName ) {
-                case Weapons.Gun:
+        public IWeaponControl GetManualWeapon(WeaponType weaponType) {
+            switch ( weaponType ) {
+                case WeaponType.Gun:
                     return new BulletManualControl(new Gun(400, 0.1f));
-                case Weapons.Laser:
+                case WeaponType.Laser:
                     return new LaserManualControl(new Laser());
-                case Weapons.Lance:
+                case WeaponType.Lance:
                     return new ChargeableManualControl(new Lance());
-                case Weapons.Impulse:
+                case WeaponType.Impulse:
                     return new ChargeableManualControl(new Impulse());
-                case Weapons.ShotGun:
+                case WeaponType.Shotgun:
                     return new BulletManualControl(new Shotgun(400, 0.5f));
                 case Weapons.MissileLauncher:
                     return new BulletManualControl(new MissileLauncher(400f, 1f));
@@ -27,17 +27,17 @@ namespace STP.Gameplay.Weapon.Common {
             return null;
         }
         
-        public IWeaponControl GetAIWeaponController(string weaponName, EnemyShip enemyShip) {
-            switch ( weaponName ) {
-                case Weapons.Gun:
+        public IWeaponControl GetAIWeaponController(WeaponType weaponType, EnemyShip enemyShip) {
+            switch ( weaponType ) {
+                case WeaponType.Gun:
                     return new BulletAIControl(new Gun(400, 0.5f), enemyShip);
-                case Weapons.Laser:
+                case WeaponType.Laser:
                     return new LaserAIControl(new Laser(), enemyShip);
-                case Weapons.Lance:
+                case WeaponType.Lance:
                     return new ChargeableAIControl(new Lance(), enemyShip);
-                case Weapons.Impulse:
+                case WeaponType.Impulse:
                     return new ChargeableAIControl(new Impulse(), enemyShip);
-                case Weapons.ShotGun:
+                case WeaponType.Shotgun:
                     return new BulletAIControl(new Shotgun(400, 0.5f), enemyShip);
                 case Weapons.MissileLauncher:
                     return new BulletAIControl(new MissileLauncher(400, 1f), enemyShip);
