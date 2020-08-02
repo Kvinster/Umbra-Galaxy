@@ -123,8 +123,9 @@ namespace STP.Common.Windows {
             UpdateCanvasCamera();
 
             var scaler = canvasGo.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode            = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution    = new Vector2(1920, 1080);
-            scaler.referencePixelsPerUnit = 1f;
+            scaler.referencePixelsPerUnit = 100f;
             scaler.screenMatchMode        = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
             scaler.matchWidthOrHeight     = 1f;
 

@@ -37,11 +37,11 @@ namespace STP.Behaviour.Utils {
             Root.SetActive(false);
         }
 
-        public void OnPointerEnterExt() {
+        public void Show() {
             ShowExt = true;
         }
 
-        public void OnPointerExitExt() {
+        public void Hide() {
             ShowExt = false;
         }
 
