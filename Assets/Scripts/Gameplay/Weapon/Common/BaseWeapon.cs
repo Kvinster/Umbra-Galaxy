@@ -7,11 +7,12 @@
     }
 
     public enum WeaponType {
-        Gun     = 0,
-        Shotgun = 1,
-        Laser   = 2,
-        Lance   = 3,
-        Impulse = 4,
+        Gun             = 0,
+        Shotgun         = 1,
+        Laser           = 2,
+        Lance           = 3,
+        Impulse         = 4,
+        MissileLauncher = 5,
         
         Unknown = -1,
     }

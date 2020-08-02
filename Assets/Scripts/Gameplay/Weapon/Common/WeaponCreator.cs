@@ -21,7 +21,7 @@ namespace STP.Gameplay.Weapon.Common {
                     return new ChargeableManualControl(new Impulse());
                 case WeaponType.Shotgun:
                     return new BulletManualControl(new Shotgun(400, 0.5f));
-                case Weapons.MissileLauncher:
+                case WeaponType.MissileLauncher:
                     return new BulletManualControl(new MissileLauncher(400f, 1f));
             }
             return null;
@@ -39,7 +39,7 @@ namespace STP.Gameplay.Weapon.Common {
                     return new ChargeableAIControl(new Impulse(), enemyShip);
                 case WeaponType.Shotgun:
                     return new BulletAIControl(new Shotgun(400, 0.5f), enemyShip);
-                case Weapons.MissileLauncher:
+                case WeaponType.MissileLauncher:
                     return new BulletAIControl(new MissileLauncher(400, 1f), enemyShip);
             }
             return null;

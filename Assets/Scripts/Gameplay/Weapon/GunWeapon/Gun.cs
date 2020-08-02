@@ -14,7 +14,7 @@ namespace STP.Gameplay.Weapon.GunWeapon {
         public Gun(float bulletSpeed, float reloadTime) {
             BulletSpeed = bulletSpeed;
             _reloadTime = reloadTime;
-            CurState    = WeaponState.CHARGED;
+            CurState    = WeaponState.Charged;
         }
         
         public void TryShoot() {
