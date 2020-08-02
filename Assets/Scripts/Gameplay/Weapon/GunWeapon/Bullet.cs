@@ -3,7 +3,7 @@
 namespace STP.Gameplay.Weapon.GunWeapon {
     public class Bullet : MonoBehaviour{
         GameObject _source;
-        public void Init(GameObject sourceShip) {
+        public virtual void Init(GameObject sourceShip) {
             _source = sourceShip;
         }
         

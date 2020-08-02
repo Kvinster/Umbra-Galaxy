@@ -7,11 +7,12 @@
     }
 
     public class Weapons {
-        public const string Gun     = "bullets";
-        public const string ShotGun = "shotgun";
-        public const string Laser   = "laser";
-        public const string Lance   = "lance";
-        public const string Impulse = "impulse";
+        public const string Gun             = "bullets";
+        public const string ShotGun         = "shotgun";
+        public const string Laser           = "laser";
+        public const string Lance           = "lance";
+        public const string Impulse         = "impulse";
+        public const string MissileLauncher = "missileLauncher";
     }
 
     public abstract class BaseWeapon {

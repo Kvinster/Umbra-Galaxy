@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using STP.View;
 
 namespace STP.Gameplay {
-    public class Asteroid : CoreBehaviour, IDestructable{
+    public class Asteroid : CoreBehaviour, IDestructable {
         const int ShowAsteroidProbability = 5;
         
         public bool         IsRare;

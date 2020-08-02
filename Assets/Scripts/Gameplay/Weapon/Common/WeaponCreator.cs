@@ -3,6 +3,7 @@ using STP.Gameplay.Weapon.GunWeapon;
 using STP.Gameplay.Weapon.ImpulseWeapon;
 using STP.Gameplay.Weapon.LanceWeapon;
 using STP.Gameplay.Weapon.LaserWeapon;
+using STP.Gameplay.Weapon.MissileWeapon;
 using STP.Gameplay.Weapon.ShotgunWeapon;
 
 namespace STP.Gameplay.Weapon.Common {
@@ -20,6 +21,8 @@ namespace STP.Gameplay.Weapon.Common {
                     return new ChargeableManualControl(new Impulse());
                 case Weapons.ShotGun:
                     return new BulletManualControl(new Shotgun(400, 0.5f));
+                case Weapons.MissileLauncher:
+                    return new BulletManualControl(new MissileLauncher(400f, 1f));
             }
             return null;
         }
@@ -36,6 +39,8 @@ namespace STP.Gameplay.Weapon.Common {
                     return new ChargeableAIControl(new Impulse(), enemyShip);
                 case Weapons.ShotGun:
                     return new BulletAIControl(new Shotgun(400, 0.5f), enemyShip);
+                case Weapons.MissileLauncher:
+                    return new BulletAIControl(new MissileLauncher(400, 1f), enemyShip);
             }
             return null;
         }

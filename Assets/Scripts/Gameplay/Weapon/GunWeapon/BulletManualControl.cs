@@ -12,7 +12,6 @@ namespace STP.Gameplay.Weapon.GunWeapon {
         public override void UpdateControl(float timePassed) {
             base.UpdateControl(timePassed);
             if ( Input.GetButton("Fire1") ) {
-                Debug.Log("bullet try fire logging");
                 Weapon.TryShoot();
             }
         }
