@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using STP.Behaviour.Common;
-using STP.Behaviour.Meta.UI.FactionSystemWindow;
 using STP.Common.Windows;
 using STP.Gameplay.Weapon.Common;
 using STP.State;

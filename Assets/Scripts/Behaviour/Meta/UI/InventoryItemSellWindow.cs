@@ -26,33 +26,36 @@ namespace STP.Behaviour.Meta.UI {
         StarSystemsManager _starSystemsManager;
         InventoryItemInfos _inventoryItemInfos;
 
-        string _itemName;
-        int    _itemPrice;
-        int    _resultPrice;
-        string _starSystemId;
+        PlayerInventoryPlace _inventoryPlace;
+        int                  _itemPrice;
+        int                  _resultPrice;
+        string               _starSystemId;
 
         bool CanSell => (_resultPrice <= StarSystemsController.Instance.GetFactionSystemMoney(_starSystemId));
 
-        public void Init(string itemName, string starSystemId, StarSystemsManager starSystemsManager, InventoryItemInfos inventoryItemInfos) {
+        public void Init(PlayerInventoryPlace inventoryPlace, string starSystemId,
+            StarSystemsManager starSystemsManager, InventoryItemInfos inventoryItemInfos) {
             _starSystemsManager = starSystemsManager;
             _inventoryItemInfos = inventoryItemInfos;
-            _itemName           = itemName;
+            _inventoryPlace     = inventoryPlace;
             _starSystemId       = starSystemId;
-            
+
+            var itemName   = _inventoryPlace.ItemName;
+            var itemAmount = _inventoryPlace.ItemAmount;
+
             ItemNameText.text = itemName;
             ItemIcon.sprite   = _inventoryItemInfos.GetItemInventoryIcon(itemName);
 
-            var inventoryAmount = PlayerState.Instance.GetInventoryItemAmount(_itemName);
             AmountPair.CommonInit();
-            AmountPair.Init(1, inventoryAmount);
-            
+            AmountPair.Init(1, itemAmount);
+
             SellButton.onClick.AddListener(OnSellClick);
             foreach ( var closeWindowButton in CloseWindowButtons ) {
                 closeWindowButton.onClick.AddListener(Hide);
             }
 
             _itemPrice = _inventoryItemInfos.GetItemBasePrice(itemName);
-            
+
             AmountPair.OnValueChanged += OnAmountChanged;
 
             UpdateResultPrice(AmountPair.CurValue);
@@ -61,7 +64,7 @@ namespace STP.Behaviour.Meta.UI {
         protected override void Deinit() {
             _starSystemsManager = null;
             _inventoryItemInfos = null;
-            _itemName           = null;
+            _inventoryPlace     = null;
             _starSystemId       = null;
             
             AmountPair.OnValueChanged -= OnAmountChanged;
@@ -71,14 +74,6 @@ namespace STP.Behaviour.Meta.UI {
             foreach ( var closeWindowButton in CloseWindowButtons ) {
                 closeWindowButton.onClick.RemoveAllListeners();
             }
-        }
-
-        void UpdateAmount(int inventoryAmount) {
-            if ( inventoryAmount <= 0 ) {
-                Debug.LogErrorFormat("Invalid inventory item '{0}' amount: '{1}'", _itemName, inventoryAmount);
-                return;
-            }
-            AmountPair.SetBorderValues(1, inventoryAmount);
         }
 
         void OnAmountChanged(int newAmount) {
@@ -96,26 +91,23 @@ namespace STP.Behaviour.Meta.UI {
                 Debug.LogErrorFormat("Unsupported scenario");
                 return;
             }
-            var ps     = PlayerState.Instance;
-            var ssc    = StarSystemsController.Instance;
-            var amount = AmountPair.CurValue;
-            if ( ps.TryTakeFromInventory(_itemName, amount) &&
-                 ssc.TrySubFactionSystemMoney(_starSystemId, _resultPrice) ) {
+            var ps             = PlayerState.Instance;
+            var ssc            = StarSystemsController.Instance;
+            var itemName       = _inventoryPlace.ItemName;
+            var sellItemAmount = AmountPair.CurValue;
+            var newItemAmount  = _inventoryPlace.ItemAmount - sellItemAmount;
+            if ( ssc.TrySubFactionSystemMoney(_starSystemId, _resultPrice) ) {
+                _inventoryPlace.SetItem(itemName, newItemAmount);
                 ps.Money += _resultPrice;
                 ssc.AddFactionSystemSurvivalChance(_starSystemId,
-                    _inventoryItemInfos.GetItemBaseSurvivalChanceInc(_itemName) * amount);
+                    _inventoryItemInfos.GetItemBaseSurvivalChanceInc(itemName) * sellItemAmount);
                 
                 if ( _starSystemsManager.GetStarSystem(_starSystemId).Type == StarSystemType.Faction ) {
-                    ProgressController.Instance.OnSellItemToFaction(_itemName, amount,
+                    ProgressController.Instance.OnSellItemToFaction(itemName, sellItemAmount,
                         ssc.GetFactionSystemFaction(_starSystemId));
                 }
-
-                var inventoryAmount = ps.GetInventoryItemAmount(_itemName);
-                if ( inventoryAmount <= 0 ) {
-                    Hide();
-                } else {
-                    UpdateAmount(inventoryAmount);
-                }
+                
+                Hide();
             }
         }
     }

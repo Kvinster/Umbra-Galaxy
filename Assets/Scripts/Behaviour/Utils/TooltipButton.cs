@@ -8,14 +8,14 @@ namespace STP.Behaviour.Utils {
         public override void OnPointerEnter(PointerEventData eventData) {
             base.OnPointerEnter(eventData);
             if ( Tooltip ) {
-                Tooltip.OnPointerEnterExt();
+                Tooltip.Show();
             }
         }
 
         public override void OnPointerExit(PointerEventData eventData) {
             base.OnPointerExit(eventData);
             if ( Tooltip ) {
-                Tooltip.OnPointerExitExt();
+                Tooltip.Hide();
             }
         }
     }

@@ -16,15 +16,18 @@ MonoBehaviour:
   - ItemName: mineral
     ItemBasePrice: 10
     ItemBaseSurvivalChanceInc: 1
-    ItemInventoryIcon: {fileID: 0}
+    ItemInventoryIcon: {fileID: 21300000, guid: a3a2c96b07e44c94ea5203785cacf00a,
+      type: 3}
   - ItemName: scrap
     ItemBasePrice: 1
     ItemBaseSurvivalChanceInc: 0
-    ItemInventoryIcon: {fileID: 0}
+    ItemInventoryIcon: {fileID: 21300000, guid: 168d8fa58fe0b2040ae18a3d989f2006,
+      type: 3}
   - ItemName: fuel_tank
     ItemBasePrice: 50
     ItemBaseSurvivalChanceInc: 0
-    ItemInventoryIcon: {fileID: 0}
+    ItemInventoryIcon: {fileID: 21300000, guid: 62204e0f7e5f42a488d128fb7efab561,
+      type: 3}
   - ItemName: meta_item
     ItemBasePrice: 0
     ItemBaseSurvivalChanceInc: 100

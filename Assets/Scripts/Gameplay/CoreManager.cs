@@ -31,7 +31,8 @@ namespace STP.Gameplay {
 
         public void SendItemsToMothership() {
             foreach ( var item in _shipState.ShipInventory ) {
-                _playerState.AddToInventory(item.Key, item.Value);
+                // TODO: check result, act somehow
+                _playerState.Inventory.TryAdd(item.Key, item.Value);
             }
             _shipState.DropAllItems();
         }

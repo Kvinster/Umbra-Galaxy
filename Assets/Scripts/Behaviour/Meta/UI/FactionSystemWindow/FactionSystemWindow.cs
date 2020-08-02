@@ -39,11 +39,11 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
         public TMP_Text StarSystemFactionText;
         public TMP_Text StarSystemMoneyText;
         public TMP_Text StarSystemSurvivalChanceText;
+
+        public PlayerInventoryItemSell InventoryItemSell;
         
         public TMP_Text FuelPriceText;
         public Button   RefillFuelButton;
-
-        public Button HideWindowButton;
 
         public PlayerInventoryView PlayerInventoryView;
 
@@ -64,10 +64,10 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
             _inventoryItemInfos = inventoryItemInfos;
 
             RefillFuelButton.onClick.AddListener(OnRefillFuelClick);
-            HideWindowButton.onClick.AddListener(Hide);
 
             PlayerInventoryView.Init(inventoryItemInfos);
-            PlayerInventoryView.OnItemClick += OnInventoryItemClick;
+
+            InventoryItemSell.Init(ShowInventorySellWindow, inventoryItemInfos);
 
             var ps = PlayerState.Instance;
             PlayerNameText.text = string.Format(PlayerNameTextTemplate, "Player");
@@ -98,12 +98,12 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
             _starSystemId       = null;
             _starSystemsManager = null;
             _inventoryItemInfos = null;
-
-            PlayerInventoryView.OnItemClick -= OnInventoryItemClick;
+            
             PlayerInventoryView.Deinit();
+
+            InventoryItemSell.Deinit();
             
             RefillFuelButton.onClick.RemoveAllListeners();
-            HideWindowButton.onClick.RemoveAllListeners();
             
             PlayerState.Instance.OnMoneyChanged -= OnPlayerMoneyChanged;
             PlayerState.Instance.OnFuelChanged  -= OnPlayerFuelChanged;
@@ -112,9 +112,9 @@ namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
             StarSystemsController.Instance.OnStarSystemSurvivalChanceChanged -= OnStarSystemSurvivalChanceChanged;
         }
 
-        void OnInventoryItemClick(string itemName) {
+        void ShowInventorySellWindow(PlayerInventoryPlace inventoryPlace) {
             WindowManager.Instance.Show<InventoryItemSellWindow>(x =>
-                x.Init(itemName, _starSystemId, _starSystemsManager, _inventoryItemInfos));
+                x.Init(inventoryPlace, _starSystemId, _starSystemsManager, _inventoryItemInfos));
         }
 
         void UpdatePlayerMoneyText(int playerMoney) {
