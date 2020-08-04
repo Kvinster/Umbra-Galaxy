@@ -11,17 +11,14 @@ namespace STP.Gameplay {
         
         public FastTravelEngine FastTravelEngine {get;} = new FastTravelEngine();
         public PlayerShipState  PlayerShipState  {get;} = new PlayerShipState();
-        public MotherShipState  MotherShipState  {get;} = new MotherShipState();
         
         readonly PlayerState   _playerState;
         readonly CoreShipState _shipState;
-        readonly UnityContext  _unityContext;
 
         public CoreManager(PlayerState state, CoreShipState shipState, UnityContext context) {
             _playerState  = state;
             _shipState    = shipState;
-            _unityContext = context;
-            _unityContext.AddUpdateCallback(FastTravelEngine.UpdateEngineState);
+            context.AddUpdateCallback(FastTravelEngine.UpdateEngineState);
             FastTravelEngine.Init(FastTravelEngineChargingTime);
         }
 
@@ -37,17 +34,9 @@ namespace STP.Gameplay {
             _shipState.DropAllItems();
         }
 
-        public void GoToShop(bool sendItems) {
-            if ( sendItems ) {
-                SendItemsToMothership();
-            }
+        public void GoToMeta() {
+            SendItemsToMothership();
             SceneManager.LoadScene("Meta");
-        }
-
-        public void TeleportToMothership() {
-            PlayerShipState.Position               = MotherShipState.TeleportPosition;
-            PlayerShipState.Velocity               = Vector2.zero;
-            PlayerShipState.TriggerChangeEvent();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace STP.View {
         
         public void Init(CoreManager coreManager) {
             ReturnToMeta.onClick.RemoveAllListeners();
-            ReturnToMeta.onClick.AddListener(()=>coreManager.GoToShop(false));
+            ReturnToMeta.onClick.AddListener(coreManager.GoToMeta);
             gameObject.SetActive(true);
         }
 
