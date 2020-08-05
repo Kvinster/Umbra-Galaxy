@@ -17,7 +17,6 @@ namespace STP.Gameplay {
         public PlayerState     State => PlayerState.Instance;
         
         public WeaponCreator     WeaponCreator     {get; private set;}
-        public CoreShipState     ShipState         {get; private set;}
         public BulletCreator     BulletCreator     {get; private set;}
         public MaterialCreator   MaterialCreator   {get; private set;}
         public CoreManager       CoreManager       {get; private set;}
@@ -27,12 +26,11 @@ namespace STP.Gameplay {
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, BulletSpawnStock, MaterialSpawnStock, UnityContext);
         
         void Start() {
-            ShipState         = new CoreShipState();
             BulletCreator     = new BulletCreator(this);
             WeaponCreator     = new WeaponCreator();
             WeaponViewCreator = new WeaponViewCreator(this);
             MaterialCreator   = new MaterialCreator(this);
-            CoreManager       = new CoreManager(State, ShipState, UnityContext);
+            CoreManager       = new CoreManager(State, UnityContext);
             OverlayHelper     = new CoreOverlayHelper(this);
             var behaviours = new HashSet<CoreBehaviour>(CoreBehaviour.Instances);
             foreach (var comp in behaviours) {

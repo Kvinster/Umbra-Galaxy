@@ -9,33 +9,31 @@ namespace STP.Gameplay {
     public class CoreManager {
         const float FastTravelEngineChargingTime = 3f;
         
+        readonly PlayerState     _playerState;
+        readonly PlayerInventory _inventory;
+        
+        public int UsedCapacity { get; private set; }
+
         public FastTravelEngine FastTravelEngine {get;} = new FastTravelEngine();
         public PlayerShipState  PlayerShipState  {get;} = new PlayerShipState();
         
-        readonly PlayerState   _playerState;
-        readonly CoreShipState _shipState;
-
-        public CoreManager(PlayerState state, CoreShipState shipState, UnityContext context) {
-            _playerState  = state;
-            _shipState    = shipState;
+        public CoreManager(PlayerState state, UnityContext context) {
+            _inventory   = state.Inventory;
+            UsedCapacity = _inventory.GetUsedCapacity();
             context.AddUpdateCallback(FastTravelEngine.UpdateEngineState);
             FastTravelEngine.Init(FastTravelEngineChargingTime);
         }
 
         public bool TryAddItemToShip(string material, int amount = 1) {
-            return _shipState.TryAddItem(material, amount);
-        }
-
-        public void SendItemsToMothership() {
-            foreach ( var item in _shipState.ShipInventory ) {
-                // TODO: check result, act somehow
-                _playerState.Inventory.TryAdd(item.Key, item.Value);
+            if ( UsedCapacity + amount > PlayerInventory.Capacity ) {
+                return false;
             }
-            _shipState.DropAllItems();
+            _inventory.TryAdd(material, amount);
+            UsedCapacity += amount;
+            return true;
         }
 
         public void GoToMeta() {
-            SendItemsToMothership();
             SceneManager.LoadScene("Meta");
         }
     }

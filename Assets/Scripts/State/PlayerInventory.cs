@@ -2,7 +2,8 @@
 
 namespace STP.State {
     public sealed class PlayerInventory {
-        public const int InventoryPlaces = 32;
+        public const int InventoryPlaces   = 32;
+        public const int Capacity = 1000;
 
         readonly PlayerInventoryPlace[] _places = new PlayerInventoryPlace[InventoryPlaces];
 
@@ -21,6 +22,17 @@ namespace STP.State {
                 return null;
             }
             return _places[placeIndex];
+        }
+
+        public int GetUsedCapacity() {
+            var usedCapacity = 0;
+            foreach ( var place in _places ) {
+                if (place.ItemAmount == -1) {
+                    continue;
+                }
+                usedCapacity += place.ItemAmount;
+            }
+            return usedCapacity;
         }
 
         public int GetItemAmount(string itemName) {

@@ -9,7 +9,7 @@ namespace STP.View {
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, FastTravelUI, ItemCounterUI);
 
         public override void Init(CoreStarter starter) {
-            ItemCounterUI.Init(starter);
+            ItemCounterUI.Init(starter.CoreManager);
             FastTravelUI.Init(starter.CoreManager);
         }
     }
