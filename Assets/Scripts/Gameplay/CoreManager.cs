@@ -9,45 +9,32 @@ namespace STP.Gameplay {
     public class CoreManager {
         const float FastTravelEngineChargingTime = 3f;
         
+        readonly PlayerState     _playerState;
+        readonly PlayerInventory _inventory;
+        
+        public int UsedCapacity { get; private set; }
+
         public FastTravelEngine FastTravelEngine {get;} = new FastTravelEngine();
         public PlayerShipState  PlayerShipState  {get;} = new PlayerShipState();
-        public MotherShipState  MotherShipState  {get;} = new MotherShipState();
         
-        readonly PlayerState   _playerState;
-        readonly CoreShipState _shipState;
-        readonly UnityContext  _unityContext;
-
-        public CoreManager(PlayerState state, CoreShipState shipState, UnityContext context) {
-            _playerState  = state;
-            _shipState    = shipState;
-            _unityContext = context;
-            _unityContext.AddUpdateCallback(FastTravelEngine.UpdateEngineState);
+        public CoreManager(PlayerState state, UnityContext context) {
+            _inventory   = state.Inventory;
+            UsedCapacity = _inventory.GetUsedCapacity();
+            context.AddUpdateCallback(FastTravelEngine.UpdateEngineState);
             FastTravelEngine.Init(FastTravelEngineChargingTime);
         }
 
         public bool TryAddItemToShip(string material, int amount = 1) {
-            return _shipState.TryAddItem(material, amount);
+            if ( UsedCapacity + amount > PlayerInventory.Capacity ) {
+                return false;
+            }
+            _inventory.TryAdd(material, amount);
+            UsedCapacity += amount;
+            return true;
         }
 
-        public void SendItemsToMothership() {
-            foreach ( var item in _shipState.ShipInventory ) {
-                // TODO: check result, act somehow
-                _playerState.Inventory.TryAdd(item.Key, item.Value);
-            }
-            _shipState.DropAllItems();
-        }
-
-        public void GoToShop(bool sendItems) {
-            if ( sendItems ) {
-                SendItemsToMothership();
-            }
+        public void GoToMeta() {
             SceneManager.LoadScene("Meta");
-        }
-
-        public void TeleportToMothership() {
-            PlayerShipState.Position               = MotherShipState.TeleportPosition;
-            PlayerShipState.Velocity               = Vector2.zero;
-            PlayerShipState.TriggerChangeEvent();
         }
     }
 }

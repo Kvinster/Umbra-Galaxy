@@ -5,21 +5,15 @@ using STP.Utils;
 
 namespace STP.View {
     public class OverlayManager : GameBehaviour{
-        public MothershipOverlay MotherShipOverlay;
         public GameoverOverlay   GameoverOverlay;
         
         List<IOverlay> _allOverlays = new List<IOverlay>();
         
-        protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, MotherShipOverlay);
+        protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, GameoverOverlay);
 
         void Start() {
-            _allOverlays = new List<IOverlay>{MotherShipOverlay, GameoverOverlay};
+            _allOverlays = new List<IOverlay>{GameoverOverlay};
             HideAllOverlays();
-        }
-        
-        public void ShowMothershipOverlay(Action<MothershipOverlay> initAction) {
-            HideAllOverlays();
-            initAction?.Invoke(MotherShipOverlay);
         }
         
         public void ShowGameoverOverlay(Action<GameoverOverlay> initAction) {

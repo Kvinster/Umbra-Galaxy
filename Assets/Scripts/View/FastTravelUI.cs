@@ -38,7 +38,7 @@ namespace STP.View {
                 WarningImage.enabled = true;
                 return;
             }
-            _fastTravelEngine.TryStartEngine(_coreManager.TeleportToMothership);
+            _fastTravelEngine.TryStartEngine(_coreManager.GoToMeta);
         }
         
         void Update() {
