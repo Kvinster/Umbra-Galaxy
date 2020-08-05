@@ -97,7 +97,7 @@ namespace STP.Behaviour.Meta.UI {
             var sellItemAmount = AmountPair.CurValue;
             var newItemAmount  = _inventoryPlace.ItemAmount - sellItemAmount;
             if ( ssc.TrySubFactionSystemMoney(_starSystemId, _resultPrice) ) {
-                _inventoryPlace.SetItem(itemName, newItemAmount);
+                _inventoryPlace.SetItem((newItemAmount == 0) ? string.Empty : itemName, newItemAmount);
                 ps.Money += _resultPrice;
                 ssc.AddFactionSystemSurvivalChance(_starSystemId,
                     _inventoryItemInfos.GetItemBaseSurvivalChanceInc(itemName) * sellItemAmount);

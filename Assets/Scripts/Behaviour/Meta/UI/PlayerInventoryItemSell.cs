@@ -8,7 +8,7 @@ using STP.State;
 
 using TMPro;
 
-namespace STP.Behaviour.Meta.UI.FactionSystemWindow {
+namespace STP.Behaviour.Meta.UI {
     public sealed class PlayerInventoryItemSell : BasePlayerInventoryItemHandler {
         const string SellTextTemplate = "Sell {0} for {1}";
 

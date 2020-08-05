@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 
 using STP.Behaviour.Meta.UI;
-using STP.Behaviour.Meta.UI.FactionSystemWindow;
 using STP.Behaviour.Meta.UI.InventoryWindow;
 
 using Object = UnityEngine.Object;
@@ -22,7 +21,6 @@ namespace STP.Common.Windows {
         }
 
         static readonly Dictionary<Type, string> TypeToPath = new Dictionary<Type, string> {
-            { typeof(FactionSystemWindow),     "Prefabs/Windows/FactionSystemWindow" },
             { typeof(InventoryItemSellWindow), "Prefabs/Windows/InventoryItemSellWindow" },
             { typeof(InventoryWindow),         "Prefabs/Windows/InventoryWindow" },
         };
@@ -34,6 +32,8 @@ namespace STP.Common.Windows {
 
         public event Action<ActiveWindowId> OnWindowShown;
         public event Action<Type>           OnWindowHidden;
+
+        public bool HasActiveWindows => (_activeWindows.Count > 0);
 
         public void Show<T>(Action<T> init = null) where T : BaseWindow {
             var type = typeof(T);

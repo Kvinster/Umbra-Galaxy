@@ -15,7 +15,10 @@ namespace STP.State {
             if ( (ItemName == itemName) && (ItemAmount == itemAmount) ) {
                 return;
             }
-            if ( !string.IsNullOrEmpty(itemName) ) {
+            if ( string.IsNullOrEmpty(itemName) ) {
+                ItemName   = string.Empty;
+                ItemAmount = -1;
+            } else {
                 if ( !ItemNames.AllItems.Contains(itemName) ) {
                     Debug.LogErrorFormat("Unsupported item name '{0}'", itemName);
                     return;
@@ -24,10 +27,9 @@ namespace STP.State {
                     Debug.LogErrorFormat("Invalid item amount '{0}'", itemAmount);
                     return;
                 }
+                ItemName   = itemName;
+                ItemAmount = itemAmount;
             }
-            ItemName   = itemName;
-            ItemAmount = itemAmount;
-
             OnItemChanged?.Invoke(ItemName, ItemAmount);
         }
     }

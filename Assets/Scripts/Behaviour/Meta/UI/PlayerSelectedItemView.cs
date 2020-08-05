@@ -24,6 +24,10 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         public void Deinit() {
+            Cursor.visible = true;
+            _inventoryItemInfos = null;
+            SelectedItemViewRoot.SetActive(false);
+            
             _inventoryItemInfos = null;
 
             _camera = null;

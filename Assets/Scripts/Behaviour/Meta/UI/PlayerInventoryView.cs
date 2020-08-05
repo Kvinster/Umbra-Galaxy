@@ -78,6 +78,7 @@ namespace STP.Behaviour.Meta.UI {
             foreach ( var handler in ItemHandlers ) {
                 handler.UnregisterPlayerInventoryView(this);
             }
+            SelectedPlaceView = null;
         }
 
         public void Deselect() {

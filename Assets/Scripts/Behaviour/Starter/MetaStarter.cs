@@ -1,11 +1,9 @@
 ﻿using STP.Behaviour.Common;
 using STP.Behaviour.Meta;
-using STP.Behaviour.Meta.UI;
 
 namespace STP.Behaviour.Starter {
     public sealed class MetaStarter : BaseStarter<MetaStarter> {
         public PlayerShip         PlayerShip;
-        public MetaUiCanvas       MetaUiCanvas;
         public MetaTimeManager    TimeManager;
         public InventoryItemInfos InventoryItemInfos;
         

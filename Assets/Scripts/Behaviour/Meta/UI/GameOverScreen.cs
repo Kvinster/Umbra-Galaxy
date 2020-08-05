@@ -39,13 +39,13 @@ namespace STP.Behaviour.Meta.UI {
         
         public TMP_Text Text;
 
-        MetaUiCanvas _owner;
+        MetaUiManager _owner;
 
         void OnDestroy() {
             ProgressController.Instance.OnGameFinished -= OnGameFinished;
         }
 
-        public void CommonInit(MetaUiCanvas owner) {
+        public void CommonInit(MetaUiManager owner) {
             _owner = owner;
 
             ProgressController.Instance.OnGameFinished += OnGameFinished;

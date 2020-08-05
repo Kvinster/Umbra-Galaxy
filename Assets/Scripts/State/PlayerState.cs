@@ -7,8 +7,6 @@ using STP.Gameplay.Weapon.Common;
 namespace STP.State {
     public class PlayerState {
         public const int MaxFuel = 100;
-
-        public string CurSystemId = "bd6537e4a0b08a2449e4d595f48ab96e"; // Cradle
         
         static PlayerState _instance;
         public static PlayerState Instance {
@@ -23,7 +21,19 @@ namespace STP.State {
         
         public readonly PlayerInventory Inventory = new PlayerInventory();
         
-        // TODO: set for the sake of testing, revert
+        string _curSystemId = "bd6537e4a0b08a2449e4d595f48ab96e"; // Cradle
+
+        public string CurSystemId {
+            get => _curSystemId;
+            set {
+                if ( _curSystemId == value ) {
+                    return;
+                }
+                _curSystemId = value;
+                OnCurSystemChanged?.Invoke(_curSystemId);
+            }
+        }
+        
         int _fuel = MaxFuel;
         public int Fuel {
             get => _fuel;
@@ -72,6 +82,7 @@ namespace STP.State {
             }
         }
         
+        public event Action<string>     OnCurSystemChanged;
         public event Action<int>        OnFuelChanged;
         public event Action<int>        OnMoneyChanged;
         public event Action<WeaponType> OnWeaponChanged;
