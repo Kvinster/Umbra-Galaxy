@@ -2,8 +2,7 @@
 
 namespace STP.State {
     public sealed class PlayerInventory {
-        public const int InventoryPlaces   = 32;
-        public const int Capacity = 1000;
+        public const int InventoryPlaces = 32;
 
         readonly PlayerInventoryPlace[] _places = new PlayerInventoryPlace[InventoryPlaces];
 

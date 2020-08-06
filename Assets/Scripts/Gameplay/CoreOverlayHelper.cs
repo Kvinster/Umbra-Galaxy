@@ -4,8 +4,6 @@ namespace STP.Gameplay {
     public class CoreOverlayHelper {
         readonly OverlayManager _overlayManager;
         readonly CoreManager    _coreManager;
-
-        bool HasOpenedOverlay => _overlayManager.HasOpenedOverlay();
         
         public CoreOverlayHelper(CoreStarter starter) {
             _overlayManager = starter.OverlayManager;

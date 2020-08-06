@@ -10,12 +10,14 @@ namespace STP.View {
     public class FastTravelUI : GameBehaviour{
         const string FastTravelText = "Fast travel";
         
-        public Image    WarningImage;
+        public Image    ButtonImage;
         public Button   FastTravelButton;
         public TMP_Text ButtonText;
         
         CoreManager      _coreManager;
         FastTravelEngine _fastTravelEngine;
+        
+        Color _defaultColor; 
         
         bool HasAnyAction => Mathf.Abs(Input.GetAxis("Horizontal")) > float.Epsilon ||
                              Mathf.Abs(Input.GetAxis("Vertical")) > float.Epsilon ||
@@ -30,12 +32,13 @@ namespace STP.View {
         public void Init(CoreManager coreManager) {
             _coreManager      = coreManager;
             _fastTravelEngine = coreManager.FastTravelEngine;
+            _defaultColor     = ButtonImage.color;
             FastTravelButton.onClick.AddListener(TryStartEngine);
         }
 
         void TryStartEngine() {
             if ( HasAnyAction ) {
-                WarningImage.enabled = true;
+                ButtonImage.color = Color.red;
                 return;
             }
             _fastTravelEngine.TryStartEngine(_coreManager.GoToMeta);
@@ -48,7 +51,7 @@ namespace STP.View {
             if ( HasAnyAction ) {
                 _fastTravelEngine.StopEngine();
             }
-            WarningImage.enabled = HasAnyAction && HasPressedHotKey;
+            ButtonImage.color = (HasAnyAction && HasPressedHotKey) ? Color.red : _defaultColor;
             
             switch ( _fastTravelEngine.State ) {
                 case EngineState.IDLE:

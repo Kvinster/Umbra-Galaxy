@@ -4006,10 +4006,70 @@ PrefabInstance:
       propertyPath: m_fontSizeMax
       value: 48
       objectReference: {fileID: 0}
+    - target: {fileID: 4810621135460472224, guid: 7cb361345a5be0c4f8bf074892422582,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810621135460472224, guid: 7cb361345a5be0c4f8bf074892422582,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810621135460472224, guid: 7cb361345a5be0c4f8bf074892422582,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810621135460472224, guid: 7cb361345a5be0c4f8bf074892422582,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5966190476781699938, guid: 7cb361345a5be0c4f8bf074892422582,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5966190476781699938, guid: 7cb361345a5be0c4f8bf074892422582,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6858918183841638937, guid: 7cb361345a5be0c4f8bf074892422582,
         type: 3}
       propertyPath: MotherShip
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039040305288692780, guid: 7cb361345a5be0c4f8bf074892422582,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039040305288692780, guid: 7cb361345a5be0c4f8bf074892422582,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039040305288692780, guid: 7cb361345a5be0c4f8bf074892422582,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039040305288692780, guid: 7cb361345a5be0c4f8bf074892422582,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039040305288692780, guid: 7cb361345a5be0c4f8bf074892422582,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039040305288692780, guid: 7cb361345a5be0c4f8bf074892422582,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7cb361345a5be0c4f8bf074892422582, type: 3}
@@ -4287,6 +4347,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Overlays
+      objectReference: {fileID: 0}
+    - target: {fileID: 2220684382619242304, guid: d57166a777a103f49915a4026152d8c7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3532005076258004121, guid: d57166a777a103f49915a4026152d8c7,
         type: 3}
