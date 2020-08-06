@@ -1,10 +1,23 @@
 ﻿using UnityEngine;
 
 namespace STP.Utils {
-    public abstract class GameBehaviour : MonoBehaviour{
-        public void Awake()      => CheckDescription();
-        public void OnValidate() => CheckDescription();
-        
-        protected abstract void CheckDescription();
+    public abstract class GameBehaviour : MonoBehaviour {
+        protected virtual void CheckDescription() { }
+
+        protected void Awake() {
+            if ( !Application.isPlaying ) {
+                return;
+            }
+            GameComponentUtils.CheckAttributes(this);
+            CheckDescription();
+        }
+
+        protected void OnValidate() {
+            if ( (gameObject.hideFlags & HideFlags.DontSaveInEditor) != 0 ) {
+                return;
+            }
+            GameComponentUtils.CheckAttributes(this);
+            CheckDescription();
+        }
     }
 }
