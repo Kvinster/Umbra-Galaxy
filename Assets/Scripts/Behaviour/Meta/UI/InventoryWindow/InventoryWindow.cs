@@ -14,8 +14,12 @@ namespace STP.Behaviour.Meta.UI.InventoryWindow {
         public PlayerInventoryView      InventoryView;
         public List<WeaponChoiceButton> WeaponChoiceButtons;
 
-        public void Init(InventoryItemInfos inventoryItemInfos) {
-            InventoryView.Init(inventoryItemInfos);
+        PlayerController _playerController;
+
+        public void Init(InventoryItemInfos inventoryItemInfos, PlayerController playerController) {
+            _playerController = playerController;
+            
+            InventoryView.Init(inventoryItemInfos, playerController);
 
             var weaponTypes = ((WeaponType[]) Enum.GetValues(typeof(WeaponType))).ToList();
             weaponTypes.Remove(WeaponType.Unknown);
@@ -27,7 +31,7 @@ namespace STP.Behaviour.Meta.UI.InventoryWindow {
             var weaponChoiceButtonIndex = 0;
             foreach ( var weaponType in weaponTypes ) {
                 var weaponChoiceButton = WeaponChoiceButtons[weaponChoiceButtonIndex++];
-                weaponChoiceButton.Init(weaponType, this);
+                weaponChoiceButton.Init(weaponType, this, playerController);
                 weaponChoiceButton.gameObject.SetActive(true);
             }
             for ( ; weaponChoiceButtonIndex < WeaponChoiceButtons.Count; ++weaponChoiceButtonIndex ) {
@@ -37,6 +41,7 @@ namespace STP.Behaviour.Meta.UI.InventoryWindow {
         }
         
         protected override void Deinit() {
+            _playerController = null;
             InventoryView.Deinit();
             foreach ( var weaponChoiceButton in WeaponChoiceButtons ) {
                 weaponChoiceButton.Deinit();
@@ -44,7 +49,7 @@ namespace STP.Behaviour.Meta.UI.InventoryWindow {
         }
 
         public void TryChooseWeapon(WeaponType weaponType) {
-            PlayerState.Instance.CurWeaponType = weaponType;
+            _playerController.CurWeaponType = weaponType;
         }
     }
 }

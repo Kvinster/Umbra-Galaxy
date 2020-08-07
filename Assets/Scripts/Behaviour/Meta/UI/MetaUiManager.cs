@@ -10,10 +10,10 @@ namespace STP.Behaviour.Meta.UI {
             DebugInfoText.Init(starter);
             DebugInfoText.gameObject.SetActive(true);
 
-            NewsBlock.Init(starter.TimeManager);
+            NewsBlock.Init(starter.TimeManager, starter.StarSystemsController, starter.DarknessController);
             NewsBlock.gameObject.SetActive(true);
 
-            GameOverScreen.CommonInit(this);
+            GameOverScreen.CommonInit(this, starter.ProgressController);
             GameOverScreen.gameObject.SetActive(false);
         }
 

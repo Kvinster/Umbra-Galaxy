@@ -1,10 +1,7 @@
 ﻿using System;
 
 namespace STP.State.Meta {
-    public sealed class TimeController {
-        static TimeController _instance;
-        public static TimeController Instance => _instance ?? (_instance = new TimeController());
-
+    public sealed class TimeController : BaseStateController {
         readonly TimeState _state = new TimeState();
 
         public int CurDay {

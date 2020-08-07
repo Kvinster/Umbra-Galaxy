@@ -7,18 +7,20 @@ namespace STP.Behaviour.Meta.UI {
     public sealed class PlayerFuelView : BaseMetaComponent {
         public TMP_Text FuelText;
 
+        PlayerController _playerController;
+
         void Reset() {
             FuelText = GetComponentInChildren<TMP_Text>();
         }
 
         void OnDestroy() {
-            PlayerState.Instance.OnFuelChanged -= OnPlayerFuelChanged;
+            _playerController.OnFuelChanged -= OnPlayerFuelChanged;
         }
 
         protected override void InitInternal(MetaStarter starter) {
-            var ps = PlayerState.Instance;
-            ps.OnFuelChanged += OnPlayerFuelChanged;
-            OnPlayerFuelChanged(ps.Fuel);
+            _playerController = starter.PlayerController;
+            _playerController.OnFuelChanged += OnPlayerFuelChanged;
+            OnPlayerFuelChanged(_playerController.Fuel);
         }
 
         void OnPlayerFuelChanged(int curFuel) {

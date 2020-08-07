@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 
 using STP.Behaviour.Starter;
-using STP.State;
 
 namespace STP.Behaviour.Meta.UI {
     public sealed class StarSystemUiManager : BaseMetaComponent {
@@ -41,10 +40,12 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         protected override void InitInternal(MetaStarter starter) {
-            EnterSystemButton.Init(this, starter.TimeManager, starter.StarSystemsManager);
-            
-            TradeScreen.Init(HideTradeScreen, starter.StarSystemsManager, starter.InventoryItemInfos);
-            HangarScreen.Init(HideHangarScreen, this);
+            EnterSystemButton.Init(this, starter.TimeManager, starter.StarSystemsManager, starter.StarSystemsController,
+                starter.PlayerController);
+
+            TradeScreen.Init(HideTradeScreen, starter.StarSystemsManager, starter.InventoryItemInfos,
+                starter.ProgressController, starter.StarSystemsController, starter.PlayerController);
+            HangarScreen.Init(HideHangarScreen, this, starter.PlayerController);
             
             IsStarSystemScreenActive = false;
             StarSystemScreenRoot.SetActive(_isStarSystemScreenActive);
@@ -68,7 +69,7 @@ namespace STP.Behaviour.Meta.UI {
         }
         
         void ShowTradeScreen() {
-            TradeScreen.Show(PlayerState.Instance.CurSystemId);
+            TradeScreen.Show();
             TradeScreen.gameObject.SetActive(true);
         }
 

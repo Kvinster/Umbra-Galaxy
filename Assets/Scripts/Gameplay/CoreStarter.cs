@@ -13,15 +13,16 @@ namespace STP.Gameplay {
         public Transform    MaterialSpawnStock;
         public UnityContext UnityContext;
         
-        public OverlayManager  OverlayManager;
-        public PlayerState     State => PlayerState.Instance;
+        public OverlayManager OverlayManager;
         
-        public WeaponCreator     WeaponCreator     {get; private set;}
-        public BulletCreator     BulletCreator     {get; private set;}
-        public MaterialCreator   MaterialCreator   {get; private set;}
-        public CoreManager       CoreManager       {get; private set;}
-        public CoreOverlayHelper OverlayHelper     {get; private set;}
-        public WeaponViewCreator WeaponViewCreator {get; private set;}
+        public WeaponCreator     WeaponCreator     { get; private set; }
+        public BulletCreator     BulletCreator     { get; private set; }
+        public MaterialCreator   MaterialCreator   { get; private set; }
+        public CoreManager       CoreManager       { get; private set; }
+        public CoreOverlayHelper OverlayHelper     { get; private set; }
+        public WeaponViewCreator WeaponViewCreator { get; private set; }
+
+        public PlayerController PlayerController => GameState.Instance.PlayerController;
         
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, BulletSpawnStock, MaterialSpawnStock, UnityContext);
         
@@ -30,7 +31,7 @@ namespace STP.Gameplay {
             WeaponCreator     = new WeaponCreator();
             WeaponViewCreator = new WeaponViewCreator(this);
             MaterialCreator   = new MaterialCreator(this);
-            CoreManager       = new CoreManager(State, UnityContext);
+            CoreManager       = new CoreManager(PlayerController, UnityContext);
             OverlayHelper     = new CoreOverlayHelper(this);
             var behaviours = new HashSet<CoreBehaviour>(CoreBehaviour.Instances);
             foreach (var comp in behaviours) {

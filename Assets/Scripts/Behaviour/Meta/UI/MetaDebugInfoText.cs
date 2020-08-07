@@ -1,7 +1,6 @@
 ﻿using System.Text;
 
 using STP.Behaviour.Starter;
-using STP.State;
 using STP.State.Meta;
 
 using TMPro;
@@ -10,8 +9,9 @@ namespace STP.Behaviour.Meta.UI {
     public sealed class MetaDebugInfoText : BaseMetaComponent {
         public TMP_Text Text;
 
-        MetaTimeManager _timeManager;
-        PlayerShip      _playerShip;
+        MetaTimeManager       _timeManager;
+        PlayerShip            _playerShip;
+        StarSystemsController _starSystemsController;
 
         readonly StringBuilder _stringBuilder = new StringBuilder();
 
@@ -23,8 +23,9 @@ namespace STP.Behaviour.Meta.UI {
         }
         
         protected override void InitInternal(MetaStarter starter) {
-            _timeManager = starter.TimeManager;
-            _playerShip  = starter.PlayerShip;
+            _timeManager           = starter.TimeManager;
+            _playerShip            = starter.PlayerShip;
+            _starSystemsController = starter.StarSystemsController;
             UpdateText();
         }
 
@@ -40,7 +41,7 @@ namespace STP.Behaviour.Meta.UI {
 
             _stringBuilder.AppendLine("<size=150%>Player</size>");
             if ( _playerShip.MovementController.CurSystem ) {
-                var ssc = StarSystemsController.Instance;
+                var ssc = _starSystemsController;
                 _stringBuilder.AppendLine(
                     $"CurSystem: {ssc.GetStarSystemName(_playerShip.MovementController.CurSystem.Id)}");
                 if ( _playerShip.MovementController.IsMoving ) {

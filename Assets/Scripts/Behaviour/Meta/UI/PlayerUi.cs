@@ -11,21 +11,23 @@ namespace STP.Behaviour.Meta.UI {
 
         StarSystemsManager _starSystemsManager;
         MetaTimeManager    _timeManager;
+        PlayerController   _playerController;
 
-        string PlayerCurSystemId => PlayerState.Instance.CurSystemId;
+        string PlayerCurSystemId => _playerController.CurSystemId;
         bool   IsPaused          => _timeManager.IsPaused;
 
         void OnDestroy() {
             _timeManager.OnPausedChanged            -= OnTimePausedChanged;
-            PlayerState.Instance.OnCurSystemChanged -= OnPlayerCurSystemChanged;
+            _playerController.OnCurSystemChanged -= OnPlayerCurSystemChanged;
         }
 
         protected override void InitInternal(MetaStarter starter) {
             _starSystemsManager = starter.StarSystemsManager;
             _timeManager        = starter.TimeManager;
+            _playerController   = starter.PlayerController;
             
-            _timeManager.OnPausedChanged            += OnTimePausedChanged;
-            PlayerState.Instance.OnCurSystemChanged += OnPlayerCurSystemChanged;
+            _timeManager.OnPausedChanged         += OnTimePausedChanged;
+            _playerController.OnCurSystemChanged += OnPlayerCurSystemChanged;
 
             UpdateEnterSystemButtonActive(IsPaused,
                 _starSystemsManager.GetStarSystem(PlayerCurSystemId).Type == StarSystemType.Faction);

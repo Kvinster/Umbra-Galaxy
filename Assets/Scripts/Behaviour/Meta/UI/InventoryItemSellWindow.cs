@@ -23,22 +23,30 @@ namespace STP.Behaviour.Meta.UI {
         public Button              SellButton;
         public List<Button>        CloseWindowButtons;
 
-        StarSystemsManager _starSystemsManager;
-        InventoryItemInfos _inventoryItemInfos;
+        StarSystemsManager    _starSystemsManager;
+        InventoryItemInfos    _inventoryItemInfos;
+        ProgressController    _progressController;
+        StarSystemsController _starSystemsController;
+        PlayerController      _playerController;
 
         PlayerInventoryPlace _inventoryPlace;
         int                  _itemPrice;
         int                  _resultPrice;
         string               _starSystemId;
 
-        bool CanSell => (_resultPrice <= StarSystemsController.Instance.GetFactionSystemMoney(_starSystemId));
+        bool CanSell => (_resultPrice <= _starSystemsController.GetFactionSystemMoney(_starSystemId));
 
         public void Init(PlayerInventoryPlace inventoryPlace, string starSystemId,
-            StarSystemsManager starSystemsManager, InventoryItemInfos inventoryItemInfos) {
-            _starSystemsManager = starSystemsManager;
-            _inventoryItemInfos = inventoryItemInfos;
-            _inventoryPlace     = inventoryPlace;
-            _starSystemId       = starSystemId;
+            StarSystemsManager starSystemsManager, InventoryItemInfos inventoryItemInfos,
+            ProgressController progressController, StarSystemsController starSystemsController,
+            PlayerController playerController) {
+            _inventoryPlace        = inventoryPlace;
+            _starSystemId          = starSystemId;
+            _starSystemsManager    = starSystemsManager;
+            _inventoryItemInfos    = inventoryItemInfos;
+            _progressController    = progressController;
+            _starSystemsController = starSystemsController;
+            _playerController      = playerController;
 
             var itemName   = _inventoryPlace.ItemName;
             var itemAmount = _inventoryPlace.ItemAmount;
@@ -62,11 +70,14 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         protected override void Deinit() {
-            _starSystemsManager = null;
-            _inventoryItemInfos = null;
-            _inventoryPlace     = null;
-            _starSystemId       = null;
-            
+            _inventoryPlace        = null;
+            _starSystemId          = null;
+            _starSystemsManager    = null;
+            _inventoryItemInfos    = null;
+            _progressController    = null;
+            _starSystemsController = null;
+            _playerController      = null;
+
             AmountPair.OnValueChanged -= OnAmountChanged;
             AmountPair.Deinit();
 
@@ -91,20 +102,18 @@ namespace STP.Behaviour.Meta.UI {
                 Debug.LogErrorFormat("Unsupported scenario");
                 return;
             }
-            var ps             = PlayerState.Instance;
-            var ssc            = StarSystemsController.Instance;
             var itemName       = _inventoryPlace.ItemName;
             var sellItemAmount = AmountPair.CurValue;
             var newItemAmount  = _inventoryPlace.ItemAmount - sellItemAmount;
-            if ( ssc.TrySubFactionSystemMoney(_starSystemId, _resultPrice) ) {
+            if ( _starSystemsController.TrySubFactionSystemMoney(_starSystemId, _resultPrice) ) {
                 _inventoryPlace.SetItem((newItemAmount == 0) ? string.Empty : itemName, newItemAmount);
-                ps.Money += _resultPrice;
-                ssc.AddFactionSystemSurvivalChance(_starSystemId,
+                _playerController.Money += _resultPrice;
+                _starSystemsController.AddFactionSystemSurvivalChance(_starSystemId,
                     _inventoryItemInfos.GetItemBaseSurvivalChanceInc(itemName) * sellItemAmount);
                 
                 if ( _starSystemsManager.GetStarSystem(_starSystemId).Type == StarSystemType.Faction ) {
-                    ProgressController.Instance.OnSellItemToFaction(itemName, sellItemAmount,
-                        ssc.GetFactionSystemFaction(_starSystemId));
+                    _progressController.OnSellItemToFaction(itemName, sellItemAmount,
+                        _starSystemsController.GetFactionSystemFaction(_starSystemId));
                 }
                 
                 Hide();

@@ -39,24 +39,25 @@ namespace STP.Behaviour.Meta.UI {
         
         public TMP_Text Text;
 
-        MetaUiManager _owner;
+        MetaUiManager      _owner;
+        ProgressController _progressController;
 
         void OnDestroy() {
-            ProgressController.Instance.OnGameFinished -= OnGameFinished;
+            _progressController.OnGameFinished -= OnGameFinished;
         }
 
-        public void CommonInit(MetaUiManager owner) {
-            _owner = owner;
+        public void CommonInit(MetaUiManager owner, ProgressController progressController) {
+            _owner              = owner;
+            _progressController = progressController;
 
-            ProgressController.Instance.OnGameFinished += OnGameFinished;
+            _progressController.OnGameFinished += OnGameFinished;
 
             gameObject.SetActive(true);
         }
 
         void OnGameFinished(bool win) {
             if ( win ) {
-                var pc = ProgressController.Instance;
-                var artifactsValues = pc.UberArtifacts.Values.ToList();
+                var artifactsValues = _progressController.UberArtifacts.Values.ToList();
                 artifactsValues.Sort();
                 var factions = new List<Faction>(artifactsValues.Count);
                 foreach ( var artifactValue in artifactsValues ) {
@@ -64,7 +65,7 @@ namespace STP.Behaviour.Meta.UI {
                         if ( (faction == Faction.Unknown) || factions.Contains(faction) ) {
                             continue;
                         }
-                        if ( pc.UberArtifacts[faction] == artifactValue ) {
+                        if ( _progressController.UberArtifacts[faction] == artifactValue ) {
                             factions.Add(faction);
                             break;
                         }

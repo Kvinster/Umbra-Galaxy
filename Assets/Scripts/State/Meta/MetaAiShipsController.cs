@@ -3,30 +3,24 @@
 using System;
 using System.Collections.Generic;
 
-using STP.State.Meta;
-
-namespace STP.State {
-    public sealed class MetaAiShipsController {
+namespace STP.State.Meta {
+    public sealed class MetaAiShipsController : BaseStateController {
         public const int MaxAiShips                    = 4;
         public const int MinDaysBetweenAiShipsCreation = 2;
         public const int MinStationaryWait             = 2;
         public const int MaxStationaryWait             = 5;
         
-        static MetaAiShipsController _instance;
-        public static MetaAiShipsController Instance {
-            get {
-                TryCreate();
-                return _instance;
-            }
-        }
-
         readonly MetaAiShipsControllerState _state = new MetaAiShipsControllerState();
         
-        TimeController _timeController;
+        readonly TimeController _timeController;
 
         public int LastAiShipCreatedDay {
             get => _state.LastShipCreatedDay;
             set => _state.LastShipCreatedDay = value;
+        }
+
+        public MetaAiShipsController(TimeController timeController) {
+            _timeController = timeController;
         }
 
         public List<MetaAiShipState> GetAiShipsStates() {
@@ -64,18 +58,6 @@ namespace STP.State {
             }
             _state.ShipStates.Remove(id);
             return true;
-        }
-
-        MetaAiShipsController Init() {
-            _timeController = TimeController.Instance;
-            return this;
-        }
-
-        [RuntimeInitializeOnLoadMethod]
-        static void TryCreate() {
-            if ( _instance == null ) {
-                _instance = new MetaAiShipsController().Init();
-            }
         }
     }
 }

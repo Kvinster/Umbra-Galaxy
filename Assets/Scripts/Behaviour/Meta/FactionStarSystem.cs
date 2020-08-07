@@ -21,12 +21,14 @@ namespace STP.Behaviour.Meta {
         public string         IdText;
         public SpriteRenderer SpriteRenderer;
 
+        ProgressController    _progressController;
+        StarSystemsController _starSystemsController;
+
         public override string Id => IdText;
 
         public override StarSystemType Type => StarSystemType.Faction;
 
-        public override bool InterruptOnPlayerArriveIntermediate =>
-            !StarSystemsController.Instance.GetFactionSystemActive(Id);
+        public override bool InterruptOnPlayerArriveIntermediate => !_starSystemsController.GetFactionSystemActive(Id);
 
         void OnValidate() {
 #if UNITY_EDITOR
@@ -49,21 +51,24 @@ namespace STP.Behaviour.Meta {
         }
 
         void OnDestroy() {
-            StarSystemsController.Instance.OnStarSystemActiveChanged -= OnStarSystemActiveChanged;
+            _starSystemsController.OnStarSystemActiveChanged -= OnStarSystemActiveChanged;
         }
 
         public override void OnPlayerArrive(bool success) {
-            if ( !ProgressController.Instance.IsActive ) {
+            if ( !_progressController.IsActive ) {
                 return;
             }
-            if ( success && !StarSystemsController.Instance.GetFactionSystemActive(Id) ) {
+            if ( success && !_starSystemsController.GetFactionSystemActive(Id) ) {
                 SceneManager.LoadScene("CoreLevel1");
             }
         }
 
         protected override void InitSpecific(MetaStarter starter) {
-            StarSystemsController.Instance.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
-            OnStarSystemActiveChanged(Id, StarSystemsController.Instance.GetFactionSystemActive(Id));
+            _progressController    = starter.ProgressController;
+            _starSystemsController = starter.StarSystemsController;
+            
+            _starSystemsController.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
+            OnStarSystemActiveChanged(Id, _starSystemsController.GetFactionSystemActive(Id));
         }
 
         void OnStarSystemActiveChanged(string starSystemId, bool isActive) {
@@ -71,7 +76,7 @@ namespace STP.Behaviour.Meta {
                 return;
             }
             SpriteRenderer.color = isActive
-                ? FactionToColor[StarSystemsController.Instance.GetFactionSystemFaction(Id)]
+                ? FactionToColor[_starSystemsController.GetFactionSystemFaction(Id)]
                 : Color.gray;
         }
     }

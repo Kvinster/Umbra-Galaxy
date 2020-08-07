@@ -44,11 +44,11 @@ namespace STP.Behaviour.Meta.UI {
             }
         }
 
-        public void Init(InventoryItemInfos inventoryItemInfos) {
+        public void Init(InventoryItemInfos inventoryItemInfos, PlayerController playerController) {
             SelectedItemView.Init(inventoryItemInfos);
             SelectedItemView.RegisterPlayerInventoryView(this);
             var placeViewIndex  = 0;
-            var playerInventory = PlayerState.Instance.Inventory;
+            var playerInventory = playerController.Inventory;
             for ( var i = 0; i < PlayerInventory.InventoryPlaces; ++i ) {
                 var placeView = PlaceViews[placeViewIndex++];
                 placeView.Init(playerInventory.GetPlace(i), inventoryItemInfos);

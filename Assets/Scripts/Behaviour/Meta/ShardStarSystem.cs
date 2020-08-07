@@ -14,6 +14,9 @@ namespace STP.Behaviour.Meta {
 
         public SpriteRenderer SpriteRenderer;
 
+        ProgressController    _progressController;
+        StarSystemsController _starSystemsController;
+
         public override string Id => IdText;
 
         public override StarSystemType Type => StarSystemType.Shard;
@@ -42,27 +45,28 @@ namespace STP.Behaviour.Meta {
         }
 
         void OnDestroy() {
-            StarSystemsController.Instance.OnStarSystemActiveChanged -= OnStarSystemActiveChanged;
+            _starSystemsController.OnStarSystemActiveChanged -= OnStarSystemActiveChanged;
         }
 
         public override void OnPlayerArrive(bool success) {
-            if ( !ProgressController.Instance.IsActive ) {
+            if ( !_progressController.IsActive ) {
                 return;
             }
             if ( success ) {
-                StarSystemsController.Instance.SetShardSystemActive(Id, false);
+                _starSystemsController.SetShardSystemActive(Id, false);
                 SceneManager.LoadScene("CoreLevel1");
             }
         }
 
         protected override void InitSpecific(MetaStarter starter) {
-            var ssc = StarSystemsController.Instance;
-            ssc.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
-            OnStarSystemActiveChanged(Id, ssc.GetShardSystemActive(Id));
+            _progressController    = starter.ProgressController;
+            _starSystemsController = starter.StarSystemsController;
+            _starSystemsController.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
+            OnStarSystemActiveChanged(Id, _starSystemsController.GetShardSystemActive(Id));
         }
 
         protected override void OnClick() {
-            if ( StarSystemsController.Instance.GetShardSystemActive(Id) ) {
+            if ( _starSystemsController.GetShardSystemActive(Id) ) {
                 base.OnClick();
             }
         }

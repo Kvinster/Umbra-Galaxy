@@ -13,21 +13,22 @@ namespace STP.Behaviour.Meta.UI.InventoryWindow {
         public GameObject SelectedRoot;
         public Button     Button;
 
-        WeaponType      _weaponType = WeaponType.Unknown;
-        InventoryWindow _owner;
+        WeaponType       _weaponType = WeaponType.Unknown;
+        InventoryWindow  _owner;
+        PlayerController _playerController;
 
-        public void Init(WeaponType weaponType, InventoryWindow owner) {
-            _weaponType = weaponType;
-            _owner      = owner;
+        public void Init(WeaponType weaponType, InventoryWindow owner, PlayerController playerController) {
+            _weaponType       = weaponType;
+            _owner            = owner;
+            _playerController = playerController;
             
             // TODO: init WeaponIcon
             WeaponTypeText.text = weaponType.ToString();
 
             Button.onClick.AddListener(OnClick);
-
-            var ps = PlayerState.Instance;
-            ps.OnWeaponChanged += OnWeaponChanged;
-            OnWeaponChanged(ps.CurWeaponType);
+            
+            _playerController.OnWeaponChanged += OnWeaponChanged;
+            OnWeaponChanged(_playerController.CurWeaponType);
         }
 
         public void Deinit() {
@@ -36,7 +37,8 @@ namespace STP.Behaviour.Meta.UI.InventoryWindow {
 
             Button.onClick.RemoveAllListeners();
 
-            PlayerState.Instance.OnWeaponChanged -= OnWeaponChanged;
+            _playerController.OnWeaponChanged -= OnWeaponChanged;
+            _playerController = null;
         }
         
         void OnClick() {

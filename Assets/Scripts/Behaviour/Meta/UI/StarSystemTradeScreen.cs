@@ -26,7 +26,7 @@ namespace STP.Behaviour.Meta.UI {
             "Medium",
             "High",
             "Guaranteed"
-        }; 
+        };
 
         public Image    PlayerPortrait;
         public TMP_Text PlayerNameText;
@@ -44,52 +44,40 @@ namespace STP.Behaviour.Meta.UI {
 
         public PlayerInventoryView PlayerInventoryView;
         
-        string             _starSystemId;
-        StarSystemsManager _starSystemsManager;
-        InventoryItemInfos _inventoryItemInfos;
+        string _starSystemId;
+        
+        StarSystemsManager    _starSystemsManager;
+        InventoryItemInfos    _inventoryItemInfos;
+        ProgressController    _progressController;
+        StarSystemsController _starSystemsController;
+        PlayerController      _playerController;
 
-        public void Init(Action hide, StarSystemsManager starSystemsManager, InventoryItemInfos inventoryItemInfos) {
-            _starSystemsManager = starSystemsManager;
-            _inventoryItemInfos = inventoryItemInfos;
+        public void Init(Action hide, StarSystemsManager starSystemsManager, InventoryItemInfos inventoryItemInfos,
+            ProgressController progressController, StarSystemsController starSystemsController,
+            PlayerController playerController) {
+            _starSystemsManager    = starSystemsManager;
+            _inventoryItemInfos    = inventoryItemInfos;
+            _progressController    = progressController;
+            _starSystemsController = starSystemsController;
+            _playerController      = playerController;
 
             HideButton.onClick.AddListener(() => {
                 Hide();
                 hide.Invoke();
             });
 
-            PlayerInventoryView.Init(_inventoryItemInfos);
+            PlayerInventoryView.Init(_inventoryItemInfos, playerController);
 
             InventoryItemSell.Init(ShowInventorySellWindow, _inventoryItemInfos);
         }
 
-        public void Show(string starSystemId) {
-            _starSystemId = starSystemId;
-
-            var ps = PlayerState.Instance;
-            PlayerNameText.text = string.Format(PlayerNameTextTemplate, "Player");
-            UpdatePlayerMoneyText(ps.Money);
-
-            var ssc = StarSystemsController.Instance;
-            StarSystemPortrait.sprite  = ssc.GetFactionSystemPortrait(starSystemId);
-            StarSystemNameText.text    = string.Format(StarSystemNameTextTemplate, ssc.GetStarSystemName(starSystemId));
-            StarSystemFactionText.text = string.Format(StarSystemFactionTextTemplate,
-                ssc.GetFactionSystemFaction(starSystemId));
-            StarSystemMoneyText.text =
-                string.Format(StarSystemMoneyTextTemplate, ssc.GetFactionSystemMoney(starSystemId));
-            
-            UpdateStarSystemMoneyText(StarSystemsController.Instance.GetFactionSystemMoney(_starSystemId));
-            UpdateStarSystemSurvivalChanceText(ssc.GetFactionSystemSurvivalChance(_starSystemId));
-
-            ps.OnMoneyChanged += OnPlayerMoneyChanged;
-
-            StarSystemsController.Instance.OnStarSystemMoneyChanged          += OnStarSystemMoneyChanged;
-            StarSystemsController.Instance.OnStarSystemSurvivalChanceChanged += OnStarSystemSurvivalChanceChanged;
-        }
-
         public void Deinit() {
-            _starSystemId       = null;
-            _starSystemsManager = null;
-            _inventoryItemInfos = null;
+            _starSystemId          = null;
+            _starSystemsManager    = null;
+            _inventoryItemInfos    = null;
+            _progressController    = null;
+            _starSystemsController = null;
+            _playerController      = null;
             
             PlayerInventoryView.Deinit();
 
@@ -98,20 +86,42 @@ namespace STP.Behaviour.Meta.UI {
             HideButton.onClick.RemoveAllListeners();
         }
 
+        public void Show() {
+            _starSystemId = _playerController.CurSystemId;
+            
+            PlayerNameText.text = string.Format(PlayerNameTextTemplate, "Player");
+            UpdatePlayerMoneyText(_playerController.Money);
+
+            var ssc = _starSystemsController;
+            StarSystemPortrait.sprite  = ssc.GetFactionSystemPortrait(_starSystemId);
+            StarSystemNameText.text    = string.Format(StarSystemNameTextTemplate, ssc.GetStarSystemName(_starSystemId));
+            StarSystemFactionText.text = string.Format(StarSystemFactionTextTemplate,
+                ssc.GetFactionSystemFaction(_starSystemId));
+            StarSystemMoneyText.text =
+                string.Format(StarSystemMoneyTextTemplate, ssc.GetFactionSystemMoney(_starSystemId));
+            
+            UpdateStarSystemMoneyText(ssc.GetFactionSystemMoney(_starSystemId));
+            UpdateStarSystemSurvivalChanceText(ssc.GetFactionSystemSurvivalChance(_starSystemId));
+
+            _playerController.OnMoneyChanged += OnPlayerMoneyChanged;
+
+            ssc.OnStarSystemMoneyChanged          += OnStarSystemMoneyChanged;
+            ssc.OnStarSystemSurvivalChanceChanged += OnStarSystemSurvivalChanceChanged;
+        }
+
         void Hide() {
             _starSystemId = null;
-
-            var ps = PlayerState.Instance;
-            ps.OnMoneyChanged -= OnPlayerMoneyChanged;
-
-            var ssc = StarSystemsController.Instance;
-            ssc.OnStarSystemMoneyChanged          -= OnStarSystemMoneyChanged;
-            ssc.OnStarSystemSurvivalChanceChanged -= OnStarSystemSurvivalChanceChanged;
+                
+            _playerController.OnMoneyChanged -= OnPlayerMoneyChanged;
+            
+            _starSystemsController.OnStarSystemMoneyChanged          -= OnStarSystemMoneyChanged;
+            _starSystemsController.OnStarSystemSurvivalChanceChanged -= OnStarSystemSurvivalChanceChanged;
         }
 
         void ShowInventorySellWindow(PlayerInventoryPlace inventoryPlace) {
             WindowManager.Instance.Show<InventoryItemSellWindow>(x =>
-                x.Init(inventoryPlace, _starSystemId, _starSystemsManager, _inventoryItemInfos));
+                x.Init(inventoryPlace, _starSystemId, _starSystemsManager, _inventoryItemInfos, _progressController,
+                    _starSystemsController, _playerController));
         }
 
         void UpdatePlayerMoneyText(int playerMoney) {

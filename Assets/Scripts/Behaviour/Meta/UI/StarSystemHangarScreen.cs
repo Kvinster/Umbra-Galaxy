@@ -17,6 +17,8 @@ namespace STP.Behaviour.Meta.UI {
         public HoverButton TakeoffButton;
         public HoverButton HideButton;
 
+        PlayerController _playerController;
+
         int _fuelPrice;
         int _fuelAmount;
 
@@ -26,9 +28,10 @@ namespace STP.Behaviour.Meta.UI {
         Action              _hide;
         StarSystemUiManager _owner;
 
-        public void Init(Action hide, StarSystemUiManager owner) {
-            _hide  = hide;
-            _owner = owner;
+        public void Init(Action hide, StarSystemUiManager owner, PlayerController playerController) {
+            _hide             = hide;
+            _owner            = owner;
+            _playerController = playerController;
             
             RefuelButton.onClick.AddListener(OnRefuelClick);
             RefuelButton.OnHoverStart  += OnRefuelHover;
@@ -79,9 +82,8 @@ namespace STP.Behaviour.Meta.UI {
                 Debug.LogError("Unsupported scenario");
                 return;
             }
-            var ps = PlayerState.Instance;
-            ps.Money -= _fuelPrice;
-            ps.Fuel  += _fuelAmount;
+            _playerController.Money -= _fuelPrice;
+            _playerController.Fuel  += _fuelAmount;
             UpdateFuelPrice();
         }
 
@@ -121,18 +123,17 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         void UpdateFuelPrice() {
-            var ps         = PlayerState.Instance;
-            var deficiency = PlayerState.MaxFuel - ps.Fuel;
+            var deficiency = PlayerState.MaxFuel - _playerController.Fuel;
             if ( deficiency == 0 ) {
                 _fuelPrice  = 0;
                 _fuelAmount = 0;
             } else {
                 var needMoney = deficiency * 10;
-                if ( needMoney <= ps.Money ) {
+                if ( needMoney <= _playerController.Money ) {
                     _fuelPrice  = needMoney;
                     _fuelAmount = deficiency;
                 } else {
-                    _fuelPrice  = ps.Money - ps.Money % 10;
+                    _fuelPrice  = _playerController.Money - _playerController.Money % 10;
                     _fuelAmount = _fuelPrice / 10;
                 }
             }

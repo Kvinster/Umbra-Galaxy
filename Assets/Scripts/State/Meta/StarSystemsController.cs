@@ -9,15 +9,7 @@ using STP.Common;
 using STP.Utils;
 
 namespace STP.State.Meta {
-    public sealed class StarSystemsController {
-        static StarSystemsController _instance;
-        public static StarSystemsController Instance {
-            get {
-                TryCreate();
-                return _instance;
-            }
-        }
-
+    public sealed class StarSystemsController : BaseStateController {
         StarSystemsGraphInfo _graphInfo;
         
         readonly List<string> _starSystemIds = new List<string>();
@@ -30,6 +22,28 @@ namespace STP.State.Meta {
         public event Action<string, int>  OnStarSystemMoneyChanged;
         public event Action<string, bool> OnStarSystemActiveChanged;
         public event Action<string, int>  OnStarSystemSurvivalChanceChanged;
+
+        public override void Init() {
+            var graphInfoScriptableObject =
+                Resources.Load<StarSystemsGraphInfoScriptableObject>(StarSystemsGraphInfoScriptableObject
+                    .ResourcesPath);
+            if ( !graphInfoScriptableObject ) {
+                Debug.LogError("Can't load StarSystemsGraphInfo");
+                return;
+            }
+            _graphInfo = graphInfoScriptableObject.StarSystemsGraphInfo.Clone();
+            foreach ( var factionSystemInfo in _graphInfo.FactionSystemInfos ) {
+                _starSystemIds.Add(factionSystemInfo.Id);
+                _factionSystemStates.Add(factionSystemInfo.Id,
+                    new FactionSystemState(factionSystemInfo.Id, factionSystemInfo.Name, factionSystemInfo.Faction,
+                        factionSystemInfo.StartMoney, factionSystemInfo.BaseSurvivalChance));
+            }
+            foreach ( var shardInfo in _graphInfo.ShardSystemInfos ) {
+                _starSystemIds.Add(shardInfo.Id);
+                // TODO: set actual isActive
+                _shardSystemStates.Add(shardInfo.Id, new ShardSystemState(shardInfo.Id, true));
+            }
+        }
 
         public bool HasStarSystem(string starSystemId) {
             return _starSystemIds.Contains(starSystemId);
@@ -155,29 +169,6 @@ namespace STP.State.Meta {
             return StarSystemType.Unknown;
         }
 
-        StarSystemsController Init() {
-            var graphInfoScriptableObject =
-                Resources.Load<StarSystemsGraphInfoScriptableObject>(StarSystemsGraphInfoScriptableObject
-                    .ResourcesPath);
-            if ( !graphInfoScriptableObject ) {
-                Debug.LogError("Can't load StarSystemsGraphInfo");
-                return null;
-            }
-            _graphInfo = graphInfoScriptableObject.StarSystemsGraphInfo.Clone();
-            foreach ( var factionSystemInfo in _graphInfo.FactionSystemInfos ) {
-                _starSystemIds.Add(factionSystemInfo.Id);
-                _factionSystemStates.Add(factionSystemInfo.Id,
-                    new FactionSystemState(factionSystemInfo.Id, factionSystemInfo.Name, factionSystemInfo.Faction,
-                        factionSystemInfo.StartMoney, factionSystemInfo.BaseSurvivalChance));
-            }
-            foreach ( var shardInfo in _graphInfo.ShardSystemInfos ) {
-                _starSystemIds.Add(shardInfo.Id);
-                // TODO: set actual isActive
-                _shardSystemStates.Add(shardInfo.Id, new ShardSystemState(shardInfo.Id, true));
-            }
-            return this;
-        }
-
         StarSystemPath CalcPath(string aStarSystemId, string bStarSystemId) {
             var (path, length) = DijkstraPathFinder.GetPath(aStarSystemId, bStarSystemId, _starSystemIds,
                 GetDistance, GetNeighbouringStarSystems);
@@ -238,13 +229,6 @@ namespace STP.State.Meta {
                 return false;
             }
             return true;
-        }
-
-        [RuntimeInitializeOnLoadMethod]
-        static void TryCreate() {
-            if ( _instance == null ) {
-                _instance = new StarSystemsController().Init();
-            }
         }
     }
 }

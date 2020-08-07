@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace STP.State {
+namespace STP.State.Meta {
     public sealed class MetaAiShipsControllerState {
         public int LastShipCreatedDay = -1;
         

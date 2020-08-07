@@ -7,32 +7,33 @@ using STP.Behaviour.Meta;
 using Random = UnityEngine.Random;
 
 namespace STP.State.Meta {
-    public sealed class DarknessController {
+    public sealed class DarknessController : BaseStateController {
         public const int DarknessHitTime = 5; 
-        
-        static DarknessController _instance;
-        public static DarknessController Instance {
-            get {
-                TryCreate();
-                return _instance;
-            }
-        }
 
-        readonly DarknessInfoHolder _darknessInfoHolder;
-        readonly TimeController     _timeController;
+        readonly TimeController        _timeController;
+        readonly StarSystemsController _starSystemsController;
+        readonly ProgressController    _progressController;
+        
+        DarknessInfoHolder _darknessInfoHolder;
 
         public event Action<string, bool> OnStarSystemAttack;
 
-        DarknessController() {
+        public DarknessController(TimeController timeController, StarSystemsController starSystemsController,
+            ProgressController progressController) {
+            _timeController        = timeController;
+            _starSystemsController = starSystemsController;
+            _progressController    = progressController;
+        }
+
+        public override void Init() {
             _darknessInfoHolder = Resources.Load<DarknessInfoHolder>(DarknessInfoHolder.ResourcesPath);
 
-            _timeController = TimeController.Instance;
             _timeController.OnCurDayChanged += OnCurDayChanged;
         }
 
         void OnCurDayChanged(int curDay) {
             if ( (curDay > 0) && ((curDay % DarknessHitTime) == 0) ) {
-                var ssc = StarSystemsController.Instance;
+                var ssc = _starSystemsController;
                 foreach ( var path in _darknessInfoHolder.DarknessPaths ) {
                     foreach ( var starSystem in path.Path ) {
                         if ( ssc.GetFactionSystemActive(starSystem) ) {
@@ -40,7 +41,7 @@ namespace STP.State.Meta {
                             var roll   = Random.Range(0, 100);
                             if ( roll > chance ) {
                                 ssc.SetFactionSystemActive(starSystem, false);
-                                ProgressController.Instance.OnStarSystemCaptured(starSystem);
+                                _progressController.OnStarSystemCaptured(starSystem);
                                 OnStarSystemAttack?.Invoke(starSystem, true);
                             } else {
                                 OnStarSystemAttack?.Invoke(starSystem, false);
@@ -49,13 +50,6 @@ namespace STP.State.Meta {
                         }
                     }
                 }
-            }
-        }
-
-        [RuntimeInitializeOnLoadMethod]
-        static void TryCreate() {
-            if ( _instance == null ) {
-                _instance = new DarknessController();
             }
         }
     }

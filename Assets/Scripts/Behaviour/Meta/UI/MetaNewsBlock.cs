@@ -25,11 +25,12 @@ namespace STP.Behaviour.Meta.UI {
             _darknessController.OnStarSystemAttack -= OnStarSystemAttack;
         }
 
-        public void Init(MetaTimeManager timeManager) {
+        public void Init(MetaTimeManager timeManager, StarSystemsController starSystemsController,
+            DarknessController darknessController) {
             _timeManager = timeManager;
             
-            _starSystemsController = StarSystemsController.Instance;
-            _darknessController    = DarknessController.Instance;
+            _starSystemsController = starSystemsController;
+            _darknessController    = darknessController;
             _darknessController.OnStarSystemAttack += OnStarSystemAttack;
 
             FoldButton.onClick.AddListener(() => SetFolded(true));

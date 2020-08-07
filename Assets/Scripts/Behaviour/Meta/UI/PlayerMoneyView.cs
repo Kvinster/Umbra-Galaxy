@@ -7,18 +7,20 @@ namespace STP.Behaviour.Meta.UI {
     public sealed class PlayerMoneyView : BaseMetaComponent {
         public TMP_Text MoneyText;
 
+        PlayerController _playerController;
+
         void Reset() {
             MoneyText = GetComponentInChildren<TMP_Text>();
         }
 
         void OnDestroy() {
-            PlayerState.Instance.OnMoneyChanged -= OnPlayerMoneyChanged;
+            _playerController.OnMoneyChanged -= OnPlayerMoneyChanged;
         }
 
         protected override void InitInternal(MetaStarter starter) {
-            var ps = PlayerState.Instance;
-            ps.OnMoneyChanged += OnPlayerMoneyChanged;
-            OnPlayerMoneyChanged(ps.Money);
+            _playerController = starter.PlayerController;
+            _playerController.OnMoneyChanged += OnPlayerMoneyChanged;
+            OnPlayerMoneyChanged(_playerController.Money);
         }
 
         void OnPlayerMoneyChanged(int curMoney) {

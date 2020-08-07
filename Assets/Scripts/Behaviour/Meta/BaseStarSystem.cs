@@ -12,6 +12,7 @@ namespace STP.Behaviour.Meta {
         public EventTrigger EventTrigger;
 
         protected PlayerShipMovementController PlayerShipMovementController;
+        protected ProgressController           ProgressController;
         
         public abstract string Id { get; }
         
@@ -25,6 +26,7 @@ namespace STP.Behaviour.Meta {
 
         protected sealed override void InitInternal(MetaStarter starter) {
             PlayerShipMovementController = starter.PlayerShip.MovementController;
+            ProgressController           = starter.ProgressController;
             
             if ( EventTrigger ) {
                 var entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerUp };
@@ -40,7 +42,7 @@ namespace STP.Behaviour.Meta {
         protected abstract void InitSpecific(MetaStarter starter);
 
         protected virtual void OnClick() {
-            if ( !ProgressController.Instance.IsActive ) {
+            if ( !ProgressController.IsActive ) {
                 return;
             }
             switch ( PlayerShipMovementController.CurState ) {

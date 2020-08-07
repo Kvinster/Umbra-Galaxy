@@ -6,17 +6,14 @@ using System.Collections.Generic;
 using STP.Common;
 
 namespace STP.State {
-    public sealed class ProgressController {
+    public sealed class ProgressController : BaseStateController {
         const int    GameFinishingArtifactsAmount = 3;
         const string CradleId                     = "bd6537e4a0b08a2449e4d595f48ab96e";
-
+        
         static string UberArtifactName => ItemNames.MetaItem;
         
-        static ProgressController _instance;
-        public static ProgressController Instance => _instance ?? (_instance = new ProgressController());
-
         readonly ProgressControllerState _state = new ProgressControllerState();
-
+        
         public bool IsActive { get; private set; } = true;
 
         public Dictionary<Faction, int> UberArtifacts => _state.UberArtifacts;

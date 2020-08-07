@@ -14,8 +14,8 @@ namespace STP.Gameplay {
         public FastTravelEngine FastTravelEngine {get;} = new FastTravelEngine();
         public PlayerShipState  PlayerShipState  {get;} = new PlayerShipState();
         
-        public CoreManager(PlayerState state, UnityContext context) {
-            _inventory   = state.Inventory;
+        public CoreManager(PlayerController playerController, UnityContext context) {
+            _inventory = playerController.Inventory;
             context.AddUpdateCallback(FastTravelEngine.UpdateEngineState);
             FastTravelEngine.Init(FastTravelEngineChargingTime);
         }

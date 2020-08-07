@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-using STP.State;
 using STP.State.Core;
 using STP.Utils;
 
@@ -23,7 +22,7 @@ namespace STP.Gameplay {
             _shipState                       = starter.CoreManager.PlayerShipState;
             _shipState.StateChangedManually += OnChangedState;
             _overlayHelper                   = starter.OverlayHelper;
-            WeaponControl                    = starter.WeaponCreator.GetManualWeapon(PlayerState.Instance.CurWeaponType);
+            WeaponControl                    = starter.WeaponCreator.GetManualWeapon(starter.PlayerController.CurWeaponType);
             starter.WeaponViewCreator.AddWeaponView(this, WeaponControl?.GetControlledWeapon());
             InternalInit(new ShipInfo(Hp, ShipSpeed));
         }

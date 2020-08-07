@@ -2,11 +2,14 @@
 
 using System;
 
+using STP.Behaviour.Starter;
 using STP.State.Meta;
 
 namespace STP.Behaviour.Meta {
-    public sealed class MetaTimeManager : MonoBehaviour {
+    public sealed class MetaTimeManager : BaseMetaComponent {
         const float DayToSec = 2f;
+
+        TimeController _timeController;
 
         float _timer   = 0f;
         int   _destDay = 0;
@@ -28,8 +31,8 @@ namespace STP.Behaviour.Meta {
         }
         
         public int CurDay {
-            get => TimeController.Instance.CurDay;
-            private set => TimeController.Instance.CurDay = value;
+            get => _timeController.CurDay;
+            private set => _timeController.CurDay = value;
         }
 
         public float DayProgress {
@@ -55,6 +58,10 @@ namespace STP.Behaviour.Meta {
                     IsPaused = true;
                 }
             }
+        }
+
+        protected override void InitInternal(MetaStarter starter) {
+            _timeController = starter.TimeController;
         }
 
         public void Unpause(int destDay) {

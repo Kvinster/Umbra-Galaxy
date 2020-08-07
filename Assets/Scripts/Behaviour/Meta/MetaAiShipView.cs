@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-using STP.State;
 using STP.State.Meta;
 
 namespace STP.Behaviour.Meta {
@@ -39,17 +38,17 @@ namespace STP.Behaviour.Meta {
         }
 
         public void Init(MetaAiShipState state, MetaAiShipManager aiShipManager, StarSystemsManager starSystemsManager, 
-            MetaTimeManager timeManager) {
+            MetaTimeManager timeManager, TimeController timeController, StarSystemsController starSystemsController) {
             State = state;
             
             _aiShipManager      = aiShipManager;
             _starSystemsManager = starSystemsManager;
             _timeManager        = timeManager;
 
-            _timeController = TimeController.Instance;
+            _timeController = timeController;
             _timeController.OnCurDayChanged += OnCurDayChanged;
             
-            _starSystemsController = StarSystemsController.Instance;
+            _starSystemsController = starSystemsController;
             _starSystemsController.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
             
             UpdateShipIconActive();

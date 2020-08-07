@@ -9,10 +9,11 @@ namespace STP.Behaviour.Meta.UI {
     public sealed class EnterSystemButton : MonoBehaviour {
         public Button Button;
 
-        StarSystemUiManager _owner;
-        MetaTimeManager     _timeManager;
-        StarSystemsManager  _starSystemsManager;
-        PlayerState         _playerState;
+        StarSystemUiManager   _owner;
+        MetaTimeManager       _timeManager;
+        StarSystemsManager    _starSystemsManager;
+        StarSystemsController _starSystemsController;
+        PlayerController      _playerController;
 
         void Reset() {
             Button = GetComponent<Button>();
@@ -21,27 +22,28 @@ namespace STP.Behaviour.Meta.UI {
         void OnDestroy() {
             _owner.OnStarSystemScreenActiveChanged -= OnStarSystemScreenActiveChanged;
             _timeManager.OnPausedChanged           -= OnPauseChanged;
-            _playerState.OnCurSystemChanged        -= OnPlayerCurSystemChanged;
+            _playerController.OnCurSystemChanged   -= OnPlayerCurSystemChanged;
         }
 
         public void Init(StarSystemUiManager owner, MetaTimeManager timeManager,
-            StarSystemsManager starSystemsManager) {
-            _owner                        = owner;
-            _timeManager                  = timeManager;
-            _starSystemsManager           = starSystemsManager;
-
-            _playerState = PlayerState.Instance;
+            StarSystemsManager starSystemsManager, StarSystemsController starSystemsController,
+            PlayerController playerController) {
+            _owner                 = owner;
+            _timeManager           = timeManager;
+            _starSystemsManager    = starSystemsManager;
+            _starSystemsController = starSystemsController;
+            _playerController      = playerController;
 
             _owner.OnStarSystemScreenActiveChanged += OnStarSystemScreenActiveChanged;
             _timeManager.OnPausedChanged           += OnPauseChanged;
-            _playerState.OnCurSystemChanged        += OnPlayerCurSystemChanged;
-            UpdateActive(_timeManager.IsPaused, _playerState.CurSystemId, _owner.IsStarSystemScreenActive);
+            _playerController.OnCurSystemChanged   += OnPlayerCurSystemChanged;
+            UpdateActive(_timeManager.IsPaused, _playerController.CurSystemId, _owner.IsStarSystemScreenActive);
 
             Button.onClick.AddListener(OnClick);
         }
 
         void OnPauseChanged(bool isPaused) {
-            UpdateActive(isPaused, _playerState.CurSystemId, _owner.IsStarSystemScreenActive);
+            UpdateActive(isPaused, _playerController.CurSystemId, _owner.IsStarSystemScreenActive);
         }
 
         void OnPlayerCurSystemChanged(string playerCurSystem) {
@@ -49,7 +51,7 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         void OnStarSystemScreenActiveChanged(bool isStarSystemScreenActive) {
-            UpdateActive(_timeManager.IsPaused, _playerState.CurSystemId, isStarSystemScreenActive);
+            UpdateActive(_timeManager.IsPaused, _playerController.CurSystemId, isStarSystemScreenActive);
         }
 
         void OnClick() {
@@ -59,7 +61,7 @@ namespace STP.Behaviour.Meta.UI {
         void UpdateActive(bool isPaused, string playerCurSystem, bool isStarSystemScreenShown) {
             Button.gameObject.SetActive(
                 isPaused && (_starSystemsManager.GetStarSystem(playerCurSystem).Type == StarSystemType.Faction) &&
-                StarSystemsController.Instance.GetFactionSystemActive(playerCurSystem) && !isStarSystemScreenShown);
+                _starSystemsController.GetFactionSystemActive(playerCurSystem) && !isStarSystemScreenShown);
         }
     }
 }

@@ -14,12 +14,14 @@ namespace STP.Behaviour.Meta {
         public Transform                    DistanceTrans;
         public TMP_Text                     DistanceText;
 
-        StarSystemsManager _starSystemsManager;
+        StarSystemsManager    _starSystemsManager;
+        StarSystemsController _starSystemsController;
 
         LineRenderer _lineRenderer;
 
         protected override void InitInternal(MetaStarter starter) {
-            _starSystemsManager = starter.StarSystemsManager;
+            _starSystemsManager    = starter.StarSystemsManager;
+            _starSystemsController = starter.StarSystemsController;
             
             _lineRenderer = gameObject.AddComponent<LineRenderer>();
 
@@ -39,7 +41,7 @@ namespace STP.Behaviour.Meta {
 
         void OnDestSystemChanged(BaseStarSystem newDestSystem) {
             if ( newDestSystem ) {
-                var path = StarSystemsController.Instance.GetPath(PlayerShipMovementController.CurSystem.Id,
+                var path = _starSystemsController.GetPath(PlayerShipMovementController.CurSystem.Id,
                     newDestSystem.Id);
                 _lineRenderer.positionCount = path.Path.Count;
                 _lineRenderer.SetPositions(path.Path

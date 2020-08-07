@@ -2,7 +2,6 @@
 
 using STP.Behaviour.Starter;
 using STP.Common;
-using STP.State;
 using STP.State.Meta;
 
 using Random = UnityEngine.Random;
@@ -15,7 +14,9 @@ namespace STP.Behaviour.Meta {
         StarSystemsManager _starSystemsManager;
         MetaTimeManager    _timeManager;
 
-        TimeController _timeController;
+        TimeController        _timeController;
+        StarSystemsController _starSystemsController;
+        MetaAiShipsController _metaAiShipsController;
 
         bool _needCreate;
         int  _nextCreationDay;
@@ -28,8 +29,7 @@ namespace STP.Behaviour.Meta {
             var state = shipView.State;
             switch ( state.CurMode ) {
                 case MetaAiShipMode.Moving: {
-                    var ssc = StarSystemsController.Instance;
-                    if ( ssc.GetFactionSystemActive(state.DestSystemId) ) {
+                    if ( _starSystemsController.GetFactionSystemActive(state.DestSystemId) ) {
                         state.CurMode = MetaAiShipMode.Stationary;
                         var wait = Random.Range(MetaAiShipsController.MinStationaryWait,
                             MetaAiShipsController.MaxStationaryWait + 1);
@@ -39,15 +39,14 @@ namespace STP.Behaviour.Meta {
                         state.CurSystemId  = state.DestSystemId;
                         state.DestSystemId = string.Empty;
                     } else {
-                        var masc = MetaAiShipsController.Instance;
-                        if ( masc.TryUnregisterAiShip(state.Id) ) {
+                        if ( _metaAiShipsController.TryUnregisterAiShip(state.Id) ) {
                             Destroy(shipView.gameObject);
                         }
                     }
                     break;
                 }
                 case MetaAiShipMode.Stationary: {
-                    var ssc        = StarSystemsController.Instance;
+                    var ssc        = _starSystemsController;
                     var neighbours = ssc.GetNeighbourStarSystemIds(state.CurSystemId);
                     neighbours.RemoveAll(x => ssc.GetStarSystemType(x) != StarSystemType.Faction);
                     neighbours.RemoveAll(x => !ssc.GetFactionSystemActive(x));
@@ -76,8 +75,7 @@ namespace STP.Behaviour.Meta {
         }
 
         public void Kill(MetaAiShipView aiShipView) {
-            var masc = MetaAiShipsController.Instance;
-            if ( masc.TryUnregisterAiShip(aiShipView.Id) ) {
+            if ( _metaAiShipsController.TryUnregisterAiShip(aiShipView.Id) ) {
                 Destroy(aiShipView.gameObject);
             }
         }
@@ -85,24 +83,25 @@ namespace STP.Behaviour.Meta {
         protected override void InitInternal(MetaStarter starter) {
             _starSystemsManager = starter.StarSystemsManager;
             _timeManager        = starter.TimeManager;
+
+            _timeController        = starter.TimeController;
+            _starSystemsController = starter.StarSystemsController;
+            _metaAiShipsController = starter.MetaAiShipsController;
             
-            _timeController = TimeController.Instance;
             _timeController.OnCurDayChanged += OnCurDayChanged;
             
-            var controller = MetaAiShipsController.Instance;
-            
-            var aiShipStates = controller.GetAiShipsStates();
+            var aiShipStates = _metaAiShipsController.GetAiShipsStates();
             foreach ( var aiShipState in aiShipStates ) {
                 CreateAiShipInstance(aiShipState);
             }
 
             _needCreate      = (aiShipStates.Count < MetaAiShipsController.MaxAiShips);
-            _nextCreationDay = controller.LastAiShipCreatedDay + MetaAiShipsController.MinDaysBetweenAiShipsCreation;
+            _nextCreationDay = _metaAiShipsController.LastAiShipCreatedDay + MetaAiShipsController.MinDaysBetweenAiShipsCreation;
         }
 
         void OnCurDayChanged(int curDay) {
             if ( _needCreate && (curDay >= _nextCreationDay) && TryCreateNewAiShip() ) {
-                var masc = MetaAiShipsController.Instance;
+                var masc = _metaAiShipsController;
                 masc.LastAiShipCreatedDay = curDay;
                 _needCreate      = (masc.GetAiShipsStates().Count < MetaAiShipsController.MaxAiShips);
                 _nextCreationDay = masc.LastAiShipCreatedDay + MetaAiShipsController.MinDaysBetweenAiShipsCreation;
@@ -110,12 +109,10 @@ namespace STP.Behaviour.Meta {
         }
 
         bool TryCreateNewAiShip() {
-            var masc             = MetaAiShipsController.Instance;
-            var ssc              = StarSystemsController.Instance;
-            var state            = masc.CreateAiShipState();
+            var state            = _metaAiShipsController.CreateAiShipState();
             var curDay           = _timeController.CurDay;
-            var factionSystemIds = ssc.GetFactionSystemIds();
-            factionSystemIds.RemoveAll(x => !ssc.GetFactionSystemActive(x));
+            var factionSystemIds = _starSystemsController.GetFactionSystemIds();
+            factionSystemIds.RemoveAll(x => !_starSystemsController.GetFactionSystemActive(x));
             var factionSystemId = factionSystemIds[Random.Range(0, factionSystemIds.Count)];
             state.CurMode     = MetaAiShipMode.Stationary;
             state.CurSystemId = factionSystemId;
@@ -124,7 +121,7 @@ namespace STP.Behaviour.Meta {
             if ( !view ) {
                 return false;
             }
-            if ( !masc.TryRegisterAiShip(state) ) {
+            if ( !_metaAiShipsController.TryRegisterAiShip(state) ) {
                 Debug.LogError("Can't create new ai ship");
                 Destroy(view.gameObject);
                 return false;
@@ -140,12 +137,12 @@ namespace STP.Behaviour.Meta {
                 Destroy(aiShipGo);
                 return null;
             }
-            aiShipView.Init(state, this, _starSystemsManager, _timeManager);
+            aiShipView.Init(state, this, _starSystemsManager, _timeManager, _timeController, _starSystemsController);
             switch ( state.CurMode ) {
                 case MetaAiShipMode.Moving: {
                     var prevSystem = _starSystemsManager.GetStarSystem(state.CurSystemId);
                     var destSystem = _starSystemsManager.GetStarSystem(state.DestSystemId);
-                    var dist = StarSystemsController.Instance.GetDistance(prevSystem.Id, destSystem.Id);
+                    var dist = _starSystemsController.GetDistance(prevSystem.Id, destSystem.Id);
                     aiShipView.transform.position = Vector3.Lerp(prevSystem.transform.position,
                         destSystem.transform.position, (float)state.CurDay / dist);
                     break;

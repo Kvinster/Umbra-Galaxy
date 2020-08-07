@@ -8,8 +8,14 @@ namespace STP.Behaviour.Meta {
     public sealed class StarSystemsManager {
         readonly Dictionary<string, BaseStarSystem> _starSystems = new Dictionary<string, BaseStarSystem>();
 
+        readonly StarSystemsController _starSystemsController;
+
+        public StarSystemsManager(StarSystemsController starSystemsController) {
+            _starSystemsController = starSystemsController;
+        }
+
         public void RegisterStarSystem(BaseStarSystem starSystemId) {
-            if ( !StarSystemsController.Instance.HasStarSystem(starSystemId.Id) ) {
+            if ( !_starSystemsController.HasStarSystem(starSystemId.Id) ) {
                 Debug.LogErrorFormat("Can't register star system '{0}'", starSystemId.Id);
                 return;
             }
