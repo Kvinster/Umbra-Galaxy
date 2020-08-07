@@ -3,14 +3,17 @@ using UnityEngine.UI;
 
 using System;
 
+using STP.Utils;
+using STP.Utils.GameComponentAttributes;
+
 using TMPro;
 
 namespace STP.Behaviour.Utils {
-    public sealed class SliderTextFieldPair : MonoBehaviour {
-        public Slider         Slider;
-        public TMP_InputField InputField;
-        public TMP_Text       MinValueText;
-        public TMP_Text       MaxValueText;
+    public sealed class SliderTextFieldPair : GameBehaviour {
+        [NotNull] public Slider         Slider;
+        [NotNull] public TMP_InputField InputField;
+        [NotNull] public TMP_Text       MinValueText;
+        [NotNull] public TMP_Text       MaxValueText;
 
         bool _isInit;
 

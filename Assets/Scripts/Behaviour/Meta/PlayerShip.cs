@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
+using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta {
     public sealed class PlayerShip : BaseMetaComponent {
-        public PlayerShipMovementController MovementController;
+        [NotNull] public PlayerShipMovementController MovementController;
 
         MetaTimeManager _timeManager;
 

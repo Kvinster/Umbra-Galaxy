@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
+using STP.Utils;
+using STP.Utils.GameComponentAttributes;
+
 namespace STP.Behaviour.Utils {
-    public sealed class HoverTooltip : MonoBehaviour {
+    public sealed class HoverTooltip : GameBehaviour {
         public EventTrigger EventTrigger;
+        [NotNull]
         public GameObject   Root;
 
         bool _showInt;
@@ -26,13 +30,15 @@ namespace STP.Behaviour.Utils {
         }
 
         void Start() {
-            var entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
-            entry.callback.AddListener(_ => ShowInt = true);
-            EventTrigger.triggers.Add(entry);
+            if ( EventTrigger ) {
+                var entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
+                entry.callback.AddListener(_ => ShowInt = true);
+                EventTrigger.triggers.Add(entry);
 
-            entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
-            entry.callback.AddListener(_ => ShowInt = false);
-            EventTrigger.triggers.Add(entry);
+                entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
+                entry.callback.AddListener(_ => ShowInt = false);
+                EventTrigger.triggers.Add(entry);
+            }
 
             Root.SetActive(false);
         }

@@ -30,7 +30,8 @@ namespace STP.Behaviour.Meta {
 
         public override bool InterruptOnPlayerArriveIntermediate => !_starSystemsController.GetFactionSystemActive(Id);
 
-        void OnValidate() {
+        new void OnValidate() {
+            base.OnValidate();
 #if UNITY_EDITOR
             if ( UnityEditor.PrefabUtility.IsPartOfPrefabInstance(this) ) {
                 var graphInfo =

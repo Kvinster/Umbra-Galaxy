@@ -4,15 +4,16 @@ using System.Linq;
 
 using STP.Behaviour.Starter;
 using STP.State.Meta;
+using STP.Utils.GameComponentAttributes;
 
 using TMPro;
 
 namespace STP.Behaviour.Meta {
     public sealed class PlayerShipPathView : BaseMetaComponent {
-        public PlayerShipMovementController PlayerShipMovementController;
-        public GameObject                   DistanceRoot;
-        public Transform                    DistanceTrans;
-        public TMP_Text                     DistanceText;
+        [NotNull] public PlayerShipMovementController PlayerShipMovementController;
+        [NotNull] public GameObject                   DistanceRoot;
+        [NotNull] public Transform                    DistanceTrans;
+        [NotNull] public TMP_Text                     DistanceText;
 
         StarSystemsManager    _starSystemsManager;
         StarSystemsController _starSystemsController;

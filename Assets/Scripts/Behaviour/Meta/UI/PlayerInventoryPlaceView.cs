@@ -6,11 +6,14 @@ using System;
 
 using STP.Behaviour.Common;
 using STP.State;
+using STP.Utils;
+using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class PlayerInventoryPlaceView : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler {
-        public GameObject HasItemRoot;
-        public Image      ItemIcon;
+    public sealed class PlayerInventoryPlaceView : GameBehaviour, IPointerDownHandler, IPointerEnterHandler,
+        IPointerExitHandler {
+        [NotNull] public GameObject HasItemRoot;
+        [NotNull] public Image      ItemIcon;
 
         bool _forceHide;
 

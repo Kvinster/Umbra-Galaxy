@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
+
+using STP.Utils;
 
 namespace STP.Common.Windows {
-    public abstract class BaseWindow : MonoBehaviour {
+    public abstract class BaseWindow : GameBehaviour {
         public Button HideButton;
 
         void Start() {

@@ -1,11 +1,12 @@
 ﻿using STP.Behaviour.Starter;
 using STP.State;
+using STP.Utils.GameComponentAttributes;
 
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI {
     public sealed class PlayerFuelView : BaseMetaComponent {
-        public TMP_Text FuelText;
+        [NotNull] public TMP_Text FuelText;
 
         PlayerController _playerController;
 

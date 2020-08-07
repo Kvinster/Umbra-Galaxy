@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using STP.Utils;
+using STP.Utils.GameComponentAttributes;
 
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class MetaNewsHeadline : MonoBehaviour {
+    public sealed class MetaNewsHeadline : GameBehaviour {
         const string NewsTemplate = "Day {0}: {1}";
         
-        public TMP_Text NewsText;
+        [NotNull] public TMP_Text NewsText;
 
         public void SetNewsText(int day, string newsText) {
             NewsText.text = string.Format(NewsTemplate, day, newsText);

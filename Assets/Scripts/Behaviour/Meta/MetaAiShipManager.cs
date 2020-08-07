@@ -3,13 +3,14 @@
 using STP.Behaviour.Starter;
 using STP.Common;
 using STP.State.Meta;
+using STP.Utils.GameComponentAttributes;
 
 using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Meta {
     public sealed class MetaAiShipManager : BaseMetaComponent {
-        public Transform  AiShipsRoot;
-        public GameObject AiShipPrefab;
+        [NotNull] public Transform  AiShipsRoot;
+        [NotNull] public GameObject AiShipPrefab;
         
         StarSystemsManager _starSystemsManager;
         MetaTimeManager    _timeManager;

@@ -6,14 +6,20 @@ using System.Collections.Generic;
 using STP.Behaviour.Common;
 using STP.Behaviour.Utils;
 using STP.State;
+using STP.Utils;
+using STP.Utils.GameComponentAttributes;
 
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class PlayerInventoryView : MonoBehaviour {
+    public sealed class PlayerInventoryView : GameBehaviour {
+        [NotNull]
         public PlayerSelectedItemView               SelectedItemView;
+        [NotNull]
         public HoverTooltip                         Tooltip;
+        [NotNull]
         public TMP_Text                             TooltipText;
+        [NotNullOrEmpty]
         public List<PlayerInventoryPlaceView>       PlaceViews   = new List<PlayerInventoryPlaceView>();
         public List<BasePlayerInventoryItemHandler> ItemHandlers = new List<BasePlayerInventoryItemHandler>();
 
@@ -38,7 +44,7 @@ namespace STP.Behaviour.Meta.UI {
             GetComponentsInChildren(PlaceViews);
         }
 
-        void OnValidate() {
+        protected override void CheckDescription() {
             if ( (PlaceViews == null) || (PlaceViews.Count < PlayerInventory.InventoryPlaces) ) {
                 Debug.LogError("Not enough PlayerInventoryPlaceViews");
             }

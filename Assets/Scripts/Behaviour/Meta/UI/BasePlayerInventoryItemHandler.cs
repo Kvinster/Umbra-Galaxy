@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
+using STP.Utils;
+
 namespace STP.Behaviour.Meta.UI {
-    public abstract class BasePlayerInventoryItemHandler : MonoBehaviour {
+    public abstract class BasePlayerInventoryItemHandler : GameBehaviour {
         public PlayerInventoryView CurPlayerInventoryView { get; protected set; } 
 
         public void RegisterPlayerInventoryView(PlayerInventoryView playerInventoryView) {

@@ -3,15 +3,17 @@ using UnityEngine.UI;
 
 using STP.Gameplay.Weapon.Common;
 using STP.State;
+using STP.Utils;
+using STP.Utils.GameComponentAttributes;
 
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI.InventoryWindow {
-    public sealed class WeaponChoiceButton : MonoBehaviour {
-        public Image      WeaponIcon;
-        public TMP_Text   WeaponTypeText; 
-        public GameObject SelectedRoot;
-        public Button     Button;
+    public sealed class WeaponChoiceButton : GameBehaviour {
+        [NotNull] public Image      WeaponIcon;
+        [NotNull] public TMP_Text   WeaponTypeText; 
+        [NotNull] public GameObject SelectedRoot;
+        [NotNull] public Button     Button;
 
         WeaponType       _weaponType = WeaponType.Unknown;
         InventoryWindow  _owner;

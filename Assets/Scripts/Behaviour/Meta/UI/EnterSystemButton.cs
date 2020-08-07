@@ -4,10 +4,12 @@ using UnityEngine.UI;
 using STP.Common;
 using STP.State;
 using STP.State.Meta;
+using STP.Utils;
+using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class EnterSystemButton : MonoBehaviour {
-        public Button Button;
+    public sealed class EnterSystemButton : GameBehaviour {
+        [NotNull] public Button Button;
 
         StarSystemUiManager   _owner;
         MetaTimeManager       _timeManager;

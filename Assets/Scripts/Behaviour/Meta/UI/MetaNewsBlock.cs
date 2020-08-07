@@ -2,20 +2,22 @@
 using UnityEngine.UI;
 
 using STP.State.Meta;
+using STP.Utils;
+using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class MetaNewsBlock : MonoBehaviour {
+    public sealed class MetaNewsBlock : GameBehaviour {
         const string StarSystemCapturedTemplate = "System {0} has been captured by the Darkness";
         const string StarSystemRepelTemplate    = "System {0} successfully repelled attack of the Darkness";
 
-        public GameObject FoldedRoot;
-        public GameObject UnfoldedRoot;
-        public Button     FoldButton;
-        public Button     UnfoldButton;
+        [NotNull] public GameObject FoldedRoot;
+        [NotNull] public GameObject UnfoldedRoot;
+        [NotNull] public Button     FoldButton;
+        [NotNull] public Button     UnfoldButton;
         [Space]
-        public Transform  HeadlinesRoot;
-        public GameObject HeadlinePrefab;
-        public ScrollRect HeadlinesScrollRect;
+        [NotNull] public Transform  HeadlinesRoot;
+        [NotNull] public GameObject HeadlinePrefab;
+        [NotNull] public ScrollRect HeadlinesScrollRect;
 
         MetaTimeManager       _timeManager;
         StarSystemsController _starSystemsController;

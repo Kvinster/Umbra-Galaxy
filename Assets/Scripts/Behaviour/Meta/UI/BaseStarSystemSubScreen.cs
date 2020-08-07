@@ -1,5 +1,5 @@
-﻿using UnityEngine;
+﻿using STP.Utils;
 
 namespace STP.Behaviour.Meta.UI {
-    public abstract class BaseStarSystemSubScreen : MonoBehaviour { }
+    public abstract class BaseStarSystemSubScreen : GameBehaviour { }
 }

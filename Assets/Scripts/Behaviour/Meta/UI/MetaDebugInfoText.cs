@@ -2,12 +2,13 @@
 
 using STP.Behaviour.Starter;
 using STP.State.Meta;
+using STP.Utils.GameComponentAttributes;
 
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI {
     public sealed class MetaDebugInfoText : BaseMetaComponent {
-        public TMP_Text Text;
+        [NotNull] public TMP_Text Text;
 
         MetaTimeManager       _timeManager;
         PlayerShip            _playerShip;

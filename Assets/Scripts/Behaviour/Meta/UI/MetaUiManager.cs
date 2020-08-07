@@ -1,10 +1,11 @@
 ﻿using STP.Behaviour.Starter;
+using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta.UI {
     public sealed class MetaUiManager : BaseMetaComponent {
-        public MetaDebugInfoText DebugInfoText;
-        public MetaNewsBlock     NewsBlock;
-        public GameOverScreen    GameOverScreen;
+        [NotNull] public MetaDebugInfoText DebugInfoText;
+        [NotNull] public MetaNewsBlock     NewsBlock;
+        [NotNull] public GameOverScreen    GameOverScreen;
         
         protected override void InitInternal(MetaStarter starter) {
             DebugInfoText.Init(starter);

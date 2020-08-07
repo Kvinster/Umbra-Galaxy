@@ -5,15 +5,16 @@ using System;
 using System.Collections.Generic;
 
 using STP.Behaviour.Starter;
+using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta.UI {
     public sealed class StarSystemUiManager : BaseMetaComponent {
-        public EnterSystemButton      EnterSystemButton;
-        public GameObject             StarSystemScreenRoot;
-        public StarSystemTradeScreen  TradeScreen;
-        public StarSystemHangarScreen HangarScreen;
-        public Button                 ShowTradeScreenButton;
-        public Button                 ShowHangarScreenButton;
+        [NotNull] public EnterSystemButton      EnterSystemButton;
+        [NotNull] public GameObject             StarSystemScreenRoot;
+        [NotNull] public StarSystemTradeScreen  TradeScreen;
+        [NotNull] public StarSystemHangarScreen HangarScreen;
+        [NotNull] public Button                 ShowTradeScreenButton;
+        [NotNull] public Button                 ShowHangarScreenButton;
 
         readonly List<BaseStarSystemSubScreen> _subScreens = new List<BaseStarSystemSubScreen>();
 

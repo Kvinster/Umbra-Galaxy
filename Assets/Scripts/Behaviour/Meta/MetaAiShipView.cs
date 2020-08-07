@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 
 using STP.State.Meta;
+using STP.Utils;
+using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta {
-    public sealed class MetaAiShipView : MonoBehaviour {
-        public SpriteRenderer ShipIcon;
+    public sealed class MetaAiShipView : GameBehaviour {
+        [NotNull] public SpriteRenderer ShipIcon;
         
         MetaAiShipManager  _aiShipManager;
         StarSystemsManager _starSystemsManager;

@@ -6,11 +6,13 @@ using System.Linq;
 
 using STP.Common;
 using STP.State;
+using STP.Utils;
+using STP.Utils.GameComponentAttributes;
 
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class GameOverScreen : MonoBehaviour {
+    public sealed class GameOverScreen : GameBehaviour {
         const string CradleConqueredText =
             "Bad Ending\nThe Cradle of Humanity has been destroyed. The light of humanity has been consumed by Darkness";
 
@@ -37,7 +39,7 @@ namespace STP.Behaviour.Meta.UI {
             "violent technology race, juicing every last bit of the alien tech. The Darkness was eliminated quickly, " +
             "but soon after that the humanity followed suit in the flames of the Last War"; // 3-3-0
         
-        public TMP_Text Text;
+        [NotNull] public TMP_Text Text;
 
         MetaUiManager      _owner;
         ProgressController _progressController;

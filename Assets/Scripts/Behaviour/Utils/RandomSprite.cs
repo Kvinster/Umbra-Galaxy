@@ -2,10 +2,14 @@
 
 using System.Collections.Generic;
 
+using STP.Utils;
+using STP.Utils.GameComponentAttributes;
+
 namespace STP.Behaviour.Utils {
-    public sealed class RandomSprite : MonoBehaviour {
+    public sealed class RandomSprite : GameBehaviour {
+        [NotNull]
         public SpriteRenderer SpriteRenderer;
-        [Space]
+        [Space] [NotNullOrEmpty]
         public List<Sprite> Sprites = new List<Sprite>();
 
         void Reset() {
@@ -13,9 +17,7 @@ namespace STP.Behaviour.Utils {
         }
 
         void Start() {
-            SpriteRenderer.sprite = ((Sprites == null) || (Sprites.Count == 0))
-                ? null
-                : Sprites[Random.Range(0, Sprites.Count)];
+            SpriteRenderer.sprite = Sprites[Random.Range(0, Sprites.Count)];
         }
     }
 }

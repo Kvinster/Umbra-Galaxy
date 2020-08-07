@@ -23,7 +23,8 @@ namespace STP.Behaviour.Meta {
 
         public override bool InterruptOnPlayerArriveIntermediate => true;
 
-        void OnValidate() {
+        new void OnValidate() {
+            base.OnValidate();
 #if UNITY_EDITOR
             if ( !UnityEditor.PrefabUtility.IsPartOfAnyPrefab(this) ||
                  UnityEditor.PrefabUtility.IsPartOfPrefabInstance(this) ) {

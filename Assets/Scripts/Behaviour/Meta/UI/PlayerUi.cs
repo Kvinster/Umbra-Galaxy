@@ -4,11 +4,13 @@ using STP.Behaviour.Starter;
 using STP.Common;
 using STP.State;
 using STP.State.Meta;
+using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta.UI {
     public sealed class PlayerUi : BaseMetaComponent {
-        public PlayerInventoryButton InventoryButton;
-        public Button                EnterSystemButton;
+        // TODO: what's with this unused button?
+        [NotNull] public PlayerInventoryButton InventoryButton;
+        [NotNull] public Button                EnterSystemButton;
         
         MetaTimeManager       _timeManager;
         StarSystemsController _starSystemsController;

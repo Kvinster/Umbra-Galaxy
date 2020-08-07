@@ -4,10 +4,11 @@ using STP.Behaviour.Common;
 using STP.Behaviour.Starter;
 using STP.Common.Windows;
 using STP.State;
+using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta.UI {
     public sealed class PlayerInventoryButton : BaseMetaComponent {
-        public Button Button;
+        [NotNull] public Button Button;
         
         InventoryItemInfos _inventoryItemInfos;
         PlayerController   _playerController;

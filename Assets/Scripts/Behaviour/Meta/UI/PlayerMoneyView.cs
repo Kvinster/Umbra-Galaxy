@@ -1,11 +1,12 @@
 ﻿using STP.Behaviour.Starter;
 using STP.State;
+using STP.Utils.GameComponentAttributes;
 
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI {
     public sealed class PlayerMoneyView : BaseMetaComponent {
-        public TMP_Text MoneyText;
+        [NotNull] public TMP_Text MoneyText;
 
         PlayerController _playerController;
 
