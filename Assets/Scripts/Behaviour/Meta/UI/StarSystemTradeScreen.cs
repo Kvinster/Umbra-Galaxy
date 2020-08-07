@@ -120,7 +120,7 @@ namespace STP.Behaviour.Meta.UI {
 
         void ShowInventorySellWindow(PlayerInventoryPlace inventoryPlace) {
             WindowManager.Instance.Show<InventoryItemSellWindow>(x =>
-                x.Init(inventoryPlace, _starSystemId, _starSystemsManager, _inventoryItemInfos, _progressController,
+                x.Init(inventoryPlace, _starSystemId, _inventoryItemInfos, _progressController,
                     _starSystemsController, _playerController));
         }
 

@@ -11,7 +11,6 @@ namespace STP.Behaviour.Meta.UI {
 
         StarSystemUiManager   _owner;
         MetaTimeManager       _timeManager;
-        StarSystemsManager    _starSystemsManager;
         StarSystemsController _starSystemsController;
         PlayerController      _playerController;
 
@@ -26,11 +25,9 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         public void Init(StarSystemUiManager owner, MetaTimeManager timeManager,
-            StarSystemsManager starSystemsManager, StarSystemsController starSystemsController,
-            PlayerController playerController) {
+            StarSystemsController starSystemsController, PlayerController playerController) {
             _owner                 = owner;
             _timeManager           = timeManager;
-            _starSystemsManager    = starSystemsManager;
             _starSystemsController = starSystemsController;
             _playerController      = playerController;
 
@@ -60,7 +57,7 @@ namespace STP.Behaviour.Meta.UI {
 
         void UpdateActive(bool isPaused, string playerCurSystem, bool isStarSystemScreenShown) {
             Button.gameObject.SetActive(
-                isPaused && (_starSystemsManager.GetStarSystem(playerCurSystem).Type == StarSystemType.Faction) &&
+                isPaused && (_starSystemsController.GetStarSystemType(playerCurSystem) == StarSystemType.Faction) &&
                 _starSystemsController.GetFactionSystemActive(playerCurSystem) && !isStarSystemScreenShown);
         }
     }

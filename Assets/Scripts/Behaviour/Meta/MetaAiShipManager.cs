@@ -142,7 +142,7 @@ namespace STP.Behaviour.Meta {
                 case MetaAiShipMode.Moving: {
                     var prevSystem = _starSystemsManager.GetStarSystem(state.CurSystemId);
                     var destSystem = _starSystemsManager.GetStarSystem(state.DestSystemId);
-                    var dist = _starSystemsController.GetDistance(prevSystem.Id, destSystem.Id);
+                    var dist       = _starSystemsController.GetDistance(prevSystem.Id, destSystem.Id);
                     aiShipView.transform.position = Vector3.Lerp(prevSystem.transform.position,
                         destSystem.transform.position, (float)state.CurDay / dist);
                     break;

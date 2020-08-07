@@ -22,8 +22,7 @@ namespace STP.Behaviour.Meta.UI {
         public TMP_Text            ResultPriceText;
         public Button              SellButton;
         public List<Button>        CloseWindowButtons;
-
-        StarSystemsManager    _starSystemsManager;
+        
         InventoryItemInfos    _inventoryItemInfos;
         ProgressController    _progressController;
         StarSystemsController _starSystemsController;
@@ -36,13 +35,11 @@ namespace STP.Behaviour.Meta.UI {
 
         bool CanSell => (_resultPrice <= _starSystemsController.GetFactionSystemMoney(_starSystemId));
 
-        public void Init(PlayerInventoryPlace inventoryPlace, string starSystemId,
-            StarSystemsManager starSystemsManager, InventoryItemInfos inventoryItemInfos,
-            ProgressController progressController, StarSystemsController starSystemsController,
-            PlayerController playerController) {
+        public void Init(PlayerInventoryPlace inventoryPlace, string starSystemId, 
+            InventoryItemInfos inventoryItemInfos, ProgressController progressController,
+            StarSystemsController starSystemsController, PlayerController playerController) {
             _inventoryPlace        = inventoryPlace;
             _starSystemId          = starSystemId;
-            _starSystemsManager    = starSystemsManager;
             _inventoryItemInfos    = inventoryItemInfos;
             _progressController    = progressController;
             _starSystemsController = starSystemsController;
@@ -72,7 +69,6 @@ namespace STP.Behaviour.Meta.UI {
         protected override void Deinit() {
             _inventoryPlace        = null;
             _starSystemId          = null;
-            _starSystemsManager    = null;
             _inventoryItemInfos    = null;
             _progressController    = null;
             _starSystemsController = null;
@@ -111,7 +107,7 @@ namespace STP.Behaviour.Meta.UI {
                 _starSystemsController.AddFactionSystemSurvivalChance(_starSystemId,
                     _inventoryItemInfos.GetItemBaseSurvivalChanceInc(itemName) * sellItemAmount);
                 
-                if ( _starSystemsManager.GetStarSystem(_starSystemId).Type == StarSystemType.Faction ) {
+                if ( _starSystemsController.GetStarSystemType(_starSystemId) == StarSystemType.Faction ) {
                     _progressController.OnSellItemToFaction(itemName, sellItemAmount,
                         _starSystemsController.GetFactionSystemFaction(_starSystemId));
                 }

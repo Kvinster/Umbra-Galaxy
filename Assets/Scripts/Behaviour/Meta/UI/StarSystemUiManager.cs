@@ -40,7 +40,7 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         protected override void InitInternal(MetaStarter starter) {
-            EnterSystemButton.Init(this, starter.TimeManager, starter.StarSystemsManager, starter.StarSystemsController,
+            EnterSystemButton.Init(this, starter.TimeManager, starter.StarSystemsController,
                 starter.PlayerController);
 
             TradeScreen.Init(HideTradeScreen, starter.StarSystemsManager, starter.InventoryItemInfos,

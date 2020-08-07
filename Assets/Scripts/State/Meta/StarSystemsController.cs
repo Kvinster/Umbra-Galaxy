@@ -48,7 +48,7 @@ namespace STP.State.Meta {
         public bool HasStarSystem(string starSystemId) {
             return _starSystemIds.Contains(starSystemId);
         }
-        
+
         public int GetDistance(string aStarSystemId, string bStarSystemId) {
             var distance = _graphInfo.GetDistance(aStarSystemId, bStarSystemId); 
             return (distance == 0) ? (int.MaxValue / 2) : distance;
