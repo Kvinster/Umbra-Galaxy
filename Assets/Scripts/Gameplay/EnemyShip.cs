@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-using System.Collections.Generic;
-
 using STP.Gameplay.Weapon.Common;
 using STP.State.Core;
 
@@ -12,38 +10,27 @@ namespace STP.Gameplay {
         Patrolling
     }
     
-    public class EnemyShip : BaseShip {
-        const float CloseRadius     = 10f;
+    public class EnemyShip : RoutedShip {
         const float ChaseRadius     = 350f;
         const float OutChaseRadius  = 500;
         
         const float ShipSpeed       = 150f;
         const int   Hp              = 2;
         
-        public List<Transform> Route;
-        public int             StartRoutePointIndex;
-        int   _nextRoutePoint;
-        
         PlayerShipState _playerShipState;
         MaterialCreator _materialCreator;
         
         public EnemyState State {get; private set;} = EnemyState.None;
         
-        Vector3 NextPoint       => Route[_nextRoutePoint].position;
-        Vector2 MovingVector    => (NextPoint - transform.position);
-        Vector2 MovingDirection => MovingVector.normalized;
-        bool    CloseToPoint    => MovingVector.magnitude < CloseRadius;
-        
         
         public override void Init(CoreStarter starter) {
+            base.Init(starter);
             _materialCreator   = starter.MaterialCreator;
             _playerShipState   = starter.CoreManager.PlayerShipState;
-            transform.position = Route[StartRoutePointIndex].position;
-            _nextRoutePoint    = (StartRoutePointIndex + 1) % Route.Count;
             State              = EnemyState.Patrolling;
             WeaponControl      = starter.WeaponCreator.GetAIWeaponController(WeaponType.Laser, this);
             starter.WeaponViewCreator.AddWeaponView(this, WeaponControl.GetControlledWeapon());
-            InternalInit(new ShipInfo(Hp, ShipSpeed));
+            InitShipInfo(new ShipInfo(Hp, ShipSpeed));
         }
 
         protected void Update() {
@@ -71,11 +58,7 @@ namespace STP.Gameplay {
         }
 
         void OnPatrolling() {
-            Move(MovingDirection);
-            Rotate(MovingDirection);
-            if ( CloseToPoint ) {
-                _nextRoutePoint  = (_nextRoutePoint + 1) % Route.Count;
-            }
+            Move();
             var chasingVector     = _playerShipState.Position - (Vector2) transform.position;
             var distanceToPlayer  = chasingVector.magnitude;
             if ( distanceToPlayer < ChaseRadius) {
@@ -92,13 +75,6 @@ namespace STP.Gameplay {
             if ( distanceToPlayer >= OutChaseRadius ) {
                 State = EnemyState.Patrolling;    
             }
-        }
-        
-        void OnDrawGizmos(){
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, ChaseRadius);
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, OutChaseRadius);
         }
     }
 }

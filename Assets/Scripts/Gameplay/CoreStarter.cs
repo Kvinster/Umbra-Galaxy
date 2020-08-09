@@ -2,17 +2,21 @@
 
 using System.Collections.Generic;
 
+using STP.Behaviour;
+using STP.Gameplay.DebugGUI;
 using STP.Gameplay.Weapon.Common;
 using STP.State;
 using STP.Utils;
 using STP.View;
+using STP.View.DebugGUI;
 
 namespace STP.Gameplay {
     public class CoreStarter : GameBehaviour {
-        public Transform    BulletSpawnStock;
-        public Transform    MaterialSpawnStock;
-        public UnityContext UnityContext;
-        
+        public Transform        BulletSpawnStock;
+        public Transform        MaterialSpawnStock;
+        public UnityContext     UnityContext;
+        public BaseLevelWrapper LevelWrapper;
+
         public OverlayManager OverlayManager;
         
         public WeaponCreator     WeaponCreator     { get; private set; }
@@ -40,6 +44,7 @@ namespace STP.Gameplay {
             //Settings for smooth gameplay
             Application.targetFrameRate = Screen.currentResolution.refreshRate;
             QualitySettings.vSyncCount  = 0;
+            DebugGuiController.Instance.SetDrawable(new CoreDebugGUI(this));
         }
     }
 }

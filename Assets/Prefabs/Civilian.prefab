@@ -99,10 +99,10 @@ GameObject:
   - component: {fileID: 3609196222395136524}
   - component: {fileID: 6123139016046447006}
   - component: {fileID: 5213436331024437477}
-  - component: {fileID: 262083521729455616}
   - component: {fileID: 7999477584213520501}
+  - component: {fileID: 1475442592540211251}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Civilian
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,7 +167,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b18a34ee849cfb84693eb5e020ec1afc, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.13039613, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -225,29 +225,6 @@ PolygonCollider2D:
       - {x: 7, y: -48}
       - {x: 14, y: -38}
       - {x: 23, y: -25}
---- !u!114 &262083521729455616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7464548312692358418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 612c48b3a2704a8f8161b1f31fe41cb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WeaponMountPoint: {fileID: 5445224572993089012}
-  HpBar: {fileID: 1855425555735716109}
-  Route:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  StartRoutePointIndex: 1
-  CycledRoute: 1
 --- !u!50 &7999477584213520501
 Rigidbody2D:
   serializedVersion: 4
@@ -269,6 +246,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1475442592540211251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7464548312692358418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f0b8ba75f3147bcbd899b141a37d799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeaponMountPoint: {fileID: 5445224572993089012}
+  HpBar: {fileID: 1855425555735716109}
+  Route: []
+  StartRoutePointIndex: 0
+  CycledRoute: 0
 --- !u!1001 &5286896728489551492
 PrefabInstance:
   m_ObjectHideFlags: 0

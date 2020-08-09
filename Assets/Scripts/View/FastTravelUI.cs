@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+using STP.Events;
 using STP.Gameplay;
 using STP.Utils;
+using STP.Utils.Events;
+using STP.Utils.GameComponentAttributes;
 
 using TMPro;
 
@@ -10,9 +13,9 @@ namespace STP.View {
     public class FastTravelUI : GameBehaviour{
         const string FastTravelText = "Fast travel";
         
-        public Image    ButtonImage;
-        public Button   FastTravelButton;
-        public TMP_Text ButtonText;
+        [NotNull] public Image    ButtonImage;
+        [NotNull] public Button   FastTravelButton;
+        [NotNull] public TMP_Text ButtonText;
         
         CoreManager      _coreManager;
         FastTravelEngine _fastTravelEngine;
@@ -27,15 +30,19 @@ namespace STP.View {
         
         float LeftTime => _fastTravelEngine.Timer.LeftTime;
         
-        protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, FastTravelButton);
-        
         public void Init(CoreManager coreManager) {
             _coreManager      = coreManager;
             _fastTravelEngine = coreManager.FastTravelEngine;
             _defaultColor     = ButtonImage.color;
             FastTravelButton.onClick.AddListener(TryStartEngine);
+            gameObject.SetActive(false);
+            EventManager.Subscribe<QuestCompleted>(OnQuestComplete);
         }
 
+        void OnQuestComplete(QuestCompleted e) {
+            gameObject.SetActive(true);
+        }
+        
         void TryStartEngine() {
             if ( HasAnyAction ) {
                 ButtonImage.color = Color.red;

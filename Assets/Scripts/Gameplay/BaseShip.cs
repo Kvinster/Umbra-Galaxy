@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using System;
+
 using STP.Gameplay.Weapon.Common;
 using STP.State.Core;
 using STP.Utils;
@@ -15,18 +17,21 @@ namespace STP.Gameplay {
         protected IWeaponControl WeaponControl;
 
         ShipInfo       _shipInfo;
+        
+        public event Action<BaseShip> OnShipDestroyed;
 
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, WeaponMountPoint);
 
         public void GetDamage(float damageAmount = 1) {
             ShipState.Hp -= damageAmount;
             if ( ShipState.Hp <= 0 ) {
+                OnShipDestroyed?.Invoke(this);
                 OnShipDestroy();
             }
-            HpBar.UpdateBar(((float)ShipState.Hp) / _shipInfo.Hp);
+            HpBar.UpdateBar(ShipState.Hp / _shipInfo.Hp);
         }
 
-        protected void InternalInit(ShipInfo shipInfo) {
+        protected void InitShipInfo(ShipInfo shipInfo) {
             Rigidbody2D    = GetComponent<Rigidbody2D>();
             _shipInfo      = shipInfo;
             ShipState      = new ShipState(_shipInfo.Hp);

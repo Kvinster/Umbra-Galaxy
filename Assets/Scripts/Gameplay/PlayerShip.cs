@@ -24,7 +24,7 @@ namespace STP.Gameplay {
             _overlayHelper                   = starter.OverlayHelper;
             WeaponControl                    = starter.WeaponCreator.GetManualWeapon(starter.PlayerController.CurWeaponType);
             starter.WeaponViewCreator.AddWeaponView(this, WeaponControl?.GetControlledWeapon());
-            InternalInit(new ShipInfo(Hp, ShipSpeed));
+            InitShipInfo(new ShipInfo(Hp, ShipSpeed));
         }
         
         protected void Update() {
