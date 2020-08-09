@@ -17,7 +17,6 @@ namespace STP.Gameplay.Weapon.MissileWeapon {
         
         Timer _timer = new Timer();
         
-        GameObject _source;
         Transform  _target;
         
         Rigidbody2D _rigidbody;
