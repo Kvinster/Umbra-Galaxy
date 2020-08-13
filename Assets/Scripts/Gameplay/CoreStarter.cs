@@ -31,12 +31,12 @@ namespace STP.Gameplay {
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, BulletSpawnStock, MaterialSpawnStock, UnityContext);
         
         void Start() {
-            BulletCreator     = new BulletCreator(this);
             WeaponCreator     = new WeaponCreator();
             WeaponViewCreator = new WeaponViewCreator(this);
             MaterialCreator   = new MaterialCreator(this);
             CoreManager       = new CoreManager(PlayerController, UnityContext);
             OverlayHelper     = new CoreOverlayHelper(this);
+            BulletCreator     = new BulletCreator(BulletSpawnStock, CoreManager.AllianceManager);
             var behaviours = new HashSet<CoreBehaviour>(CoreBehaviour.Instances);
             foreach (var comp in behaviours) {
                 comp.Init(this);

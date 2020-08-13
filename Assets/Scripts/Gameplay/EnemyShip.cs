@@ -21,8 +21,8 @@ namespace STP.Gameplay {
         MaterialCreator _materialCreator;
         
         public EnemyState State {get; private set;} = EnemyState.None;
-        
-        
+        public override ConflictSide CurrentSide => ConflictSide.Aliens;
+
         public override void Init(CoreStarter starter) {
             base.Init(starter);
             _materialCreator   = starter.MaterialCreator;
@@ -36,6 +36,7 @@ namespace STP.Gameplay {
         protected void Update() {
             OnShipState();
         }
+
 
         protected override void OnShipDestroy() {
             _materialCreator.CreateRandomMaterial(transform.position);

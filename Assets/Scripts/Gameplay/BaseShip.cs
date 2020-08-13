@@ -8,7 +8,7 @@ using STP.Utils;
 using STP.View;
 
 namespace STP.Gameplay {
-    public abstract class BaseShip : CoreBehaviour, IDestructable {
+    public abstract class BaseShip : CoreBehaviour, IDestructable, ISideAccessable {
         public Transform WeaponMountPoint;
         public HpBar     HpBar;
 
@@ -19,6 +19,8 @@ namespace STP.Gameplay {
         ShipInfo       _shipInfo;
         
         public event Action<BaseShip> OnShipDestroyed;
+        
+        public abstract ConflictSide CurrentSide { get; }
 
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, WeaponMountPoint);
 
