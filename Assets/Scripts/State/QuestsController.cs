@@ -115,7 +115,7 @@ namespace STP.State {
                 if ( questState.Status != QuestStatus.Started ) {
                     continue;
                 }
-                if ( questState.ExpirationDay <= curDay ) {
+                if ( questState.ExpirationDay < curDay ) {
                     questState.Status = QuestStatus.Failed;
                     // TODO: event here?
                 }
