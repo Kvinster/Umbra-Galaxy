@@ -3,7 +3,7 @@
 using STP.Gameplay;
 using STP.Utils;
 
-namespace STP.View {
+namespace STP.Behaviour.Core {
     public class GameoverOverlay : GameBehaviour, IOverlay {
         public Button ReturnToMeta;
         

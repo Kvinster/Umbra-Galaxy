@@ -1,8 +1,8 @@
 ﻿using STP.Gameplay;
 using STP.Utils;
 
-namespace STP.View {
-    public class CoreUI : CoreBehaviour {
+namespace STP.Behaviour.Core {
+    public class CoreUI : CoreComponent {
         public FastTravelUI      FastTravelUI;
         
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, FastTravelUI);

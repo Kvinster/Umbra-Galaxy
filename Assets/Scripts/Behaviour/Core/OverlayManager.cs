@@ -1,10 +1,9 @@
-﻿using System;
+﻿using STP.Utils;
+using System;
 using System.Collections.Generic;
 
-using STP.Utils;
-
-namespace STP.View {
-    public class OverlayManager : GameBehaviour{
+namespace STP.Behaviour.Core {
+    public class OverlayManager : GameBehaviour {
         public GameoverOverlay   GameoverOverlay;
         
         List<IOverlay> _allOverlays = new List<IOverlay>();

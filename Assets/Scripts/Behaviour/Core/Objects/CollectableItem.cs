@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
+using STP.Behaviour.Core;
 using STP.State;
-using STP.View;
 
 namespace STP.Gameplay {
-    public class CollectableItem : CoreBehaviour {
+    public class CollectableItem : CoreComponent {
         CoreManager _coreManager;
         
         public string ItemName;

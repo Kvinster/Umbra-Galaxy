@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using STP.Behaviour.Core;
+using UnityEngine;
 
 using System;
 
@@ -8,7 +9,7 @@ using STP.Utils;
 using STP.View;
 
 namespace STP.Gameplay {
-    public abstract class BaseShip : CoreBehaviour, IDestructable, ISideAccessable {
+    public abstract class BaseShip : CoreComponent, IDestructable, ISideAccessable {
         public Transform WeaponMountPoint;
         public HpBar     HpBar;
 

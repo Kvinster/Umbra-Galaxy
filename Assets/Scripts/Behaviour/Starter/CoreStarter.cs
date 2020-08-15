@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 
 using STP.Behaviour;
+using STP.Behaviour.Core;
 using STP.Gameplay.DebugGUI;
 using STP.Gameplay.Weapon.Common;
 using STP.State;
@@ -37,7 +38,7 @@ namespace STP.Gameplay {
             CoreManager       = new CoreManager(PlayerController, UnityContext);
             OverlayHelper     = new CoreOverlayHelper(this);
             BulletCreator     = new BulletCreator(BulletSpawnStock, CoreManager.AllianceManager);
-            var behaviours = new HashSet<CoreBehaviour>(CoreBehaviour.Instances);
+            var behaviours = new HashSet<CoreComponent>(CoreComponent.Instances);
             foreach (var comp in behaviours) {
                 comp.Init(this);
             }        
