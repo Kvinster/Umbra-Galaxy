@@ -24,12 +24,11 @@ namespace STP.Behaviour.Meta.UI {
 
         int _repairPrice;
         int _repairAmount;
-
-        Action              _hide;
+        
         StarSystemUiManager _owner;
 
         public void Init(Action hide, StarSystemUiManager owner, PlayerController playerController) {
-            _hide             = hide;
+            base.Init(hide);
             _owner            = owner;
             _playerController = playerController;
             
@@ -50,7 +49,9 @@ namespace STP.Behaviour.Meta.UI {
             HideButton.OnHoverFinish += HideTooltip;
         }
 
-        public void Deinit() {
+        protected override void DeinitSpecific() {
+            _playerController = null;
+            
             RefuelButton.onClick.RemoveAllListeners();
             RefuelButton.OnHoverStart  -= OnRefuelHover;
             RefuelButton.OnHoverFinish -= HideTooltip;
@@ -68,13 +69,9 @@ namespace STP.Behaviour.Meta.UI {
             HideButton.OnHoverFinish -= HideTooltip;
         }
 
-        public void Show() {
+        public override void Show() {
             UpdateFuelPrice();
             UpdateRepairPrice();
-        }
-
-        void Hide() {
-            _hide?.Invoke();
         }
 
         void OnRefuelClick() {

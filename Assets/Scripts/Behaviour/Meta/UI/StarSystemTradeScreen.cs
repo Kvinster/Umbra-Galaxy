@@ -46,34 +46,28 @@ namespace STP.Behaviour.Meta.UI {
         
         string _starSystemId;
         
-        StarSystemsManager    _starSystemsManager;
         InventoryItemInfos    _inventoryItemInfos;
         ProgressController    _progressController;
         StarSystemsController _starSystemsController;
         PlayerController      _playerController;
 
-        public void Init(Action hide, StarSystemsManager starSystemsManager, InventoryItemInfos inventoryItemInfos,
-            ProgressController progressController, StarSystemsController starSystemsController,
-            PlayerController playerController) {
-            _starSystemsManager    = starSystemsManager;
+        public void Init(Action hide, InventoryItemInfos inventoryItemInfos, ProgressController progressController,
+            StarSystemsController starSystemsController, PlayerController playerController) {
+            base.Init(hide);
             _inventoryItemInfos    = inventoryItemInfos;
             _progressController    = progressController;
             _starSystemsController = starSystemsController;
             _playerController      = playerController;
 
-            HideButton.onClick.AddListener(() => {
-                Hide();
-                hide.Invoke();
-            });
+            HideButton.onClick.AddListener(Hide);
 
             PlayerInventoryView.Init(_inventoryItemInfos, playerController);
 
             InventoryItemSell.Init(ShowInventorySellWindow, _inventoryItemInfos);
         }
 
-        public void Deinit() {
+        protected override void DeinitSpecific() {
             _starSystemId          = null;
-            _starSystemsManager    = null;
             _inventoryItemInfos    = null;
             _progressController    = null;
             _starSystemsController = null;
@@ -86,7 +80,7 @@ namespace STP.Behaviour.Meta.UI {
             HideButton.onClick.RemoveAllListeners();
         }
 
-        public void Show() {
+        public override void Show() {
             _starSystemId = _playerController.CurSystemId;
             
             PlayerNameText.text = string.Format(PlayerNameTextTemplate, "Player");
@@ -109,9 +103,9 @@ namespace STP.Behaviour.Meta.UI {
             ssc.OnStarSystemSurvivalChanceChanged += OnStarSystemSurvivalChanceChanged;
         }
 
-        void Hide() {
+        protected override void HideSpecific() {
             _starSystemId = null;
-                
+            
             _playerController.OnMoneyChanged -= OnPlayerMoneyChanged;
             
             _starSystemsController.OnStarSystemMoneyChanged          -= OnStarSystemMoneyChanged;

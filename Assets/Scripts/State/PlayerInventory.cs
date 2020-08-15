@@ -64,5 +64,22 @@ namespace STP.State {
             // no place for item
             return false;
         }
+
+        public bool TryRemove(string itemName, int itemAmount) {
+            if ( GetItemAmount(itemName) < itemAmount ) {
+                return false;
+            }
+            foreach ( var place in _places ) {
+                if ( place.ItemName == itemName ) {
+                    var toSub = Mathf.Min(itemAmount, place.ItemAmount);
+                    place.SetItem(itemName, place.ItemAmount - toSub);
+                    itemAmount -= toSub;
+                    if ( itemAmount == 0 ) {
+                        break;
+                    }
+                }
+            }
+            return true;
+        }
     }
 }

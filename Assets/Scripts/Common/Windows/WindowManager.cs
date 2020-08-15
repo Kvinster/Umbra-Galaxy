@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using STP.Behaviour.Meta.UI;
 using STP.Behaviour.Meta.UI.InventoryWindow;
+using STP.Behaviour.Meta.UI.QuestsWindow;
 
 using Object = UnityEngine.Object;
 
@@ -23,6 +24,7 @@ namespace STP.Common.Windows {
         static readonly Dictionary<Type, string> TypeToPath = new Dictionary<Type, string> {
             { typeof(InventoryItemSellWindow), "Prefabs/Windows/InventoryItemSellWindow" },
             { typeof(InventoryWindow),         "Prefabs/Windows/InventoryWindow" },
+            { typeof(QuestsWindow),            "Prefabs/Windows/QuestsWindow" },
         };
 
         Canvas _uiCanvas;

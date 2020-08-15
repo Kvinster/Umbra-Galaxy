@@ -1,0 +1,46 @@
+<root>
+	<!-- Star system quest screen -->
+	<dialog name="quest_screen|init">
+		<text text="Hello, PLAYER_NAME! How can we help you today?"/>
+		<choices>
+			<choice text="Do you have a secret task for me?" response_key="ask_quest"/>
+			<choice text="About that task..."                response_key="complete_quest" condition="ready_to_complete_quest"/>
+			<choice response_key="exit">
+				<text text="Good bye"/>
+				<text text="I'll be off now"/>
+			</choice>
+		</choices>
+	</dialog>
+	<dialog name="quest_screen|accepted_quest">
+		<text text="Great! We hope you won't disappoint us!"/>
+		<choices>
+			<choice text="I'll do my best" response_key="reset"/>
+		</choices>
+	</dialog>
+	<dialog name="quest_screen|denied_quest">
+		<text text="Well, your loss. Hopefully you'll change your mind"/>
+		<choices>
+			<choice text="Who knows..." response_key="reset"/>
+		</choices>
+	</dialog>
+	<dialog name="quest_screen|completed_quest">
+		<text text="Oh, you did it! Great! Here's your reward, as promised. Pleasure doing business with you"/>
+		<choices>
+			<choice text="The pleasure's all mine" response_key="reset"/>
+		</choices>
+	</dialog>
+	<dialog name="quest_screen|propose_no_quests">
+		<text text="Unfortunately, we don't have quests for you today. Maybe try checking in another day?"/>
+		<choices>
+			<choice text="Alright" response_key="reset"/>
+		</choices>
+	</dialog>
+	<dialog name="quest_screen|propose_gather_resources">
+		<text text="We do have a quest for you! We need you to gather and deliver {0} {1} to us before Day {2}. We'll pay you {3} for this. Are you up to the task?"/>
+		<choices>
+			<choice text="Sure, why not" response_key="accept_quest"/>
+			<choice text="Nah, too lame" response_key="deny_quest"/>
+		</choices>
+	</dialog>
+	<!-- TODO: add other quest types-related dialogs -->
+</root>

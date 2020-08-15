@@ -38,8 +38,10 @@ namespace STP.Behaviour.Meta.UI.InventoryWindow {
             _owner      = null;
 
             Button.onClick.RemoveAllListeners();
-
-            _playerController.OnWeaponChanged -= OnWeaponChanged;
+            
+            if ( _playerController != null ) {
+                _playerController.OnWeaponChanged -= OnWeaponChanged;
+            }
             _playerController = null;
         }
         

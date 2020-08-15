@@ -10,7 +10,9 @@ namespace STP.State {
         public PlayerController       PlayerController       { get; private set; }
         public ProgressController     ProgressController     { get; private set; }
         public TimeController         TimeController         { get; private set; }
+        public DialogController       DialogController       { get; private set; }
         public StarSystemsController  StarSystemsController  { get; private set; }
+        public QuestsController       QuestsController       { get; private set; }
         public MetaAiShipsController  MetaAiShipsController  { get; private set; }
         public DarknessController     DarknessController     { get; private set; }
         public ShardsActiveController ShardsActiveController { get; private set; }
@@ -45,7 +47,9 @@ namespace STP.State {
             PlayerController       = CreateController(new PlayerController());
             ProgressController     = CreateController(new ProgressController());
             TimeController         = CreateController(new TimeController());
+            DialogController       = CreateController(new DialogController());
             StarSystemsController  = CreateController(new StarSystemsController());
+            QuestsController       = CreateController(new QuestsController(TimeController, StarSystemsController, PlayerController));
             MetaAiShipsController  = CreateController(new MetaAiShipsController(TimeController));
             DarknessController     = CreateController(new DarknessController(TimeController, StarSystemsController, ProgressController));
             ShardsActiveController = CreateController(new ShardsActiveController(TimeController, StarSystemsController));

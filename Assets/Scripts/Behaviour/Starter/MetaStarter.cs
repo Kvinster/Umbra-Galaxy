@@ -13,6 +13,8 @@ namespace STP.Behaviour.Starter {
 
         public TimeController        TimeController        => GameState.Instance.TimeController;
         public ProgressController    ProgressController    => GameState.Instance.ProgressController;
+        public DialogController      DialogController      => GameState.Instance.DialogController;
+        public QuestsController      QuestsController      => GameState.Instance.QuestsController;
         public StarSystemsController StarSystemsController => GameState.Instance.StarSystemsController;
         public MetaAiShipsController MetaAiShipsController => GameState.Instance.MetaAiShipsController;
         public PlayerController      PlayerController      => GameState.Instance.PlayerController;

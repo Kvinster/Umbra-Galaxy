@@ -13,8 +13,10 @@ namespace STP.Behaviour.Meta.UI {
         [NotNull] public GameObject             StarSystemScreenRoot;
         [NotNull] public StarSystemTradeScreen  TradeScreen;
         [NotNull] public StarSystemHangarScreen HangarScreen;
+        [NotNull] public StarSystemQuestScreen  QuestScreen;
         [NotNull] public Button                 ShowTradeScreenButton;
         [NotNull] public Button                 ShowHangarScreenButton;
+        [NotNull] public Button                 ShowQuestScreenButton;
 
         readonly List<BaseStarSystemSubScreen> _subScreens = new List<BaseStarSystemSubScreen>();
 
@@ -44,18 +46,22 @@ namespace STP.Behaviour.Meta.UI {
             EnterSystemButton.Init(this, starter.TimeManager, starter.StarSystemsController,
                 starter.PlayerController);
 
-            TradeScreen.Init(HideTradeScreen, starter.StarSystemsManager, starter.InventoryItemInfos,
+            TradeScreen.Init(HideTradeScreen, starter.InventoryItemInfos,
                 starter.ProgressController, starter.StarSystemsController, starter.PlayerController);
             HangarScreen.Init(HideHangarScreen, this, starter.PlayerController);
+            QuestScreen.Init(HideQuestsScreen, starter.DialogController, starter.QuestsController,
+                starter.PlayerController);
             
             IsStarSystemScreenActive = false;
             StarSystemScreenRoot.SetActive(_isStarSystemScreenActive);
 
             _subScreens.Add(TradeScreen);
             _subScreens.Add(HangarScreen);
+            _subScreens.Add(QuestScreen);
 
             ShowTradeScreenButton.onClick.AddListener(ShowTradeScreen);
             ShowHangarScreenButton.onClick.AddListener(ShowHangarScreen);
+            ShowQuestScreenButton.onClick.AddListener(ShowQuestsScreen);
         }
 
         public void ShowStarSystemScreen() {
@@ -85,6 +91,15 @@ namespace STP.Behaviour.Meta.UI {
 
         void HideHangarScreen() {
             HangarScreen.gameObject.SetActive(false);
+        }
+
+        void ShowQuestsScreen() {
+            QuestScreen.Show();
+            QuestScreen.gameObject.SetActive(true);
+        }
+
+        void HideQuestsScreen() {
+            QuestScreen.gameObject.SetActive(false);
         }
     }
 }
