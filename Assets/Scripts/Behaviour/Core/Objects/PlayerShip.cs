@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using STP.Gameplay.Weapon.Common;
+
 using STP.State.Core;
 using STP.Utils;
 
@@ -12,7 +14,9 @@ namespace STP.Gameplay {
         
         PlayerShipState   _shipState;
         CoreOverlayHelper _overlayHelper;
-        
+
+        public override ConflictSide CurrentSide => ConflictSide.Player;
+
         protected override void CheckDescription() {
             base.CheckDescription();
             ProblemChecker.LogErrorIfNullOrEmpty(this, Camera);
@@ -22,7 +26,7 @@ namespace STP.Gameplay {
             _shipState                       = starter.CoreManager.PlayerShipState;
             _shipState.StateChangedManually += OnChangedState;
             _overlayHelper                   = starter.OverlayHelper;
-            WeaponControl                    = starter.WeaponCreator.GetManualWeapon(starter.PlayerController.CurWeaponType);
+            WeaponControl                    = starter.WeaponCreator.GetManualWeapon(WeaponType.MissileLauncher);
             starter.WeaponViewCreator.AddWeaponView(this, WeaponControl?.GetControlledWeapon());
             InitShipInfo(new ShipInfo(Hp, ShipSpeed));
         }

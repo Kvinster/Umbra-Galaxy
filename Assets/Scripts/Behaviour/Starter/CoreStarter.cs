@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 
 using STP.Behaviour;
+using STP.Behaviour.Core;
 using STP.Gameplay.DebugGUI;
 using STP.Gameplay.Weapon.Common;
 using STP.State;
@@ -31,13 +32,13 @@ namespace STP.Gameplay {
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, BulletSpawnStock, MaterialSpawnStock, UnityContext);
         
         void Start() {
-            BulletCreator     = new BulletCreator(this);
             WeaponCreator     = new WeaponCreator();
             WeaponViewCreator = new WeaponViewCreator(this);
             MaterialCreator   = new MaterialCreator(this);
             CoreManager       = new CoreManager(PlayerController, UnityContext);
             OverlayHelper     = new CoreOverlayHelper(this);
-            var behaviours = new HashSet<CoreBehaviour>(CoreBehaviour.Instances);
+            BulletCreator     = new BulletCreator(BulletSpawnStock, CoreManager.AllianceManager);
+            var behaviours = new HashSet<CoreComponent>(CoreComponent.Instances);
             foreach (var comp in behaviours) {
                 comp.Init(this);
             }        

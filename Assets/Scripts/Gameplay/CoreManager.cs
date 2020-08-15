@@ -11,8 +11,9 @@ namespace STP.Gameplay {
         readonly PlayerState     _playerState;
         readonly PlayerInventory _inventory;
 
-        public FastTravelEngine FastTravelEngine {get;} = new FastTravelEngine();
-        public PlayerShipState  PlayerShipState  {get;} = new PlayerShipState();
+        public FastTravelEngine FastTravelEngine { get; } = new FastTravelEngine();
+        public PlayerShipState  PlayerShipState  { get; } = new PlayerShipState();
+        public AllianceManager  AllianceManager  { get; } = new AllianceManager();
         
         public CoreManager(PlayerController playerController, UnityContext context) {
             _inventory = playerController.Inventory;

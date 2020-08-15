@@ -12,6 +12,10 @@ namespace STP.Utils {
             Interval   = interval;
             TimePassed = passedTime;
         }
+
+        public bool DeltaTick() {
+            return Tick(Time.deltaTime);
+        }
         
         public bool Tick(float deltaTime) {
             TimePassed += deltaTime;

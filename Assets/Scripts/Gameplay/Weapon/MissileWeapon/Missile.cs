@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+using System.Collections.Generic;
 using System.Linq;
 
 using STP.Gameplay.Weapon.GunWeapon;
@@ -17,18 +18,19 @@ namespace STP.Gameplay.Weapon.MissileWeapon {
         
         Timer _timer = new Timer();
         
-        Transform  _target;
+        Transform   _target;
         
         Rigidbody2D _rigidbody;
 
-        public override void Init(GameObject sourceShip) {
+        HashSet<ConflictSide> _availableTargets;
+        
+        public void Init(GameObject sourceShip, AllianceManager allianceManager) {
             base.Init(sourceShip);
             _timer.Start(DetectoinDelay);
             _rigidbody         = GetComponent<Rigidbody2D>();
-            var playerShipComp = sourceShip.GetComponent<PlayerShip>();
-            if ( !playerShipComp ) {
-                _layerMask = PlayerLayerMask;
-            }
+            var sideComp       = sourceShip.GetComponent<ISideAccessable>();
+            _layerMask         = ( sideComp.CurrentSide != ConflictSide.Player ) ? PlayerLayerMask : DefaultLayerMask;
+            _availableTargets  = allianceManager.GetEnemiesSides(sideComp.CurrentSide);
             transform.rotation = sourceShip.transform.rotation * Quaternion.AngleAxis(180, Vector3.forward);
         }
         
@@ -44,9 +46,9 @@ namespace STP.Gameplay.Weapon.MissileWeapon {
             var hits = Physics2D.OverlapCircleAll(transform.position, DetectionRadius, _layerMask).ToList();
             hits.Sort((x, y) => HitsComparer(x, y));
             foreach ( var collider in hits ) {
-                Debug.Log($"hit {collider.gameObject.name}. Distance {Vector2.Distance(collider.transform.position, transform.position)}");
                 var comp = collider.gameObject.GetComponent<IDestructable>();
-                if ( comp != null ) {
+                var ship = collider.gameObject.GetComponent<ISideAccessable>();
+                if ( (comp != null) && _availableTargets.Contains(ship?.CurrentSide ?? ConflictSide.Unknown) ) {
                     _target = collider.transform;
                     break;
                 } 

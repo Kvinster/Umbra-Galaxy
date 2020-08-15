@@ -9,8 +9,8 @@ using STP.Utils.GameComponentAttributes;
 
 using TMPro;
 
-namespace STP.View {
-    public class FastTravelUI : GameBehaviour{
+namespace STP.Behaviour.Core {
+    public class FastTravelUI : GameBehaviour {
         const string FastTravelText = "Fast travel";
         
         [NotNull] public Image    ButtonImage;

@@ -1,10 +1,9 @@
-﻿using UnityEngine;
+﻿using STP.Utils;
+using STP.Utils.GameComponentAttributes;
+using UnityEngine;
 using UnityEngine.UI;
 
-using STP.Utils;
-using STP.Utils.GameComponentAttributes;
-
-namespace STP.View {
+namespace STP.Behaviour.Core {
     public class HpBar : GameBehaviour {
         [NotNull]
         public Image CurHp;

@@ -6,7 +6,7 @@ using STP.State;
 
 namespace STP.Gameplay {
     public class MaterialCreator {
-        const string PrefabsPath = "Prefabs/CoreMaterials/";
+        const string PrefabsPath = "Prefabs/Core/Materials/";
         
         CoreStarter _starter;
         Transform   _root;

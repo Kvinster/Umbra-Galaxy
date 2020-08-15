@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace STP.Gameplay.Weapon.Common {
     public class WeaponViewCreator {
-        const string PrefabsPathFormat = "Prefabs/WeaponViews/";
+        const string PrefabsPathFormat = "Prefabs/Core/WeaponViews/";
         readonly CoreStarter _starter;
 
         readonly Dictionary<WeaponType, GameObject> _weaponViewsPrefabs = new Dictionary<WeaponType, GameObject>();

@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-
+﻿using STP.Gameplay;
 using System.Collections.Generic;
+using UnityEngine;
 
-using STP.View;
-
-namespace STP.Gameplay {
-    public class Asteroid : CoreBehaviour, IDestructable {
+namespace STP.Behaviour.Core.Objects {
+    public class Asteroid : CoreComponent, IDestructable {
         const int ShowAsteroidProbability = 5;
         
         public bool         IsRare;
