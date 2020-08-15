@@ -27,11 +27,11 @@ namespace STP.Editor.Meta {
             : null;
 
         void OnEnable() {
-            SceneView.onSceneGUIDelegate += OnSceneGUI;
+            SceneView.duringSceneGui += OnSceneGUI;
         }
 
         void OnDisable() {
-            SceneView.onSceneGUIDelegate -= OnSceneGUI;
+            SceneView.duringSceneGui -= OnSceneGUI;
         }
 
         public override void OnInspectorGUI() {
