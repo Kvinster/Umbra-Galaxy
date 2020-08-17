@@ -30,6 +30,10 @@ namespace STP.Gameplay {
             return CreateMaterial(materialName, position);
         }
 
+        public void SetParentForItem(Transform item) {
+            item.SetParent(_root);
+        }
+        
         public GameObject CreateMaterial(string itemName, Vector3 position) {
             if ( !_materialPrefabs.ContainsKey(itemName) ) {
                 Debug.LogError(string.Format("Can't find material {0} in loaded materials", itemName));
