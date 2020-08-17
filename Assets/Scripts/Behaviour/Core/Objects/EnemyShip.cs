@@ -18,14 +18,14 @@ namespace STP.Gameplay {
         const int   Hp              = 2;
         
         PlayerShipState _playerShipState;
-        MaterialCreator _materialCreator;
+        CoreItemCreator _materialCreator;
         
         public EnemyState State {get; private set;} = EnemyState.None;
         public override ConflictSide CurrentSide => ConflictSide.Aliens;
 
         public override void Init(CoreStarter starter) {
             base.Init(starter);
-            _materialCreator   = starter.MaterialCreator;
+            _materialCreator   = starter.CoreItemCreator;
             _playerShipState   = starter.CoreManager.PlayerShipState;
             State              = EnemyState.Patrolling;
             WeaponControl      = starter.WeaponCreator.GetAIWeaponController(WeaponType.Laser, this);
