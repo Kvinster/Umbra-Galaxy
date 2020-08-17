@@ -1,27 +1,35 @@
 ﻿using UnityEngine;
 
+using STP.Gameplay;
 using STP.Gameplay.Weapon.Common;
-
 using STP.State.Core;
-using STP.Utils;
+using STP.Utils.GameComponentAttributes;
 
-namespace STP.Gameplay {
+namespace STP.Behaviour.Core.Objects {
     public class PlayerShip : BaseShip {
         const int   Hp           = 99;
         const float ShipSpeed    = 250f;
         
-        public FollowCamera Camera;
+        [NotNull] public FollowCamera Camera;
         
         PlayerShipState   _shipState;
         CoreOverlayHelper _overlayHelper;
 
         public override ConflictSide CurrentSide => ConflictSide.Player;
-
-        protected override void CheckDescription() {
-            base.CheckDescription();
-            ProblemChecker.LogErrorIfNullOrEmpty(this, Camera);
+        
+        void OnTriggerEnter2D(Collider2D other) {
+            var collectableItem = other.gameObject.GetComponent<ICollectable>();
+            collectableItem?.CollectItem();
         }
-
+        
+        void Update() {
+            TryMove();
+            UpdateWeaponControlState();
+            _shipState.Position = transform.position;
+            _shipState.Velocity = Rigidbody2D.velocity;
+            Camera.UpdatePos(_shipState.Position);
+        }
+        
         public override void Init(CoreStarter starter) {
             _shipState                       = starter.CoreManager.PlayerShipState;
             _shipState.StateChangedManually += OnChangedState;
@@ -31,14 +39,6 @@ namespace STP.Gameplay {
             InitShipInfo(new ShipInfo(Hp, ShipSpeed));
         }
         
-        protected void Update() {
-            TryMove();
-            UpdateWeaponControlState();
-            _shipState.Position = transform.position;
-            _shipState.Velocity = Rigidbody2D.velocity;
-            Camera.UpdatePos(_shipState.Position);
-        }
-
         protected override void OnShipDestroy() {
             Destroy(gameObject);
             _overlayHelper.ShowGameoverOverlay();

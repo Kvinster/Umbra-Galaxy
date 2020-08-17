@@ -2,10 +2,11 @@
 
 using System.Collections.Generic;
 
+using STP.Behaviour.Core.Objects;
 using STP.State;
 
 namespace STP.Gameplay {
-    public class MaterialCreator {
+    public class CoreItemCreator {
         const string PrefabsPath = "Prefabs/Core/Materials/";
         
         CoreStarter _starter;
@@ -13,7 +14,7 @@ namespace STP.Gameplay {
         
         Dictionary<string, GameObject> _materialPrefabs = new Dictionary<string, GameObject>();
         
-        public MaterialCreator(CoreStarter starter) {
+        public CoreItemCreator(CoreStarter starter) {
             _starter = starter;
             var materials = Resources.LoadAll<GameObject>(PrefabsPath);
             foreach ( var material in materials ) {
@@ -36,7 +37,7 @@ namespace STP.Gameplay {
             }
             var go = GameObject.Instantiate(_materialPrefabs[itemName], _root);
             go.transform.position = position;
-            go.GetComponent<CollectableItem>().Init(_starter);
+            go.GetComponent<CoreItem>().Init(_starter);
             return go;
         }
     }

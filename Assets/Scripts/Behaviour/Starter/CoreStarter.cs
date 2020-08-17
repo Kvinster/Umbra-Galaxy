@@ -22,23 +22,25 @@ namespace STP.Gameplay {
         
         public WeaponCreator     WeaponCreator     { get; private set; }
         public BulletCreator     BulletCreator     { get; private set; }
-        public MaterialCreator   MaterialCreator   { get; private set; }
-        public CoreManager       CoreManager       { get; private set; }
-        public CoreOverlayHelper OverlayHelper     { get; private set; }
+        public CoreItemCreator   CoreItemCreator   { get; private set; }
         public WeaponViewCreator WeaponViewCreator { get; private set; }
-
-        public PlayerController PlayerController => GameState.Instance.PlayerController;
+        
+        public CoreManager       CoreManager   { get; private set; }
+        public CoreOverlayHelper OverlayHelper { get; private set; }
+        
+        public CorePlayerController CorePlayerController => GameState.Instance.CorePlayerController;
+        public PlayerController     PlayerController     => GameState.Instance.PlayerController;
         
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, BulletSpawnStock, MaterialSpawnStock, UnityContext);
         
         void Start() {
             WeaponCreator     = new WeaponCreator();
             WeaponViewCreator = new WeaponViewCreator(this);
-            MaterialCreator   = new MaterialCreator(this);
+            CoreItemCreator   = new CoreItemCreator(this);
             CoreManager       = new CoreManager(PlayerController, UnityContext);
             OverlayHelper     = new CoreOverlayHelper(this);
             BulletCreator     = new BulletCreator(BulletSpawnStock, CoreManager.AllianceManager);
-            var behaviours = new HashSet<CoreComponent>(CoreComponent.Instances);
+            var behaviours    = new HashSet<CoreComponent>(CoreComponent.Instances);
             foreach (var comp in behaviours) {
                 comp.Init(this);
             }        
