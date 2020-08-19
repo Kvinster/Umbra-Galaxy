@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace STP.Utils {
+﻿namespace STP.Utils {
     public abstract class Singleton<T> where T : Singleton<T>, new() {
         static T _instance;
         public static T Instance {
@@ -12,7 +10,6 @@ namespace STP.Utils {
         
         protected abstract void Init();
         
-        [RuntimeInitializeOnLoadMethod]
         static void TryCreate() {
             if ( _instance == null ) {
                 _instance = new T();
