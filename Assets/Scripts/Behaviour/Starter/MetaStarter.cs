@@ -1,5 +1,6 @@
 ﻿using STP.Behaviour.Common;
 using STP.Behaviour.Meta;
+using STP.Common;
 using STP.State;
 using STP.State.Meta;
 
@@ -10,6 +11,7 @@ namespace STP.Behaviour.Starter {
         public InventoryItemInfos InventoryItemInfos;
         
         public StarSystemsManager StarSystemsManager { get; private set; }
+        public QuestHelper        QuestHelper        { get; private set; }
 
         public TimeController        TimeController        => GameState.Instance.TimeController;
         public ProgressController    ProgressController    => GameState.Instance.ProgressController;
@@ -22,6 +24,7 @@ namespace STP.Behaviour.Starter {
         
         void Start() {
             StarSystemsManager = new StarSystemsManager(StarSystemsController);
+            QuestHelper        = new QuestHelper(QuestsController, PlayerController);
             InitComponents();
         }
     }

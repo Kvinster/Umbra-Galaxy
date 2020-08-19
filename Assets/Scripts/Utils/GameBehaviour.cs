@@ -4,7 +4,7 @@ namespace STP.Utils {
     public abstract class GameBehaviour : MonoBehaviour {
         protected virtual void CheckDescription() { }
 
-        protected void Awake() {
+        protected virtual void Awake() {
             if ( !Application.isPlaying ) {
                 return;
             }

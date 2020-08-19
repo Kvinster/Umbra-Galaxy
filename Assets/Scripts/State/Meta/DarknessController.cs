@@ -3,6 +3,7 @@
 using System;
 
 using STP.Behaviour.Meta;
+using STP.Common;
 
 using Random = UnityEngine.Random;
 
@@ -29,6 +30,29 @@ namespace STP.State.Meta {
             _darknessInfoHolder = Resources.Load<DarknessInfoHolder>(DarknessInfoHolder.ResourcesPath);
 
             _timeController.OnCurDayChanged += OnCurDayChanged;
+        }
+        
+        public bool IsFactionSystemNextToHit(string factionSystemId) {
+            if ( _starSystemsController.GetStarSystemType(factionSystemId) != StarSystemType.Faction ) {
+                Debug.LogErrorFormat("Star system '{0}' is not a faction system", factionSystemId);
+                return false;
+            }
+            if ( !_starSystemsController.GetFactionSystemActive(factionSystemId) ) {
+                Debug.LogErrorFormat("Faction system '{0}' is not active", factionSystemId);
+                return false;
+            }
+            var ssc = _starSystemsController;
+            foreach ( var path in _darknessInfoHolder.DarknessPaths ) {
+                foreach ( var starSystem in path.Path ) {
+                    if ( ssc.GetFactionSystemActive(starSystem) ) {
+                        if ( starSystem == factionSystemId ) {
+                            return true;
+                        }
+                        break;
+                    }
+                }
+            }
+            return false;
         }
 
         void OnCurDayChanged(int curDay) {

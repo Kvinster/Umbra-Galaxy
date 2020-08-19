@@ -48,6 +48,15 @@ namespace STP.State {
             return res;
         }
 
+        public bool HasEmptySpace() {
+            foreach ( var place in _places ) {
+                if ( place.IsEmpty ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool TryAdd(string itemName, int itemAmount) {
             foreach ( var place in _places ) {
                 if ( place.ItemName == itemName ) {

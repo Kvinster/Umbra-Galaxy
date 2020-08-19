@@ -49,10 +49,12 @@ namespace STP.State {
             TimeController         = CreateController(new TimeController());
             DialogController       = CreateController(new DialogController());
             StarSystemsController  = CreateController(new StarSystemsController());
-            QuestsController       = CreateController(new QuestsController(TimeController, StarSystemsController, PlayerController));
-            MetaAiShipsController  = CreateController(new MetaAiShipsController(TimeController));
-            DarknessController     = CreateController(new DarknessController(TimeController, StarSystemsController, ProgressController));
             ShardsActiveController = CreateController(new ShardsActiveController(TimeController, StarSystemsController));
+            DarknessController     = CreateController(new DarknessController(TimeController, StarSystemsController,
+                ProgressController));
+            QuestsController       = CreateController(new QuestsController(TimeController, StarSystemsController,
+                PlayerController, DarknessController, ShardsActiveController));
+            MetaAiShipsController  = CreateController(new MetaAiShipsController(TimeController));
         }
     }
 }

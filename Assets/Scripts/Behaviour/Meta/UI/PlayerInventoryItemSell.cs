@@ -43,6 +43,7 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         void OnSelectedPlayerInventoryPlaceViewChanged(PlayerInventoryPlaceView placeView) {
+            // TODO: also account for items that you can't sell, i.g. quest items
             if ( !placeView || placeView.InventoryPlace.IsEmpty ) {
                 ActiveRoot.SetActive(false);
             } else {

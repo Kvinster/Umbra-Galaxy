@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using STP.Behaviour.Common.Dialogs;
 using STP.Common;
 using STP.State;
+using STP.State.Meta;
 using STP.State.QuestStates;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
@@ -27,25 +28,31 @@ namespace STP.Behaviour.Meta.UI {
         const string ResetResponseKey         = "reset";
         const string ExitResponseKey          = "exit";
 
-        static readonly Dictionary<QuestType, string> _questTypeToPostfix = new Dictionary<QuestType, string> {
-            { QuestType.GatherResource, "gather_resources" }
+        static readonly Dictionary<QuestType, string> QuestTypeToPostfix = new Dictionary<QuestType, string> {
+            { QuestType.GatherResource, "gather_resources" },
+            { QuestType.Escort,         "escort" },
+            { QuestType.ReclaimSystem,  "reclaim_system" },
+            { QuestType.DefendSystem,   "defend_system" },
+            { QuestType.Delivery,       "delivery" },
         };
         
         [NotNull] public StarSystemQuestDialogView DialogView;
 
-        Action           _hide;
-        DialogManager    _dialogManager;
-        QuestsController _questsController;
-        PlayerController _playerController;
+        Action                _hide;
+        DialogManager         _dialogManager;
+        QuestHelper           _questHelper;
+        StarSystemsController _starSystemsController;
+        PlayerController      _playerController;
 
         BaseQuestState _proposedQuestState;
 
-        public void Init(Action hide, DialogController dialogController, QuestsController questsController,
-            PlayerController playerController) {
-            _hide             = hide;
-            _dialogManager    = new DialogManager(dialogController, questsController);
-            _questsController = questsController;
-            _playerController = playerController;
+        public void Init(Action hide, QuestHelper questHelper, DialogController dialogController,
+            StarSystemsController starSystemsController, PlayerController playerController) {
+            _hide                  = hide;
+            _dialogManager         = new DialogManager(questHelper, dialogController);
+            _starSystemsController = starSystemsController;
+            _questHelper           = questHelper;
+            _playerController      = playerController;
             
             DialogView.CommonInit();
             DialogView.OnChoiceClick += OnChoiceClick;
@@ -57,7 +64,7 @@ namespace STP.Behaviour.Meta.UI {
             
             _hide             = null;
             _dialogManager    = null;
-            _questsController = null;
+            _questHelper      = null;
             _playerController = null;
 
             _proposedQuestState = null;
@@ -90,8 +97,8 @@ namespace STP.Behaviour.Meta.UI {
         bool TryReact(string responseKey) {
             switch ( responseKey ) {
                 case AskQuestResponseKey: {
-                    var questState = _questsController.TryPrepareQuest(_playerController.CurSystemId);
-                    if ( (questState != null) && TryStartQuestSuggestDialog(questState) ) {
+                    if ( _questHelper.TryCreateRandomQuest(_playerController.CurSystemId, out var questState) &&
+                         TryStartQuestSuggestDialog(questState) ) {
                         return true;
                     }
                     return _dialogManager.TryStartDialog(NoQuestDialogName);
@@ -101,7 +108,7 @@ namespace STP.Behaviour.Meta.UI {
                         Debug.LogError("Can't accept quest: none proposed");
                         return false;
                     }
-                    if ( _questsController.TryStartQuest(_proposedQuestState) ) {
+                    if ( _questHelper.TryStartQuest(_proposedQuestState) ) {
                         _proposedQuestState = null;
                         return _dialogManager.TryStartDialog(AcceptedQuestDialogName);
                     }
@@ -117,13 +124,12 @@ namespace STP.Behaviour.Meta.UI {
                     return _dialogManager.TryStartDialog(DeniedQuestDialogName);
                 }
                 case CompleteQuestResponseKey: {
-                    var questState = _questsController.GetReadyToCompleteQuest();
+                    var questState = _questHelper.GetReadyToCompleteQuest();
                     if ( questState == null ) {
                         Debug.LogError("No ready to complete quest");
                         return false;
                     }
-                    if ( _questsController.TryCompleteQuest(questState) ) {
-                        HandleQuestComplete(questState);
+                    if ( _questHelper.TryCompleteQuest(questState) ) {
                         return _dialogManager.TryStartDialog(CompletedQuestDialogName);
                     }
                     Debug.LogErrorFormat("Can't complete quest '{0}'", questState);
@@ -143,29 +149,9 @@ namespace STP.Behaviour.Meta.UI {
             }
         }
 
-        // TODO: probably someone else should do it, a QuestManager or something alike
-        void HandleQuestComplete(BaseQuestState baseQuestState) {
-            // TODO: give full reward, preferably via some other manager
-            _playerController.Money += baseQuestState.RewardInfo.Money;
-            
-            // TODO: take resources away or something
-            switch ( baseQuestState.QuestType ) {
-                case QuestType.GatherResource when baseQuestState is GatherResourcesQuestState questState: {
-                    if ( !_playerController.Inventory.TryRemove(questState.ResourceType, questState.ResourceAmount) ) {
-                        Debug.LogErrorFormat("Can't remove resources for completing quest '{0}'", questState);
-                    }
-                    break;
-                }
-                default: {
-                    Debug.LogErrorFormat("Unsupported quest type '{0}'", baseQuestState.QuestType.ToString());
-                    break;
-                }
-            }
-        }
-
         bool TryStartQuestSuggestDialog(BaseQuestState questState) {
             _proposedQuestState = questState;
-            if ( _questTypeToPostfix.TryGetValue(questState.QuestType, out var questPostfix) ) {
+            if ( QuestTypeToPostfix.TryGetValue(questState.QuestType, out var questPostfix) ) {
                 return _dialogManager.TryStartDialog(ProposeDialogNamePrefix + questPostfix, GetQuestArgs(questState));
             }
             Debug.LogErrorFormat("Unsupported quest type '{0}'", questState.QuestType.ToString());
@@ -182,6 +168,31 @@ namespace STP.Behaviour.Meta.UI {
                     return new object[] {
                         questState.ResourceAmount, questState.ResourceType, questState.ExpirationDay,
                         questState.RewardInfo.Money
+                    };
+                }
+                case QuestType.Escort: {
+                    return new object[] {
+                        _starSystemsController.GetStarSystemName(baseQuestState.DestSystemId),
+                        baseQuestState.ExpirationDay, baseQuestState.RewardInfo.Money
+                    };
+                }
+                case QuestType.ReclaimSystem: {
+                    return new object[] {
+                        _starSystemsController.GetStarSystemName(baseQuestState.DestSystemId),
+                        baseQuestState.ExpirationDay, baseQuestState.RewardInfo.Money
+                    };
+                }
+                case QuestType.DefendSystem: {
+                    return new object[] {
+                        _starSystemsController.GetStarSystemName(baseQuestState.DestSystemId),
+                        baseQuestState.ExpirationDay,
+                        baseQuestState.RewardInfo.Money
+                    };
+                }
+                case QuestType.Delivery: {
+                    return new object[] {
+                        _starSystemsController.GetStarSystemName(baseQuestState.DestSystemId),
+                        baseQuestState.ExpirationDay, baseQuestState.RewardInfo.Money
                     };
                 }
                 default: {

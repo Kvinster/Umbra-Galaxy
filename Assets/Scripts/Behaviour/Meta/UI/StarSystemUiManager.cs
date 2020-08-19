@@ -49,8 +49,8 @@ namespace STP.Behaviour.Meta.UI {
             TradeScreen.Init(HideTradeScreen, starter.InventoryItemInfos,
                 starter.ProgressController, starter.StarSystemsController, starter.PlayerController);
             HangarScreen.Init(HideHangarScreen, this, starter.PlayerController);
-            QuestScreen.Init(HideQuestsScreen, starter.DialogController, starter.QuestsController,
-                starter.PlayerController);
+            QuestScreen.Init(HideQuestsScreen, starter.QuestHelper, starter.DialogController, 
+                starter.StarSystemsController, starter.PlayerController);
             
             IsStarSystemScreenActive = false;
             StarSystemScreenRoot.SetActive(_isStarSystemScreenActive);

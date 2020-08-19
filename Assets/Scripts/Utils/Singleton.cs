@@ -7,8 +7,12 @@
                 return _instance;
             }
         }
-        
-        protected abstract void Init();
+
+        protected virtual void Init() { }
+
+        public static void EnsureExists() {
+            TryCreate();
+        }
         
         static void TryCreate() {
             if ( _instance == null ) {

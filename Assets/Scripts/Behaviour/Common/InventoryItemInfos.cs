@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using STP.State;
 
@@ -44,8 +45,9 @@ namespace STP.Behaviour.Common {
 
         [ContextMenu("Populate from ItemNames")]
         void PopulateFromItemNames() {
-            ItemInfos.Clear();
-            foreach ( var itemName in ItemNames.AllItems ) {
+            ItemInfos.RemoveAll(x => !ItemNames.AllItems.Contains(x.ItemName));
+            var newNames = ItemNames.AllItems.Where(x => !ItemInfos.Exists(y => y.ItemName == x));
+            foreach ( var itemName in newNames ) {
                 ItemInfos.Add(new ItemInfo {
                     ItemName          = itemName,
                     ItemBasePrice     = 0,

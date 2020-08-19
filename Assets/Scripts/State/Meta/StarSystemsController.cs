@@ -128,6 +128,10 @@ namespace STP.State.Meta {
             return _graphInfo.GetStarSystemPortrait(starSystemId);
         }
 
+        public List<string> GetActiveShardSystemIds() {
+            return _graphInfo.ShardSystemInfos.Where(x => GetShardSystemActive(x.Id)).Select(x => x.Id).ToList();
+        }
+
         public bool GetShardSystemActive(string starSystemId) {
             return TryGetShardSystemState(starSystemId, out var shardSystemState) && shardSystemState.IsActive;
         }

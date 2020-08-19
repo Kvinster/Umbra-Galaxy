@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using STP.Common;
 using STP.Config;
 using STP.State;
 
@@ -10,8 +11,8 @@ namespace STP.Behaviour.Common.Dialogs {
     public sealed class DialogManager {
         const string ReadyToCompleteQuestCondition = "ready_to_complete_quest";
         
+        readonly QuestHelper      _questHelper;
         readonly DialogController _dialogController;
-        readonly QuestsController _questsController;
 
         DialogInfo             _curDialogInfo;
         List<DialogChoiceInfo> _curDialogChoices;
@@ -22,9 +23,9 @@ namespace STP.Behaviour.Common.Dialogs {
 
         public bool IsDialogActive => !string.IsNullOrEmpty(CurDialogName);
 
-        public DialogManager(DialogController dialogController, QuestsController questsController) {
+        public DialogManager(QuestHelper questHelper, DialogController dialogController) {
+            _questHelper      = questHelper;
             _dialogController = dialogController;
-            _questsController = questsController;
         }
 
         public bool TryStartDialog(string dialogName, params object[] args) {
@@ -77,7 +78,7 @@ namespace STP.Behaviour.Common.Dialogs {
             }
             switch ( condition ) {
                 case ReadyToCompleteQuestCondition: {
-                    return _questsController.HasReadyToCompleteQuest();
+                    return _questHelper.HasReadyToCompleteQuest();
                 }
                 default: {
                     Debug.LogErrorFormat("Unsupported condition '{0}'", condition);

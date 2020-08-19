@@ -6,9 +6,9 @@ namespace STP.State.QuestStates {
         public readonly int    ResourceAmount;
 
         public GatherResourcesQuestState(string resourceType, int resourceAmount, int expirationDay,
-            string destSystemId, string rewardSystemId, RewardInfo rewardInfo,
-            QuestStatus status = QuestStatus.Created) : base(QuestType.GatherResource, expirationDay, destSystemId,
-            rewardSystemId, rewardInfo, status) {
+            string originSystemId, string destSystemId, string rewardSystemId, RewardInfo rewardInfo,
+            QuestStatus status = QuestStatus.Created) : base(QuestType.GatherResource, expirationDay, originSystemId,
+            destSystemId, rewardSystemId, rewardInfo, status) {
             ResourceType   = resourceType;
             ResourceAmount = resourceAmount;
         }
