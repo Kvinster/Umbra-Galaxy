@@ -16,6 +16,8 @@ namespace STP.State {
         public MetaAiShipsController  MetaAiShipsController  { get; private set; }
         public DarknessController     DarknessController     { get; private set; }
         public ShardsActiveController ShardsActiveController { get; private set; }
+        public CorePlayerController   CorePlayerController   { get; private set; }
+        
 
         readonly HashSet<BaseStateController> _controllers = new HashSet<BaseStateController>();
 
@@ -55,6 +57,7 @@ namespace STP.State {
             QuestsController       = CreateController(new QuestsController(TimeController, StarSystemsController,
                 PlayerController, DarknessController, ShardsActiveController));
             MetaAiShipsController  = CreateController(new MetaAiShipsController(TimeController));
+            CorePlayerController   = CreateController(new CorePlayerController());
         }
     }
 }

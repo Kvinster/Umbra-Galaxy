@@ -5,7 +5,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Objects.DoorObject {
-    public class Door : CoreComponent {
+    public abstract class BaseDoor : CoreComponent {
         public float OpeningTime = 3f;
         
         [NotNull] public DoorFrame LeftFrame;
@@ -15,7 +15,7 @@ namespace STP.Behaviour.Core.Objects.DoorObject {
         
         DoorState _state = DoorState.Closed;
 
-        DoorState State {
+        protected DoorState State {
             get => _state;
             set {
                 LeftFrame.SetDoorState(value);
@@ -31,25 +31,22 @@ namespace STP.Behaviour.Core.Objects.DoorObject {
         public override void Init(CoreStarter starter) {
             LeftFrame.Init();
             RightFrame.Init();
-        } 
+            InitInternal(starter);
+        }
 
-        void OnTriggerEnter2D(Collider2D other) {
-            if ( !other.gameObject.GetComponent<PlayerShip>() ) {
-                return;
-            }
+        public void OpenDoor() {
             var passedTime = ( State == DoorState.Closing ) ? _timer.LeftTime : 0f;
             State = DoorState.Opening;
             _timer.Start(OpeningTime, passedTime);
         }
 
-        void OnTriggerExit2D(Collider2D other) {
-            if ( !other.gameObject.GetComponent<PlayerShip>() ) {
-                return;
-            }
+        public void CloseDoor() {
             var passedTime = ( State == DoorState.Opening ) ? _timer.LeftTime : 0f;
             State = DoorState.Closing;
             _timer.Start(OpeningTime, passedTime);
         }
+
+        protected abstract void InitInternal(CoreStarter starter);
 
         void Update() {
             if ( _timer.DeltaTick() ) {

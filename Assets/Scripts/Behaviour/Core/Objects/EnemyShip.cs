@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using System.Collections.Generic;
+
 using STP.Gameplay.Weapon.Common;
 using STP.State.Core;
 
@@ -18,18 +20,23 @@ namespace STP.Gameplay {
         const int   Hp              = 2;
         
         PlayerShipState _playerShipState;
-        MaterialCreator _materialCreator;
+        CoreItemCreator _materialCreator;
+        
+        public List<Transform> DropItemsOnDeath;
         
         public EnemyState State {get; private set;} = EnemyState.None;
         public override ConflictSide CurrentSide => ConflictSide.Aliens;
 
         public override void Init(CoreStarter starter) {
             base.Init(starter);
-            _materialCreator   = starter.MaterialCreator;
+            _materialCreator   = starter.CoreItemCreator;
             _playerShipState   = starter.CoreManager.PlayerShipState;
             State              = EnemyState.Patrolling;
             WeaponControl      = starter.WeaponCreator.GetAIWeaponController(WeaponType.Laser, this);
             starter.WeaponViewCreator.AddWeaponView(this, WeaponControl.GetControlledWeapon());
+            foreach ( var dropItem in DropItemsOnDeath ) {
+                dropItem.gameObject.SetActive(false);
+            }
             InitShipInfo(new ShipInfo(Hp, ShipSpeed));
         }
 
@@ -40,6 +47,11 @@ namespace STP.Gameplay {
 
         protected override void OnShipDestroy() {
             _materialCreator.CreateRandomMaterial(transform.position);
+            foreach ( var dropItem in DropItemsOnDeath ) {
+                _materialCreator.SetParentForItem(dropItem);
+                dropItem.rotation = Quaternion.identity;
+                dropItem.gameObject.SetActive(true);
+            }
             Destroy(gameObject);
         }
 

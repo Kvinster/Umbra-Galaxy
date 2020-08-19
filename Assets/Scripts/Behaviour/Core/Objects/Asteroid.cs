@@ -11,14 +11,14 @@ namespace STP.Behaviour.Core.Objects {
         public List<string> MaterialsOverrides;
 
         float           _curHp;
-        MaterialCreator _materialCreator;
+        CoreItemCreator _coreItemCreator;
         
         float TotalHp => (IsRare) ? 5 : 1;
         
         protected override void CheckDescription() { }
         
         public override void Init(CoreStarter starter) {
-            _materialCreator = starter.MaterialCreator;
+            _coreItemCreator = starter.CoreItemCreator;
             _curHp           = TotalHp;
             if ( HpBar ) {
                 HpBar.Init();
@@ -38,7 +38,7 @@ namespace STP.Behaviour.Core.Objects {
                 HpBar.UpdateBar(_curHp / TotalHp);
             }
             if ( _curHp <= 0f ) {
-                _materialCreator.CreateRandomMaterial(transform.position, MaterialsOverrides);
+                _coreItemCreator.CreateRandomMaterial(transform.position, MaterialsOverrides);
                 Destroy(gameObject);
             }
         }
