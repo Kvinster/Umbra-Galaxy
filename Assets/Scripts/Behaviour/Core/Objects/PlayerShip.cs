@@ -12,18 +12,29 @@ namespace STP.Behaviour.Core.Objects {
         
         [NotNull] public FollowCamera Camera;
         
-        PlayerShipState   _shipState;
-        CoreOverlayHelper _overlayHelper;
+        PlayerShipState    _shipState;
+        CoreOverlayHelper  _overlayHelper;
+        SelfDestructEngine _selfDestructEngine;
 
         public override ConflictSide CurrentSide => ConflictSide.Player;
         
         void OnTriggerEnter2D(Collider2D other) {
+            var borderComp = other.gameObject.GetComponent<Border>();
+            if ( borderComp ) {
+                if ( _selfDestructEngine.IsActive ) {
+                    _selfDestructEngine.StopSelfDestruction();
+                }
+                else {
+                    _selfDestructEngine.StartSelfDestruction();
+                }
+            }
             var collectableItem = other.gameObject.GetComponent<ICollectable>();
             collectableItem?.CollectItem();
         }
         
         void Update() {
             TryMove();
+            _selfDestructEngine.UpdateSelfDestructionTimers(Time.deltaTime);
             UpdateWeaponControlState();
             _shipState.Position = transform.position;
             _shipState.Velocity = Rigidbody2D.velocity;
@@ -35,6 +46,8 @@ namespace STP.Behaviour.Core.Objects {
             _shipState.StateChangedManually += OnChangedState;
             _overlayHelper                   = starter.OverlayHelper;
             WeaponControl                    = starter.WeaponCreator.GetManualWeapon(WeaponType.MissileLauncher);
+            _selfDestructEngine              = starter.CoreManager.SelfDestructEngine;
+            _selfDestructEngine.Init(this);
             starter.WeaponViewCreator.AddWeaponView(this, WeaponControl?.GetControlledWeapon());
             InitShipInfo(new ShipInfo(Hp, ShipSpeed));
         }

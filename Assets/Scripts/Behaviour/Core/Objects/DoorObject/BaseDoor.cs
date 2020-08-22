@@ -35,13 +35,13 @@ namespace STP.Behaviour.Core.Objects.DoorObject {
         }
 
         public void OpenDoor() {
-            var passedTime = ( State == DoorState.Closing ) ? _timer.LeftTime : 0f;
+            var passedTime = ( State == DoorState.Closing ) ? _timer.TimeLeft : 0f;
             State = DoorState.Opening;
             _timer.Start(OpeningTime, passedTime);
         }
 
         public void CloseDoor() {
-            var passedTime = ( State == DoorState.Opening ) ? _timer.LeftTime : 0f;
+            var passedTime = ( State == DoorState.Opening ) ? _timer.TimeLeft : 0f;
             State = DoorState.Closing;
             _timer.Start(OpeningTime, passedTime);
         }

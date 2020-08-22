@@ -6,7 +6,7 @@ using STP.Gameplay;
 using STP.Utils;
 using STP.Utils.Events;
 using STP.Utils.GameComponentAttributes;
-
+using System;
 using TMPro;
 
 namespace STP.Behaviour.Core {
@@ -28,7 +28,7 @@ namespace STP.Behaviour.Core {
         
         bool HasPressedHotKey => Input.GetButton("FastTravel");
         
-        float LeftTime => _fastTravelEngine.Timer.LeftTime;
+        float LeftTime => _fastTravelEngine.Timer.TimeLeft;
         
         public void Init(CoreManager coreManager) {
             _coreManager      = coreManager;
@@ -37,6 +37,10 @@ namespace STP.Behaviour.Core {
             FastTravelButton.onClick.AddListener(TryStartEngine);
             gameObject.SetActive(false);
             EventManager.Subscribe<QuestCompleted>(OnQuestComplete);
+        }
+
+        void OnDestroy() {
+            EventManager.Unsubscribe<QuestCompleted>(OnQuestComplete);
         }
 
         void OnQuestComplete(QuestCompleted e) {
@@ -66,7 +70,7 @@ namespace STP.Behaviour.Core {
                     ButtonText.text = FastTravelText;
                     break;
                 case EngineState.CHARGING:
-                    ButtonText.text = new HRTime().SetSeconds(LeftTime).GetSM();
+                    ButtonText.text = HRTime.ConvertToSMString(LeftTime);
                     break;
                 default:
                     Debug.LogWarning($"Unknown state {_fastTravelEngine.State}. Ignored.");

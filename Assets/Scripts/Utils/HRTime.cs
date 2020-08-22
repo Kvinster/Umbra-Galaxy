@@ -26,5 +26,10 @@ namespace STP.Utils {
             var seconds = ((diff.Days * 24 + diff.Hours) * 60 + diff.Minutes) * 60 + diff.Seconds;
             return $"{seconds}:{diff.Milliseconds:000}";
         }
+
+        public static string ConvertToSMString(float seconds) {
+            var milliseconds = ((int)(seconds * 1000) % 1000);
+            return $"{(int) seconds}:{milliseconds}";
+        }
     }
 }

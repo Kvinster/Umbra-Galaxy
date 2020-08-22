@@ -37,7 +37,7 @@ namespace STP.Gameplay.Weapon.Chargeable {
         protected override void AutoTransitions(float passedTime) {
             switch ( CurState ) {
                 case WeaponState.Charge:
-                    Debug.Log($"TIME {Timer.LeftTime}");
+                    Debug.Log($"TIME {Timer.TimeLeft}");
                     if ( !_timerWorking ) {
                         Timer.Start(ChargingTime);    
                         _timerWorking = true;

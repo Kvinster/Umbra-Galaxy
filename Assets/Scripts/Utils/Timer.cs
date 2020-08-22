@@ -4,7 +4,7 @@ namespace STP.Utils {
     public class Timer {
         public float TimePassed {get; private set;}
         public float Interval   {get; private set;}
-        public float LeftTime   => Interval - TimePassed;
+        public float TimeLeft   => Interval - TimePassed;
         
         public float NormalizedProgress => (Interval > float.Epsilon) ? Mathf.Clamp01(TimePassed / Interval) : 0.0f;
 
