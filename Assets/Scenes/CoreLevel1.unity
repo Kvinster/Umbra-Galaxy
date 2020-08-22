@@ -182,7 +182,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 100, y: 1547.293}
+  m_Size: {x: 1, y: 1547.293}
   m_EdgeRadius: 0
 --- !u!114 &84719801
 MonoBehaviour:
@@ -1041,7 +1041,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2233.576, y: 100}
+  m_Size: {x: 2300, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &401653114
 MonoBehaviour:
@@ -1364,11 +1364,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 262083521729455616, guid: c19e364f60650fb4bb3d1d623f79f298,
         type: 3}
-      propertyPath: Route.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 262083521729455616, guid: c19e364f60650fb4bb3d1d623f79f298,
-        type: 3}
       propertyPath: Route.Array.data[0]
       value: 
       objectReference: {fileID: 516378433}
@@ -1397,11 +1392,6 @@ PrefabInstance:
       propertyPath: Route.Array.data[5]
       value: 
       objectReference: {fileID: 1306160144}
-    - target: {fileID: 262083521729455616, guid: c19e364f60650fb4bb3d1d623f79f298,
-        type: 3}
-      propertyPath: StartRoutePointIndex
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 3609196222395136524, guid: c19e364f60650fb4bb3d1d623f79f298,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1564,11 +1554,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1475442592540211251, guid: a6d65f3c8af796c459d72da8a8431d07,
         type: 3}
-      propertyPath: Route.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1475442592540211251, guid: a6d65f3c8af796c459d72da8a8431d07,
-        type: 3}
       propertyPath: Route.Array.data[0]
       value: 
       objectReference: {fileID: 1771092992}
@@ -1577,11 +1562,6 @@ PrefabInstance:
       propertyPath: Route.Array.data[1]
       value: 
       objectReference: {fileID: 1092603694}
-    - target: {fileID: 1475442592540211251, guid: a6d65f3c8af796c459d72da8a8431d07,
-        type: 3}
-      propertyPath: Route.Array.data[2]
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3609196222395136524, guid: a6d65f3c8af796c459d72da8a8431d07,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3256,7 +3236,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2233.576, y: 100}
+  m_Size: {x: 2300, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &1032794305
 MonoBehaviour:
@@ -5418,7 +5398,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.05
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -5642,7 +5622,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 100, y: 1547.293}
+  m_Size: {x: 1, y: 1547.293}
   m_EdgeRadius: 0
 --- !u!114 &1830043888
 MonoBehaviour:
@@ -5903,11 +5883,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 262083521729455616, guid: c19e364f60650fb4bb3d1d623f79f298,
         type: 3}
-      propertyPath: Route.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 262083521729455616, guid: c19e364f60650fb4bb3d1d623f79f298,
-        type: 3}
       propertyPath: Route.Array.data[0]
       value: 
       objectReference: {fileID: 516378433}
@@ -5936,11 +5911,6 @@ PrefabInstance:
       propertyPath: Route.Array.data[5]
       value: 
       objectReference: {fileID: 1306160144}
-    - target: {fileID: 262083521729455616, guid: c19e364f60650fb4bb3d1d623f79f298,
-        type: 3}
-      propertyPath: StartRoutePointIndex
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 3609196222395136524, guid: c19e364f60650fb4bb3d1d623f79f298,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6217,11 +6187,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1475442592540211251, guid: a6d65f3c8af796c459d72da8a8431d07,
         type: 3}
-      propertyPath: Route.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1475442592540211251, guid: a6d65f3c8af796c459d72da8a8431d07,
-        type: 3}
       propertyPath: Route.Array.data[0]
       value: 
       objectReference: {fileID: 1771092992}
@@ -6230,11 +6195,6 @@ PrefabInstance:
       propertyPath: Route.Array.data[1]
       value: 
       objectReference: {fileID: 1092603694}
-    - target: {fileID: 1475442592540211251, guid: a6d65f3c8af796c459d72da8a8431d07,
-        type: 3}
-      propertyPath: Route.Array.data[2]
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3609196222395136524, guid: a6d65f3c8af796c459d72da8a8431d07,
         type: 3}
       propertyPath: m_LocalPosition.x
