@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+using STP.Behaviour.Core.Objects;
 using STP.Behaviour.Starter;
 using STP.Gameplay.Weapon.Common;
 using STP.State;

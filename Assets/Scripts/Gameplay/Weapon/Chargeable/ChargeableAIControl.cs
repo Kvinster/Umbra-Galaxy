@@ -1,4 +1,5 @@
-﻿using STP.Gameplay.Weapon.Common;
+﻿using STP.Behaviour.Core.Objects;
+using STP.Gameplay.Weapon.Common;
 
 namespace STP.Gameplay.Weapon.Chargeable {
     public class ChargeableAIControl : BaseWeaponControl<ChargeableWeapon> {

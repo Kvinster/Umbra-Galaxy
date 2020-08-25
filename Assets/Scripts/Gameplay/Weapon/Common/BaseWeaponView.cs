@@ -1,4 +1,5 @@
-﻿using STP.Behaviour.Starter;
+﻿using STP.Behaviour.Core.Objects;
+using STP.Behaviour.Starter;
 using STP.Utils;
 
 namespace STP.Gameplay.Weapon.Common {

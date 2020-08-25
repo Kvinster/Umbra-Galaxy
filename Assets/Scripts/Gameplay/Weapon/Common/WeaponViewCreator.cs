@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 
+using STP.Behaviour.Core.Objects;
 using STP.Behaviour.Starter;
 
 using Object = UnityEngine.Object;

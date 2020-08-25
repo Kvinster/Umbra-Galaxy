@@ -12,6 +12,8 @@ namespace STP.State {
 
         public PlayerInventory Inventory => _state.Inventory;
         
+        public PlayerShipState CurPlayerShipState => _state.CurShipState;
+        
         public string CurSystemId {
             get => _state.CurSystemId;
             set {

@@ -1,4 +1,5 @@
-﻿using STP.Behaviour.Starter;
+﻿using STP.Behaviour.Core.Objects;
+using STP.Behaviour.Starter;
 
 namespace STP.Gameplay {
     public class CivilianShip : RoutedShip{

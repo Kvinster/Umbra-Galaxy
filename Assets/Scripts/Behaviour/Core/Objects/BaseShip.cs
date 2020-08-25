@@ -2,18 +2,18 @@
 
 using System;
 
-using STP.Behaviour.Core;
+using STP.Gameplay;
 using STP.Gameplay.Weapon.Common;
 using STP.State.Core;
 using STP.Utils;
 
-namespace STP.Gameplay {
+namespace STP.Behaviour.Core.Objects {
     public abstract class BaseShip : CoreComponent, IDestructable, ISideAccessable {
         public Transform WeaponMountPoint;
         public HpBar     HpBar;
 
         protected Rigidbody2D    Rigidbody2D;
-        protected ShipState      ShipState;
+        protected CoreShipState  ShipState;
         protected IWeaponControl WeaponControl;
 
         ShipInfo       _shipInfo;
@@ -35,13 +35,14 @@ namespace STP.Gameplay {
             HpBar.UpdateBar(ShipState.Hp / _shipInfo.Hp);
         }
 
-        protected void InitShipInfo(ShipInfo shipInfo) {
+        protected void InitShipInfo(ShipInfo shipInfo, CoreShipState shipState = null) {
             Rigidbody2D    = GetComponent<Rigidbody2D>();
-            _shipInfo      = shipInfo;
-            ShipState      = new ShipState(_shipInfo.Hp);
-
+            
+            _shipInfo = shipInfo;
+            ShipState = shipState ?? new CoreShipState(_shipInfo.Hp);
+            
             HpBar.Init();
-            HpBar.UpdateBar(1f);
+            HpBar.UpdateBar(ShipState.Hp / _shipInfo.Hp);
         }
 
         protected void Move(Vector2 direction) {

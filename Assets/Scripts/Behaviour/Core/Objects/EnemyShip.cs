@@ -3,10 +3,11 @@
 using System.Collections.Generic;
 
 using STP.Behaviour.Starter;
+using STP.Gameplay;
 using STP.Gameplay.Weapon.Common;
 using STP.State.Core;
 
-namespace STP.Gameplay {
+namespace STP.Behaviour.Core.Objects {
     public enum EnemyState {
         None,
         Chase,
@@ -14,13 +15,13 @@ namespace STP.Gameplay {
     }
 
     public class EnemyShip : RoutedShip {
-        const float ShipSpeed = 150f;
-        const int   Hp        = 2;
+        const float ShipSpeed       = 150f;
+        const int   Hp              = 2;
 
         public float ChaseRadius;
         public float OutChaseRadius;
 
-        PlayerShipState _playerShipState;
+        CoreShipState   _coreShipState;
         CoreItemCreator _materialCreator;
 
         public List<Transform> DropItemsOnDeath;
@@ -31,7 +32,7 @@ namespace STP.Gameplay {
         public override void Init(CoreStarter starter) {
             base.Init(starter);
             _materialCreator   = starter.CoreItemCreator;
-            _playerShipState   = starter.CoreManager.PlayerShipState;
+            _coreShipState   = starter.CoreManager.CorePlayerShipState;
             State              = EnemyState.Patrolling;
             WeaponControl      = starter.WeaponCreator.GetAIWeaponController(WeaponType.Laser, this);
             starter.WeaponViewCreator.AddWeaponView(this, WeaponControl.GetControlledWeapon());
@@ -74,7 +75,7 @@ namespace STP.Gameplay {
 
         void OnPatrolling() {
             Move();
-            var chasingVector     = _playerShipState.Position - (Vector2) transform.position;
+            var chasingVector     = _coreShipState.Position - (Vector2) transform.position;
             var distanceToPlayer  = chasingVector.magnitude;
             if ( distanceToPlayer < ChaseRadius) {
                 State = EnemyState.Chase;
@@ -82,7 +83,7 @@ namespace STP.Gameplay {
         }
 
         void OnChase() {
-            var chasingVector    =  _playerShipState.Position - (Vector2) transform.position;
+            var chasingVector    =  _coreShipState.Position - (Vector2) transform.position;
             var chasingDirection = chasingVector.normalized;
             var distanceToPlayer = chasingVector.magnitude;
             Move(chasingDirection);

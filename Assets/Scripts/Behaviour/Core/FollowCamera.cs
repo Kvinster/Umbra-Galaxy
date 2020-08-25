@@ -8,7 +8,7 @@ namespace STP.Gameplay {
         public Camera        Camera;
         public Transform     CameraTransform;
     
-        PlayerShipState _state;
+        CoreShipState _state;
     
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, Camera, CameraTransform);
 

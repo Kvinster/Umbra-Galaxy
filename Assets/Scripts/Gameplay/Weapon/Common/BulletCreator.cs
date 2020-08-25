@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 
+using STP.Behaviour.Core.Objects;
 using STP.Gameplay.Weapon.GunWeapon;
 using STP.Gameplay.Weapon.MissileWeapon;
 using STP.State;

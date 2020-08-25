@@ -6,7 +6,7 @@ using System.Linq;
 
 using STP.Behaviour.Starter;
 
-namespace STP.Gameplay {
+namespace STP.Behaviour.Core.Objects {
     public abstract class RoutedShip : BaseShip {
         const float CloseRadius     = 10f;
 

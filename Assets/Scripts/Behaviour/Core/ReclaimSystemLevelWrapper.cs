@@ -2,10 +2,10 @@
 
 using System.Collections.Generic;
 
+using STP.Behaviour.Core.Objects;
 using STP.Behaviour.Starter;
 using STP.Common;
 using STP.Events;
-using STP.Gameplay;
 using STP.State;
 using STP.State.Meta;
 using STP.State.QuestStates;

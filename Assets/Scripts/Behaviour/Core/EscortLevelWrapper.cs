@@ -3,8 +3,8 @@
 using System;
 using System.Collections.Generic;
 
+using STP.Behaviour.Core.Objects;
 using STP.Events;
-using STP.Gameplay;
 using STP.Utils.Events;
 using STP.Utils.GameComponentAttributes;
 
