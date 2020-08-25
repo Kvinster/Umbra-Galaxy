@@ -1,4 +1,6 @@
-﻿namespace STP.Gameplay {
+﻿using STP.Behaviour.Starter;
+
+namespace STP.Gameplay {
     public class CivilianShip : RoutedShip{
         
         const float ShipSpeed       = 150f;

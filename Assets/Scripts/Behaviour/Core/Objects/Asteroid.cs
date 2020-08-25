@@ -1,22 +1,25 @@
-﻿using STP.Gameplay;
+﻿using UnityEngine;
+
 using System.Collections.Generic;
-using UnityEngine;
+
+using STP.Behaviour.Starter;
+using STP.Gameplay;
 
 namespace STP.Behaviour.Core.Objects {
     public class Asteroid : CoreComponent, IDestructable {
         const int ShowAsteroidProbability = 5;
-        
+
         public bool         IsRare;
         public HpBar        HpBar;
         public List<string> MaterialsOverrides;
 
         float           _curHp;
         CoreItemCreator _coreItemCreator;
-        
+
         float TotalHp => (IsRare) ? 5 : 1;
-        
+
         protected override void CheckDescription() { }
-        
+
         public override void Init(CoreStarter starter) {
             _coreItemCreator = starter.CoreItemCreator;
             _curHp           = TotalHp;
@@ -31,7 +34,7 @@ namespace STP.Behaviour.Core.Objects {
                 }
             }
         }
-        
+
         public void GetDamage(float damageAmount = 1) {
             _curHp -= damageAmount;
             if ( HpBar ) {

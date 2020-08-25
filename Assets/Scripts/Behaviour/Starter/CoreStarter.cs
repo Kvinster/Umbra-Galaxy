@@ -2,16 +2,15 @@
 
 using System.Collections.Generic;
 
-using STP.Behaviour;
 using STP.Behaviour.Core;
+using STP.Gameplay;
 using STP.Gameplay.DebugGUI;
 using STP.Gameplay.Weapon.Common;
 using STP.State;
 using STP.Utils;
-using STP.View;
 using STP.View.DebugGUI;
 
-namespace STP.Gameplay {
+namespace STP.Behaviour.Starter {
     public class CoreStarter : GameComponent {
         public Transform        BulletSpawnStock;
         public Transform        MaterialSpawnStock;

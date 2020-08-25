@@ -1,4 +1,5 @@
-﻿using STP.Utils;
+﻿using STP.Behaviour.Starter;
+using STP.Utils;
 
 namespace STP.Gameplay.Weapon.Common {
     public abstract class BaseWeaponView : GameComponent{

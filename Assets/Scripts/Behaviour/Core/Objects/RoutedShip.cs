@@ -4,24 +4,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using STP.Behaviour.Starter;
+
 namespace STP.Gameplay {
     public abstract class RoutedShip : BaseShip {
         const float CloseRadius     = 10f;
-        
+
         public List<Transform> Route;
         public int             StartRoutePointIndex;
-        
+
         public bool            CycledRoute;
-        
+
         int   _nextRoutePoint;
-        
+
         Vector3 NextPoint       => Route[_nextRoutePoint].position;
         Vector2 MovingVector    => (NextPoint - transform.position);
         Vector2 MovingDirection => MovingVector.normalized;
         bool    CloseToPoint    => MovingVector.magnitude < CloseRadius;
 
         public event Action<RoutedShip> ReachedRouteEnd;
-        
+
         protected void Move() {
             if ( !CycledRoute && (_nextRoutePoint == 0) ) {
                 Rigidbody2D.velocity = Vector2.zero;
@@ -37,7 +39,7 @@ namespace STP.Gameplay {
                 }
             }
         }
-        
+
         public override void Init(CoreStarter starter) {
             transform.position = Route[StartRoutePointIndex].position;
             _nextRoutePoint    = (StartRoutePointIndex + 1) % Route.Count;

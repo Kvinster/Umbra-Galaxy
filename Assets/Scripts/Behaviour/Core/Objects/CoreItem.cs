@@ -1,4 +1,5 @@
-﻿using STP.Gameplay;
+﻿using STP.Behaviour.Starter;
+using STP.Gameplay;
 
 namespace STP.Behaviour.Core.Objects {
     public class CoreItem : CoreComponent, ICollectable {

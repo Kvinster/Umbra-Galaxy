@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 
+using STP.Behaviour.Starter;
 using STP.Gameplay.Weapon.Common;
 using STP.State.Core;
 
@@ -11,19 +12,19 @@ namespace STP.Gameplay {
         Chase,
         Patrolling
     }
-    
+
     public class EnemyShip : RoutedShip {
         const float ChaseRadius     = 350f;
         const float OutChaseRadius  = 500;
-        
+
         const float ShipSpeed       = 150f;
         const int   Hp              = 2;
-        
+
         PlayerShipState _playerShipState;
         CoreItemCreator _materialCreator;
-        
+
         public List<Transform> DropItemsOnDeath;
-        
+
         public EnemyState State {get; private set;} = EnemyState.None;
         public override ConflictSide CurrentSide => ConflictSide.Aliens;
 
@@ -75,7 +76,7 @@ namespace STP.Gameplay {
             var chasingVector     = _playerShipState.Position - (Vector2) transform.position;
             var distanceToPlayer  = chasingVector.magnitude;
             if ( distanceToPlayer < ChaseRadius) {
-                State = EnemyState.Chase;    
+                State = EnemyState.Chase;
             }
         }
 
@@ -86,7 +87,7 @@ namespace STP.Gameplay {
             Move(chasingDirection);
             Rotate(chasingDirection);
             if ( distanceToPlayer >= OutChaseRadius ) {
-                State = EnemyState.Patrolling;    
+                State = EnemyState.Patrolling;
             }
         }
     }
