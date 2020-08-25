@@ -20,6 +20,7 @@ namespace STP.Behaviour.Meta.UI.QuestsWindow {
         readonly List<QuestsWindowQuestBlock> _questBlocksPool = new List<QuestsWindowQuestBlock>();
 
         public void Init(QuestsController questsController, StarSystemsController starSystemsController) {
+            // TODO: show Finished quests
             var questStates = questsController.GetQuestStates().Where(x => x.Status == QuestStatus.Started).ToList();
             if ( questStates.Count > 0 ) {
                 NoActiveQuestsRoot.SetActive(false);
@@ -41,7 +42,7 @@ namespace STP.Behaviour.Meta.UI.QuestsWindow {
                 ActiveQuestsRoot.SetActive(false);
             }
         }
-        
+
         protected override void Deinit() {
             foreach ( var questBlock in _questBlocksPool ) {
                 questBlock.Deinit();

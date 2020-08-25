@@ -23,6 +23,8 @@ namespace STP.Behaviour.Meta {
 
         ProgressController    _progressController;
         StarSystemsController _starSystemsController;
+        LevelController       _levelController;
+        QuestsController      _questsController;
 
         public override string Id => IdText;
 
@@ -60,6 +62,13 @@ namespace STP.Behaviour.Meta {
                 return;
             }
             if ( success && !_starSystemsController.GetFactionSystemActive(Id) ) {
+                foreach ( var questState in _questsController.GetActiveQuestStates() ) {
+                    if ( (questState.QuestType == QuestType.ReclaimSystem) && (questState.DestSystemId == Id) ) {
+                        _levelController.StartLevel(questState.Id);
+                        break;
+                    }
+                }
+
                 SceneManager.LoadScene("CoreLevel_DefendSystem");
             }
         }
@@ -67,6 +76,8 @@ namespace STP.Behaviour.Meta {
         protected override void InitSpecific(MetaStarter starter) {
             _progressController    = starter.ProgressController;
             _starSystemsController = starter.StarSystemsController;
+            _levelController       = starter.LevelController;
+            _questsController      = starter.QuestsController;
 
             _starSystemsController.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
             OnStarSystemActiveChanged(Id, _starSystemsController.GetFactionSystemActive(Id));

@@ -9,11 +9,12 @@ namespace STP.Behaviour.Starter {
         public PlayerShip         PlayerShip;
         public MetaTimeManager    TimeManager;
         public InventoryItemInfos InventoryItemInfos;
-        
+
         public StarSystemsManager StarSystemsManager { get; private set; }
         public QuestHelper        QuestHelper        { get; private set; }
 
         public TimeController        TimeController        => GameState.Instance.TimeController;
+        public LevelController       LevelController       => GameState.Instance.LevelController;
         public ProgressController    ProgressController    => GameState.Instance.ProgressController;
         public DialogController      DialogController      => GameState.Instance.DialogController;
         public QuestsController      QuestsController      => GameState.Instance.QuestsController;
@@ -21,11 +22,16 @@ namespace STP.Behaviour.Starter {
         public MetaAiShipsController MetaAiShipsController => GameState.Instance.MetaAiShipsController;
         public PlayerController      PlayerController      => GameState.Instance.PlayerController;
         public DarknessController    DarknessController    => GameState.Instance.DarknessController;
-        
+
         void Start() {
             StarSystemsManager = new StarSystemsManager(StarSystemsController);
             QuestHelper        = new QuestHelper(QuestsController, PlayerController);
             InitComponents();
+
+            // TODO: move this somewhere else
+            if ( LevelController.IsLevelActive ) {
+                LevelController.FinishLevel();
+            }
         }
     }
 }

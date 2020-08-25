@@ -81,7 +81,7 @@ namespace STP.State {
         }
 
         public bool TryFinishQuest(BaseQuestState questState) {
-            if ( questState.Status != QuestStatus.Created ) {
+            if ( questState.Status != QuestStatus.Started ) {
                 Debug.LogErrorFormat("Invalid quest status '{0}'", questState.Status.ToString());
                 return false;
             }
@@ -311,18 +311,14 @@ namespace STP.State {
         }
 
         bool CanCompleteQuest(BaseQuestState baseQuestState) {
-            if ( baseQuestState.Status != QuestStatus.Started ) {
-                return false;
-            }
             if ( _playerController.CurSystemId != baseQuestState.RewardSystemId ) {
-                return false;
-            }
-            if ( _timeController.CurDay > baseQuestState.ExpirationDay ) {
                 return false;
             }
             switch ( baseQuestState.QuestType ) {
                 case QuestType.GatherResource when baseQuestState is GatherResourcesQuestState questState: {
-                    return (_playerController.Inventory.GetItemAmount(questState.ResourceType) >=
+                    return (_timeController.CurDay <= baseQuestState.ExpirationDay) &&
+                           (baseQuestState.Status == QuestStatus.Created) &&
+                           (_playerController.Inventory.GetItemAmount(questState.ResourceType) >=
                             questState.ResourceAmount);
                 }
                 case QuestType.Escort:
@@ -331,7 +327,9 @@ namespace STP.State {
                     return (baseQuestState.Status == QuestStatus.Finished);
                 }
                 case QuestType.Delivery when baseQuestState is DeliveryQuestState questState: {
-                    return (_playerController.Inventory.GetItemAmount(questState.ResourceType) >= 1);
+                    return (_timeController.CurDay <= baseQuestState.ExpirationDay) &&
+                           (baseQuestState.Status == QuestStatus.Created) &&
+                           (_playerController.Inventory.GetItemAmount(questState.ResourceType) >= 1);
                 }
                 default: {
                     Debug.LogErrorFormat("Unsupported quest type '{0}'", baseQuestState.QuestType.ToString());

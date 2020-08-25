@@ -47,7 +47,6 @@ namespace STP.State {
         }
 
         void CreateControllers() {
-            LevelController        = CreateController(new LevelController());
             PlayerController       = CreateController(new PlayerController());
             ProgressController     = CreateController(new ProgressController());
             TimeController         = CreateController(new TimeController());
@@ -58,6 +57,7 @@ namespace STP.State {
                 ProgressController));
             QuestsController       = CreateController(new QuestsController(TimeController, StarSystemsController,
                 PlayerController, DarknessController, ShardsActiveController));
+            LevelController        = CreateController(new LevelController(QuestsController));
             MetaAiShipsController  = CreateController(new MetaAiShipsController(TimeController));
             CorePlayerController   = CreateController(new CorePlayerController());
         }
