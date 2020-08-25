@@ -8,7 +8,7 @@ using STP.Gameplay;
 using STP.Utils.Events;
 using STP.Utils.GameComponentAttributes;
 
-namespace STP.Behaviour {
+namespace STP.Behaviour.Core {
     public class EscortLevelWrapper : BaseLevelWrapper {
         [Serializable]
         public class ShipInfo {
