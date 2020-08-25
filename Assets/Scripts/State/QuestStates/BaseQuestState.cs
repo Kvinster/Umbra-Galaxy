@@ -1,4 +1,6 @@
-﻿using STP.Common;
+﻿using System;
+
+using STP.Common;
 
 namespace STP.State.QuestStates {
     public abstract class BaseQuestState {
@@ -11,6 +13,9 @@ namespace STP.State.QuestStates {
 
         public QuestStatus Status;
 
+        // readonly for now, later will be loaded
+        public readonly string Id;
+
         protected BaseQuestState(QuestType questType, int expirationDay, string originSystemId, string destSystemId,
             string rewardSystemId, RewardInfo rewardInfo, QuestStatus status = QuestStatus.Created) {
             QuestType      = questType;
@@ -19,14 +24,17 @@ namespace STP.State.QuestStates {
             DestSystemId   = destSystemId;
             RewardSystemId = rewardSystemId;
             RewardInfo     = rewardInfo;
-            
+
             Status = status;
+
+            Id = Guid.NewGuid().ToString();
         }
 
         public override string ToString() {
             return
                 $"(type: {QuestType.ToString()}, Status: {Status.ToString()}, ExpirationDay: {ExpirationDay}, " +
-                $"OriginSystemId: {OriginSystemId}, DestSystemId: {DestSystemId}, RewardSystemId: {RewardSystemId})";
+                $"OriginSystemId: {OriginSystemId}, DestSystemId: {DestSystemId}, RewardSystemId: {RewardSystemId}, " +
+                $"Id: {Id})";
         }
     }
 }

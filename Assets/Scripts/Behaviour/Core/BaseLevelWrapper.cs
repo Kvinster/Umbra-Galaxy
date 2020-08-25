@@ -1,9 +1,10 @@
 ﻿using STP.Behaviour.Starter;
+using STP.Utils;
 
 namespace STP.Behaviour.Core {
-    public abstract class BaseLevelWrapper : CoreComponent {
+    public abstract class BaseLevelWrapper : GameComponent {
         public LevelQuestState LevelQuestState { get; protected set; }
 
-        public override void Init(CoreStarter starter) { }
+        public virtual void Init(CoreStarter starter) { }
     }
 }

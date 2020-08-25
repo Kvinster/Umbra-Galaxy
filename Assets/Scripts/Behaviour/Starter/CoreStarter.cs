@@ -7,6 +7,7 @@ using STP.Gameplay;
 using STP.Gameplay.DebugGUI;
 using STP.Gameplay.Weapon.Common;
 using STP.State;
+using STP.State.Meta;
 using STP.Utils;
 using STP.View.DebugGUI;
 
@@ -27,8 +28,11 @@ namespace STP.Behaviour.Starter {
         public CoreManager       CoreManager   { get; private set; }
         public CoreOverlayHelper OverlayHelper { get; private set; }
 
-        public CorePlayerController CorePlayerController => GameState.Instance.CorePlayerController;
-        public PlayerController     PlayerController     => GameState.Instance.PlayerController;
+        public LevelController       LevelController       => GameState.Instance.LevelController;
+        public CorePlayerController  CorePlayerController  => GameState.Instance.CorePlayerController;
+        public StarSystemsController StarSystemsController => GameState.Instance.StarSystemsController;
+        public PlayerController      PlayerController      => GameState.Instance.PlayerController;
+        public QuestsController      QuestsController      => GameState.Instance.QuestsController;
 
         protected override void CheckDescription() =>
             ProblemChecker.LogErrorIfNullOrEmpty(this, BulletSpawnStock, MaterialSpawnStock, UnityContext);
@@ -44,6 +48,7 @@ namespace STP.Behaviour.Starter {
             foreach (var comp in behaviours) {
                 comp.Init(this);
             }
+            LevelWrapper.Init(this);
             //Settings for smooth gameplay
             Application.targetFrameRate = Screen.currentResolution.refreshRate;
             QualitySettings.vSyncCount  = 0;

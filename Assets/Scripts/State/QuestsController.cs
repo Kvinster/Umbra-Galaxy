@@ -22,7 +22,7 @@ namespace STP.State {
 
         readonly QuestsWatcher _questsWatcher;
 
-        public QuestsController(TimeController timeController, StarSystemsController starSystemsController, 
+        public QuestsController(TimeController timeController, StarSystemsController starSystemsController,
             PlayerController playerController, DarknessController darknessController,
             ShardsActiveController shardsActiveController) {
             _timeController         = timeController;
@@ -37,6 +37,16 @@ namespace STP.State {
 
         public List<BaseQuestState> GetQuestStates() {
             return _state.QuestStates;
+        }
+
+        public BaseQuestState GetQuestState(string questStateId) {
+            foreach ( var questState in GetQuestStates() ) {
+                if ( questState.Id == questStateId ) {
+                    return questState;
+                }
+            }
+            Debug.LogErrorFormat("Can't find quest state with id '{0}'", questStateId);
+            return null;
         }
 
         public List<BaseQuestState> GetActiveQuestStates() {
@@ -172,7 +182,7 @@ namespace STP.State {
                             if ( !_starSystemsController.GetFactionSystemActive(x) ||
                                  !_darknessController.IsFactionSystemNextToHit(x) ) {
                                 return false;
-                            } 
+                            }
                             var dist = _starSystemsController.GetPath(originSystemId, x).PathLength;
                             return (dist <= maxDistance);
                         })
@@ -265,13 +275,13 @@ namespace STP.State {
                             if ( !_starSystemsController.GetFactionSystemActive(x) ||
                                  !_darknessController.IsFactionSystemNextToHit(x) ) {
                                 return false;
-                            } 
+                            }
                             var dist = _starSystemsController.GetPath(originSystemId, x).PathLength;
                             return (dist <= maxDistance);
                         })
                         .ToList();
                     Debug.Assert(threatenedSystems.Count > 0);
-                    
+
                     var closestId   = string.Empty;
                     var closestDist = int.MaxValue;
                     foreach ( var factionSystem in threatenedSystems ) {

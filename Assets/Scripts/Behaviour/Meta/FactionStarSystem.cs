@@ -60,14 +60,14 @@ namespace STP.Behaviour.Meta {
                 return;
             }
             if ( success && !_starSystemsController.GetFactionSystemActive(Id) ) {
-                SceneManager.LoadScene("CoreLevel1");
+                SceneManager.LoadScene("CoreLevel_DefendSystem");
             }
         }
 
         protected override void InitSpecific(MetaStarter starter) {
             _progressController    = starter.ProgressController;
             _starSystemsController = starter.StarSystemsController;
-            
+
             _starSystemsController.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
             OnStarSystemActiveChanged(Id, _starSystemsController.GetFactionSystemActive(Id));
         }

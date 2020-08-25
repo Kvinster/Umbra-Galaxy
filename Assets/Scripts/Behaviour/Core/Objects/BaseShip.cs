@@ -22,6 +22,8 @@ namespace STP.Gameplay {
 
         public abstract ConflictSide CurrentSide { get; }
 
+        public float CurHp => ShipState.Hp;
+
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, WeaponMountPoint);
 
         public void GetDamage(float damageAmount = 1) {

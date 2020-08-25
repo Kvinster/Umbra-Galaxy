@@ -7,6 +7,7 @@ using STP.Utils;
 
 namespace STP.State {
     public sealed class GameState : Singleton<GameState> {
+        public LevelController        LevelController        { get; private set; }
         public PlayerController       PlayerController       { get; private set; }
         public ProgressController     ProgressController     { get; private set; }
         public TimeController         TimeController         { get; private set; }
@@ -17,7 +18,7 @@ namespace STP.State {
         public DarknessController     DarknessController     { get; private set; }
         public ShardsActiveController ShardsActiveController { get; private set; }
         public CorePlayerController   CorePlayerController   { get; private set; }
-        
+
 
         readonly HashSet<BaseStateController> _controllers = new HashSet<BaseStateController>();
 
@@ -46,6 +47,7 @@ namespace STP.State {
         }
 
         void CreateControllers() {
+            LevelController        = CreateController(new LevelController());
             PlayerController       = CreateController(new PlayerController());
             ProgressController     = CreateController(new ProgressController());
             TimeController         = CreateController(new TimeController());

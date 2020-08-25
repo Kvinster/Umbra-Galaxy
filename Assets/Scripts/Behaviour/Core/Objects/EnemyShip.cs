@@ -14,11 +14,11 @@ namespace STP.Gameplay {
     }
 
     public class EnemyShip : RoutedShip {
-        const float ChaseRadius     = 350f;
-        const float OutChaseRadius  = 500;
+        const float ShipSpeed = 150f;
+        const int   Hp        = 2;
 
-        const float ShipSpeed       = 150f;
-        const int   Hp              = 2;
+        public float ChaseRadius;
+        public float OutChaseRadius;
 
         PlayerShipState _playerShipState;
         CoreItemCreator _materialCreator;
@@ -39,6 +39,7 @@ namespace STP.Gameplay {
                 dropItem.gameObject.SetActive(false);
             }
             InitShipInfo(new ShipInfo(Hp, ShipSpeed));
+            OnShipState();
         }
 
         protected void Update() {

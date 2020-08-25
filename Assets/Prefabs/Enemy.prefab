@@ -250,6 +250,8 @@ MonoBehaviour:
   - {fileID: 0}
   StartRoutePointIndex: 3
   CycledRoute: 1
+  ChaseRadius: 350
+  OutChaseRadius: 500
   DropItemsOnDeath: []
 --- !u!50 &7999477584213520501
 Rigidbody2D:
