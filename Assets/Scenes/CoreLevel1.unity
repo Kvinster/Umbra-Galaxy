@@ -792,7 +792,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d618d9c86a4aff85eb0b48997baab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelQuestState: 0
   Ships:
   - Ship: {fileID: 1700226250}
     ReachedEnd: 0
@@ -1392,6 +1391,11 @@ PrefabInstance:
       propertyPath: Route.Array.data[5]
       value: 
       objectReference: {fileID: 1306160144}
+    - target: {fileID: 262083521729455616, guid: c19e364f60650fb4bb3d1d623f79f298,
+        type: 3}
+      propertyPath: StartRoutePointIndex
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3609196222395136524, guid: c19e364f60650fb4bb3d1d623f79f298,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1552,6 +1556,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1037572810}
     m_Modifications:
+    - target: {fileID: 1475442592540211251, guid: a6d65f3c8af796c459d72da8a8431d07,
+        type: 3}
+      propertyPath: Route.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1475442592540211251, guid: a6d65f3c8af796c459d72da8a8431d07,
         type: 3}
       propertyPath: Route.Array.data[0]
@@ -5911,6 +5920,11 @@ PrefabInstance:
       propertyPath: Route.Array.data[5]
       value: 
       objectReference: {fileID: 1306160144}
+    - target: {fileID: 262083521729455616, guid: c19e364f60650fb4bb3d1d623f79f298,
+        type: 3}
+      propertyPath: StartRoutePointIndex
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3609196222395136524, guid: c19e364f60650fb4bb3d1d623f79f298,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6185,6 +6199,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1037572810}
     m_Modifications:
+    - target: {fileID: 1475442592540211251, guid: a6d65f3c8af796c459d72da8a8431d07,
+        type: 3}
+      propertyPath: Route.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1475442592540211251, guid: a6d65f3c8af796c459d72da8a8431d07,
         type: 3}
       propertyPath: Route.Array.data[0]
