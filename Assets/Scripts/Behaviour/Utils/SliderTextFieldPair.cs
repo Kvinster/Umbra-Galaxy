@@ -9,7 +9,7 @@ using STP.Utils.GameComponentAttributes;
 using TMPro;
 
 namespace STP.Behaviour.Utils {
-    public sealed class SliderTextFieldPair : GameBehaviour {
+    public sealed class SliderTextFieldPair : GameComponent {
         [NotNull] public Slider         Slider;
         [NotNull] public TMP_InputField InputField;
         [NotNull] public TMP_Text       MinValueText;

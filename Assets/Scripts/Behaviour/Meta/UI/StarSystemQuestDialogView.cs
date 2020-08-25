@@ -7,7 +7,7 @@ using STP.Utils.GameComponentAttributes;
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class StarSystemQuestDialogView : GameBehaviour {
+    public sealed class StarSystemQuestDialogView : GameComponent {
         [NotNull]
         public TMP_Text DialogText;
         [NotNullOrEmpty]

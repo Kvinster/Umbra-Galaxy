@@ -4,7 +4,7 @@ using STP.Utils.GameComponentAttributes;
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class MetaNewsHeadline : GameBehaviour {
+    public sealed class MetaNewsHeadline : GameComponent {
         const string NewsTemplate = "Day {0}: {1}";
         
         [NotNull] public TMP_Text NewsText;

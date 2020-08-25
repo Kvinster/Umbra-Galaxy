@@ -3,22 +3,22 @@
 using System;
 using System.Collections.Generic;
 
+using STP.Behaviour.Core.Objects;
 using STP.Events;
-using STP.Gameplay;
 using STP.Utils.Events;
 using STP.Utils.GameComponentAttributes;
 
-namespace STP.Behaviour {
-    public class EscortLevelWatcher : BaseLevelWrapper {
+namespace STP.Behaviour.Core {
+    public class EscortLevelWrapper : BaseLevelWrapper {
         [Serializable]
         public class ShipInfo {
             public RoutedShip Ship;
             [HideInInspector]
             public bool       ReachedEnd;
         }
-        
+
         [NotNullOrEmpty] public List<ShipInfo> Ships;
-        
+
         void Start() {
             foreach ( var shipInfo in Ships ) {
                 shipInfo.Ship.OnShipDestroyed += OnShipDestroyed;

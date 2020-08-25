@@ -17,9 +17,9 @@ namespace STP.Behaviour.Core.Objects {
         protected IWeaponControl WeaponControl;
 
         ShipInfo       _shipInfo;
-        
+
         public event Action<BaseShip> OnShipDestroyed;
-        
+
         public abstract ConflictSide CurrentSide { get; }
 
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, WeaponMountPoint);
@@ -43,15 +43,15 @@ namespace STP.Behaviour.Core.Objects {
             HpBar.UpdateBar(ShipState.Hp / _shipInfo.Hp);
         }
 
-        protected void Move(Vector2 direction) { 
+        protected void Move(Vector2 direction) {
             var offsetVector = _shipInfo.MaxSpeed * direction;
             MoveUtils.ApplyMovingVector(Rigidbody2D, offsetVector);
         }
-        
+
         protected void Rotate(Vector2 viewDirection) {
             MoveUtils.ApplyViewVector(transform, viewDirection);
         }
-        
+
 
         protected void UpdateWeaponControlState() {
             WeaponControl?.UpdateControl(Time.deltaTime);

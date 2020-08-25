@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-using STP.Gameplay;
+using STP.Behaviour.Starter;
 
 namespace STP.Behaviour.Core.Objects.DoorObject {
     public class AutomaticDoor : BaseDoor {
         protected override void InitInternal(CoreStarter starter) { }
-        
+
         void OnTriggerEnter2D(Collider2D other) {
             if ( !other.gameObject.GetComponent<PlayerShip>() ) {
                 return;

@@ -8,7 +8,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class EnterSystemButton : GameBehaviour {
+    public sealed class EnterSystemButton : GameComponent {
         [NotNull] public Button Button;
 
         StarSystemUiManager   _owner;

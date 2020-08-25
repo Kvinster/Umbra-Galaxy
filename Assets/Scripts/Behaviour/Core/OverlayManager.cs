@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 namespace STP.Behaviour.Core {
-    public class OverlayManager : GameBehaviour {
+    public class OverlayManager : GameComponent {
         public GameoverOverlay   GameoverOverlay;
         
         List<IOverlay> _allOverlays = new List<IOverlay>();

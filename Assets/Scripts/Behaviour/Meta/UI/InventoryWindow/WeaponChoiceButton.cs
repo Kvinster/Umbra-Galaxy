@@ -9,7 +9,7 @@ using STP.Utils.GameComponentAttributes;
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI.InventoryWindow {
-    public sealed class WeaponChoiceButton : GameBehaviour {
+    public sealed class WeaponChoiceButton : GameComponent {
         [NotNull] public Image      WeaponIcon;
         [NotNull] public TMP_Text   WeaponTypeText; 
         [NotNull] public GameObject SelectedRoot;

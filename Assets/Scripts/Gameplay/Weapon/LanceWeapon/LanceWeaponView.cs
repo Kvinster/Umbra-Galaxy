@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using STP.Behaviour.Core.Objects;
+using STP.Behaviour.Starter;
 using STP.Gameplay.Weapon.Common;
 using STP.Utils;
 
@@ -7,9 +9,9 @@ namespace STP.Gameplay.Weapon.LanceWeapon {
     public class LanceWeaponView : BaseWeaponView {
         public Beam       Beam;
         public GameObject ChargingImage;
-        
+
         Timer       _timer = new Timer();
-        
+
         Lance       _weapon;
         Collider2D  _ownerCollider;
 

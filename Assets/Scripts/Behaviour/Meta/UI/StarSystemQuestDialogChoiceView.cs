@@ -7,7 +7,7 @@ using STP.Utils;
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class StarSystemQuestDialogChoiceView : GameBehaviour {
+    public sealed class StarSystemQuestDialogChoiceView : GameComponent {
         public TMP_Text ChoiceText;
         public Button   Button;
 

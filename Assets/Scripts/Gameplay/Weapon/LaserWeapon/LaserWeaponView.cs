@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using STP.Behaviour.Core.Objects;
+using STP.Behaviour.Starter;
 using STP.Gameplay.Weapon.Common;
 
 namespace STP.Gameplay.Weapon.LaserWeapon {
@@ -7,16 +9,16 @@ namespace STP.Gameplay.Weapon.LaserWeapon {
         public Beam Beam;
         BaseWeapon _weapon;
         Collider2D _ownerCollider;
-        
+
         RaycastHit2D[] _hits = new RaycastHit2D[10];
-        
+
         public override void Init(CoreStarter starter, BaseShip ownerShip, BaseWeapon ownerWeapon) {
             if ( !(ownerWeapon is Laser laserWeapon) ) {
                 return;
             }
             _weapon               = laserWeapon;
             _ownerCollider        = ownerShip.GetComponent<Collider2D>();
-            _weapon.StateChanged += OnWeaponStateChanged; 
+            _weapon.StateChanged += OnWeaponStateChanged;
             OnWeaponStateChanged(_weapon.CurState);
         }
 
@@ -40,7 +42,7 @@ namespace STP.Gameplay.Weapon.LaserWeapon {
                 }
             }
         }
-        
+
         int DoRaycast() {
             var hitsCount = Physics2D.RaycastNonAlloc(Beam.transform.position,
                 Beam.transform.TransformDirection(Beam.transform.localRotation * Vector2.up), _hits, 1000000);

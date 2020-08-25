@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
+using STP.Behaviour.Starter;
 using STP.Gameplay;
 using STP.Gameplay.Weapon.Common;
-using STP.State.Core;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Objects {

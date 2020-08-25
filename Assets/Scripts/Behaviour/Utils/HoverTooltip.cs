@@ -5,7 +5,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Utils {
-    public sealed class HoverTooltip : GameBehaviour {
+    public sealed class HoverTooltip : GameComponent {
         public EventTrigger EventTrigger;
         [NotNull]
         public GameObject   Root;

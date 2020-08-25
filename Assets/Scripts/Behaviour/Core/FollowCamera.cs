@@ -4,7 +4,7 @@ using STP.State.Core;
 using STP.Utils;
 
 namespace STP.Gameplay {
-    public class FollowCamera : GameBehaviour {
+    public class FollowCamera : GameComponent {
         public Camera        Camera;
         public Transform     CameraTransform;
     

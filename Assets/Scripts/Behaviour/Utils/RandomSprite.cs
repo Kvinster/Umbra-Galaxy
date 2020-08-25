@@ -6,7 +6,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Utils {
-    public sealed class RandomSprite : GameBehaviour {
+    public sealed class RandomSprite : GameComponent {
         [NotNull]
         public SpriteRenderer SpriteRenderer;
         [Space] [NotNullOrEmpty]

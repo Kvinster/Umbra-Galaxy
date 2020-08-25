@@ -12,7 +12,7 @@ using STP.Utils.GameComponentAttributes;
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class GameOverScreen : GameBehaviour {
+    public sealed class GameOverScreen : GameComponent {
         const string CradleConqueredText =
             "Bad Ending\nThe Cradle of Humanity has been destroyed. The light of humanity has been consumed by Darkness";
 

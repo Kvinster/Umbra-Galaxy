@@ -2,10 +2,12 @@
 
 using System.Collections.Generic;
 
+using STP.Behaviour.Starter;
+using STP.Gameplay;
 using STP.Gameplay.Weapon.Common;
 using STP.State.Core;
 
-namespace STP.Gameplay {
+namespace STP.Behaviour.Core.Objects {
     public enum EnemyState {
         None,
         Chase,

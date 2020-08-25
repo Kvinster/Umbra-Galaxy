@@ -3,7 +3,7 @@
 using STP.Utils;
 
 namespace STP.Behaviour.Core.Objects.DoorObject {
-    public sealed class DoorFrame : GameBehaviour {
+    public sealed class DoorFrame : GameComponent {
         Vector2 _openedPosition;
         Vector2 _closedPosition;
 

@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 
-using STP.Gameplay;
+using STP.Behaviour.Starter;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Objects.DoorObject {
     public abstract class BaseDoor : CoreComponent {
         public float OpeningTime = 3f;
-        
+
         [NotNull] public DoorFrame LeftFrame;
         [NotNull] public DoorFrame RightFrame;
-        
+
         readonly Timer _timer = new Timer();
-        
+
         DoorState _state = DoorState.Closed;
 
         protected DoorState State {
@@ -20,10 +20,10 @@ namespace STP.Behaviour.Core.Objects.DoorObject {
             set {
                 LeftFrame.SetDoorState(value);
                 LeftFrame.SetProgress(_timer.NormalizedProgress);
-                
+
                 RightFrame.SetDoorState(value);
                 RightFrame.SetProgress(_timer.NormalizedProgress);
-                
+
                 _state = value;
             }
         }

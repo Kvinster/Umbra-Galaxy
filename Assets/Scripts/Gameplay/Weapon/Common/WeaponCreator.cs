@@ -1,4 +1,5 @@
-﻿using STP.Gameplay.Weapon.Chargeable;
+﻿using STP.Behaviour.Core.Objects;
+using STP.Gameplay.Weapon.Chargeable;
 using STP.Gameplay.Weapon.GunWeapon;
 using STP.Gameplay.Weapon.ImpulseWeapon;
 using STP.Gameplay.Weapon.LanceWeapon;

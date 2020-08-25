@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using STP.Behaviour.Core.Objects;
 using STP.Gameplay.Weapon.GunWeapon;
 using STP.Utils;
 

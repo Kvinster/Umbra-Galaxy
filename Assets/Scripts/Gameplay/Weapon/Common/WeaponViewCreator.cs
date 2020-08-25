@@ -3,6 +3,9 @@
 using System;
 using System.Collections.Generic;
 
+using STP.Behaviour.Core.Objects;
+using STP.Behaviour.Starter;
+
 using Object = UnityEngine.Object;
 
 namespace STP.Gameplay.Weapon.Common {
@@ -11,7 +14,7 @@ namespace STP.Gameplay.Weapon.Common {
         readonly CoreStarter _starter;
 
         readonly Dictionary<WeaponType, GameObject> _weaponViewsPrefabs = new Dictionary<WeaponType, GameObject>();
-        
+
         public WeaponViewCreator(CoreStarter starter) {
             var bullets = Resources.LoadAll<GameObject>(PrefabsPathFormat);
             foreach ( var bullet in bullets ) {
@@ -26,7 +29,7 @@ namespace STP.Gameplay.Weapon.Common {
             }
             Object.Destroy(weaponMountPlace.GetChild(0));
         }
-        
+
         public void AddWeaponView(BaseShip ship, BaseWeapon weapon) {
             if ( weapon == null ) {
                 Debug.LogError("weapon object is null. Can't init view for it.");
@@ -42,7 +45,7 @@ namespace STP.Gameplay.Weapon.Common {
                 Debug.Log("has attached weapon view. Remove it");
                 RemoveWeaponView(weaponMountPlace);
             }
-            
+
             var weaponView = Object.Instantiate(_weaponViewsPrefabs[weaponName], weaponMountPlace);
             var viewComp   = weaponView.GetComponent<BaseWeaponView>();
             viewComp.Init(_starter, ship, weapon);

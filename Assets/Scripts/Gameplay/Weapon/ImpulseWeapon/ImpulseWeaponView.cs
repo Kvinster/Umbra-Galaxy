@@ -1,25 +1,26 @@
 ﻿using UnityEngine;
 
-using STP.Gameplay.Weapon.Common;
-using STP.Gameplay.Weapon.LanceWeapon;
-using STP.Utils;
-using System;
 using System.Collections.Generic;
 
+using STP.Behaviour.Core.Objects;
+using STP.Behaviour.Starter;
+using STP.Gameplay.Weapon.Common;
+using STP.Utils;
+
 namespace STP.Gameplay.Weapon.ImpulseWeapon {
-   
+
     public class ImpulseWeaponView : BaseWeaponView {
         public SpriteRenderer ImpulseSprite;
 
         readonly Timer _disapperaTimer = new Timer();
-        
+
         HashSet<Collider2D> _objects = new HashSet<Collider2D>();
 
         Impulse     _weapon;
         Collider2D  _ownerCollider;
 
         bool _isDisappearing;
-        
+
         public override void Init(CoreStarter starter, BaseShip ownerShip, BaseWeapon ownerWeapon) {
             if ( !(ownerWeapon is Impulse laserWeapon) ) {
                 return;
@@ -47,7 +48,7 @@ namespace STP.Gameplay.Weapon.ImpulseWeapon {
         void OnDestroy() {
             _weapon.StateChanged -= OnWeaponStateChanged;
         }
-        
+
         void OnTriggerEnter2D(Collider2D other) {
             print("added " + other.gameObject.name);
             if ( !_objects.Contains(other) ) {
@@ -68,7 +69,7 @@ namespace STP.Gameplay.Weapon.ImpulseWeapon {
             if ( _isDisappearing ) {
                 SetImpulseAlpha(_disapperaTimer.NormalizedProgress);
             }
-            else { 
+            else {
                 SetImpulseAlpha(_weapon.ChargeProgress);
             }
         }

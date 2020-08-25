@@ -4,7 +4,7 @@ using STP.Utils;
 
 namespace STP.Behaviour.Meta {
     [RequireComponent(typeof(Camera))]
-    public class CameraController : GameBehaviour {
+    public class CameraController : GameComponent {
         static readonly Vector2 TopRightBorder      = new Vector2(1920, 1080);
         static readonly Vector2 BottomLeftBorder    = new Vector2(-1920, -1080);
         

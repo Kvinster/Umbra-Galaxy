@@ -3,7 +3,7 @@
 using STP.Utils;
 
 namespace STP.Common.Windows {
-    public abstract class BaseWindow : GameBehaviour {
+    public abstract class BaseWindow : GameComponent {
         public Button HideButton;
 
         void Start() {
