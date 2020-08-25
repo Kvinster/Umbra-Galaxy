@@ -10,14 +10,18 @@ namespace STP.Gameplay {
         
         readonly PlayerState     _playerState;
         readonly PlayerInventory _inventory;
+        
+        PlayerShipState _metaShipState;
 
         public SelfDestructEngine  SelfDestructEngine  { get; } = new SelfDestructEngine();
         public FastTravelEngine    FastTravelEngine    { get; } = new FastTravelEngine();
-        public PlayerShipState     PlayerShipState     { get; } = new PlayerShipState();
+        public CoreShipState       CorePlayerShipState { get; }
         public AllianceManager     AllianceManager     { get; } = new AllianceManager();
         
         public CoreManager(PlayerController playerController, UnityContext context) {
-            _inventory = playerController.Inventory;
+            _inventory     = playerController.Inventory;
+            _metaShipState = playerController.CurPlayerShipState;
+            CorePlayerShipState = new CoreShipState(_metaShipState);
             context.AddUpdateCallback(FastTravelEngine.UpdateEngineState);
             context.AddUpdateCallback(SelfDestructEngine.UpdateSelfDestructionTimers);
             FastTravelEngine.Init(FastTravelEngineChargingTime);
@@ -28,6 +32,7 @@ namespace STP.Gameplay {
         }
 
         public void GoToMeta() {
+            _metaShipState.Hp = CorePlayerShipState.Hp;
             SceneManager.LoadScene("Meta");
         }
     }
