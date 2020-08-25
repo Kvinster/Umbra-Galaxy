@@ -3,7 +3,7 @@
 using STP.Utils;
 
 namespace STP.Behaviour.Starter {
-    public abstract class BaseStarter : GameBehaviour {
+    public abstract class BaseStarter : GameComponent {
     }
 
     public abstract class BaseStarter<T> : BaseStarter where T : BaseStarter<T> {

@@ -7,7 +7,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta.UI {
-    public abstract class BaseStarSystemSubScreen : GameBehaviour {
+    public abstract class BaseStarSystemSubScreen : GameComponent {
         Action _hide;
         
         void OnEnable() {

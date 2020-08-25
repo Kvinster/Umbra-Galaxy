@@ -9,7 +9,7 @@ using STP.Utils.GameComponentAttributes;
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI.QuestsWindow {
-    public sealed class QuestsWindowQuestBlock : GameBehaviour {
+    public sealed class QuestsWindowQuestBlock : GameComponent {
         const string GatherResourcesTemplate =
             "Deliver <color=orange>{0}</color> of <color=orange>{1}</color> to <color=orange>{2}</color> by <color=orange>Day {3}</color>";
 

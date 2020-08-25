@@ -12,7 +12,7 @@ using STP.Utils.GameComponentAttributes;
 using TMPro;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class PlayerInventoryView : GameBehaviour {
+    public sealed class PlayerInventoryView : GameComponent {
         [NotNull]
         public PlayerSelectedItemView               SelectedItemView;
         [NotNull]

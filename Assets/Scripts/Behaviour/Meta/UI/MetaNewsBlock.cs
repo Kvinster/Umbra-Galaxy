@@ -6,7 +6,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class MetaNewsBlock : GameBehaviour {
+    public sealed class MetaNewsBlock : GameComponent {
         const string StarSystemCapturedTemplate = "System {0} has been captured by the Darkness";
         const string StarSystemRepelTemplate    = "System {0} successfully repelled attack of the Darkness";
 

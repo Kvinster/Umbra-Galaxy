@@ -4,7 +4,7 @@ using STP.Gameplay;
 using STP.Utils;
 
 namespace STP.Behaviour.Core {
-    public class GameoverOverlay : GameBehaviour, IOverlay {
+    public class GameoverOverlay : GameComponent, IOverlay {
         public Button ReturnToMeta;
         
         protected override void CheckDescription() => ProblemChecker.LogErrorIfNullOrEmpty(this, ReturnToMeta);

@@ -12,7 +12,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class StarSystemQuestDialogManager : GameBehaviour {
+    public sealed class StarSystemQuestDialogManager : GameComponent {
         const string DialogNamePrefix         = "quest_screen|";
         const string InitDialogName           = DialogNamePrefix + "init";
         const string AcceptedQuestDialogName  = DialogNamePrefix + "accepted_quest";

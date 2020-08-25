@@ -5,7 +5,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta {
-    public sealed class MetaAiShipView : GameBehaviour {
+    public sealed class MetaAiShipView : GameComponent {
         [NotNull] public SpriteRenderer ShipIcon;
         
         MetaAiShipManager  _aiShipManager;

@@ -4,7 +4,7 @@ using STP.Gameplay;
 using STP.Utils;
 
 namespace STP.Behaviour.Core {
-    public abstract class CoreComponent : GameBehaviour {
+    public abstract class CoreComponent : GameComponent {
 		public static readonly HashSet<CoreComponent> Instances = new HashSet<CoreComponent>();
     
 		protected void OnEnable() {

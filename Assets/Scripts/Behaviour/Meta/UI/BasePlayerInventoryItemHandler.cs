@@ -3,7 +3,7 @@
 using STP.Utils;
 
 namespace STP.Behaviour.Meta.UI {
-    public abstract class BasePlayerInventoryItemHandler : GameBehaviour {
+    public abstract class BasePlayerInventoryItemHandler : GameComponent {
         public PlayerInventoryView CurPlayerInventoryView { get; protected set; } 
 
         public void RegisterPlayerInventoryView(PlayerInventoryView playerInventoryView) {

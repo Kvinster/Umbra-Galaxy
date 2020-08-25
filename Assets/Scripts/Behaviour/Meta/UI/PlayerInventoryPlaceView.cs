@@ -10,7 +10,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Meta.UI {
-    public sealed class PlayerInventoryPlaceView : GameBehaviour, IPointerDownHandler, IPointerEnterHandler,
+    public sealed class PlayerInventoryPlaceView : GameComponent, IPointerDownHandler, IPointerEnterHandler,
         IPointerExitHandler {
         [NotNull] public GameObject HasItemRoot;
         [NotNull] public Image      ItemIcon;

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace STP.Behaviour.Core {
-    public class HpBar : GameBehaviour {
+    public class HpBar : GameComponent {
         [NotNull]
         public Image CurHp;
         [NotNull]

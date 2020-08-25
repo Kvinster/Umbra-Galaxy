@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace STP.Utils {
-    public abstract class GameBehaviour : MonoBehaviour {
+    public abstract class GameComponent : MonoBehaviour {
         protected virtual void CheckDescription() { }
 
         protected virtual void Awake() {
