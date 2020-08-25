@@ -1,10 +1,7 @@
-﻿using UnityEngine;
-
-using STP.Utils;
+﻿using STP.Utils;
 
 namespace STP.Behaviour {
-    public class BaseLevelWrapper : GameBehaviour{
-        [HideInInspector]
-        public LevelQuestState LevelQuestState;
+    public class BaseLevelWrapper : GameBehaviour {
+        public LevelQuestState LevelQuestState { get; protected set; }
     }
 }
