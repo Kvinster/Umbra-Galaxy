@@ -9,14 +9,14 @@ namespace STP.Behaviour.Core.Objects {
     public class PlayerShip : BaseShip {
         public const int Hp = 99;
         const float ShipSpeed    = 250f;
-        
+
         [NotNull] public FollowCamera Camera;
-        
+
         CoreOverlayHelper  _overlayHelper;
         SelfDestructEngine _selfDestructEngine;
 
         public override ConflictSide CurrentSide => ConflictSide.Player;
-        
+
         void OnTriggerEnter2D(Collider2D other) {
             var borderComp = other.gameObject.GetComponent<Border>();
             if ( borderComp ) {
@@ -30,7 +30,7 @@ namespace STP.Behaviour.Core.Objects {
             var collectableItem = other.gameObject.GetComponent<ICollectable>();
             collectableItem?.CollectItem();
         }
-        
+
         void Update() {
             TryMove();
             _selfDestructEngine.UpdateSelfDestructionTimers(Time.deltaTime);
@@ -39,21 +39,21 @@ namespace STP.Behaviour.Core.Objects {
             ShipState.Velocity = Rigidbody2D.velocity;
             Camera.UpdatePos(ShipState.Position);
         }
-        
+
         public override void Init(CoreStarter starter) {
             _overlayHelper       = starter.OverlayHelper;
-            WeaponControl        = starter.WeaponCreator.GetManualWeapon(WeaponType.MissileLauncher);
+            WeaponControl        = starter.WeaponCreator.GetManualWeapon(starter.PlayerController.CurWeaponType);
             _selfDestructEngine  = starter.CoreManager.SelfDestructEngine;
             _selfDestructEngine.Init(this);
             starter.WeaponViewCreator.AddWeaponView(this, WeaponControl?.GetControlledWeapon());
             InitShipInfo(new ShipInfo(Hp, ShipSpeed), starter.CoreManager.CorePlayerShipState);
         }
-        
+
         protected override void OnShipDestroy() {
             Destroy(gameObject);
             _overlayHelper.ShowGameoverOverlay();
         }
-        
+
         void TryMove() {
             var pointerOffset       = (Vector2) Input.mousePosition - new Vector2(Screen.width/2, Screen.height/2);
             var horizontalDirection = Input.GetAxis("Horizontal");
