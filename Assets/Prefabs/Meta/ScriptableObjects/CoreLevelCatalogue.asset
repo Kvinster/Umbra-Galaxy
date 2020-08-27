@@ -17,10 +17,10 @@ MonoBehaviour:
     Levels:
     - CoreLevel_Escort
   - LevelType: 2
-    Levels: []
-  - LevelType: 3
     Levels:
     - CoreLevel_DefendSystem
+  - LevelType: 3
+    Levels: []
   NotSpecifiedLevels:
     LevelType: 0
     Levels: []
