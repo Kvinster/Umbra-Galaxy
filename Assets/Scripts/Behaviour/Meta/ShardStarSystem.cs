@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 using STP.Behaviour.Starter;
 using STP.Common;
+using STP.Config.ScriptableObjects;
 using STP.State;
 using STP.State.Meta;
 using STP.Utils.PropertyAttribute;
@@ -16,6 +17,7 @@ namespace STP.Behaviour.Meta {
 
         ProgressController    _progressController;
         StarSystemsController _starSystemsController;
+        CoreLevelsCatalogue   _catalogue;
 
         public override string Id => IdText;
 
@@ -55,11 +57,12 @@ namespace STP.Behaviour.Meta {
             }
             if ( success ) {
                 _starSystemsController.SetShardSystemActive(Id, false);
-                SceneManager.LoadScene("CoreLevel1");
+                SceneManager.LoadScene(_catalogue.GetRandomLevelName(LevelType.Escort));
             }
         }
 
         protected override void InitSpecific(MetaStarter starter) {
+            _catalogue             = starter.LevelsCatalogue;
             _progressController    = starter.ProgressController;
             _starSystemsController = starter.StarSystemsController;
             _starSystemsController.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
