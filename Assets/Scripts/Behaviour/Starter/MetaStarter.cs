@@ -1,14 +1,16 @@
 ﻿using STP.Behaviour.Common;
 using STP.Behaviour.Meta;
 using STP.Common;
+using STP.Config.ScriptableObjects;
 using STP.State;
 using STP.State.Meta;
 
 namespace STP.Behaviour.Starter {
     public sealed class MetaStarter : BaseStarter<MetaStarter> {
-        public PlayerShip         PlayerShip;
-        public MetaTimeManager    TimeManager;
-        public InventoryItemInfos InventoryItemInfos;
+        public PlayerShip          PlayerShip;
+        public MetaTimeManager     TimeManager;
+        public InventoryItemInfos  InventoryItemInfos;
+        public CoreLevelsCatalogue LevelsCatalogue;
 
         public StarSystemsManager StarSystemsManager { get; private set; }
         public QuestHelper        QuestHelper        { get; private set; }
