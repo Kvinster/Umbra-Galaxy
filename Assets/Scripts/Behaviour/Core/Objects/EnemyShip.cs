@@ -34,7 +34,7 @@ namespace STP.Behaviour.Core.Objects {
             _materialCreator   = starter.CoreItemCreator;
             _coreShipState   = starter.CoreManager.CorePlayerShipState;
             State              = EnemyState.Patrolling;
-            WeaponControl      = starter.WeaponCreator.GetAIWeaponController(WeaponType.Laser, this);
+            WeaponControl      = starter.WeaponCreator.GetAIWeaponController(WeaponType.Gun, this);
             starter.WeaponViewCreator.AddWeaponView(this, WeaponControl.GetControlledWeapon());
             foreach ( var dropItem in DropItemsOnDeath ) {
                 dropItem.gameObject.SetActive(false);
