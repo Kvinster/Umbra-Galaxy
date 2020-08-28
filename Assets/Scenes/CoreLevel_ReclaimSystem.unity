@@ -574,46 +574,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (6)
       objectReference: {fileID: 0}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[0]
-      value: 
-      objectReference: {fileID: 206492192}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[1]
-      value: 
-      objectReference: {fileID: 627271635}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[2]
-      value: 
-      objectReference: {fileID: 734194377}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[3]
-      value: 
-      objectReference: {fileID: 1433770288}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[4]
-      value: 
-      objectReference: {fileID: 2040082938}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[5]
-      value: 
-      objectReference: {fileID: 1306160144}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: StartRoutePointIndex
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9025342833642742215, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -907,7 +867,6 @@ RectTransform:
   - {fileID: 2121948004}
   - {fileID: 1813742605}
   - {fileID: 641986045}
-  - {fileID: 428584673}
   - {fileID: 478014063}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -928,46 +887,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[0]
-      value: 
-      objectReference: {fileID: 318424710}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[1]
-      value: 
-      objectReference: {fileID: 627271635}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[2]
-      value: 
-      objectReference: {fileID: 734194377}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[3]
-      value: 
-      objectReference: {fileID: 1433770288}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[4]
-      value: 
-      objectReference: {fileID: 2040082938}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[5]
-      value: 
-      objectReference: {fileID: 1306160144}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: StartRoutePointIndex
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9025342833642742215, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
         type: 3}
@@ -1094,42 +1013,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 612c48b3a2704a8f8161b1f31fe41cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &428584672
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 428584673}
-  m_Layer: 0
-  m_Name: EnemyRoutes
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &428584673
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 428584672}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1645795659}
-  m_Father: {fileID: 292064465}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &478014062
 GameObject:
   m_ObjectHideFlags: 0
@@ -1165,7 +1048,7 @@ RectTransform:
   - {fileID: 986257556}
   - {fileID: 206492192}
   m_Father: {fileID: 292064465}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1178,76 +1061,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1236968081739883081}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &516378432
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 516378433}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &516378433
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 516378432}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1645795659}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1031, y: -479}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &627271634
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 627271635}
-  m_Layer: 0
-  m_Name: GameObject (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &627271635
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 627271634}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1645795659}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1028, y: 609}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &641986044
 GameObject:
   m_ObjectHideFlags: 0
@@ -1415,41 +1228,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f666a1347bd42b84a973472a65f8792c, type: 3}
---- !u!1 &734194376
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 734194377}
-  m_Layer: 0
-  m_Name: GameObject (5)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &734194377
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 734194376}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1645795659}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -75, y: 605}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &777264512
 GameObject:
   m_ObjectHideFlags: 0
@@ -2191,46 +1969,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (5)
       objectReference: {fileID: 0}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[0]
-      value: 
-      objectReference: {fileID: 986257556}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[1]
-      value: 
-      objectReference: {fileID: 627271635}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[2]
-      value: 
-      objectReference: {fileID: 734194377}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[3]
-      value: 
-      objectReference: {fileID: 1433770288}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[4]
-      value: 
-      objectReference: {fileID: 2040082938}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[5]
-      value: 
-      objectReference: {fileID: 1306160144}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: StartRoutePointIndex
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9025342833642742215, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2523,46 +2261,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[0]
-      value: 
-      objectReference: {fileID: 1104013444}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[1]
-      value: 
-      objectReference: {fileID: 627271635}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[2]
-      value: 
-      objectReference: {fileID: 734194377}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[3]
-      value: 
-      objectReference: {fileID: 1433770288}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[4]
-      value: 
-      objectReference: {fileID: 2040082938}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[5]
-      value: 
-      objectReference: {fileID: 1306160144}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: StartRoutePointIndex
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9025342833642742215, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2793,41 +2491,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1018547258}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1306160143
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1306160144}
-  m_Layer: 0
-  m_Name: GameObject (4)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1306160144
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1306160143}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1645795659}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 192, y: -609}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1328811847
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2839,46 +2502,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[0]
-      value: 
-      objectReference: {fileID: 1328811848}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[1]
-      value: 
-      objectReference: {fileID: 627271635}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[2]
-      value: 
-      objectReference: {fileID: 734194377}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[3]
-      value: 
-      objectReference: {fileID: 1433770288}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[4]
-      value: 
-      objectReference: {fileID: 2040082938}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[5]
-      value: 
-      objectReference: {fileID: 1306160144}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: StartRoutePointIndex
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9025342833642742215, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
         type: 3}
@@ -3160,41 +2783,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1433770287
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1433770288}
-  m_Layer: 0
-  m_Name: GameObject (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1433770288
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1433770287}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1645795659}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -945, y: 552}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1443689622
 GameObject:
   m_ObjectHideFlags: 0
@@ -3229,47 +2817,6 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 39.4}
   m_SizeDelta: {x: 19.49065, y: 19.49065}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1645795658
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1645795659}
-  m_Layer: 0
-  m_Name: Route
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1645795659
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645795658}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 516378433}
-  - {fileID: 627271635}
-  - {fileID: 734194377}
-  - {fileID: 1433770288}
-  - {fileID: 2040082938}
-  - {fileID: 1306160144}
-  m_Father: {fileID: 428584673}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1750072072
 GameObject:
@@ -3547,46 +3094,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[0]
-      value: 
-      objectReference: {fileID: 1822608347}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[1]
-      value: 
-      objectReference: {fileID: 627271635}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[2]
-      value: 
-      objectReference: {fileID: 734194377}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[3]
-      value: 
-      objectReference: {fileID: 1433770288}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[4]
-      value: 
-      objectReference: {fileID: 2040082938}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[5]
-      value: 
-      objectReference: {fileID: 1306160144}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: StartRoutePointIndex
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9025342833642742215, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
         type: 3}
@@ -3975,41 +3482,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 201200893162169325}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2040082937
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2040082938}
-  m_Layer: 0
-  m_Name: GameObject (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2040082938
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2040082937}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1645795659}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -854, y: -86}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2121948003
 GameObject:
   m_ObjectHideFlags: 0
@@ -4215,6 +3687,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 99960731, guid: 7cb361345a5be0c4f8bf074892422582, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 47.43994
+      objectReference: {fileID: 0}
     - target: {fileID: 856017883, guid: 7cb361345a5be0c4f8bf074892422582, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -4352,46 +3828,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[0]
-      value: 
-      objectReference: {fileID: 7900200788847960527}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[1]
-      value: 
-      objectReference: {fileID: 627271635}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[2]
-      value: 
-      objectReference: {fileID: 734194377}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[3]
-      value: 
-      objectReference: {fileID: 1433770288}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[4]
-      value: 
-      objectReference: {fileID: 2040082938}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: Route.Array.data[5]
-      value: 
-      objectReference: {fileID: 1306160144}
-    - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
-        type: 3}
-      propertyPath: StartRoutePointIndex
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9025342833642742215, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
         type: 3}

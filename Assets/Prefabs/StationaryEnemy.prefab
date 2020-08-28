@@ -10,13 +10,13 @@ PrefabInstance:
     - target: {fileID: 262083521729455616, guid: c19e364f60650fb4bb3d1d623f79f298,
         type: 3}
       propertyPath: Route.Array.size
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 262083521729455616, guid: c19e364f60650fb4bb3d1d623f79f298,
         type: 3}
       propertyPath: Route.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 9025342833642742215}
     - target: {fileID: 262083521729455616, guid: c19e364f60650fb4bb3d1d623f79f298,
         type: 3}
       propertyPath: Route.Array.data[1]
@@ -51,6 +51,11 @@ PrefabInstance:
         type: 3}
       propertyPath: OutChaseRadius
       value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 262083521729455616, guid: c19e364f60650fb4bb3d1d623f79f298,
+        type: 3}
+      propertyPath: StartRoutePointIndex
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3609196222395136524, guid: c19e364f60650fb4bb3d1d623f79f298,
         type: 3}
@@ -160,7 +165,13 @@ PrefabInstance:
     - target: {fileID: 7464548312692358418, guid: c19e364f60650fb4bb3d1d623f79f298,
         type: 3}
       propertyPath: m_Name
-      value: LongChaseEnemy
+      value: StationaryEnemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c19e364f60650fb4bb3d1d623f79f298, type: 3}
+--- !u!224 &9025342833642742215 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3609196222395136524, guid: c19e364f60650fb4bb3d1d623f79f298,
+    type: 3}
+  m_PrefabInstance: {fileID: 5716763007647718347}
+  m_PrefabAsset: {fileID: 0}

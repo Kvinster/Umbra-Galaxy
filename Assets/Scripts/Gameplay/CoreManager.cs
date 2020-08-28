@@ -1,5 +1,7 @@
 ﻿using UnityEngine.SceneManagement;
 
+using System;
+
 using STP.State;
 using STP.State.Core;
 using STP.Utils;
@@ -7,17 +9,19 @@ using STP.Utils;
 namespace STP.Gameplay {
     public class CoreManager {
         const float FastTravelEngineChargingTime = 3f;
-        
+
         readonly PlayerState     _playerState;
         readonly PlayerInventory _inventory;
-        
-        PlayerShipState _metaShipState;
+
+        readonly PlayerShipState _metaShipState;
 
         public SelfDestructEngine  SelfDestructEngine  { get; } = new SelfDestructEngine();
         public FastTravelEngine    FastTravelEngine    { get; } = new FastTravelEngine();
         public CoreShipState       CorePlayerShipState { get; }
         public AllianceManager     AllianceManager     { get; } = new AllianceManager();
-        
+
+        public event Action OnPreGoToMeta;
+
         public CoreManager(PlayerController playerController, UnityContext context) {
             _inventory     = playerController.Inventory;
             _metaShipState = playerController.CurPlayerShipState;
@@ -33,6 +37,7 @@ namespace STP.Gameplay {
 
         public void GoToMeta() {
             _metaShipState.Hp = CorePlayerShipState.Hp;
+            OnPreGoToMeta?.Invoke();
             SceneManager.LoadScene("Meta");
         }
     }
