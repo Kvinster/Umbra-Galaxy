@@ -46,12 +46,7 @@ namespace STP.Behaviour.Core {
             _starSystemsController = starter.StarSystemsController;
             _playerController      = starter.PlayerController;
             _questsController      = starter.QuestsController;
-
-            var testQuestState = new DefendSystemQuestState(1000, _playerController.CurSystemId,
-                _playerController.CurSystemId, _playerController.CurSystemId, new RewardInfo());
-            _questsController.TryStartQuest(testQuestState);
-            _levelController.StartLevel(testQuestState.Id);
-
+            
             _starSystemId = _playerController.CurSystemId;
             if ( _starSystemsController.GetStarSystemType(_starSystemId) != StarSystemType.Faction ) {
                 Debug.LogErrorFormat("Invalid star system '{0}' type '{1}'",
