@@ -40,7 +40,7 @@ namespace STP.Behaviour.Core.Objects {
             }
         }
 
-        public override void Init(CoreStarter starter) {
+        protected override void InitInternal(CoreStarter starter) {
             transform.position = Route[StartRoutePointIndex].position;
             _nextRoutePoint    = (StartRoutePointIndex + 1) % Route.Count;
         }

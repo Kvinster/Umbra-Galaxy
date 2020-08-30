@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-using System.Collections.Generic;
-
 using STP.Behaviour.Core;
 using STP.Gameplay;
 using STP.Gameplay.DebugGUI;
@@ -12,7 +10,7 @@ using STP.Utils;
 using STP.View.DebugGUI;
 
 namespace STP.Behaviour.Starter {
-    public class CoreStarter : GameComponent {
+    public class CoreStarter : BaseStarter<CoreStarter> {
         public Transform        BulletSpawnStock;
         public Transform        MaterialSpawnStock;
         public UnityContext     UnityContext;
@@ -44,10 +42,7 @@ namespace STP.Behaviour.Starter {
             CoreManager       = new CoreManager(PlayerController, UnityContext);
             OverlayHelper     = new CoreOverlayHelper(this);
             BulletCreator     = new BulletCreator(BulletSpawnStock, CoreManager.AllianceManager);
-            var behaviours    = new HashSet<CoreComponent>(CoreComponent.Instances);
-            foreach (var comp in behaviours) {
-                comp.Init(this);
-            }
+            InitComponents();
             LevelWrapper.Init(this);
             //Settings for smooth gameplay
             Application.targetFrameRate = Screen.currentResolution.refreshRate;

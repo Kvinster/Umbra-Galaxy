@@ -27,7 +27,7 @@ namespace STP.Behaviour.Core.Objects {
 
         public event Action OnDestroyed;
 
-        public override void Init(CoreStarter starter) {
+        protected override void InitInternal(CoreStarter starter) {
             HpBar.Init();
             CurHp = StartHp;
         }

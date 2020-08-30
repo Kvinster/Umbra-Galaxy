@@ -4,12 +4,13 @@ using STP.Behaviour.Starter;
 using STP.State;
 
 namespace STP.Behaviour.Core.Objects.DoorObject {
-    public class KeyAutomaticDoor : BaseDoor{
+    public sealed class KeyAutomaticDoor : BaseDoor{
         public string Key;
 
         CorePlayerController _corePlayerController;
 
         protected override void InitInternal(CoreStarter starter) {
+            base.InitInternal(starter);
             _corePlayerController = starter.CorePlayerController;
         }
 
@@ -22,7 +23,8 @@ namespace STP.Behaviour.Core.Objects.DoorObject {
 
 
         void OnTriggerStay2D(Collider2D other) {
-            if ( !other.gameObject.GetComponent<PlayerShip>() || !_corePlayerController.HasKey(Key) || (State == DoorState.Opened) || (State == DoorState.Opening)) {
+            if ( !other.gameObject.GetComponent<PlayerShip>() || !_corePlayerController.HasKey(Key) ||
+                 (State == DoorState.Opened) || (State == DoorState.Opening) ) {
                 return;
             }
             OpenDoor();

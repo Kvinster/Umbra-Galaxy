@@ -8,12 +8,12 @@ using TMPro;
 namespace STP.Behaviour.Core {
     public class SelfDestructUI : CoreComponent {
         [NotNull] public TMP_Text SelfDestructionText;
-    
+
         SelfDestructEngine _engine;
-        
+
         Timer Timer => _engine.Timer;
 
-        public override void Init(CoreStarter starter) {
+        protected override void InitInternal(CoreStarter starter) {
             _engine = starter.CoreManager.SelfDestructEngine;
             _engine.OnStart += OnStartSelfDestruction;
             _engine.OnStop  += OnStopSelfDestruction;
@@ -32,7 +32,7 @@ namespace STP.Behaviour.Core {
         void OnStopSelfDestruction() {
             gameObject.SetActive(false);
         }
-        
+
         void Update() {
             SelfDestructionText.text = HRTime.ConvertToSMString(Timer.TimeLeft);
         }

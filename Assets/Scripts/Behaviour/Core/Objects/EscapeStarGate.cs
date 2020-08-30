@@ -32,7 +32,7 @@ namespace STP.Behaviour.Core.Objects {
             }
         }
 
-        public override void Init(CoreStarter starter) {
+        protected override void InitInternal(CoreStarter starter) {
             _coreManager = starter.CoreManager;
 
             _timer.Start(ExitTime);

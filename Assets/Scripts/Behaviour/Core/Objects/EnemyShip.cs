@@ -29,8 +29,8 @@ namespace STP.Behaviour.Core.Objects {
         public EnemyState State {get; private set;} = EnemyState.None;
         public override ConflictSide CurrentSide => ConflictSide.Aliens;
 
-        public override void Init(CoreStarter starter) {
-            base.Init(starter);
+        protected override void InitInternal(CoreStarter starter) {
+            base.InitInternal(starter);
             _materialCreator   = starter.CoreItemCreator;
             _coreShipState   = starter.CoreManager.CorePlayerShipState;
             State              = EnemyState.Patrolling;

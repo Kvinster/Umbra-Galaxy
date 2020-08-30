@@ -20,7 +20,7 @@ namespace STP.Behaviour.Core.Objects {
 
         protected override void CheckDescription() { }
 
-        public override void Init(CoreStarter starter) {
+        protected override void InitInternal(CoreStarter starter) {
             _coreItemCreator = starter.CoreItemCreator;
             _curHp           = TotalHp;
             if ( HpBar ) {

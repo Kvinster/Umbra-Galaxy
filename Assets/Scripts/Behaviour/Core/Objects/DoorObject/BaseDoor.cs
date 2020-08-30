@@ -28,10 +28,9 @@ namespace STP.Behaviour.Core.Objects.DoorObject {
             }
         }
 
-        public override void Init(CoreStarter starter) {
+        protected override void InitInternal(CoreStarter starter) {
             LeftFrame.Init();
             RightFrame.Init();
-            InitInternal(starter);
         }
 
         public void OpenDoor() {
@@ -45,8 +44,6 @@ namespace STP.Behaviour.Core.Objects.DoorObject {
             State = DoorState.Closing;
             _timer.Start(OpeningTime, passedTime);
         }
-
-        protected abstract void InitInternal(CoreStarter starter);
 
         void Update() {
             if ( _timer.DeltaTick() ) {

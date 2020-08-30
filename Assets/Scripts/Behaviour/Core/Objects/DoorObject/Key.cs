@@ -3,12 +3,12 @@ using STP.State;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Objects.DoorObject {
-    public class Key : CoreComponent, ICollectable {
+    public sealed class Key : CoreComponent, ICollectable {
         [NotNullOrEmpty] public string Value;
 
         CorePlayerController _corePlayerController;
 
-        public override void Init(CoreStarter starter) {
+        protected override void InitInternal(CoreStarter starter) {
             _corePlayerController = starter.CorePlayerController;
         }
 

@@ -58,7 +58,7 @@ namespace STP.Behaviour.Core {
             }
         }
 
-        public override void Init(CoreStarter starter) {
+        protected override void InitInternal(CoreStarter starter) {
             _starter = starter;
 
             if ( StartSpawnOnInit ) {

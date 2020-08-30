@@ -2,7 +2,6 @@
 
 using STP.Behaviour.Starter;
 using STP.Gameplay;
-using STP.Gameplay.Weapon.Common;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Objects {
@@ -40,7 +39,7 @@ namespace STP.Behaviour.Core.Objects {
             Camera.UpdatePos(ShipState.Position);
         }
 
-        public override void Init(CoreStarter starter) {
+        protected override void InitInternal(CoreStarter starter) {
             _overlayHelper       = starter.OverlayHelper;
             WeaponControl        = starter.WeaponCreator.GetManualWeapon(starter.PlayerController.CurWeaponType);
             _selfDestructEngine  = starter.CoreManager.SelfDestructEngine;

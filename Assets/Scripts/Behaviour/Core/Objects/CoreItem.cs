@@ -2,12 +2,12 @@
 using STP.Gameplay;
 
 namespace STP.Behaviour.Core.Objects {
-    public class CoreItem : CoreComponent, ICollectable {
+    public sealed class CoreItem : CoreComponent, ICollectable {
         public string ItemName;
-        
+
         CoreManager _coreManager;
-        
-        public override void Init(CoreStarter starter) {
+
+        protected override void InitInternal(CoreStarter starter) {
             _coreManager = starter.CoreManager;
         }
 
