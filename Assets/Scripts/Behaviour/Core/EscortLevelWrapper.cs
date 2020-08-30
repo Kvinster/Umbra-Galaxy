@@ -12,17 +12,17 @@ namespace STP.Behaviour.Core {
     public class EscortLevelWrapper : BaseLevelWrapper {
         [Serializable]
         public class ShipInfo {
-            public RoutedShip Ship;
+            public EscortShip Ship;
             [HideInInspector]
-            public bool       ReachedEnd;
+            public bool         ReachedEnd;
         }
 
         [NotNullOrEmpty] public List<ShipInfo> Ships;
 
         void Start() {
             foreach ( var shipInfo in Ships ) {
-                shipInfo.Ship.OnShipDestroyed += OnShipDestroyed;
-                shipInfo.Ship.ReachedRouteEnd += OnReachedEnd;
+                shipInfo.Ship.OnShipDestroyed   += OnShipDestroyed;
+                shipInfo.Ship.OnReachedRouteEnd += OnReachedEnd;
             }
         }
 
@@ -32,7 +32,7 @@ namespace STP.Behaviour.Core {
             }
         }
 
-        void OnReachedEnd(RoutedShip ship) {
+        void OnReachedEnd(BaseShip ship) {
             var shipInfo = Ships.Find((x)=>(x.Ship==ship));
             if ( !shipInfo.Ship ) {
                 Debug.LogError($"Can't find ship {ship.name} in level ship collection");
@@ -50,16 +50,16 @@ namespace STP.Behaviour.Core {
 
         void OnShipDestroyed(BaseShip ship) {
             Ships.RemoveAll((x)=> (x.Ship == ship));
-            RemoveCallbacks(ship as RoutedShip);
+            RemoveCallbacks(ship as EscortShip);
             if ( Ships.Count == 0 ) {
                 LevelQuestState = LevelQuestState.Failed;
                 EventManager.Fire(new QuestFailed());
             }
         }
 
-        void RemoveCallbacks(RoutedShip ship) {
-            ship.OnShipDestroyed -= OnShipDestroyed;
-            ship.ReachedRouteEnd -= OnReachedEnd;
+        void RemoveCallbacks(EscortShip ship) {
+            ship.OnShipDestroyed   -= OnShipDestroyed;
+            ship.OnReachedRouteEnd -= OnReachedEnd;
         }
     }
 }

@@ -1527,6 +1527,26 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6036914731514829862, guid: a6d65f3c8af796c459d72da8a8431d07,
+        type: 3}
+      propertyPath: PatrolRoute.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036914731514829862, guid: a6d65f3c8af796c459d72da8a8431d07,
+        type: 3}
+      propertyPath: PatrolRoute.Array.data[0]
+      value: 
+      objectReference: {fileID: 1771092992}
+    - target: {fileID: 6036914731514829862, guid: a6d65f3c8af796c459d72da8a8431d07,
+        type: 3}
+      propertyPath: PatrolRoute.Array.data[1]
+      value: 
+      objectReference: {fileID: 1092603694}
+    - target: {fileID: 6036914731514829862, guid: a6d65f3c8af796c459d72da8a8431d07,
+        type: 3}
+      propertyPath: SnapOnInit
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7464548312692358418, guid: a6d65f3c8af796c459d72da8a8431d07,
         type: 3}
       propertyPath: m_Name
@@ -6059,6 +6079,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036914731514829862, guid: a6d65f3c8af796c459d72da8a8431d07,
+        type: 3}
+      propertyPath: PatrolRoute.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036914731514829862, guid: a6d65f3c8af796c459d72da8a8431d07,
+        type: 3}
+      propertyPath: PatrolRoute.Array.data[0]
+      value: 
+      objectReference: {fileID: 1771092992}
+    - target: {fileID: 6036914731514829862, guid: a6d65f3c8af796c459d72da8a8431d07,
+        type: 3}
+      propertyPath: PatrolRoute.Array.data[1]
+      value: 
+      objectReference: {fileID: 1092603694}
+    - target: {fileID: 6036914731514829862, guid: a6d65f3c8af796c459d72da8a8431d07,
+        type: 3}
+      propertyPath: SnapOnInit
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7464548312692358418, guid: a6d65f3c8af796c459d72da8a8431d07,
         type: 3}

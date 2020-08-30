@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 5213436331024437477}
   - component: {fileID: 7999477584213520501}
   - component: {fileID: 1475442592540211251}
+  - component: {fileID: 6036914731514829862}
   m_Layer: 0
   m_Name: Civilian
   m_TagString: Untagged
@@ -241,7 +242,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 1
-  m_AngularDrag: 0.05
+  m_AngularDrag: 100
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -262,9 +263,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponMountPoint: {fileID: 5445224572993089012}
   HpBar: {fileID: 1855425555735716109}
-  Route: []
+  MovementController: {fileID: 6036914731514829862}
+--- !u!114 &6036914731514829862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7464548312692358418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daed43e225f74f5fb66528b317cf50f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Rigidbody: {fileID: 7999477584213520501}
+  OverrideMoveRoot: {fileID: 0}
+  ApproachTolerance: 50
+  IsCycledRoute: 0
+  PatrolRoute: []
+  SnapOnInit: 0
   StartRoutePointIndex: 0
-  CycledRoute: 0
 --- !u!1001 &5286896728489551492
 PrefabInstance:
   m_ObjectHideFlags: 0
