@@ -9,7 +9,7 @@ using STP.Gameplay.Weapon.ShotgunWeapon;
 
 namespace STP.Gameplay.Weapon.Common {
     public class WeaponCreator {
-        
+
         public IWeaponControl GetManualWeapon(WeaponType weaponType) {
             switch ( weaponType ) {
                 case WeaponType.Gun:
@@ -27,8 +27,8 @@ namespace STP.Gameplay.Weapon.Common {
             }
             return null;
         }
-        
-        public IWeaponControl GetAIWeaponController(WeaponType weaponType, EnemyShip enemyShip) {
+
+        public IWeaponControl GetAIWeaponController(WeaponType weaponType, BaseEnemyShip enemyShip) {
             switch ( weaponType ) {
                 case WeaponType.Gun:
                     return new BulletAIControl(new Gun(400, 0.5f), enemyShip);

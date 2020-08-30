@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 
+using STP.Behaviour.Core.AiMovement;
 using STP.Behaviour.Starter;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
@@ -27,6 +28,8 @@ namespace STP.Behaviour.Core {
         }
 
         public bool StartSpawnOnInit;
+        [NotNull]
+        public Transform PlayerShipTrans;
         [NotNull]
         public Transform EnemyParent;
         [NotNullOrEmpty]
@@ -115,6 +118,10 @@ namespace STP.Behaviour.Core {
                 // TODO: init enemy
                 foreach ( var comp in enemyGo.GetComponentsInChildren<CoreComponent>() ) {
                     comp.Init(_starter);
+                }
+                // TODO: refactor
+                foreach ( var chaseController in enemyGo.GetComponentsInChildren<ChaseMovementController>() ) {
+                    chaseController.FallbackChaseTarget = PlayerShipTrans;
                 }
                 OnEnemySpawned?.Invoke(enemyGo);
             }

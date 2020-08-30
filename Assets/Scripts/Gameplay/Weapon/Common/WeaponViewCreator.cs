@@ -27,7 +27,7 @@ namespace STP.Gameplay.Weapon.Common {
             if ( weaponMountPlace.childCount == 0 ) {
                 return;
             }
-            Object.Destroy(weaponMountPlace.GetChild(0));
+            Object.Destroy(weaponMountPlace.GetChild(0).gameObject);
         }
 
         public void AddWeaponView(BaseShip ship, BaseWeapon weapon) {

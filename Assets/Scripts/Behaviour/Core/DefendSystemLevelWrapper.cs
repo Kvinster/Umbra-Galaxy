@@ -92,7 +92,7 @@ namespace STP.Behaviour.Core {
                 Debug.LogError("Spawned enemy is null");
                 return;
             }
-            var enemyShip = enemyGo.GetComponent<EnemyShip>();
+            var enemyShip = enemyGo.GetComponent<BaseEnemyShip>();
             if ( !enemyShip ) {
                 Debug.LogErrorFormat("No EnemyShip component on spawned object '{0}'", enemyGo.name);
                 return;

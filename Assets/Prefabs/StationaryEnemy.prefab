@@ -57,6 +57,11 @@ PrefabInstance:
       propertyPath: StartRoutePointIndex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2903682676825547882, guid: c19e364f60650fb4bb3d1d623f79f298,
+        type: 3}
+      propertyPath: m_Radius
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 3609196222395136524, guid: c19e364f60650fb4bb3d1d623f79f298,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -162,12 +167,23 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5229814936516300544, guid: c19e364f60650fb4bb3d1d623f79f298,
+        type: 3}
+      propertyPath: m_Radius
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6361701909790734045, guid: c19e364f60650fb4bb3d1d623f79f298,
+        type: 3}
+      propertyPath: FallbackMovementController
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7464548312692358418, guid: c19e364f60650fb4bb3d1d623f79f298,
         type: 3}
       propertyPath: m_Name
       value: StationaryEnemy
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6277613166572681670, guid: c19e364f60650fb4bb3d1d623f79f298, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c19e364f60650fb4bb3d1d623f79f298, type: 3}
 --- !u!224 &9025342833642742215 stripped
 RectTransform:

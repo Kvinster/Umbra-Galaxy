@@ -36,7 +36,12 @@ namespace STP.Behaviour.Core.AiMovement {
             if ( ApproachTolerance <= 0f ) {
                 Debug.LogError("PatrolMovementController: ApproachTolerance must be more than zero", this);
             }
-            if ( SnapOnInit ) {
+            var isPrefab = false;
+            #if UNITY_EDITOR
+            isPrefab = string.IsNullOrEmpty(gameObject.scene.name) ||
+                       (UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() != null);
+            #endif
+            if ( !isPrefab && SnapOnInit ) {
                 if ( StartRoutePointIndex < 0 ) {
                     Debug.LogError("PatrolMovementController: StartRoutePointIndex mustn't be negative", this);
                 }

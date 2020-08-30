@@ -1790,6 +1790,7 @@ MonoBehaviour:
   WeaponMountPoint: {fileID: 1443689623}
   HpBar: {fileID: 1360206789}
   Camera: {fileID: 1750072073}
+  Rigidbody: {fileID: 1813742610}
 --- !u!60 &1813742609
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1895,6 +1896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartSpawnOnInit: 0
+  PlayerShipTrans: {fileID: 1813742605}
   EnemyParent: {fileID: 478014063}
   WaveInfos:
   - Delay: 5

@@ -2,14 +2,16 @@
 
 using STP.Behaviour.Starter;
 using STP.Gameplay;
+using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Objects {
     public class PlayerShip : BaseShip {
-        public const int Hp = 99;
-        const float ShipSpeed    = 250f;
+        const int   Hp        = 99;
+        const float ShipSpeed = 250f;
 
         [NotNull] public FollowCamera Camera;
+        [NotNull] public Rigidbody2D  Rigidbody;
 
         CoreOverlayHelper  _overlayHelper;
         SelfDestructEngine _selfDestructEngine;
@@ -35,7 +37,6 @@ namespace STP.Behaviour.Core.Objects {
             _selfDestructEngine.UpdateSelfDestructionTimers(Time.deltaTime);
             UpdateWeaponControlState();
             ShipState.Position = transform.position;
-            ShipState.Velocity = Rigidbody2D.velocity;
             Camera.UpdatePos(ShipState.Position);
         }
 
@@ -54,7 +55,7 @@ namespace STP.Behaviour.Core.Objects {
         }
 
         void TryMove() {
-            var pointerOffset       = (Vector2) Input.mousePosition - new Vector2(Screen.width/2, Screen.height/2);
+            var pointerOffset       = (Vector2) Input.mousePosition - new Vector2(Screen.width / 2, Screen.height / 2);
             var horizontalDirection = Input.GetAxis("Horizontal");
             var verticalDirection   = Input.GetAxis("Vertical");
             var moveDirection       = new Vector2(horizontalDirection, verticalDirection);
@@ -62,6 +63,15 @@ namespace STP.Behaviour.Core.Objects {
                 Move(moveDirection);
             }
             Rotate(pointerOffset);
+        }
+
+        void Move(Vector2 direction) {
+            var offsetVector = ShipInfo.MaxSpeed * direction;
+            MoveUtils.ApplyMovingVector(Rigidbody, offsetVector);
+        }
+
+        void Rotate(Vector2 viewDirection) {
+            MoveUtils.ApplyViewVector(transform, viewDirection);
         }
     }
 }

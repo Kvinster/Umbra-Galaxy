@@ -26,6 +26,8 @@ namespace STP.Behaviour.Core.AiMovement {
 
         readonly Dictionary<Transform, int> _potentialTargets = new Dictionary<Transform, int>();
 
+        public Transform CurChaseTarget => (CanChase ? (ChaseTarget ? ChaseTarget : FallbackChaseTarget) : null);
+
         public Transform FallbackChaseTarget {
             get => _fallbackChaseTarget;
             set {
@@ -42,12 +44,12 @@ namespace STP.Behaviour.Core.AiMovement {
             }
         }
 
-        Transform CurChaseTarget => (CanChase ? (ChaseTarget ? ChaseTarget : FallbackChaseTarget) : null);
-
         bool CanChase => ChaseTarget || FallbackChaseTarget;
 
         float TargetDistance =>
             CurChaseTarget ? Vector2.Distance(MoveRoot.position, CurChaseTarget.position) : float.MaxValue;
+
+        public event Action<Transform> OnCurChaseTargetChanged;
 
         protected override void CheckDescription() {
             if ( ChaseToleranceDistance <= 0f ) {
@@ -122,6 +124,7 @@ namespace STP.Behaviour.Core.AiMovement {
             } else {
                 OnChaseTargetDisappear();
             }
+            OnCurChaseTargetChanged?.Invoke(CurChaseTarget);
         }
 
         void OnChaseTargetAppear() {

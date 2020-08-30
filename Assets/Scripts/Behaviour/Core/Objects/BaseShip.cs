@@ -12,11 +12,10 @@ namespace STP.Behaviour.Core.Objects {
         public Transform WeaponMountPoint;
         public HpBar     HpBar;
 
-        protected Rigidbody2D    Rigidbody2D;
         protected CoreShipState  ShipState;
         protected IWeaponControl WeaponControl;
 
-        ShipInfo       _shipInfo;
+        protected ShipInfo ShipInfo { get; private set; }
 
         public event Action<BaseShip> OnShipDestroyed;
 
@@ -32,26 +31,15 @@ namespace STP.Behaviour.Core.Objects {
                 OnShipDestroyed?.Invoke(this);
                 OnShipDestroy();
             }
-            HpBar.UpdateBar(ShipState.Hp / _shipInfo.Hp);
+            HpBar.UpdateBar(ShipState.Hp / ShipInfo.Hp);
         }
 
         protected void InitShipInfo(ShipInfo shipInfo, CoreShipState shipState = null) {
-            Rigidbody2D    = GetComponent<Rigidbody2D>();
-            
-            _shipInfo = shipInfo;
-            ShipState = shipState ?? new CoreShipState(_shipInfo.Hp);
-            
+            ShipInfo = shipInfo;
+            ShipState = shipState ?? new CoreShipState(ShipInfo.Hp);
+
             HpBar.Init();
-            HpBar.UpdateBar(ShipState.Hp / _shipInfo.Hp);
-        }
-
-        protected void Move(Vector2 direction) {
-            var offsetVector = _shipInfo.MaxSpeed * direction;
-            MoveUtils.ApplyMovingVector(Rigidbody2D, offsetVector);
-        }
-
-        protected void Rotate(Vector2 viewDirection) {
-            MoveUtils.ApplyViewVector(transform, viewDirection);
+            HpBar.UpdateBar(ShipState.Hp / ShipInfo.Hp);
         }
 
 
