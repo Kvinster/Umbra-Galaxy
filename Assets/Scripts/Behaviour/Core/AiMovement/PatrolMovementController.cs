@@ -49,6 +49,9 @@ namespace STP.Behaviour.Core.AiMovement {
 
         void Update() {
             if ( !CanMove ) {
+                if ( IsActive ) {
+                    Stop();
+                }
                 return;
             }
             SetVelocityInDirection(MoveDirection);
