@@ -12,7 +12,7 @@ namespace STP.Behaviour.Core.AiMovement {
     public sealed class PatrolMovementController : BaseAiShipMovementController {
         public float ApproachTolerance = 10f;
         public bool  IsCycledRoute;
-        [NotNullOrEmpty]
+        [NotNullOrEmpty(checkPrefab: false)]
         public List<Transform> PatrolRoute = new List<Transform>();
         [Space]
         public bool SnapOnInit;
