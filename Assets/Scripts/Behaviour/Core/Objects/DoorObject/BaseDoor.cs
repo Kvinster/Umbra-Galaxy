@@ -6,7 +6,8 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Objects.DoorObject {
     public abstract class BaseDoor : CoreComponent {
-        public float OpeningTime = 3f;
+        public float OpeningTime  = 3f;
+        public float BlockingTime = 3f;
 
         [NotNull] public DoorFrame LeftFrame;
         [NotNull] public DoorFrame RightFrame;
@@ -36,7 +37,7 @@ namespace STP.Behaviour.Core.Objects.DoorObject {
         }
 
         public void BlockDoor() {
-            CloseDoor();
+            CloseDoor(BlockingTime);
             _blocked = true;
             RepaintDoors(Color.red);
         }
@@ -57,12 +58,16 @@ namespace STP.Behaviour.Core.Objects.DoorObject {
         }
 
         public void CloseDoor() {
+            CloseDoor(OpeningTime);
+        }
+        
+        public void CloseDoor(float closingTime) {
             if ( _blocked || (_state == DoorState.Closed) ) {
                 return;
             }
             var passedTime = ( State == DoorState.Opening ) ? _timer.TimeLeft : 0f;
             State = DoorState.Closing;
-            _timer.Start(OpeningTime, passedTime);
+            _timer.Start(closingTime, passedTime);
         }
 
         void Update() {
