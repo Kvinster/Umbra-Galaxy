@@ -1,10 +1,8 @@
-﻿#if UNITY_EDITOR
-
-using UnityEditor;
+﻿using UnityEditor;
 
 using System.Linq;
 
-namespace STP.Utils {
+namespace STP.Editor.Utils {
 	public static class Reserializer {
 		[MenuItem("Utils/Reserialize/Reserialize All Assets")]
 		static void ReserializeAll() {
@@ -26,5 +24,3 @@ namespace STP.Utils {
 		}
 	}
 }
-
-#endif
