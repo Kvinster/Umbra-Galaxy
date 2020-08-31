@@ -15,8 +15,8 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
     public sealed class DefendSystemLevelWrapper : BaseLevelWrapper {
-        [NotNull] public DefendStarGate           StarGate;
-        [NotNull] public DefendSystemEnemySpawner EnemySpawner;
+        [NotNull] public DefendStarGate StarGate;
+        [NotNull] public EnemySpawner   EnemySpawner;
 
         CoreManager           _coreManager;
         LevelController       _levelController;

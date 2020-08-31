@@ -11,6 +11,8 @@ namespace STP.Behaviour.Core.Objects.DoorObject {
         [NotNull] public DoorFrame LeftFrame;
         [NotNull] public DoorFrame RightFrame;
 
+        bool _blocked;
+        
         readonly Timer _timer = new Timer();
 
         DoorState _state = DoorState.Closed;
@@ -33,13 +35,31 @@ namespace STP.Behaviour.Core.Objects.DoorObject {
             RightFrame.Init();
         }
 
+        public void BlockDoor() {
+            CloseDoor();
+            _blocked = true;
+            RepaintDoors(Color.red);
+        }
+
+        public void UnblockZone() {
+            OpenDoor();
+            _blocked = false;
+            RepaintDoors(Color.white);
+        }
+        
         public void OpenDoor() {
+            if ( _blocked || (_state == DoorState.Opened) ) {
+                return;
+            }
             var passedTime = ( State == DoorState.Closing ) ? _timer.TimeLeft : 0f;
             State = DoorState.Opening;
             _timer.Start(OpeningTime, passedTime);
         }
 
         public void CloseDoor() {
+            if ( _blocked || (_state == DoorState.Closed) ) {
+                return;
+            }
             var passedTime = ( State == DoorState.Opening ) ? _timer.TimeLeft : 0f;
             State = DoorState.Closing;
             _timer.Start(OpeningTime, passedTime);
@@ -68,6 +88,11 @@ namespace STP.Behaviour.Core.Objects.DoorObject {
                 LeftFrame.SetProgress(_timer.NormalizedProgress);
                 RightFrame.SetProgress(_timer.NormalizedProgress);
             }
+        }
+
+        void RepaintDoors(Color newColor) {
+            LeftFrame.GetComponent<SpriteRenderer>().color = newColor;
+            RightFrame.GetComponent<SpriteRenderer>().color = newColor;
         }
     }
 }

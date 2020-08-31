@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core {
-    public sealed class DefendSystemEnemySpawner : CoreComponent {
+    public sealed class EnemySpawner : CoreComponent {
         [Serializable]
         public sealed class WaveInfo {
             public float Delay;
