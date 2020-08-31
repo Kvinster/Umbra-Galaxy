@@ -15,7 +15,7 @@ MonoBehaviour:
   LevelPacks:
   - LevelType: 1
     Levels:
-    - CoreLevel_Escort
+    - CoreLevel_Escort_Lab
   - LevelType: 2
     Levels:
     - CoreLevel_DefendSystem

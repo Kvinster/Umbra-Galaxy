@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CoreLevel_ReclaimSystem.unity
     guid: 9b772a0e68b73394caf3e9bb2c99b606
+  - enabled: 1
+    path: Assets/Scenes/CoreLevel_Escort_Lab.unity
+    guid: daed94eda895a244db5fd806e43a6d82
   m_configObjects: {}
