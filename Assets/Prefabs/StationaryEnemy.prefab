@@ -57,6 +57,11 @@ PrefabInstance:
       propertyPath: StartRoutePointIndex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1855425555735716109, guid: c19e364f60650fb4bb3d1d623f79f298,
+        type: 3}
+      propertyPath: HideIfFull
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2903682676825547882, guid: c19e364f60650fb4bb3d1d623f79f298,
         type: 3}
       propertyPath: m_Radius
