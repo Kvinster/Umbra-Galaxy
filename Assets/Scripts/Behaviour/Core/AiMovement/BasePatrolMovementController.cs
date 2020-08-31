@@ -1,19 +1,14 @@
 ﻿using UnityEngine;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using STP.Utils.GameComponentAttributes;
 
 using NaughtyAttributes;
 
 namespace STP.Behaviour.Core.AiMovement {
-    public sealed class TransformFreePatrolMovementController : BaseAiShipMovementController {
+    public abstract class BasePatrolMovementController : BaseAiShipMovementController {
         public float ApproachTolerance = 10f;
         public bool  IsCycledRoute;
-        [NotNullOrEmpty(checkPrefab: false)]
-        public List<Vector2> PatrolRoute = new List<Vector2>();
+        
         [Space]
         public bool SnapOnInit;
         [ShowIf("SnapOnInit")]
@@ -22,15 +17,20 @@ namespace STP.Behaviour.Core.AiMovement {
         int _nextRoutePointIndex;
 
         protected override bool CanMove =>
-            (base.CanMove && (_nextRoutePointIndex >= 0) && (_nextRoutePointIndex < PatrolRoute.Count));
+            (base.CanMove && (_nextRoutePointIndex >= 0) && (_nextRoutePointIndex < PointsCount));
 
-        Vector3 NextPoint      => PatrolRoute[_nextRoutePointIndex];
+        Vector3 NextPoint      => GetPoint(_nextRoutePointIndex);
         Vector2 MoveVector     => (NextPoint - MoveRoot.position);
         Vector2 MoveDirection  => MoveVector.normalized;
         bool    IsCloseToPoint => (MoveVector.magnitude < ApproachTolerance);
 
         public event Action OnFinishedPatrol;
 
+        protected abstract int PointsCount { get; }
+        
+        protected abstract bool CanDrawDizmo();
+        protected abstract Vector2 GetPoint(int index);
+        
         protected override void CheckDescription() {
             base.CheckDescription();
             if ( ApproachTolerance <= 0f ) {
@@ -45,14 +45,14 @@ namespace STP.Behaviour.Core.AiMovement {
                 if ( StartRoutePointIndex < 0 ) {
                     Debug.LogError("PatrolMovementController: StartRoutePointIndex mustn't be negative", this);
                 }
-                if ( StartRoutePointIndex >= PatrolRoute.Count ) {
+                if ( StartRoutePointIndex >= PointsCount ) {
                     Debug.LogError("PatrolMovementController: StartRoutePointIndex must be less than PatrolRoute.Count",
                         this);
                 }
             }
         }
 
-        void FixedUpdate() {
+        void Update() {
             if ( !CanMove ) {
                 if ( IsActive ) {
                     Stop();
@@ -62,7 +62,7 @@ namespace STP.Behaviour.Core.AiMovement {
             SetVelocityInDirection(MoveDirection);
             SetViewRotation(MoveDirection);
             if ( IsCloseToPoint ) {
-                _nextRoutePointIndex = (_nextRoutePointIndex + 1) % PatrolRoute.Count;
+                _nextRoutePointIndex = (_nextRoutePointIndex + 1) % PointsCount;
                 if ( !IsCycledRoute && (_nextRoutePointIndex == 0) ) {
                     Rigidbody.velocity = Vector2.zero;
                     _nextRoutePointIndex = -1;
@@ -74,19 +74,22 @@ namespace STP.Behaviour.Core.AiMovement {
         public void Init(float maxSpeed, bool activeOnInit = false) {
             CommonInit(maxSpeed);
             if ( SnapOnInit ) {
-                MoveRoot.position    = PatrolRoute[StartRoutePointIndex];
-                _nextRoutePointIndex = (StartRoutePointIndex + 1) % PatrolRoute.Count;
+                MoveRoot.position    = GetPoint(StartRoutePointIndex);
+                _nextRoutePointIndex = (StartRoutePointIndex + 1) % PointsCount;
             }
             IsActive = activeOnInit;
         }
 
         void OnDrawGizmos() {
+            if ( !CanDrawDizmo() ) {
+                return;
+            }
             // TODO: use different colors based on GetInstanceID()
-            for ( var i = 0; i < PatrolRoute.Count; i++ ) {
-                var point  = PatrolRoute[i];
-                var point2 = PatrolRoute[(i + 1) % PatrolRoute.Count];
+            for ( var i = 0; i < PointsCount; i++ ) {
+                var point  = GetPoint(i);
+                var point2 = GetPoint((i + 1) % PointsCount);
                 Gizmos.DrawWireSphere(point, 10f);
-                if ( !IsCycledRoute && (i == (PatrolRoute.Count - 1)) ) {
+                if ( !IsCycledRoute && (i == (PointsCount - 1)) ) {
                     break;
                 }
                 Gizmos.DrawLine(point, point2);

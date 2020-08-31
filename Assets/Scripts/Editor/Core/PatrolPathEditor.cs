@@ -7,7 +7,7 @@ using STP.Behaviour.Core.AiMovement;
 
 namespace STP.Editor.Core {
     public class PatrolPathEditor : EditorWindow {
-        TransformFreePatrolMovementController _patrolMovementController;
+        VectorPatrolMovementController _patrolMovementController;
         
         bool _cyclePath;
         
@@ -100,7 +100,7 @@ namespace STP.Editor.Core {
         }
 
         void OnGUI() {
-            _patrolMovementController = EditorGUILayout.ObjectField("Current object", _patrolMovementController, typeof(TransformFreePatrolMovementController), true) as TransformFreePatrolMovementController;
+            _patrolMovementController = EditorGUILayout.ObjectField("Current object", _patrolMovementController, typeof(VectorPatrolMovementController), true) as VectorPatrolMovementController;
             
             if ( _patrolMovementController ) {
                 _patrolMovementController.IsCycledRoute = EditorGUILayout.Toggle("Cycle path", _patrolMovementController.IsCycledRoute);

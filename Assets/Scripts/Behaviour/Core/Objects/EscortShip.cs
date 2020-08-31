@@ -10,7 +10,7 @@ namespace STP.Behaviour.Core.Objects {
         const float ShipSpeed       = 150f;
         const int   Hp              = 2;
 
-        [NotNull] public PatrolMovementController MovementController;
+        [NotNull] public BasePatrolMovementController MovementController;
 
         public override ConflictSide CurrentSide => ConflictSide.Civilians;
 

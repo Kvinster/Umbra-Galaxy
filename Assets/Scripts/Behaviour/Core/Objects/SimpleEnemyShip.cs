@@ -44,11 +44,11 @@ namespace STP.Behaviour.Core.Objects {
                 return;
             }
             switch ( fallbackMovementController ) {
-                case PatrolMovementController patrolMovementController: {
+                case TransformPatrolMovementController patrolMovementController: {
                     patrolMovementController.Init(ShipSpeed);
                     break;
                 }
-                case TransformFreePatrolMovementController patrolMovementController: {
+                case VectorPatrolMovementController patrolMovementController: {
                     patrolMovementController.Init(ShipSpeed);
                     break;
                 }
