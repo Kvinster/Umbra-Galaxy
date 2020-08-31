@@ -48,6 +48,10 @@ namespace STP.Behaviour.Core.Objects {
                     patrolMovementController.Init(ShipSpeed);
                     break;
                 }
+                case TransformFreePatrolMovementController patrolMovementController: {
+                    patrolMovementController.Init(ShipSpeed);
+                    break;
+                }
                 default: {
                     Debug.LogErrorFormat(this, "Unsupported ai ship movement controller type '{0}'",
                         fallbackMovementController.GetType().Name);
