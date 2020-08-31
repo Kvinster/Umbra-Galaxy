@@ -4677,6 +4677,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2725692147230323574, guid: f0adaed1069946047a87fe25bc74483e,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 5693068482614391891, guid: f0adaed1069946047a87fe25bc74483e,
         type: 3}
       propertyPath: m_IsActive
@@ -4701,6 +4706,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8897741620957234978, guid: f0adaed1069946047a87fe25bc74483e,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0adaed1069946047a87fe25bc74483e, type: 3}
@@ -5159,7 +5169,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1000, y: 900}
+  m_Size: {x: 700, y: 900}
   m_EdgeRadius: 0
 --- !u!114 &1169405679
 MonoBehaviour:
@@ -5173,6 +5183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c24a23ef86420e88f945bf33f7257d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Spawner: {fileID: 1169405682}
 --- !u!114 &1169405680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5185,7 +5196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01747f9bc4a54a1894f77a9757ba7c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemySpawner: {fileID: 0}
+  EnemySpawner: {fileID: 1169405682}
 --- !u!114 &1169405681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5217,11 +5228,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartSpawnOnInit: 0
-  PlayerShipTrans: {fileID: 0}
+  PlayerShipTrans: {fileID: 1813742605}
   EnemyParent: {fileID: 2135511908}
   WaveInfos:
-  - Delay: 0
-    EnemyCount: 5
+  - Delay: 1
+    EnemyCount: 4
     SpawnPoints:
     - {fileID: 168667526}
     - {fileID: 1635161614}
@@ -5229,8 +5240,8 @@ MonoBehaviour:
     - {fileID: 126132083}
     EnemyPrefabs:
     - {fileID: 7926889079623918658, guid: 1481d5dba1160364bae0217fa429ee90, type: 3}
-  - Delay: 5
-    EnemyCount: 5
+  - Delay: 4
+    EnemyCount: 4
     SpawnPoints:
     - {fileID: 168667526}
     - {fileID: 1635161614}
@@ -5238,8 +5249,8 @@ MonoBehaviour:
     - {fileID: 126132083}
     EnemyPrefabs:
     - {fileID: 7926889079623918658, guid: 1481d5dba1160364bae0217fa429ee90, type: 3}
-  - Delay: 5
-    EnemyCount: 5
+  - Delay: 4
+    EnemyCount: 4
     SpawnPoints:
     - {fileID: 168667526}
     - {fileID: 1635161614}
