@@ -7,7 +7,7 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Objects {
     public sealed class EscortShip : BaseShip {
-        const float ShipSpeed       = 150f;
+        const float ShipSpeed       = 300f;
         const int   Hp              = 2;
 
         [NotNull] public BasePatrolMovementController MovementController;
