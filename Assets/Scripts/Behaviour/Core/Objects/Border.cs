@@ -28,8 +28,10 @@ namespace STP.Behaviour.Core.Objects {
             }
         }
 
+        #if UNITY_EDITOR
         void OnDrawGizmos() {
             Handles.DrawWireDisc(transform.position, Vector3.forward, BorderRadius);
         }
+        #endif
     }
 }

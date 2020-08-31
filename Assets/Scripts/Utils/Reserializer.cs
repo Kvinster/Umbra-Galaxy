@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+
+using UnityEditor;
 
 using System.Linq;
 
@@ -24,3 +26,5 @@ namespace STP.Utils {
 		}
 	}
 }
+
+#endif
