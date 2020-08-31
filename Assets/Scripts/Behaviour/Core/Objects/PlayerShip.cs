@@ -10,8 +10,8 @@ namespace STP.Behaviour.Core.Objects {
         const int   Hp        = 99;
         const float ShipSpeed = 250f;
 
-        [NotNull] public FollowCamera Camera;
-        [NotNull] public Rigidbody2D  Rigidbody;
+        [NotNull(false)] public FollowCamera Camera;
+        [NotNull]        public Rigidbody2D  Rigidbody;
 
         CoreOverlayHelper  _overlayHelper;
         SelfDestructEngine _selfDestructEngine;
@@ -32,7 +32,7 @@ namespace STP.Behaviour.Core.Objects {
             collectableItem?.CollectItem();
         }
 
-        void Update() {
+        void FixedUpdate() {
             TryMove();
             _selfDestructEngine.UpdateSelfDestructionTimers(Time.deltaTime);
             UpdateWeaponControlState();
