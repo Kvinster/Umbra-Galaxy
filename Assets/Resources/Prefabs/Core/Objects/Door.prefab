@@ -314,6 +314,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce9d8afddffd46fe8744751588d1225d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OpeningTime: 3
+  OpeningTime: 1
   LeftFrame: {fileID: 8172426523764384581}
   RightFrame: {fileID: 1199711739270486086}
