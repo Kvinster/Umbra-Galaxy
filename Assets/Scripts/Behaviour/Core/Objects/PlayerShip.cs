@@ -34,7 +34,6 @@ namespace STP.Behaviour.Core.Objects {
 
         void FixedUpdate() {
             TryMove();
-            _selfDestructEngine.UpdateSelfDestructionTimers(Time.deltaTime);
             UpdateWeaponControlState();
             ShipState.Position = transform.position;
             Camera.UpdatePos(ShipState.Position);

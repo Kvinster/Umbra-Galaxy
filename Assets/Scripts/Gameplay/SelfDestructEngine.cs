@@ -35,7 +35,7 @@ namespace STP.Gameplay {
             OnStop?.Invoke();
         }
 
-        public void UpdateSelfDestructionTimers(float passedTime) {
+        public void UpdateTimer(float passedTime) {
             if ( !IsActive ) {
                 return;
             }

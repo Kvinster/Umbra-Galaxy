@@ -27,7 +27,7 @@ namespace STP.Gameplay {
             _metaShipState = playerController.CurPlayerShipState;
             CorePlayerShipState = new CoreShipState(_metaShipState);
             context.AddUpdateCallback(FastTravelEngine.UpdateEngineState);
-            context.AddUpdateCallback(SelfDestructEngine.UpdateSelfDestructionTimers);
+            context.AddUpdateCallback(SelfDestructEngine.UpdateTimer);
             FastTravelEngine.Init(FastTravelEngineChargingTime);
         }
 
