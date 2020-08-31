@@ -4,7 +4,7 @@ namespace STP.Gameplay.Weapon.Common {
     public class Beam : MonoBehaviour{
         public SpriteRenderer BeamRenderer;
         
-        const int Dps = 5;
+        const int Dps = 20;
         
         public void SetLength(float length) {
             BeamRenderer.size = new Vector2(BeamRenderer.size.x, length);

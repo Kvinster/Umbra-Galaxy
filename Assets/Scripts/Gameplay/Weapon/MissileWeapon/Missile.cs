@@ -9,9 +9,9 @@ using STP.Utils;
 
 namespace STP.Gameplay.Weapon.MissileWeapon {
     public class Missile : Bullet {
-        const float DetectionRadius  = 1000f;
+        const float DetectionRadius  = 1500f;
         const float DetectoinDelay   = 0.3f;
-        const float Velocity         = 400f;
+        const float Velocity         = 1000f;
         const int   DefaultLayerMask = 1 << 0;
         const int   PlayerLayerMask  = 1 << 8;
         
@@ -26,6 +26,7 @@ namespace STP.Gameplay.Weapon.MissileWeapon {
         HashSet<ConflictSide> _availableTargets;
         
         public void Init(GameObject sourceShip, AllianceManager allianceManager) {
+            Damage = 5f;
             base.Init(sourceShip);
             _timer.Start(DetectoinDelay);
             _rigidbody         = GetComponent<Rigidbody2D>();

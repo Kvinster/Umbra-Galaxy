@@ -8,7 +8,7 @@ using STP.Utils.GameComponentAttributes;
 namespace STP.Behaviour.Core.Objects {
     public class PlayerShip : BaseShip {
         const int   Hp        = 99;
-        const float ShipSpeed = 250f;
+        const float ShipSpeed = 500f;
 
         [NotNull(false)] public FollowCamera Camera;
         [NotNull]        public Rigidbody2D  Rigidbody;
