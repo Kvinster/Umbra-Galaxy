@@ -315,5 +315,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OpeningTime: 1
+  BlockingTime: 0.3
   LeftFrame: {fileID: 8172426523764384581}
   RightFrame: {fileID: 1199711739270486086}
