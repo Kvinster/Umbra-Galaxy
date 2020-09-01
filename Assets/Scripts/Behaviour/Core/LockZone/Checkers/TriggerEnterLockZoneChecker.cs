@@ -1,21 +1,26 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Core.Objects;
-using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.LockZone.Checkers {
     public sealed class TriggerEnterLockZoneChecker : BaseLockZoneChecker {
-        [NotNull] public EnemySpawner Spawner;
-
-        bool _lockWasActivated;
+        bool _playerInArea;
+        
+        public override bool LockConditionActive => _playerInArea;
         
         public void OnTriggerEnter2D(Collider2D other) {
-            if ( !other.gameObject.GetComponent<PlayerShip>() || _lockWasActivated ) {
+            if ( !other.gameObject.GetComponent<PlayerShip>() ) {
                 return;
             }
-            _lockWasActivated = true;
-            Spawner.TryStartSpawn();
+            _playerInArea = true;
             TriggerLockEvent();
+        }
+
+        public void OnTriggerExit2D(Collider2D other) {
+            if ( !other.gameObject.GetComponent<PlayerShip>() ) {
+                return;
+            }
+            _playerInArea = false;
         }
     }
 }

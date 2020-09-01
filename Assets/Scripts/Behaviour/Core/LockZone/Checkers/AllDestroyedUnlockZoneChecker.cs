@@ -1,7 +1,9 @@
-﻿using JetBrains.Annotations;
-using STP.Behaviour.Core.Objects;
+﻿using UnityEngine;
+
 using System.Collections.Generic;
-using UnityEngine;
+
+using STP.Behaviour.Core.Objects;
+using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.LockZone.Checkers {
     public sealed class AllDestroyedUnlockZoneChecker : BaseUnlockZoneChecker {
@@ -9,7 +11,8 @@ namespace STP.Behaviour.Core.LockZone.Checkers {
 
         List<BaseShip> _activeShips = new List<BaseShip>();
         
-        public void Awake() {
+        public new void Awake() {
+            base.Awake();
             EnemySpawner.OnEnemySpawned += OnShipCreated; 
         }
 
