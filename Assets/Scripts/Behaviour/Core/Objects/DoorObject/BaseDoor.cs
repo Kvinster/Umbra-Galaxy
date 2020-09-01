@@ -43,8 +43,8 @@ namespace STP.Behaviour.Core.Objects.DoorObject {
         }
 
         public void UnblockZone() {
-            OpenDoor();
             _blocked = false;
+            OpenDoor();
             RepaintDoors(Color.white);
         }
         
