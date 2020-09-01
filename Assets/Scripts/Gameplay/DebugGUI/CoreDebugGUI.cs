@@ -1,6 +1,6 @@
-﻿using STP.Behaviour.Starter;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+using STP.Behaviour.Starter;
 using STP.View.DebugGUI;
 
 namespace STP.Gameplay.DebugGUI {
@@ -8,7 +8,7 @@ namespace STP.Gameplay.DebugGUI {
     
     public class CoreDebugGUI : BaseDebugDrawable<CoreStarter> {
         readonly List<BaseCoreMenu> _currentSubMenuPath = new List<BaseCoreMenu>();
-        public BaseCoreMenu ActiveMenu {
+        BaseCoreMenu ActiveMenu {
             get => _currentSubMenuPath.Count != 0 ? _currentSubMenuPath[_currentSubMenuPath.Count - 1] : null;
             set => _currentSubMenuPath.Add(value);
         }

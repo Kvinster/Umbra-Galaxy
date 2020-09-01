@@ -6,11 +6,11 @@ using STP.Gameplay;
 using STP.Utils;
 using STP.Utils.Events;
 using STP.Utils.GameComponentAttributes;
-using System;
+
 using TMPro;
 
-namespace STP.Behaviour.Core {
-    public class FastTravelUI : GameComponent {
+namespace STP.Behaviour.Core.UI {
+    public sealed class FastTravelUI : GameComponent {
         const string FastTravelText = "Fast travel";
         
         [NotNull] public Image    ButtonImage;
@@ -37,22 +37,12 @@ namespace STP.Behaviour.Core {
             FastTravelButton.onClick.AddListener(TryStartEngine);
             gameObject.SetActive(false);
             EventManager.Subscribe<QuestCompleted>(OnQuestComplete);
+            EventManager.Subscribe<QuestFailed>(OnQuestFailed);
         }
 
         void OnDestroy() {
             EventManager.Unsubscribe<QuestCompleted>(OnQuestComplete);
-        }
-
-        void OnQuestComplete(QuestCompleted e) {
-            gameObject.SetActive(true);
-        }
-        
-        void TryStartEngine() {
-            if ( HasAnyAction ) {
-                ButtonImage.color = Color.red;
-                return;
-            }
-            _fastTravelEngine.TryStartEngine(_coreManager.GoToMeta);
+            EventManager.Unsubscribe<QuestFailed>(OnQuestFailed);
         }
         
         void Update() {
@@ -76,6 +66,22 @@ namespace STP.Behaviour.Core {
                     Debug.LogWarning($"Unknown state {_fastTravelEngine.State}. Ignored.");
                     break;
             }
+        }
+        
+        void OnQuestComplete(QuestCompleted e) {
+            gameObject.SetActive(true);
+        }
+        
+        void OnQuestFailed(QuestFailed e) {
+            gameObject.SetActive(true);
+        }
+        
+        void TryStartEngine() {
+            if ( HasAnyAction ) {
+                ButtonImage.color = Color.red;
+                return;
+            }
+            _fastTravelEngine.TryStartEngine(_coreManager.GoToMeta);
         }
     }
 }
