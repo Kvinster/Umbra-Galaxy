@@ -10,7 +10,7 @@ namespace STP.State.Core {
             Hp = playerPlayerState.Hp;
         }
 
-        public CoreShipState(int hp) {
+        public CoreShipState(float hp) {
             Hp = hp;
         }
     }
