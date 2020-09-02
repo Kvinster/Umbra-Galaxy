@@ -6,25 +6,20 @@ using STP.Gameplay.Weapon.Common;
 using STP.Utils;
 
 namespace STP.Gameplay.Weapon.LanceWeapon {
-    public class LanceWeaponView : BaseWeaponView {
+    public class LanceWeaponView : BaseWeaponView<Lance> {
         public Beam       Beam;
         public GameObject ChargingImage;
 
-        Timer       _timer = new Timer();
+        readonly Timer _timer = new Timer();
 
-        Lance       _weapon;
         Collider2D  _ownerCollider;
 
         readonly RaycastHit2D[] _hits = new RaycastHit2D[10];
 
-        public override void Init(CoreStarter starter, BaseShip ownerShip, BaseWeapon ownerWeapon) {
-            if ( !(ownerWeapon is Lance laserWeapon) ) {
-                return;
-            }
-            _weapon = laserWeapon;
+        protected override void Init(CoreStarter starter, BaseShip ownerShip) {
             _ownerCollider = ownerShip.GetComponent<Collider2D>();
-            _weapon.StateChanged += OnWeaponStateChanged;
-            OnWeaponStateChanged(_weapon.CurState);
+            Weapon.StateChanged += OnWeaponStateChanged;
+            OnWeaponStateChanged(Weapon.CurState);
         }
 
         void OnWeaponStateChanged(WeaponState newWeaponState) {
@@ -36,7 +31,7 @@ namespace STP.Gameplay.Weapon.LanceWeapon {
         }
 
         void OnDestroy() {
-            _weapon.StateChanged -= OnWeaponStateChanged;
+            Weapon.StateChanged -= OnWeaponStateChanged;
         }
 
         void Update() {
@@ -44,7 +39,7 @@ namespace STP.Gameplay.Weapon.LanceWeapon {
                 Beam.gameObject.SetActive(false);
                 _timer.Stop();
             }
-            if ( _weapon.CurState == WeaponState.Fire ) {
+            if ( Weapon.CurState == WeaponState.Fire ) {
                 DoRaycast();
                 Beam.SetLength(1000000);
             }
@@ -56,7 +51,7 @@ namespace STP.Gameplay.Weapon.LanceWeapon {
             for ( var i = 0; i < hitsCount; i++ ) {
                 var hit = _hits[i];
                 if ( hit.collider && !hit.collider.isTrigger && (hit.collider != _ownerCollider) ) {
-                    Beam.DealDamage(_hits[i].collider, _weapon.Damage);
+                    Beam.DealDamage(_hits[i].collider, Weapon.Damage);
                 }
             }
         }

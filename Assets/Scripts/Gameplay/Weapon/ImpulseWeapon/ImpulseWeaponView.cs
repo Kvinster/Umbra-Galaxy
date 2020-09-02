@@ -9,44 +9,39 @@ using STP.Utils;
 
 namespace STP.Gameplay.Weapon.ImpulseWeapon {
 
-    public class ImpulseWeaponView : BaseWeaponView {
+    public class ImpulseWeaponView : BaseWeaponView<Impulse> {
         public SpriteRenderer ImpulseSprite;
 
-        readonly Timer _disapperaTimer = new Timer();
+        readonly Timer _disappearTimer = new Timer();
 
-        HashSet<Collider2D> _objects = new HashSet<Collider2D>();
+        readonly HashSet<Collider2D> _objects = new HashSet<Collider2D>();
 
-        Impulse     _weapon;
-        Collider2D  _ownerCollider;
+        Collider2D  _ownerCollider; // TODO: unused?
 
         bool _isDisappearing;
 
-        public override void Init(CoreStarter starter, BaseShip ownerShip, BaseWeapon ownerWeapon) {
-            if ( !(ownerWeapon is Impulse laserWeapon) ) {
-                return;
-            }
-            _weapon               = laserWeapon;
-            _ownerCollider        = ownerShip.GetComponent<Collider2D>();
-            _weapon.StateChanged += OnWeaponStateChanged;
-            OnWeaponStateChanged(_weapon.CurState);
+        protected override void Init(CoreStarter starter, BaseShip ownerShip) {
+            _ownerCollider       = ownerShip.GetComponent<Collider2D>();
+            Weapon.StateChanged += OnWeaponStateChanged;
+            OnWeaponStateChanged(Weapon.CurState);
         }
 
         void OnWeaponStateChanged(WeaponState newWeaponState) {
             if ( newWeaponState == WeaponState.Fire ) {
-                _disapperaTimer.Start(0.2f);
+                _disappearTimer.Start(0.2f);
                 _isDisappearing = true;
                 _objects.RemoveWhere((x)=>!x);
                 print("TEST. Count = " + _objects.Count);
                 var copy = new HashSet<Collider2D>(_objects);
                 foreach ( var obj in copy ) {
-                    DealDamage(obj, _weapon.Damage);
+                    DealDamage(obj, Weapon.Damage);
                 }
                 _objects.Clear();
             }
         }
 
         void OnDestroy() {
-            _weapon.StateChanged -= OnWeaponStateChanged;
+            Weapon.StateChanged -= OnWeaponStateChanged;
         }
 
         void OnTriggerEnter2D(Collider2D other) {
@@ -62,15 +57,15 @@ namespace STP.Gameplay.Weapon.ImpulseWeapon {
         }
 
         void Update() {
-            if ( _disapperaTimer.Tick(Time.deltaTime) ) {
+            if ( _disappearTimer.Tick(Time.deltaTime) ) {
                 _isDisappearing = false;
-                _disapperaTimer.Stop();
+                _disappearTimer.Stop();
             }
             if ( _isDisappearing ) {
-                SetImpulseAlpha(_disapperaTimer.NormalizedProgress);
+                SetImpulseAlpha(_disappearTimer.NormalizedProgress);
             }
             else {
-                SetImpulseAlpha(_weapon.ChargeProgress);
+                SetImpulseAlpha(Weapon.ChargeProgress);
             }
         }
 

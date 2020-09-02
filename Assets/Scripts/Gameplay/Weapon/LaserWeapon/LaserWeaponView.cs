@@ -3,23 +3,20 @@
 using STP.Behaviour.Core.Objects;
 using STP.Behaviour.Starter;
 using STP.Gameplay.Weapon.Common;
+using STP.Utils.GameComponentAttributes;
 
 namespace STP.Gameplay.Weapon.LaserWeapon {
-    public class LaserWeaponView : BaseWeaponView {
-        public Beam Beam;
-        BaseWeapon _weapon;
+    public sealed class LaserWeaponView : BaseWeaponView<Laser> {
+        [NotNull] public Beam Beam;
+
         Collider2D _ownerCollider;
 
         RaycastHit2D[] _hits = new RaycastHit2D[10];
 
-        public override void Init(CoreStarter starter, BaseShip ownerShip, BaseWeapon ownerWeapon) {
-            if ( !(ownerWeapon is Laser laserWeapon) ) {
-                return;
-            }
-            _weapon               = laserWeapon;
-            _ownerCollider        = ownerShip.GetComponent<Collider2D>();
-            _weapon.StateChanged += OnWeaponStateChanged;
-            OnWeaponStateChanged(_weapon.CurState);
+        protected override void Init(CoreStarter starter, BaseShip ownerShip) {
+            _ownerCollider       = ownerShip.GetComponent<Collider2D>();
+            Weapon.StateChanged += OnWeaponStateChanged;
+            OnWeaponStateChanged(Weapon.CurState);
         }
 
         void OnWeaponStateChanged(WeaponState newWeaponState) {
@@ -27,11 +24,11 @@ namespace STP.Gameplay.Weapon.LaserWeapon {
         }
 
         void OnDestroy() {
-            _weapon.StateChanged -= OnWeaponStateChanged;
+            Weapon.StateChanged -= OnWeaponStateChanged;
         }
 
         void Update() {
-            if ( _weapon.CurState == WeaponState.Fire ) {
+            if ( Weapon.CurState == WeaponState.Fire ) {
                 var minDistanceHit = DoRaycast();
                 if ( minDistanceHit != -1 ) {
                     Beam.SetLength (_hits[minDistanceHit].distance);
