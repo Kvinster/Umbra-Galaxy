@@ -13,7 +13,7 @@
         Lance           = 3,
         Impulse         = 4,
         MissileLauncher = 5,
-        
+
         Unknown = -1,
     }
 
@@ -34,10 +34,10 @@
         public event OnChangeState StateChanged;
 
         public void UpdateState(float passedTime) {
-            AutoTransitions(passedTime);
+            Update(passedTime);
         }
 
-        protected abstract void AutoTransitions(float passedTime);
+        protected abstract void Update(float passedTime);
     }
 
 }

@@ -41,7 +41,7 @@ namespace STP.Behaviour.Core.Objects {
 
         protected override void InitInternal(CoreStarter starter) {
             _overlayHelper       = starter.OverlayHelper;
-            WeaponControl        = starter.WeaponCreator.GetManualWeapon(starter.PlayerController.CurWeaponType);
+            WeaponControl        = starter.WeaponCreator.GetManualWeapon(starter.PlayerController.CurWeaponType, this);
             _selfDestructEngine  = starter.CoreManager.SelfDestructEngine;
             _selfDestructEngine.Init(this);
             starter.WeaponViewCreator.AddWeaponView(this, WeaponControl?.GetControlledWeapon());

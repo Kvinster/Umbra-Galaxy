@@ -7,9 +7,9 @@ namespace STP.Gameplay.Weapon.Chargeable {
     public abstract class ChargeableWeapon : BaseWeapon  {
         public   abstract  float Damage       { get; }
         protected abstract float ChargingTime { get; }
-        
+
         protected readonly Timer Timer = new Timer();
-        
+
         bool _timerWorking;
 
         public void PressCharging() {
@@ -23,7 +23,7 @@ namespace STP.Gameplay.Weapon.Chargeable {
             _timerWorking = false;
         }
 
-        public void ReleaseCharging() {
+        public virtual void ReleaseCharging() {
             if ( CurState == WeaponState.Charge ) {
                 DropCharge();
             }
@@ -33,13 +33,13 @@ namespace STP.Gameplay.Weapon.Chargeable {
                 CurState = WeaponState.Fire;
             }
         }
-        
-        protected override void AutoTransitions(float passedTime) {
+
+        protected override void Update(float passedTime) {
             switch ( CurState ) {
-                case WeaponState.Charge:
+                case WeaponState.Charge: {
                     Debug.Log($"TIME {Timer.TimeLeft}");
                     if ( !_timerWorking ) {
-                        Timer.Start(ChargingTime);    
+                        Timer.Start(ChargingTime);
                         _timerWorking = true;
                     }
                     if ( Timer.Tick(passedTime) ) {
@@ -48,9 +48,11 @@ namespace STP.Gameplay.Weapon.Chargeable {
                         CurState = WeaponState.Charged;
                     }
                     break;
-                case WeaponState.Fire:
+                }
+                case WeaponState.Fire: {
                     CurState = WeaponState.Idle;
                     break;
+                }
             }
         }
     }
