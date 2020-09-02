@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 
 namespace STP.Gameplay.Weapon.GunWeapon {
-    public class Bullet : MonoBehaviour{
-        protected float Damage = 1f;
+    public class Bullet : BaseBullet {
+        protected float Damage        = 5f;
+        protected float MaxFlightTime = 15f;
         
         GameObject _source;
-        public virtual void Init(GameObject sourceShip) {
+        
+        public void Init(GameObject sourceShip) {
+            InitTimer(MaxFlightTime);
             _source = sourceShip;
         }
         

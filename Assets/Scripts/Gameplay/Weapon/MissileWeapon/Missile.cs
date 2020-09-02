@@ -9,15 +9,20 @@ using STP.Utils;
 
 namespace STP.Gameplay.Weapon.MissileWeapon {
     public class Missile : Bullet {
-        const float DetectionRadius  = 1500f;
-        const float DetectoinDelay   = 0.3f;
-        const float Velocity         = 1000f;
-        const int   DefaultLayerMask = 1 << 0;
-        const int   PlayerLayerMask  = 1 << 8;
+        const float MissileDamage     = 5f;
+        const float MissileFlightTime = 45f;
         
-        int _layerMask = DefaultLayerMask;
+        const float DetectionRadius   = 1500f;
+        const float DetectionDelay    = 0.3f;
         
-        Timer _timer = new Timer();
+        const float Velocity          = 1000f;
+        
+        const int   AlienLayerMask    = 1 << 10;
+        const int   PlayerLayerMask   = 1 << 8;
+        
+        int _layerMask;
+
+        readonly Timer _timer = new Timer();
         
         Transform   _target;
         
@@ -26,12 +31,14 @@ namespace STP.Gameplay.Weapon.MissileWeapon {
         HashSet<ConflictSide> _availableTargets;
         
         public void Init(GameObject sourceShip, AllianceManager allianceManager) {
-            Damage = 5f;
+            //Setting bullet common parameters
+            Damage        = MissileDamage;
+            MaxFlightTime = MissileFlightTime;
             base.Init(sourceShip);
-            _timer.Start(DetectoinDelay);
+            _timer.Start(DetectionDelay);
             _rigidbody         = GetComponent<Rigidbody2D>();
             var sideComp       = sourceShip.GetComponent<ISideAccessable>();
-            _layerMask         = ( sideComp.CurrentSide != ConflictSide.Player ) ? PlayerLayerMask : DefaultLayerMask;
+            _layerMask         = ( sideComp.CurrentSide != ConflictSide.Player ) ? PlayerLayerMask : AlienLayerMask;
             _availableTargets  = allianceManager.GetEnemiesSides(sideComp.CurrentSide);
             transform.rotation = sourceShip.transform.rotation * Quaternion.AngleAxis(180, Vector3.forward);
         }
