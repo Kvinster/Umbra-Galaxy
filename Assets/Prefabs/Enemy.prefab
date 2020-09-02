@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 262083521729455616}
   - component: {fileID: 6361701909790734045}
   - component: {fileID: 6277613166572681670}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,6 +397,7 @@ MonoBehaviour:
   WeaponMountPoint: {fileID: 5445224572993089012}
   HpBar: {fileID: 1855425555735716109}
   DropItemsOnDeath: []
+  WeaponType: 0
   MovementController: {fileID: 6361701909790734045}
 --- !u!114 &6361701909790734045
 MonoBehaviour:
@@ -433,9 +434,9 @@ MonoBehaviour:
   OverrideMoveRoot: {fileID: 0}
   ApproachTolerance: 40
   IsCycledRoute: 0
-  PatrolRoute: []
   SnapOnInit: 0
   StartRoutePointIndex: 0
+  PatrolRoute: []
 --- !u!1001 &5286896728489551492
 PrefabInstance:
   m_ObjectHideFlags: 0

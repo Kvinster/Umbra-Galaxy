@@ -12,14 +12,30 @@ namespace STP.Behaviour.Core.Objects {
     }
 
     public class SimpleEnemyShip : BaseEnemyShip {
-        const float ShipSpeed       = 150f;
-        const int   Hp              = 2;
+        const float ShipSpeed        = 150f;
+        const int   Hp               = 2;
+        
+        const int   PhysicsLayers    = 1 << 10 | //Aliens 
+                                       1 << 8;   //Player
 
         public ChaseMovementController MovementController;
 
         EnemyState State { get; set; } = EnemyState.None;
 
-        public override bool CanShoot => (State == EnemyState.Chase);
+        public override bool CanShoot {
+            get {
+                if ( State != EnemyState.Chase ) {
+                    return false;
+                }
+                var distance = (transform.position - MovementController.CurChaseTarget.position).magnitude;
+                var hit = Physics2D.Raycast(transform.position, transform.rotation * Vector3.up, distance, PhysicsLayers);
+                if ( !hit.collider ) {
+                    return false;
+                }
+                Debug.Log($"{gameObject} ray: {hit.collider.gameObject}");
+                return !hit.collider.gameObject.GetComponent<BaseEnemyShip>();
+            }
+        }
 
         void Update() {
             UpdateWeaponControlState();
@@ -62,6 +78,10 @@ namespace STP.Behaviour.Core.Objects {
 
         void OnChaseTargetChanged(Transform chaseTarget) {
             State = chaseTarget ? EnemyState.Chase : EnemyState.Patrolling;
+        }
+
+        void OnDrawGizmos() {
+            Gizmos.DrawRay(transform.position, transform.rotation * Vector3.up * 10000);
         }
     }
 }
