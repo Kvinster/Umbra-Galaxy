@@ -156,7 +156,7 @@ namespace STP.Behaviour.Meta.UI {
                 _repairPrice  = 0;
                 _repairAmount = 0;
             } else {
-                _repairPrice  = Mathf.CeilToInt(deficiency * 50f);
+                _repairPrice  = Mathf.CeilToInt(deficiency * 10f);
                 _repairAmount = deficiency;
             }
             RepairButton.interactable = (_repairPrice > 0) && (_repairPrice <= _playerController.Money);
