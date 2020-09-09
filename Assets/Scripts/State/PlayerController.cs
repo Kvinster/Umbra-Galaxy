@@ -7,13 +7,13 @@ using STP.Gameplay.Weapon.Common;
 namespace STP.State {
     public sealed class PlayerController : BaseStateController {
         static int MaxFuel => PlayerState.MaxFuel;
-        
+
         readonly PlayerState _state = new PlayerState();
 
         public PlayerInventory Inventory => _state.Inventory;
-        
+
         public PlayerShipState CurPlayerShipState => _state.CurShipState;
-        
+
         public string CurSystemId {
             get => _state.CurSystemId;
             set {
@@ -24,7 +24,7 @@ namespace STP.State {
                 OnCurSystemChanged?.Invoke(CurSystemId);
             }
         }
-        
+
         public int Fuel {
             get => _state.Fuel;
             set {
@@ -39,7 +39,7 @@ namespace STP.State {
                 OnFuelChanged?.Invoke(Fuel);
             }
         }
-        
+
         public int Money {
             get => _state.Money;
             set {
@@ -54,7 +54,7 @@ namespace STP.State {
                 OnMoneyChanged?.Invoke(Money);
             }
         }
-        
+
         public WeaponType CurWeaponType {
             get => _state.CurWeaponType;
             set {
@@ -69,11 +69,24 @@ namespace STP.State {
                 OnWeaponChanged?.Invoke(CurWeaponType);
             }
         }
-        
+
+        public float ShipHp {
+            get => _state.CurShipState.Hp;
+            set {
+                if ( Mathf.Approximately(ShipHp, value) ) {
+                    return;
+                }
+                // TODO: clamp
+                _state.CurShipState.Hp = value;
+                OnShipHpChanged?.Invoke(value);
+            }
+        }
+
         public event Action<string>     OnCurSystemChanged;
         public event Action<int>        OnFuelChanged;
         public event Action<int>        OnMoneyChanged;
         public event Action<WeaponType> OnWeaponChanged;
+        public event Action<float>      OnShipHpChanged;
 
         public override void Init() {
             CurSystemId   = "bd6537e4a0b08a2449e4d595f48ab96e"; // Cradle

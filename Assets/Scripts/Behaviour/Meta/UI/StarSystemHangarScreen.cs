@@ -22,54 +22,62 @@ namespace STP.Behaviour.Meta.UI {
         int _fuelPrice;
         int _fuelAmount;
 
-        int _repairPrice;
-        int _repairAmount;
-        
+        int   _repairPrice;
+        float _repairAmount;
+
         StarSystemUiManager _owner;
 
         public void Init(Action hide, StarSystemUiManager owner, PlayerController playerController) {
             base.Init(hide);
             _owner            = owner;
             _playerController = playerController;
-            
+
+            _playerController.OnMoneyChanged += OnPlayerMoneyChanged;
+
             RefuelButton.onClick.AddListener(OnRefuelClick);
             RefuelButton.OnHoverStart  += OnRefuelHover;
             RefuelButton.OnHoverFinish += HideTooltip;
-            
+
             RepairButton.onClick.AddListener(OnRepairClick);
             RepairButton.OnHoverStart  += OnRepairHover;
             RepairButton.OnHoverFinish += HideTooltip;
-            
+
             TakeoffButton.onClick.AddListener(OnTakeoffClick);
             TakeoffButton.OnHoverStart  += OnTakeoffHover;
             TakeoffButton.OnHoverFinish += HideTooltip;
-            
+
             HideButton.onClick.AddListener(OnHideClick);
             HideButton.OnHoverStart  += OnHideHover;
             HideButton.OnHoverFinish += HideTooltip;
         }
 
         protected override void DeinitSpecific() {
+            _playerController.OnMoneyChanged -= OnPlayerMoneyChanged;
             _playerController = null;
-            
+
             RefuelButton.onClick.RemoveAllListeners();
             RefuelButton.OnHoverStart  -= OnRefuelHover;
             RefuelButton.OnHoverFinish -= HideTooltip;
-            
+
             RepairButton.onClick.RemoveAllListeners();
             RepairButton.OnHoverStart  -= OnRepairClick;
             RepairButton.OnHoverFinish -= HideTooltip;
-            
+
             TakeoffButton.onClick.RemoveAllListeners();
             TakeoffButton.OnHoverStart  -= OnTakeoffHover;
             TakeoffButton.OnHoverFinish -= HideTooltip;
-            
+
             HideButton.onClick.RemoveAllListeners();
             HideButton.OnHoverStart  -= OnHideHover;
             HideButton.OnHoverFinish -= HideTooltip;
         }
 
         public override void Show() {
+            UpdateFuelPrice();
+            UpdateRepairPrice();
+        }
+
+        void OnPlayerMoneyChanged(int curPlayerMoney) {
             UpdateFuelPrice();
             UpdateRepairPrice();
         }
@@ -82,6 +90,7 @@ namespace STP.Behaviour.Meta.UI {
             _playerController.Money -= _fuelPrice;
             _playerController.Fuel  += _fuelAmount;
             UpdateFuelPrice();
+            HideTooltip();
         }
 
         void OnRefuelHover() {
@@ -94,11 +103,15 @@ namespace STP.Behaviour.Meta.UI {
                 Debug.LogError("Unsupported scenario");
                 return;
             }
-            // TODO: repair stuff
+            _playerController.Money  -= _repairPrice;
+            _playerController.ShipHp += _repairAmount;
+            UpdateRepairPrice();
+            HideTooltip();
         }
 
         void OnRepairHover() {
-            // TODO: set repair text
+            TooltipText.text = $"Repair ({_repairPrice})";
+            ShowTooltip();
         }
 
         void OnTakeoffClick() {
@@ -138,8 +151,15 @@ namespace STP.Behaviour.Meta.UI {
         }
 
         void UpdateRepairPrice() {
-            // TODO: get ready repair stuff
-            RepairButton.interactable = false;
+            var deficiency = PlayerState.MaxShipHp - _playerController.ShipHp;
+            if ( Mathf.Approximately(deficiency, 0f) ) {
+                _repairPrice  = 0;
+                _repairAmount = 0;
+            } else {
+                _repairPrice  = Mathf.CeilToInt(deficiency * 50f);
+                _repairAmount = deficiency;
+            }
+            RepairButton.interactable = (_repairPrice > 0) && (_repairPrice <= _playerController.Money);
         }
 
         void ShowTooltip() {
