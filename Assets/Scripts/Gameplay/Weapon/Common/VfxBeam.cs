@@ -4,11 +4,19 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Gameplay.Weapon.Common {
     public sealed class VfxBeam : BaseBeam {
-        [NotNull] public Transform    StartPos;
         [NotNull] public LineRenderer LineRenderer;
         [NotNull] public Transform    HitParticleSystemTrans;
 
         readonly Vector3[] _positions = { Vector3.zero, Vector3.zero };
+
+        public float Alpha {
+            set {
+                var alpha    = Mathf.Clamp01(value);
+                var gradient = LineRenderer.colorGradient;
+                gradient.SetKeys(gradient.colorKeys, new [] { new GradientAlphaKey(alpha, 0f) });
+                LineRenderer.colorGradient = gradient;
+            }
+        }
 
         void Start() {
             LineRenderer.useWorldSpace = false;

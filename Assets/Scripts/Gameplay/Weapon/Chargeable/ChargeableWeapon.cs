@@ -12,6 +12,8 @@ namespace STP.Gameplay.Weapon.Chargeable {
 
         bool _timerWorking;
 
+        public float ChargingProgress => (CurState == WeaponState.Charge) ? Timer.NormalizedProgress : 0f;
+
         public void PressCharging() {
             if ( CurState == WeaponState.Idle ) {
                 CurState = WeaponState.Charge;
@@ -37,7 +39,6 @@ namespace STP.Gameplay.Weapon.Chargeable {
         protected override void Update(float passedTime) {
             switch ( CurState ) {
                 case WeaponState.Charge: {
-                    Debug.Log($"TIME {Timer.TimeLeft}");
                     if ( !_timerWorking ) {
                         Timer.Start(ChargingTime);
                         _timerWorking = true;
