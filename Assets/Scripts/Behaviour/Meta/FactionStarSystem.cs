@@ -25,6 +25,7 @@ namespace STP.Behaviour.Meta {
         StarSystemsController _starSystemsController;
         LevelController       _levelController;
         QuestsController      _questsController;
+        DarknessController    _darknessController;
 
         public override string Id => IdText;
 
@@ -55,6 +56,7 @@ namespace STP.Behaviour.Meta {
 
         void OnDestroy() {
             _starSystemsController.OnStarSystemActiveChanged -= OnStarSystemActiveChanged;
+            _darknessController.OnStarSystemThreatChanged    -= OnStarSystemThreatChanged;
         }
 
         public override void OnPlayerArrive(bool success) {
@@ -78,8 +80,10 @@ namespace STP.Behaviour.Meta {
             _starSystemsController = starter.StarSystemsController;
             _levelController       = starter.LevelController;
             _questsController      = starter.QuestsController;
+            _darknessController    = starter.DarknessController;
 
             _starSystemsController.OnStarSystemActiveChanged += OnStarSystemActiveChanged;
+            _darknessController.OnStarSystemThreatChanged    += OnStarSystemThreatChanged;
             OnStarSystemActiveChanged(Id, _starSystemsController.GetFactionSystemActive(Id));
         }
 
@@ -90,6 +94,17 @@ namespace STP.Behaviour.Meta {
             SpriteRenderer.color = isActive
                 ? FactionToColor[_starSystemsController.GetFactionSystemFaction(Id)]
                 : Color.gray;
+        }
+
+        void OnStarSystemThreatChanged(string starSystemId, bool isThreatened) {
+            if ( starSystemId != Id ) {
+                return;
+            }
+            if ( isThreatened ) {
+                SpriteRenderer.color = Color.red;
+            } else {
+                OnStarSystemActiveChanged(Id, _starSystemsController.GetFactionSystemActive(Id));
+            }
         }
     }
 }
