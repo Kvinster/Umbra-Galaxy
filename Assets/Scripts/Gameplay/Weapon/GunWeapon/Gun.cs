@@ -16,11 +16,16 @@ namespace STP.Gameplay.Weapon.GunWeapon {
 
         readonly float _reloadTime;
 
-        protected virtual string BulletType => Bullets.PlayerBullet;
+        protected virtual string BulletType { get; }
 
         public override WeaponType Name => WeaponType.Gun;
 
-        public Gun(float bulletSpeed, float reloadTime, BaseShip owner, Transform mountTrans,
+        public Gun(bool isEnemy, float bulletSpeed, float reloadTime, BaseShip owner, Transform mountTrans,
+            BulletCreator bulletCreator) : this(bulletSpeed, reloadTime, owner, mountTrans, bulletCreator) {
+            BulletType = isEnemy ? Bullets.EnemyBullet : Bullets.PlayerBullet;
+        }
+
+        protected Gun(float bulletSpeed, float reloadTime, BaseShip owner, Transform mountTrans,
             BulletCreator bulletCreator) {
             _reloadTime    = reloadTime;
 

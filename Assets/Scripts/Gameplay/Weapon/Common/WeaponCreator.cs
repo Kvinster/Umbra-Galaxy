@@ -20,7 +20,7 @@ namespace STP.Gameplay.Weapon.Common {
         public IWeaponControl GetManualWeapon(WeaponType weaponType, BaseShip ownerShip) {
             switch ( weaponType ) {
                 case WeaponType.Gun:
-                    return new BulletManualControl(new Gun(800, 0.1f, ownerShip, ownerShip.WeaponMountPoint,
+                    return new BulletManualControl(new Gun(false, 800, 0.1f, ownerShip, ownerShip.WeaponMountPoint,
                         _bulletCreator));
                 case WeaponType.Laser:
                     return new LaserManualControl(new Laser(ownerShip.WeaponMountPoint,
@@ -31,7 +31,7 @@ namespace STP.Gameplay.Weapon.Common {
                 case WeaponType.Impulse:
                     return new ChargeableManualControl(new Impulse());
                 case WeaponType.Shotgun:
-                    return new BulletManualControl(new Shotgun(800, 0.5f, ownerShip, ownerShip.WeaponMountPoint,
+                    return new BulletManualControl(new Shotgun(false, 800, 0.5f, ownerShip, ownerShip.WeaponMountPoint,
                         _bulletCreator));
                 case WeaponType.MissileLauncher:
                     return new BulletManualControl(new MissileLauncher(800, 1f, ownerShip, ownerShip.WeaponMountPoint,
@@ -44,7 +44,7 @@ namespace STP.Gameplay.Weapon.Common {
             switch ( weaponType ) {
                 case WeaponType.Gun:
                     return new BulletAIControl(
-                        new Gun(800, 0.5f, enemyShip, enemyShip.WeaponMountPoint, _bulletCreator), enemyShip);
+                        new Gun(true, 800, 0.5f, enemyShip, enemyShip.WeaponMountPoint, _bulletCreator), enemyShip);
                 case WeaponType.Laser:
                     return new LaserAIControl(
                         new Laser(enemyShip.WeaponMountPoint, enemyShip.GetComponent<Collider2D>()), enemyShip);
@@ -55,7 +55,7 @@ namespace STP.Gameplay.Weapon.Common {
                     return new ChargeableAIControl(new Impulse(), enemyShip);
                 case WeaponType.Shotgun:
                     return new BulletAIControl(
-                        new Shotgun(800, 0.5f, enemyShip, enemyShip.WeaponMountPoint, _bulletCreator), enemyShip);
+                        new Shotgun(true, 800, 0.5f, enemyShip, enemyShip.WeaponMountPoint, _bulletCreator), enemyShip);
                 case WeaponType.MissileLauncher:
                     return new BulletAIControl(
                         new MissileLauncher(800, 1f, enemyShip, enemyShip.WeaponMountPoint, _bulletCreator), enemyShip);

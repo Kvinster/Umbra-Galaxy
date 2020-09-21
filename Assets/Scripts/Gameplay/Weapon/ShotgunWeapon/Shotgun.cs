@@ -11,8 +11,8 @@ namespace STP.Gameplay.Weapon.ShotgunWeapon {
 
         public override WeaponType Name => WeaponType.Shotgun;
 
-        public Shotgun(float bulletSpeed, float reloadTime, BaseShip owner, Transform mountTrans,
-            BulletCreator bulletCreator) : base(bulletSpeed, reloadTime, owner, mountTrans, bulletCreator) { }
+        public Shotgun(bool isEnemy, float bulletSpeed, float reloadTime, BaseShip owner, Transform mountTrans,
+            BulletCreator bulletCreator) : base(isEnemy, bulletSpeed, reloadTime, owner, mountTrans, bulletCreator) { }
 
         protected override void Fire() {
             for ( var i = -Spread / 2f; i <= Spread / 2f; i += Spread / (Barrels - 1) ) {
