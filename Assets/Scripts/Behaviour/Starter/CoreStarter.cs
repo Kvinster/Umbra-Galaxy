@@ -4,10 +4,10 @@ using STP.Behaviour.Core;
 using STP.Gameplay;
 using STP.Gameplay.DebugGUI;
 using STP.Gameplay.Weapon.Common;
+using STP.View.DebugGUI;
 using STP.State;
 using STP.State.Meta;
 using STP.Utils;
-using STP.View.DebugGUI;
 
 namespace STP.Behaviour.Starter {
     public class CoreStarter : BaseStarter<CoreStarter> {
@@ -36,12 +36,12 @@ namespace STP.Behaviour.Starter {
             ProblemChecker.LogErrorIfNullOrEmpty(this, BulletSpawnStock, MaterialSpawnStock, UnityContext);
 
         void Start() {
-            WeaponCreator     = new WeaponCreator();
             WeaponViewCreator = new WeaponViewCreator(this);
             CoreItemCreator   = new CoreItemCreator(this);
             CoreManager       = new CoreManager(PlayerController, UnityContext);
             OverlayHelper     = new CoreOverlayHelper(this);
             BulletCreator     = new BulletCreator(BulletSpawnStock, CoreManager.AllianceManager);
+            WeaponCreator     = new WeaponCreator(BulletCreator);
             InitComponents();
             LevelWrapper.Init(this);
             //Settings for smooth gameplay

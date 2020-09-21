@@ -11,10 +11,17 @@ using STP.Gameplay.Weapon.ShotgunWeapon;
 
 namespace STP.Gameplay.Weapon.Common {
     public sealed class WeaponCreator {
+        readonly BulletCreator _bulletCreator;
+
+        public WeaponCreator(BulletCreator bulletCreator) {
+            _bulletCreator = bulletCreator;
+        }
+
         public IWeaponControl GetManualWeapon(WeaponType weaponType, BaseShip ownerShip) {
             switch ( weaponType ) {
                 case WeaponType.Gun:
-                    return new BulletManualControl(new Gun(800, 0.1f));
+                    return new BulletManualControl(new Gun(800, 0.1f, ownerShip, ownerShip.WeaponMountPoint,
+                        _bulletCreator));
                 case WeaponType.Laser:
                     return new LaserManualControl(new Laser(ownerShip.WeaponMountPoint,
                         ownerShip.GetComponent<Collider2D>()));
@@ -24,9 +31,11 @@ namespace STP.Gameplay.Weapon.Common {
                 case WeaponType.Impulse:
                     return new ChargeableManualControl(new Impulse());
                 case WeaponType.Shotgun:
-                    return new BulletManualControl(new Shotgun(800, 0.5f));
+                    return new BulletManualControl(new Shotgun(800, 0.5f, ownerShip, ownerShip.WeaponMountPoint,
+                        _bulletCreator));
                 case WeaponType.MissileLauncher:
-                    return new BulletManualControl(new MissileLauncher(800, 1f));
+                    return new BulletManualControl(new MissileLauncher(800, 1f, ownerShip, ownerShip.WeaponMountPoint,
+                        _bulletCreator));
             }
             return null;
         }
@@ -34,7 +43,8 @@ namespace STP.Gameplay.Weapon.Common {
         public IWeaponControl GetAIWeaponController(WeaponType weaponType, BaseEnemyShip enemyShip) {
             switch ( weaponType ) {
                 case WeaponType.Gun:
-                    return new BulletAIControl(new Gun(800, 0.5f), enemyShip);
+                    return new BulletAIControl(
+                        new Gun(800, 0.5f, enemyShip, enemyShip.WeaponMountPoint, _bulletCreator), enemyShip);
                 case WeaponType.Laser:
                     return new LaserAIControl(
                         new Laser(enemyShip.WeaponMountPoint, enemyShip.GetComponent<Collider2D>()), enemyShip);
@@ -44,9 +54,11 @@ namespace STP.Gameplay.Weapon.Common {
                 case WeaponType.Impulse:
                     return new ChargeableAIControl(new Impulse(), enemyShip);
                 case WeaponType.Shotgun:
-                    return new BulletAIControl(new Shotgun(800, 0.5f), enemyShip);
+                    return new BulletAIControl(
+                        new Shotgun(800, 0.5f, enemyShip, enemyShip.WeaponMountPoint, _bulletCreator), enemyShip);
                 case WeaponType.MissileLauncher:
-                    return new BulletAIControl(new MissileLauncher(800, 1f), enemyShip);
+                    return new BulletAIControl(
+                        new MissileLauncher(800, 1f, enemyShip, enemyShip.WeaponMountPoint, _bulletCreator), enemyShip);
             }
             return null;
         }
