@@ -29,7 +29,7 @@ namespace STP.Gameplay.Weapon.Common {
                     return new ChargeableManualControl(new Lance(ownerShip.WeaponMountPoint,
                         ownerShip.GetComponent<Collider2D>()));
                 case WeaponType.Impulse:
-                    return new ChargeableManualControl(new Impulse());
+                    return new ChargeableManualControl(new Impulse(ownerShip));
                 case WeaponType.Shotgun:
                     return new BulletManualControl(new Shotgun(false, 800, 0.5f, ownerShip, ownerShip.WeaponMountPoint,
                         _bulletCreator));
@@ -52,7 +52,7 @@ namespace STP.Gameplay.Weapon.Common {
                     return new ChargeableAIControl(
                         new Lance(enemyShip.WeaponMountPoint, enemyShip.GetComponent<Collider2D>()), enemyShip);
                 case WeaponType.Impulse:
-                    return new ChargeableAIControl(new Impulse(), enemyShip);
+                    return new ChargeableAIControl(new Impulse(enemyShip), enemyShip);
                 case WeaponType.Shotgun:
                     return new BulletAIControl(
                         new Shotgun(true, 800, 0.5f, enemyShip, enemyShip.WeaponMountPoint, _bulletCreator), enemyShip);
