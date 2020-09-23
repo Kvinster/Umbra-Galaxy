@@ -23,13 +23,6 @@ namespace STP.Gameplay.Weapon.Common {
             _starter = starter;
         }
 
-        public void RemoveWeaponView(Transform weaponMountPlace) {
-            if ( weaponMountPlace.childCount == 0 ) {
-                return;
-            }
-            Object.Destroy(weaponMountPlace.GetChild(0).gameObject);
-        }
-
         public void AddWeaponView(BaseShip ship, BaseWeapon weapon) {
             if ( weapon == null ) {
                 Debug.LogError("weapon object is null. Can't init view for it.");
@@ -40,10 +33,16 @@ namespace STP.Gameplay.Weapon.Common {
                 Debug.LogError(string.Format("Can't find weapon view {0}", weaponName));
                 return;
             }
+
             var weaponMountPlace = ship.WeaponMountPoint;
-            if ( weaponMountPlace.childCount > 0 ) {
-                Debug.Log("has attached weapon view. Remove it");
-                RemoveWeaponView(weaponMountPlace);
+            for ( var i = weaponMountPlace.childCount - 1; i >= 0; --i ) {
+                var child           = weaponMountPlace.GetChild(i);
+                var otherWeaponView = child.GetComponent<BaseWeaponView>();
+                if ( otherWeaponView ) {
+                    Debug.LogWarningFormat(ship, "Removing seemingly unused WeaponView of type {0}",
+                        otherWeaponView.GetType().Name);
+                    Object.Destroy(otherWeaponView.gameObject);
+                }
             }
 
             var weaponView = Object.Instantiate(_weaponViewsPrefabs[weaponName], weaponMountPlace);
