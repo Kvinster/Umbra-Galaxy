@@ -31,7 +31,6 @@ namespace STP.Gameplay.Weapon.Chargeable {
             }
 
             if ( CurState == WeaponState.Charged ) {
-                Debug.Log($"FIRE");
                 CurState = WeaponState.Fire;
             }
         }
