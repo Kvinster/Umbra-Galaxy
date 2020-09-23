@@ -19,7 +19,6 @@ namespace STP.Behaviour.Starter {
         public OverlayManager OverlayManager;
 
         public WeaponCreator     WeaponCreator     { get; private set; }
-        public BulletCreator     BulletCreator     { get; private set; }
         public CoreItemCreator   CoreItemCreator   { get; private set; }
         public WeaponViewCreator WeaponViewCreator { get; private set; }
 
@@ -40,8 +39,7 @@ namespace STP.Behaviour.Starter {
             CoreItemCreator   = new CoreItemCreator(this);
             CoreManager       = new CoreManager(PlayerController, UnityContext);
             OverlayHelper     = new CoreOverlayHelper(this);
-            BulletCreator     = new BulletCreator(BulletSpawnStock, CoreManager.AllianceManager);
-            WeaponCreator     = new WeaponCreator(BulletCreator);
+            WeaponCreator     = new WeaponCreator(new BulletCreator(BulletSpawnStock, CoreManager.AllianceManager));
             InitComponents();
             LevelWrapper.Init(this);
             //Settings for smooth gameplay
