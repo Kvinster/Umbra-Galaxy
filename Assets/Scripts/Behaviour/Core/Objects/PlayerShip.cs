@@ -9,6 +9,7 @@ namespace STP.Behaviour.Core.Objects {
     public class PlayerShip : BaseShip {
         const int   Hp        = 99;
         const float ShipSpeed = 500f;
+        const float ShipAccel = 35f;
 
         [NotNull(false)] public FollowCamera Camera;
         [NotNull]        public Rigidbody2D  Rigidbody;
@@ -65,8 +66,13 @@ namespace STP.Behaviour.Core.Objects {
         }
 
         void Move(Vector2 direction) {
-            var offsetVector = ShipInfo.MaxSpeed * direction;
-            MoveUtils.ApplyMovingVector(Rigidbody, offsetVector);
+            var accelVector = ShipAccel * direction;
+            var exceededSpeed = Rigidbody.velocity.magnitude - ShipSpeed;
+            if (exceededSpeed > 0) {
+                var reverseVector = -Rigidbody.velocity.normalized * exceededSpeed;
+                Rigidbody.AddForce(reverseVector, ForceMode2D.Impulse);
+            }
+            Rigidbody.AddForce(accelVector, ForceMode2D.Impulse);
         }
 
         void Rotate(Vector2 viewDirection) {
