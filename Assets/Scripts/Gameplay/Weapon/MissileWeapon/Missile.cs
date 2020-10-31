@@ -11,25 +11,25 @@ namespace STP.Gameplay.Weapon.MissileWeapon {
     public class Missile : Bullet {
         const float MissileDamage     = 5f;
         const float MissileFlightTime = 45f;
-        
+
         const float DetectionRadius   = 1500f;
         const float DetectionDelay    = 0.3f;
-        
+
         const float Velocity          = 1000f;
-        
+
         const int   AlienLayerMask    = 1 << 10;
         const int   PlayerLayerMask   = 1 << 8;
-        
+
         int _layerMask;
 
         readonly Timer _timer = new Timer();
-        
+
         Transform   _target;
-        
+
         Rigidbody2D _rigidbody;
 
         HashSet<ConflictSide> _availableTargets;
-        
+
         public void Init(GameObject sourceShip, AllianceManager allianceManager) {
             //Setting bullet common parameters
             Damage        = MissileDamage;
@@ -42,7 +42,7 @@ namespace STP.Gameplay.Weapon.MissileWeapon {
             _availableTargets  = allianceManager.GetEnemiesSides(sideComp.CurrentSide);
             transform.rotation = sourceShip.transform.rotation * Quaternion.AngleAxis(180, Vector3.forward);
         }
-        
+
         void Update() {
             if ( _timer.Tick(Time.deltaTime) ) {
                 TryFindTarget();
@@ -60,7 +60,7 @@ namespace STP.Gameplay.Weapon.MissileWeapon {
                 if ( (comp != null) && _availableTargets.Contains(ship?.CurrentSide ?? ConflictSide.Unknown) ) {
                     _target = collider.transform;
                     break;
-                } 
+                }
             }
         }
 
@@ -82,7 +82,7 @@ namespace STP.Gameplay.Weapon.MissileWeapon {
             }
             var direction = (_target.position - transform.position).normalized;
             _rigidbody.velocity = Velocity * direction;
-            MoveUtils.ApplyViewVector(transform, -direction);
+            MoveUtils.ApplyViewVector(_rigidbody, -direction);
         }
 
         void OnDrawGizmos() {

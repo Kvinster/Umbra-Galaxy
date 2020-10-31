@@ -8,7 +8,7 @@ namespace STP.Behaviour.Core.AiMovement {
     public abstract class BasePatrolMovementController : BaseAiShipMovementController {
         public float ApproachTolerance = 10f;
         public bool  IsCycledRoute;
-        
+
         [Space]
         public bool SnapOnInit;
         [ShowIf("SnapOnInit")]
@@ -27,10 +27,10 @@ namespace STP.Behaviour.Core.AiMovement {
         public event Action OnFinishedPatrol;
 
         protected abstract int PointsCount { get; }
-        
+
         protected abstract bool CanDrawDizmo();
         protected abstract Vector2 GetPoint(int index);
-        
+
         protected override void CheckDescription() {
             base.CheckDescription();
             if ( ApproachTolerance <= 0f ) {
@@ -59,7 +59,7 @@ namespace STP.Behaviour.Core.AiMovement {
                 }
                 return;
             }
-            SetVelocityInDirection(MoveDirection);
+            Move(MoveDirection);
             SetViewRotation(MoveDirection);
             if ( IsCloseToPoint ) {
                 _nextRoutePointIndex = (_nextRoutePointIndex + 1) % PointsCount;
@@ -71,8 +71,8 @@ namespace STP.Behaviour.Core.AiMovement {
             }
         }
 
-        public void Init(float maxSpeed, bool activeOnInit = false) {
-            CommonInit(maxSpeed);
+        public void Init(float maxSpeed, float maxAccel, bool activeOnInit = false) {
+            CommonInit(maxSpeed, maxAccel);
             if ( SnapOnInit ) {
                 MoveRoot.position    = GetPoint(StartRoutePointIndex);
                 _nextRoutePointIndex = (StartRoutePointIndex + 1) % PointsCount;

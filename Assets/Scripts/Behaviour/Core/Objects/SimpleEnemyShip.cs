@@ -13,9 +13,10 @@ namespace STP.Behaviour.Core.Objects {
 
     public class SimpleEnemyShip : BaseEnemyShip {
         const float ShipSpeed        = 150f;
+        const float ShipAccel        = 35f;
         const int   Hp               = 2;
-        
-        const int   PhysicsLayers    = 1 << 10 | //Aliens 
+
+        const int   PhysicsLayers    = 1 << 10 | //Aliens
                                        1 << 8;   //Player
 
         public ChaseMovementController MovementController;
@@ -32,7 +33,6 @@ namespace STP.Behaviour.Core.Objects {
                 if ( !hit.collider ) {
                     return false;
                 }
-                Debug.Log($"{gameObject} ray: {hit.collider.gameObject}");
                 return !hit.collider.gameObject.GetComponent<BaseEnemyShip>();
             }
         }
@@ -45,7 +45,7 @@ namespace STP.Behaviour.Core.Objects {
             base.InitInternal(starter);
             State = EnemyState.Patrolling;
             InitShipInfo(new ShipInfo(Hp, ShipSpeed));
-            MovementController.Init(ShipSpeed, x => x.GetComponentInParent<PlayerShip>() ? 100 : -1, true);
+            MovementController.Init(ShipSpeed, ShipAccel, x => x.GetComponentInParent<PlayerShip>() ? 100 : -1, true);
             if ( MovementController.FallbackMovementController ) {
                 TryInitFallbackMovementController(MovementController.FallbackMovementController);
             }
@@ -61,11 +61,11 @@ namespace STP.Behaviour.Core.Objects {
             }
             switch ( fallbackMovementController ) {
                 case TransformPatrolMovementController patrolMovementController: {
-                    patrolMovementController.Init(ShipSpeed);
+                    patrolMovementController.Init(ShipSpeed, ShipAccel);
                     break;
                 }
                 case VectorPatrolMovementController patrolMovementController: {
-                    patrolMovementController.Init(ShipSpeed);
+                    patrolMovementController.Init(ShipSpeed, ShipAccel);
                     break;
                 }
                 default: {

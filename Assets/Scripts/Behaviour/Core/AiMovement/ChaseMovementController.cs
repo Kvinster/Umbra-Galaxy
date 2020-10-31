@@ -75,7 +75,7 @@ namespace STP.Behaviour.Core.AiMovement {
                 var chaseTarget      = CurChaseTarget;
                 var chasingVector    = (Vector2)(chaseTarget.transform.position - MoveRoot.position);
                 var chasingDirection = chasingVector.normalized;
-                SetVelocityInDirection((TargetDistance <= ChaseToleranceDistance) ? Vector2.zero : chasingDirection);
+                Move((TargetDistance <= ChaseToleranceDistance) ? Vector2.zero : chasingDirection);
                 SetViewRotation(chasingDirection);
             } else {
                 if ( FallbackMovementController ) {
@@ -95,8 +95,8 @@ namespace STP.Behaviour.Core.AiMovement {
         /// <param name="maxSpeed">Max speed</param>
         /// <param name="targetRecognition">"Potential target => priority" function. Must return -1 to ignore potential targets.</param>
         /// <param name="activeOnInit">Specifies whether or not the movement controller must become active after the Init is called</param>
-        public void Init(float maxSpeed, Func<GameObject, int> targetRecognition, bool activeOnInit = false) {
-            CommonInit(maxSpeed);
+        public void Init(float maxSpeed, float maxAccel, Func<GameObject, int> targetRecognition, bool activeOnInit = false) {
+            CommonInit(maxSpeed, maxAccel);
 
             _targetRecognition = targetRecognition;
 

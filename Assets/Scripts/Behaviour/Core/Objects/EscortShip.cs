@@ -8,6 +8,7 @@ using STP.Utils.GameComponentAttributes;
 namespace STP.Behaviour.Core.Objects {
     public sealed class EscortShip : BaseShip {
         const float ShipSpeed       = 300f;
+        const float ShipAccel       = 35f;
         const int   Hp              = 2;
 
         [NotNull] public BasePatrolMovementController MovementController;
@@ -26,7 +27,7 @@ namespace STP.Behaviour.Core.Objects {
 
         protected override void InitInternal(CoreStarter starter) {
             InitShipInfo(new ShipInfo(Hp, ShipSpeed));
-            MovementController.Init(ShipSpeed, true);
+            MovementController.Init(ShipSpeed, ShipAccel, true);
             MovementController.OnFinishedPatrol += OnFinishedPatrol;
         }
 

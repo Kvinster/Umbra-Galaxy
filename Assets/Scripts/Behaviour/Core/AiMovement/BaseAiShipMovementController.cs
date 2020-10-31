@@ -9,6 +9,7 @@ namespace STP.Behaviour.Core.AiMovement {
         public Rigidbody2D Rigidbody;
         public Transform   OverrideMoveRoot;
 
+        protected float Accel;
         protected float Speed;
 
         public virtual bool IsActive { get; set; }
@@ -23,27 +24,28 @@ namespace STP.Behaviour.Core.AiMovement {
             Rigidbody = GetComponent<Rigidbody2D>();
         }
 
-        protected void CommonInit(float speed) {
+        protected void CommonInit(float speed, float accel) {
             if ( IsCommonInit ) {
                 Debug.LogWarningFormat(this, "Movement controller is already common init");
                 return;
             }
             Speed = speed;
+            Accel = accel;
 
             IsCommonInit = true;
         }
 
-        protected void SetVelocityInDirection(Vector2 direction) {
-            direction = direction.normalized;
-            MoveUtils.ApplyMovingVector(Rigidbody, Speed * direction);
+        protected void Move(Vector2 direction) {
+            MoveUtils.ApplyMovingVector(Rigidbody, direction, Speed, Accel);
         }
+
 
         protected void Stop() {
             Rigidbody.velocity = Vector2.zero;
         }
 
         protected void SetViewRotation(Vector2 viewDirection) {
-            MoveUtils.ApplyViewVector(MoveRoot, viewDirection);
+            MoveUtils.ApplyViewVector(Rigidbody, viewDirection);
         }
     }
 }

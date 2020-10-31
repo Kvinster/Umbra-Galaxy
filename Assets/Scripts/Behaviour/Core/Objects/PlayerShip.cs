@@ -76,7 +76,7 @@ namespace STP.Behaviour.Core.Objects {
         }
 
         void Rotate(Vector2 viewDirection) {
-            MoveUtils.ApplyViewVector(transform, viewDirection);
+            MoveUtils.ApplyViewVector(Rigidbody, viewDirection);
         }
     }
 }
