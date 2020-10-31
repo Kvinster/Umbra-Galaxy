@@ -7,10 +7,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 837253811008314168, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 942091435622548214, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526828793401040349, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2936736796549801689, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
         type: 3}
       propertyPath: m_Name
-      value: StationaryEnemy
+      value: PermChasingEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 5545371749052677579, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
         type: 3}
@@ -21,6 +36,26 @@ PrefabInstance:
         type: 3}
       propertyPath: OutChaseRadius
       value: 20000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6262763378911051513, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6262763379897711296, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6262763380526740877, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867788430271762451, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9025342833642742215, guid: dd8755474f51c0040ac35bf6a9fb7aa4,
         type: 3}
