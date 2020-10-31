@@ -47,5 +47,9 @@ namespace STP.Behaviour.Starter {
             QualitySettings.vSyncCount  = 0;
             DebugGuiController.Instance.SetDrawable(new CoreDebugGUI(this));
         }
+
+        void OnDestroy() {
+            DebugGuiController.Instance.SetDrawable(null);
+        }
     }
 }

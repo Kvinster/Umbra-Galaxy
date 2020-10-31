@@ -2,8 +2,10 @@
 using STP.Behaviour.Meta;
 using STP.Common;
 using STP.Config.ScriptableObjects;
+using STP.Gameplay.DebugGUI;
 using STP.State;
 using STP.State.Meta;
+using STP.View.DebugGUI;
 
 namespace STP.Behaviour.Starter {
     public sealed class MetaStarter : BaseStarter<MetaStarter> {
@@ -34,6 +36,11 @@ namespace STP.Behaviour.Starter {
             if ( LevelController.IsLevelActive ) {
                 LevelController.FinishLevel();
             }
+            DebugGuiController.Instance.SetDrawable(new MetaDebugGUI(this));
+        }
+
+        void OnDestroy() {
+            DebugGuiController.Instance.SetDrawable(null);
         }
     }
 }
