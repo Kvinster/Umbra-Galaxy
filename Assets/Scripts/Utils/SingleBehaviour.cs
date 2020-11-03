@@ -20,6 +20,8 @@ namespace STP.Utils {
 			}
 		}
 
+		public static bool HasInstance => _instance;
+
 		protected static T Create() {
 			var go = new GameObject(string.Format("[{0}]", typeof(T).Name));
 			var i = go.AddComponent<T>();
