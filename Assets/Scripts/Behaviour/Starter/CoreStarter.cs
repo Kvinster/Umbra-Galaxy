@@ -49,7 +49,9 @@ namespace STP.Behaviour.Starter {
         }
 
         void OnDestroy() {
-            DebugGuiController.Instance.SetDrawable(null);
+            if ( DebugGuiController.HasInstance ) {
+                DebugGuiController.Instance.SetDrawable(null);
+            }
         }
     }
 }
