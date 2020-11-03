@@ -1,4 +1,4 @@
-﻿﻿using STP.Utils;
+﻿using STP.Utils;
 
 namespace STP.View.DebugGUI {
 	public sealed class DebugGuiController : SingleBehaviour<DebugGuiController> {
