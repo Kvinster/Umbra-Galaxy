@@ -7,7 +7,7 @@ using STP.Gameplay;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Objects {
-    public sealed class DefendStarGate : CoreComponent, IDestructable {
+    public sealed class DefendStarGate : BaseCoreComponent, IDestructable {
         public int StartHp = 100;
         [NotNull]
         public SpriteRenderer SpriteRenderer;

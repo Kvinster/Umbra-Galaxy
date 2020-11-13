@@ -5,7 +5,7 @@ using STP.Gameplay;
 using STP.Utils;
 
 namespace STP.Behaviour.Core.Objects {
-    public sealed class EscapeStarGate : CoreComponent {
+    public sealed class EscapeStarGate : BaseCoreComponent {
         [Range(0f, 20f)]
         public float ExitTime = 3f;
         [Space]

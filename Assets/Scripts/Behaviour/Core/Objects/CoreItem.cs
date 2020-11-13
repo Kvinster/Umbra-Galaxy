@@ -2,7 +2,7 @@
 using STP.Gameplay;
 
 namespace STP.Behaviour.Core.Objects {
-    public sealed class CoreItem : CoreComponent, ICollectable {
+    public sealed class CoreItem : BaseCoreComponent, ICollectable {
         public string ItemName;
 
         CoreManager _coreManager;

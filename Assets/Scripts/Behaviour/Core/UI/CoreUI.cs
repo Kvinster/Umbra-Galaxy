@@ -2,7 +2,7 @@
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.UI {
-    public class CoreUI : CoreComponent {
+    public class CoreUI : BaseCoreComponent {
         [NotNull] public FastTravelUI       FastTravelUI;
         [NotNull] public LevelQuestStatusUI LevelQuestUI;
 

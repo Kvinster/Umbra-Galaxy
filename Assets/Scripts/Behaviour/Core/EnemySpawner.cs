@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core {
-    public sealed class EnemySpawner : CoreComponent {
+    public sealed class EnemySpawner : BaseCoreComponent {
         [Serializable]
         public sealed class WaveInfo {
             public float Delay;
@@ -116,7 +116,7 @@ namespace STP.Behaviour.Core {
                 var spawnPoint  = waveInfo.SpawnPoints[Random.Range(0, waveInfo.SpawnPoints.Count)];
                 var enemyGo     = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity, EnemyParent);
                 // TODO: init enemy
-                foreach ( var comp in enemyGo.GetComponentsInChildren<CoreComponent>() ) {
+                foreach ( var comp in enemyGo.GetComponentsInChildren<BaseCoreComponent>() ) {
                     comp.Init(_starter);
                 }
                 // TODO: refactor

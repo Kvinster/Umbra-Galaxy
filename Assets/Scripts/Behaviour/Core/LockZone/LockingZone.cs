@@ -6,7 +6,7 @@ using STP.Behaviour.Starter;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.LockZone {
-    public class LockingZone : CoreComponent {
+    public class LockingZone : BaseCoreComponent {
         [NotNull] public BaseLockZoneChecker   LockZoneChecker;
         [NotNull] public BaseUnlockZoneChecker UnlockConditionChecker;
         [NotNull] public EnemySpawner          Spawner;

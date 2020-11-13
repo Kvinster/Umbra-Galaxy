@@ -6,7 +6,7 @@ using STP.Gameplay;
 using STP.State.Core;
 
 namespace STP.Behaviour.Core.Objects {
-    public class Border : CoreComponent {
+    public class Border : BaseCoreComponent {
         public int BorderRadius = 2000;
 
         CoreShipState      _playerState;

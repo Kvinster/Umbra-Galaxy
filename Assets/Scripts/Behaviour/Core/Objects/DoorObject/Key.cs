@@ -3,7 +3,7 @@ using STP.State;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Objects.DoorObject {
-    public sealed class Key : CoreComponent, ICollectable {
+    public sealed class Key : BaseCoreComponent, ICollectable {
         [NotNullOrEmpty] public string Value;
 
         CorePlayerController _corePlayerController;

@@ -6,7 +6,7 @@ using STP.Behaviour.Starter;
 using STP.Gameplay;
 
 namespace STP.Behaviour.Core.Objects {
-    public class Asteroid : CoreComponent, IDestructable {
+    public class Asteroid : BaseCoreComponent, IDestructable {
         const int ShowAsteroidProbability = 5;
 
         public bool         IsRare;

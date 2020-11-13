@@ -5,7 +5,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Objects.DoorObject {
-    public abstract class BaseDoor : CoreComponent {
+    public abstract class BaseDoor : BaseCoreComponent {
         public float OpeningTime;
         public float BlockingTime;
 

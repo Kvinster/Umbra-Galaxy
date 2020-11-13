@@ -6,7 +6,7 @@ using STP.Utils.GameComponentAttributes;
 using TMPro;
 
 namespace STP.Behaviour.Core.UI {
-    public sealed class SelfDestructUI : CoreComponent {
+    public sealed class SelfDestructUI : BaseCoreComponent {
         [NotNull] public TMP_Text SelfDestructionText;
 
         SelfDestructEngine _engine;

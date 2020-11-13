@@ -8,7 +8,7 @@ using STP.State.Core;
 using STP.Utils;
 
 namespace STP.Behaviour.Core.Objects {
-    public abstract class BaseShip : CoreComponent, IDestructable, ISideAccessable {
+    public abstract class BaseShip : BaseCoreComponent, IDestructable, ISideAccessable {
         public Transform WeaponMountPoint;
         public HpBar     HpBar;
 
