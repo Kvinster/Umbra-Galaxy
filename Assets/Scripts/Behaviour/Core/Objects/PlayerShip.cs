@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
+using STP.Events;
 using STP.Gameplay;
 using STP.Utils;
+using STP.Utils.Events;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Objects {
@@ -50,6 +52,7 @@ namespace STP.Behaviour.Core.Objects {
         }
 
         protected override void OnShipDestroy() {
+            EventManager.Fire(new PlayerDestroyed());
             Destroy(gameObject);
             _overlayHelper.ShowGameoverOverlay();
         }

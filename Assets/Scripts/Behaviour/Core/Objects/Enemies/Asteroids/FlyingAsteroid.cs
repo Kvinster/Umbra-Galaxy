@@ -20,17 +20,25 @@ namespace STP.Behaviour.Core.Objects.Enemies.Asteroids {
 		public void Init(Transform playerShipTrans, Vector2 flyingDirection, float flyingSpeed) {
 			Rigidbody2D.velocity = flyingDirection * flyingSpeed;
 			_playerShipTrans = playerShipTrans;
+			EventManager.Subscribe<PlayerDestroyed>(OnPlayerDestroyed);
 		}
 		
-		public void OnTriggerEnter2D(Collider2D other) {
+		public void OnCollisionEnter2D(Collision2D other) {
 			var destructable = other.gameObject.GetComponent<IDestructable>();
 			destructable?.GetDamage(float.MaxValue);
 		}
-		
 		void Update() {
 			if ( OutOfPlayerRange ) {
 				DestroyAsteroid();
 			}
+		}
+
+		void OnDestroy() {
+			EventManager.Unsubscribe<PlayerDestroyed>(OnPlayerDestroyed);
+		}
+		
+		void OnPlayerDestroyed(PlayerDestroyed e) {
+			DestroyAsteroid();
 		}
 
 		void DestroyAsteroid() {

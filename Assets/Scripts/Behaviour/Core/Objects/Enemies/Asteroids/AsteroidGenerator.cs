@@ -28,10 +28,12 @@ namespace STP.Behaviour.Core.Objects.Enemies.Asteroids {
 		
 		protected override void InitInternal(CoreStarter starter) {
 			EventManager.Subscribe<FlyingAsteroidDestroyed>(OnFlyingAsteroidDestroyed);
+			EventManager.Subscribe<PlayerDestroyed>        (OnPlayerDestroyed);
 		}
 
 		void OnDestroy() {
 			EventManager.Unsubscribe<FlyingAsteroidDestroyed>(OnFlyingAsteroidDestroyed);
+			EventManager.Unsubscribe<PlayerDestroyed>        (OnPlayerDestroyed);
 		}
 
 		void Update() {
@@ -40,6 +42,11 @@ namespace STP.Behaviour.Core.Objects.Enemies.Asteroids {
 			}
 		}
 
+		void OnPlayerDestroyed(PlayerDestroyed e) {
+			// Stop asteroid generator
+			_timer.Stop();
+		}
+		
 		void OnFlyingAsteroidDestroyed(FlyingAsteroidDestroyed e) {
 			_currentAsteroidAmount--;
 		}
@@ -53,6 +60,7 @@ namespace STP.Behaviour.Core.Objects.Enemies.Asteroids {
 			// Generating next asteroid time
 			var newSpawnDelay = Random.Range(SpawnMinTimeSec, SpawnMaxTimeSec);
 			_timer.Reset(newSpawnDelay);
+			_currentAsteroidAmount++;
 		}
 
 		Vector3 GenerateAsteroidPosition() {
