@@ -56,7 +56,6 @@ namespace STP.Behaviour.Core.Objects.Enemies.Asteroids {
 			obj.transform.position = GenerateAsteroidPosition();
 			var asteroid = obj.GetComponent<FlyingAsteroid>();
 			asteroid.Init(PlayerShipTrans, GenerateAsteroidDirection(obj.transform.position), GenerateAsteroidSpeed());
-			_currentAsteroidAmount++;
 			// Generating next asteroid time
 			var newSpawnDelay = Random.Range(SpawnMinTimeSec, SpawnMaxTimeSec);
 			_timer.Reset(newSpawnDelay);
