@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -198,7 +198,6 @@ GameObject:
   - component: {fileID: 194620073}
   - component: {fileID: 194620072}
   - component: {fileID: 194620074}
-  - component: {fileID: 194620075}
   m_Layer: 0
   m_Name: Starter
   m_TagString: Untagged
@@ -218,12 +217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 008732d7c134e2649815f1fe73c4969a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletSpawnStock: {fileID: 0}
-  MaterialSpawnStock: {fileID: 0}
-  UnityContext: {fileID: 194620074}
-  LevelWrapper: {fileID: 194620075}
-  Player: {fileID: 0}
-  OverlayManager: {fileID: 0}
 --- !u!4 &194620073
 Transform:
   m_ObjectHideFlags: 0
@@ -250,21 +243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ead9db763ec84f33a9e2ba5236807689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &194620075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 194620071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41d618d9c86a4aff85eb0b48997baab4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Ships:
-  - Ship: {fileID: 0}
-    ReachedEnd: 0
 --- !u!1 &873527247
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,5 +427,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoreCamera
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8449917695322343334, guid: 7eb72f298b2b0f84b911f364418a4a90, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7eb72f298b2b0f84b911f364418a4a90, type: 3}
