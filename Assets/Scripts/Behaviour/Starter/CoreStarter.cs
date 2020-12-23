@@ -15,6 +15,7 @@ namespace STP.Behaviour.Starter {
         public Transform        MaterialSpawnStock;
         public UnityContext     UnityContext;
         public BaseLevelWrapper LevelWrapper;
+        public Transform        Player;
 
         public OverlayManager OverlayManager;
 
