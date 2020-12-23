@@ -358,6 +358,7 @@ MonoBehaviour:
   MaterialSpawnStock: {fileID: 1022387611}
   UnityContext: {fileID: 194620074}
   LevelWrapper: {fileID: 194620075}
+  Player: {fileID: 1813742605}
   OverlayManager: {fileID: 9210820899372257153}
 --- !u!4 &194620073
 Transform:
@@ -1036,9 +1037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bfa8722b3114643920e79cd7e8ee9de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AsteroidPrefab: {fileID: 7456559178307690193, guid: 2b01e56ae66a08044a2ad38c40dcadcc,
-    type: 3}
-  PlayerShipTrans: {fileID: 1813742605}
+  Prefab: {fileID: 7456559178307690193, guid: 2b01e56ae66a08044a2ad38c40dcadcc, type: 3}
 --- !u!1001 &539233548
 PrefabInstance:
   m_ObjectHideFlags: 0
