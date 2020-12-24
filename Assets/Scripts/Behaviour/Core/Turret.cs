@@ -23,10 +23,8 @@ namespace STP.Behaviour.Core {
 
 		void Shoot() {
 			var bulletGo = Instantiate(BulletPrefab, transform.position, Quaternion.identity, null);
-			var bulletRb = bulletGo.GetComponent<Rigidbody2D>();
-			bulletRb.rotation = transform.rotation.eulerAngles.z;
-			bulletRb.AddRelativeForce(Vector2.up * BulletStartForce, ForceMode2D.Impulse);
-			Physics2D.IgnoreCollision(Collider, bulletGo.GetComponent<Collider2D>());
+			var bulletComp = bulletGo.GetComponent<Bullet>();
+			bulletComp.Init(Collider, Vector2.up * BulletStartForce, transform.rotation.eulerAngles.z);
 		}
 	}
 }

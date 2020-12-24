@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d403a813d55d4bcfb3abab4611b29bd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Rigidbody: {fileID: 6687193854482185786}
+  Collider: {fileID: 3852704616686126073}
   LifeTime: 3
 --- !u!114 &7499554144530416788
 MonoBehaviour:
