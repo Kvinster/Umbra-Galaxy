@@ -45,6 +45,13 @@ namespace STP.Behaviour.Core.Enemy {
             }
         }
 
+        public void TakeDamage(float damage) {
+            CurHp -= damage;
+            if ( CurHp <= 0 ) {
+                Destroy(gameObject);
+            }
+        }
+        
         void OnFireRangeEnter(GameObject other) {
             var playerComp = other.GetComponent<Player>();
             if ( playerComp ) {
@@ -65,22 +72,20 @@ namespace STP.Behaviour.Core.Enemy {
                 Debug.LogError("Can't fire. Target not found.");
                 return;
             }
-            var dirToPlayer = _target.transform.position - transform.position;
-            var angle = MathUtils.GetSmoothRotationAngleOffset(Vector2.up, dirToPlayer.normalized, 1f);
-            var bullet = Instantiate(BulletPrefab, transform.position, Quaternion.Euler(0, 0, angle));
-            var bulletComp = bullet.GetComponent<Bullet>();
-            if ( !bulletComp ) {
-                Debug.LogError("Can't init bullet. Bullet component not found in the object");
-                return;
-            }
-            bulletComp.Init(Collider, Vector2.up * BulletRunForce, angle);
+            var go = Instantiate(BulletPrefab, transform.position, Quaternion.Euler(0, 0, GetViewAngleToTarget()));
+            InitCreatedObject(go);
         }
 
-        public void TakeDamage(float damage) {
-            CurHp -= damage;
-            if ( CurHp <= 0 ) {
-                Destroy(gameObject);
+        void InitCreatedObject(GameObject bullet) {
+            var bulletComp = bullet.GetComponent<Bullet>();
+            if ( bulletComp ) {
+                bulletComp.Init(Collider, Vector2.up * BulletRunForce, GetViewAngleToTarget());
             }
+        }
+
+        float GetViewAngleToTarget() {
+            var dirToPlayer = _target.transform.position - transform.position;
+            return MathUtils.GetSmoothRotationAngleOffset(Vector2.up, dirToPlayer.normalized, 1f);
         }
     }
 }
