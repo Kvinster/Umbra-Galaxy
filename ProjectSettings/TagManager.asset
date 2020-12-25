@@ -15,8 +15,8 @@ TagManager:
   - 
   - Player
   - PlayerBullets
-  - Aliens
-  - AliensBullets
+  - Enemies
+  - EnemiesBullets
   - NoAlienInteractableObjects
   - 
   - 
