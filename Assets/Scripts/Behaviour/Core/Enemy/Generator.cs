@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 
+using System.Collections.Generic;
+
 using STP.Behaviour.Starter;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
-    public class CoreGenerator : BaseStarterCoreComponent, IDestructible {
+    public class Generator : BaseStarterCoreComponent, IDestructible {
                   public float       StartHp = 100;
         [NotNull] public Collider2D  Collider;
         [NotNull] public ProgressBar HealthBar;
@@ -15,6 +17,12 @@ namespace STP.Behaviour.Core.Enemy {
         [Header("Bullet")]
         [NotNull] public GameObject BulletPrefab;
                   public float      BulletRunForce;
+        [Header("SubGenerators")]
+        public List<Generator> SubGenerators;
+        public GameObject      ConnectorPrefab;
+
+        Generator _rootGenerator;
+        readonly List<Connector> _connectors = new List<Connector>();
         
         readonly Timer _fireTimer = new Timer();
         
@@ -34,6 +42,7 @@ namespace STP.Behaviour.Core.Enemy {
             FireTrigger.OnTriggerEnter += OnFireRangeEnter;
             FireTrigger.OnTriggerExit  += OnFireRangeExit;
             CurHp = StartHp;
+            ConnectToSubGenerators();
         }
         
         void Update() {
@@ -45,13 +54,57 @@ namespace STP.Behaviour.Core.Enemy {
             }
         }
 
+        
         public void TakeDamage(float damage) {
             CurHp -= damage;
             if ( CurHp <= 0 ) {
-                Destroy(gameObject);
+                DestroyGenerator();
             }
         }
+
+        void DestroyGenerator() {
+            if ( _rootGenerator ) {
+                _rootGenerator.OnSubGeneratorDestroyed(this);
+            }
+            DestroySubGenerators();
+            Destroy(gameObject);
+        }
+
+        public void OnSubGeneratorDestroyed(Generator generator) {
+            SubGenerators.Remove(generator);
+            var connectorToSubGenerator = _connectors.Find(x => x.Other == generator);
+            if ( !connectorToSubGenerator ) {
+                Debug.LogError($"Can't find connection to the sub generator {generator.gameObject.name}");
+                return;
+            }
+            _connectors.Remove(connectorToSubGenerator);
+            connectorToSubGenerator.DestroyConnector();
+        }
         
+        void ConnectToSubGenerators() {
+            foreach ( var subGenerator in SubGenerators ) {
+                var go = Instantiate(ConnectorPrefab, Vector3.zero, Quaternion.identity, transform);
+                var connector = go.GetComponent<Connector>();
+                connector.Init(this, subGenerator);
+                subGenerator.SetRootGenerator(this);
+                _connectors.Add(connector);
+            }
+        }
+
+        void SetRootGenerator(Generator rootGenerator) {
+            _rootGenerator = rootGenerator;
+        }
+        
+        void DestroySubGenerators() {
+            var generators = new List<Generator>(SubGenerators);
+            foreach ( var generator in generators ) {
+                generator.DestroyGenerator();
+            }
+            foreach ( var connector in _connectors ) {
+                connector.DestroyConnector();
+            }
+        }
+
         void OnFireRangeEnter(GameObject other) {
             var playerComp = other.GetComponent<Player>();
             if ( playerComp ) {
