@@ -1,11 +1,9 @@
-﻿using System;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
 
 namespace STP.Behaviour.Core {
-	public sealed class Player : BaseStarterCoreComponent {
+	public sealed class Player : BaseStarterCoreComponent, IDestructible {
 		public Rigidbody2D Rigidbody;
 		public Collider2D  Collider;
 		public float       MovementSpeed;
@@ -17,7 +15,6 @@ namespace STP.Behaviour.Core {
 		[Space]
 		public int StartHp = 100;
 		public ProgressBar HealthBar;
-
 
 		Vector2 _input;
 
@@ -65,6 +62,13 @@ namespace STP.Behaviour.Core {
 			}
 		}
 
+		public void TakeDamage(float damage) {
+			CurHp = Mathf.FloorToInt(Mathf.Clamp(CurHp - damage, 0, StartHp));
+			if ( CurHp == 0 ) {
+				Die();
+			}
+		}
+
 		void TryShoot() {
 			if ( _reloadTimer <= 0 ) {
 				Shoot();
@@ -80,21 +84,8 @@ namespace STP.Behaviour.Core {
 			Physics2D.IgnoreCollision(Collider, bulletGo.GetComponent<Collider2D>());
 		}
 
-		void TakeDamage(int damage) {
-			CurHp = Mathf.Clamp(CurHp - damage, 0, StartHp);
-			if ( CurHp == 0 ) {
-				Die();
-			}
-		}
-
 		void Die() {
 			Destroy(gameObject);
-		}
-
-		void OnCollisionEnter2D(Collision2D other) {
-			if ( other.gameObject.GetComponent<Bullet>() ) {
-				TakeDamage(10);
-			}
 		}
 	}
 }
