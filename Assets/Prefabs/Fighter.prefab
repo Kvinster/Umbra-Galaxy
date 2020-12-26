@@ -206,8 +206,7 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: 20}
       - {x: -10, y: 0}
-      - {x: -10, y: -20}
-      - {x: 10, y: -20}
+      - {x: 0, y: -20}
       - {x: 10, y: 0}
 --- !u!50 &6476260919088652974
 Rigidbody2D:
@@ -221,7 +220,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 60
+  m_Mass: 40
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
