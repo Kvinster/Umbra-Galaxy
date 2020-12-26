@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6631905782644632931}
   - component: {fileID: 6631905782644632930}
   - component: {fileID: 6631905782644632929}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DetectRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 6631905783988765895}
   - component: {fileID: 6631905783988765894}
   - component: {fileID: 6631905783988765893}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Drone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
