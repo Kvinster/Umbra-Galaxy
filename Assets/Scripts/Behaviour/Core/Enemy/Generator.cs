@@ -21,7 +21,10 @@ namespace STP.Behaviour.Core.Enemy {
         public List<Generator> SubGenerators;
         public GameObject      ConnectorPrefab;
 
+        CoreStarter _starter;
+        
         Generator _rootGenerator;
+        
         readonly List<Connector> _connectors = new List<Connector>();
         
         readonly Timer _fireTimer = new Timer();
@@ -41,6 +44,7 @@ namespace STP.Behaviour.Core.Enemy {
         protected override void InitInternal(CoreStarter starter) {
             FireTrigger.OnTriggerEnter += OnFireRangeEnter;
             FireTrigger.OnTriggerExit  += OnFireRangeExit;
+            _starter = starter;
             CurHp = StartHp;
             ConnectToSubGenerators();
         }
@@ -133,6 +137,12 @@ namespace STP.Behaviour.Core.Enemy {
             var bulletComp = bullet.GetComponent<Bullet>();
             if ( bulletComp ) {
                 bulletComp.Init(Collider, Vector2.up * BulletRunForce, GetViewAngleToTarget());
+                return;
+            }
+            var droneComp = bullet.GetComponent<Drone>();
+            if ( droneComp ) {
+                droneComp.Init(_starter);
+                return;
             }
         }
 
