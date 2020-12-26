@@ -24,7 +24,7 @@ namespace STP.Behaviour.Core.Enemy {
 				return;
 			}
 			var dirRaw = _target.position - transform.position;
-			Rigidbody.rotation += MathUtils.LerpFloat(0f, Vector2.SignedAngle(transform.up, dirRaw), RotationSpeed);
+			Rigidbody.rotation += MathUtils.GetSmoothRotationAngleOffset(transform.up, dirRaw, RotationSpeed);
 		}
 
 		void FixedUpdate() {
