@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5909774503264953505}
   - component: {fileID: 5909774503264953510}
   - component: {fileID: 5909774503264953511}
+  - component: {fileID: 5337318474544929416}
   m_Layer: 10
   m_Name: Asteroid
   m_TagString: Untagged
@@ -47,6 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 023907d92115414c91cc8851feb1b871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LifeTime: 7
+  RotationPower: 3000000
+  Rigidbody: {fileID: 5337318474544929416}
 --- !u!114 &5909774503264953504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,3 +166,24 @@ PolygonCollider2D:
       - {x: -28, y: 0}
       - {x: -14, y: -24}
       - {x: 14, y: -24}
+--- !u!50 &5337318474544929416
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5909774503264953508}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1000
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
