@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using System;
+
 using STP.Behaviour.Starter;
 
 namespace STP.Behaviour.Core {
@@ -31,6 +33,8 @@ namespace STP.Behaviour.Core {
 				HealthBar.Progress = (float) _curHp / StartHp;
 			}
 		}
+
+		public event Action PlayerDied;
 
 		void Reset() {
 			Rigidbody = GetComponent<Rigidbody2D>();
@@ -85,6 +89,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		void Die() {
+			PlayerDied?.Invoke();
 			Destroy(gameObject);
 		}
 	}
