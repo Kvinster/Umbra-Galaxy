@@ -133,15 +133,20 @@ namespace STP.Behaviour.Core.Enemy {
             InitCreatedObject(go);
         }
 
-        void InitCreatedObject(GameObject bullet) {
-            var bulletComp = bullet.GetComponent<Bullet>();
+        void InitCreatedObject(GameObject go) {
+            var bulletComp = go.GetComponent<Bullet>();
             if ( bulletComp ) {
                 bulletComp.Init(Collider, Vector2.up * BulletRunForce, GetViewAngleToTarget());
                 return;
             }
-            var droneComp = bullet.GetComponent<Drone>();
+            var droneComp = go.GetComponent<Drone>();
             if ( droneComp ) {
                 droneComp.Init(_starter);
+                return;
+            }
+            var fighterComp = go.GetComponent<Fighter>();
+            if ( fighterComp ) {
+                fighterComp.Init(_starter);
                 return;
             }
         }
