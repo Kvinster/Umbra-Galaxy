@@ -68,9 +68,9 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 		void OnCollisionEnter2D(Collision2D other) {
-			var player = other.gameObject.GetComponent<Player>();
-			if ( player ) {
-				player.TakeDamage(20);
+			var destructible = other.gameObject.GetComponent<IDestructible>();
+			if ( destructible != null ) {
+				destructible.TakeDamage(20);
 				Die();
 			}
 		}
