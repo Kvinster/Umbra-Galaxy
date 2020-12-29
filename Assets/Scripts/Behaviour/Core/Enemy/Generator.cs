@@ -139,16 +139,14 @@ namespace STP.Behaviour.Core.Enemy {
                 bulletComp.Init(Collider, Vector2.up * BulletRunForce, GetViewAngleToTarget());
                 return;
             }
-            var droneComp = go.GetComponent<Drone>();
-            if ( droneComp ) {
-                droneComp.Init(_starter);
+            var coreComps = go.GetComponentsInChildren<BaseStarterCoreComponent>();
+            foreach ( var coreComp in coreComps ) {
+                coreComp.Init(_starter);
+            }
+            if ( coreComps.Length != 0 ) {
                 return;
             }
-            var fighterComp = go.GetComponent<Fighter>();
-            if ( fighterComp ) {
-                fighterComp.Init(_starter);
-                return;
-            }
+            Debug.LogError("Can't init spawned object");
         }
 
         float GetViewAngleToTarget() {
