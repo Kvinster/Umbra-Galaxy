@@ -60,8 +60,8 @@ namespace STP.Behaviour.Core.Enemy {
 
         
         public void TakeDamage(float damage) {
-            CurHp -= damage;
-            if ( CurHp <= 0 ) {
+            CurHp = Mathf.Max(CurHp - damage, 0);
+            if ( CurHp == 0 ) {
                 DestroyGenerator();
             }
         }

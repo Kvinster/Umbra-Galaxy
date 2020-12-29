@@ -24,13 +24,13 @@ namespace STP.Behaviour.Core {
 
 		float _reloadTimer;
 
-		int _curHp;
+		float _curHp;
 
-		int CurHp {
+		float CurHp {
 			get => _curHp;
 			set {
 				_curHp             = value;
-				HealthBar.Progress = (float) _curHp / StartHp;
+				HealthBar.Progress = _curHp / StartHp;
 			}
 		}
 
@@ -67,7 +67,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		public void TakeDamage(float damage) {
-			CurHp = Mathf.FloorToInt(Mathf.Clamp(CurHp - damage, 0, StartHp));
+			CurHp = Mathf.Max(CurHp - damage, 0);
 			if ( CurHp == 0 ) {
 				Die();
 			}

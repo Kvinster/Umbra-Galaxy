@@ -5,7 +5,7 @@ using STP.Utils;
 
 namespace STP.Behaviour.Core.Enemy {
 	public sealed class Glider : BaseStarterCoreComponent, IDestructible {
-		public int             StartHp = 20;
+		public float           StartHp = 20;
 		public float           MinAttackDistance;
 		public float           MaxAttackDistance;
 		public float           MovementSpeed;
@@ -36,7 +36,7 @@ namespace STP.Behaviour.Core.Enemy {
 			}
 		}
 
-		int CurHp { get; set; }
+		float CurHp { get; set; }
 
 		void Update() {
 			_reloadTimer -= Time.deltaTime;
@@ -90,7 +90,7 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 		public void TakeDamage(float damage) {
-			CurHp = Mathf.Max(Mathf.CeilToInt(CurHp - damage), 0);
+			CurHp = Mathf.Max(CurHp - damage, 0);
 			if ( CurHp == 0 ) {
 				Die();
 			}
