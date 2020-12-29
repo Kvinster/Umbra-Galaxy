@@ -5,7 +5,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
-	public sealed class Drone : BaseStarterCoreComponent, IDestructible {
+	public sealed class Drone : BaseCoreComponent, IDestructible {
 		public float StartHp;
 		public float MovementSpeed;
 		[Range(0f, 1f)]
@@ -34,11 +34,12 @@ namespace STP.Behaviour.Core.Enemy {
 			Rigidbody.MovePosition(transform.position + transform.up * (MovementSpeed * Time.fixedDeltaTime));
 		}
 
-		protected override void InitInternal(CoreStarter starter) {
-			CurHp = StartHp;
-
-			DetectRangeNotifier.OnTriggerEnter += OnDetectRangeEnter;
-			DetectRangeNotifier.OnTriggerExit  += OnDetectRangeExit;
+		void OnCollisionEnter2D(Collision2D other) {
+			var destructible = other.gameObject.GetComponent<IDestructible>();
+			if ( destructible != null ) {
+				destructible.TakeDamage(20);
+				Die();
+			}
 		}
 
 		public void TakeDamage(float damage) {
@@ -46,6 +47,13 @@ namespace STP.Behaviour.Core.Enemy {
 			if ( CurHp == 0 ) {
 				Die();
 			}
+		}
+		
+		protected override void InitInternal(CoreStarter starter) {
+			CurHp = StartHp;
+
+			DetectRangeNotifier.OnTriggerEnter += OnDetectRangeEnter;
+			DetectRangeNotifier.OnTriggerExit  += OnDetectRangeExit;
 		}
 
 		void Die() {
@@ -64,14 +72,6 @@ namespace STP.Behaviour.Core.Enemy {
 		void OnDetectRangeExit(GameObject other) {
 			if ( _target && (other.transform == _target) ) {
 				_target = null;
-			}
-		}
-
-		void OnCollisionEnter2D(Collision2D other) {
-			var destructible = other.gameObject.GetComponent<IDestructible>();
-			if ( destructible != null ) {
-				destructible.TakeDamage(20);
-				Die();
 			}
 		}
 	}

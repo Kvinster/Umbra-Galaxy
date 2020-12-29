@@ -5,7 +5,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
-	public sealed class Fighter : BaseStarterCoreComponent, IDestructible {
+	public sealed class Fighter : BaseCoreComponent, IDestructible {
 		public float StartHp;
 		public float MovementSpeed;
 		[Range(0f, 1f)]
@@ -47,6 +47,14 @@ namespace STP.Behaviour.Core.Enemy {
 			Rigidbody.MovePosition(transform.position + transform.up * (MovementSpeed * Time.fixedDeltaTime));
 		}
 
+		void OnCollisionEnter2D(Collision2D other) {
+			var destructible = other.gameObject.GetComponent<IDestructible>();
+			if ( destructible != null ) {
+				destructible.TakeDamage(20);
+				Die();
+			}
+		}
+
 		protected override void InitInternal(CoreStarter starter) {
 			CurHp = StartHp;
 			_fireTimer.Start(FirePeriod);
@@ -77,14 +85,6 @@ namespace STP.Behaviour.Core.Enemy {
 		void OnDetectRangeExit(GameObject other) {
 			if ( _target && (other.transform == _target) ) {
 				_target = null;
-			}
-		}
-
-		void OnCollisionEnter2D(Collision2D other) {
-			var destructible = other.gameObject.GetComponent<IDestructible>();
-			if ( destructible != null ) {
-				destructible.TakeDamage(20);
-				Die();
 			}
 		}
 

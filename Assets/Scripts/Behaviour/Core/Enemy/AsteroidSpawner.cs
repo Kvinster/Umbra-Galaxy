@@ -5,8 +5,9 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
-    public class AsteroidSpawner : BaseStarterCoreComponent {
-        [NotNull] public GameObject AsteroidPrefab;
+    public class AsteroidSpawner : BaseCoreComponent {
+        [NotNull] 
+        public GameObject AsteroidPrefab;
 
         public float SpawnPeriod   = 1f;
         public float AsteroidRange = 1000f;
@@ -16,15 +17,9 @@ namespace STP.Behaviour.Core.Enemy {
 
         readonly Timer _spawnTimer = new Timer();
 
-        protected override void InitInternal(CoreStarter starter) {
-            _spawnTimer.Start(SpawnPeriod);
-            _player = starter.Player;
-            _player.PlayerDied += OnPlayerDied;
-        }
-
         void OnDestroy() {
             if ( _player ) {
-                _player.PlayerDied -= OnPlayerDied;
+                _player.OnPlayerDied -= OnPlayerDied;
             }
         }
 
@@ -33,7 +28,13 @@ namespace STP.Behaviour.Core.Enemy {
                 SpawnAsteroid();
             }
         }
-
+        
+        protected override void InitInternal(CoreStarter starter) {
+            _spawnTimer.Start(SpawnPeriod);
+            _player = starter.Player;
+            _player.OnPlayerDied += OnPlayerDied;
+        }
+        
         void OnPlayerDied() {
             _player = null;
         }

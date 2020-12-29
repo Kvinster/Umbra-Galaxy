@@ -5,7 +5,7 @@ using System;
 using STP.Behaviour.Starter;
 
 namespace STP.Behaviour.Core {
-	public sealed class Player : BaseStarterCoreComponent, IDestructible {
+	public sealed class Player : BaseCoreComponent, IDestructible {
 		public Rigidbody2D Rigidbody;
 		public Collider2D  Collider;
 		public float       MovementSpeed;
@@ -34,7 +34,7 @@ namespace STP.Behaviour.Core {
 			}
 		}
 
-		public event Action PlayerDied;
+		public event Action OnPlayerDied;
 
 		void Reset() {
 			Rigidbody = GetComponent<Rigidbody2D>();
@@ -89,7 +89,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		void Die() {
-			PlayerDied?.Invoke();
+			OnPlayerDied?.Invoke();
 			Destroy(gameObject);
 		}
 	}

@@ -8,15 +8,10 @@ namespace STP.Behaviour.Core.Enemy {
         public float LifeTime = 10f;
         public float RotationPower = 100000f;
         
-        [NotNull] public Rigidbody2D Rigidbody;
+        [NotNull] 
+        public Rigidbody2D Rigidbody;
 
         readonly Timer _lifeTimer = new Timer();
-
-        public void Init(Vector2 force) {
-            Rigidbody.AddRelativeForce(force, ForceMode2D.Impulse);
-            Rigidbody.AddTorque(RotationPower, ForceMode2D.Impulse);
-            _lifeTimer.Start(LifeTime);
-        }
         
         void OnCollisionEnter2D(Collision2D other) {
             var destructible = other.gameObject.GetComponent<IDestructible>();
@@ -27,6 +22,12 @@ namespace STP.Behaviour.Core.Enemy {
             if ( _lifeTimer.DeltaTick() ) {
                 Destroy(gameObject);
             }
+        }
+        
+        public void Init(Vector2 force) {
+            Rigidbody.AddRelativeForce(force, ForceMode2D.Impulse);
+            Rigidbody.AddTorque(RotationPower, ForceMode2D.Impulse);
+            _lifeTimer.Start(LifeTime);
         }
     }
 }

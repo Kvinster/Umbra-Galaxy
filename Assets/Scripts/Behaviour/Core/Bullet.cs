@@ -5,8 +5,10 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
 	public sealed class Bullet : GameComponent {
-		[NotNull] public Rigidbody2D Rigidbody;
-		[NotNull] public Collider2D  Collider;
+		[NotNull] 
+		public Rigidbody2D Rigidbody;
+		[NotNull] 
+		public Collider2D  Collider;
 		
 		public float LifeTime = 3f;
 

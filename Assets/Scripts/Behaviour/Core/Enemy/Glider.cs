@@ -2,15 +2,16 @@
 
 using STP.Behaviour.Starter;
 using STP.Utils;
+using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
-	public sealed class Glider : BaseStarterCoreComponent, IDestructible {
+	public sealed class Glider : BaseCoreComponent, IDestructible {
 		public float           StartHp = 20;
 		public float           MinAttackDistance;
 		public float           MaxAttackDistance;
 		public float           MovementSpeed;
 		public float           RotationSpeed;
-		public Collider2D      Collider;
+		[NotNull]public Collider2D      Collider;
 		public Rigidbody2D     Rigidbody;
 		public TriggerNotifier DetectRangeNotifier;
 		public float           ShootInterval;
