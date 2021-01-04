@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Core;
+using STP.Behaviour.Core.LevelGeneration;
 using STP.Controller;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
@@ -16,7 +17,8 @@ namespace STP.Behaviour.Starter {
 
 		void Start() {
 			LevelGoalManager = new LevelGoalManager(Player.transform);
-			Generator.GenerateLevel(LevelController.Instance);
+			Generator.Init(LevelController.Instance, ChunkController.Instance);
+			Generator.GenerateLevel();
 			InitComponents();
 			// Settings for smooth gameplay
 			Application.targetFrameRate = Screen.currentResolution.refreshRate;
