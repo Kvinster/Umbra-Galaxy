@@ -126,5 +126,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteRenderer: {fileID: 2232436510693053393}
-  FadeInDuration: 0.5
-  FadeOutDuration: 0.5
+  FadeInDuration: 1
+  FadeOutDuration: 1
