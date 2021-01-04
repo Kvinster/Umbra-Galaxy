@@ -3,40 +3,42 @@
 using System.Collections.Generic;
 
 using STP.Behaviour.Starter;
+using STP.Manager;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
     public class Generator : BaseCoreComponent, IDestructible {
         public float StartHp = 100;
-        [NotNull] 
+        [NotNull]
         public Collider2D  Collider;
-        [NotNull] 
+        [NotNull]
         public ProgressBar HealthBar;
         [Header("Turret")]
-        [NotNull] 
+        [NotNull]
         public TriggerNotifier FireTrigger;
         public float           ReloadDuration;
         [Header("Bullet")]
-        [NotNull] 
+        [NotNull]
         public GameObject BulletPrefab;
         public float      BulletRunForce;
         [Header("SubGenerators")]
         public List<Generator> SubGenerators;
         public GameObject      ConnectorPrefab;
 
-        CoreStarter _starter;
-        
+        CoreStarter      _starter;
+        LevelGoalManager _levelGoalManager;
+
         Generator _rootGenerator;
-        
+
         readonly List<Connector> _connectors = new List<Connector>();
-        
+
         readonly Timer _fireTimer = new Timer();
-        
+
         GameObject _target;
 
         float _curHp;
-        
+
         float CurHp {
             get => _curHp;
             set {
@@ -44,7 +46,7 @@ namespace STP.Behaviour.Core.Enemy {
                 HealthBar.Progress = _curHp / StartHp;
             }
         }
-        
+
         void Update() {
             if ( !_target ) {
                 return;
@@ -57,11 +59,15 @@ namespace STP.Behaviour.Core.Enemy {
         protected override void InitInternal(CoreStarter starter) {
             FireTrigger.OnTriggerEnter += OnFireRangeEnter;
             FireTrigger.OnTriggerExit  += OnFireRangeExit;
-            _starter = starter;
+
+            _starter          = starter;
+            _levelGoalManager = _starter.LevelGoalManager;
+
             CurHp = StartHp;
+
             ConnectToSubGenerators();
         }
-        
+
         public void TakeDamage(float damage) {
             CurHp = Mathf.Max(CurHp - damage, 0);
             if ( CurHp == 0 ) {
@@ -73,6 +79,7 @@ namespace STP.Behaviour.Core.Enemy {
             if ( _rootGenerator ) {
                 _rootGenerator.OnSubGeneratorDestroyed(this);
             }
+            _levelGoalManager.Advance();
             DestroySubGenerators();
             Destroy(gameObject);
         }
@@ -87,7 +94,7 @@ namespace STP.Behaviour.Core.Enemy {
             _connectors.Remove(connectorToSubGenerator);
             connectorToSubGenerator.DestroyConnector();
         }
-        
+
         void ConnectToSubGenerators() {
             foreach ( var subGenerator in SubGenerators ) {
                 var go = Instantiate(ConnectorPrefab, Vector3.zero, Quaternion.identity, transform);
@@ -101,7 +108,7 @@ namespace STP.Behaviour.Core.Enemy {
         void SetRootGenerator(Generator rootGenerator) {
             _rootGenerator = rootGenerator;
         }
-        
+
         void DestroySubGenerators() {
             var generators = new List<Generator>(SubGenerators);
             foreach ( var generator in generators ) {
@@ -119,7 +126,7 @@ namespace STP.Behaviour.Core.Enemy {
                 _fireTimer.Start(ReloadDuration);
             }
         }
-        
+
         void OnFireRangeExit(GameObject other) {
             if ( _target == other ) {
                 _target = null;
