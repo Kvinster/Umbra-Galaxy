@@ -2,16 +2,14 @@
 
 using System;
 
+using STP.Utils;
+
 namespace STP.Controller {
-	public sealed class PlayerController {
+	public sealed class PlayerController : Singleton<PlayerController> {
 		public const float MaxPlayerHp = 100f;
 
 		const int   StartPlayerLives = 3;
 		const float StartPlayerHp    = MaxPlayerHp;
-
-		static PlayerController _instance;
-
-		public static PlayerController Instance => _instance ?? (_instance = new PlayerController());
 
 		int   _curLives;
 		float _curHp;
@@ -22,6 +20,7 @@ namespace STP.Controller {
 				if ( _curLives == value ) {
 					return;
 				}
+
 				_curLives = value;
 				OnCurLivesChanged?.Invoke(_curLives);
 			}
@@ -33,6 +32,7 @@ namespace STP.Controller {
 				if ( Mathf.Approximately(_curHp, value) ) {
 					return;
 				}
+
 				_curHp = value;
 				OnCurHpChanged?.Invoke(_curHp);
 			}
@@ -41,7 +41,7 @@ namespace STP.Controller {
 		public event Action<int>   OnCurLivesChanged;
 		public event Action<float> OnCurHpChanged;
 
-		PlayerController() {
+		public PlayerController() {
 			CurLives = StartPlayerLives;
 			CurHp    = StartPlayerHp;
 		}
@@ -64,6 +64,7 @@ namespace STP.Controller {
 				CurLives -= subLives;
 				return true;
 			}
+
 			return false;
 		}
 	}
