@@ -7,7 +7,8 @@ using STP.View.DebugGUI;
 
 namespace STP.Behaviour.Starter {
     public class CoreStarter : BaseStarter<CoreStarter> {
-        [NotNull] public Player Player;
+        [NotNull] public Player    Player;
+        [NotNull] public Transform PlayerStartPos;
 
         public LevelGoalManager LevelGoalManager { get; private set; }
 

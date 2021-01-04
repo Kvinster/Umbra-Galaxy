@@ -28,7 +28,7 @@ namespace STP.Manager {
 			}
 		}
 
-		public bool CanEndLevel { get; private set; }
+		public bool CanWinLevel { get; private set; }
 
 		public event Action<int> OnCurLevelGoalProgressChanged;
 
@@ -45,16 +45,28 @@ namespace STP.Manager {
 			CurLevelGoalProgress += goalAdd;
 
 			if ( CurLevelGoalProgress >= LevelGoal ) {
-				CanEndLevel = true;
-				TryEndLevel();
+				CanWinLevel = true;
+				TryWinLevel();
 			}
 		}
 
-		bool TryEndLevel() {
-			if ( !CanEndLevel ) {
+		public void LoseLevel() {
+			Time.timeScale = 0f;
+			// TODO: properly restart level
+			SceneTransitionController.Instance.Transition(SceneManager.GetActiveScene().name, _playerTransform.position,
+					() => {
+						var player = Object.FindObjectOfType<Player>();
+						return player ? player.transform.position : Vector3.zero;
+					})
+				.Then(() => { Time.timeScale = 1f; });
+		}
+
+		bool TryWinLevel() {
+			if ( !CanWinLevel ) {
 				return false;
 			}
 			Time.timeScale = 0f;
+			// TODO: get next level
 			SceneTransitionController.Instance.Transition(SceneManager.GetActiveScene().name, _playerTransform.position,
 					() => {
 						var player = Object.FindObjectOfType<Player>();

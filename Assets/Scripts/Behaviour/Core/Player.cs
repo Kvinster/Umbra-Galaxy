@@ -3,6 +3,8 @@
 using System;
 
 using STP.Behaviour.Starter;
+using STP.Controller;
+using STP.Manager;
 
 namespace STP.Behaviour.Core {
 	public sealed class Player : BaseCoreComponent, IDestructible {
@@ -15,24 +17,19 @@ namespace STP.Behaviour.Core {
 		[Space]
 		public float ReloadDuration;
 		[Space]
-		public int StartHp = 100;
 		public ProgressBar HealthBar;
 
 		Vector2 _input;
 
-		Camera _camera;
+		Camera           _camera;
+		Transform        _playerStartPos;
+		LevelGoalManager _levelGoalManager;
+
+		PlayerController _playerController;
 
 		float _reloadTimer;
 
-		float _curHp;
-
-		float CurHp {
-			get => _curHp;
-			set {
-				_curHp             = value;
-				HealthBar.Progress = _curHp / StartHp;
-			}
-		}
+		float CurHp => _playerController.CurHp;
 
 		public event Action OnPlayerDied;
 
@@ -40,12 +37,9 @@ namespace STP.Behaviour.Core {
 			Rigidbody = GetComponent<Rigidbody2D>();
 		}
 
-		protected override void InitInternal(CoreStarter starter) {
-			_camera = Camera.main;
-
-			CurHp = StartHp;
-
-			HealthBar.Init(1f);
+		protected override void OnDisable() {
+			base.OnDisable();
+			Deinit();
 		}
 
 		void Update() {
@@ -66,11 +60,52 @@ namespace STP.Behaviour.Core {
 			}
 		}
 
+		protected override void InitInternal(CoreStarter starter) {
+			_camera           = Camera.main;
+			_playerStartPos   = starter.PlayerStartPos;
+			_levelGoalManager = starter.LevelGoalManager;
+
+			_playerController                =  PlayerController.Instance;
+			_playerController.OnCurHpChanged += OnCurHpChanged;
+			OnCurHpChanged(CurHp);
+
+			HealthBar.Init(1f);
+
+			Respawn();
+		}
+
 		public void TakeDamage(float damage) {
-			CurHp = Mathf.Max(CurHp - damage, 0);
-			if ( CurHp == 0 ) {
-				Die();
+			if ( _playerController.TakeDamage(damage) ) {
+				if ( _playerController.TrySubLives() ) {
+					Respawn();
+				} else {
+					Die();
+				}
 			}
+		}
+
+		void Deinit() {
+			_playerController.OnCurHpChanged -= OnCurHpChanged;
+		}
+
+		void Respawn() {
+			_playerController.RestoreHp();
+			Rigidbody.position = _playerStartPos.position;
+			Rigidbody.velocity = Vector2.zero;
+			Rigidbody.rotation = 0f;
+			_reloadTimer       = 0f;
+		}
+
+		void Die() {
+			Deinit();
+			_playerController.RestoreHp();
+			_playerController.RestoreLives();
+			OnPlayerDied?.Invoke();
+			_levelGoalManager.LoseLevel();
+		}
+
+		void OnCurHpChanged(float curHp) {
+			HealthBar.Progress = (curHp / PlayerController.MaxPlayerHp);
 		}
 
 		void TryShoot() {
@@ -86,11 +121,6 @@ namespace STP.Behaviour.Core {
 			bulletRb.rotation = Rigidbody.rotation;
 			bulletRb.AddRelativeForce(Vector2.up * BulletStartForce, ForceMode2D.Impulse);
 			Physics2D.IgnoreCollision(Collider, bulletGo.GetComponent<Collider2D>());
-		}
-
-		void Die() {
-			OnPlayerDied?.Invoke();
-			Destroy(gameObject);
 		}
 	}
 }
