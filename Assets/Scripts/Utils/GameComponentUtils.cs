@@ -31,7 +31,7 @@ namespace STP.Utils {
 						case NotNullAttribute _: {
 							var valueRaw = fieldInfo.GetValue(rawObj);
 							if ( (valueRaw == null) || ((valueRaw is Object unityObj) && !unityObj) ) {
-								Debug.LogErrorFormat(context, "'{0}' is null", fieldInfo.Name);
+								Debug.LogErrorFormat(context, "{0} is null in object {1}", fieldInfo.Name, context);
 							}
 							break;
 						}
@@ -62,8 +62,7 @@ namespace STP.Utils {
 								}
 								case Object valueObj: {
 									if ( !valueObj ) {
-										Debug.LogErrorFormat(context, "'{0}' is null",
-											fieldInfo.Name);
+										Debug.LogErrorFormat(context, "{0} is null in object {1}", fieldInfo.Name, context);
 									}
 									break;
 								}
