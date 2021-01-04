@@ -9,6 +9,8 @@ namespace STP.Config {
 		public int    LevelSeed       = 0;
 		public string LevelName       = "Level1";
 		public string NextLevelName   = "Level2";
+
+		public int    LevelSpaceSize;
 	}
 	
 	[CreateAssetMenu(fileName = "AllLevels", menuName = "ScriptableObjects/LevelsConfig", order = 1)]
