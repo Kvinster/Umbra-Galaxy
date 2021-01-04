@@ -28,6 +28,8 @@ namespace STP.Manager {
 			}
 		}
 
+		public bool CanEndLevel { get; private set; }
+
 		public event Action<int> OnCurLevelGoalProgressChanged;
 
 		public LevelGoalManager(Transform playerTransform) {
@@ -43,11 +45,15 @@ namespace STP.Manager {
 			CurLevelGoalProgress += goalAdd;
 
 			if ( CurLevelGoalProgress >= LevelGoal ) {
-				WinLevel();
+				CanEndLevel = true;
+				TryEndLevel();
 			}
 		}
 
-		void WinLevel() {
+		bool TryEndLevel() {
+			if ( !CanEndLevel ) {
+				return false;
+			}
 			Time.timeScale = 0f;
 			SceneTransitionController.Instance.Transition(SceneManager.GetActiveScene().name, _playerTransform.position,
 					() => {
@@ -55,6 +61,7 @@ namespace STP.Manager {
 						return player ? player.transform.position : Vector3.zero;
 					})
 				.Then(() => { Time.timeScale = 1f; });
+			return true;
 		}
 	}
 }
