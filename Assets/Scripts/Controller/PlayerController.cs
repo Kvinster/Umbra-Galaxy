@@ -67,5 +67,9 @@ namespace STP.Controller {
 
 			return false;
 		}
+
+		public void AddLives(int addLives = 1) {
+			CurLives += addLives;
+		}
 	}
 }
