@@ -16,8 +16,9 @@ namespace STP.Behaviour.Starter {
 		public LevelGoalManager LevelGoalManager { get; private set; }
 
 		void Start() {
-			LevelGoalManager = new LevelGoalManager(Player.transform);
-			Generator.Init(LevelController.Instance, ChunkController.Instance);
+			var lc = LevelController.Instance;
+			LevelGoalManager = new LevelGoalManager(Player.transform, lc);
+			Generator.Init(lc, ChunkController.Instance);
 			Generator.GenerateLevel();
 			InitComponents();
 			// Settings for smooth gameplay

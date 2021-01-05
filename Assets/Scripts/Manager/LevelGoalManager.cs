@@ -4,16 +4,19 @@ using UnityEngine.SceneManagement;
 using System;
 
 using STP.Behaviour.Core;
+using STP.Config;
+using STP.Controller;
 
 using Object = UnityEngine.Object;
 
 namespace STP.Manager {
 	public sealed class LevelGoalManager {
-		const int LevelGoalTmp = 5;
-
 		public readonly int LevelGoal;
 
-		readonly Transform _playerTransform;
+		readonly Transform       _playerTransform;
+		readonly LevelController _levelController;
+
+		readonly LevelInfo _curLevelInfo;
 
 		int _curLevelGoalProgress;
 
@@ -32,11 +35,13 @@ namespace STP.Manager {
 
 		public event Action<int> OnCurLevelGoalProgressChanged;
 
-		public LevelGoalManager(Transform playerTransform) {
+		public LevelGoalManager(Transform playerTransform, LevelController levelController) {
 			_playerTransform = playerTransform;
+			_levelController = levelController;
 
-			// TODO: replace with level config of some sort
-			LevelGoal = LevelGoalTmp;
+			_curLevelInfo = _levelController.GetCurLevelConfig();
+
+			LevelGoal = _curLevelInfo.GeneratorsCount;
 
 			CurLevelGoalProgress = 0;
 		}
@@ -66,7 +71,7 @@ namespace STP.Manager {
 				return false;
 			}
 			Time.timeScale = 0f;
-			// TODO: get next level
+			_levelController.ChangeLevel(_curLevelInfo.NextLevelName);
 			SceneTransitionController.Instance.Transition(SceneManager.GetActiveScene().name, _playerTransform.position,
 					() => {
 						var player = Object.FindObjectOfType<Player>();
