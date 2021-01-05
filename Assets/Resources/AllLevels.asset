@@ -17,4 +17,4 @@ MonoBehaviour:
     LevelSeed: 0
     LevelName: Level1
     NextLevelName: Level1
-    LevelSpaceSize: 10000
+    LevelSpaceSize: 3000
