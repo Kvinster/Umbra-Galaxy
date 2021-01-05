@@ -5,7 +5,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
-	public sealed class Fighter : BaseCoreComponent, IDestructible {
+	public sealed class Fighter : BaseEnemy, IDestructible {
 		public float StartHp;
 		public float MovementSpeed;
 		[Range(0f, 1f)]
@@ -69,7 +69,8 @@ namespace STP.Behaviour.Core.Enemy {
 			}
 		}
 
-		void Die() {
+		protected override void Die() {
+			base.Die();
 			DetectRangeNotifier.OnTriggerEnter -= OnDetectRangeEnter;
 			DetectRangeNotifier.OnTriggerExit  -= OnDetectRangeExit;
 

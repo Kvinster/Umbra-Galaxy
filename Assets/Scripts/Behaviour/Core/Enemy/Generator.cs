@@ -8,7 +8,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
-    public class Generator : BaseCoreComponent, IDestructible {
+    public class Generator : BaseEnemy, IDestructible {
         public float StartHp = 100;
         [NotNull]
         public Collider2D  Collider;
@@ -71,11 +71,12 @@ namespace STP.Behaviour.Core.Enemy {
         public void TakeDamage(float damage) {
             CurHp = Mathf.Max(CurHp - damage, 0);
             if ( CurHp == 0 ) {
-                DestroyGenerator();
+                Die();
             }
         }
 
-        void DestroyGenerator() {
+        protected override void Die() {
+            base.Die();
             if ( _rootGenerator ) {
                 _rootGenerator.OnSubGeneratorDestroyed(this);
             }
@@ -112,7 +113,7 @@ namespace STP.Behaviour.Core.Enemy {
         void DestroySubGenerators() {
             var generators = new List<Generator>(SubGenerators);
             foreach ( var generator in generators ) {
-                generator.DestroyGenerator();
+                generator.Die();
             }
             foreach ( var connector in _connectors ) {
                 connector.DestroyConnector();

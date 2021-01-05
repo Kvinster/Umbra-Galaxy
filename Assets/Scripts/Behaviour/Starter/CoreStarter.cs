@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Core;
-using STP.Behaviour.Core.LevelGeneration;
 using STP.Controller;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
@@ -22,7 +21,7 @@ namespace STP.Behaviour.Starter {
 			var lc = LevelController.Instance;
 			PlayerManager    = new PlayerManager(Player, pc);
 			LevelGoalManager = new LevelGoalManager(Player.transform, lc);
-			CoreWindowsManager.Init(PlayerManager, LevelGoalManager, pc);
+			CoreWindowsManager.Init(PlayerManager, LevelGoalManager, pc, XpController.Instance);
 			Generator.Init(lc, ChunkController.Instance);
 			Generator.GenerateLevel();
 			InitComponents();

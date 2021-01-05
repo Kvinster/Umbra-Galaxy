@@ -241,6 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d8c79c6660e4aef9a526a501cceb97e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: Fighter
   StartHp: 20
   MovementSpeed: 250
   RotationSpeed: 0.1

@@ -8,6 +8,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 using RSG;
+using STP.Controller;
 using TMPro;
 
 namespace STP.Behaviour.Core.UI {
@@ -23,12 +24,14 @@ namespace STP.Behaviour.Core.UI {
 
 		PlayerManager    _playerManager;
 		LevelGoalManager _levelGoalManager;
+		XpController     _xpController;
 
 		Promise _showPromise;
 
-		public void CommonInit(PlayerManager playerManager, LevelGoalManager levelGoalManager) {
+		public void CommonInit(PlayerManager playerManager, LevelGoalManager levelGoalManager, XpController xpController) {
 			_playerManager    = playerManager;
 			_levelGoalManager = levelGoalManager;
+			_xpController     = xpController;
 
 			QuitButton.onClick.AddListener(OnQuitClick);
 			ContinueButton.onClick.AddListener(OnContinueClick);
@@ -73,6 +76,7 @@ namespace STP.Behaviour.Core.UI {
 		void OnRestartClick() {
 			_playerManager.Restart();
 			_levelGoalManager.LoseLevel();
+			_xpController.ResetXp();
 			Hide();
 		}
 	}

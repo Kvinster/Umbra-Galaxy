@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84b456f1ffb54416961d4e92eebdaa2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: Generator
   StartHp: 100
   Collider: {fileID: 4816338448515008977}
   HealthBar: {fileID: 8147379892703251958}

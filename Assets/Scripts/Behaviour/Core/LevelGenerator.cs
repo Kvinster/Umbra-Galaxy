@@ -12,7 +12,7 @@ using NaughtyAttributes;
 
 using Random = UnityEngine.Random;
 
-namespace STP.Behaviour.Core.LevelGeneration {
+namespace STP.Behaviour.Core {
 	public class LevelGenerator : GameComponent {
 		[Serializable]
 		public class ChunkWeightInfo {

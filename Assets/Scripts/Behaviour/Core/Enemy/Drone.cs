@@ -5,7 +5,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
-	public sealed class Drone : BaseCoreComponent, IDestructible {
+	public sealed class Drone : BaseEnemy, IDestructible {
 		public float StartHp;
 		public float MovementSpeed;
 		[Range(0f, 1f)]
@@ -56,10 +56,11 @@ namespace STP.Behaviour.Core.Enemy {
 			DetectRangeNotifier.OnTriggerExit  += OnDetectRangeExit;
 		}
 
-		void Die() {
+		protected override void Die() {
+			base.Die();
 			DetectRangeNotifier.OnTriggerEnter -= OnDetectRangeEnter;
 			DetectRangeNotifier.OnTriggerExit  -= OnDetectRangeExit;
-
+	
 			Destroy(gameObject);
 		}
 

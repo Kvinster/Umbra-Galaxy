@@ -109,6 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47cb069688634f4cb279f792f7dbceb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: Glider
   StartHp: 20
   MinAttackDistance: 200
   MaxAttackDistance: 300
