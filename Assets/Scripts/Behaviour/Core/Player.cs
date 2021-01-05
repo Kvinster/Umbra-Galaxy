@@ -21,9 +21,10 @@ namespace STP.Behaviour.Core {
 
 		Vector2 _input;
 
-		Camera           _camera;
-		Transform        _playerStartPos;
-		LevelGoalManager _levelGoalManager;
+		Camera             _camera;
+		Transform          _playerStartPos;
+		LevelGoalManager   _levelGoalManager;
+		CoreWindowsManager _coreWindowsManager;
 
 		PlayerController _playerController;
 
@@ -61,9 +62,10 @@ namespace STP.Behaviour.Core {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
-			_camera           = Camera.main;
-			_playerStartPos   = starter.PlayerStartPos;
-			_levelGoalManager = starter.LevelGoalManager;
+			_camera             = Camera.main;
+			_playerStartPos     = starter.PlayerStartPos;
+			_levelGoalManager   = starter.LevelGoalManager;
+			_coreWindowsManager = starter.CoreWindowsManager;
 
 			_playerController                =  PlayerController.Instance;
 			_playerController.OnCurHpChanged += OnCurHpChanged;
@@ -71,37 +73,29 @@ namespace STP.Behaviour.Core {
 
 			HealthBar.Init(1f);
 
-			Respawn();
+			OnRespawn();
 		}
 
-		public void TakeDamage(float damage) {
-			if ( _playerController.TakeDamage(damage) ) {
-				if ( _playerController.TrySubLives() ) {
-					Respawn();
-				} else {
-					Die();
-				}
-			}
-		}
-
-		void Deinit() {
-			_playerController.OnCurHpChanged -= OnCurHpChanged;
-		}
-
-		void Respawn() {
-			_playerController.RestoreHp();
+		public void OnRespawn() {
 			Rigidbody.position = _playerStartPos.position;
 			Rigidbody.velocity = Vector2.zero;
 			Rigidbody.rotation = 0f;
 			_reloadTimer       = 0f;
 		}
 
-		void Die() {
+		public void OnRestart() {
 			Deinit();
-			_playerController.RestoreHp();
-			_playerController.RestoreLives();
 			OnPlayerDied?.Invoke();
-			_levelGoalManager.LoseLevel();
+		}
+
+		public void TakeDamage(float damage) {
+			if ( _playerController.TakeDamage(damage) ) {
+				_coreWindowsManager.ShowDeathWindow();
+			}
+		}
+
+		void Deinit() {
+			_playerController.OnCurHpChanged -= OnCurHpChanged;
 		}
 
 		void OnCurHpChanged(float curHp) {
