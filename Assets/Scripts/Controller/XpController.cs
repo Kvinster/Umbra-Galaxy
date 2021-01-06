@@ -1,5 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+
+using System;
 
 using STP.Config;
 using STP.Events;
@@ -11,7 +12,7 @@ namespace STP.Controller {
 		XpConfig _xpConfig;
 
 		int _curXp;
-		
+
 		public int CurXp {
 			get {
 				return _curXp;
@@ -38,7 +39,7 @@ namespace STP.Controller {
 		void OnEnemyDestroyed(EnemyDestroyed e) {
 			CurXp += _xpConfig.GetDestroyedEnemyXp(e.EnemyName);
 		}
-		
+
 		void LoadConfig() {
 			_xpConfig = Resources.Load<XpConfig>("XpConfig");
 		}
