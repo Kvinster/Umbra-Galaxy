@@ -22,6 +22,7 @@ namespace STP.Behaviour.Core {
 		Vector2 _input;
 
 		Camera             _camera;
+		CoreStarter        _starter;
 		Transform          _playerStartPos;
 		LevelGoalManager   _levelGoalManager;
 		CoreWindowsManager _coreWindowsManager;
@@ -63,6 +64,7 @@ namespace STP.Behaviour.Core {
 
 		protected override void InitInternal(CoreStarter starter) {
 			_camera             = Camera.main;
+			_starter            = starter;
 			_playerStartPos     = starter.PlayerStartPos;
 			_levelGoalManager   = starter.LevelGoalManager;
 			_coreWindowsManager = starter.CoreWindowsManager;
@@ -115,6 +117,10 @@ namespace STP.Behaviour.Core {
 			bulletRb.rotation = Rigidbody.rotation;
 			bulletRb.AddRelativeForce(Vector2.up * BulletStartForce, ForceMode2D.Impulse);
 			Physics2D.IgnoreCollision(Collider, bulletGo.GetComponent<Collider2D>());
+
+			foreach ( var comp in bulletGo.GetComponentsInChildren<BaseCoreComponent>() ) {
+				comp.Init(_starter);
+			}
 		}
 	}
 }

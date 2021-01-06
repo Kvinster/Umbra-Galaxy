@@ -102,6 +102,9 @@ namespace STP.Behaviour.Core.Enemy {
                 var connector = go.GetComponent<Connector>();
                 connector.Init(this, subGenerator);
                 subGenerator.SetRootGenerator(this);
+                foreach ( var comp in go.GetComponentsInChildren<BaseCoreComponent>() ) {
+                    comp.Init(_starter);
+                }
                 _connectors.Add(connector);
             }
         }
@@ -148,7 +151,6 @@ namespace STP.Behaviour.Core.Enemy {
             var bulletComp = go.GetComponent<Bullet>();
             if ( bulletComp ) {
                 bulletComp.Init(Collider, Vector2.up * BulletRunForce, GetViewAngleToTarget());
-                return;
             }
             var coreComps = go.GetComponentsInChildren<BaseCoreComponent>();
             foreach ( var coreComp in coreComps ) {
