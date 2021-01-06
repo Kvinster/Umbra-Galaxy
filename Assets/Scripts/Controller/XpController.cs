@@ -10,7 +10,7 @@ namespace STP.Controller {
 		XpConfig _xpConfig;
 
 		int _curXp;
-		
+
 		public int CurXp {
 			get {
 				return _curXp;

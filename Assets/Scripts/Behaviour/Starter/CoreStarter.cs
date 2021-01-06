@@ -10,20 +10,26 @@ using STP.View.DebugGUI;
 namespace STP.Behaviour.Starter {
 	public class CoreStarter : BaseStarter<CoreStarter> {
 		[NotNull] public Player             Player;
+		[NotNull] public Camera             MinimapCamera;
 		[NotNull] public Transform          PlayerStartPos;
 		[NotNull] public LevelGenerator     Generator;
 		[NotNull] public CoreWindowsManager CoreWindowsManager;
 
+		public CoreSpawnHelper  SpawnHelper      { get; private set; }
+		public PauseManager     PauseManager     { get; private set; }
 		public PlayerManager    PlayerManager    { get; private set; }
 		public LevelGoalManager LevelGoalManager { get; private set; }
+		public MinimapManager   MinimapManager   { get; private set; }
 
 		void Start() {
+			SpawnHelper  = new CoreSpawnHelper(this);
+			PauseManager = new PauseManager();
 			var pc = PlayerController.Instance;
 			var lc = LevelController.Instance;
-			var xc = XpController.Instance;
-			PlayerManager    = new PlayerManager(Player, pc, xc, UnityContext.Instance);
-			LevelGoalManager = new LevelGoalManager(Player.transform, lc);
-			CoreWindowsManager.Init(PlayerManager, LevelGoalManager, pc, xc);
+			PlayerManager    = new PlayerManager(Player, pc);
+			LevelGoalManager = new LevelGoalManager(Player.transform, PauseManager, lc);
+			MinimapManager   = new MinimapManager(MinimapCamera);
+			CoreWindowsManager.Init(PauseManager, PlayerManager, LevelGoalManager, pc, XpController.Instance);
 			Generator.Init(lc, ChunkController.Instance);
 			Generator.GenerateLevel();
 			InitComponents();
@@ -33,6 +39,7 @@ namespace STP.Behaviour.Starter {
 		}
 
 		void OnDestroy() {
+			PauseManager?.Deinit();
 			if ( DebugGuiController.HasInstance ) {
 				DebugGuiController.Instance.SetDrawable(null);
 			}

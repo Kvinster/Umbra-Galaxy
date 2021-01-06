@@ -3,12 +3,12 @@ using UnityEngine.UI;
 
 using System;
 
+using STP.Controller;
 using STP.Manager;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 using RSG;
-using STP.Controller;
 using TMPro;
 
 namespace STP.Behaviour.Core.UI {
