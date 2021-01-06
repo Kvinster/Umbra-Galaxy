@@ -26,10 +26,11 @@ namespace STP.Behaviour.Starter {
 			PauseManager = new PauseManager();
 			var pc = PlayerController.Instance;
 			var lc = LevelController.Instance;
-			PlayerManager    = new PlayerManager(Player, pc);
+			var xc = XpController.Instance;
+			PlayerManager    = new PlayerManager(Player, pc, xc, UnityContext.Instance);
 			LevelGoalManager = new LevelGoalManager(Player.transform, PauseManager, lc);
 			MinimapManager   = new MinimapManager(MinimapCamera);
-			CoreWindowsManager.Init(PauseManager, PlayerManager, LevelGoalManager, pc, XpController.Instance);
+			CoreWindowsManager.Init(PauseManager, PlayerManager, LevelGoalManager, pc, xc);
 			Generator.Init(lc, ChunkController.Instance);
 			Generator.GenerateLevel();
 			InitComponents();

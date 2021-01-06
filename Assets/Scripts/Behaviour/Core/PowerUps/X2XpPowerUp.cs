@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
+using STP.Common;
 using STP.Manager;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
