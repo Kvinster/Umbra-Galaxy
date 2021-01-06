@@ -7,11 +7,13 @@ using DG.Tweening;
 namespace STP.Manager {
 	public sealed class MinimapManager {
 		const float ZoomSpeed       = 100f;
+		const float MaxZoomDuration = 0.5f;
 		const float StartCameraSize = 900f;
 		const float MinCameraSize   = 450f;
 		const float MaxCameraSize   = 2700f;
 
-		const float ZoomStepSize = 100f;
+		const float ZoomRawStepSize = 10f;
+		const float ZoomStepSize    = 100f;
 
 		readonly Camera _minimapCamera;
 
@@ -35,20 +37,35 @@ namespace STP.Manager {
 
 		public MinimapManager(Camera minimapCamera) {
 			_minimapCamera = minimapCamera;
+			CameraSize     = StartCameraSize;
 		}
 
 		public void ZoomIn() {
 			ZoomRelative(-ZoomStepSize);
 		}
 
+		public void ZoomInRaw() {
+			CameraSize -= ZoomRawStepSize;
+		}
+
 		public void ZoomOut() {
 			ZoomRelative(ZoomStepSize);
 		}
 
+		public void ZoomOutRaw() {
+			CameraSize += ZoomRawStepSize;
+		}
+
+		public void ResetZoom() {
+			ZoomRelative(StartCameraSize - CameraSize);
+		}
+
 		void ZoomRelative(float relativeCameraSize) {
 			_anim?.Kill(true);
-			_anim = DOTween.To(() => CameraSize, x => CameraSize = x, CameraSize + relativeCameraSize,
-				Mathf.Abs(relativeCameraSize) / ZoomSpeed);
+			var endSize = Mathf.Clamp(CameraSize + relativeCameraSize, MinCameraSize, MaxCameraSize);
+			relativeCameraSize = CameraSize - endSize;
+			_anim = DOTween.To(() => CameraSize, x => CameraSize = x, endSize,
+				Mathf.Min(Mathf.Abs(relativeCameraSize) / ZoomSpeed, MaxZoomDuration));
 		}
 	}
 }
