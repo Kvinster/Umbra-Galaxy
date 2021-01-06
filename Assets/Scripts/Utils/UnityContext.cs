@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 namespace STP.Utils {
-    public class UnityContext : MonoBehaviour {
+    public class UnityContext : SingleBehaviour<UnityContext> {
         readonly List<Action<float>> _updateCallbacks = new List<Action<float>>();
         
         public void AddUpdateCallback(Action<float> callback) {

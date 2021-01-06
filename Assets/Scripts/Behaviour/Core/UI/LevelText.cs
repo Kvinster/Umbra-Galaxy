@@ -14,12 +14,14 @@ namespace STP.Behaviour.Core.UI {
 		const string UnfinishedGoalTextFormat = "<color=white>Goal: {0}/{1}</color>";
 		const string FinishedGoalTextFormat   = "<color=green>Goal: {0}/{1}</color>";
 		const string CurXpTextFormat          = "<color=white>Xp: {0}</color>";
+		const string PowerUpInfoFormat        = "<color=white>name: {0} left: {1:00}</color>";
 
 		[NotNull] public TMP_Text Text;
 
 		LevelGoalManager _levelGoalManager;
 		PlayerController _playerController;
 		XpController     _xpController;
+		PlayerManager    _playerManager;
 
 		readonly StringBuilder _stringBuilder = new StringBuilder();
 
@@ -27,12 +29,13 @@ namespace STP.Behaviour.Core.UI {
 			_levelGoalManager = starter.LevelGoalManager;
 			_playerController = PlayerController.Instance;
 			_xpController     = XpController.Instance;
+			_playerManager    = starter.PlayerManager;
 
 			_levelGoalManager.OnCurLevelGoalProgressChanged += OnCurLevelGoalProgressChanged;
 			_playerController.OnCurLivesChanged             += OnCurPlayerLivesChanged;
 			_xpController.OnXpChanged                       += OnXpAmountChanged;
 
-			UpdateText(_playerController.CurLives, _levelGoalManager.CurLevelGoalProgress, _xpController.CurXp);
+			UpdateText();
 		}
 
 		void OnDestroy() {
@@ -47,25 +50,37 @@ namespace STP.Behaviour.Core.UI {
 			}
 		}
 
+		void Update() {
+			UpdateText();
+		}
+
 		void OnXpAmountChanged(int xpAmount) {
-			UpdateText(_playerController.CurLives, _levelGoalManager.LevelGoal, xpAmount);
+			UpdateText();
 		}		
 
 		void OnCurLevelGoalProgressChanged(int curProgress) {
-			UpdateText(_playerController.CurLives, curProgress, _xpController.CurXp);
+			UpdateText();
 		}
 
 		void OnCurPlayerLivesChanged(int curLives) {
-			UpdateText(curLives, _levelGoalManager.CurLevelGoalProgress, _xpController.CurXp);
+			UpdateText();
 		}
 
-		void UpdateText(int curLives, int curProgress, int curXp) {
+		void UpdateText() {
+			var curProgress = _levelGoalManager.CurLevelGoalProgress;
 			_stringBuilder.Clear()
-				.AppendLine(string.Format(LivesTextFormat, curLives))
+				.AppendLine(string.Format(LivesTextFormat, _playerController.CurLives))
 				.AppendLine(string.Format(
 					(curProgress >= _levelGoalManager.LevelGoal) ? FinishedGoalTextFormat : UnfinishedGoalTextFormat,
 					curProgress, _levelGoalManager.LevelGoal))
-				.AppendLine(string.Format(CurXpTextFormat, curXp));
+				.AppendLine(string.Format(CurXpTextFormat, _xpController.CurXp));
+			var allPowerUps = _playerManager.GetAllActivePowerUpStates();
+			if ( allPowerUps.Count > 0 ) {
+				_stringBuilder.AppendLine("PowerUps info:");
+			}
+			foreach ( var powerUp in _playerManager.GetAllActivePowerUpStates() ) {
+				_stringBuilder.AppendLine(string.Format(PowerUpInfoFormat, powerUp.Name, powerUp.TimeLeft));
+			};
 			Text.text = _stringBuilder.ToString();
 		}
 	}

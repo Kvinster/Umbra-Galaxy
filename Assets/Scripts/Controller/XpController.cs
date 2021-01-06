@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+
+using System;
 
 using STP.Config;
-using STP.Events;
 using STP.Utils;
-using STP.Utils.Events;
 
 namespace STP.Controller {
 	public class XpController : Singleton<XpController> {
@@ -28,16 +27,23 @@ namespace STP.Controller {
 
 		public XpController() {
 			LoadConfig();
-			EventManager.Subscribe<EnemyDestroyed>(OnEnemyDestroyed);
 		}
 
 		public void ResetXp() {
 			CurXp = 0;
 		}
 
-		void OnEnemyDestroyed(EnemyDestroyed e) {
-			CurXp += _xpConfig.GetDestroyedEnemyXp(e.EnemyName);
+		public void AddXp(int value) {
+			if ( value < 0 ) {
+				Debug.LogWarning($"Strange xp amount {value}. Ignoring");
+				return;
+			}
+			CurXp += value;
 		}
+		
+		public int GetDestroyedEnemyXp(string enemyName) {
+			return _xpConfig.GetDestroyedEnemyXp(enemyName);
+		} 
 		
 		void LoadConfig() {
 			_xpConfig = Resources.Load<XpConfig>("XpConfig");

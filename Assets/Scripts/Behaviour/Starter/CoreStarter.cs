@@ -3,6 +3,7 @@
 using STP.Behaviour.Core;
 using STP.Controller;
 using STP.Manager;
+using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 using STP.View.DebugGUI;
 
@@ -19,9 +20,10 @@ namespace STP.Behaviour.Starter {
 		void Start() {
 			var pc = PlayerController.Instance;
 			var lc = LevelController.Instance;
-			PlayerManager    = new PlayerManager(Player, pc);
+			var xc = XpController.Instance;
+			PlayerManager    = new PlayerManager(Player, pc, xc, UnityContext.Instance);
 			LevelGoalManager = new LevelGoalManager(Player.transform, lc);
-			CoreWindowsManager.Init(PlayerManager, LevelGoalManager, pc, XpController.Instance);
+			CoreWindowsManager.Init(PlayerManager, LevelGoalManager, pc, xc);
 			Generator.Init(lc, ChunkController.Instance);
 			Generator.GenerateLevel();
 			InitComponents();
@@ -34,6 +36,7 @@ namespace STP.Behaviour.Starter {
 			if ( DebugGuiController.HasInstance ) {
 				DebugGuiController.Instance.SetDrawable(null);
 			}
+			PlayerManager?.Deinit();
 		}
 	}
 }
