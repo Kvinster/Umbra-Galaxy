@@ -26,7 +26,7 @@ namespace STP.Behaviour.Core.Enemy {
         public List<Generator> SubGenerators;
         public GameObject      ConnectorPrefab;
 
-        CoreStarter      _starter;
+        CoreSpawnHelper  _spawnHelper;
         LevelGoalManager _levelGoalManager;
 
         Generator _rootGenerator;
@@ -60,8 +60,8 @@ namespace STP.Behaviour.Core.Enemy {
             FireTrigger.OnTriggerEnter += OnFireRangeEnter;
             FireTrigger.OnTriggerExit  += OnFireRangeExit;
 
-            _starter          = starter;
-            _levelGoalManager = _starter.LevelGoalManager;
+            _spawnHelper      = starter.SpawnHelper;
+            _levelGoalManager = starter.LevelGoalManager;
 
             CurHp = StartHp;
 
@@ -102,9 +102,7 @@ namespace STP.Behaviour.Core.Enemy {
                 var connector = go.GetComponent<Connector>();
                 connector.Init(this, subGenerator);
                 subGenerator.SetRootGenerator(this);
-                foreach ( var comp in go.GetComponentsInChildren<BaseCoreComponent>() ) {
-                    comp.Init(_starter);
-                }
+                _spawnHelper.TryInitSpawnedObject(go);
                 _connectors.Add(connector);
             }
         }
@@ -152,14 +150,7 @@ namespace STP.Behaviour.Core.Enemy {
             if ( bulletComp ) {
                 bulletComp.Init(Collider, Vector2.up * BulletRunForce, GetViewAngleToTarget());
             }
-            var coreComps = go.GetComponentsInChildren<BaseCoreComponent>();
-            foreach ( var coreComp in coreComps ) {
-                coreComp.Init(_starter);
-            }
-            if ( coreComps.Length != 0 ) {
-                return;
-            }
-            Debug.LogError("Can't init spawned object");
+            _spawnHelper.TryInitSpawnedObject(go);
         }
 
         float GetViewAngleToTarget() {

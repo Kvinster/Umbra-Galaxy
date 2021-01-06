@@ -12,20 +12,21 @@ namespace STP.Behaviour.Core.Enemy {
 		public float RotationSpeed;
 		[NotNull]
 		public Rigidbody2D Rigidbody;
-		[NotNull] 
+		[NotNull]
 		public Collider2D  Collider;
 		[NotNull]
 		public TriggerNotifier DetectRangeNotifier;
 
-		[Header("Gun")] 
-		[NotNull] 
+		[Header("Gun")]
+		[NotNull]
 		public GameObject Bullet;
 		public float      FirePeriod;
 		public float      StartBulletForce;
 
 		readonly Timer _fireTimer = new Timer();
 
-		Transform _target;
+		Transform       _target;
+		CoreSpawnHelper _spawnHelper;
 
 		float CurHp { get; set; }
 
@@ -56,7 +57,8 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
-			CurHp = StartHp;
+			_spawnHelper = starter.SpawnHelper;
+			CurHp        = StartHp;
 			_fireTimer.Start(FirePeriod);
 			DetectRangeNotifier.OnTriggerEnter += OnDetectRangeEnter;
 			DetectRangeNotifier.OnTriggerExit  += OnDetectRangeExit;
@@ -98,6 +100,7 @@ namespace STP.Behaviour.Core.Enemy {
 				return;
 			}
 			bullet.Init(Collider, Vector2.up * StartBulletForce, transform.rotation.eulerAngles.z);
+			_spawnHelper.TryInitSpawnedObject(go);
 		}
 	}
 }

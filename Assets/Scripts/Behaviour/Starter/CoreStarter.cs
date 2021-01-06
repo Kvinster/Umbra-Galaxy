@@ -14,11 +14,13 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public LevelGenerator     Generator;
 		[NotNull] public CoreWindowsManager CoreWindowsManager;
 
+		public CoreSpawnHelper  SpawnHelper      { get; private set; }
 		public PlayerManager    PlayerManager    { get; private set; }
 		public LevelGoalManager LevelGoalManager { get; private set; }
 		public MinimapManager   MinimapManager   { get; private set; }
 
 		void Start() {
+			SpawnHelper = new CoreSpawnHelper(this);
 			var pc = PlayerController.Instance;
 			var lc = LevelController.Instance;
 			PlayerManager    = new PlayerManager(Player, pc);

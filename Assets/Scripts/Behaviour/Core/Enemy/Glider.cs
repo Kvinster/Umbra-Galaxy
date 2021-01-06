@@ -20,6 +20,8 @@ namespace STP.Behaviour.Core.Enemy {
 
 		Transform _target;
 
+		CoreSpawnHelper _spawnHelper;
+
 		bool _rotateClockwise;
 
 		float _reloadTimer;
@@ -58,6 +60,7 @@ namespace STP.Behaviour.Core.Enemy {
 				Debug.LogError("No Bullet component on BulletPrefab");
 				return false;
 			}
+			_spawnHelper.TryInitSpawnedObject(bulletGo);
 			return true;
 		}
 
@@ -82,6 +85,8 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
+			_spawnHelper = starter.SpawnHelper;
+
 			CurHp = StartHp;
 
 			_rotateClockwise = (Random.Range(0, 2) == 1);
@@ -101,7 +106,7 @@ namespace STP.Behaviour.Core.Enemy {
 			base.Die();
 			DetectRangeNotifier.OnTriggerEnter -= OnDetectRangeEnter;
 			DetectRangeNotifier.OnTriggerExit  -= OnDetectRangeExit;
-			
+
 			Destroy(gameObject);
 		}
 

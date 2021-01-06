@@ -13,8 +13,8 @@ namespace STP.Behaviour.Core.Enemy {
         public float AsteroidRange = 1000f;
         public float AsteroidForce = 1000f;
 
-        Player      _player;
-        CoreStarter _starter;
+        Player          _player;
+        CoreSpawnHelper _spawnHelper;
 
         readonly Timer _spawnTimer = new Timer();
 
@@ -31,7 +31,7 @@ namespace STP.Behaviour.Core.Enemy {
         }
 
         protected override void InitInternal(CoreStarter starter) {
-            _starter = starter;
+            _spawnHelper = starter.SpawnHelper;
 
             _spawnTimer.Start(SpawnPeriod);
             _player = starter.Player;
@@ -58,9 +58,7 @@ namespace STP.Behaviour.Core.Enemy {
             var dirToPlayer = _player.transform.position - pos;
             asteroid.Init(dirToPlayer.normalized * AsteroidForce);
 
-            foreach ( var comp in go.GetComponentsInChildren<BaseCoreComponent>() ) {
-                comp.Init(_starter);
-            }
+            _spawnHelper.TryInitSpawnedObject(go);
         }
     }
 }
