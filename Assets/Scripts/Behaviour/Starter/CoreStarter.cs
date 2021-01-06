@@ -21,6 +21,8 @@ namespace STP.Behaviour.Starter {
 		public LevelGoalManager LevelGoalManager { get; private set; }
 		public MinimapManager   MinimapManager   { get; private set; }
 
+		public PlayerController PlayerController => PlayerController.Instance;
+
 		void Start() {
 			SpawnHelper  = new CoreSpawnHelper(this);
 			PauseManager = new PauseManager();

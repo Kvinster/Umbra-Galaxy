@@ -17,9 +17,9 @@ namespace STP.Manager {
 		readonly XpController     _xpController;
 
 		readonly UnityContext _context;
-		
+
 		readonly List<PowerUpState> _powerUpStates = new List<PowerUpState>();
-		
+
 		public PlayerManager(Player player, PlayerController playerController, XpController xpController, UnityContext context) {
 			_player           = player;
 			_playerController = playerController;
@@ -40,8 +40,7 @@ namespace STP.Manager {
 			var powerUpTimer = _powerUpStates.Find(x => x.Name == name);
 			if ( powerUpTimer != null ) {
 				powerUpTimer.AddTime(time);
-			}
-			else {
+			} else {
 				_powerUpStates.Add(new PowerUpState(name, time));
 			}
 		}
@@ -58,7 +57,7 @@ namespace STP.Manager {
 		bool HasActivePowerUp(string name) {
 			return _powerUpStates.Find(x => x.Name == name) != null;
 		}
-		
+
 		public void Respawn() {
 			if ( !_playerController.TrySubLives() ) {
 				Debug.LogError("Can't subtract live");
@@ -77,9 +76,27 @@ namespace STP.Manager {
 			for ( var i = _powerUpStates.Count - 1; i >= 0; i-- ) {
 				var powerUp = _powerUpStates[i];
 				if ( powerUp.Tick(deltaTime) ) {
-					_powerUpStates.Remove(powerUp);
+					HandlePowerUpFinish(powerUp);
 				}
 			}
+		}
+
+		void HandlePowerUpFinish(PowerUpState powerUpState) {
+			var powerUpName = powerUpState.Name;
+			switch ( powerUpName ) {
+				case PowerUpNames.X2Xp: {
+					break;
+				}
+				case PowerUpNames.Shield: {
+					_playerController.IsInvincible = false;
+					break;
+				}
+				default: {
+					Debug.LogErrorFormat("Unsupported power up name '{0}'", powerUpName);
+					break;
+				}
+			}
+			_powerUpStates.Remove(powerUpState);
 		}
 
 		void OnEnemyDestroyed(EnemyDestroyed e) {

@@ -13,6 +13,7 @@ namespace STP.Controller {
 
 		int   _curLives;
 		float _curHp;
+		bool  _isInvincible;
 
 		public int CurLives {
 			get => _curLives;
@@ -38,15 +39,31 @@ namespace STP.Controller {
 			}
 		}
 
+		public bool IsInvincible {
+			get => _isInvincible;
+			set {
+				if ( _isInvincible == value ) {
+					return;
+				}
+				_isInvincible = value;
+				OnIsInvincibleChanged?.Invoke(_isInvincible);
+			}
+		}
+
 		public event Action<int>   OnCurLivesChanged;
 		public event Action<float> OnCurHpChanged;
+		public event Action<bool>  OnIsInvincibleChanged;
 
 		public PlayerController() {
-			CurLives = StartPlayerLives;
-			CurHp    = StartPlayerHp;
+			CurLives     = StartPlayerLives;
+			CurHp        = StartPlayerHp;
+			IsInvincible = false;
 		}
 
 		public bool TakeDamage(float damage) {
+			if ( IsInvincible ) {
+				return false;
+			}
 			CurHp = Mathf.Max(CurHp - damage, 0f);
 			return Mathf.Approximately(CurHp, 0f);
 		}
