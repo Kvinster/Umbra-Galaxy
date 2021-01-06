@@ -9,20 +9,22 @@ namespace STP.Manager {
 	public sealed class CoreWindowsManager : GameComponent {
 		[NotNull] public DeathWindow DeathWindow;
 
+		PauseManager     _pauseManager;
 		PlayerController _playerController;
 
-		public void Init(PlayerManager playerManager, LevelGoalManager levelGoalManager,
+		public void Init(PauseManager pauseManager, PlayerManager playerManager, LevelGoalManager levelGoalManager,
 			PlayerController playerController, XpController xpController) {
+			_pauseManager     = pauseManager;
 			_playerController = playerController;
 
 			DeathWindow.CommonInit(playerManager, levelGoalManager, xpController);
 		}
 
 		public void ShowDeathWindow() {
-			Time.timeScale = 0f;
+			_pauseManager.Pause(this);
 			DeathWindow.Show(_playerController.CurLives)
 				.Catch(ex => { Debug.LogError(ex.Message); })
-				.Finally(() => Time.timeScale = 1f);
+				.Finally(() => _pauseManager.Unpause(this));
 		}
 	}
 }

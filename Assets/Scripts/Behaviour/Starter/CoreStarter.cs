@@ -15,18 +15,20 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public CoreWindowsManager CoreWindowsManager;
 
 		public CoreSpawnHelper  SpawnHelper      { get; private set; }
+		public PauseManager     PauseManager     { get; private set; }
 		public PlayerManager    PlayerManager    { get; private set; }
 		public LevelGoalManager LevelGoalManager { get; private set; }
 		public MinimapManager   MinimapManager   { get; private set; }
 
 		void Start() {
-			SpawnHelper = new CoreSpawnHelper(this);
+			SpawnHelper  = new CoreSpawnHelper(this);
+			PauseManager = new PauseManager();
 			var pc = PlayerController.Instance;
 			var lc = LevelController.Instance;
 			PlayerManager    = new PlayerManager(Player, pc);
-			LevelGoalManager = new LevelGoalManager(Player.transform, lc);
+			LevelGoalManager = new LevelGoalManager(Player.transform, PauseManager, lc);
 			MinimapManager   = new MinimapManager(MinimapCamera);
-			CoreWindowsManager.Init(PlayerManager, LevelGoalManager, pc, XpController.Instance);
+			CoreWindowsManager.Init(PauseManager, PlayerManager, LevelGoalManager, pc, XpController.Instance);
 			Generator.Init(lc, ChunkController.Instance);
 			Generator.GenerateLevel();
 			InitComponents();
@@ -36,6 +38,7 @@ namespace STP.Behaviour.Starter {
 		}
 
 		void OnDestroy() {
+			PauseManager?.Deinit();
 			if ( DebugGuiController.HasInstance ) {
 				DebugGuiController.Instance.SetDrawable(null);
 			}
