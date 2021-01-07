@@ -209,6 +209,7 @@ VFXRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 0}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -603,6 +604,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6096956030084875469}
+  - component: {fileID: 6318438134109568463}
   - component: {fileID: 6433092364805186969}
   m_Layer: 0
   m_Name: Shield
@@ -625,6 +627,19 @@ Transform:
   m_Father: {fileID: 8269483859924232889}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6318438134109568463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5731767177408797248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8592bdbad92a4b7f98947cf1b0eeac6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VisualEffect: {fileID: 1919486042972707917}
 --- !u!58 &6433092364805186969
 CircleCollider2D:
   m_ObjectHideFlags: 0
