@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+using System;
 using System.Collections.Generic;
 
 using STP.Behaviour.Core;
@@ -19,6 +20,9 @@ namespace STP.Manager {
 		readonly UnityContext _context;
 
 		readonly List<PowerUpState> _powerUpStates = new List<PowerUpState>();
+
+		public event Action<string> OnPowerUpStarted;
+		public event Action<string> OnPowerUpFinished;
 
 		public PlayerManager(Player player, PlayerController playerController, XpController xpController, UnityContext context) {
 			_player           = player;
@@ -42,6 +46,7 @@ namespace STP.Manager {
 				powerUpTimer.AddTime(time);
 			} else {
 				_powerUpStates.Add(new PowerUpState(name, time));
+				OnPowerUpStarted?.Invoke(name);
 			}
 		}
 
@@ -97,6 +102,7 @@ namespace STP.Manager {
 				}
 			}
 			_powerUpStates.Remove(powerUpState);
+			OnPowerUpFinished?.Invoke(powerUpName);
 		}
 
 		void OnEnemyDestroyed(EnemyDestroyed e) {

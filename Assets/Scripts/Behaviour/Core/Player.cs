@@ -18,6 +18,8 @@ namespace STP.Behaviour.Core {
 		public float ReloadDuration;
 		[Space]
 		public ProgressBar HealthBar;
+		[Space]
+		public Collider2D ShieldCollider;
 
 		Vector2 _input;
 
@@ -74,6 +76,8 @@ namespace STP.Behaviour.Core {
 			HealthBar.Init(1f);
 
 			OnRespawn();
+
+			Physics2D.IgnoreCollision(Collider, ShieldCollider);
 		}
 
 		public void OnRespawn() {
@@ -114,7 +118,9 @@ namespace STP.Behaviour.Core {
 			var bulletRb = bulletGo.GetComponent<Rigidbody2D>();
 			bulletRb.rotation = Rigidbody.rotation;
 			bulletRb.AddRelativeForce(Vector2.up * BulletStartForce, ForceMode2D.Impulse);
-			Physics2D.IgnoreCollision(Collider, bulletGo.GetComponent<Collider2D>());
+			var bulletCollider = bulletGo.GetComponent<Collider2D>();
+			Physics2D.IgnoreCollision(Collider, bulletCollider);
+			Physics2D.IgnoreCollision(ShieldCollider, bulletCollider);
 			_spawnHelper.TryInitSpawnedObject(bulletGo);
 		}
 	}
