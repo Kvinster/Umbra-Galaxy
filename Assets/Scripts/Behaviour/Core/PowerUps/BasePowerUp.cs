@@ -13,6 +13,10 @@ namespace STP.Behaviour.Core.PowerUps {
 		protected PlayerManager    PlayerManager;
 		protected PlayerController PlayerController;
 
+		protected void Reset() {
+			Notifier = GetComponentInChildren<TriggerNotifier>();
+		}
+
 		protected override void InitInternal(CoreStarter starter) {
 			PlayerManager    = starter.PlayerManager;
 			PlayerController = starter.PlayerController;
