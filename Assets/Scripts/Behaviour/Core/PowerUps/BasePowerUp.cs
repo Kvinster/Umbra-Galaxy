@@ -1,22 +1,38 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
+using STP.Controller;
+using STP.Manager;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.PowerUps {
 	public abstract class BasePowerUp : BaseCoreComponent {
-		[NotNull] 
-		public TriggerNotifier Notifier;
-		
+		[NotNull] public TriggerNotifier Notifier;
+
+		protected PlayerManager    PlayerManager;
+		protected PlayerController PlayerController;
+
 		protected override void InitInternal(CoreStarter starter) {
+			PlayerManager    = starter.PlayerManager;
+			PlayerController = starter.PlayerController;
+
 			Notifier.OnTriggerEnter += OnRangeEnter;
 		}
 
-		void OnDestroy() {
+		protected void OnDestroy() {
 			Notifier.OnTriggerEnter -= OnRangeEnter;
 		}
 
-		protected abstract void OnRangeEnter(GameObject go);
+		protected virtual void OnRangeEnter(GameObject go) {
+			var playerComp = go.GetComponent<Player>();
+			if ( !playerComp ) {
+				return;
+			}
+			OnPlayerEnter();
+			Destroy(gameObject);
+		}
+
+		protected abstract void OnPlayerEnter();
 	}
 }
