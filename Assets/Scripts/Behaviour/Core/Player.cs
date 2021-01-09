@@ -10,7 +10,8 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
 	public sealed class Player : BaseCoreComponent, IDestructible {
-		const float TmpBulletDamage = 10f;
+		const float TmpBulletDamage    = 10f;
+		const float TmpIncFireRateMult = 1f / 4f;
 
 		[NotNull]
 		public Rigidbody2D Rigidbody;
@@ -122,7 +123,9 @@ namespace STP.Behaviour.Core {
 		void TryShoot() {
 			if ( _reloadTimer <= 0 ) {
 				Shoot();
-				_reloadTimer = ReloadDuration;
+				_reloadTimer = ReloadDuration * (_playerManager.HasActivePowerUp(PowerUpNames.IncreasedFireRate)
+					? TmpIncFireRateMult
+					: 1f);
 			}
 		}
 

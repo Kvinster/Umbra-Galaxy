@@ -97,7 +97,8 @@ namespace STP.Manager {
 			switch ( powerUpName ) {
 				case PowerUpNames.X2Xp:
 				case PowerUpNames.Heal:
-				case PowerUpNames.X2Damage: {
+				case PowerUpNames.X2Damage:
+				case PowerUpNames.IncreasedFireRate: {
 					break;
 				}
 				case PowerUpNames.Shield: {
@@ -118,7 +119,8 @@ namespace STP.Manager {
 			switch ( powerUpName ) {
 				case PowerUpNames.X2Xp:
 				case PowerUpNames.Shield:
-				case PowerUpNames.X2Damage: {
+				case PowerUpNames.X2Damage:
+				case PowerUpNames.IncreasedFireRate: {
 					break;
 				}
 				case PowerUpNames.Heal: {
