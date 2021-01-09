@@ -13,8 +13,11 @@ namespace STP.Behaviour.Core {
 		public float LifeTime = 3f;
 
 		float _lifeTimer;
+		float _damage;
 
-		public void Init(Vector2 force, float rotation, params Collider2D[] ownerColliders) {
+		public void Init(float damage, Vector2 force, float rotation, params Collider2D[] ownerColliders) {
+			_damage = damage;
+
 			Rigidbody.rotation = rotation;
 			Rigidbody.AddRelativeForce(force, ForceMode2D.Impulse);
 			foreach ( var ownerCollider in ownerColliders ) {
@@ -35,7 +38,7 @@ namespace STP.Behaviour.Core {
 
 		void OnCollisionEnter2D(Collision2D other) {
 			var destructible = other.gameObject.GetComponent<IDestructible>();
-			destructible?.TakeDamage(10f);
+			destructible?.TakeDamage(_damage);
 			Destroy(gameObject);
 		}
 	}
