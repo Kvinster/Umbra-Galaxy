@@ -7,7 +7,7 @@ namespace Shapes {
 	public static class ShapesConfig {
 
 		// whether or not inspectors should use HDR color pickers
-		public const bool USE_HDR_COLOR_PICKERS = false;
+		public const bool USE_HDR_COLOR_PICKERS = true;
 
 		// these settings are uh, very esoteric
 		// *if* you are having trouble with *many* shapes being drawn on screen at the same time,
@@ -18,7 +18,7 @@ namespace Shapes {
 		// can use *these specific bounds*, so that the bounds would encapsulate the entire shape.
 		// practically, this means that these bounds should be set so that it can encapsulate the largest
 		// shape you have in your project. if this is set too low, larger shapes will pop in/out of existence
-		// 
+		//
 		// the purpose of this is to gain some benefit in culling, but still keep the benefits of instancing
 		// by default, size is set to a large value of 1 << 16 (65536), practically "turning off" frustum culling
 		static Bounds VERY_LORGE_BOUNDS = new Bounds( Vector3.zero, Vector3.one * ( 1 << 16 ) );
