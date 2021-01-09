@@ -2,28 +2,19 @@
 
 using STP.Behaviour.Starter;
 using STP.Controller;
-using STP.Utils;
-using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.PowerUps {
-	public class AddLivesPowerUp : BaseCoreComponent {
+	public class AddLivesPowerUp : BasePowerUp {
 		const int TempAddLivesValue = 1;
-
-		[NotNull] 
-		public TriggerNotifier Notifier;
 
 		PlayerController _playerController;
 		
 		protected override void InitInternal(CoreStarter starter) {
-			_playerController       =  PlayerController.Instance;
-			Notifier.OnTriggerEnter += OnRangeEnter;
+			base.InitInternal(starter);
+			_playerController = PlayerController.Instance;
 		}
 
-		void OnDestroy() {
-			Notifier.OnTriggerEnter -= OnRangeEnter;
-		}
-
-		void OnRangeEnter(GameObject go) {
+		protected override void OnRangeEnter(GameObject go) {
 			var playerComp = go.GetComponent<Player>();
 			if ( !playerComp ) {
 				return;

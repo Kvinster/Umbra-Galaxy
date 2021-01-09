@@ -4,29 +4,21 @@ using STP.Behaviour.Starter;
 using STP.Common;
 using STP.Controller;
 using STP.Manager;
-using STP.Utils;
-using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.PowerUps {
-	public sealed class ShieldPowerUp : BaseCoreComponent {
+	public sealed class ShieldPowerUp : BasePowerUp {
 		public const float TmpShieldDuration = 10f;
-
-		[NotNull] public TriggerNotifier Notifier;
 
 		PlayerManager    _playerManager;
 		PlayerController _playerController;
 
 		protected override void InitInternal(CoreStarter starter) {
+			base.InitInternal(starter);
 			_playerManager          =  starter.PlayerManager;
 			_playerController       =  PlayerController.Instance;
-			Notifier.OnTriggerEnter += OnRangeEnter;
 		}
 
-		void OnDestroy() {
-			Notifier.OnTriggerEnter -= OnRangeEnter;
-		}
-
-		void OnRangeEnter(GameObject go) {
+		protected override void OnRangeEnter(GameObject go) {
 			var playerComp = go.GetComponent<Player>();
 			if ( !playerComp ) {
 				return;

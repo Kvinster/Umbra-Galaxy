@@ -3,28 +3,19 @@
 using STP.Behaviour.Starter;
 using STP.Common;
 using STP.Manager;
-using STP.Utils;
-using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.PowerUps {
-	public class X2XpPowerUp : BaseCoreComponent {
+	public class X2XpPowerUp : BasePowerUp {
 		const int TempAddPowerUpTimeSec = 10;
-
-		[NotNull] 
-		public TriggerNotifier Notifier;
 
 		PlayerManager _playerManager;
 		
 		protected override void InitInternal(CoreStarter starter) {
-			_playerManager          =  starter.PlayerManager;
-			Notifier.OnTriggerEnter += OnRangeEnter;
+			base.InitInternal(starter);
+			_playerManager = starter.PlayerManager;
 		}
 
-		void OnDestroy() {
-			Notifier.OnTriggerEnter -= OnRangeEnter;
-		}
-
-		void OnRangeEnter(GameObject go) {
+		protected override void OnRangeEnter(GameObject go) {
 			var playerComp = go.GetComponent<Player>();
 			if ( !playerComp ) {
 				return;
