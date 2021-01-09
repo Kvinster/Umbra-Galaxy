@@ -3,22 +3,33 @@
 using System;
 
 using STP.Behaviour.Starter;
+using STP.Common;
 using STP.Controller;
 using STP.Manager;
+using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
 	public sealed class Player : BaseCoreComponent, IDestructible {
+		const float TmpBulletDamage = 10f;
+
+		[NotNull]
 		public Rigidbody2D Rigidbody;
+		[NotNull]
 		public Collider2D  Collider;
 		public float       MovementSpeed;
 		[Space]
+		[NotNull]
 		public GameObject BulletPrefab;
-		public float BulletStartForce;
+		[NotNull]
+		public GameObject EnhancedBulletPrefab;
+		public float      BulletStartForce;
 		[Space]
 		public float ReloadDuration;
 		[Space]
+		[NotNull]
 		public ProgressBar HealthBar;
 		[Space]
+		[NotNull]
 		public Collider2D ShieldCollider;
 
 		Vector2 _input;
@@ -26,6 +37,7 @@ namespace STP.Behaviour.Core {
 		Camera             _camera;
 		CoreSpawnHelper    _spawnHelper;
 		Transform          _playerStartPos;
+		PlayerManager      _playerManager;
 		CoreWindowsManager _coreWindowsManager;
 
 		PlayerController _playerController;
@@ -67,6 +79,7 @@ namespace STP.Behaviour.Core {
 			_camera             = Camera.main;
 			_spawnHelper        = starter.SpawnHelper;
 			_playerStartPos     = starter.PlayerStartPos;
+			_playerManager      = starter.PlayerManager;
 			_coreWindowsManager = starter.CoreWindowsManager;
 
 			_playerController                =  PlayerController.Instance;
@@ -114,12 +127,17 @@ namespace STP.Behaviour.Core {
 		}
 
 		void Shoot() {
-			var bulletGo = Instantiate(BulletPrefab, transform.position, Quaternion.identity, null);
-			var bullet   = bulletGo.GetComponent<Bullet>();
+			var isX2DamageActive = _playerManager.HasActivePowerUp(PowerUpNames.X2Damage);
+			var bulletGo = Instantiate(isX2DamageActive ? EnhancedBulletPrefab : BulletPrefab,
+				transform.position, Quaternion.identity, null);
+			var bullet = bulletGo.GetComponent<Bullet>();
 			if ( bullet ) {
-				bullet.Init(10f, Vector2.up * BulletStartForce, Rigidbody.rotation, Collider, ShieldCollider);
+				var mult = isX2DamageActive ? 2f : 1f;
+				bullet.Init(TmpBulletDamage * mult, Vector2.up * BulletStartForce, Rigidbody.rotation, Collider,
+					ShieldCollider);
 			} else {
-				Debug.LogError("No Bullet component on BulletPrefab");
+				Debug.LogErrorFormat("No Bullet component on current bullet prefab (x2 damage: '{0}')",
+					isX2DamageActive);
 			}
 			_spawnHelper.TryInitSpawnedObject(bulletGo);
 		}

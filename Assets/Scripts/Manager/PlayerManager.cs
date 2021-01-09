@@ -14,8 +14,8 @@ using STP.Utils.Events;
 namespace STP.Manager {
 	public sealed class PlayerManager {
 		const float HealPowerPerSecond = 10;
-		
-		
+
+
 		readonly Player           _player;
 		readonly PlayerController _playerController;
 		readonly XpController     _xpController;
@@ -62,7 +62,7 @@ namespace STP.Manager {
 			return powerUp?.TimeLeft ?? -1f;
 		}
 
-		bool HasActivePowerUp(string name) {
+		public bool HasActivePowerUp(string name) {
 			return _powerUpStates.Find(x => x.Name == name) != null;
 		}
 
@@ -95,8 +95,9 @@ namespace STP.Manager {
 		void HandlePowerUpFinish(PowerUpState powerUpState) {
 			var powerUpName = powerUpState.Name;
 			switch ( powerUpName ) {
-				case PowerUpNames.X2Xp: 
-				case PowerUpNames.Heal: {
+				case PowerUpNames.X2Xp:
+				case PowerUpNames.Heal:
+				case PowerUpNames.X2Damage: {
 					break;
 				}
 				case PowerUpNames.Shield: {
@@ -115,8 +116,9 @@ namespace STP.Manager {
 		void HandlePowerUpProgress(PowerUpState powerUpState, float timePassed) {
 			var powerUpName = powerUpState.Name;
 			switch ( powerUpName ) {
-				case PowerUpNames.X2Xp:  
-				case PowerUpNames.Shield: {
+				case PowerUpNames.X2Xp:
+				case PowerUpNames.Shield:
+				case PowerUpNames.X2Damage: {
 					break;
 				}
 				case PowerUpNames.Heal: {

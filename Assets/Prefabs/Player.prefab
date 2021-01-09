@@ -413,6 +413,8 @@ MonoBehaviour:
   MovementSpeed: 10000
   BulletPrefab: {fileID: 4765969172863325119, guid: dc0d0b1b9499fb24586f6cf21eca349f,
     type: 3}
+  EnhancedBulletPrefab: {fileID: 1028860495231626996, guid: ecd27f9eaafdb424699805745f63d3a3,
+    type: 3}
   BulletStartForce: 200
   ReloadDuration: 0.1
   HealthBar: {fileID: 8866180828008973164}
