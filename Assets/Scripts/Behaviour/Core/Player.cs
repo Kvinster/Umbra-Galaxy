@@ -115,12 +115,12 @@ namespace STP.Behaviour.Core {
 
 		void Shoot() {
 			var bulletGo = Instantiate(BulletPrefab, transform.position, Quaternion.identity, null);
-			var bulletRb = bulletGo.GetComponent<Rigidbody2D>();
-			bulletRb.rotation = Rigidbody.rotation;
-			bulletRb.AddRelativeForce(Vector2.up * BulletStartForce, ForceMode2D.Impulse);
-			var bulletCollider = bulletGo.GetComponent<Collider2D>();
-			Physics2D.IgnoreCollision(Collider, bulletCollider);
-			Physics2D.IgnoreCollision(ShieldCollider, bulletCollider);
+			var bullet   = bulletGo.GetComponent<Bullet>();
+			if ( bullet ) {
+				bullet.Init(Vector2.up * BulletStartForce, Rigidbody.rotation, Collider, ShieldCollider);
+			} else {
+				Debug.LogError("No Bullet component on BulletPrefab");
+			}
 			_spawnHelper.TryInitSpawnedObject(bulletGo);
 		}
 	}

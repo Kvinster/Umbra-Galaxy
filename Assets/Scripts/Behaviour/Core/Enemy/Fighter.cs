@@ -99,7 +99,7 @@ namespace STP.Behaviour.Core.Enemy {
 				Destroy(go);
 				return;
 			}
-			bullet.Init(Collider, Vector2.up * StartBulletForce, transform.rotation.eulerAngles.z);
+			bullet.Init(Vector2.up * StartBulletForce, transform.rotation.eulerAngles.z, Collider);
 			_spawnHelper.TryInitSpawnedObject(go);
 		}
 	}

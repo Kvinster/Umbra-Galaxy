@@ -5,21 +5,27 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
 	public sealed class Bullet : GameComponent {
-		[NotNull] 
+		[NotNull]
 		public Rigidbody2D Rigidbody;
-		[NotNull] 
+		[NotNull]
 		public Collider2D  Collider;
-		
+
 		public float LifeTime = 3f;
 
 		float _lifeTimer;
-       
-		public void Init(Collider2D ownerCollider, Vector2 force, float rotation) {
+
+		public void Init(Vector2 force, float rotation, params Collider2D[] ownerColliders) {
 			Rigidbody.rotation = rotation;
 			Rigidbody.AddRelativeForce(force, ForceMode2D.Impulse);
-			Physics2D.IgnoreCollision(ownerCollider, Collider);
+			foreach ( var ownerCollider in ownerColliders ) {
+				IgnoreCollider(ownerCollider);
+			}
 		}
-		
+
+		void IgnoreCollider(Collider2D ignoreCollider) {
+			Physics2D.IgnoreCollision(ignoreCollider, Collider);
+		}
+
 		void Update() {
 			_lifeTimer += Time.deltaTime;
 			if ( _lifeTimer >= LifeTime ) {

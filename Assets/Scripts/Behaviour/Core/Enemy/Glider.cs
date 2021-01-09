@@ -55,7 +55,7 @@ namespace STP.Behaviour.Core.Enemy {
 			var bulletGo = Instantiate(BulletPrefab, transform.position, Quaternion.identity);
 			var bullet   = bulletGo.GetComponent<Bullet>();
 			if ( bullet ) {
-				bullet.Init(Collider, Vector2.up * BulletStartForce, Rigidbody.rotation);
+				bullet.Init(Vector2.up * BulletStartForce, Rigidbody.rotation, Collider);
 			} else {
 				Debug.LogError("No Bullet component on BulletPrefab");
 				return false;
