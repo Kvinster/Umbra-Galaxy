@@ -12,6 +12,9 @@ using STP.Utils.Events;
 
 namespace STP.Manager {
 	public sealed class PlayerManager {
+		const float HealPowerPerSecond = 10;
+		
+		
 		readonly Player           _player;
 		readonly PlayerController _playerController;
 		readonly XpController     _xpController;
@@ -78,13 +81,17 @@ namespace STP.Manager {
 				if ( powerUp.Tick(deltaTime) ) {
 					HandlePowerUpFinish(powerUp);
 				}
+				else {
+					HandlePowerUpProgress(powerUp, deltaTime);
+				}
 			}
 		}
 
 		void HandlePowerUpFinish(PowerUpState powerUpState) {
 			var powerUpName = powerUpState.Name;
 			switch ( powerUpName ) {
-				case PowerUpNames.X2Xp: {
+				case PowerUpNames.X2Xp: 
+				case PowerUpNames.Heal: {
 					break;
 				}
 				case PowerUpNames.Shield: {
@@ -97,6 +104,25 @@ namespace STP.Manager {
 				}
 			}
 			_powerUpStates.Remove(powerUpState);
+		}
+
+		void HandlePowerUpProgress(PowerUpState powerUpState, float timePassed) {
+			var powerUpName = powerUpState.Name;
+			switch ( powerUpName ) {
+				case PowerUpNames.X2Xp:  
+				case PowerUpNames.Shield: {
+					break;
+				}
+				case PowerUpNames.Heal: {
+					var hpToAdd = HealPowerPerSecond * timePassed;
+					_playerController.AddHp(hpToAdd);
+					break;
+				}
+				default: {
+					Debug.LogErrorFormat("Unsupported power up name '{0}'", powerUpName);
+					break;
+				}
+			}
 		}
 
 		void OnEnemyDestroyed(EnemyDestroyed e) {

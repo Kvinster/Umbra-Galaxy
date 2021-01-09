@@ -72,6 +72,17 @@ namespace STP.Controller {
 			CurHp = StartPlayerHp;
 		}
 
+		public void AddHp(float hp) {
+			if ( hp < 0 ) {
+				Debug.LogError($"Can't add negative hp {hp}");
+				return;
+			}
+			if ( Mathf.Approximately(CurHp, MaxPlayerHp) ) {
+				return;
+			}
+			CurHp = Mathf.Clamp(CurHp + hp, 0, MaxPlayerHp);
+		}
+
 		public void RestoreLives() {
 			CurLives = StartPlayerLives;
 		}
