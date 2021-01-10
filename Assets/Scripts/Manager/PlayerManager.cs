@@ -7,14 +7,12 @@ using STP.Behaviour.Core;
 using STP.Common;
 using STP.Core;
 using STP.Events;
-using STP.State;
 using STP.Utils;
 using STP.Utils.Events;
 
 namespace STP.Manager {
 	public sealed class PlayerManager {
 		const float HealPowerPerSecond = 10;
-
 
 		readonly Player           _player;
 		readonly PlayerController _playerController;
