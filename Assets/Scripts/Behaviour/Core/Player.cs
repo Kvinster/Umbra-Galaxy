@@ -4,7 +4,7 @@ using System;
 
 using STP.Behaviour.Starter;
 using STP.Common;
-using STP.Controller;
+using STP.Core;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 using STP.Behaviour.Core;
 using STP.Common;
-using STP.Controller;
+using STP.Core;
 using STP.Events;
 using STP.State;
 using STP.Utils;

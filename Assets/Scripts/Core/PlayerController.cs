@@ -4,7 +4,7 @@ using System;
 
 using STP.Utils;
 
-namespace STP.Controller {
+namespace STP.Core {
 	public sealed class PlayerController : Singleton<PlayerController> {
 		public const float MaxPlayerHp = 100f;
 

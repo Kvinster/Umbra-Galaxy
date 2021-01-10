@@ -4,12 +4,11 @@ using System;
 using System.Collections.Generic;
 
 using STP.Config;
-using STP.Controller;
+using STP.Core;
 using STP.Utils;
 
 using JetBrains.Annotations;
 using NaughtyAttributes;
-
 using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core {
@@ -24,12 +23,12 @@ namespace STP.Behaviour.Core {
 
 		public List<ChunkWeightInfo> LevelChunks;
 
-		[Header("for editor button")] 
+		[Header("for editor button")]
 		public Transform Root;
 
 		LevelController _levelController;
 		ChunkController _chunkController;
-		
+
 		[Button("Try generate level")] [UsedImplicitly]
 		void GenerateLevelInEditor() {
 			var randomSeed = Random.Range(int.MinValue, int.MaxValue);
@@ -46,7 +45,7 @@ namespace STP.Behaviour.Core {
 			_levelController = levelController;
 			_chunkController = chunkController;
 		}
-		
+
 		public void GenerateLevel(Transform root = null) {
 			var levelInfo = _levelController.GetCurLevelConfig();
 			var minPoint = new Vector2(-levelInfo.LevelSpaceSize / 2.0f, -levelInfo.LevelSpaceSize / 2.0f);
@@ -79,7 +78,7 @@ namespace STP.Behaviour.Core {
 				neededGenerators           -= _chunkController.GetGeneratorsCountInChunk(res[mapIndex.x, mapIndex.y]);
 			}
 			if ( neededGenerators != 0 ) {
-				Debug.LogWarning($"Not all generators were created. Needed more {neededGenerators} generators. Changing some chunks for fixing it");	
+				Debug.LogWarning($"Not all generators were created. Needed more {neededGenerators} generators. Changing some chunks for fixing it");
 				TryRaiseDifficultyInChunks(res, neededGenerators);
 			}
 
@@ -123,7 +122,7 @@ namespace STP.Behaviour.Core {
 				}
 			}
 		}
-		
+
 		string GetRandomChunk(int neededGenerators) {
 			var totalWeight     = 0;
 			var availableChunks = LevelChunks.FindAll((x) => IsChunkAvailable(x, neededGenerators));

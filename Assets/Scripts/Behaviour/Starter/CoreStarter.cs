@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Core;
-using STP.Controller;
+using STP.Core;
 using STP.Manager;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;

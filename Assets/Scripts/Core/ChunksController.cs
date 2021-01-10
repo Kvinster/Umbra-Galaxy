@@ -6,12 +6,12 @@ using STP.Behaviour.Core.Enemy;
 using STP.Config;
 using STP.Utils;
 
-namespace STP.Controller {
+namespace STP.Core {
 	public class ChunkController : Singleton<ChunkController> {
 		ChunkConfig _chunkConfig;
 
 		readonly Dictionary<string, int> _chunkGeneratorsCount = new Dictionary<string, int>();
-		
+
 		public ChunkController() {
 			LoadConfig();
 		}
@@ -23,7 +23,7 @@ namespace STP.Controller {
 		public bool HasChunk(string chunkName) {
 			return _chunkConfig.GetChunk(chunkName);
 		}
-		
+
 		public int GetGeneratorsCountInChunk(string chunkName) {
 			if ( _chunkGeneratorsCount.ContainsKey(chunkName) ) {
 				return _chunkGeneratorsCount[chunkName];

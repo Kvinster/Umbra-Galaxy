@@ -5,7 +5,7 @@ using System;
 
 using STP.Behaviour.Core;
 using STP.Config;
-using STP.Controller;
+using STP.Core;
 
 using Object = UnityEngine.Object;
 

@@ -2,7 +2,7 @@
 using System.Text;
 
 using STP.Behaviour.Starter;
-using STP.Controller;
+using STP.Core;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 
