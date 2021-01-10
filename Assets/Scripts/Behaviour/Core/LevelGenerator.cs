@@ -46,12 +46,11 @@ namespace STP.Behaviour.Core {
 		}
 
 		public void GenerateLevel(LevelInfo levelInfo, Func<string, GameObject> prefabGetter, Transform root = null) {
-			// var levelInfo = _levelController.GetCurLevelConfig();
 			var minPoint = new Vector2(-levelInfo.LevelSpaceSize / 2.0f, -levelInfo.LevelSpaceSize / 2.0f);
 			var map      = GenerateMap(levelInfo);
 			for ( var y = 0; y < map.GetLength(1); y++ ) {
 				for ( var x = 0; x < map.GetLength(0); x++ ) {
-					var prefab = prefabGetter(map[x, y]);//_chunkController.GetChunkPrefab(map[x, y]);
+					var prefab = prefabGetter(map[x, y]);
 					var pos    = (Vector3)minPoint + new Vector3(x * CellSideSize, y * CellSideSize);
 					Instantiate(prefab, pos, Quaternion.identity, root);
 				}
@@ -61,7 +60,7 @@ namespace STP.Behaviour.Core {
 		string[,] GenerateMap(LevelInfo levelInfo) {
 			var sideCellsCount   = levelInfo.LevelSpaceSize / CellSideSize;
 			var res              = new string[sideCellsCount, sideCellsCount];
-			var neededGenerators = _levelController.GetCurLevelConfig().GeneratorsCount;
+			var neededGenerators = levelInfo.GeneratorsCount;
 
 			var cells = new List<Vector2Int>();
 			for ( var y = 0; y < sideCellsCount; y++ ) {
@@ -74,7 +73,15 @@ namespace STP.Behaviour.Core {
 				var mapIndex  = cells[randIndex];
 				cells.RemoveAt(randIndex);
 				res[mapIndex.x, mapIndex.y] = GetRandomChunk(neededGenerators);
+#if UNITY_EDITOR
+				if ( Application.isPlaying ) {
+					neededGenerators -= _chunkController.GetGeneratorsCountInChunk(res[mapIndex.x, mapIndex.y]);
+				} else {
+					neededGenerators -= ChunkController.GetGeneratorsCountInChunkInEditor(res[mapIndex.x, mapIndex.y]);
+				}
+#else
 				neededGenerators           -= _chunkController.GetGeneratorsCountInChunk(res[mapIndex.x, mapIndex.y]);
+#endif
 			}
 			if ( neededGenerators != 0 ) {
 				Debug.LogWarning($"Not all generators were created. Needed more {neededGenerators} generators. Changing some chunks for fixing it");
@@ -139,6 +146,11 @@ namespace STP.Behaviour.Core {
 		}
 
 		bool IsChunkAvailable(ChunkWeightInfo chunkWeightInfo, int needGenerators) {
+#if UNITY_EDITOR
+			if ( !Application.isPlaying ) {
+				return ChunkController.GetGeneratorsCountInChunkInEditor(chunkWeightInfo.Name) <= needGenerators;
+			}
+#endif
 			return _chunkController.GetGeneratorsCountInChunk(chunkWeightInfo.Name) <= needGenerators;
 		}
 	}

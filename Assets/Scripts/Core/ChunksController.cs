@@ -64,6 +64,13 @@ namespace STP.Core {
 			return null;
 		}
 
+		public static int GetGeneratorsCountInChunkInEditor(string chunkName) {
+			var chunkConfig     = LoadConfig();
+			var chunkInfo       = chunkConfig.GetChunk(chunkName);
+			var generatorsCount = chunkInfo.GetComponentsInChildren<Generator>().Length;
+			return generatorsCount;
+		}
+
 		static ChunkConfig LoadConfig() {
 			return Resources.Load<ChunkConfig>("ChunkConfig");
 		}
