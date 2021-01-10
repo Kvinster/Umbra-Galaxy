@@ -3,10 +3,9 @@
 using System;
 
 using STP.Config;
-using STP.Utils;
 
 namespace STP.Core {
-	public class XpController : Singleton<XpController> {
+	public class XpController : BaseStateController {
 		XpConfig _xpConfig;
 
 		int _curXp;

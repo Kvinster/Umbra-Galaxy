@@ -19,17 +19,17 @@ namespace STP.Behaviour.Core.UI {
 		[NotNull] public TMP_Text Text;
 
 		LevelGoalManager _levelGoalManager;
+		PlayerManager    _playerManager;
 		PlayerController _playerController;
 		XpController     _xpController;
-		PlayerManager    _playerManager;
 
 		readonly StringBuilder _stringBuilder = new StringBuilder();
 
 		protected override void InitInternal(CoreStarter starter) {
 			_levelGoalManager = starter.LevelGoalManager;
-			_playerController = PlayerController.Instance;
-			_xpController     = XpController.Instance;
 			_playerManager    = starter.PlayerManager;
+			_playerController = starter.PlayerController;
+			_xpController     = starter.XpController;
 
 			_levelGoalManager.OnCurLevelGoalProgressChanged += OnCurLevelGoalProgressChanged;
 			_playerController.OnCurLivesChanged             += OnCurPlayerLivesChanged;
@@ -56,7 +56,7 @@ namespace STP.Behaviour.Core.UI {
 
 		void OnXpAmountChanged(int xpAmount) {
 			UpdateText();
-		}		
+		}
 
 		void OnCurLevelGoalProgressChanged(int curProgress) {
 			UpdateText();

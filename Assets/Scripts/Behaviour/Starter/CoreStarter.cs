@@ -21,20 +21,29 @@ namespace STP.Behaviour.Starter {
 		public LevelGoalManager LevelGoalManager { get; private set; }
 		public MinimapManager   MinimapManager   { get; private set; }
 
-		public PlayerController PlayerController => PlayerController.Instance;
+		public PlayerController PlayerController => GameState.Instance.PlayerController;
+		public XpController     XpController     => GameState.Instance.XpController;
 
 		void Start() {
+#if UNITY_EDITOR
+			if ( !GameState.IsInstanceExists ) {
+				Debug.Log("Creating new GameState instance");
+				GameState.CreateNewGameState();
+			}
+#endif
 			SpawnHelper  = new CoreSpawnHelper(this);
 			PauseManager = new PauseManager();
-			var pc = PlayerController.Instance;
-			var lc = LevelController.Instance;
-			var xc = XpController.Instance;
+			var gc = GameState.Instance;
+			var pc = gc.PlayerController;
+			var lc = gc.LevelController;
+			var xc = gc.XpController;
+			var cc = gc.ChunkController;
 			PlayerManager    = new PlayerManager(Player, pc, xc, UnityContext.Instance);
 			LevelGoalManager = new LevelGoalManager(Player.transform, PauseManager, lc);
 			MinimapManager   = new MinimapManager(MinimapCamera);
 			CoreWindowsManager.Init(PauseManager, PlayerManager, LevelGoalManager, pc, xc);
-			Generator.Init(lc, ChunkController.Instance);
-			Generator.GenerateLevel();
+			Generator.Init(lc, cc);
+			Generator.GenerateLevel(lc.GetCurLevelConfig(), cc.GetChunkPrefab);
 			InitComponents();
 			// Settings for smooth gameplay
 			Application.targetFrameRate = Screen.currentResolution.refreshRate;

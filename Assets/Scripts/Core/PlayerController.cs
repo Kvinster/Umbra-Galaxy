@@ -2,10 +2,8 @@
 
 using System;
 
-using STP.Utils;
-
 namespace STP.Core {
-	public sealed class PlayerController : Singleton<PlayerController> {
+	public sealed class PlayerController : BaseStateController {
 		public const float MaxPlayerHp = 100f;
 
 		const int   StartPlayerLives = 3;

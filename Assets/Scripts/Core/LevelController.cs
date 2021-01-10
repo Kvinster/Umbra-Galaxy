@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
 
 using STP.Config;
-using STP.Utils;
 
 namespace STP.Core {
-	public class LevelController : Singleton<LevelController> {
+	public sealed class LevelController : BaseStateController {
 		const string DefaultLevelName = "Level1";
 
-		LevelsConfig _levelsConfig;
+		readonly LevelsConfig _levelsConfig;
 
 		public string CurLevelName { get; private set; }
 
 		public LevelController() {
 			CurLevelName = DefaultLevelName;
-			LoadConfig();
+			_levelsConfig = LoadConfig();
+			Debug.Assert(_levelsConfig);
 		}
 
 		public void ChangeLevel(string newLevelName) {
@@ -24,8 +24,17 @@ namespace STP.Core {
 			return _levelsConfig.GetLevelConfig(CurLevelName);
 		}
 
-		void LoadConfig() {
-			_levelsConfig = Resources.Load<LevelsConfig>("AllLevels");
+		static LevelsConfig LoadConfig() {
+			return Resources.Load<LevelsConfig>("AllLevels");
+		}
+
+		public static LevelInfo GetLevelConfigInEditor(string levelName = DefaultLevelName) {
+			var levelsConfig = LoadConfig();
+			if ( levelsConfig ) {
+				return levelsConfig.GetLevelConfig(levelName);
+			}
+			Debug.LogError("Can't load LevelsConfig in editor");
+			return null;
 		}
 	}
 }

@@ -4,16 +4,16 @@ using System.Collections.Generic;
 
 using STP.Behaviour.Core.Enemy;
 using STP.Config;
-using STP.Utils;
 
 namespace STP.Core {
-	public class ChunkController : Singleton<ChunkController> {
-		ChunkConfig _chunkConfig;
+	public sealed class ChunkController : BaseStateController {
+		readonly ChunkConfig _chunkConfig;
 
 		readonly Dictionary<string, int> _chunkGeneratorsCount = new Dictionary<string, int>();
 
 		public ChunkController() {
-			LoadConfig();
+			_chunkConfig = LoadConfig();
+			Debug.Assert(_chunkConfig);
 		}
 
 		public GameObject GetChunkPrefab(string chunkName) {
@@ -38,10 +38,6 @@ namespace STP.Core {
 			return generatorsCount;
 		}
 
-		void LoadConfig() {
-			_chunkConfig = Resources.Load<ChunkConfig>("ChunkConfig");
-		}
-
 		public string GetMinChunkWithGeneratorsCountHigherThan(int genCount) {
 			var minGenerationCount = int.MaxValue;
 			var minChunkName       = string.Empty;
@@ -57,6 +53,19 @@ namespace STP.Core {
 				return string.Empty;
 			}
 			return minChunkName;
+		}
+
+		public static GameObject GetChunkPrefabInEditor(string chunkName) {
+			var config = LoadConfig();
+			if ( config ) {
+				return config.GetChunk(chunkName);
+			}
+			Debug.LogError("Can't load chunk config in editor");
+			return null;
+		}
+
+		static ChunkConfig LoadConfig() {
+			return Resources.Load<ChunkConfig>("ChunkConfig");
 		}
 	}
 }

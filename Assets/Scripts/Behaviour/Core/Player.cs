@@ -83,7 +83,7 @@ namespace STP.Behaviour.Core {
 			_playerManager      = starter.PlayerManager;
 			_coreWindowsManager = starter.CoreWindowsManager;
 
-			_playerController                =  PlayerController.Instance;
+			_playerController                =  starter.PlayerController;
 			_playerController.OnCurHpChanged += OnCurHpChanged;
 			OnCurHpChanged(CurHp);
 

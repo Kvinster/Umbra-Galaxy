@@ -12,7 +12,7 @@ using NaughtyAttributes;
 using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core {
-	public class LevelGenerator : GameComponent {
+	public sealed class LevelGenerator : GameComponent {
 		[Serializable]
 		public class ChunkWeightInfo {
 			public int    Weight;
@@ -36,8 +36,7 @@ namespace STP.Behaviour.Core {
 			for ( var i = Root.childCount-1; i >= 0; i-- ) {
 				DestroyImmediate(Root.GetChild(i).gameObject);
 			}
-			Init(LevelController.Instance, ChunkController.Instance);
-			GenerateLevel(Root);
+			GenerateLevel(LevelController.GetLevelConfigInEditor(), ChunkController.GetChunkPrefabInEditor, Root);
 			Debug.Log($"Level generated. Seed {randomSeed}");
 		}
 
@@ -46,13 +45,13 @@ namespace STP.Behaviour.Core {
 			_chunkController = chunkController;
 		}
 
-		public void GenerateLevel(Transform root = null) {
-			var levelInfo = _levelController.GetCurLevelConfig();
+		public void GenerateLevel(LevelInfo levelInfo, Func<string, GameObject> prefabGetter, Transform root = null) {
+			// var levelInfo = _levelController.GetCurLevelConfig();
 			var minPoint = new Vector2(-levelInfo.LevelSpaceSize / 2.0f, -levelInfo.LevelSpaceSize / 2.0f);
 			var map      = GenerateMap(levelInfo);
 			for ( var y = 0; y < map.GetLength(1); y++ ) {
 				for ( var x = 0; x < map.GetLength(0); x++ ) {
-					var prefab = _chunkController.GetChunkPrefab(map[x, y]);
+					var prefab = prefabGetter(map[x, y]);//_chunkController.GetChunkPrefab(map[x, y]);
 					var pos    = (Vector3)minPoint + new Vector3(x * CellSideSize, y * CellSideSize);
 					Instantiate(prefab, pos, Quaternion.identity, root);
 				}
