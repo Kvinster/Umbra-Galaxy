@@ -1,7 +1,7 @@
 ﻿using STP.Utils;
 
-namespace STP.State {
-	public class PowerUpState {
+namespace STP.Manager {
+	public sealed class PowerUpState {
 		public readonly string Name;
 
 		readonly Timer _timer = new Timer();
