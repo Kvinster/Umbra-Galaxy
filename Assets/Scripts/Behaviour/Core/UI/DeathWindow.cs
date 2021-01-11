@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 using System;
@@ -61,11 +62,8 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		void OnQuitClick() {
-#if UNITY_EDITOR
-			UnityEditor.EditorApplication.isPlaying = false;
-#else
-			Application.Quit();
-#endif
+			GameState.TryReleaseGameStateInstance();
+			SceneManager.LoadScene("MainMenu");
 		}
 
 		void OnContinueClick() {
