@@ -8,6 +8,8 @@ namespace STP.Core {
 
 		readonly LevelsConfig _levelsConfig;
 
+		public override string Name => "level";
+
 		public string CurLevelName { get; private set; }
 
 		public LevelController() {

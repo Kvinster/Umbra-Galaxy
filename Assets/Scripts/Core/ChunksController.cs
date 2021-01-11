@@ -11,6 +11,8 @@ namespace STP.Core {
 
 		readonly Dictionary<string, int> _chunkGeneratorsCount = new Dictionary<string, int>();
 
+		public override string Name => "chunk";
+
 		public ChunkController() {
 			_chunkConfig = LoadConfig();
 			Debug.Assert(_chunkConfig);

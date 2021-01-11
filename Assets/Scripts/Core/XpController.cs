@@ -1,24 +1,27 @@
 ﻿using UnityEngine;
 
 using System;
+using System.Xml;
 
 using STP.Config;
+using STP.Core.State;
 
 namespace STP.Core {
-	public class XpController : BaseStateController {
+	public sealed class XpController : BaseStateController {
+		readonly XpControllerState _state = new XpControllerState();
+
 		XpConfig _xpConfig;
 
-		int _curXp;
+		public override string Name => "xp";
 
 		public int CurXp {
-			get {
-				return _curXp;
-			}
+			get => _state.CurXp;
 			private set {
-				_curXp = value;
-				if ( _curXp != value ) {
-					OnXpChanged?.Invoke(value);
+				if ( CurXp == value ) {
+					return;
 				}
+				_state.CurXp = value;
+				OnXpChanged?.Invoke(CurXp);
 			}
 		}
 
@@ -26,6 +29,14 @@ namespace STP.Core {
 
 		public XpController() {
 			LoadConfig();
+		}
+
+		public override void Load(XmlNode node) {
+			_state.Load(node);
+		}
+
+		public override void Save(XmlElement elem) {
+			_state.Save(elem);
 		}
 
 		public void ResetXp() {

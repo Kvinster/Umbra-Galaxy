@@ -24,11 +24,17 @@ namespace STP.Behaviour.Starter {
 		public PlayerController PlayerController => GameState.Instance.PlayerController;
 		public XpController     XpController     => GameState.Instance.XpController;
 
+		void Update() {
+			if ( Input.GetKeyDown(KeyCode.Q) ) {
+				GameState.Instance.Save();
+			}
+		}
+
 		void Start() {
 #if UNITY_EDITOR
 			if ( !GameState.IsInstanceExists ) {
 				Debug.Log("Creating new GameState instance");
-				GameState.CreateNewGameState();
+				GameState.CreateNewGameState("test");
 			}
 #endif
 			SpawnHelper  = new CoreSpawnHelper(this);

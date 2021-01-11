@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
 using System;
+using System.Xml;
+
+using STP.Core.State;
 
 namespace STP.Core {
 	public sealed class PlayerController : BaseStateController {
@@ -9,19 +12,22 @@ namespace STP.Core {
 		const int   StartPlayerLives = 3;
 		const float StartPlayerHp    = MaxPlayerHp;
 
-		int   _curLives;
+		readonly PlayerControllerState _state = new PlayerControllerState();
+
 		float _curHp;
 		bool  _isInvincible;
 
+		public override string Name => "player";
+
 		public int CurLives {
-			get => _curLives;
+			get => _state.CurLives;
 			private set {
-				if ( _curLives == value ) {
+				if ( CurLives == value ) {
 					return;
 				}
 
-				_curLives = value;
-				OnCurLivesChanged?.Invoke(_curLives);
+				_state.CurLives = value;
+				OnCurLivesChanged?.Invoke(CurLives);
 			}
 		}
 
@@ -56,6 +62,14 @@ namespace STP.Core {
 			CurLives     = StartPlayerLives;
 			CurHp        = StartPlayerHp;
 			IsInvincible = false;
+		}
+
+		public override void Load(XmlNode node) {
+			_state.Load(node);
+		}
+
+		public override void Save(XmlElement elem) {
+			_state.Save(elem);
 		}
 
 		public bool TakeDamage(float damage) {
