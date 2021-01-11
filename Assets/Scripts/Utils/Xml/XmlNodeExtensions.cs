@@ -62,6 +62,16 @@ namespace STP.Utils.Xml {
             return parentNode?.LoadNodeList(nodeName, init);
         }
 
+        public static XmlNode FindChild(this XmlNode node, string childName) {
+            XmlNode child = null;
+            node.ForEachChild(x => {
+                if ( x.Name == childName ) {
+                    child = x;
+                }
+            });
+            return child;
+        }
+
         static List<T> LoadNodeList<T>(this XmlNode node, string nodeName, Func<T> init)
             where T : IXmlNodeLoadable {
             Debug.Assert(init != null, "init != null");

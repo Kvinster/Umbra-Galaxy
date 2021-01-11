@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
+using STP.Utils.Xml;
+
 namespace STP.Core {
 	public sealed class GameState {
 		public static GameState Instance { get; private set; }
@@ -35,7 +37,7 @@ namespace STP.Core {
 				di.Create();
 			}
 			var savePath = Path.Combine(di.ToString(), $"{_profileName}.xml");
-			Debug.Log(savePath);
+			Debug.LogFormat("Saving to '{0}'", savePath);
 			var fi = new FileInfo(savePath);
 			if ( fi.Exists ) {
 				fi.Delete();
@@ -57,6 +59,16 @@ namespace STP.Core {
 			}
 		}
 
+		void Load(XmlDocument xmlDocument) {
+			var root = xmlDocument.DocumentElement;
+			foreach ( var controller in _controllers ) {
+				var childNode = root.FindChild(controller.Name);
+				if ( childNode != null ) {
+					controller.Load(childNode);
+				}
+			}
+		}
+
 		T AddController<T>(T controller) where T : BaseStateController {
 			_controllers.Add(controller);
 			return controller;
@@ -72,7 +84,23 @@ namespace STP.Core {
 		}
 
 		public static GameState LoadGameState(string profileName) {
-			throw new NotImplementedException();
+			var di = new DirectoryInfo(Path.Combine(Application.persistentDataPath, "saves"));
+			if ( !di.Exists ) {
+				Debug.LogError("Saves directory does not exist");
+				return null;
+			}
+			var loadPath = Path.Combine(di.ToString(), $"{profileName}.xml");
+			Debug.LogFormat("Loading from: '{0}'", loadPath);
+			var fi = new FileInfo(loadPath);
+			if ( !fi.Exists ) {
+				Debug.LogErrorFormat("Save file for '{0}' does not exist", profileName);
+				return null;
+			}
+			var document = new XmlDocument();
+			document.Load(loadPath);
+			Instance = new GameState(profileName);
+			Instance.Load(document);
+			return Instance;
 		}
 
 		public static void TryReleaseGameStateInstance() {
