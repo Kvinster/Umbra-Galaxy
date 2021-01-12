@@ -138,7 +138,7 @@ namespace STP.Manager {
 			if ( HasActivePowerUp(PowerUpNames.X2Xp) ) {
 				xpAmount *= 2;
 			}
-			_xpController.AddXp(xpAmount);
+			_xpController.AddLevelXp(xpAmount);
 		}
 	}
 }

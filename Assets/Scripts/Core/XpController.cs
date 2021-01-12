@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 
 using System;
-using System.Xml;
 
 using STP.Config;
 using STP.Core.State;
 
 namespace STP.Core {
 	public sealed class XpController : BaseStateController {
-		readonly XpState _state;
+		readonly XpState         _state;
+		readonly LevelController _levelController;
 
 		XpConfig _xpConfig;
+
+		int _curLevelXp;
 
 		public int CurXp {
 			get => _state.CurXp;
@@ -35,16 +37,29 @@ namespace STP.Core {
 			CurXp = 0;
 		}
 
-		public void AddXp(int value) {
+		public void OnLevelStart() {
+			_curLevelXp = 0;
+		}
+
+		public void OnLevelWon() {
+			_state.CurXp += _curLevelXp;
+			_curLevelXp  =  0;
+		}
+
+		public void AddLevelXp(int value) {
 			if ( value < 0 ) {
 				Debug.LogWarning($"Strange xp amount {value}. Ignoring");
 				return;
 			}
-			CurXp += value;
+			_curLevelXp += value;
 		}
 
 		public int GetDestroyedEnemyXp(string enemyName) {
 			return _xpConfig.GetDestroyedEnemyXp(enemyName);
+		}
+
+		void OnNextLevelChanged(string nextLevelName) {
+
 		}
 
 		void LoadConfig() {

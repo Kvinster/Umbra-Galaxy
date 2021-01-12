@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
+
+using System;
 
 using STP.Config;
 using STP.Core.State;
@@ -7,22 +10,29 @@ namespace STP.Core {
 	public sealed class LevelController : BaseStateController {
 		const string DefaultLevelName = "Level1";
 
+		readonly LevelState   _levelState;
 		readonly LevelsConfig _levelsConfig;
 
-		public string CurLevelName { get; private set; }
+		public string NextLevelName => _levelState.NextLevelName;
 
 		public LevelController(GameState gameState) : base(gameState) {
-			CurLevelName = DefaultLevelName;
+			_levelState   = gameState.LevelState;
 			_levelsConfig = LoadConfig();
-			Debug.Assert(_levelsConfig);
+			Assert.IsNotNull(_levelsConfig);
 		}
 
-		public void ChangeLevel(string newLevelName) {
-			CurLevelName = newLevelName;
+		public void OnLevelWon() {
+			foreach ( var levelInfo in _levelsConfig.Levels ) {
+				if ( levelInfo.LevelName == NextLevelName ) {
+					_levelState.NextLevelName = levelInfo.NextLevelName;
+					return;
+				}
+			}
+			Debug.LogErrorFormat("Can't find level info for '{0}'", NextLevelName);
 		}
 
 		public LevelInfo GetCurLevelConfig() {
-			return _levelsConfig.GetLevelConfig(CurLevelName);
+			return _levelsConfig.GetLevelConfig(NextLevelName);
 		}
 
 		static LevelsConfig LoadConfig() {

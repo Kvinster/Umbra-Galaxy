@@ -11,9 +11,20 @@ namespace STP.Core.State {
 
 		public override string Name => "level";
 
+		public LevelState() {
+			TryFixNextLevelName();
+		}
+
 		public override void Load(XmlNode node) {
 			NextLevelName = node.GetAttrValue("next_level", string.Empty);
-			// TODO: maybe do this somewhere else
+			TryFixNextLevelName();
+		}
+
+		public override void Save(XmlElement elem) {
+			elem.AddAttrValue("next_level", NextLevelName);
+		}
+
+		void TryFixNextLevelName() {
 			if ( string.IsNullOrEmpty(NextLevelName) ) {
 				var levelsConfig = Resources.Load<LevelsConfig>("AllLevels");
 				if ( levelsConfig ) {
@@ -22,10 +33,6 @@ namespace STP.Core.State {
 					Debug.LogError("Can't load LevelsConfig");
 				}
 			}
-		}
-
-		public override void Save(XmlElement elem) {
-			elem.AddAttrValue("next_level", NextLevelName);
 		}
 	}
 }

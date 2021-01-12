@@ -51,7 +51,7 @@ namespace STP.Behaviour.Starter {
 			var xc = GameController.XpController;
 			var cc = GameController.ChunkController;
 			PlayerManager    = new PlayerManager(Player, pc, xc, UnityContext.Instance);
-			LevelGoalManager = new LevelGoalManager(Player.transform, PauseManager, lc);
+			LevelGoalManager = new LevelGoalManager(Player.transform, PauseManager, lc, xc);
 			MinimapManager   = new MinimapManager(MinimapCamera);
 			CoreWindowsManager.Init(PauseManager, PlayerManager, LevelGoalManager, pc, xc);
 			Generator.Init(lc, cc);
@@ -60,6 +60,7 @@ namespace STP.Behaviour.Starter {
 			// Settings for smooth gameplay
 			Application.targetFrameRate = Screen.currentResolution.refreshRate;
 			QualitySettings.vSyncCount  = 0;
+			xc.OnLevelStart();
 		}
 
 		void OnDestroy() {

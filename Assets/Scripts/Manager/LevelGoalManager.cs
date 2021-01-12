@@ -16,6 +16,7 @@ namespace STP.Manager {
 		readonly Transform       _playerTransform;
 		readonly PauseManager    _pauseManager;
 		readonly LevelController _levelController;
+		readonly XpController    _xpController;
 
 		readonly LevelInfo _curLevelInfo;
 
@@ -36,10 +37,12 @@ namespace STP.Manager {
 
 		public event Action<int> OnCurLevelGoalProgressChanged;
 
-		public LevelGoalManager(Transform playerTransform, PauseManager pauseManager, LevelController levelController) {
+		public LevelGoalManager(Transform playerTransform, PauseManager pauseManager, LevelController levelController,
+			XpController xpController) {
 			_playerTransform = playerTransform;
 			_pauseManager    = pauseManager;
 			_levelController = levelController;
+			_xpController    = xpController;
 
 			_curLevelInfo = _levelController.GetCurLevelConfig();
 
@@ -72,7 +75,8 @@ namespace STP.Manager {
 				return false;
 			}
 			_pauseManager.Pause(this);
-			_levelController.ChangeLevel(_curLevelInfo.NextLevelName);
+			_levelController.OnLevelWon();
+			_xpController.OnLevelWon();
 			SceneTransitionController.Instance.Transition(SceneManager.GetActiveScene().name, _playerTransform.position,
 					() => {
 						var player = Object.FindObjectOfType<Player>();
