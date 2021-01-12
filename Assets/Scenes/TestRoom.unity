@@ -514,7 +514,6 @@ GameObject:
   m_Component:
   - component: {fileID: 194620073}
   - component: {fileID: 194620072}
-  - component: {fileID: 194620074}
   - component: {fileID: 194620075}
   m_Layer: 0
   m_Name: Starter
@@ -554,18 +553,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &194620074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 194620071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ead9db763ec84f33a9e2ba5236807689, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &194620075
 MonoBehaviour:
   m_ObjectHideFlags: 0
