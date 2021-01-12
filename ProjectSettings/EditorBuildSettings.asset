@@ -6,18 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Meta.unity
-    guid: 762d78fd166f7ed4d9890c644a067e7f
-  - enabled: 1
-    path: Assets/Scenes/CoreLevel_Escort.unity
-    guid: 5af3cb7099e95314084ba631d8b1f228
-  - enabled: 1
-    path: Assets/Scenes/CoreLevel_ReclaimSystem.unity
-    guid: 9b772a0e68b73394caf3e9bb2c99b606
-  - enabled: 1
-    path: Assets/Scenes/CoreLevel_Escort_Lab.unity
-    guid: daed94eda895a244db5fd806e43a6d82
-  - enabled: 1
     path: Assets/Scenes/TestRoom.unity
     guid: 751c39b83c75bd0479cf0b216778b80d
   m_configObjects: {}
