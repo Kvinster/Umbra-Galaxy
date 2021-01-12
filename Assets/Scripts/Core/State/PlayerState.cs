@@ -3,14 +3,16 @@
 using STP.Utils.Xml;
 
 namespace STP.Core.State {
-	public sealed class PlayerControllerState : IXmlNodeSerializable {
+	public sealed class PlayerState : BaseState {
 		public int CurLives;
 
-		public void Load(XmlNode node) {
+		public override string Name => "player";
+
+		public override void Load(XmlNode node) {
 			CurLives = node.GetAttrValue("lives", 0);
 		}
 
-		public void Save(XmlElement elem) {
+		public override void Save(XmlElement elem) {
 			elem.AddAttrValue("lives", CurLives);
 		}
 	}

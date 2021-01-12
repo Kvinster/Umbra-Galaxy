@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 
 using STP.Core;
+using STP.Core.State;
 using STP.Manager;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
@@ -62,7 +63,7 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		void OnQuitClick() {
-			GameState.TryReleaseGameStateInstance();
+			GameState.TryReleaseActiveInstance();
 			SceneManager.LoadScene("MainMenu");
 		}
 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using STP.Config;
+using STP.Core.State;
 
 namespace STP.Core {
 	public sealed class LevelController : BaseStateController {
@@ -8,11 +9,9 @@ namespace STP.Core {
 
 		readonly LevelsConfig _levelsConfig;
 
-		public override string Name => "level";
-
 		public string CurLevelName { get; private set; }
 
-		public LevelController() {
+		public LevelController(GameState gameState) : base(gameState) {
 			CurLevelName = DefaultLevelName;
 			_levelsConfig = LoadConfig();
 			Debug.Assert(_levelsConfig);

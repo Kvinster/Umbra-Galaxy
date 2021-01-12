@@ -2,6 +2,7 @@
 
 using STP.Behaviour.Core;
 using STP.Core;
+using STP.Core.State;
 using STP.Manager;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
@@ -21,29 +22,34 @@ namespace STP.Behaviour.Starter {
 		public LevelGoalManager LevelGoalManager { get; private set; }
 		public MinimapManager   MinimapManager   { get; private set; }
 
-		public PlayerController PlayerController => GameState.Instance.PlayerController;
-		public XpController     XpController     => GameState.Instance.XpController;
+		public GameController   GameController   { get; private set; }
+		public PlayerController PlayerController => GameController.PlayerController;
+		public XpController     XpController     => GameController.XpController;
+
+		void OnDisable() {
+			GameController.Deinit();
+		}
 
 		void Update() {
 			if ( Input.GetKeyDown(KeyCode.Q) ) {
-				GameState.Instance.Save();
+				GameState.ActiveInstance.Save();
 			}
 		}
 
 		void Start() {
 #if UNITY_EDITOR
-			if ( !GameState.IsInstanceExists ) {
+			if ( !GameState.IsActiveInstanceExists ) {
 				Debug.Log("Creating new GameState instance");
-				GameState.CreateNewGameState("test");
+				GameState.CreateNewActiveGameState("test");
 			}
 #endif
-			SpawnHelper  = new CoreSpawnHelper(this);
-			PauseManager = new PauseManager();
-			var gc = GameState.Instance;
-			var pc = gc.PlayerController;
-			var lc = gc.LevelController;
-			var xc = gc.XpController;
-			var cc = gc.ChunkController;
+			GameController = new GameController(GameState.ActiveInstance);
+			SpawnHelper    = new CoreSpawnHelper(this);
+			PauseManager   = new PauseManager();
+			var pc = GameController.PlayerController;
+			var lc = GameController.LevelController;
+			var xc = GameController.XpController;
+			var cc = GameController.ChunkController;
 			PlayerManager    = new PlayerManager(Player, pc, xc, UnityContext.Instance);
 			LevelGoalManager = new LevelGoalManager(Player.transform, PauseManager, lc);
 			MinimapManager   = new MinimapManager(MinimapCamera);

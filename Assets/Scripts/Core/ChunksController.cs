@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using STP.Behaviour.Core.Enemy;
 using STP.Config;
+using STP.Core.State;
 
 namespace STP.Core {
 	public sealed class ChunkController : BaseStateController {
@@ -11,9 +12,7 @@ namespace STP.Core {
 
 		readonly Dictionary<string, int> _chunkGeneratorsCount = new Dictionary<string, int>();
 
-		public override string Name => "chunk";
-
-		public ChunkController() {
+		public ChunkController(GameState gameState) : base(gameState) {
 			_chunkConfig = LoadConfig();
 			Debug.Assert(_chunkConfig);
 		}

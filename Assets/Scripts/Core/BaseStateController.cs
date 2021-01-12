@@ -1,11 +1,13 @@
-﻿using System.Xml;
+﻿using STP.Core.State;
 
 namespace STP.Core {
 	public abstract class BaseStateController {
-		public abstract string Name { get; }
+		protected readonly GameState GameState;
 
-		public virtual void Load(XmlNode node) { }
-		public virtual void Save(XmlElement elem) { }
+		protected BaseStateController(GameState gameState) {
+			GameState = gameState;
+		}
+
 		public virtual void Deinit() { }
 	}
 }

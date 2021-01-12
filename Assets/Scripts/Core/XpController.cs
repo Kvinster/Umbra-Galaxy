@@ -8,11 +8,9 @@ using STP.Core.State;
 
 namespace STP.Core {
 	public sealed class XpController : BaseStateController {
-		readonly XpControllerState _state = new XpControllerState();
+		readonly XpState _state;
 
 		XpConfig _xpConfig;
-
-		public override string Name => "xp";
 
 		public int CurXp {
 			get => _state.CurXp;
@@ -27,16 +25,10 @@ namespace STP.Core {
 
 		public event Action<int> OnXpChanged;
 
-		public XpController() {
+		public XpController(GameState gameState) : base(gameState) {
+			_state = gameState.XpState;
+
 			LoadConfig();
-		}
-
-		public override void Load(XmlNode node) {
-			_state.Load(node);
-		}
-
-		public override void Save(XmlElement elem) {
-			_state.Save(elem);
 		}
 
 		public void ResetXp() {
