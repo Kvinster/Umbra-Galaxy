@@ -24,14 +24,14 @@ namespace STP.Behaviour.Core.UI {
 		[NotNull] public GameObject NoLivesRoot;
 		[NotNull] public Button     RestartButton;
 
-		PlayerManager    _playerManager;
-		LevelGoalManager _levelGoalManager;
+		LevelManager  _levelManager;
+		PlayerManager _playerManager;
 
 		Promise _showPromise;
 
-		public void CommonInit(PlayerManager playerManager, LevelGoalManager levelGoalManager) {
-			_playerManager    = playerManager;
-			_levelGoalManager = levelGoalManager;
+		public void CommonInit(LevelManager levelManager, PlayerManager playerManager) {
+			_levelManager  = levelManager;
+			_playerManager = playerManager;
 
 			QuitButton.onClick.AddListener(OnQuitClick);
 			ContinueButton.onClick.AddListener(OnContinueClick);
@@ -72,7 +72,7 @@ namespace STP.Behaviour.Core.UI {
 
 		void OnRestartClick() {
 			_playerManager.Restart();
-			_levelGoalManager.LoseLevel();
+			_levelManager.TryReloadLevel();
 			Hide();
 		}
 	}

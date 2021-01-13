@@ -2,16 +2,16 @@
 
 using System;
 
-using STP.Config;
 using STP.Core;
 
 namespace STP.Manager {
 	public sealed class LevelGoalManager {
 		public readonly int LevelGoal;
 
-		readonly LevelManager    _levelManager;
-		readonly LevelController _levelController;
-		readonly XpController    _xpController;
+		readonly LevelManager       _levelManager;
+		readonly CoreWindowsManager _windowsManager;
+		readonly LevelController    _levelController;
+		readonly XpController       _xpController;
 
 		int _curLevelGoalProgress;
 
@@ -30,8 +30,10 @@ namespace STP.Manager {
 
 		public event Action<int> OnCurLevelGoalProgressChanged;
 
-		public LevelGoalManager(LevelManager levelManager, LevelController levelController, XpController xpController) {
+		public LevelGoalManager(LevelManager levelManager, CoreWindowsManager windowsManager,
+			LevelController levelController, XpController xpController) {
 			_levelManager    = levelManager;
+			_windowsManager  = windowsManager;
 			_levelController = levelController;
 			_xpController    = xpController;
 
@@ -51,13 +53,17 @@ namespace STP.Manager {
 			}
 		}
 
+		public void OnPlayerDied() {
+			_windowsManager.ShowDeathWindow();
+		}
+
 		public void LoseLevel() {
 			if ( !_levelManager.IsLevelActive ) {
 				Debug.LogError("Can't lose level — level is not active");
 				return;
 			}
 			_xpController.ResetXp();
-			_levelManager.TryReloadLevel();
+			_windowsManager.ShowDeathWindow();
 		}
 
 		bool TryWinLevel() {
@@ -72,12 +78,9 @@ namespace STP.Manager {
 			_xpController.OnLevelWon();
 			if ( _levelController.HasNextLevel ) {
 				return _levelManager.TryReloadLevel();
-			} else {
-				// TODO: win the game instead of the following
-				Debug.Log("You win!");
-				_levelController.TmpPreviousLevel();
-				return _levelManager.TryReloadLevel();
 			}
+			_windowsManager.ShowWinWindow();
+			return true;
 		}
 	}
 }
