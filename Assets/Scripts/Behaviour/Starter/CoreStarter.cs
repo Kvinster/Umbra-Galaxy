@@ -31,12 +31,6 @@ namespace STP.Behaviour.Starter {
 			GameController.Deinit();
 		}
 
-		void Update() {
-			if ( Input.GetKeyDown(KeyCode.Q) ) {
-				GameState.ActiveInstance.Save();
-			}
-		}
-
 		void Start() {
 #if UNITY_EDITOR
 			if ( !GameState.IsActiveInstanceExists ) {
