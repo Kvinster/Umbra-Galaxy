@@ -665,7 +665,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 64283269}
   MinimapCamera: {fileID: 459281098}
-  PlayerStartPos: {fileID: 1214769914}
+  PlayerStartPos: {fileID: 1673112872}
   Generator: {fileID: 194620075}
   CoreWindowsManager: {fileID: 46128630}
 --- !u!4 &194620073
