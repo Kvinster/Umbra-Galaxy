@@ -23,7 +23,6 @@ namespace STP.Core {
 				}
 
 				_state.CurLives = value;
-				OnLivesChanged();
 				OnCurLivesChanged?.Invoke(CurLives);
 			}
 		}
@@ -100,10 +99,6 @@ namespace STP.Core {
 
 		public void AddLives(int addLives = 1) {
 			CurLives += addLives;
-		}
-
-		void OnLivesChanged() {
-			GameState.Save();
 		}
 	}
 }

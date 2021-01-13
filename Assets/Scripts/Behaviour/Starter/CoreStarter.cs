@@ -48,7 +48,8 @@ namespace STP.Behaviour.Starter {
 			LevelManager     = new LevelManager(Player.transform, PauseManager);
 			PlayerManager    = new PlayerManager(Player, pc, xc, UnityContext.Instance);
 			CoreWindowsManager.Init(PauseManager, LevelManager, PlayerManager, pc, xc);
-			LevelGoalManager = new LevelGoalManager(LevelManager, CoreWindowsManager, lc, xc);
+			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, CoreWindowsManager, lc, xc,
+				GameState.ActiveInstance);
 			MinimapManager   = new MinimapManager(MinimapCamera);
 			Generator.Init(lc, cc);
 			Generator.GenerateLevel(lc.GetCurLevelConfig(), cc.GetChunkPrefab);

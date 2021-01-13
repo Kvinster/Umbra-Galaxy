@@ -21,7 +21,6 @@ namespace STP.Core {
 
 		public void OnLevelWon() {
 			_levelState.NextLevelIndex++;
-			GameState.Save();
 		}
 
 		public LevelInfo GetCurLevelConfig() {

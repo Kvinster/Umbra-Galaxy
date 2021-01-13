@@ -34,7 +34,6 @@ namespace STP.Core {
 					return;
 				}
 				_state.CurXp = value;
-				GameState.Save();
 			}
 		}
 

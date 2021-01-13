@@ -64,10 +64,12 @@ namespace STP.Manager {
 			return _powerUpStates.Find(x => x.Name == name) != null;
 		}
 
+		public bool OnPlayerDied() {
+			_playerController.TrySubLives(1);
+			return (_playerController.CurLives > 0);
+		}
+
 		public void Respawn() {
-			if ( !_playerController.TrySubLives() ) {
-				Debug.LogError("Can't subtract live");
-			}
 			_playerController.RestoreHp();
 			_player.OnRespawn();
 		}
