@@ -13,6 +13,10 @@ using STP.Utils.GameComponentAttributes;
 namespace STP.Behaviour.MainMenu {
 	public sealed class LoadWindow : BaseMainMenuComponent {
 		[NotNull]
+		public GameObject HaveSavedGamesRoot;
+		[NotNull]
+		public GameObject NoSavedGamesRoot;
+		[NotNull]
 		public ScrollRect ScrollRect;
 		[NotNull]
 		public Button BackButton;
@@ -41,7 +45,8 @@ namespace STP.Behaviour.MainMenu {
 				Debug.LogError("Saves directory does not exist");
 				return;
 			}
-			var entryIndex = 0;
+			var haveSavedGames = false;
+			var entryIndex     = 0;
 			foreach ( var saveFile in di.EnumerateFiles("*.stpsave") ) {
 				if ( entryIndex >= Entries.Count ) {
 					Debug.LogError("Not enough LoadWindow Entries");
@@ -55,10 +60,14 @@ namespace STP.Behaviour.MainMenu {
 						SceneManager.LoadScene("Scenes/TestRoom");
 					});
 					entry.gameObject.SetActive(true);
+					haveSavedGames = true;
 				}
 			}
 
 			ScrollRect.verticalNormalizedPosition = 1f;
+
+			HaveSavedGamesRoot.SetActive(haveSavedGames);
+			NoSavedGamesRoot.SetActive(!haveSavedGames);
 		}
 
 		public void Hide() {
