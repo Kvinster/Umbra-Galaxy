@@ -58,10 +58,6 @@ namespace STP.Core {
 			return _xpConfig.GetDestroyedEnemyXp(enemyName);
 		}
 
-		void OnNextLevelChanged(string nextLevelName) {
-
-		}
-
 		void LoadConfig() {
 			_xpConfig = Resources.Load<XpConfig>("XpConfig");
 		}
