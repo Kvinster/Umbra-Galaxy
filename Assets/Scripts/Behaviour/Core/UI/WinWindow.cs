@@ -44,9 +44,7 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		void OnGoToMenuClick() {
-			var profileName = GameState.ActiveInstance.ProfileName;
 			GameState.TryReleaseActiveInstance();
-			GameState.TryRemoveSave(profileName);
 			SceneManager.LoadScene("MainMenu");
 		}
 	}
