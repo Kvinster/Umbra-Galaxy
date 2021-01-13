@@ -14,15 +14,27 @@ namespace STP.Core {
 
 		int _curLevelXp;
 
-		public int CurXp {
+		public int CurTotalXp => _curLevelXp + CurXp;
+
+		int CurLevelXp {
+			get => _curLevelXp;
+			set {
+				if ( _curLevelXp == value ) {
+					return;
+				}
+				_curLevelXp = value;
+				OnXpChanged?.Invoke(CurTotalXp);
+			}
+		}
+
+		int CurXp {
 			get => _state.CurXp;
-			private set {
+			set {
 				if ( CurXp == value ) {
 					return;
 				}
 				_state.CurXp = value;
 				GameState.Save();
-				OnXpChanged?.Invoke(CurXp);
 			}
 		}
 
@@ -35,16 +47,17 @@ namespace STP.Core {
 		}
 
 		public void ResetXp() {
-			CurXp = 0;
+			CurLevelXp = 0;
+			CurXp      = 0;
 		}
 
 		public void OnLevelStart() {
-			_curLevelXp = 0;
+			CurLevelXp = 0;
 		}
 
 		public void OnLevelWon() {
-			_state.CurXp += _curLevelXp;
-			_curLevelXp  =  0;
+			CurXp      += CurLevelXp;
+			CurLevelXp =  0;
 		}
 
 		public void AddLevelXp(int value) {
@@ -52,7 +65,7 @@ namespace STP.Core {
 				Debug.LogWarning($"Strange xp amount {value}. Ignoring");
 				return;
 			}
-			_curLevelXp += value;
+			CurLevelXp += value;
 		}
 
 		public int GetDestroyedEnemyXp(string enemyName) {

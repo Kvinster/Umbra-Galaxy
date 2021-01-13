@@ -13,11 +13,11 @@ namespace STP.Manager {
 		PlayerController _playerController;
 
 		public void Init(PauseManager pauseManager, PlayerManager playerManager, LevelGoalManager levelGoalManager,
-			PlayerController playerController, XpController xpController) {
+			PlayerController playerController) {
 			_pauseManager     = pauseManager;
 			_playerController = playerController;
 
-			DeathWindow.CommonInit(playerManager, levelGoalManager, xpController);
+			DeathWindow.CommonInit(playerManager, levelGoalManager);
 		}
 
 		public void ShowDeathWindow() {

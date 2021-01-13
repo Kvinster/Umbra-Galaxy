@@ -70,7 +70,14 @@ namespace STP.Manager {
 			}
 			_levelController.OnLevelWon();
 			_xpController.OnLevelWon();
-			return _levelManager.TryReloadLevel();
+			if ( _levelController.HasNextLevel ) {
+				return _levelManager.TryReloadLevel();
+			} else {
+				// TODO: win the game instead of the following
+				Debug.Log("You win!");
+				_levelController.TmpPreviousLevel();
+				return _levelManager.TryReloadLevel();
+			}
 		}
 	}
 }

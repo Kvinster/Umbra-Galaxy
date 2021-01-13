@@ -55,7 +55,7 @@ namespace STP.Behaviour.Starter {
 			PlayerManager    = new PlayerManager(Player, pc, xc, UnityContext.Instance);
 			LevelGoalManager = new LevelGoalManager(LevelManager, lc, xc);
 			MinimapManager   = new MinimapManager(MinimapCamera);
-			CoreWindowsManager.Init(PauseManager, PlayerManager, LevelGoalManager, pc, xc);
+			CoreWindowsManager.Init(PauseManager, PlayerManager, LevelGoalManager, pc);
 			Generator.Init(lc, cc);
 			Generator.GenerateLevel(lc.GetCurLevelConfig(), cc.GetChunkPrefab);
 			InitComponents();

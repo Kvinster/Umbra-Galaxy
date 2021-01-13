@@ -26,14 +26,12 @@ namespace STP.Behaviour.Core.UI {
 
 		PlayerManager    _playerManager;
 		LevelGoalManager _levelGoalManager;
-		XpController     _xpController;
 
 		Promise _showPromise;
 
-		public void CommonInit(PlayerManager playerManager, LevelGoalManager levelGoalManager, XpController xpController) {
+		public void CommonInit(PlayerManager playerManager, LevelGoalManager levelGoalManager) {
 			_playerManager    = playerManager;
 			_levelGoalManager = levelGoalManager;
-			_xpController     = xpController;
 
 			QuitButton.onClick.AddListener(OnQuitClick);
 			ContinueButton.onClick.AddListener(OnContinueClick);
