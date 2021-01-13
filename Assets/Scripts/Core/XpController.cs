@@ -44,6 +44,7 @@ namespace STP.Core {
 		public void OnLevelWon() {
 			_state.CurXp += _curLevelXp;
 			_curLevelXp  =  0;
+			GameState.Save();
 		}
 
 		public void AddLevelXp(int value) {
