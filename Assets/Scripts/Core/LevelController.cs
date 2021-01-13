@@ -24,11 +24,6 @@ namespace STP.Core {
 			GameState.Save();
 		}
 
-		public void TmpPreviousLevel() {
-			_levelState.NextLevelIndex--;
-			GameState.Save();
-		}
-
 		public LevelInfo GetCurLevelConfig() {
 			return _levelsConfig.GetLevelConfig(NextLevelIndex);
 		}
