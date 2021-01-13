@@ -75,7 +75,6 @@ namespace STP.Behaviour.Core.UI {
 		void OnRestartClick() {
 			_playerManager.Restart();
 			_levelGoalManager.LoseLevel();
-			_xpController.ResetXp();
 			Hide();
 		}
 	}

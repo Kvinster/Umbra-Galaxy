@@ -18,6 +18,7 @@ namespace STP.Behaviour.Starter {
 
 		public CoreSpawnHelper  SpawnHelper      { get; private set; }
 		public PauseManager     PauseManager     { get; private set; }
+		public LevelManager     LevelManager     { get; private set; }
 		public PlayerManager    PlayerManager    { get; private set; }
 		public LevelGoalManager LevelGoalManager { get; private set; }
 		public MinimapManager   MinimapManager   { get; private set; }
@@ -44,14 +45,15 @@ namespace STP.Behaviour.Starter {
 			}
 #endif
 			GameController = new GameController(GameState.ActiveInstance);
-			SpawnHelper    = new CoreSpawnHelper(this);
-			PauseManager   = new PauseManager();
 			var pc = GameController.PlayerController;
 			var lc = GameController.LevelController;
 			var xc = GameController.XpController;
 			var cc = GameController.ChunkController;
+			SpawnHelper      = new CoreSpawnHelper(this);
+			PauseManager     = new PauseManager();
+			LevelManager     = new LevelManager(Player.transform, PauseManager);
 			PlayerManager    = new PlayerManager(Player, pc, xc, UnityContext.Instance);
-			LevelGoalManager = new LevelGoalManager(Player.transform, PauseManager, lc, xc);
+			LevelGoalManager = new LevelGoalManager(LevelManager, lc, xc);
 			MinimapManager   = new MinimapManager(MinimapCamera);
 			CoreWindowsManager.Init(PauseManager, PlayerManager, LevelGoalManager, pc, xc);
 			Generator.Init(lc, cc);

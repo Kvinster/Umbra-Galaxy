@@ -1,24 +1,17 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 using System;
 
-using STP.Behaviour.Core;
 using STP.Config;
 using STP.Core;
-
-using Object = UnityEngine.Object;
 
 namespace STP.Manager {
 	public sealed class LevelGoalManager {
 		public readonly int LevelGoal;
 
-		readonly Transform       _playerTransform;
-		readonly PauseManager    _pauseManager;
+		readonly LevelManager    _levelManager;
 		readonly LevelController _levelController;
 		readonly XpController    _xpController;
-
-		readonly LevelInfo _curLevelInfo;
 
 		int _curLevelGoalProgress;
 
@@ -37,16 +30,14 @@ namespace STP.Manager {
 
 		public event Action<int> OnCurLevelGoalProgressChanged;
 
-		public LevelGoalManager(Transform playerTransform, PauseManager pauseManager, LevelController levelController,
-			XpController xpController) {
-			_playerTransform = playerTransform;
-			_pauseManager    = pauseManager;
+		public LevelGoalManager(LevelManager levelManager, LevelController levelController, XpController xpController) {
+			_levelManager    = levelManager;
 			_levelController = levelController;
 			_xpController    = xpController;
 
-			_curLevelInfo = _levelController.GetCurLevelConfig();
+			var curLevelInfo = _levelController.GetCurLevelConfig();
 
-			LevelGoal = _curLevelInfo.GeneratorsCount;
+			LevelGoal = curLevelInfo.GeneratorsCount;
 
 			CurLevelGoalProgress = 0;
 		}
@@ -61,29 +52,25 @@ namespace STP.Manager {
 		}
 
 		public void LoseLevel() {
-			_pauseManager.Pause(this);
-			SceneTransitionController.Instance.Transition(SceneManager.GetActiveScene().name, _playerTransform.position,
-					() => {
-						var player = Object.FindObjectOfType<Player>();
-						return player ? player.transform.position : Vector3.zero;
-					})
-				.Then(() => { Time.timeScale = 1f; });
+			if ( !_levelManager.IsLevelActive ) {
+				Debug.LogError("Can't lose level — level is not active");
+				return;
+			}
+			_xpController.ResetXp();
+			_levelManager.TryReloadLevel();
 		}
 
 		bool TryWinLevel() {
 			if ( !CanWinLevel ) {
 				return false;
 			}
-			_pauseManager.Pause(this);
+			if ( !_levelManager.IsLevelActive ) {
+				Debug.LogError("Can't win level — level is not active");
+				return false;
+			}
 			_levelController.OnLevelWon();
 			_xpController.OnLevelWon();
-			SceneTransitionController.Instance.Transition(SceneManager.GetActiveScene().name, _playerTransform.position,
-					() => {
-						var player = Object.FindObjectOfType<Player>();
-						return player ? player.transform.position : Vector3.zero;
-					})
-				.Then(() => { Time.timeScale = 1f; });
-			return true;
+			return _levelManager.TryReloadLevel();
 		}
 	}
 }
