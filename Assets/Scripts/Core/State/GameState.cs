@@ -110,5 +110,17 @@ namespace STP.Core.State {
 			}
 			ActiveInstance = null;
 		}
+
+		public static void TryRemoveSave(string profileName) {
+			var di = new DirectoryInfo(SavesPath);
+			if ( !di.Exists ) {
+				return;
+			}
+			foreach ( var fi in di.EnumerateFiles("*.stpsave") ) {
+				if ( Path.GetFileNameWithoutExtension(fi.Name) == profileName ) {
+					fi.Delete();
+				}
+			}
+		}
 	}
 }

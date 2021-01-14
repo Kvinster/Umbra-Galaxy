@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
 
-using System;
-
 using STP.Config;
 using STP.Core.State;
 
 namespace STP.Core {
 	public sealed class LevelController : BaseStateController {
-		const string DefaultLevelName = "Level1";
-
 		readonly LevelState   _levelState;
 		readonly LevelsConfig _levelsConfig;
 
-		public string NextLevelName => _levelState.NextLevelName;
+		public int NextLevelIndex => _levelState.NextLevelIndex;
+
+		public bool HasNextLevel => (NextLevelIndex != _levelsConfig.Levels.Count);
 
 		public LevelController(GameState gameState) : base(gameState) {
 			_levelState   = gameState.LevelState;
@@ -22,27 +20,21 @@ namespace STP.Core {
 		}
 
 		public void OnLevelWon() {
-			foreach ( var levelInfo in _levelsConfig.Levels ) {
-				if ( levelInfo.LevelName == NextLevelName ) {
-					_levelState.NextLevelName = levelInfo.NextLevelName;
-					return;
-				}
-			}
-			Debug.LogErrorFormat("Can't find level info for '{0}'", NextLevelName);
+			_levelState.NextLevelIndex++;
 		}
 
 		public LevelInfo GetCurLevelConfig() {
-			return _levelsConfig.GetLevelConfig(NextLevelName);
+			return _levelsConfig.GetLevelConfig(NextLevelIndex);
 		}
 
 		static LevelsConfig LoadConfig() {
 			return Resources.Load<LevelsConfig>("AllLevels");
 		}
 
-		public static LevelInfo GetLevelConfigInEditor(string levelName = DefaultLevelName) {
+		public static LevelInfo GetLevelConfigInEditor(int levelIndex = 0) {
 			var levelsConfig = LoadConfig();
 			if ( levelsConfig ) {
-				return levelsConfig.GetLevelConfig(levelName);
+				return levelsConfig.GetLevelConfig(levelIndex);
 			}
 			Debug.LogError("Can't load LevelsConfig in editor");
 			return null;

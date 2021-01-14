@@ -35,11 +35,11 @@ namespace STP.Behaviour.Core {
 
 		Vector2 _input;
 
-		Camera             _camera;
-		CoreSpawnHelper    _spawnHelper;
-		Transform          _playerStartPos;
-		PlayerManager      _playerManager;
-		CoreWindowsManager _coreWindowsManager;
+		Camera           _camera;
+		CoreSpawnHelper  _spawnHelper;
+		Transform        _playerStartPos;
+		PlayerManager    _playerManager;
+		LevelGoalManager _levelGoalManager;
 
 		PlayerController _playerController;
 
@@ -77,11 +77,11 @@ namespace STP.Behaviour.Core {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
-			_camera             = Camera.main;
-			_spawnHelper        = starter.SpawnHelper;
-			_playerStartPos     = starter.PlayerStartPos;
-			_playerManager      = starter.PlayerManager;
-			_coreWindowsManager = starter.CoreWindowsManager;
+			_camera           = Camera.main;
+			_spawnHelper      = starter.SpawnHelper;
+			_playerStartPos   = starter.PlayerStartPos;
+			_playerManager    = starter.PlayerManager;
+			_levelGoalManager = starter.LevelGoalManager;
 
 			_playerController                =  starter.PlayerController;
 			_playerController.OnCurHpChanged += OnCurHpChanged;
@@ -108,7 +108,7 @@ namespace STP.Behaviour.Core {
 
 		public void TakeDamage(float damage) {
 			if ( _playerController.TakeDamage(damage) ) {
-				_coreWindowsManager.ShowDeathWindow();
+				_levelGoalManager.OnPlayerDied();
 			}
 		}
 

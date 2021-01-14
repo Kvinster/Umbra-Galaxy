@@ -1,24 +1,20 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 using System;
 
-using STP.Behaviour.Core;
-using STP.Config;
 using STP.Core;
-
-using Object = UnityEngine.Object;
+using STP.Core.State;
 
 namespace STP.Manager {
 	public sealed class LevelGoalManager {
 		public readonly int LevelGoal;
 
-		readonly Transform       _playerTransform;
-		readonly PauseManager    _pauseManager;
-		readonly LevelController _levelController;
-		readonly XpController    _xpController;
-
-		readonly LevelInfo _curLevelInfo;
+		readonly PlayerManager      _playerManager;
+		readonly LevelManager       _levelManager;
+		readonly CoreWindowsManager _windowsManager;
+		readonly LevelController    _levelController;
+		readonly XpController       _xpController;
+		readonly GameState          _gameState;
 
 		int _curLevelGoalProgress;
 
@@ -37,16 +33,19 @@ namespace STP.Manager {
 
 		public event Action<int> OnCurLevelGoalProgressChanged;
 
-		public LevelGoalManager(Transform playerTransform, PauseManager pauseManager, LevelController levelController,
-			XpController xpController) {
-			_playerTransform = playerTransform;
-			_pauseManager    = pauseManager;
+		public LevelGoalManager(PlayerManager playerManager, LevelManager levelManager,
+			CoreWindowsManager windowsManager, LevelController levelController, XpController xpController,
+			GameState gameState) {
+			_playerManager   = playerManager;
+			_levelManager    = levelManager;
+			_windowsManager  = windowsManager;
 			_levelController = levelController;
 			_xpController    = xpController;
+			_gameState       = gameState;
 
-			_curLevelInfo = _levelController.GetCurLevelConfig();
+			var curLevelInfo = _levelController.GetCurLevelConfig();
 
-			LevelGoal = _curLevelInfo.GeneratorsCount;
+			LevelGoal = curLevelInfo.GeneratorsCount;
 
 			CurLevelGoalProgress = 0;
 		}
@@ -60,29 +59,29 @@ namespace STP.Manager {
 			}
 		}
 
-		public void LoseLevel() {
-			_pauseManager.Pause(this);
-			SceneTransitionController.Instance.Transition(SceneManager.GetActiveScene().name, _playerTransform.position,
-					() => {
-						var player = Object.FindObjectOfType<Player>();
-						return player ? player.transform.position : Vector3.zero;
-					})
-				.Then(() => { Time.timeScale = 1f; });
+		public void OnPlayerDied() {
+			if ( !_playerManager.OnPlayerDied() ) {
+				_xpController.ResetXp();
+			}
+			_gameState.Save();
+			_windowsManager.ShowDeathWindow();
 		}
 
 		bool TryWinLevel() {
 			if ( !CanWinLevel ) {
 				return false;
 			}
-			_pauseManager.Pause(this);
+			if ( !_levelManager.IsLevelActive ) {
+				Debug.LogError("Can't win level — level is not active");
+				return false;
+			}
 			_levelController.OnLevelWon();
 			_xpController.OnLevelWon();
-			SceneTransitionController.Instance.Transition(SceneManager.GetActiveScene().name, _playerTransform.position,
-					() => {
-						var player = Object.FindObjectOfType<Player>();
-						return player ? player.transform.position : Vector3.zero;
-					})
-				.Then(() => { Time.timeScale = 1f; });
+			if ( _levelController.HasNextLevel ) {
+				_gameState.Save();
+				return _levelManager.TryReloadLevel();
+			}
+			_windowsManager.ShowWinWindow();
 			return true;
 		}
 	}

@@ -15,6 +15,7 @@ MonoBehaviour:
   Levels:
   - GeneratorsCount: 3
     LevelSeed: 0
-    LevelName: Level1
-    NextLevelName: Level1
+    LevelSpaceSize: 3000
+  - GeneratorsCount: 4
+    LevelSeed: 0
     LevelSpaceSize: 3000

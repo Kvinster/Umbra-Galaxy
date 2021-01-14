@@ -24,16 +24,14 @@ namespace STP.Behaviour.Core.UI {
 		[NotNull] public GameObject NoLivesRoot;
 		[NotNull] public Button     RestartButton;
 
-		PlayerManager    _playerManager;
-		LevelGoalManager _levelGoalManager;
-		XpController     _xpController;
+		LevelManager  _levelManager;
+		PlayerManager _playerManager;
 
 		Promise _showPromise;
 
-		public void CommonInit(PlayerManager playerManager, LevelGoalManager levelGoalManager, XpController xpController) {
-			_playerManager    = playerManager;
-			_levelGoalManager = levelGoalManager;
-			_xpController     = xpController;
+		public void CommonInit(LevelManager levelManager, PlayerManager playerManager) {
+			_levelManager  = levelManager;
+			_playerManager = playerManager;
 
 			QuitButton.onClick.AddListener(OnQuitClick);
 			ContinueButton.onClick.AddListener(OnContinueClick);
@@ -45,10 +43,10 @@ namespace STP.Behaviour.Core.UI {
 				return Promise.Rejected(new Exception("DeathWindow is already shown"));
 			}
 
-			LivesText.text = string.Format(LivesTextFormat, livesLeft);
+			LivesText.text = string.Format(LivesTextFormat, livesLeft + 1);
 
-			HasLivesRoot.SetActive(livesLeft > 0);
-			NoLivesRoot.SetActive(livesLeft <= 0);
+			HasLivesRoot.SetActive(livesLeft >= 0);
+			NoLivesRoot.SetActive(livesLeft < 0);
 
 			gameObject.SetActive(true);
 
@@ -74,8 +72,7 @@ namespace STP.Behaviour.Core.UI {
 
 		void OnRestartClick() {
 			_playerManager.Restart();
-			_levelGoalManager.LoseLevel();
-			_xpController.ResetXp();
+			_levelManager.TryReloadLevel();
 			Hide();
 		}
 	}

@@ -25,7 +25,7 @@ namespace STP.Behaviour.MainMenu {
 			Assert.IsNotNull(_gameState);
 			Assert.IsNotNull(_startCoreLevel);
 
-			DescText.text = string.Format(DescFormat, _gameState.ProfileName, _gameState.LevelState.NextLevelName,
+			DescText.text = string.Format(DescFormat, _gameState.ProfileName, _gameState.LevelState.NextLevelIndex + 1,
 				_gameState.XpState.CurXp, _gameState.PlayerState.CurLives);
 			LoadButton.onClick.AddListener(OnLoadClick);
 		}

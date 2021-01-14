@@ -18,6 +18,7 @@ namespace STP.Behaviour.Starter {
 
 		public CoreSpawnHelper  SpawnHelper      { get; private set; }
 		public PauseManager     PauseManager     { get; private set; }
+		public LevelManager     LevelManager     { get; private set; }
 		public PlayerManager    PlayerManager    { get; private set; }
 		public LevelGoalManager LevelGoalManager { get; private set; }
 		public MinimapManager   MinimapManager   { get; private set; }
@@ -30,12 +31,6 @@ namespace STP.Behaviour.Starter {
 			GameController.Deinit();
 		}
 
-		void Update() {
-			if ( Input.GetKeyDown(KeyCode.Q) ) {
-				GameState.ActiveInstance.Save();
-			}
-		}
-
 		void Start() {
 #if UNITY_EDITOR
 			if ( !GameState.IsActiveInstanceExists ) {
@@ -44,16 +39,18 @@ namespace STP.Behaviour.Starter {
 			}
 #endif
 			GameController = new GameController(GameState.ActiveInstance);
-			SpawnHelper    = new CoreSpawnHelper(this);
-			PauseManager   = new PauseManager();
 			var pc = GameController.PlayerController;
 			var lc = GameController.LevelController;
 			var xc = GameController.XpController;
 			var cc = GameController.ChunkController;
+			SpawnHelper      = new CoreSpawnHelper(this);
+			PauseManager     = new PauseManager();
+			LevelManager     = new LevelManager(Player.transform, PauseManager);
 			PlayerManager    = new PlayerManager(Player, pc, xc, UnityContext.Instance);
-			LevelGoalManager = new LevelGoalManager(Player.transform, PauseManager, lc, xc);
+			CoreWindowsManager.Init(PauseManager, LevelManager, PlayerManager, pc, xc);
+			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, CoreWindowsManager, lc, xc,
+				GameState.ActiveInstance);
 			MinimapManager   = new MinimapManager(MinimapCamera);
-			CoreWindowsManager.Init(PauseManager, PlayerManager, LevelGoalManager, pc, xc);
 			Generator.Init(lc, cc);
 			Generator.GenerateLevel(lc.GetCurLevelConfig(), cc.GetChunkPrefab);
 			InitComponents();

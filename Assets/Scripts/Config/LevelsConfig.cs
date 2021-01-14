@@ -6,20 +6,22 @@ using System.Collections.Generic;
 namespace STP.Config {
 	[Serializable]
 	public class LevelInfo {
-		public int    GeneratorsCount = 1;
-		public int    LevelSeed       = 0;
-		public string LevelName       = "Level1";
-		public string NextLevelName   = "Level2";
+		public int GeneratorsCount = 1;
+		public int LevelSeed       = 0;
 
-		public int    LevelSpaceSize;
+		public int LevelSpaceSize;
 	}
-	
+
 	[CreateAssetMenu(fileName = "AllLevels", menuName = "ScriptableObjects/LevelsConfig", order = 1)]
 	public class LevelsConfig : ScriptableObject {
 		public List<LevelInfo> Levels;
 
-		public LevelInfo GetLevelConfig(string levelName) {
-			return Levels.Find(x => (x.LevelName == levelName));
+		public LevelInfo GetLevelConfig(int levelIndex) {
+			if ( (levelIndex < 0) || (levelIndex >= Levels.Count) ) {
+				Debug.LogErrorFormat("Invalid level index '{0}'", levelIndex);
+				return null;
+			}
+			return Levels[levelIndex];
 		}
 	}
 }

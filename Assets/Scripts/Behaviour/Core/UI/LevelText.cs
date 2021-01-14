@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 using STP.Behaviour.Starter;
 using STP.Core;
@@ -73,7 +72,7 @@ namespace STP.Behaviour.Core.UI {
 				.AppendLine(string.Format(
 					(curProgress >= _levelGoalManager.LevelGoal) ? FinishedGoalTextFormat : UnfinishedGoalTextFormat,
 					curProgress, _levelGoalManager.LevelGoal))
-				.AppendLine(string.Format(CurXpTextFormat, _xpController.CurXp));
+				.AppendLine(string.Format(CurXpTextFormat, _xpController.CurTotalXp));
 			var allPowerUps = _playerManager.GetAllActivePowerUpStates();
 			if ( allPowerUps.Count > 0 ) {
 				_stringBuilder.AppendLine("PowerUps info:");

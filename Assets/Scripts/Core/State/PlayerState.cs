@@ -4,7 +4,9 @@ using STP.Utils.Xml;
 
 namespace STP.Core.State {
 	public sealed class PlayerState : BaseState {
-		public int CurLives;
+		public const int StartPlayerLives = 3;
+
+		public int CurLives = StartPlayerLives;
 
 		public override string Name => "player";
 
