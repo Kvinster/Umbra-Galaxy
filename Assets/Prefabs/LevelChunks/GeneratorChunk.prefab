@@ -38,6 +38,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6152092642504925001}
     m_Modifications:
+    - target: {fileID: 996676098704665118, guid: ccbc55a58ed204c47bd4952ab788781c,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8147379892999961652, guid: ccbc55a58ed204c47bd4952ab788781c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -93,6 +98,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8147379892999961653, guid: ccbc55a58ed204c47bd4952ab788781c,
+        type: 3}
+      propertyPath: BulletPrefab
+      value: 
+      objectReference: {fileID: 4765969172863325119, guid: 89faa3303a93b0941af9c078aad27d7e,
+        type: 3}
     - target: {fileID: 8147379892999961673, guid: ccbc55a58ed204c47bd4952ab788781c,
         type: 3}
       propertyPath: m_Name
