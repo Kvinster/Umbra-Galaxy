@@ -133,8 +133,8 @@ namespace STP.Behaviour.Core {
 			var isX2DamageActive = _playerManager.HasActivePowerUp(PowerUpNames.X2Damage);
 			var bulletGo = Instantiate(isX2DamageActive ? EnhancedBulletPrefab : BulletPrefab,
 				transform.position, Quaternion.identity, null);
-			var bullet = bulletGo.GetComponent<Bullet>();
-			if ( bullet ) {
+			var bullet = bulletGo.GetComponent<IBullet>();
+			if ( bullet != null ) {
 				var mult = isX2DamageActive ? 2f : 1f;
 				bullet.Init(TmpBulletDamage * mult, Vector2.up * BulletStartForce, Rigidbody.rotation, Collider,
 					ShieldCollider);

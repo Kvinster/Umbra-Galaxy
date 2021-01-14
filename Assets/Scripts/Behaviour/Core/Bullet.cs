@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 
+using STP.Behaviour.Starter;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
-	public sealed class Bullet : GameComponent {
+	public  class Bullet : BaseCoreComponent, IBullet {
 		[NotNull]
 		public Rigidbody2D Rigidbody;
 		[NotNull]
@@ -14,20 +15,6 @@ namespace STP.Behaviour.Core {
 
 		float _lifeTimer;
 		float _damage;
-
-		public void Init(float damage, Vector2 force, float rotation, params Collider2D[] ownerColliders) {
-			_damage = damage;
-
-			Rigidbody.rotation = rotation;
-			Rigidbody.AddRelativeForce(force, ForceMode2D.Impulse);
-			foreach ( var ownerCollider in ownerColliders ) {
-				IgnoreCollider(ownerCollider);
-			}
-		}
-
-		void IgnoreCollider(Collider2D ignoreCollider) {
-			Physics2D.IgnoreCollision(ignoreCollider, Collider);
-		}
 
 		void Update() {
 			_lifeTimer += Time.deltaTime;
@@ -40,6 +27,24 @@ namespace STP.Behaviour.Core {
 			var destructible = other.gameObject.GetComponent<IDestructible>();
 			destructible?.TakeDamage(_damage);
 			Destroy(gameObject);
+		}
+
+		public void Init(float damage, Vector2 force, float rotation, params Collider2D[] ownerColliders) {
+			_damage = damage;
+
+			Rigidbody.rotation = rotation;
+			Rigidbody.AddRelativeForce(force, ForceMode2D.Impulse);
+			foreach ( var ownerCollider in ownerColliders ) {
+				IgnoreCollider(ownerCollider);
+			}
+		}
+
+		protected override void InitInternal(CoreStarter starter) {
+
+		}
+
+		void IgnoreCollider(Collider2D ignoreCollider) {
+			Physics2D.IgnoreCollision(ignoreCollider, Collider);
 		}
 	}
 }

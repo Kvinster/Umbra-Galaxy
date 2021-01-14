@@ -146,10 +146,8 @@ namespace STP.Behaviour.Core.Enemy {
         }
 
         void InitCreatedObject(GameObject go) {
-            var bulletComp = go.GetComponent<Bullet>();
-            if ( bulletComp ) {
-                bulletComp.Init(10f, Vector2.up * BulletRunForce, GetViewAngleToTarget(), Collider);
-            }
+            var bulletComp = go.GetComponent<IBullet>();
+            bulletComp?.Init(10f, Vector2.up * BulletRunForce, GetViewAngleToTarget(), Collider);
             _spawnHelper.TryInitSpawnedObject(go);
         }
 

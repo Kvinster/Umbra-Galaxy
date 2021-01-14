@@ -53,8 +53,8 @@ namespace STP.Behaviour.Core.Enemy {
 				return false;
 			}
 			var bulletGo = Instantiate(BulletPrefab, transform.position, Quaternion.identity);
-			var bullet   = bulletGo.GetComponent<Bullet>();
-			if ( bullet ) {
+			var bullet   = bulletGo.GetComponent<IBullet>();
+			if ( bullet != null ) {
 				bullet.Init(10f, Vector2.up * BulletStartForce, Rigidbody.rotation, Collider);
 			} else {
 				Debug.LogError("No Bullet component on BulletPrefab");
