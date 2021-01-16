@@ -61,7 +61,6 @@ namespace STP.Behaviour.Core.Enemy {
         protected override void InitInternal(CoreStarter starter) {
             FireTrigger.OnTriggerEnter         += OnFireRangeEnter;
             FireTrigger.OnTriggerExit          += OnFireRangeExit;
-            ExplosionEffect.OnAllParticlesDead += OnExplosionEnd;
 
             _spawnHelper      = starter.SpawnHelper;
             _levelGoalManager = starter.LevelGoalManager;
@@ -89,9 +88,6 @@ namespace STP.Behaviour.Core.Enemy {
             // detach VFX on death
             ExplosionEffect.transform.SetParent(transform.parent);
             ExplosionEffect.RunVfx(true);
-        }
-
-        void OnExplosionEnd() {
         }
 
         void OnSubGeneratorDestroyed(Generator generator) {

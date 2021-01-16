@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.VFX;
 
-using System;
 using System.Collections.Generic;
 
 using STP.Utils;
@@ -11,11 +10,8 @@ namespace STP.Behaviour.Core {
 	public class VfxRunner : GameComponent {
 		[NotNull] public List<VisualEffect> Effects;
 
-		public event Action OnAllParticlesDead;
-
 		bool _spawned;
 		bool _destroyOnEnd;
-
 
 		public bool Running { get; private set; }
 
@@ -33,7 +29,6 @@ namespace STP.Behaviour.Core {
 			}
 			_spawned |= (maxParticlesLeft > 0);
 			if ( _spawned && (maxParticlesLeft == 0) ) {
-				OnAllParticlesDead?.Invoke();
 				Running = false;
 				if ( _destroyOnEnd ) {
 					Destroy(gameObject);
