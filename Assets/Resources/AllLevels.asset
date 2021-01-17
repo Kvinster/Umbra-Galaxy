@@ -13,9 +13,27 @@ MonoBehaviour:
   m_Name: AllLevels
   m_EditorClassIdentifier: 
   Levels:
-  - GeneratorsCount: 3
-    LevelSeed: 0
-    LevelSpaceSize: 3000
-  - GeneratorsCount: 4
-    LevelSeed: 0
+  - LevelSeed: 0
+    GeneratorsCount: 3
+    PowerUpInfo:
+    - PowerUpType: 0
+      Count: 2
+    - PowerUpType: 1
+      Count: 4
+    - PowerUpType: 2
+      Count: 2
+    Chunks:
+    - Weight: 70
+      Name: Empty
+    - Weight: 30
+      Name: OneGenerator
+    LevelSpaceSize: 1500
+  - LevelSeed: 0
+    GeneratorsCount: 4
+    PowerUpInfo: []
+    Chunks:
+    - Weight: 70
+      Name: Empty
+    - Weight: 30
+      Name: OneGenerator
     LevelSpaceSize: 3000

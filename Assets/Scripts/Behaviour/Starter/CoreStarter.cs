@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Core;
+using STP.Behaviour.Core.Generator;
 using STP.Core;
 using STP.Core.State;
 using STP.Manager;
@@ -39,10 +40,11 @@ namespace STP.Behaviour.Starter {
 			}
 #endif
 			GameController = new GameController(GameState.ActiveInstance);
-			var pc = GameController.PlayerController;
-			var lc = GameController.LevelController;
-			var xc = GameController.XpController;
-			var cc = GameController.ChunkController;
+			var pc  = GameController.PlayerController;
+			var lc  = GameController.LevelController;
+			var xc  = GameController.XpController;
+			var cc  = GameController.ChunkController;
+			var puc = GameController.PowerUpController;
 			SpawnHelper      = new CoreSpawnHelper(this);
 			PauseManager     = new PauseManager();
 			LevelManager     = new LevelManager(Player.transform, PauseManager);
@@ -51,7 +53,7 @@ namespace STP.Behaviour.Starter {
 			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, CoreWindowsManager, lc, xc,
 				GameState.ActiveInstance);
 			MinimapManager   = new MinimapManager(MinimapCamera);
-			Generator.Init(lc, cc);
+			Generator.Init(cc, puc);
 			Generator.GenerateLevel(lc.GetCurLevelConfig(), cc.GetChunkPrefab);
 			InitComponents();
 			// Settings for smooth gameplay

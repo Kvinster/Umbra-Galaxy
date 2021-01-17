@@ -2,14 +2,33 @@
 
 using System;
 using System.Collections.Generic;
+using STP.Common;
 
 namespace STP.Config {
 	[Serializable]
 	public class LevelInfo {
-		public int GeneratorsCount = 1;
-		public int LevelSeed       = 0;
+		public int LevelSeed = 0;
+
+		public int                   GeneratorsCount = 1;
+		public List<PowerUpInfo>     PowerUpInfo;
+		public List<ChunkWeightInfo> Chunks;
 
 		public int LevelSpaceSize;
+	}
+
+	public class WeightedValue {
+		public int Weight;
+	}
+
+	[Serializable]
+	public class PowerUpInfo {
+		public PowerUpType PowerUpType;
+		public int         Count;
+	}
+
+	[Serializable]
+	public class ChunkWeightInfo : WeightedValue {
+		public string Name;
 	}
 
 	[CreateAssetMenu(fileName = "AllLevels", menuName = "ScriptableObjects/LevelsConfig", order = 1)]
