@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -694,13 +694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126924c6c60646f18229d0351ed0a60e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CellSideSize: 300
-  LevelChunks:
-  - Weight: 50
-    Name: Empty
-  - Weight: 50
-    Name: OneGenerator
-  Root: {fileID: 1206698621}
+  CellSideSize: 500
 --- !u!1 &209858804
 GameObject:
   m_ObjectHideFlags: 0
@@ -5098,6 +5092,11 @@ PrefabInstance:
     - target: {fileID: 3765652816847201434, guid: 23d602c749af09d4b94cdd7fd8346a19,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3765652816847201434, guid: 23d602c749af09d4b94cdd7fd8346a19,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3865804663092008652, guid: 23d602c749af09d4b94cdd7fd8346a19,
