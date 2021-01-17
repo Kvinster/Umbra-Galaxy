@@ -5,7 +5,7 @@ namespace STP.Behaviour.Core.PowerUps {
 		const float TmpDuration = 10f;
 
 		protected override void OnPlayerEnter() {
-			PlayerManager.AddTimeToPowerUp(PowerUpNames.IncreasedFireRate, TmpDuration);
+			PlayerManager.AddTimeToPowerUp(PowerUpType.IncFireRate, TmpDuration);
 		}
 	}
 }

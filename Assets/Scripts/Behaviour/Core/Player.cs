@@ -123,14 +123,14 @@ namespace STP.Behaviour.Core {
 		void TryShoot() {
 			if ( _reloadTimer <= 0 ) {
 				Shoot();
-				_reloadTimer = ReloadDuration * (_playerManager.HasActivePowerUp(PowerUpNames.IncreasedFireRate)
+				_reloadTimer = ReloadDuration * (_playerManager.HasActivePowerUp(PowerUpType.IncFireRate)
 					? TmpIncFireRateMult
 					: 1f);
 			}
 		}
 
 		void Shoot() {
-			var isX2DamageActive = _playerManager.HasActivePowerUp(PowerUpNames.X2Damage);
+			var isX2DamageActive = _playerManager.HasActivePowerUp(PowerUpType.X2Damage);
 			var bulletGo = Instantiate(isX2DamageActive ? EnhancedBulletPrefab : BulletPrefab,
 				transform.position, Quaternion.identity, null);
 			var bullet = bulletGo.GetComponent<IBullet>();

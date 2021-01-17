@@ -1,15 +1,16 @@
-﻿using STP.Utils;
+﻿using STP.Common;
+using STP.Utils;
 
 namespace STP.Manager {
 	public sealed class PowerUpState {
-		public readonly string Name;
+		public readonly PowerUpType Type;
 
 		readonly Timer _timer = new Timer();
 
 		public float TimeLeft => _timer.TimeLeft;
 
-		public PowerUpState(string powerUpName, float time) {
-			Name = powerUpName;
+		public PowerUpState(PowerUpType type, float time) {
+			Type = type;
 			_timer.Start(time);
 		}
 

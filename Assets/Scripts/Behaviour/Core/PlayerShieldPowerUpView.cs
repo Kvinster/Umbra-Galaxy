@@ -48,7 +48,7 @@ namespace STP.Behaviour.Core {
 			if ( !_isActive ) {
 				return;
 			}
-			var coef = 1f - _playerManager.GetPowerUpTime(PowerUpNames.Shield) / ShieldPowerUp.TmpShieldDuration;
+			var coef = 1f - _playerManager.GetPowerUpTime(PowerUpType.Shield) / ShieldPowerUp.TmpShieldDuration;
 			VisualEffect.SetFloat("Intensity", MathUtils.LerpFloat(StartIntensity, FinishIntensity, coef * coef * coef));
 		}
 
@@ -62,8 +62,8 @@ namespace STP.Behaviour.Core {
 			_playerManager.OnPowerUpFinished += OnPowerUpFinished;
 		}
 
-		void OnPowerUpStarted(string powerUpName) {
-			if ( powerUpName != PowerUpNames.Shield ) {
+		void OnPowerUpStarted(PowerUpType type) {
+			if ( type != PowerUpType.Shield ) {
 				return;
 			}
 			SetVisualEffectParams(ActiveVisualEffectParams);
@@ -73,8 +73,8 @@ namespace STP.Behaviour.Core {
 			_isActive = true;
 		}
 
-		void OnPowerUpFinished(string powerUpName) {
-			if ( powerUpName != PowerUpNames.Shield ) {
+		void OnPowerUpFinished(PowerUpType type) {
+			if ( type != PowerUpType.Shield ) {
 				return;
 			}
 			SetVisualEffectParams(InactiveVisualEffectParams);

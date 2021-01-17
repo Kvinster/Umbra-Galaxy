@@ -78,7 +78,7 @@ namespace STP.Behaviour.Core.UI {
 				_stringBuilder.AppendLine("PowerUps info:");
 			}
 			foreach ( var powerUp in _playerManager.GetAllActivePowerUpStates() ) {
-				_stringBuilder.AppendLine(string.Format(PowerUpInfoFormat, powerUp.Name, powerUp.TimeLeft));
+				_stringBuilder.AppendLine(string.Format(PowerUpInfoFormat, powerUp.Type, powerUp.TimeLeft));
 			};
 			Text.text = _stringBuilder.ToString();
 		}

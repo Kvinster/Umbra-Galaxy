@@ -6,7 +6,7 @@ namespace STP.Behaviour.Core.PowerUps {
 
 		protected override void OnPlayerEnter() {
 			PlayerController.IsInvincible = true;
-			PlayerManager.AddTimeToPowerUp(PowerUpNames.Shield, TmpShieldDuration);
+			PlayerManager.AddTimeToPowerUp(PowerUpType.Shield, TmpShieldDuration);
 		}
 	}
 }

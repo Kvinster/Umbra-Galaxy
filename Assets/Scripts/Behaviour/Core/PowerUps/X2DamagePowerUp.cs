@@ -5,7 +5,7 @@ namespace STP.Behaviour.Core.PowerUps {
 		const int TempAddPowerUpTimeSec = 10;
 
 		protected override void OnPlayerEnter() {
-			PlayerManager.AddTimeToPowerUp(PowerUpNames.X2Damage, TempAddPowerUpTimeSec);
+			PlayerManager.AddTimeToPowerUp(PowerUpType.X2Damage, TempAddPowerUpTimeSec);
 		}
 	}
 }

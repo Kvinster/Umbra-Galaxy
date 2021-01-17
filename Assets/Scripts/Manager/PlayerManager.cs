@@ -22,8 +22,8 @@ namespace STP.Manager {
 
 		readonly List<PowerUpState> _powerUpStates = new List<PowerUpState>();
 
-		public event Action<string> OnPowerUpStarted;
-		public event Action<string> OnPowerUpFinished;
+		public event Action<PowerUpType> OnPowerUpStarted;
+		public event Action<PowerUpType> OnPowerUpFinished;
 
 		public PlayerManager(Player player, PlayerController playerController, XpController xpController, UnityContext context) {
 			_player           = player;
@@ -41,13 +41,13 @@ namespace STP.Manager {
 			EventManager.Unsubscribe<EnemyDestroyed>(OnEnemyDestroyed);
 		}
 
-		public void AddTimeToPowerUp(string name, float time) {
-			var powerUpTimer = _powerUpStates.Find(x => x.Name == name);
+		public void AddTimeToPowerUp(PowerUpType type, float time) {
+			var powerUpTimer = _powerUpStates.Find(x => x.Type == type);
 			if ( powerUpTimer != null ) {
 				powerUpTimer.AddTime(time);
 			} else {
-				_powerUpStates.Add(new PowerUpState(name, time));
-				OnPowerUpStarted?.Invoke(name);
+				_powerUpStates.Add(new PowerUpState(type, time));
+				OnPowerUpStarted?.Invoke(type);
 			}
 		}
 
@@ -55,13 +55,13 @@ namespace STP.Manager {
 			return _powerUpStates;
 		}
 
-		public float GetPowerUpTime(string powerUpName) {
-			var powerUp = _powerUpStates.Find(x => x.Name == powerUpName);
+		public float GetPowerUpTime(PowerUpType type) {
+			var powerUp = _powerUpStates.Find(x => x.Type == type);
 			return powerUp?.TimeLeft ?? -1f;
 		}
 
-		public bool HasActivePowerUp(string name) {
-			return _powerUpStates.Find(x => x.Name == name) != null;
+		public bool HasActivePowerUp(PowerUpType type) {
+			return _powerUpStates.Find(x => x.Type == type) != null;
 		}
 
 		public bool OnPlayerDied() {
@@ -93,15 +93,15 @@ namespace STP.Manager {
 		}
 
 		void HandlePowerUpFinish(PowerUpState powerUpState) {
-			var powerUpName = powerUpState.Name;
+			var powerUpName = powerUpState.Type;
 			switch ( powerUpName ) {
-				case PowerUpNames.X2Xp:
-				case PowerUpNames.Heal:
-				case PowerUpNames.X2Damage:
-				case PowerUpNames.IncreasedFireRate: {
+				case PowerUpType.X2Xp:
+				case PowerUpType.Heal:
+				case PowerUpType.X2Damage:
+				case PowerUpType.IncFireRate: {
 					break;
 				}
-				case PowerUpNames.Shield: {
+				case PowerUpType.Shield: {
 					_playerController.IsInvincible = false;
 					break;
 				}
@@ -114,22 +114,22 @@ namespace STP.Manager {
 			OnPowerUpFinished?.Invoke(powerUpName);
 		}
 
-		void HandlePowerUpProgress(PowerUpState powerUpState, float timePassed) {
-			var powerUpName = powerUpState.Name;
-			switch ( powerUpName ) {
-				case PowerUpNames.X2Xp:
-				case PowerUpNames.Shield:
-				case PowerUpNames.X2Damage:
-				case PowerUpNames.IncreasedFireRate: {
+		void HandlePowerUpProgress(PowerUpState state, float timePassed) {
+			var powerUpType = state.Type;
+			switch ( powerUpType ) {
+				case PowerUpType.X2Xp:
+				case PowerUpType.Shield:
+				case PowerUpType.X2Damage:
+				case PowerUpType.IncFireRate: {
 					break;
 				}
-				case PowerUpNames.Heal: {
+				case PowerUpType.Heal: {
 					var hpToAdd = HealPowerPerSecond * timePassed;
 					_playerController.AddHp(hpToAdd);
 					break;
 				}
 				default: {
-					Debug.LogErrorFormat("Unsupported power up name '{0}'", powerUpName);
+					Debug.LogErrorFormat("Unsupported power up type '{0}'", powerUpType);
 					break;
 				}
 			}
@@ -137,7 +137,7 @@ namespace STP.Manager {
 
 		void OnEnemyDestroyed(EnemyDestroyed e) {
 			var xpAmount = _xpController.GetDestroyedEnemyXp(e.EnemyName);
-			if ( HasActivePowerUp(PowerUpNames.X2Xp) ) {
+			if ( HasActivePowerUp(PowerUpType.X2Xp) ) {
 				xpAmount *= 2;
 			}
 			_xpController.AddLevelXp(xpAmount);
