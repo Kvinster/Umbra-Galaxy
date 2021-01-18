@@ -1,21 +1,25 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
+using STP.Events;
 using STP.Utils;
+using STP.Utils.Events;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy.Spawners {
     public abstract class BaseSpawner : BaseCoreComponent {
-        [NotNull]        
+        [NotNull]
         public GameObject Prefab;
 
         public float SpawnPeriod = 1f;
         public float SpawnRange  = 1000f;
-        
+
         protected Player          Player;
         protected CoreSpawnHelper SpawnHelper;
 
         readonly Timer _spawnTimer = new Timer();
+
+        bool _isStopped;
 
         void OnDestroy() {
             if ( Player ) {
@@ -24,7 +28,7 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
         }
 
         void Update() {
-            if ( _spawnTimer.DeltaTick() ) {
+            if ( !_isStopped && _spawnTimer.DeltaTick() ) {
                 SpawnAsteroid();
             }
         }
@@ -34,14 +38,24 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
             _spawnTimer.Start(SpawnPeriod);
             Player = starter.Player;
             Player.OnPlayerDied += OnPlayerDied;
+            EventManager.Subscribe<PlayerEnteredSafeArea>(OnPlayerEnteredSafeArea);
+            EventManager.Subscribe<PlayerLeavedSafeArea>(OnPlayerLeavedSafeArea);
         }
 
-        protected virtual void InitItem(GameObject go) {}
+        protected virtual void InitItem(GameObject go) { }
+
+        void OnPlayerEnteredSafeArea(PlayerEnteredSafeArea e) {
+            _isStopped = true;
+        }
+
+        void OnPlayerLeavedSafeArea(PlayerLeavedSafeArea e) {
+            _isStopped = false;
+        }
 
         void OnPlayerDied() {
             Player = null;
         }
-        
+
         void SpawnAsteroid() {
             if ( !Player ) {
                 return;

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+
 using STP.Config;
 using STP.Core;
 using STP.Utils;
@@ -11,6 +12,8 @@ using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core.Generator {
 	public sealed class LevelGenerator : GameComponent {
+		const string SafeRectName = "SafeArea";
+
 		public int CellSideSize  = 300;
 
 		LevelGeneratorState _state = new LevelGeneratorState();
@@ -27,8 +30,7 @@ namespace STP.Behaviour.Core.Generator {
 			ResetState();
 			var randomSeed = Random.Range(int.MinValue, int.MaxValue);
 			Random.InitState(randomSeed);
-
-			var minPoint          = new Vector2(-levelInfo.LevelSpaceSize / 2.0f, -levelInfo.LevelSpaceSize / 2.0f);
+			var minPoint          = new Vector2(-levelInfo.LevelSpaceSize / 2.0f, -levelInfo.LevelSpaceSize / 2.0f) + new Vector2(CellSideSize / 2.0f, CellSideSize / 2.0f);
 			var map               = GenerateMap(levelInfo);
 			var powerUpSpawnPoints = new List<Transform>();
 			for ( var y = 0; y < map.GetLength(1); y++ ) {
@@ -50,7 +52,7 @@ namespace STP.Behaviour.Core.Generator {
 
 		string[,] GenerateMap(LevelInfo levelInfo) {
 			var sideCellsCount   = levelInfo.LevelSpaceSize / CellSideSize;
-			var res              = new string[sideCellsCount, sideCellsCount];
+			var map              = new string[sideCellsCount, sideCellsCount];
 			var neededGenerators = levelInfo.GeneratorsCount;
 
 			var cells = new List<Vector2Int>();
@@ -59,20 +61,27 @@ namespace STP.Behaviour.Core.Generator {
 					cells.Add(new Vector2Int(x, y));
 				}
 			}
+
+			//Reserve one rect for safe area
+			var safeRectCoords = new Vector2Int(sideCellsCount / 2, sideCellsCount / 2);
+			cells.Remove(safeRectCoords);
+			map[safeRectCoords.x, safeRectCoords.y] = SafeRectName;
+
 			for ( var i = cells.Count; i > 0; i-- ) {
 				var randIndex = Random.Range(0, i);
 				var mapIndex  = cells[randIndex];
 				cells.RemoveAt(randIndex);
-				res[mapIndex.x, mapIndex.y] = GetRandomChunk(levelInfo, neededGenerators);
+				map[mapIndex.x, mapIndex.y] = GetRandomChunk(levelInfo, neededGenerators);
 
-				neededGenerators -= _chunkController.GetGeneratorsCountInChunk(res[mapIndex.x, mapIndex.y]);
+				neededGenerators -= _chunkController.GetGeneratorsCountInChunk(map[mapIndex.x, mapIndex.y]);
 			}
+
 			if ( neededGenerators != 0 ) {
 				Debug.LogWarning($"Not all generators were created. Needed more {neededGenerators} generators. Changing some chunks for fixing it");
-				TryRaiseDifficultyInChunks(res, neededGenerators);
+				TryRaiseDifficultyInChunks(map, neededGenerators);
 			}
 
-			return res;
+			return map;
 		}
 
 		void TryRaiseDifficultyInChunks(string[,] map, int moreNeededGenerators) {
@@ -84,7 +93,7 @@ namespace STP.Behaviour.Core.Generator {
 				for ( var y = 0; y < map.GetLength(1); y++ ) {
 					for ( var x = 0; x < map.GetLength(0); x++ ) {
 						var generatorsCountInCell = _chunkController.GetGeneratorsCountInChunk(map[x, y]);
-						if ( minGeneratorsCount > generatorsCountInCell ) {
+						if ( minGeneratorsCount > generatorsCountInCell && (map[x, y] != SafeRectName) ) {
 							minGeneratorsCount = generatorsCountInCell;
 							minChunkName       = map[x, y];
 						}
