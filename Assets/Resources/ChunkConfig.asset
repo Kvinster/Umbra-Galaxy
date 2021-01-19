@@ -19,3 +19,6 @@ MonoBehaviour:
   - Name: OneGenerator
     Prefab: {fileID: 8244082116085525965, guid: 188a3acf92d70e043a2ae5723c717869,
       type: 3}
+  - Name: SafeArea
+    Prefab: {fileID: 8244082116085525965, guid: 226f5af3cca21f4459f29fbe2eb35828,
+      type: 3}
