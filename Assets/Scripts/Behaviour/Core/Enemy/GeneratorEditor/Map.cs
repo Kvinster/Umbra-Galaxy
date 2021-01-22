@@ -25,5 +25,6 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		bool IsOnMap(int x, int y) {
 			return (x >= 0) && (y >= 0) && (x < _map.GetLength(0)) && (y < _map.GetLength(1));
 		}
+
 	}
 }
