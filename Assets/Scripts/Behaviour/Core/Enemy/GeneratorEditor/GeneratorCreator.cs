@@ -174,10 +174,21 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		}
 
 		void CreateLine(Connector one, Connector other) {
-			var lineGo   = Instantiate(LinePrefab, one.transform);
-			var lineComp = lineGo.GetComponent<Line>();
+			var lineGo               = PrefabUtility.InstantiatePrefab(LinePrefab, one.transform) as GameObject;
+			var lineComp             = lineGo.GetComponent<Line>();
+			var vectorToConnectorEnd = (other.transform.position - one.transform.position);
 			lineComp.Start = Vector3.zero;
-			lineComp.End   = other.transform.position - one.transform.position;
+			lineComp.End   = vectorToConnectorEnd;
+
+			var collider = lineGo.GetComponent<BoxCollider2D>();
+			if ( !collider ) {
+				Debug.LogError("Can't init collider - collider not found");
+				return;
+			}
+
+			collider.offset = vectorToConnectorEnd / 2;
+			var size = new Vector2(Mathf.Abs(!Mathf.Approximately(vectorToConnectorEnd.x, 0) ? vectorToConnectorEnd.x : 0) + lineComp.Thickness, Mathf.Abs(!Mathf.Approximately(vectorToConnectorEnd.y, 0) ? vectorToConnectorEnd.y : 0)+ lineComp.Thickness);
+			collider.size = size;
 		}
 
 

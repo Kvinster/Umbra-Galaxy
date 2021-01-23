@@ -86,6 +86,10 @@ namespace STP.Behaviour.Core.Generator {
 
 		void TryRaiseDifficultyInChunks(string[,] map, int moreNeededGenerators) {
 			var leftGenerators     = moreNeededGenerators;
+			if ( map.GetLength(0) <= 1 ) {
+				Debug.LogErrorFormat("Can't raise difficulty - space sections count is too low {0}", map.GetLength(0));
+				return;
+			}
 			while ( leftGenerators > 0 ) {
 				// Find easiest chunks
 				var minGeneratorsCount = int.MaxValue;
