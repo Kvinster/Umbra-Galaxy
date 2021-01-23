@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 4434375722185851752}
   - component: {fileID: 4816338448515008977}
   m_Layer: 10
-  m_Name: Generator
+  m_Name: MainGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -308,7 +308,7 @@ MonoBehaviour:
   meshOutOfDate: 1
   blendMode: 1
   scaleMode: 0
-  color: {r: 0.990566, g: 0.79829496, b: 0.4906105, a: 1}
+  color: {r: 1, g: 0.35810894, b: 0.13679248, a: 1}
   zTest: 4
   zOffsetFactor: 0
   zOffsetUnits: 0

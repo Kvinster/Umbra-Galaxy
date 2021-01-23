@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-using System.Collections.Generic;
-
 using STP.Behaviour.Starter;
 using STP.Manager;
 using STP.Utils;
@@ -9,6 +7,9 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
     public class Generator : BaseEnemy, IDestructible {
+        public Connector Connector;
+
+        public bool  IsMainGenerator;
         public float StartHp = 100;
         [NotNull]
         public Collider2D  Collider;
@@ -24,16 +25,9 @@ namespace STP.Behaviour.Core.Enemy {
         [NotNull]
         public GameObject BulletPrefab;
         public float      BulletRunForce;
-        [Header("SubGenerators")]
-        public List<Generator> SubGenerators;
-        public GameObject      ConnectorPrefab;
 
         CoreSpawnHelper  _spawnHelper;
         LevelGoalManager _levelGoalManager;
-
-        Generator _rootGenerator;
-
-        readonly List<Connector> _connectors = new List<Connector>();
 
         readonly Timer _fireTimer = new Timer();
 
@@ -59,15 +53,14 @@ namespace STP.Behaviour.Core.Enemy {
         }
 
         protected override void InitInternal(CoreStarter starter) {
-            FireTrigger.OnTriggerEnter         += OnFireRangeEnter;
-            FireTrigger.OnTriggerExit          += OnFireRangeExit;
+            FireTrigger.OnTriggerEnter += OnFireRangeEnter;
+            FireTrigger.OnTriggerExit  += OnFireRangeExit;
+            Connector.OnOutOfLinks     += () => Die(true);
 
             _spawnHelper      = starter.SpawnHelper;
             _levelGoalManager = starter.LevelGoalManager;
 
             CurHp = StartHp;
-
-            ConnectToSubGenerators();
         }
 
         public void TakeDamage(float damage) {
@@ -78,53 +71,29 @@ namespace STP.Behaviour.Core.Enemy {
         }
 
         protected override void Die() {
+            Die(false);
+        }
+
+        void Die(bool fromConnector) {
             base.Die();
-            if ( _rootGenerator ) {
-                _rootGenerator.OnSubGeneratorDestroyed(this);
-            }
             _levelGoalManager.Advance();
-            DestroySubGenerators();
+            if ( !fromConnector ) {
+                if ( IsMainGenerator ) {
+                    Connector.ForceDestroy();
+                } else {
+                    Connector.DestroyConnector();
+                }
+            }
             Destroy(gameObject);
             // detach VFX on death
             ExplosionEffect.transform.SetParent(transform.parent);
-            ExplosionEffect.RunVfx(true);
-        }
-
-        void OnSubGeneratorDestroyed(Generator generator) {
-            SubGenerators.Remove(generator);
-            var connectorToSubGenerator = _connectors.Find(x => x.Other == generator);
-            if ( !connectorToSubGenerator ) {
-                Debug.LogError($"Can't find connection to the sub generator {generator.gameObject.name}");
-                return;
-            }
-            _connectors.Remove(connectorToSubGenerator);
-            connectorToSubGenerator.DestroyConnector();
-        }
-
-        void ConnectToSubGenerators() {
-            foreach ( var subGenerator in SubGenerators ) {
-                var go = Instantiate(ConnectorPrefab, Vector3.zero, Quaternion.identity, transform);
-                var connector = go.GetComponent<Connector>();
-                connector.Init(this, subGenerator);
-                subGenerator.SetRootGenerator(this);
-                _spawnHelper.TryInitSpawnedObject(go);
-                _connectors.Add(connector);
+            if ( fromConnector ) {
+                ExplosionEffect.ScheduleVfx(0.5f, true);
+            } else {
+                ExplosionEffect.RunVfx(true);
             }
         }
 
-        void SetRootGenerator(Generator rootGenerator) {
-            _rootGenerator = rootGenerator;
-        }
-
-        void DestroySubGenerators() {
-            var generators = new List<Generator>(SubGenerators);
-            foreach ( var generator in generators ) {
-                generator.Die();
-            }
-            foreach ( var connector in _connectors ) {
-                connector.DestroyConnector();
-            }
-        }
 
         void OnFireRangeEnter(GameObject other) {
             var playerComp = other.GetComponent<Player>();

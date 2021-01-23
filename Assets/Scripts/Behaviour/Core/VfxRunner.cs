@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.VFX;
 
+using System;
 using System.Collections.Generic;
 
 using STP.Utils;
@@ -13,6 +14,11 @@ namespace STP.Behaviour.Core {
 		bool _spawned;
 		bool _destroyOnEnd;
 
+		Action _scheduledAction;
+
+		readonly Timer _timer = new Timer();
+
+
 		public bool Running { get; private set; }
 
 		void Start() {
@@ -20,6 +26,10 @@ namespace STP.Behaviour.Core {
 		}
 
 		void Update() {
+			if ( _scheduledAction != null && _timer.DeltaTick()) {
+				_scheduledAction();
+				_scheduledAction = null;
+			}
 			if ( !Running ) {
 				return;
 			}
@@ -34,6 +44,11 @@ namespace STP.Behaviour.Core {
 					Destroy(gameObject);
 				}
 			}
+		}
+
+		public void ScheduleVfx(float secDelay, bool destroyOnEnd) {
+			_scheduledAction = () => RunVfx(destroyOnEnd);
+			_timer.Start(secDelay);
 		}
 
 		public void RunVfx(bool destroyOnEnd) {

@@ -1,19 +1,38 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using UnityEngine;
 using UnityEngine.UI;
 
+using System.Collections.Generic;
+
+using STP.Behaviour.Core.Enemy.GeneratorEditor.RandomWalk;
 using STP.Utils;
 
 using NaughtyAttributes;
-using STP.Behaviour.Core.Enemy.GeneratorEditor.RandomWalk;
+using Shapes;
 
 namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 	public class GeneratorCreator : GameComponent {
+		#if UNITY_EDITOR
 		public int  GridSize;
 		public bool VisualizeMap;
 		public bool VisualizeConvertedMap;
 
 		[Header("For generator")]
+		public GameObject MainGeneratorPrefab;
 		public GameObject GeneratorPrefab;
+		public GameObject ConnectorPrefab;
+		public GameObject LinePrefab;
+
+		List<Vector2Int> PossibleDirections => new List<Vector2Int> {
+			Vector2Int.down,
+			Vector2Int.left,
+			Vector2Int.up,
+			Vector2Int.right
+		};
+
+		Vector2Int InvalidVector => -Vector2Int.one;
 
 		[Button("Create generator")]
 		void CreateGenerator() {
@@ -78,36 +97,89 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			var baseGo = new GameObject();
 			baseGo.transform.SetParent(gameObject.transform);
 
-			Vector2 startPoint = GetStartPoint(map);
-			var startGenGo     = Instantiate(GeneratorPrefab, startPoint * 100, Quaternion.identity, baseGo.transform);
-			var startGenerator = startGenGo.GetComponent<Generator>();
+			var connectorsMap = new Map<Connector>(map.Size);
+			var mainGenPoint  = InvalidVector;
 
+			// Create generators and init connectors map
 			for ( var y = 0; y < map.Size; y++ ) {
 				for ( var x = 0; x < map.Size; x++ ) {
 					var cell  = map.GetCell(x, y);
 					if ( cell == PlaceType.MainGenerator ) {
-						continue;
+						mainGenPoint = new Vector2Int(x, y);
 					}
-					if ( cell == PlaceType.SubGenerator ) {
-						var genGo = Instantiate(GeneratorPrefab, new Vector3(x, y, 0) * 100, Quaternion.identity, baseGo.transform);
+
+					if ( cell == PlaceType.MainGenerator || cell == PlaceType.SubGenerator ) {
+						var genPrefab = (cell == PlaceType.MainGenerator) ? MainGeneratorPrefab : GeneratorPrefab;
+						var genGo = PrefabUtility.InstantiatePrefab(genPrefab, baseGo.transform) as GameObject;
+						if ( !genGo ) {
+							Debug.LogError("Can't cast instance to GameObject. aborting instancing generator");
+							continue;
+						}
+						genGo.transform.position = new Vector3(x, y, 0) * 100;
 						var genComp = genGo.GetComponent<Generator>();
-						startGenerator.SubGenerators.Add(genComp);
+						genComp.IsMainGenerator = (cell == PlaceType.MainGenerator);
+						var connector = genGo.GetComponentInChildren<Connector>();
+						connectorsMap.SetCell(x, y, connector);
+					}
+
+					if ( cell == PlaceType.Connector ) {
+						var connectorGo = PrefabUtility.InstantiatePrefab(ConnectorPrefab, baseGo.transform) as GameObject;
+						if ( !connectorGo ) {
+							Debug.LogError("Can't cast instance to GameObject. aborting instancing connector");
+							continue;
+						}
+						connectorGo.transform.position = new Vector3(x, y, 0) * 100;
+						var connector = connectorGo.GetComponent<Connector>();
+						connectorsMap.SetCell(x, y, connector);
 					}
 				}
 			}
-		}
 
-		Vector2Int GetStartPoint(GeneratorsMap map) {
-			for ( var y = 0; y < map.Size; y++ ) {
-				for ( var x = 0; x < map.Size; x++ ) {
-					if ( map.GetCell(x, y) == PlaceType.MainGenerator ) {
-						return new Vector2Int(x, y);
-					}
-				}
+			// Init connectors links
+			var mainConnector = connectorsMap.GetCell(mainGenPoint.x, mainGenPoint.y);
+
+			CrawlConnectors(connectorsMap, mainGenPoint);
+
+			// Create connectors view
+			foreach ( var startLink in mainConnector.Children ) {
+				VisitPoint(startLink);
+				CreateLine(mainConnector, startLink);
 			}
 
-			return -Vector2Int.one;
 		}
+
+		void CrawlConnectors(Map<Connector> connectorMap, Vector2Int curPoint) {
+			var curConnector = connectorMap.GetCell(curPoint.x, curPoint.y);
+			foreach ( var dir in PossibleDirections ) {
+				var newPoint  = curPoint + dir;
+				var connector = connectorMap.GetCell(newPoint.x, newPoint.y);
+				if ( !connector ) {
+					continue;
+				}
+				if ( connector.Children.Contains(curConnector) ) {
+					continue;
+				}
+				connector.Parent = curConnector;
+				curConnector.Children.Add(connector);
+				CrawlConnectors(connectorMap, newPoint);
+			}
+		}
+
+		void VisitPoint(Connector point) {
+			var connectors = point.Children;
+			foreach ( var connector in connectors ) {
+				CreateLine(connector, point);
+				VisitPoint(connector);
+			}
+		}
+
+		void CreateLine(Connector one, Connector other) {
+			var lineGo   = Instantiate(LinePrefab, one.transform);
+			var lineComp = lineGo.GetComponent<Line>();
+			lineComp.Start = Vector3.zero;
+			lineComp.End   = other.transform.position - one.transform.position;
+		}
+
 
 		Color GetColor(PlaceType state) {
 			switch ( state ) {
@@ -156,7 +228,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			}
 			return Color.clear;
 		}
-
+		#endif
 
 	}
 }

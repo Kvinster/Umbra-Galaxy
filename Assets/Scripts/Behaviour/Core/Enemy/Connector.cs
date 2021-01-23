@@ -1,19 +1,12 @@
-﻿using UnityEngine;
-
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 using STP.Utils;
-using STP.Utils.GameComponentAttributes;
-
-using Shapes;
 
 namespace STP.Behaviour.Core.Enemy {
     public class Connector : GameComponent {
-        [NotNull]
-        public Line Line;
-
-        [HideInInspector]
-        public Generator Other;
+        public Connector       Parent;
+        public List<Connector> Children;
 
         bool _isInit;
 
@@ -28,17 +21,31 @@ namespace STP.Behaviour.Core.Enemy {
         }
 
         public event Action OnInit;
+        public event Action OnOutOfLinks;
 
-        public void Init(Generator one, Generator other) {
-            Other = other;
-            Line.Start = one.transform.position;
-            Line.End   = other.transform.position;
-
+        public void Init() {
             IsInit = true;
         }
 
-        public void DestroyConnector() {
+        public void ForceDestroy() {
+            foreach ( var link in Children ) {
+                link.ForceDestroy();
+            }
             Destroy(gameObject);
+            OnOutOfLinks?.Invoke();
+        }
+
+        public void DestroyConnector() {
+            Parent.RemoveChild(this);
+            Destroy(gameObject);
+        }
+
+        void RemoveChild(Connector child) {
+            Children.Remove(child);
+            if ( Children.Count == 0 ) {
+                DestroyConnector();
+                OnOutOfLinks?.Invoke();
+            }
         }
     }
 }
