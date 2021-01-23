@@ -19,13 +19,13 @@ namespace STP.Behaviour.Core.Minimap {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
-			base.InitInternal(starter);
-			_baseThickness = Connector.Line.Thickness;
-			if ( Connector.IsInit ) {
-				OnConnectorInit();
-			} else {
-				Connector.OnInit += OnConnectorInit;
-			}
+			// base.InitInternal(starter);
+			// _baseThickness = Connector.Line.Thickness;
+			// if ( Connector.IsInit ) {
+			// 	OnConnectorInit();
+			// } else {
+			// 	Connector.OnInit += OnConnectorInit;
+			// }
 		}
 
 		protected override void OnMinimapZoomChanged(float zoom) {
@@ -33,10 +33,10 @@ namespace STP.Behaviour.Core.Minimap {
 		}
 
 		void OnConnectorInit() {
-			Connector.OnInit -= OnConnectorInit;
-
-			Line.Start = Connector.Line.Start;
-			Line.End   = Connector.Line.End;
+			// Connector.OnInit -= OnConnectorInit;
+			//
+			// Line.Start = Connector.Line.Start;
+			// Line.End   = Connector.Line.End;
 		}
 	}
 }
