@@ -27,7 +27,7 @@ MonoBehaviour:
       Name: Empty
     - Weight: 30
       Name: OneGenerator
-    LevelSpaceSize: 1500
+    LevelSpaceSize: 9000
   - LevelSeed: 0
     GeneratorsCount: 4
     PowerUpInfo: []
@@ -36,4 +36,4 @@ MonoBehaviour:
       Name: Empty
     - Weight: 30
       Name: OneGenerator
-    LevelSpaceSize: 3000
+    LevelSpaceSize: 9000
