@@ -61,7 +61,7 @@ MonoBehaviour:
   meshOutOfDate: 1
   blendMode: 1
   scaleMode: 0
-  color: {r: 0.990566, g: 0.79829496, b: 0.4906105, a: 1}
+  color: {r: 1, g: 0.35686275, b: 0.13725491, a: 1}
   zTest: 4
   zOffsetFactor: 0
   zOffsetUnits: 0
@@ -179,8 +179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5932960278c54a6bb945d8ee5a6962bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Links: []
-  IsEndNode: 0
+  Parent: {fileID: 0}
+  Children: []
 --- !u!1 &8147379892703251959
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,7 +552,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 400
+  m_Radius: 600
 --- !u!114 &8147379894631770961
 MonoBehaviour:
   m_ObjectHideFlags: 0
