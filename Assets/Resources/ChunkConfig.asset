@@ -16,9 +16,57 @@ MonoBehaviour:
   - Name: Empty
     Prefab: {fileID: 7354123442680349550, guid: 95e5833110962384fa1c8de3367119b3,
       type: 3}
-  - Name: OneGenerator
+  - Name: Generator
     Prefab: {fileID: 8244082116085525965, guid: 188a3acf92d70e043a2ae5723c717869,
       type: 3}
   - Name: SafeArea
     Prefab: {fileID: 8244082116085525965, guid: 226f5af3cca21f4459f29fbe2eb35828,
+      type: 3}
+  - Name: SafeArea
+    Prefab: {fileID: 8244082116085525965, guid: 226f5af3cca21f4459f29fbe2eb35828,
+      type: 3}
+  - Name: GeneratorVariant
+    Prefab: {fileID: 154368508390196768, guid: 90feb97d425cbaa48b4f04d0cd7ae03c, type: 3}
+  - Name: GeneratorVariant1
+    Prefab: {fileID: 4679616842473962686, guid: aaf5c82244d27e34bbfb5a9ce14fe8e7,
+      type: 3}
+  - Name: GeneratorVariant2
+    Prefab: {fileID: 3592272695265171147, guid: 08576e382b02ef44aaffa559511cdf7b,
+      type: 3}
+  - Name: GeneratorVariant3
+    Prefab: {fileID: 935809280052228922, guid: 367494b7f27a5c64bab59ff5b8f8dd3a, type: 3}
+  - Name: GeneratorVariant4
+    Prefab: {fileID: 5946009169810657362, guid: d76fb4f05195ed349b48247fd23adb37,
+      type: 3}
+  - Name: GeneratorVariant5
+    Prefab: {fileID: 6007455470720849774, guid: abbc68181e5a59740a95f0194b9bb94e,
+      type: 3}
+  - Name: GeneratorVariant6
+    Prefab: {fileID: 2316977017317946330, guid: a5f39989e2321d8418c04bce8f95df50,
+      type: 3}
+  - Name: GeneratorVariant7
+    Prefab: {fileID: 1416356655520054905, guid: edcecf4a0ec0b8f41a5ea614836c966f,
+      type: 3}
+  - Name: GeneratorVariant8
+    Prefab: {fileID: 4529902787730599659, guid: 55effb61828906f4c8c60ff3062b8f96,
+      type: 3}
+  - Name: GeneratorVariant9
+    Prefab: {fileID: 683434915843951994, guid: a1ce094dc4602e949af118843d4ef608, type: 3}
+  - Name: GeneratorVariant10
+    Prefab: {fileID: 5010735753601070837, guid: 0c72fab425483484482b74e0b988163c,
+      type: 3}
+  - Name: GeneratorVariant11
+    Prefab: {fileID: 7203330932086606159, guid: 6c938cf114a16bf429baddf98eed142d,
+      type: 3}
+  - Name: GeneratorVariant12
+    Prefab: {fileID: 5208293455125461973, guid: 54124ee0a981c38439cb84d6db8da983,
+      type: 3}
+  - Name: GeneratorVariant13
+    Prefab: {fileID: 7144388863434248889, guid: 08c5c101b62d3794694d906db37f1b21,
+      type: 3}
+  - Name: GeneratorVariant14
+    Prefab: {fileID: 8923974472382000844, guid: 7ba14a977f864324e9135b6662456ff2,
+      type: 3}
+  - Name: GeneratorVariant15
+    Prefab: {fileID: 1296979562283113727, guid: 390ae9a34c3232f46a4ce437d0fc34c9,
       type: 3}

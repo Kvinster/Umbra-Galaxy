@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
+using System;
 using System.Collections.Generic;
 
 using STP.Behaviour.Core.Enemy.GeneratorEditor.RandomWalk;
@@ -19,11 +20,18 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		public bool VisualizeMap;
 		public bool VisualizeConvertedMap;
 
+		[Serializable]
+		public class BulletPair {
+			public GameObject MainGenBullet;
+			public GameObject SubGenBullet;
+		}
+
 		[Header("For generator")]
-		public GameObject MainGeneratorPrefab;
-		public GameObject GeneratorPrefab;
-		public GameObject ConnectorPrefab;
-		public GameObject LinePrefab;
+		public GameObject       MainGeneratorPrefab;
+		public GameObject       GeneratorPrefab;
+		public List<BulletPair> BulletPrefabs;
+		public GameObject       ConnectorPrefab;
+		public GameObject       LinePrefab;
 
 		List<Vector2Int> PossibleDirections => new List<Vector2Int> {
 			Vector2Int.down,
@@ -45,7 +53,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			if ( VisualizeConvertedMap ) {
 				VisualizeMaze(map);
 			}
-			CreateGenerators(map);
+			CreateGeneratorsVariant(map);
 		}
 
 		void VisualizeMaze(WalkMap map) {
@@ -93,9 +101,8 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			}
 		}
 
-		void CreateGenerators(GeneratorsMap map) {
+		void CreateGeneratorsVariant(GeneratorsMap map) {
 			var baseGo = new GameObject();
-			baseGo.transform.SetParent(gameObject.transform);
 
 			var connectorsMap = new Map<Connector>(map.Size);
 			var mainGenPoint  = InvalidVector;
@@ -116,7 +123,9 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 							continue;
 						}
 						genGo.transform.position = new Vector3(x, y, 0) * 100;
-						var genComp = genGo.GetComponent<Generator>();
+						var genComp    = genGo.GetComponent<Generator>();
+						var bulletPair = RandomUtils.GetRandomElement(BulletPrefabs);
+						genComp.BulletPrefab    = (cell == PlaceType.MainGenerator) ?  bulletPair.MainGenBullet : bulletPair.SubGenBullet;
 						genComp.IsMainGenerator = (cell == PlaceType.MainGenerator);
 						var connector = genGo.GetComponentInChildren<Connector>();
 						connectorsMap.SetCell(x, y, connector);
