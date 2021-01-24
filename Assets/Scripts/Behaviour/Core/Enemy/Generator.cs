@@ -76,9 +76,9 @@ namespace STP.Behaviour.Core.Enemy {
 
         void Die(bool fromConnector) {
             base.Die();
-            _levelGoalManager.Advance();
             if ( !fromConnector ) {
                 if ( IsMainGenerator ) {
+                    _levelGoalManager.Advance();
                     Connector.ForceDestroy();
                 } else {
                     Connector.DestroyConnector();
