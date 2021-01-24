@@ -33,10 +33,16 @@ namespace STP.Core {
 				Debug.LogError($"Can't get chunk info from config. Chunk with name {chunkName} was not found");
 				return 0;
 			}
-			var chunkInfo       = _chunkConfig.GetChunk(chunkName);
-			var generatorsCount = chunkInfo.GetComponentsInChildren<Generator>().Length;
-			_chunkGeneratorsCount.Add(chunkName, generatorsCount);
-			return generatorsCount;
+			var chunkInfo  = _chunkConfig.GetChunk(chunkName);
+			var generators = chunkInfo.GetComponentsInChildren<Generator>();
+			var count      = 0;
+			foreach ( var generator in generators ) {
+				if ( generator.IsMainGenerator ) {
+					count++;
+				}
+			}
+			_chunkGeneratorsCount.Add(chunkName, count);
+			return count;
 		}
 
 		public string GetMinChunkWithGeneratorsCountHigherThan(int genCount) {
