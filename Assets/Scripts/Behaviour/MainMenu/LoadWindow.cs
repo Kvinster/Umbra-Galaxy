@@ -9,6 +9,7 @@ using STP.Behaviour.Starter;
 using STP.Core.State;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
+using STP.Utils.Xml;
 
 namespace STP.Behaviour.MainMenu {
 	public sealed class LoadWindow : BaseMainMenuComponent {
@@ -40,7 +41,7 @@ namespace STP.Behaviour.MainMenu {
 			gameObject.SetActive(true);
 			ResetEntries();
 
-			var di = new DirectoryInfo(GameState.SavesPath);
+			var di = new DirectoryInfo(XmlUtils.BasePath);
 			if ( !di.Exists ) {
 				Debug.LogError("Saves directory does not exist");
 				return;

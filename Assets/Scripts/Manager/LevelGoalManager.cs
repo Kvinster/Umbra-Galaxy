@@ -9,12 +9,13 @@ namespace STP.Manager {
 	public sealed class LevelGoalManager {
 		public readonly int LevelGoal;
 
-		readonly PlayerManager      _playerManager;
-		readonly LevelManager       _levelManager;
-		readonly CoreWindowsManager _windowsManager;
-		readonly LevelController    _levelController;
-		readonly XpController       _xpController;
-		readonly GameState          _gameState;
+		readonly PlayerManager         _playerManager;
+		readonly LevelManager          _levelManager;
+		readonly CoreWindowsManager    _windowsManager;
+		readonly LevelController       _levelController;
+		readonly XpController          _xpController;
+		readonly LeaderboardController _leaderboardController;
+		readonly GameState             _gameState;
 
 		int _curLevelGoalProgress;
 
@@ -35,13 +36,14 @@ namespace STP.Manager {
 
 		public LevelGoalManager(PlayerManager playerManager, LevelManager levelManager,
 			CoreWindowsManager windowsManager, LevelController levelController, XpController xpController,
-			GameState gameState) {
-			_playerManager   = playerManager;
-			_levelManager    = levelManager;
-			_windowsManager  = windowsManager;
-			_levelController = levelController;
-			_xpController    = xpController;
-			_gameState       = gameState;
+			LeaderboardController leaderboardController, GameState gameState) {
+			_playerManager         = playerManager;
+			_levelManager          = levelManager;
+			_windowsManager        = windowsManager;
+			_levelController       = levelController;
+			_xpController          = xpController;
+			_leaderboardController = leaderboardController;
+			_gameState             = gameState;
 
 			var curLevelInfo = _levelController.GetCurLevelConfig();
 
@@ -82,6 +84,7 @@ namespace STP.Manager {
 				return _levelManager.TryReloadLevel();
 			}
 			_windowsManager.ShowWinWindow();
+			_leaderboardController.AddEntry(_gameState.ProfileName, _xpController.CurTotalXp);
 			return true;
 		}
 	}

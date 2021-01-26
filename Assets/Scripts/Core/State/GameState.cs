@@ -8,8 +8,6 @@ using STP.Utils.Xml;
 
 namespace STP.Core.State {
 	public sealed class GameState {
-		public static readonly string SavesPath = Path.Combine(Application.persistentDataPath, "saves");
-
 		public static GameState ActiveInstance { get; private set; }
 
 		public static bool IsActiveInstanceExists => (ActiveInstance != null);
@@ -31,16 +29,6 @@ namespace STP.Core.State {
 		}
 
 		public void Save() {
-			var di = new DirectoryInfo(SavesPath);
-			if ( !di.Exists ) {
-				di.Create();
-			}
-			var savePath = Path.Combine(di.ToString(), $"{ProfileName}.stpsave");
-			Debug.LogFormat("Saving to '{0}'", savePath);
-			var fi = new FileInfo(savePath);
-			if ( fi.Exists ) {
-				fi.Delete();
-			}
 			var document = new XmlDocument();
 			var root     = document.CreateElement("root");
 			document.AppendChild(root);
@@ -49,7 +37,7 @@ namespace STP.Core.State {
 				state.Save(childElement);
 				root.AppendChild(childElement);
 			}
-			document.Save(savePath);
+			document.SaveGameStateDocument(ProfileName);
 		}
 
 		void Load(XmlDocument xmlDocument) {
@@ -77,20 +65,11 @@ namespace STP.Core.State {
 		}
 
 		public static GameState LoadGameState(string profileName) {
-			var di = new DirectoryInfo(SavesPath);
-			if ( !di.Exists ) {
-				Debug.LogError("Saves directory does not exist");
+			var document = XmlUtils.LoadGameStateDocument(profileName);
+			if ( document == null ) {
+				Debug.LogErrorFormat("Can't load save for profile name '{0}'", profileName);
 				return null;
 			}
-			var loadPath = Path.Combine(di.ToString(), $"{profileName}.stpsave");
-			Debug.LogFormat("Loading from: '{0}'", loadPath);
-			var fi = new FileInfo(loadPath);
-			if ( !fi.Exists ) {
-				Debug.LogErrorFormat("Save file for '{0}' does not exist", profileName);
-				return null;
-			}
-			var document = new XmlDocument();
-			document.Load(loadPath);
 			var gs = new GameState(profileName);
 			gs.Load(document);
 			return gs;
@@ -112,7 +91,7 @@ namespace STP.Core.State {
 		}
 
 		public static void TryRemoveSave(string profileName) {
-			var di = new DirectoryInfo(SavesPath);
+			var di = new DirectoryInfo(XmlUtils.BasePath);
 			if ( !di.Exists ) {
 				return;
 			}

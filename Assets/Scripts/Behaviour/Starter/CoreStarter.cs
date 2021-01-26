@@ -24,9 +24,10 @@ namespace STP.Behaviour.Starter {
 		public LevelGoalManager LevelGoalManager { get; private set; }
 		public MinimapManager   MinimapManager   { get; private set; }
 
-		public GameController   GameController   { get; private set; }
-		public PlayerController PlayerController => GameController.PlayerController;
-		public XpController     XpController     => GameController.XpController;
+		public LeaderboardController LeaderboardController { get; private set; }
+		public GameController        GameController        { get; private set; }
+		public PlayerController      PlayerController      => GameController.PlayerController;
+		public XpController          XpController          => GameController.XpController;
 
 		void OnDisable() {
 			GameController.Deinit();
@@ -39,7 +40,8 @@ namespace STP.Behaviour.Starter {
 				GameState.CreateNewActiveGameState("test");
 			}
 #endif
-			GameController = new GameController(GameState.ActiveInstance);
+			LeaderboardController = new LeaderboardController();
+			GameController        = new GameController(GameState.ActiveInstance);
 			var pc  = GameController.PlayerController;
 			var lc  = GameController.LevelController;
 			var xc  = GameController.XpController;
@@ -51,7 +53,7 @@ namespace STP.Behaviour.Starter {
 			PlayerManager    = new PlayerManager(Player, pc, xc, UnityContext.Instance);
 			CoreWindowsManager.Init(PauseManager, LevelManager, PlayerManager, pc, xc);
 			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, CoreWindowsManager, lc, xc,
-				GameState.ActiveInstance);
+				LeaderboardController, GameState.ActiveInstance);
 			MinimapManager   = new MinimapManager(MinimapCamera);
 			Generator.Init(cc, puc);
 			Generator.GenerateLevel(lc.GetCurLevelConfig(), cc.GetChunkPrefab);

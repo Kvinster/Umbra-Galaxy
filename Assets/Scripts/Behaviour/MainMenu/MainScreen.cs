@@ -12,6 +12,7 @@ namespace STP.Behaviour.MainMenu {
 	public sealed class MainScreen : BaseMainMenuComponent {
 		[NotNull] public Button StartNewGameButton;
 		[NotNull] public Button ShowLoadWindowButton;
+		[NotNull] public Button ShowLeaderboardWindowButton;
 
 		MainMenuManager _mainMenuManager;
 
@@ -20,6 +21,7 @@ namespace STP.Behaviour.MainMenu {
 
 			StartNewGameButton.onClick.AddListener(StartNewGame);
 			ShowLoadWindowButton.onClick.AddListener(ShowLoadWindow);
+			ShowLeaderboardWindowButton.onClick.AddListener(ShowLeaderboardWindow);
 		}
 
 		public void Show() {
@@ -38,6 +40,11 @@ namespace STP.Behaviour.MainMenu {
 		void ShowLoadWindow() {
 			Hide();
 			_mainMenuManager.ShowLoad();
+		}
+
+		void ShowLeaderboardWindow() {
+			Hide();
+			_mainMenuManager.ShowLeaderboard();
 		}
 	}
 }
