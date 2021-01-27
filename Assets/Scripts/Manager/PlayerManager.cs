@@ -71,6 +71,9 @@ namespace STP.Manager {
 
 		public void Respawn() {
 			_playerController.RestoreHp();
+			for ( var i = _powerUpStates.Count - 1; i >= 0; i-- ) {
+				HandlePowerUpFinish(_powerUpStates[i]);
+			}
 			_player.OnRespawn();
 		}
 
