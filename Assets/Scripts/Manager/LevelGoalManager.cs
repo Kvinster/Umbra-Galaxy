@@ -83,7 +83,7 @@ namespace STP.Manager {
 				return _levelManager.TryReloadLevel();
 			}
 			_windowsManager.ShowWinWindow();
-			_leaderboardController.AddEntry(_gameState.ProfileName, _xpController.CurTotalXp);
+			_leaderboardController.AddEntry(_gameState.StateName, _xpController.CurTotalXp);
 			return true;
 		}
 	}

@@ -7,14 +7,14 @@ using STP.Core.State;
 
 namespace STP.Core {
 	public sealed class XpController : BaseStateController {
-		readonly XpState         _state;
 		readonly LevelController _levelController;
 
 		XpConfig _xpConfig;
 
+		int _curPrevXp;
 		int _curLevelXp;
 
-		public int CurTotalXp => _curLevelXp + CurXp;
+		public int CurTotalXp => _curLevelXp + _curPrevXp;
 
 		int CurLevelXp {
 			get => _curLevelXp;
@@ -27,27 +27,14 @@ namespace STP.Core {
 			}
 		}
 
-		int CurXp {
-			get => _state.CurXp;
-			set {
-				if ( CurXp == value ) {
-					return;
-				}
-				_state.CurXp = value;
-			}
-		}
-
 		public event Action<int> OnXpChanged;
 
 		public XpController(GameState gameState) : base(gameState) {
-			_state = gameState.XpState;
-
 			LoadConfig();
 		}
 
 		public void ResetXp() {
 			CurLevelXp = 0;
-			CurXp      = 0;
 		}
 
 		public void OnLevelStart() {
@@ -55,7 +42,7 @@ namespace STP.Core {
 		}
 
 		public void OnLevelWon() {
-			CurXp      += CurLevelXp;
+			_curPrevXp += CurLevelXp;
 			CurLevelXp =  0;
 		}
 

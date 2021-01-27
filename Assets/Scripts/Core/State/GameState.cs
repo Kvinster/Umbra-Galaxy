@@ -12,19 +12,25 @@ namespace STP.Core.State {
 
 		public static bool IsActiveInstanceExists => (ActiveInstance != null);
 
-		public readonly string ProfileName;
+		public readonly string StateName;
 
 		readonly List<BaseState> _states = new List<BaseState>();
 
-		public PlayerState PlayerState { get; }
-		public XpState     XpState     { get; }
+		public CommonState CommonState { get; }
 		public LevelState  LevelState  { get; }
 
-		GameState(string profileName) {
-			ProfileName = profileName;
+		public string ProfileName {
+			get => CommonState.ProfileName;
+			private set {
+				CommonState.ProfileName = value;
+				Save();
+			}
+		}
 
-			PlayerState = AddState(new PlayerState());
-			XpState     = AddState(new XpState());
+		GameState(string stateName) {
+			StateName = stateName;
+
+			CommonState = AddState(new CommonState());
 			LevelState  = AddState(new LevelState());
 		}
 
@@ -37,7 +43,7 @@ namespace STP.Core.State {
 				state.Save(childElement);
 				root.AppendChild(childElement);
 			}
-			document.SaveGameStateDocument(ProfileName);
+			document.SaveGameStateDocument(StateName);
 		}
 
 		void Load(XmlDocument xmlDocument) {
@@ -55,22 +61,23 @@ namespace STP.Core.State {
 			return state;
 		}
 
-		public static GameState CreateNewActiveGameState(string profileName) {
+		public static GameState CreateNewActiveGameState(string stateName, string profileName) {
 			if ( IsActiveInstanceExists ) {
 				Debug.LogError("GameState active instance already exists");
 				return ActiveInstance;
 			}
-			ActiveInstance = new GameState(profileName);
+			ActiveInstance             = new GameState(stateName);
+			ActiveInstance.ProfileName = profileName;
 			return ActiveInstance;
 		}
 
-		public static GameState LoadGameState(string profileName) {
-			var document = XmlUtils.LoadGameStateDocument(profileName);
+		public static GameState LoadGameState(string stateName) {
+			var document = XmlUtils.LoadGameStateDocument(stateName);
 			if ( document == null ) {
-				Debug.LogErrorFormat("Can't load save for profile name '{0}'", profileName);
+				Debug.LogErrorFormat("Can't load save for state name '{0}'", stateName);
 				return null;
 			}
-			var gs = new GameState(profileName);
+			var gs = new GameState(stateName);
 			gs.Load(document);
 			return gs;
 		}
@@ -87,19 +94,30 @@ namespace STP.Core.State {
 			if ( !IsActiveInstanceExists ) {
 				return;
 			}
+			ReleaseActiveInstance();
+		}
+
+		public static void ReleaseActiveInstance() {
+			if ( !IsActiveInstanceExists ) {
+				Debug.LogError("No active release instance");
+				return;
+			}
 			ActiveInstance = null;
 		}
 
-		public static void TryRemoveSave(string profileName) {
+		public static bool TryRemoveSave(string stateName) {
 			var di = new DirectoryInfo(XmlUtils.BasePath);
 			if ( !di.Exists ) {
-				return;
+				return false;
 			}
+			var success = false;
 			foreach ( var fi in di.EnumerateFiles("*.stpsave") ) {
-				if ( Path.GetFileNameWithoutExtension(fi.Name) == profileName ) {
+				if ( Path.GetFileNameWithoutExtension(fi.Name) == stateName ) {
+					success = true;
 					fi.Delete();
 				}
 			}
+			return success;
 		}
 	}
 }

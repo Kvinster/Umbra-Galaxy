@@ -65,7 +65,9 @@ namespace STP.Manager {
 		}
 
 		public bool OnPlayerDied() {
-			_playerController.TrySubLives(1);
+			if ( !_playerController.TrySubLives(1) ) {
+				Debug.LogError("Can's sub life");
+			}
 			return (_playerController.CurLives > 0);
 		}
 

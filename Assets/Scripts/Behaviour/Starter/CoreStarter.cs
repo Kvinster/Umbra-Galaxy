@@ -37,7 +37,7 @@ namespace STP.Behaviour.Starter {
 #if UNITY_EDITOR
 			if ( !GameState.IsActiveInstanceExists ) {
 				Debug.Log("Creating new GameState instance");
-				GameState.CreateNewActiveGameState("test");
+				GameState.CreateNewActiveGameState("test", System.Guid.NewGuid().ToString());
 			}
 #endif
 			LeaderboardController = new LeaderboardController();

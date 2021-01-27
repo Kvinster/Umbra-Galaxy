@@ -8,21 +8,21 @@ namespace STP.Core {
 	public sealed class PlayerController : BaseStateController {
 		public const float MaxPlayerHp = 100f;
 
-		const float StartPlayerHp = MaxPlayerHp;
+		const int   StartPlayerLives = 3;
+		const float StartPlayerHp    = MaxPlayerHp;
 
-		readonly PlayerState _state;
-
+		int   _curLives;
 		float _curHp;
 		bool  _isInvincible;
 
 		public int CurLives {
-			get => _state.CurLives;
+			get => _curLives;
 			private set {
 				if ( CurLives == value ) {
 					return;
 				}
 
-				_state.CurLives = value;
+				_curLives = value;
 				OnCurLivesChanged?.Invoke(CurLives);
 			}
 		}
@@ -55,8 +55,7 @@ namespace STP.Core {
 		public event Action<bool>  OnIsInvincibleChanged;
 
 		public PlayerController(GameState gameState) : base(gameState) {
-			_state = gameState.PlayerState;
-
+			CurLives     = StartPlayerLives;
 			CurHp        = StartPlayerHp;
 			IsInvincible = false;
 		}
@@ -85,7 +84,7 @@ namespace STP.Core {
 		}
 
 		public void RestoreLives() {
-			CurLives = PlayerState.StartPlayerLives;
+			CurLives = StartPlayerLives;
 		}
 
 		public bool TrySubLives(int subLives = 1) {

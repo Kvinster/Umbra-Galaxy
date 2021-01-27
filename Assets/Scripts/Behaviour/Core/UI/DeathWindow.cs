@@ -61,7 +61,6 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		void OnQuitClick() {
-			GameState.TryReleaseActiveInstance();
 			SceneManager.LoadScene("MainMenu");
 		}
 

@@ -1,50 +1,71 @@
-﻿using UnityEngine.SceneManagement;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
-using System;
 
 using STP.Behaviour.Starter;
 using STP.Core.State;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 
+using TMPro;
+
 namespace STP.Behaviour.MainMenu {
 	public sealed class MainScreen : BaseMainMenuComponent {
-		[NotNull] public Button StartNewGameButton;
-		[NotNull] public Button ShowLoadWindowButton;
-		[NotNull] public Button ShowLeaderboardWindowButton;
+		const string TitleFormat = "Welcome, {0}";
+
+		[NotNull] public TMP_Text TitleText;
+		[NotNull] public Button   PlayButton;
+		[NotNull] public Button   ShowLeaderboardWindowButton;
+		[NotNull] public Button   ChangeProfileButton;
+		[NotNull] public Button   ExitButton;
 
 		MainMenuManager _mainMenuManager;
 
 		protected override void InitInternal(MainMenuStarter starter) {
 			_mainMenuManager = starter.MainMenuManager;
 
-			StartNewGameButton.onClick.AddListener(StartNewGame);
-			ShowLoadWindowButton.onClick.AddListener(ShowLoadWindow);
+			PlayButton.onClick.AddListener(Play);
 			ShowLeaderboardWindowButton.onClick.AddListener(ShowLeaderboardWindow);
+			ChangeProfileButton.onClick.AddListener(ChangeProfile);
+			ExitButton.onClick.AddListener(Exit);
 		}
 
 		public void Show() {
+			if ( !GameState.IsActiveInstanceExists ) {
+				Debug.LogError("No active game state instance");
+				return;
+			}
 			gameObject.SetActive(true);
+
+			TitleText.text = string.Format(TitleFormat, GameState.ActiveInstance.ProfileName);
 		}
 
 		public void Hide() {
 			gameObject.SetActive(false);
 		}
 
-		void StartNewGame() {
-			GameState.CreateNewActiveGameState(Guid.NewGuid().ToString());
+		void Play() {
+			// TODO: go to level choose window/screen
 			SceneManager.LoadScene("TestRoom");
-		}
-
-		void ShowLoadWindow() {
-			Hide();
-			_mainMenuManager.ShowLoad();
 		}
 
 		void ShowLeaderboardWindow() {
 			Hide();
 			_mainMenuManager.ShowLeaderboard();
+		}
+
+		void ChangeProfile() {
+			GameState.ReleaseActiveInstance();
+			Hide();
+			_mainMenuManager.ShowProfiles();
+		}
+
+		void Exit() {
+#if UNITY_EDITOR
+			UnityEditor.EditorApplication.isPlaying = false;
+#else
+			Application.Quit();
+#endif
 		}
 	}
 }

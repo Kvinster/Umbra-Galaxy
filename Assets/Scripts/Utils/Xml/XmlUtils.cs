@@ -18,23 +18,35 @@ namespace STP.Utils.Xml {
 			document.SaveDocument(LeaderboardRelativePath);
 		}
 
-		public static void SaveGameStateDocument(this XmlDocument document, string profileName) {
+		public static bool IsGameStateDocumentExists(string stateName) {
+			return IsDocumentExists(stateName + GameStateExtension);
+		}
+
+		public static void SaveGameStateDocument(this XmlDocument document, string stateName) {
 			if ( document == null ) {
 				Debug.LogError("Document is null");
 				return;
 			}
-			document.SaveDocument(profileName + GameStateExtension);
+			document.SaveDocument(stateName + GameStateExtension);
 		}
 
-		public static XmlDocument LoadGameStateDocument(string profileName) {
-			if ( string.IsNullOrEmpty(profileName) ) {
+		public static XmlDocument LoadGameStateDocument(string stateName) {
+			if ( string.IsNullOrEmpty(stateName) ) {
 				Debug.LogError("Profile name is null or empty");
 			}
-			return LoadSavedDocument(profileName + GameStateExtension);
+			return LoadSavedDocument(stateName + GameStateExtension);
 		}
 
 		public static XmlDocument LoadLeaderboardDocument() {
 			return LoadSavedDocument(LeaderboardRelativePath);
+		}
+
+		static bool IsDocumentExists(string relativePath) {
+			if ( string.IsNullOrEmpty(relativePath) ) {
+				Debug.LogError("Relative path is null");
+				return false;
+			}
+			return File.Exists(Path.Combine(BasePath, relativePath));
 		}
 
 		static void SaveDocument(this XmlDocument document, string relativePath) {
