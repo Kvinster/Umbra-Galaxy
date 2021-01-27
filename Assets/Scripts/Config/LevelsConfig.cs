@@ -2,7 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+
 using STP.Common;
+using STP.Utils.Attributes;
 
 namespace STP.Config {
 	[Serializable]
@@ -28,6 +30,7 @@ namespace STP.Config {
 
 	[Serializable]
 	public class ChunkWeightInfo : WeightedValue {
+		[ChunkName]
 		public string Name;
 	}
 

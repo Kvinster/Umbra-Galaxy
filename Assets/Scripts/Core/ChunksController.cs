@@ -49,9 +49,10 @@ namespace STP.Core {
 			var minGenerationCount = int.MaxValue;
 			var minChunkName       = string.Empty;
 			foreach ( var chunkInfo in _chunkConfig.ChunkInfos ) {
-				var generationCount = GetGeneratorsCountInChunk(chunkInfo.Name);
+				var name            = chunkInfo.Name;
+				var generationCount = GetGeneratorsCountInChunk(name);
 				if ( (minGenerationCount > generationCount) && (generationCount > genCount) ) {
-					minChunkName       = chunkInfo.Name;
+					minChunkName       = name;
 					minGenerationCount = generationCount;
 				}
 			}
@@ -60,22 +61,6 @@ namespace STP.Core {
 				return string.Empty;
 			}
 			return minChunkName;
-		}
-
-		public static GameObject GetChunkPrefabInEditor(string chunkName) {
-			var config = LoadConfig();
-			if ( config ) {
-				return config.GetChunk(chunkName);
-			}
-			Debug.LogError("Can't load chunk config in editor");
-			return null;
-		}
-
-		public static int GetGeneratorsCountInChunkInEditor(string chunkName) {
-			var chunkConfig     = LoadConfig();
-			var chunkInfo       = chunkConfig.GetChunk(chunkName);
-			var generatorsCount = chunkInfo.GetComponentsInChildren<Generator>().Length;
-			return generatorsCount;
 		}
 
 		static ChunkConfig LoadConfig() {
