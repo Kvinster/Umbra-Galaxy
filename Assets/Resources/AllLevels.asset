@@ -15,18 +15,18 @@ MonoBehaviour:
   Levels:
   - LevelSeed: 0
     GeneratorsCount: 3
-    PowerUpInfo:
+    PowerUpInfos:
     - PowerUpType: 0
-      Count: 2
+      Count: 99
     - PowerUpType: 1
-      Count: 4
+      Count: 99
     - PowerUpType: 2
-      Count: 2
+      Count: 99
     Chunks:
     - Weight: 150
       Name: Empty
     - Weight: 30
-      Name: Generator
+      Name: GeneratorVariant14
     - Weight: 30
       Name: GeneratorVariant1
     - Weight: 30
@@ -36,7 +36,7 @@ MonoBehaviour:
     LevelSpaceSize: 4500
   - LevelSeed: 0
     GeneratorsCount: 4
-    PowerUpInfo: []
+    PowerUpInfos: []
     Chunks:
     - Weight: 240
       Name: Empty

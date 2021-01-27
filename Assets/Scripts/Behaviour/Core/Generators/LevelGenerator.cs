@@ -41,7 +41,12 @@ namespace STP.Behaviour.Core.Generators {
 					powerUpSpawnPoints.AddRange(chunkComp.FreePowerUpSpawnPoints);
 				}
 			}
-			AddPowerUpsToLevel(powerUpSpawnPoints, levelInfo);
+
+			foreach ( var powerUpInfo in levelInfo.PowerUpInfos ) {
+				while ( (_state.GetOrDefaultCreatedPowerUpsCount(powerUpInfo.PowerUpType) < powerUpInfo.Count) && (powerUpSpawnPoints.Count > 0) ) {
+					AddPowerUpsToLevel(powerUpSpawnPoints, levelInfo);
+				}
+			}
 			Debug.Log($"Level generated. Seed {randomSeed}");
 		}
 
@@ -154,7 +159,7 @@ namespace STP.Behaviour.Core.Generators {
 		List<PowerUpType> GetAvailableToSpawnPowerUps(LevelInfo levelInfo) {
 			var res             = new List<PowerUpType>();
 			var createdPowerUps = _state.CreatedPowerUpsCount;
-			foreach ( var powerUpInfo in levelInfo.PowerUpInfo ) {
+			foreach ( var powerUpInfo in levelInfo.PowerUpInfos ) {
 				var type = powerUpInfo.PowerUpType;
 				if ( !createdPowerUps.ContainsKey(type) || (createdPowerUps[type] < powerUpInfo.Count) ) {
 					res.Add(type);

@@ -16,9 +16,6 @@ MonoBehaviour:
   - Name: Empty
     Prefab: {fileID: 7354123442680349550, guid: 95e5833110962384fa1c8de3367119b3,
       type: 3}
-  - Name: Generator
-    Prefab: {fileID: 8244082116085525965, guid: 188a3acf92d70e043a2ae5723c717869,
-      type: 3}
   - Name: SafeArea
     Prefab: {fileID: 8244082116085525965, guid: 226f5af3cca21f4459f29fbe2eb35828,
       type: 3}
