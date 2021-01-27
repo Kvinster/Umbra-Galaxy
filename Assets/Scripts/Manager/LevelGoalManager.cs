@@ -65,7 +65,6 @@ namespace STP.Manager {
 			if ( !_playerManager.OnPlayerDied() ) {
 				_xpController.ResetXp();
 			}
-			_gameState.Save();
 			_windowsManager.ShowDeathWindow();
 		}
 
