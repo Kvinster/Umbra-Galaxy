@@ -43,6 +43,16 @@ namespace STP.Behaviour.Core.Enemy {
             }
         }
 
+        protected override void OnEnable() {
+            base.OnEnable();
+            GeneratorsWatcher.TryAddGenerator(this);
+        }
+
+        protected override void OnDisable() {
+            base.OnDisable();
+            GeneratorsWatcher.RemoveGenerator(this);
+        }
+
         void Update() {
             if ( !_target ) {
                 return;

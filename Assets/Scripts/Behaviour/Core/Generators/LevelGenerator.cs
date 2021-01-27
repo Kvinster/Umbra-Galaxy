@@ -2,15 +2,14 @@
 
 using System;
 using System.Collections.Generic;
-
+using STP.Common;
 using STP.Config;
 using STP.Core;
 using STP.Utils;
-using STP.Common;
 
 using Random = UnityEngine.Random;
 
-namespace STP.Behaviour.Core.Generator {
+namespace STP.Behaviour.Core.Generators {
 	public sealed class LevelGenerator : GameComponent {
 		const string SafeRectName = "SafeArea";
 

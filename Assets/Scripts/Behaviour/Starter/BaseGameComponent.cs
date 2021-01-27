@@ -10,7 +10,7 @@ namespace STP.Behaviour.Starter {
 
         protected bool IsInit { get; private set; }
 
-        protected void OnEnable() {
+        protected virtual void OnEnable() {
             if ( HighPriorityInit ) {
                 Instances.Insert(0, this);
             } else {

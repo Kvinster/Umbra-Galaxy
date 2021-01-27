@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Core;
-using STP.Behaviour.Core.Generator;
+using STP.Behaviour.Core.Generators;
 using STP.Core;
 using STP.Core.State;
 using STP.Manager;
