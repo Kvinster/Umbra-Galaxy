@@ -12,7 +12,7 @@ namespace STP.Config {
 		public int LevelSeed = 0;
 
 		public int                   GeneratorsCount = 1;
-		public List<PowerUpInfo>     PowerUpInfo;
+		public List<PowerUpInfo>     PowerUpInfos;
 		public List<ChunkWeightInfo> Chunks;
 
 		public int LevelSpaceSize;
