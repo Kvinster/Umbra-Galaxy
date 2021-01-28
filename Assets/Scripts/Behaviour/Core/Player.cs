@@ -59,21 +59,22 @@ namespace STP.Behaviour.Core {
 		}
 
 		void Update() {
-			_input             = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-			var mouseWorldPos = _camera.ScreenToWorldPoint(Input.mousePosition);
-			Rigidbody.rotation = -Vector2.SignedAngle(mouseWorldPos - transform.position, Vector2.up);
+			_input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
 			if ( Input.GetMouseButton(0) ) {
 				TryShoot();
 			}
 
-			_reloadTimer -= Time.deltaTime;
+			_reloadTimer       -= Time.deltaTime;
 		}
 
 		void FixedUpdate() {
 			if ( _input != Vector2.zero ) {
 				Rigidbody.AddForce(_input.normalized * MovementSpeed, ForceMode2D.Impulse);
 			}
+			var mouseWorldPos  = _camera.ScreenToWorldPoint(Input.mousePosition);
+			var neededRotation = -Vector2.SignedAngle(mouseWorldPos - transform.position, Vector2.up);
+			Rigidbody.MoveRotation(neededRotation);
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
