@@ -43,10 +43,10 @@ namespace STP.Behaviour.Core.UI {
 				return Promise.Rejected(new Exception("DeathWindow is already shown"));
 			}
 
-			LivesText.text = string.Format(LivesTextFormat, livesLeft + 1);
+			LivesText.text = string.Format(LivesTextFormat, livesLeft);
 
-			HasLivesRoot.SetActive(livesLeft >= 0);
-			NoLivesRoot.SetActive(livesLeft < 0);
+			HasLivesRoot.SetActive(livesLeft > 0);
+			NoLivesRoot.SetActive(livesLeft <= 0);
 
 			gameObject.SetActive(true);
 
@@ -61,7 +61,7 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		void OnQuitClick() {
-			SceneManager.LoadScene("MainMenu");
+			_levelManager.QuitToMenu();
 		}
 
 		void OnContinueClick() {
