@@ -449,9 +449,9 @@ MonoBehaviour:
     radialRadius: 1
   useFill: 0
   points:
-  - {x: 0, y: 30}
-  - {x: 15, y: -30}
-  - {x: -15, y: -30}
+  - {x: 0, y: 40}
+  - {x: 15, y: -20}
+  - {x: -15, y: -20}
   triangulation: 1
 --- !u!33 &3127888978083334665
 MeshFilter:
@@ -525,9 +525,9 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0, y: 30}
-      - {x: 15, y: -30}
-      - {x: -15, y: -30}
+    - - {x: 0, y: 40}
+      - {x: 15, y: -20}
+      - {x: -15, y: -20}
 --- !u!50 &3127888978083334668
 Rigidbody2D:
   serializedVersion: 4
