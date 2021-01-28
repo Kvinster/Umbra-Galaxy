@@ -45,8 +45,7 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void Play() {
-			// TODO: go to level choose window/screen
-			SceneManager.LoadScene("TestRoom");
+			_mainMenuManager.ShowLevelsScreen();
 		}
 
 		void ShowLeaderboardWindow() {

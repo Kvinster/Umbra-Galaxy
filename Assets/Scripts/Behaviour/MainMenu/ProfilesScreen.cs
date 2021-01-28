@@ -73,7 +73,7 @@ namespace STP.Behaviour.MainMenu {
 
 				if ( canInitState ) {
 					text = string.Format(ExistingStateFormat, gs.ProfileName,
-						gs.LevelState.NextLevelIndex + 1);
+						gs.LevelState.LastLevelIndex + 1);
 					onMainClick   = () => LoadState(stateName);
 					onRemoveClick = () => RemoveState(stateName);
 				} else {

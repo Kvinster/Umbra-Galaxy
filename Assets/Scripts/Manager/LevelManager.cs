@@ -4,13 +4,15 @@ using UnityEngine.SceneManagement;
 using System;
 
 using STP.Behaviour.Core;
+using STP.Core;
 
 using Object = UnityEngine.Object;
 
 namespace STP.Manager {
 	public sealed class LevelManager {
-		readonly Transform    _playerTransform;
-		readonly PauseManager _pauseManager;
+		readonly Transform       _playerTransform;
+		readonly PauseManager    _pauseManager;
+		readonly LevelController _levelController;
 
 		bool _isLevelActive;
 
@@ -27,9 +29,10 @@ namespace STP.Manager {
 
 		public event Action<bool> OnIsLevelActiveChanged;
 
-		public LevelManager(Transform playerTransform, PauseManager pauseManager) {
+		public LevelManager(Transform playerTransform, PauseManager pauseManager, LevelController levelController) {
 			_playerTransform = playerTransform;
 			_pauseManager    = pauseManager;
+			_levelController = levelController;
 
 			IsLevelActive = true;
 		}
@@ -42,6 +45,16 @@ namespace STP.Manager {
 			IsLevelActive = false;
 			SceneTransition();
 			return true;
+		}
+
+		public void QuitToMenu() {
+			if ( !IsLevelActive ) {
+				Debug.LogError("Can't quit level — level not active");
+				return;
+			}
+			IsLevelActive = false;
+			_levelController.FinishLevel(false);
+			SceneManager.LoadScene("MainMenu");
 		}
 
 		void SceneTransition() {

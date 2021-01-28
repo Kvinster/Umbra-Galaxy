@@ -4,7 +4,8 @@ using STP.Utils.Xml;
 
 namespace STP.Core.State {
 	public sealed class LevelState : BaseState {
-		public int NextLevelIndex = -1;
+		public int CurLevelIndex  = -1; // don't save!
+		public int LastLevelIndex = -1;
 
 		public override string Name => "level";
 
@@ -13,17 +14,17 @@ namespace STP.Core.State {
 		}
 
 		public override void Load(XmlNode node) {
-			NextLevelIndex = node.GetAttrValue("next_level", -1);
+			LastLevelIndex = node.GetAttrValue("next_level", -1);
 			TryFixNextLevelIndex();
 		}
 
 		public override void Save(XmlElement elem) {
-			elem.AddAttrValue("next_level", NextLevelIndex);
+			elem.AddAttrValue("next_level", LastLevelIndex);
 		}
 
 		void TryFixNextLevelIndex() {
-			if ( NextLevelIndex == -1 ) {
-				NextLevelIndex = 0;
+			if ( LastLevelIndex == -1 ) {
+				LastLevelIndex = 0;
 			}
 		}
 	}

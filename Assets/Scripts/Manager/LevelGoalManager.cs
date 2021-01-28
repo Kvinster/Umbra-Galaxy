@@ -76,7 +76,7 @@ namespace STP.Manager {
 				Debug.LogError("Can't win level — level is not active");
 				return false;
 			}
-			_levelController.OnLevelWon();
+			_levelController.FinishLevel(true);
 			_xpController.OnLevelWon();
 			if ( _levelController.HasNextLevel ) {
 				_gameState.Save();

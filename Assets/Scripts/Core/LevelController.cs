@@ -9,22 +9,35 @@ namespace STP.Core {
 		readonly LevelState   _levelState;
 		readonly LevelsConfig _levelsConfig;
 
-		public int NextLevelIndex => _levelState.NextLevelIndex;
+		public bool HasNextLevel => (LastLevelIndex != _levelsConfig.Levels.Count);
 
-		public bool HasNextLevel => (NextLevelIndex != _levelsConfig.Levels.Count);
+		int CurLevelIndex  => _levelState.CurLevelIndex;
+		int LastLevelIndex => _levelState.LastLevelIndex;
 
 		public LevelController(GameState gameState) : base(gameState) {
 			_levelState   = gameState.LevelState;
 			_levelsConfig = LoadConfig();
-			Assert.IsNotNull(_levelsConfig);
+
+			Assert.AreNotEqual(CurLevelIndex, -1);
+			Assert.IsTrue(_levelsConfig);
 		}
 
-		public void OnLevelWon() {
-			_levelState.NextLevelIndex++;
+		public void FinishLevel(bool win) {
+			Assert.IsTrue(CurLevelIndex >= 0);
+
+			if ( win ) {
+				if ( CurLevelIndex == LastLevelIndex ) {
+					_levelState.LastLevelIndex++;
+				}
+				++_levelState.CurLevelIndex;
+			} else {
+				_levelState.CurLevelIndex = -1;
+			}
 		}
 
 		public LevelInfo GetCurLevelConfig() {
-			return _levelsConfig.GetLevelConfig(NextLevelIndex);
+			Assert.IsTrue(CurLevelIndex >= 0);
+			return _levelsConfig.GetLevelConfig(CurLevelIndex);
 		}
 
 		static LevelsConfig LoadConfig() {

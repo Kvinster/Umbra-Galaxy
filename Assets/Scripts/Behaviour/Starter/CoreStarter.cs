@@ -37,7 +37,8 @@ namespace STP.Behaviour.Starter {
 #if UNITY_EDITOR
 			if ( !GameState.IsActiveInstanceExists ) {
 				Debug.Log("Creating new GameState instance");
-				GameState.CreateNewActiveGameState("test", System.Guid.NewGuid().ToString());
+				var gs = GameState.CreateNewActiveGameState("test", System.Guid.NewGuid().ToString());
+				gs.LevelState.CurLevelIndex = 0;
 			}
 #endif
 			LeaderboardController = new LeaderboardController();
@@ -49,7 +50,7 @@ namespace STP.Behaviour.Starter {
 			var puc = GameController.PowerUpController;
 			SpawnHelper      = new CoreSpawnHelper(this);
 			PauseManager     = new PauseManager();
-			LevelManager     = new LevelManager(Player.transform, PauseManager);
+			LevelManager     = new LevelManager(Player.transform, PauseManager, lc);
 			PlayerManager    = new PlayerManager(Player, pc, xc, UnityContext.Instance);
 			CoreWindowsManager.Init(PauseManager, LevelManager, PlayerManager, pc, xc);
 			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, CoreWindowsManager, lc, xc,
