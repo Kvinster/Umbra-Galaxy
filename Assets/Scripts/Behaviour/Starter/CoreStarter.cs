@@ -17,6 +17,8 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public LevelGenerator     Generator;
 		[NotNull] public CoreWindowsManager CoreWindowsManager;
 
+		[NotNull] public Transform LevelConstructions;
+
 		public CoreSpawnHelper  SpawnHelper      { get; private set; }
 		public PauseManager     PauseManager     { get; private set; }
 		public LevelManager     LevelManager     { get; private set; }
@@ -48,16 +50,16 @@ namespace STP.Behaviour.Starter {
 			var xc  = GameController.XpController;
 			var cc  = GameController.ChunkController;
 			var puc = GameController.PowerUpController;
-			SpawnHelper      = new CoreSpawnHelper(this);
-			PauseManager     = new PauseManager();
-			LevelManager     = new LevelManager(Player.transform, PauseManager, lc);
-			PlayerManager    = new PlayerManager(Player, pc, xc, UnityContext.Instance);
+			SpawnHelper   = new CoreSpawnHelper(this);
+			PauseManager  = new PauseManager();
+			LevelManager  = new LevelManager(Player.transform, PauseManager, lc);
+			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance);
 			CoreWindowsManager.Init(PauseManager, LevelManager, PlayerManager, pc, xc);
 			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, CoreWindowsManager, lc, xc,
 				LeaderboardController, GameState.ActiveInstance);
 			MinimapManager   = new MinimapManager(MinimapCamera);
 			Generator.Init(cc, puc);
-			Generator.GenerateLevel(lc.GetCurLevelConfig(), cc.GetChunkPrefab);
+			Generator.GenerateLevel(lc.GetCurLevelConfig(), cc.GetChunkPrefab, LevelConstructions);
 			InitComponents();
 			// Settings for smooth gameplay
 			Application.targetFrameRate = Screen.currentResolution.refreshRate;

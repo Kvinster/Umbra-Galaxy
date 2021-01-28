@@ -12,6 +12,7 @@ namespace STP.Config {
 		public int LevelSeed = 0;
 
 		public int                   GeneratorsCount = 1;
+		public int                   CellSize = 1500;
 		public List<PowerUpInfo>     PowerUpInfos;
 		public List<ChunkWeightInfo> Chunks;
 
