@@ -387,7 +387,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3127888978083334663}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &587117463023655764
 MonoBehaviour:
@@ -402,6 +402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AudioSource: {fileID: 3786567984572009266}
+  VolumeScale: 0.8
   Clips:
   - {fileID: 8300000, guid: 29ec959d4650e184cacde126f50038d9, type: 3}
   - {fileID: 8300000, guid: 455aca31678eb384da348a93fc60b252, type: 3}
@@ -467,7 +468,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0

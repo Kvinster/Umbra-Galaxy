@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
+using STP.Behaviour.Utils;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
@@ -14,8 +15,13 @@ namespace STP.Behaviour.Core.Enemy {
 		public Rigidbody2D Rigidbody;
 		[NotNull]
 		public TriggerNotifier DetectRangeNotifier;
+		[Space]
+		[NotNull] public DelayedDestroyer      DeathSoundDestroyer;
+		[NotNull] public Transform             DeathSoundPlayerTransform;
+		[NotNull] public BaseSimpleSoundPlayer DeathSoundPlayer;
 
 		Transform _target;
+		Transform _tempObjRoot;
 
 		float CurHp { get; set; }
 
@@ -51,6 +57,8 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
+			_tempObjRoot = starter.TempObjectsRoot;
+
 			CurHp = StartHp;
 
 			DetectRangeNotifier.OnTriggerEnter += OnDetectRangeEnter;
@@ -62,7 +70,16 @@ namespace STP.Behaviour.Core.Enemy {
 			DetectRangeNotifier.OnTriggerEnter -= OnDetectRangeEnter;
 			DetectRangeNotifier.OnTriggerExit  -= OnDetectRangeExit;
 
+			StartPlayingDeathSound();
+
 			Destroy(gameObject);
+		}
+
+		void StartPlayingDeathSound() {
+			DeathSoundPlayerTransform.SetParent(_tempObjRoot);
+			DeathSoundPlayerTransform.position = transform.position;
+			DeathSoundDestroyer.StartDestroy();
+			DeathSoundPlayer.Play();
 		}
 
 		void OnDetectRangeEnter(GameObject other) {
