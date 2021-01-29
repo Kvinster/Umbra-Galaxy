@@ -24,7 +24,8 @@ namespace STP.Behaviour.Core.Enemy {
 				return;
 			}
 			var dirRaw = _target.position - transform.position;
-			Rigidbody.rotation += MathUtils.GetSmoothRotationAngleOffset(transform.up, dirRaw, RotationSpeed);
+			Rigidbody.MoveRotation(Rigidbody.rotation +
+			                       MathUtils.GetSmoothRotationAngleOffset(transform.up, dirRaw, RotationSpeed));
 		}
 
 		void FixedUpdate() {
@@ -48,7 +49,7 @@ namespace STP.Behaviour.Core.Enemy {
 				Die();
 			}
 		}
-		
+
 		protected override void InitInternal(CoreStarter starter) {
 			CurHp = StartHp;
 
@@ -60,7 +61,7 @@ namespace STP.Behaviour.Core.Enemy {
 			base.Die();
 			DetectRangeNotifier.OnTriggerEnter -= OnDetectRangeEnter;
 			DetectRangeNotifier.OnTriggerExit  -= OnDetectRangeExit;
-	
+
 			Destroy(gameObject);
 		}
 

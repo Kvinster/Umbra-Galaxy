@@ -45,6 +45,8 @@ namespace STP.Behaviour.Core {
 
 		float _reloadTimer;
 
+		bool _isAlive;
+
 		float CurHp => _playerController.CurHp;
 
 		public event Action OnPlayerDied;
@@ -100,6 +102,7 @@ namespace STP.Behaviour.Core {
 			Rigidbody.velocity = Vector2.zero;
 			Rigidbody.rotation = 0f;
 			_reloadTimer       = 0f;
+			_isAlive           = true;
 		}
 
 		public void OnRestart() {
@@ -108,7 +111,11 @@ namespace STP.Behaviour.Core {
 		}
 
 		public void TakeDamage(float damage) {
+			if ( !_isAlive ) {
+				return;
+			}
 			if ( _playerController.TakeDamage(damage) ) {
+				_isAlive = false;
 				_levelGoalManager.OnPlayerDied();
 			}
 		}
