@@ -34,6 +34,9 @@ namespace STP.Behaviour.Core {
 		[Space]
 		[NotNull]
 		public Collider2D ShieldCollider;
+		[Space]
+		[NotNull]
+		public BaseSimpleSoundPlayer ShotSoundPlayer;
 
 		Vector2 _input;
 
@@ -136,6 +139,7 @@ namespace STP.Behaviour.Core {
 				_reloadTimer = ReloadDuration * (_playerManager.HasActivePowerUp(PowerUpType.IncFireRate)
 					? TmpIncFireRateMult
 					: 1f);
+				ShotSoundPlayer.Play();
 			}
 		}
 
