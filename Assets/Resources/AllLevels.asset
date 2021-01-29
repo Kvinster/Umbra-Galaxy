@@ -25,15 +25,15 @@ MonoBehaviour:
       Count: 99
     Chunks:
     - Weight: 150
-      Name: Empty
+      Name: Generators\Size10\Generator_-1851562952
     - Weight: 30
-      Name: GeneratorVariant14
+      Name: Generators\Size9\Generator_297028483
     - Weight: 30
-      Name: GeneratorVariant1
+      Name: Generators\Size9\Generator_-719706269
     - Weight: 30
-      Name: GeneratorVariant2
+      Name: Generators\Size9\Generator_-216060054
     - Weight: 30
-      Name: GeneratorVariant3
+      Name: Generators\Size7\Generator_-755730249
     LevelSpaceSize: 4500
   - LevelSeed: 0
     GeneratorsCount: 4
@@ -41,19 +41,19 @@ MonoBehaviour:
     PowerUpInfos: []
     Chunks:
     - Weight: 240
-      Name: Empty
+      Name: EmptySpaceChunk
     - Weight: 30
-      Name: Generator
+      Name: Generators\Size10\Generator_-1851562952
     - Weight: 30
-      Name: GeneratorVariant4
+      Name: Generators\Size9\Generator_297028483
     - Weight: 30
-      Name: GeneratorVariant5
+      Name: Generators\Size9\Generator_-426599247
     - Weight: 30
-      Name: GeneratorVariant6
+      Name: Generators\Size10\Generator_-1851562952
     - Weight: 30
-      Name: GeneratorVariant7
+      Name: Generators\Size7\Generator_-1307003487
     - Weight: 30
-      Name: GeneratorVariant8
+      Name: Generators\Size7\Generator_-755730249
     - Weight: 30
-      Name: GeneratorVariant9
+      Name: Generators\Size7\Generator_-786646225
     LevelSpaceSize: 4500

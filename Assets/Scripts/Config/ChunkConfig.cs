@@ -12,6 +12,9 @@ namespace STP.Config {
 	public class ChunkConfig : ScriptableObject {
 		const string ChunksBasePath = "Assets/Prefabs/LevelChunks/";
 
+		public const string SafeRectName  = "SafeChunk";
+		public const string BaseGenerator = "GeneratorBaseChunk";
+
 		[Serializable]
 		public class ChunkInfo {
 			public string     Name;
@@ -49,7 +52,7 @@ namespace STP.Config {
 		}
 
 		void ProcessFile(string path) {
-			if ( path.EndsWith(".meta") ) {
+			if ( path.EndsWith(".meta") || path.Contains(BaseGenerator) || path.Contains(SafeRectName) ) {
 				return;
 			}
 			var chunkInfo = new ChunkInfo {

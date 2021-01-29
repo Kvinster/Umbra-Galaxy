@@ -12,7 +12,6 @@ using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core.Generators {
 	public sealed class LevelGenerator : GameComponent {
-		const string SafeRectName = "SafeAreaChunk";
 
 		LevelGeneratorState _state = new LevelGeneratorState();
 
@@ -69,7 +68,7 @@ namespace STP.Behaviour.Core.Generators {
 			//Reserve one rect for safe area
 			var safeRectCoords = new Vector2Int(sideCellsCount / 2, sideCellsCount / 2);
 			cells.Remove(safeRectCoords);
-			map[safeRectCoords.x, safeRectCoords.y] = SafeRectName;
+			map[safeRectCoords.x, safeRectCoords.y] = ChunkConfig.SafeRectName;
 
 			for ( var i = cells.Count; i > 0; i-- ) {
 				var randIndex = Random.Range(0, i);
@@ -101,7 +100,7 @@ namespace STP.Behaviour.Core.Generators {
 				for ( var y = 0; y < map.GetLength(1); y++ ) {
 					for ( var x = 0; x < map.GetLength(0); x++ ) {
 						var generatorsCountInCell = _chunkController.GetGeneratorsCountInChunk(map[x, y]);
-						if ( minGeneratorsCount > generatorsCountInCell && (map[x, y] != SafeRectName) ) {
+						if ( minGeneratorsCount > generatorsCountInCell && (map[x, y] != ChunkConfig.SafeRectName) ) {
 							minGeneratorsCount = generatorsCountInCell;
 							minChunkName       = map[x, y];
 						}
