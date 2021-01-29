@@ -34,7 +34,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor.RandomWalk {
 				}
 			}
 
-			var startPoint  = new Vector2Int(size / 2 + size % 2, size / 2 + size % 2);
+			var startPoint  = new Vector2Int(size / 2, size / 2);
 			var startDirs   = Random.Range(0, 2) == 0 ? StartHorizontalDirections : StartVerticalDirections;
 			var pointsList = new List<Vector2Int>();
 
