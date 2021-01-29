@@ -39,7 +39,7 @@ namespace STP.Behaviour.Starter {
 #if UNITY_EDITOR
 			if ( !GameState.IsActiveInstanceExists ) {
 				Debug.Log("Creating new GameState instance");
-				var gs = GameState.CreateNewActiveGameState("test", System.Guid.NewGuid().ToString());
+				var gs = GameState.CreateNewActiveGameState("test", "test");
 				gs.LevelState.CurLevelIndex = 0;
 			}
 #endif
