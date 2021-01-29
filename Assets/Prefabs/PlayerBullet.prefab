@@ -67,7 +67,7 @@ MonoBehaviour:
   meshOutOfDate: 1
   blendMode: 1
   scaleMode: 0
-  color: {r: 1, g: 0, b: 0, a: 1}
+  color: {r: 0.6901961, g: 0.6901961, b: 1.4980392, a: 1}
   zTest: 4
   zOffsetFactor: 0
   zOffsetUnits: 0
@@ -180,7 +180,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!1 &5632205815499334121
 GameObject:

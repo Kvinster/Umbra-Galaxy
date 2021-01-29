@@ -361,7 +361,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &1187418170565177369
 CircleCollider2D:
@@ -485,6 +485,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mass
       value: 0.16417506
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687193854482185786, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7499554144530416788, guid: dee46161708a3234aa1d930651519922,
         type: 3}
@@ -648,6 +653,11 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 0.16417506
       objectReference: {fileID: 0}
+    - target: {fileID: 6687193854482185786, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7499554144530416788, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: points.Array.data[0].x
@@ -809,6 +819,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mass
       value: 0.16417506
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687193854482185786, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7499554144530416788, guid: dee46161708a3234aa1d930651519922,
         type: 3}
@@ -972,6 +987,11 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 0.16417506
       objectReference: {fileID: 0}
+    - target: {fileID: 6687193854482185786, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7499554144530416788, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: points.Array.data[0].x
@@ -1133,6 +1153,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mass
       value: 0.16417506
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687193854482185786, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7499554144530416788, guid: dee46161708a3234aa1d930651519922,
         type: 3}
