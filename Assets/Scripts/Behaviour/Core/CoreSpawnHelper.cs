@@ -6,12 +6,14 @@ using STP.Behaviour.Starter;
 
 namespace STP.Behaviour.Core {
 	public sealed class CoreSpawnHelper {
+		public readonly Transform TempObjRoot;
 		readonly CoreStarter _starter;
 
 		readonly List<BaseCoreComponent> _components = new List<BaseCoreComponent>(5);
 
-		public CoreSpawnHelper(CoreStarter starter) {
-			_starter = starter;
+		public CoreSpawnHelper(CoreStarter starter, Transform tempObjRoot) {
+			_starter     = starter;
+			TempObjRoot = tempObjRoot;
 		}
 
 		public void TryInitSpawnedObject(GameObject gameObject) {

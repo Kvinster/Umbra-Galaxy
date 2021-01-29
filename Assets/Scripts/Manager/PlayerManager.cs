@@ -22,14 +22,17 @@ namespace STP.Manager {
 
 		readonly List<PowerUpState> _powerUpStates = new List<PowerUpState>();
 
+		readonly Transform _tempObjectsRoot;
+
 		public event Action<PowerUpType> OnPowerUpStarted;
 		public event Action<PowerUpType> OnPowerUpFinished;
 
-		public PlayerManager(Player player, PlayerController playerController, XpController xpController, UnityContext context) {
+		public PlayerManager(Player player, PlayerController playerController, XpController xpController, UnityContext context, Transform tempObjectsRoot) {
 			_player           = player;
 			_playerController = playerController;
 			_context          = context;
 			_xpController     = xpController;
+			_tempObjectsRoot  = tempObjectsRoot;
 			_context.AddUpdateCallback(UpdateTimers);
 			EventManager.Subscribe<EnemyDestroyed>(OnEnemyDestroyed);
 		}
@@ -76,6 +79,13 @@ namespace STP.Manager {
 			for ( var i = _powerUpStates.Count - 1; i >= 0; i-- ) {
 				HandlePowerUpFinish(_powerUpStates[i]);
 			}
+
+			if ( _tempObjectsRoot ) {
+				for ( var i = _tempObjectsRoot.childCount - 1; i >= 0; i-- ) {
+					GameObject.Destroy(_tempObjectsRoot.GetChild(i).gameObject);
+				}
+			}
+
 			_player.OnRespawn();
 		}
 

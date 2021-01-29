@@ -52,7 +52,7 @@ namespace STP.Behaviour.Core.Enemy {
 			if ( !CanShoot ) {
 				return false;
 			}
-			var bulletGo = Instantiate(BulletPrefab, transform.position, Quaternion.identity);
+			var bulletGo = Instantiate(BulletPrefab, transform.position, Quaternion.identity, _spawnHelper.TempObjRoot);
 			var bullet   = bulletGo.GetComponent<IBullet>();
 			if ( bullet != null ) {
 				bullet.Init(10f, Vector2.up * BulletStartForce, Rigidbody.rotation, Collider);

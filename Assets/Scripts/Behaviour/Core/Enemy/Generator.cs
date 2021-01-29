@@ -125,7 +125,7 @@ namespace STP.Behaviour.Core.Enemy {
                 Debug.LogError("Can't fire. Target not found.");
                 return;
             }
-            var go = Instantiate(BulletPrefab, transform.position, Quaternion.Euler(0, 0, GetViewAngleToTarget()));
+            var go = Instantiate(BulletPrefab, transform.position, Quaternion.Euler(0, 0, GetViewAngleToTarget()), _spawnHelper.TempObjRoot);
             InitCreatedObject(go);
         }
 

@@ -92,7 +92,7 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 		void Fire() {
-			var go = Instantiate(Bullet, transform.position, Quaternion.identity);
+			var go = Instantiate(Bullet, transform.position, Quaternion.identity, _spawnHelper.TempObjRoot);
 			var bullet = go.GetComponent<IBullet>();
 			if ( bullet == null ) {
 				Debug.LogError("Can't init bullet in fighter. Component Bullet not found");

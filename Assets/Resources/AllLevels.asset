@@ -15,6 +15,7 @@ MonoBehaviour:
   Levels:
   - LevelSeed: 0
     GeneratorsCount: 3
+    CellSize: 1500
     PowerUpInfos:
     - PowerUpType: 0
       Count: 99
@@ -36,6 +37,7 @@ MonoBehaviour:
     LevelSpaceSize: 4500
   - LevelSeed: 0
     GeneratorsCount: 4
+    CellSize: 1500
     PowerUpInfos: []
     Chunks:
     - Weight: 240

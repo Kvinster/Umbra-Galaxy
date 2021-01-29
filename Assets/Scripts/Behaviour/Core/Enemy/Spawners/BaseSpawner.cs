@@ -63,9 +63,9 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
             var randPos = Random.insideUnitCircle.normalized;
             randPos = (randPos == Vector2.zero) ? Vector2.right : randPos;
             var pos = (Vector3) randPos * SpawnRange + Player.transform.position;
-            var go  = Instantiate(Prefab, pos, Quaternion.identity);
+            var go  = Instantiate(Prefab, pos, Quaternion.identity, SpawnHelper.TempObjRoot);
             InitItem(go);
-            //Init mini icon
+            // Init mini icon
             SpawnHelper.TryInitSpawnedObject(go);
         }
     }
