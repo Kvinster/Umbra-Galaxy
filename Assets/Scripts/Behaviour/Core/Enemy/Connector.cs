@@ -1,10 +1,15 @@
-﻿using System;
+﻿using UnityEngine;
+using UnityEngine.VFX;
+
+using System;
 using System.Collections.Generic;
 
 using STP.Utils;
 
+using Shapes;
+
 namespace STP.Behaviour.Core.Enemy {
-    public class Connector : GameComponent {
+    public sealed class Connector : GameComponent {
         public Connector       Parent;
         public List<Connector> Children;
 
@@ -22,6 +27,20 @@ namespace STP.Behaviour.Core.Enemy {
 
         public event Action OnInit;
         public event Action OnOutOfLinks;
+
+        void Start() {
+            foreach ( var line in GetComponentsInChildren<Line>() ) {
+                var ve = line.gameObject.GetComponentInChildren<VisualEffect>();
+                if ( ve ) {
+                    var halfThickness = line.Thickness / 2f;
+                    var isHor         = Mathf.Approximately(line.Start.y, line.End.y);
+                    var start = line.Start + (isHor ? new Vector3(0, -halfThickness) : new Vector3(-halfThickness, 0));
+                    var end   = line.End + (isHor ? new Vector3(0, halfThickness) : new Vector3(halfThickness, 0));
+                    ve.SetVector2("Start", start);
+                    ve.SetVector2("End", end);
+                }
+            }
+        }
 
         public void Init() {
             IsInit = true;
