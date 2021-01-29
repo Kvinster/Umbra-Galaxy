@@ -23,7 +23,9 @@ namespace STP.Behaviour.Core {
 		public GameObject BulletPrefab;
 		[NotNull]
 		public GameObject EnhancedBulletPrefab;
-		public float      BulletStartForce;
+		[NotNull]
+		public Transform  GunPoint;
+		public float BulletStartForce;
 		[Space]
 		public float ReloadDuration;
 		[Space]
@@ -140,7 +142,7 @@ namespace STP.Behaviour.Core {
 		void Shoot() {
 			var isX2DamageActive = _playerManager.HasActivePowerUp(PowerUpType.X2Damage);
 			var bulletGo = Instantiate(isX2DamageActive ? EnhancedBulletPrefab : BulletPrefab,
-				transform.position, Quaternion.identity, _spawnHelper.TempObjRoot);
+				GunPoint.position, Quaternion.AngleAxis(Rigidbody.rotation, Vector3.forward), _spawnHelper.TempObjRoot);
 			var bullet = bulletGo.GetComponent<IBullet>();
 			if ( bullet != null ) {
 				var mult = isX2DamageActive ? 2f : 1f;

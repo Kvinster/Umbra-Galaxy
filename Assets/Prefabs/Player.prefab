@@ -138,7 +138,7 @@ Transform:
   m_Children:
   - {fileID: 6096956030084875469}
   m_Father: {fileID: 3127888978083334663}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3968819455643430965
 MonoBehaviour:
@@ -262,7 +262,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3127888978083334663}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &270814461926951959
 MonoBehaviour:
@@ -390,6 +390,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 3830987399395142193}
   - {fileID: 6314885814147048153}
   - {fileID: 8794539669627288879}
   - {fileID: 8269483859924232889}
@@ -415,6 +416,7 @@ MonoBehaviour:
     type: 3}
   EnhancedBulletPrefab: {fileID: 1028860495231626996, guid: ecd27f9eaafdb424699805745f63d3a3,
     type: 3}
+  GunPoint: {fileID: 3830987399395142193}
   BulletStartForce: 200
   ReloadDuration: 0.1
   HealthBar: {fileID: 8866180828008973164}
@@ -549,6 +551,36 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!1 &5098145204709111165
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3830987399395142193}
+  m_Layer: 0
+  m_Name: GunPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3830987399395142193
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5098145204709111165}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 40, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3127888978083334663}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5557572906976350488
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,7 +612,7 @@ Transform:
   - {fileID: 7340213686133343598}
   - {fileID: 3884970076150719598}
   m_Father: {fileID: 3127888978083334663}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8866180828008973164
 MonoBehaviour:
