@@ -12,7 +12,7 @@ using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core.Generators {
 	public sealed class LevelGenerator : GameComponent {
-		const string SafeRectName = "SafeArea";
+		const string SafeRectName = "SafeAreaChunk";
 
 		LevelGeneratorState _state = new LevelGeneratorState();
 

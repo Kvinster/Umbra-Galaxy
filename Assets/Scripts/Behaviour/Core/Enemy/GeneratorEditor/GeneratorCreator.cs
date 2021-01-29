@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using System;
+using System.IO;
 using System.Collections.Generic;
 
 using STP.Behaviour.Core.Enemy.GeneratorEditor.RandomWalk;
@@ -13,8 +14,13 @@ using STP.Utils;
 using NaughtyAttributes;
 using Shapes;
 
+using Random = UnityEngine.Random;
+
 namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 	public class GeneratorCreator : GameComponent {
+		const string GeneratorsBasePathFormat = "Assets/Prefabs/LevelChunks/Generators/Size{0}/";
+		const string GeneratorNameFormat      = "Generator_{0}.prefab";
+
 		#if UNITY_EDITOR
 		public int  GridSize;
 		public bool VisualizeMap;
@@ -44,6 +50,9 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 
 		[Button("Create generator")]
 		void CreateGenerator() {
+			var seed = Random.Range(int.MinValue, int.MaxValue);
+			Random.InitState(seed);
+
 			var mazeGen = new RandomWalkMapGenerator();
 			var cellMap = mazeGen.CreateMaze(GridSize);
 			var map     = MapConverter.ConvertMap(cellMap);
@@ -53,7 +62,10 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			if ( VisualizeConvertedMap ) {
 				VisualizeMaze(map);
 			}
-			CreateGeneratorsVariant(map);
+			var go = CreateGeneratorsVariant(map);
+
+			Directory.CreateDirectory(string.Format(GeneratorsBasePathFormat, GridSize));
+			PrefabUtility.SaveAsPrefabAsset(go, string.Format(GeneratorsBasePathFormat, GridSize) + string.Format(GeneratorNameFormat, seed));
 		}
 
 		void VisualizeMaze(WalkMap map) {
@@ -101,7 +113,8 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			}
 		}
 
-		void CreateGeneratorsVariant(GeneratorsMap map) {
+		GameObject CreateGeneratorsVariant(GeneratorsMap map) {
+
 			var baseGo = new GameObject();
 
 			var connectorsMap = new Map<Connector>(map.Size);
@@ -155,6 +168,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 				CreateLine(mainConnector, startLink);
 			}
 
+			return baseGo;
 		}
 
 		void CrawlConnectors(Map<Connector> connectorMap, Vector2Int curPoint) {
@@ -200,7 +214,6 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			collider.size = size;
 		}
 
-
 		Color GetColor(PlaceType state) {
 			switch ( state ) {
 				case PlaceType.Nothing:
@@ -214,7 +227,6 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			}
 			return Color.clear;
 		}
-
 
 		Color GetColor(CellState state) {
 			switch ( state ) {
@@ -233,8 +245,6 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			return Color.clear;
 		}
 
-
-
 		Color GetColor(RandomWalk.CellState state) {
 			switch ( state ) {
 				case RandomWalk.CellState.Wall:
@@ -248,7 +258,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			}
 			return Color.clear;
 		}
-		#endif
 
+		#endif
 	}
 }
