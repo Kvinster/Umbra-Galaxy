@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
+using STP.Behaviour.Core.Generators;
 using STP.Behaviour.Core.Enemy.GeneratorEditor.RandomWalk;
 using STP.Utils;
 
@@ -49,7 +50,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		Vector2Int InvalidVector => -Vector2Int.one;
 
 		[Button("Create generator")]
-		void CreateGenerator() {
+		void CreateGeneratorChunk() {
 			var seed = Random.Range(int.MinValue, int.MaxValue);
 			Random.InitState(seed);
 
@@ -64,8 +65,12 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			}
 			var go = CreateGeneratorsVariant(map);
 
+			go.AddComponent<LevelChunk>();
+
 			Directory.CreateDirectory(string.Format(GeneratorsBasePathFormat, GridSize));
 			PrefabUtility.SaveAsPrefabAsset(go, string.Format(GeneratorsBasePathFormat, GridSize) + string.Format(GeneratorNameFormat, seed));
+
+			DestroyImmediate(go);
 		}
 
 		void VisualizeMaze(WalkMap map) {
