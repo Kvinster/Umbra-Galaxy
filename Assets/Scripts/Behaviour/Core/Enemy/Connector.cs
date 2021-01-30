@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.VFX;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 using STP.Utils;
@@ -30,15 +27,10 @@ namespace STP.Behaviour.Core.Enemy {
 
         void Start() {
             foreach ( var line in GetComponentsInChildren<Line>() ) {
-                var ve = line.gameObject.GetComponentInChildren<VisualEffect>();
-                if ( ve ) {
-                    var halfThickness = line.Thickness / 2f;
-                    var isHor         = Mathf.Approximately(line.Start.y, line.End.y);
-                    var start = line.Start + (isHor ? new Vector3(0, -halfThickness) : new Vector3(-halfThickness, 0));
-                    var end   = line.End + (isHor ? new Vector3(0, halfThickness) : new Vector3(halfThickness, 0));
-                    ve.SetVector3("Start", start);
-                    ve.SetVector3("End", end);
+                if ( line.gameObject.name.StartsWith("Minimap") ) {
+                    continue;
                 }
+                line.gameObject.AddComponent<ConnectorLine>();
             }
         }
 
