@@ -8,14 +8,16 @@ namespace STP.Manager {
 		readonly MainScreen        _mainScreen;
 		readonly LeaderboardWindow _leaderboardWindow;
 		readonly LevelsScreen      _levelsScreen;
+		readonly SettingsScreen    _settingsScreen;
 
 		public MainMenuManager(ProfilesScreen profilesScreen, ProfileNameScreen profileNameScreen,
-			MainScreen mainScreen, LeaderboardWindow leaderboardWindow, LevelsScreen levelsScreen) {
+			MainScreen mainScreen, LeaderboardWindow leaderboardWindow, LevelsScreen levelsScreen, SettingsScreen settingsScreen) {
 			_profilesScreen    = profilesScreen;
 			_profileNameScreen = profileNameScreen;
 			_mainScreen        = mainScreen;
 			_leaderboardWindow = leaderboardWindow;
 			_levelsScreen      = levelsScreen;
+			_settingsScreen    = settingsScreen;
 		}
 
 		public void Init() {
@@ -41,6 +43,11 @@ namespace STP.Manager {
 			_mainScreen.Show();
 		}
 
+		public void ShowSettingsScreen() {
+			HideAll();
+			_settingsScreen.Show();
+		}
+
 		public void ShowLeaderboard() {
 			HideAll();
 			_leaderboardWindow.Show();
@@ -57,6 +64,7 @@ namespace STP.Manager {
 			_mainScreen.Hide();
 			_leaderboardWindow.Hide();
 			_levelsScreen.Hide();
+			_settingsScreen.Hide();
 		}
 	}
 }

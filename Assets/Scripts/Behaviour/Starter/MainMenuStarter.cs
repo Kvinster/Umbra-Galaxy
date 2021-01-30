@@ -12,13 +12,14 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public MainScreen        MainScreen;
 		[NotNull] public LeaderboardWindow LeaderboardWindow;
 		[NotNull] public LevelsScreen      LevelsScreen;
+		[NotNull] public SettingsScreen    SettingsScreen;
 
 		public MainMenuManager       MainMenuManager       { get; private set; }
 		public LeaderboardController LeaderboardController { get; private set; }
 
 		void Start() {
 			MainMenuManager =
-				new MainMenuManager(ProfilesScreen, ProfileNameScreen, MainScreen, LeaderboardWindow, LevelsScreen);
+				new MainMenuManager(ProfilesScreen, ProfileNameScreen, MainScreen, LeaderboardWindow, LevelsScreen, SettingsScreen);
 			LeaderboardController = new LeaderboardController();
 
 			InitComponents();

@@ -17,6 +17,7 @@ namespace STP.Behaviour.MainMenu {
 		[NotNull] public Button   PlayButton;
 		[NotNull] public Button   ShowLeaderboardWindowButton;
 		[NotNull] public Button   ChangeProfileButton;
+		[NotNull] public Button   SettingsButton;
 		[NotNull] public Button   ExitButton;
 
 		MainMenuManager _mainMenuManager;
@@ -25,6 +26,7 @@ namespace STP.Behaviour.MainMenu {
 			_mainMenuManager = starter.MainMenuManager;
 
 			PlayButton.onClick.AddListener(Play);
+			SettingsButton.onClick.AddListener(ShowSettingsWindow);
 			ShowLeaderboardWindowButton.onClick.AddListener(ShowLeaderboardWindow);
 			ChangeProfileButton.onClick.AddListener(ChangeProfile);
 			ExitButton.onClick.AddListener(Exit);
@@ -44,18 +46,20 @@ namespace STP.Behaviour.MainMenu {
 			gameObject.SetActive(false);
 		}
 
+		void ShowSettingsWindow() {
+			_mainMenuManager.ShowSettingsScreen();
+		}
+
 		void Play() {
 			_mainMenuManager.ShowLevelsScreen();
 		}
 
 		void ShowLeaderboardWindow() {
-			Hide();
 			_mainMenuManager.ShowLeaderboard();
 		}
 
 		void ChangeProfile() {
 			GameState.ReleaseActiveInstance();
-			Hide();
 			_mainMenuManager.ShowProfiles();
 		}
 
