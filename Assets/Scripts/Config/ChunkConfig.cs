@@ -52,11 +52,15 @@ namespace STP.Config {
 		}
 
 		void ProcessFile(string path) {
-			if ( path.EndsWith(".meta") || path.Contains(BaseGenerator) || path.Contains(SafeRectName) ) {
+			if ( path.EndsWith(".meta") || path.Contains(BaseGenerator)) {
 				return;
 			}
+
+			var name = (path.Contains(SafeRectName))
+				? SafeRectName
+				: path.Replace(ChunksBasePath, string.Empty).Replace(".prefab", string.Empty);
 			var chunkInfo = new ChunkInfo {
-				Name   = path.Replace(ChunksBasePath, string.Empty).Replace(".prefab", string.Empty),
+				Name   = name,
 				Prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path)
 			};
 			ChunkInfos.Add(chunkInfo);
