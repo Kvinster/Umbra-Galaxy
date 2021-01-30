@@ -36,8 +36,8 @@ namespace STP.Behaviour.Core.Enemy {
                     var isHor         = Mathf.Approximately(line.Start.y, line.End.y);
                     var start = line.Start + (isHor ? new Vector3(0, -halfThickness) : new Vector3(-halfThickness, 0));
                     var end   = line.End + (isHor ? new Vector3(0, halfThickness) : new Vector3(halfThickness, 0));
-                    ve.SetVector2("Start", start);
-                    ve.SetVector2("End", end);
+                    ve.SetVector3("Start", start);
+                    ve.SetVector3("End", end);
                 }
             }
         }
