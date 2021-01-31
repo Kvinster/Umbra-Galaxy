@@ -25,6 +25,7 @@ namespace STP.Core.State {
 				ProfileName = profileName,
 				Highscore   = highscore
 			});
+			_entries.Sort((a, b) => b.Highscore.CompareTo(a.Highscore));
 		}
 
 		public void Clear() {
