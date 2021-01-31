@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1660,8 +1660,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VolumeSlider: {fileID: 1105776523}
   AudioMixer: {fileID: 24100000, guid: 1328fcdd38f6afe42a5f72b869dbf4a4, type: 2}
-  BackButton: {fileID: 572831545}
-  ApplySettingsButton: {fileID: 1794987673}
+  CancelButton: {fileID: 572831545}
+  AcceptButton: {fileID: 1794987673}
 --- !u!1 &572831543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,7 +1675,7 @@ GameObject:
   - component: {fileID: 572831546}
   - component: {fileID: 572831545}
   m_Layer: 5
-  m_Name: BackButton
+  m_Name: CancelButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4535,7 +4535,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Apply changes
+  m_text: Accept
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3d577fdaa02a34d4985b3f17a516dd33, type: 2}
   m_sharedMaterial: {fileID: 21792789909535560, guid: 3d577fdaa02a34d4985b3f17a516dd33,
@@ -4605,10 +4605,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1367127694}
-    characterCount: 13
+    characterCount: 6
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 0
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -5534,7 +5534,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Back
+  m_text: Cancel
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3d577fdaa02a34d4985b3f17a516dd33, type: 2}
   m_sharedMaterial: {fileID: 21792789909535560, guid: 3d577fdaa02a34d4985b3f17a516dd33,
@@ -5604,7 +5604,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1677983830}
-    characterCount: 4
+    characterCount: 6
     spriteCount: 0
     spaceCount: 0
     wordCount: 1
@@ -6436,7 +6436,7 @@ GameObject:
   - component: {fileID: 1794987674}
   - component: {fileID: 1794987673}
   m_Layer: 5
-  m_Name: ApplyButton
+  m_Name: AcceptButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
