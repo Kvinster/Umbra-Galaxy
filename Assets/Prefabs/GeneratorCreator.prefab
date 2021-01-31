@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: -7623723737131340325}
   - component: {fileID: 8889048901940409349}
   m_Layer: 0
-  m_Name: GeneratorBaseChunk
+  m_Name: GeneratorCreator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -215,9 +215,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GridSize: 15
+  PowerUpPointsCount: 3
   VisualizeMap: 0
   VisualizeConvertedMap: 0
-  MainGeneratorPrefab: {fileID: 8147379892999961673, guid: 63caa5697cc13a64cb3e8627dbcedb78,
+  MainGeneratorPrefab: {fileID: 7014569917127402353, guid: 0fc848f1dc484bd46b6eca0b583fc75e,
     type: 3}
   GeneratorPrefab: {fileID: 8147379892999961673, guid: ccbc55a58ed204c47bd4952ab788781c,
     type: 3}
