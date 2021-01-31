@@ -10,10 +10,10 @@ using System.IO;
 namespace STP.Config {
 	[CreateAssetMenu(fileName = "ChunkConfig", menuName = "ScriptableObjects/ChunkConfig", order = 1)]
 	public class ChunkConfig : ScriptableObject {
-		const string ChunksBasePath = "Assets/Prefabs/LevelChunks/";
+		public const string ChunkConfigPath = "ChunkConfig";
+		public const string SafeRectName    = "SafeChunk";
 
-		public const string SafeRectName  = "SafeChunk";
-		public const string BaseGenerator = "GeneratorBaseChunk";
+		const  string ChunksBasePath  = "Assets/Prefabs/LevelChunks/";
 
 		[Serializable]
 		public class ChunkInfo {
@@ -33,7 +33,7 @@ namespace STP.Config {
 
 		#if UNITY_EDITOR
 		[ContextMenu("Generate config from files")]
-		void RegenerateConfig() {
+		public void RegenerateConfig() {
 			ChunkInfos.Clear();
 			ProcessDirectory(ChunksBasePath);
 		}
@@ -52,7 +52,7 @@ namespace STP.Config {
 		}
 
 		void ProcessFile(string path) {
-			if ( path.EndsWith(".meta") || path.Contains(BaseGenerator)) {
+			if ( path.EndsWith(".meta") ) {
 				return;
 			}
 

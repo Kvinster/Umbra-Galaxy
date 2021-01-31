@@ -10,6 +10,7 @@ using System.Collections.Generic;
 
 using STP.Behaviour.Core.Generators;
 using STP.Behaviour.Core.Enemy.GeneratorEditor.RandomWalk;
+using STP.Config;
 using STP.Utils;
 
 using NaughtyAttributes;
@@ -19,13 +20,15 @@ using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 	public class GeneratorCreator : GameComponent {
-		const string GeneratorsBasePathFormat = "Assets/Prefabs/LevelChunks/Generators/Size{0}/";
-		const string GeneratorNameFormat      = "Generator_{0}.prefab";
-
 		#if UNITY_EDITOR
-		public int  GridSize;
-		public bool VisualizeMap;
-		public bool VisualizeConvertedMap;
+		const string GeneratorsBasePathFormat = "Assets/Prefabs/LevelChunks/Generators/Size{0}/";
+		const string GeneratorPrefabPrefix    = "Generator_";
+		const string GeneratorPrefabSuffix    = ".prefab";
+		const string GeneratorNameFormat      = GeneratorPrefabPrefix + "{0}" + GeneratorPrefabSuffix;
+
+		public int    GridSize;
+		public bool   VisualizeMap;
+		public bool   VisualizeConvertedMap;
 
 		[Serializable]
 		public class BulletPair {
@@ -49,13 +52,32 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 
 		Vector2Int InvalidVector => -Vector2Int.one;
 
+		[Button("Refresh created generators")]
+		void RefreshCreatedGenerators() {
+			var chunkConfig = Resources.Load<ChunkConfig>(ChunkConfig.ChunkConfigPath);
+			foreach ( var chunkInfo in chunkConfig.ChunkInfos ) {
+				var generatorChunkComp = chunkInfo.Prefab.GetComponent<LevelGeneratorChunk>();
+				if ( !generatorChunkComp ) {
+					continue;
+				}
+				var fullPath = AssetDatabase.GetAssetPath(chunkInfo.Prefab);
+				File.Delete(fullPath);
+				CreateGeneratorChunk(generatorChunkComp.Seed, generatorChunkComp.ChunkSize);
+			}
+			chunkConfig.RegenerateConfig();
+		}
+
 		[Button("Create generator")]
-		void CreateGeneratorChunk() {
+		void CreateRandomGeneratorChunk() {
 			var seed = Random.Range(int.MinValue, int.MaxValue);
+			CreateGeneratorChunk(seed, GridSize);
+		}
+
+		void CreateGeneratorChunk(int seed, int gridSize) {
 			Random.InitState(seed);
 
 			var mazeGen = new RandomWalkMapGenerator();
-			var cellMap = mazeGen.CreateMaze(GridSize);
+			var cellMap = mazeGen.CreateMaze(gridSize);
 			var map     = MapConverter.ConvertMap(cellMap);
 			if ( VisualizeMap ) {
 				VisualizeMaze(cellMap);
@@ -65,10 +87,12 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			}
 			var go = CreateGeneratorsVariant(map);
 
-			go.AddComponent<LevelChunk>();
+			var comp = go.AddComponent<LevelGeneratorChunk>();
+			comp.Seed      = seed;
+			comp.ChunkSize = gridSize;
 
-			Directory.CreateDirectory(string.Format(GeneratorsBasePathFormat, GridSize));
-			PrefabUtility.SaveAsPrefabAsset(go, string.Format(GeneratorsBasePathFormat, GridSize) + string.Format(GeneratorNameFormat, seed));
+			Directory.CreateDirectory(string.Format(GeneratorsBasePathFormat, gridSize));
+			PrefabUtility.SaveAsPrefabAsset(go, string.Format(GeneratorsBasePathFormat, gridSize) + string.Format(GeneratorNameFormat, seed));
 
 			DestroyImmediate(go);
 		}
@@ -169,8 +193,8 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 
 			// Create connectors view
 			foreach ( var startLink in mainConnector.Children ) {
+				CreateLine(startLink, mainConnector);
 				VisitPoint(startLink);
-				CreateLine(mainConnector, startLink);
 			}
 
 			return baseGo;
@@ -184,7 +208,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 				if ( !connector ) {
 					continue;
 				}
-				if ( connector.Children.Contains(curConnector) ) {
+				if ( connector.Children.Contains(curConnector) || (connector.Parent == curConnector) ) {
 					continue;
 				}
 				connector.Parent = curConnector;

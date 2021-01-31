@@ -70,7 +70,9 @@ namespace STP.Behaviour.Core.Enemy {
             base.InitInternal(starter);
             FireTrigger.OnTriggerEnter += OnFireRangeEnter;
             FireTrigger.OnTriggerExit  += OnFireRangeExit;
-            Connector.OnOutOfLinks     += () => Die(true);
+            if ( !IsMainGenerator ) {
+                Connector.OnOutOfLinks += DieFromGenerator;
+            }
 
             _spawnHelper      = starter.SpawnHelper;
             _levelGoalManager = starter.LevelGoalManager;
@@ -85,9 +87,13 @@ namespace STP.Behaviour.Core.Enemy {
             }
         }
 
-
         protected override void Die(bool fromPlayer = true) {
-            Die(false, fromPlayer);
+            Die(fromConnector: false, fromPlayer);
+        }
+
+
+        void DieFromGenerator() {
+            Die(fromConnector: true, fromPlayer: true);
         }
 
         void Die(bool fromConnector, bool fromPlayer) {
@@ -95,7 +101,9 @@ namespace STP.Behaviour.Core.Enemy {
             if ( !fromConnector ) {
                 if ( IsMainGenerator ) {
                     _levelGoalManager.Advance();
-                    Connector.ForceDestroy();
+                    if ( Connector ) {
+                        Connector.ForceDestroy();
+                    }
                 } else {
                     Connector.DestroyConnector();
                 }

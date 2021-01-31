@@ -39,15 +39,21 @@ namespace STP.Behaviour.Core.Enemy {
         }
 
         public void ForceDestroy() {
-            foreach ( var link in Children ) {
-                link.ForceDestroy();
+            try {
+                foreach ( var link in Children ) {
+                    link.ForceDestroy();
+                }
+            } catch ( Exception e ) {
+                print("fuck");
             }
             Destroy(gameObject);
             OnOutOfLinks?.Invoke();
         }
 
         public void DestroyConnector() {
-            Parent.RemoveChild(this);
+            if ( Parent ) {
+                Parent.RemoveChild(this);
+            }
             Destroy(gameObject);
         }
 
