@@ -154,7 +154,8 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			// Create generators and init connectors map
 			for ( var y = 0; y < map.Size; y++ ) {
 				for ( var x = 0; x < map.Size; x++ ) {
-					var cell  = map.GetCell(x, y);
+					var cell     = map.GetCell(x, y);
+					var worldPos = new Vector3(x - map.Size / 2, y - map.Size / 2, 0);
 					if ( cell == PlaceType.MainGenerator ) {
 						mainGenPoint = new Vector2Int(x, y);
 					}
@@ -166,7 +167,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 							Debug.LogError("Can't cast instance to GameObject. aborting instancing generator");
 							continue;
 						}
-						genGo.transform.position = new Vector3(x, y, 0) * cellSize;
+						genGo.transform.position = worldPos * cellSize;
 						var genComp    = genGo.GetComponent<Generator>();
 						var bulletPair = RandomUtils.GetRandomElement(BulletPrefabs);
 						genComp.BulletPrefab    = (cell == PlaceType.MainGenerator) ?  bulletPair.MainGenBullet : bulletPair.SubGenBullet;
@@ -181,7 +182,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 							Debug.LogError("Can't cast instance to GameObject. aborting instancing connector");
 							continue;
 						}
-						connectorGo.transform.position = new Vector3(x, y, 0) * cellSize;
+						connectorGo.transform.position = worldPos * cellSize;
 						var connector = connectorGo.GetComponent<Connector>();
 						connectorsMap.SetCell(x, y, connector);
 					}

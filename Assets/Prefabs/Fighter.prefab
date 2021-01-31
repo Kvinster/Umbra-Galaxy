@@ -273,7 +273,7 @@ MonoBehaviour:
   Collider: {fileID: 6476260919088652973}
   DetectRangeNotifier: {fileID: 6476260918297627402}
   Bullet: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922, type: 3}
-  FirePeriod: 0.3
+  FirePeriod: 1
   StartBulletForce: 200
   ShotSoundPlayer: {fileID: 210714954719551330}
 --- !u!114 &6476260919088652970

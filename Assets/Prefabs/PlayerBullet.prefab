@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rigidbody: {fileID: 6687193854482185786}
   Collider: {fileID: 3852704616686126073}
-  LifeTime: 3
+  LifeTime: 2
 --- !u!60 &3852704616686126073
 PolygonCollider2D:
   m_ObjectHideFlags: 0
