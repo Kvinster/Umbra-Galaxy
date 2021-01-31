@@ -548,14 +548,7 @@ MonoBehaviour:
   AudioSource: {fileID: 3786567984572009266}
   VolumeScale: 0.8
   Clips:
-  - {fileID: 8300000, guid: 29ec959d4650e184cacde126f50038d9, type: 3}
-  - {fileID: 8300000, guid: 455aca31678eb384da348a93fc60b252, type: 3}
-  - {fileID: 8300000, guid: 353376b18272ce64db5257f7c816a22a, type: 3}
-  - {fileID: 8300000, guid: 0602a2d16599d9e45a3c3f906fb4173d, type: 3}
-  - {fileID: 8300000, guid: 2b39960f64085c2429508e6babeb30c3, type: 3}
-  - {fileID: 8300000, guid: 2318138bfd426e443b885eba716aafdc, type: 3}
-  - {fileID: 8300000, guid: e918ff1df317f964f81f20489dc99211, type: 3}
-  - {fileID: 8300000, guid: cddd46cff8e2576488af9c9701c9f75a, type: 3}
+  - {fileID: 8300000, guid: cd51fe43dbd74b44890a42d6677834a8, type: 3}
 --- !u!82 &3786567984572009266
 AudioSource:
   m_ObjectHideFlags: 0
