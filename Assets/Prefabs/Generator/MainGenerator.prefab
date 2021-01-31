@@ -27,6 +27,17 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5032697858587329388, guid: ccbc55a58ed204c47bd4952ab788781c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7662769734890346245, guid: ccbc55a58ed204c47bd4952ab788781c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ddb2bb45d59407f4aae253d7f9ebdd78,
+        type: 3}
     - target: {fileID: 8147379892999961652, guid: ccbc55a58ed204c47bd4952ab788781c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -108,6 +119,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9104554851118454756, guid: ccbc55a58ed204c47bd4952ab788781c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9104554852360257707, guid: ccbc55a58ed204c47bd4952ab788781c,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

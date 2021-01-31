@@ -13,6 +13,8 @@ namespace STP.Behaviour.Core.Enemy {
         public bool  IsMainGenerator;
         public float StartHp = 100;
         [NotNull]
+        public Transform ViewTransform;
+        [NotNull]
         public Collider2D  Collider;
         [NotNull]
         public ProgressBar HealthBar;
@@ -23,6 +25,8 @@ namespace STP.Behaviour.Core.Enemy {
         public TriggerNotifier FireTrigger;
         public float           ReloadDuration;
         [Header("Bullet")]
+        [NotNull]
+        public Transform BulletOrigin;
         [NotNull]
         public GameObject BulletPrefab;
         public float      BulletRunForce;
@@ -61,6 +65,7 @@ namespace STP.Behaviour.Core.Enemy {
             if ( !_target ) {
                 return;
             }
+            ViewTransform.rotation = Quaternion.Euler(0, 0, GetViewAngleToTarget());
             if ( _fireTimer.DeltaTick() ) {
                 Fire();
             }
@@ -139,7 +144,7 @@ namespace STP.Behaviour.Core.Enemy {
                 Debug.LogError("Can't fire. Target not found.");
                 return;
             }
-            var go = Instantiate(BulletPrefab, transform.position, Quaternion.Euler(0, 0, GetViewAngleToTarget()), _spawnHelper.TempObjRoot);
+            var go = Instantiate(BulletPrefab, BulletOrigin.position, Quaternion.Euler(0, 0, GetViewAngleToTarget()), _spawnHelper.TempObjRoot);
             InitCreatedObject(go);
             ShotSoundPlayer.Play();
         }
