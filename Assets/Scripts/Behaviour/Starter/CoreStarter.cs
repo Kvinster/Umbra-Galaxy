@@ -50,6 +50,9 @@ namespace STP.Behaviour.Starter {
 				var gs = ProfileState.CreateNewActiveGameState("test", "test");
 				gs.LevelState.CurLevelIndex = 0;
 			}
+			if ( !ProfileController.IsActiveInstanceExists ) {
+				ProfileController.CreateNewActiveInstance(ProfileState.ActiveInstance);
+			}
 #endif
 			GameController    = new GameController(GameState.ActiveInstance);
 			ProfileController = ProfileController.ActiveInstance;
