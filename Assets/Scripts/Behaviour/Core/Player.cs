@@ -46,6 +46,7 @@ namespace STP.Behaviour.Core {
 		CoreSpawnHelper  _spawnHelper;
 		Transform        _playerStartPos;
 		PlayerManager    _playerManager;
+		PauseManager     _pauseManager;
 		LevelGoalManager _levelGoalManager;
 
 		PlayerController _playerController;
@@ -68,16 +69,23 @@ namespace STP.Behaviour.Core {
 		}
 
 		void Update() {
+			if ( _pauseManager.IsPaused ) {
+				return;
+			}
+
 			_input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
 			if ( Input.GetMouseButton(0) ) {
 				TryShoot();
 			}
 
-			_reloadTimer       -= Time.deltaTime;
+			_reloadTimer -= Time.deltaTime;
 		}
 
 		void FixedUpdate() {
+			if ( _pauseManager.IsPaused ) {
+				return;
+			}
 			if ( _input != Vector2.zero ) {
 				Rigidbody.AddForce(_input.normalized * MovementSpeed, ForceMode2D.Impulse);
 			}
@@ -91,6 +99,7 @@ namespace STP.Behaviour.Core {
 			_spawnHelper      = starter.SpawnHelper;
 			_playerStartPos   = starter.PlayerStartPos;
 			_playerManager    = starter.PlayerManager;
+			_pauseManager     = starter.PauseManager;
 			_levelGoalManager = starter.LevelGoalManager;
 
 			_playerController                =  starter.PlayerController;

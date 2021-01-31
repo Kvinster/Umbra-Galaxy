@@ -6,6 +6,8 @@ namespace STP.Manager {
 	public sealed class PauseManager {
 		readonly HashSet<object> _pauseHolders = new HashSet<object>();
 
+		public bool IsPaused => (_pauseHolders.Count > 0);
+
 		public void Deinit() {
 			Time.timeScale = 1f;
 		}
