@@ -47,6 +47,11 @@ PrefabInstance:
       propertyPath: MovementSpeed
       value: 500
       objectReference: {fileID: 0}
+    - target: {fileID: 6631905783988765890, guid: a90abbdf2f3803b42bb3214e1b9d5673,
+        type: 3}
+      propertyPath: Name
+      value: SuicideDrone
+      objectReference: {fileID: 0}
     - target: {fileID: 6631905783988765891, guid: a90abbdf2f3803b42bb3214e1b9d5673,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -105,7 +110,7 @@ PrefabInstance:
     - target: {fileID: 6631905783988765892, guid: a90abbdf2f3803b42bb3214e1b9d5673,
         type: 3}
       propertyPath: m_Name
-      value: DroneAroundPlayer
+      value: SuicideDrone
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a90abbdf2f3803b42bb3214e1b9d5673, type: 3}

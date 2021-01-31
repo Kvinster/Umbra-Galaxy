@@ -21,3 +21,5 @@ MonoBehaviour:
     XpAmount: 3
   - EnemyName: Generator
     XpAmount: 4
+  - EnemyName: SuicideDrone
+    XpAmount: 0
