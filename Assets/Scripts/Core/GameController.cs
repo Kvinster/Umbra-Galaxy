@@ -8,20 +8,14 @@ namespace STP.Core {
 
 		readonly GameState _gameState;
 
-		public ChunkController   ChunkController   { get; }
-		public LevelController   LevelController   { get; }
-		public PlayerController  PlayerController  { get; }
-		public XpController      XpController      { get; }
-		public PowerUpController PowerUpController { get; }
+		public LeaderboardController LeaderboardController { get; }
+		public SettingsController    SettingsController    { get; }
 
 		public GameController(GameState gameState) {
 			_gameState = gameState;
 
-			ChunkController   = AddController(new ChunkController(_gameState));
-			LevelController   = AddController(new LevelController(_gameState));
-			PlayerController  = AddController(new PlayerController(_gameState));
-			XpController      = AddController(new XpController(_gameState));
-			PowerUpController = AddController(new PowerUpController(_gameState));
+			LeaderboardController = AddController(new LeaderboardController(gameState));
+			SettingsController    = AddController(new SettingsController(gameState));
 		}
 
 		public void Deinit() {

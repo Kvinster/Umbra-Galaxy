@@ -20,17 +20,16 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public Transform LevelObjectsRoot;
 		[NotNull] public Transform TempObjectsRoot;
 
-		public CoreSpawnHelper  SpawnHelper      { get; private set; }
-		public PauseManager     PauseManager     { get; private set; }
-		public LevelManager     LevelManager     { get; private set; }
-		public PlayerManager    PlayerManager    { get; private set; }
-		public LevelGoalManager LevelGoalManager { get; private set; }
-		public MinimapManager   MinimapManager   { get; private set; }
-
-		public LeaderboardController LeaderboardController { get; private set; }
-		public GameController        GameController        { get; private set; }
-		public PlayerController      PlayerController      => GameController.PlayerController;
-		public XpController          XpController          => GameController.XpController;
+		public CoreSpawnHelper   SpawnHelper       { get; private set; }
+		public PauseManager      PauseManager      { get; private set; }
+		public LevelManager      LevelManager      { get; private set; }
+		public PlayerManager     PlayerManager     { get; private set; }
+		public LevelGoalManager  LevelGoalManager  { get; private set; }
+		public MinimapManager    MinimapManager    { get; private set; }
+		public GameController    GameController    { get; private set; }
+		public ProfileController ProfileController { get; private set; }
+		public PlayerController  PlayerController  => ProfileController.PlayerController;
+		public XpController      XpController      => ProfileController.XpController;
 
 		void OnDisable() {
 			GameController.Deinit();
@@ -40,24 +39,28 @@ namespace STP.Behaviour.Starter {
 #if UNITY_EDITOR
 			if ( !GameState.IsActiveInstanceExists ) {
 				Debug.Log("Creating new GameState instance");
-				var gs = GameState.CreateNewActiveGameState("test", "test");
+				GameState.CreateNewActiveGameState();
+			}
+			if ( !ProfileState.IsActiveInstanceExists ) {
+				Debug.Log("Creating new GameState instance");
+				var gs = ProfileState.CreateNewActiveGameState("test", "test");
 				gs.LevelState.CurLevelIndex = 0;
 			}
 #endif
-			LeaderboardController = new LeaderboardController();
-			GameController        = new GameController(GameState.ActiveInstance);
-			var pc  = GameController.PlayerController;
-			var lc  = GameController.LevelController;
-			var xc  = GameController.XpController;
-			var cc  = GameController.ChunkController;
-			var puc = GameController.PowerUpController;
+			GameController    = new GameController(GameState.ActiveInstance);
+			ProfileController = new ProfileController(ProfileState.ActiveInstance);
+			var pc  = ProfileController.PlayerController;
+			var lc  = ProfileController.LevelController;
+			var xc  = ProfileController.XpController;
+			var cc  = ProfileController.ChunkController;
+			var puc = ProfileController.PowerUpController;
 			SpawnHelper   = new CoreSpawnHelper(this, TempObjectsRoot);
 			PauseManager  = new PauseManager();
 			LevelManager  = new LevelManager(Player.transform, PauseManager, lc);
 			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot);
 			CoreWindowsManager.Init(PauseManager, LevelManager, PlayerManager, pc, xc);
 			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, CoreWindowsManager, lc, xc,
-				LeaderboardController, GameState.ActiveInstance);
+				GameController.LeaderboardController, ProfileState.ActiveInstance);
 			MinimapManager   = new MinimapManager(MinimapCamera);
 			Generator.Init(cc, puc);
 			Generator.GenerateLevel(lc.GetCurLevelConfig(), cc.GetChunkPrefab, LevelObjectsRoot);

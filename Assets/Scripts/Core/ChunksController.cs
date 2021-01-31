@@ -12,7 +12,7 @@ namespace STP.Core {
 
 		readonly Dictionary<string, int> _chunkGeneratorsCount = new Dictionary<string, int>();
 
-		public ChunkController(GameState gameState) : base(gameState) {
+		public ChunkController(ProfileState profileState) {
 			_chunkConfig = LoadConfig();
 			Debug.Assert(_chunkConfig);
 		}

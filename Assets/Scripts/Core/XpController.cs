@@ -29,7 +29,7 @@ namespace STP.Core {
 
 		public event Action<int> OnXpChanged;
 
-		public XpController(GameState gameState) : base(gameState) {
+		public XpController(ProfileState profileState) {
 			LoadConfig();
 		}
 
