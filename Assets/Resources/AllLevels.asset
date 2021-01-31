@@ -65,3 +65,111 @@ MonoBehaviour:
     - Weight: 30
       Name: Generators\Size10\Generator_-924416294
     LevelSpaceSize: 4500
+  - LevelSeed: 0
+    GeneratorsCount: 6
+    CellSize: 1500
+    PowerUpInfos:
+    - PowerUpType: 6
+      Count: 2
+    - PowerUpType: 2
+      Count: 3
+    - PowerUpType: 1
+      Count: 3
+    - PowerUpType: 5
+      Count: 2
+    Chunks:
+    - Weight: 240
+      Name: EmptySpaceChunk
+    - Weight: 30
+      Name: Generators\Size10\Generator_-924416294
+    - Weight: 30
+      Name: Generators\Size10\Generator_716236387
+    - Weight: 30
+      Name: Generators\Size9\Generator_-1628333668
+    - Weight: 30
+      Name: Generators\Size9\Generator_797544668
+    - Weight: 30
+      Name: Generators\Size9\Generator_-192198644
+    - Weight: 30
+      Name: Generators\Size15\Generator_-937964067
+    - Weight: 30
+      Name: Generators\Size15\Generator_-385608902
+    LevelSpaceSize: 4500
+  - LevelSeed: 0
+    GeneratorsCount: 9
+    CellSize: 1500
+    PowerUpInfos:
+    - PowerUpType: 6
+      Count: 2
+    - PowerUpType: 2
+      Count: 3
+    - PowerUpType: 1
+      Count: 3
+    - PowerUpType: 5
+      Count: 2
+    Chunks:
+    - Weight: 240
+      Name: EmptySpaceChunk
+    - Weight: 30
+      Name: Generators\Size10\Generator_-924416294
+    - Weight: 30
+      Name: Generators\Size10\Generator_716236387
+    - Weight: 30
+      Name: Generators\Size9\Generator_-1628333668
+    - Weight: 30
+      Name: Generators\Size9\Generator_797544668
+    - Weight: 30
+      Name: Generators\Size9\Generator_-192198644
+    - Weight: 30
+      Name: Generators\Size7\Generator_429111232
+    - Weight: 30
+      Name: Generators\Size7\Generator_1533632874
+    LevelSpaceSize: 7500
+  - LevelSeed: 0
+    GeneratorsCount: 10
+    CellSize: 1500
+    PowerUpInfos:
+    - PowerUpType: 6
+      Count: 2
+    - PowerUpType: 2
+      Count: 3
+    - PowerUpType: 1
+      Count: 3
+    - PowerUpType: 5
+      Count: 2
+    Chunks:
+    - Weight: 240
+      Name: EmptySpaceChunk
+    - Weight: 30
+      Name: Generators\Size15\Generator_436665061
+    - Weight: 30
+      Name: Generators\Size15\Generator_-385608902
+    - Weight: 30
+      Name: Generators\Size9\Generator_-525689417
+    - Weight: 30
+      Name: Generators\Size9\Generator_797544668
+    - Weight: 30
+      Name: Generators\Size10\Generator_-924416294
+    - Weight: 30
+      Name: Generators\Size10\Generator_716236387
+    - Weight: 30
+      Name: Generators\Size7\Generator_429111232
+    LevelSpaceSize: 7500
+  - LevelSeed: 0
+    GeneratorsCount: 1
+    CellSize: 2500
+    PowerUpInfos:
+    - PowerUpType: 6
+      Count: 2
+    - PowerUpType: 2
+      Count: 3
+    - PowerUpType: 1
+      Count: 3
+    - PowerUpType: 5
+      Count: 2
+    Chunks:
+    - Weight: 240
+      Name: EmptySpaceChunk
+    - Weight: 30
+      Name: Generators\Size25\Generator_1865551938
+    LevelSpaceSize: 7500

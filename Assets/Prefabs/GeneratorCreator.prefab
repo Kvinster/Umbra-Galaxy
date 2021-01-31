@@ -214,8 +214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad8fa4bbabe4a79b449aeedc5e06350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridSize: 15
-  PowerUpPointsCount: 3
+  GridSize: 25
+  PowerUpPointsCount: 5
   VisualizeMap: 0
   VisualizeConvertedMap: 0
   MainGeneratorPrefab: {fileID: 7014569917127402353, guid: 0fc848f1dc484bd46b6eca0b583fc75e,
