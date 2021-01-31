@@ -8,14 +8,14 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.MainMenu {
 	public class SettingsScreen : BaseMainMenuComponent {
-		const string MasterVolume = "masterVol";
+		const string MasterVolumeId = SettingsController.MasterVolumeId;
 
 		const float VolMin = -80;
 		const float VolMax = 20;
 
 		float CurMasterVolume {
 			get {
-				AudioMixer.GetFloat(MasterVolume, out var volume);
+				AudioMixer.GetFloat(MasterVolumeId, out var volume);
 				return volume;
 			}
 		}
@@ -58,7 +58,7 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void UpdateVolume(float value) {
-			AudioMixer.SetFloat(MasterVolume, value);
+			AudioMixer.SetFloat(MasterVolumeId, value);
 		}
 
 		void UpdateView() {
