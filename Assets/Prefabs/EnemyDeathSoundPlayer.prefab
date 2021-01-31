@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6067123088519660370}
+  - component: {fileID: 14474359902553165}
   - component: {fileID: 4022062580556418280}
   - component: {fileID: 2665514832131900324}
   - component: {fileID: 7051913505424528725}
@@ -33,6 +34,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &14474359902553165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9084179322580691190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50eee101e20f42b39d2abc44aa636468, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DeathSoundDestroyer: {fileID: 7051913505424528725}
+  DeathSoundPlayerTransform: {fileID: 6067123088519660370}
+  DeathSoundPlayer: {fileID: 2665514832131900324}
 --- !u!82 &4022062580556418280
 AudioSource:
   m_ObjectHideFlags: 0

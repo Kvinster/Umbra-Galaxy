@@ -241,9 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Drone
-  DeathSoundDestroyer: {fileID: 1540883780619508949}
-  DeathSoundPlayerTransform: {fileID: 2345808160027986642}
-  DeathSoundPlayer: {fileID: 5783452894949181988}
+  DeathSoundPlayer: {fileID: 8398175368522010061}
   StartHp: 20
   MovementSpeed: 250
   RotationSpeed: 0.1
@@ -463,27 +461,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8412508986639075712}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5783452894949181988 stripped
+--- !u!114 &8398175368522010061 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2665514832131900324, guid: 964f304fecd057148808b1c252542d97,
+  m_CorrespondingSourceObject: {fileID: 14474359902553165, guid: 964f304fecd057148808b1c252542d97,
     type: 3}
   m_PrefabInstance: {fileID: 8412508986639075712}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 263840edafcd4ababe665ec528fc618c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1540883780619508949 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7051913505424528725, guid: 964f304fecd057148808b1c252542d97,
-    type: 3}
-  m_PrefabInstance: {fileID: 8412508986639075712}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea8b7d1046141a4aec0989ea97040f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 50eee101e20f42b39d2abc44aa636468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
