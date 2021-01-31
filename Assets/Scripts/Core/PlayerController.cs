@@ -68,6 +68,11 @@ namespace STP.Core {
 			return Mathf.Approximately(CurHp, 0f);
 		}
 
+		public void OnRespawn() {
+			IsInvincible = false;
+			RestoreHp();
+		}
+
 		public void RestoreHp() {
 			CurHp = StartPlayerHp;
 		}
