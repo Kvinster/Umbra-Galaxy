@@ -26,9 +26,10 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		const string GeneratorPrefabSuffix    = ".prefab";
 		const string GeneratorNameFormat      = GeneratorPrefabPrefix + "{0}" + GeneratorPrefabSuffix;
 
-		public int    GridSize;
-		public bool   VisualizeMap;
-		public bool   VisualizeConvertedMap;
+		public int  GridSize;
+		public int  PowerUpPointsCount;
+		public bool VisualizeMap;
+		public bool VisualizeConvertedMap;
 
 		[Serializable]
 		public class BulletPair {
@@ -65,7 +66,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 				}
 				var fullPath = AssetDatabase.GetAssetPath(chunkInfo.Prefab);
 				File.Delete(fullPath);
-				CreateGeneratorChunk(generatorChunkComp.Seed, generatorChunkComp.ChunkSize);
+				CreateGeneratorChunk(generatorChunkComp.Seed, generatorChunkComp.ChunkSize, PowerUpPointsCount);
 			}
 			chunkConfig.RegenerateConfig();
 		}
@@ -73,10 +74,10 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		[Button("Create generator")]
 		void CreateRandomGeneratorChunk() {
 			var seed = Random.Range(int.MinValue, int.MaxValue);
-			CreateGeneratorChunk(seed, GridSize);
+			CreateGeneratorChunk(seed, GridSize, PowerUpPointsCount);
 		}
 
-		void CreateGeneratorChunk(int seed, int gridSize) {
+		void CreateGeneratorChunk(int seed, int gridSize, int powerUpPointsCount) {
 			Random.InitState(seed);
 
 			var mazeGen = new RandomWalkMapGenerator();
@@ -88,11 +89,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			if ( VisualizeConvertedMap ) {
 				VisualizeMaze(map);
 			}
-			var go = CreateGeneratorsVariant(map);
-
-			var comp = go.AddComponent<LevelGeneratorChunk>();
-			comp.Seed      = seed;
-			comp.ChunkSize = gridSize;
+			var go = CreateGeneratorsVariant(map, seed, powerUpPointsCount);
 
 			Directory.CreateDirectory(string.Format(GeneratorsBasePathFormat, gridSize));
 			PrefabUtility.SaveAsPrefabAsset(go, string.Format(GeneratorsBasePathFormat, gridSize) + string.Format(GeneratorNameFormat, seed));
@@ -145,12 +142,14 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			}
 		}
 
-		GameObject CreateGeneratorsVariant(GeneratorsMap map) {
+		GameObject CreateGeneratorsVariant(GeneratorsMap map, int seed, int powerUpPointsCount) {
 
 			var baseGo = new GameObject();
 
 			var connectorsMap = new Map<Connector>(map.Size);
 			var mainGenPoint  = InvalidVector;
+
+			var cellSize = 100;
 
 			// Create generators and init connectors map
 			for ( var y = 0; y < map.Size; y++ ) {
@@ -167,7 +166,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 							Debug.LogError("Can't cast instance to GameObject. aborting instancing generator");
 							continue;
 						}
-						genGo.transform.position = new Vector3(x, y, 0) * 100;
+						genGo.transform.position = new Vector3(x, y, 0) * cellSize;
 						var genComp    = genGo.GetComponent<Generator>();
 						var bulletPair = RandomUtils.GetRandomElement(BulletPrefabs);
 						genComp.BulletPrefab    = (cell == PlaceType.MainGenerator) ?  bulletPair.MainGenBullet : bulletPair.SubGenBullet;
@@ -182,7 +181,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 							Debug.LogError("Can't cast instance to GameObject. aborting instancing connector");
 							continue;
 						}
-						connectorGo.transform.position = new Vector3(x, y, 0) * 100;
+						connectorGo.transform.position = new Vector3(x, y, 0) * cellSize;
 						var connector = connectorGo.GetComponent<Connector>();
 						connectorsMap.SetCell(x, y, connector);
 					}
@@ -198,6 +197,21 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			foreach ( var startLink in mainConnector.Children ) {
 				CreateLine(startLink, mainConnector);
 				VisitPoint(startLink);
+			}
+
+
+			var comp       = baseGo.AddComponent<LevelGeneratorChunk>();
+			comp.Seed      = seed;
+			comp.ChunkSize = map.Size;
+
+			// Create Random powerup points
+			for ( var i = 0; i < powerUpPointsCount; i++ ) {
+				var x = Random.Range(-map.Size / 2f, map.Size / 2f) * cellSize;
+				var y = Random.Range(-map.Size / 2f, map.Size / 2f) * cellSize;
+				var point = new GameObject();
+				point.transform.position = new Vector3(x, y, 0);
+				point.transform.SetParent(baseGo.transform);
+				comp.FreePowerUpSpawnPoints.Add(point.transform);
 			}
 
 			return baseGo;
