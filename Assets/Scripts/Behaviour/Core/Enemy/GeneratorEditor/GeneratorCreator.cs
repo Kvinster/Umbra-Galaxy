@@ -56,6 +56,9 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		void RefreshCreatedGenerators() {
 			var chunkConfig = Resources.Load<ChunkConfig>(ChunkConfig.ChunkConfigPath);
 			foreach ( var chunkInfo in chunkConfig.ChunkInfos ) {
+				if ( !chunkInfo.Prefab ) {
+					continue;
+				}
 				var generatorChunkComp = chunkInfo.Prefab.GetComponent<LevelGeneratorChunk>();
 				if ( !generatorChunkComp ) {
 					continue;
