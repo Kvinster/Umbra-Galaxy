@@ -52,7 +52,7 @@ namespace STP.Behaviour.Starter {
 			}
 #endif
 			GameController    = new GameController(GameState.ActiveInstance);
-			ProfileController = new ProfileController(ProfileState.ActiveInstance);
+			ProfileController = ProfileController.ActiveInstance;
 			var pc  = ProfileController.PlayerController;
 			var lc  = ProfileController.LevelController;
 			var xc  = ProfileController.XpController;

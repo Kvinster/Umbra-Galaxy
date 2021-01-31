@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using STP.Behaviour.Starter;
 using STP.Config;
+using STP.Core;
 using STP.Core.State;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
@@ -55,6 +56,7 @@ namespace STP.Behaviour.MainMenu {
 
 		void LoadLevel(int levelIndex) {
 			ProfileState.ActiveInstance.LevelState.CurLevelIndex = levelIndex;
+			ProfileController.CreateNewActiveInstance(ProfileState.ActiveInstance);
 			SceneManager.LoadScene("TestRoom");
 		}
 
