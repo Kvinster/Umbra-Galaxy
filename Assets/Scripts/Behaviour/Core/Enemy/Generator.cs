@@ -26,6 +26,9 @@ namespace STP.Behaviour.Core.Enemy {
         [NotNull]
         public GameObject BulletPrefab;
         public float      BulletRunForce;
+        [Header("Sound")]
+        [NotNull]
+        public BaseSimpleSoundPlayer ShotSoundPlayer;
 
         CoreSpawnHelper  _spawnHelper;
         LevelGoalManager _levelGoalManager;
@@ -130,6 +133,7 @@ namespace STP.Behaviour.Core.Enemy {
             }
             var go = Instantiate(BulletPrefab, transform.position, Quaternion.Euler(0, 0, GetViewAngleToTarget()), _spawnHelper.TempObjRoot);
             InitCreatedObject(go);
+            ShotSoundPlayer.Play();
         }
 
         void InitCreatedObject(GameObject go) {

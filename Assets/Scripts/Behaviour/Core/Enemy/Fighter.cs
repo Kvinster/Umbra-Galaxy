@@ -24,6 +24,10 @@ namespace STP.Behaviour.Core.Enemy {
 		public float      FirePeriod;
 		public float      StartBulletForce;
 
+		[Header("Sound")]
+		[NotNull]
+		public BaseSimpleSoundPlayer ShotSoundPlayer;
+
 		readonly Timer _fireTimer = new Timer();
 
 		Transform       _target;
@@ -103,6 +107,7 @@ namespace STP.Behaviour.Core.Enemy {
 			}
 			bullet.Init(10f, Vector2.up * StartBulletForce, transform.rotation.eulerAngles.z, Collider);
 			_spawnHelper.TryInitSpawnedObject(go);
+			ShotSoundPlayer.Play();
 		}
 	}
 }

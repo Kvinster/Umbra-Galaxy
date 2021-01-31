@@ -12,12 +12,16 @@ namespace STP.Behaviour.Core.Enemy {
 		public float           MaxAttackDistance;
 		public float           MovementSpeed;
 		public float           RotationSpeed;
-		[NotNull]public Collider2D      Collider;
+		[NotNull]
+		public Collider2D      Collider;
 		public Rigidbody2D     Rigidbody;
 		public TriggerNotifier DetectRangeNotifier;
 		public float           ShootInterval;
 		public GameObject      BulletPrefab;
 		public float           BulletStartForce;
+		[Header("Sound")]
+		[NotNull]
+		public BaseSimpleSoundPlayer ShotSoundPlayer;
 
 		Transform _target;
 
@@ -62,6 +66,7 @@ namespace STP.Behaviour.Core.Enemy {
 				return false;
 			}
 			_spawnHelper.TryInitSpawnedObject(bulletGo);
+			ShotSoundPlayer.Play();
 			return true;
 		}
 
