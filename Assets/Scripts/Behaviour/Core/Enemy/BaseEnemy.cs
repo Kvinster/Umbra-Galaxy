@@ -14,13 +14,21 @@ namespace STP.Behaviour.Core.Enemy {
 		public Transform             DeathSoundPlayerTransform;
 		public BaseSimpleSoundPlayer DeathSoundPlayer;
 
+		protected bool IsAlive;
+
 		Transform _tempObjRoot;
 
 		protected override void InitInternal(CoreStarter starter) {
 			_tempObjRoot = starter.TempObjectsRoot;
+
+			IsAlive = true;
 		}
 
 		protected virtual void Die() {
+			if ( !IsAlive ) {
+				return;
+			}
+			IsAlive = false;
 			TryStartPlayingDeathSound();
 			EventManager.Fire(new EnemyDestroyed(Name));
 		}
