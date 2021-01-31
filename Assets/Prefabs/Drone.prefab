@@ -243,8 +243,8 @@ MonoBehaviour:
   Name: Drone
   DeathSoundPlayer: {fileID: 8398175368522010061}
   StartHp: 20
-  MovementSpeed: 250
-  RotationSpeed: 0.1
+  MovementSpeed: 500
+  RotationSpeed: 0.03
   Rigidbody: {fileID: 6631905783988765893}
   DetectRangeNotifier: {fileID: 6631905782644632929}
 --- !u!114 &6631905783988765889

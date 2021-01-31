@@ -17,12 +17,12 @@ MonoBehaviour:
     GeneratorsCount: 3
     CellSize: 1500
     PowerUpInfos:
-    - PowerUpType: 0
-      Count: 99
+    - PowerUpType: 3
+      Count: 2
     - PowerUpType: 1
-      Count: 99
+      Count: 4
     - PowerUpType: 2
-      Count: 99
+      Count: 2
     Chunks:
     - Weight: 150
       Name: EmptySpaceChunk
@@ -38,7 +38,15 @@ MonoBehaviour:
   - LevelSeed: 0
     GeneratorsCount: 4
     CellSize: 1500
-    PowerUpInfos: []
+    PowerUpInfos:
+    - PowerUpType: 1
+      Count: 2
+    - PowerUpType: 2
+      Count: 1
+    - PowerUpType: 5
+      Count: 3
+    - PowerUpType: 4
+      Count: 3
     Chunks:
     - Weight: 240
       Name: EmptySpaceChunk
