@@ -38,11 +38,15 @@ namespace STP.Behaviour.Starter {
 		void Start() {
 #if UNITY_EDITOR
 			if ( !GameState.IsActiveInstanceExists ) {
-				Debug.Log("Creating new GameState instance");
-				GameState.CreateNewActiveGameState();
+				Debug.Log("Trying to load GameState instance");
+				var gs = GameState.TryLoadActiveGameState();
+				if ( gs == null ) {
+					Debug.Log("Loading failed, creating new GameState instance");
+					GameState.CreateNewActiveGameState();
+				}
 			}
 			if ( !ProfileState.IsActiveInstanceExists ) {
-				Debug.Log("Creating new GameState instance");
+				Debug.Log("Creating new ProfileState instance");
 				var gs = ProfileState.CreateNewActiveGameState("test", "test");
 				gs.LevelState.CurLevelIndex = 0;
 			}
