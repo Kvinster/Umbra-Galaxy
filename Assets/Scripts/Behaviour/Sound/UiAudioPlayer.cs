@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Audio;
 
 using STP.Behaviour.Utils;
 using STP.Utils;
@@ -19,6 +20,7 @@ namespace STP.Behaviour.Sound {
 			if ( !_audioSource ) {
 				_audioSource = gameObject.AddComponent<AudioSource>();
 			}
+			_audioSource.outputAudioMixerGroup = Resources.Load<AudioMixerGroup>("AudioMixer");
 
 			_cameraUtility = CameraUtility.Instance;
 
