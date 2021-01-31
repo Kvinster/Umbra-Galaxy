@@ -14,8 +14,8 @@ namespace STP.Core {
 		int CurLevelIndex  => _levelState.CurLevelIndex;
 		int LastLevelIndex => _levelState.LastLevelIndex;
 
-		public LevelController(GameState gameState) : base(gameState) {
-			_levelState   = gameState.LevelState;
+		public LevelController(ProfileState profileState) {
+			_levelState   = profileState.LevelState;
 			_levelsConfig = LoadConfig();
 
 			Assert.AreNotEqual(CurLevelIndex, -1);

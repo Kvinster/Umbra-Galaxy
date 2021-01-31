@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Xml;
 
 namespace STP.Utils.Xml {
@@ -19,7 +20,7 @@ namespace STP.Utils.Xml {
         static readonly Func<string, string> StringConverter = x => x;
         static readonly Func<string, int>    IntConverter    = int.Parse;
         static readonly Func<string, bool>   BoolConverter   = bool.Parse;
-        static readonly Func<string, float>  FloatConverter  = float.Parse;
+        static readonly Func<string, float>  FloatConverter  = (x) => float.Parse(x, CultureInfo.InvariantCulture);
 
         public static string GetAttrValue(this XmlNode node, string attrName, string def) {
             return node.TryLoadAttrValue(attrName, StringConverter, out var value) ? value : def;

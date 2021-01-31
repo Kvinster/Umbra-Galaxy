@@ -33,7 +33,7 @@ namespace STP.Behaviour.MainMenu {
 
 		protected override void InitInternal(MainMenuStarter starter) {
 			_mainMenuManager       = starter.MainMenuManager;
-			_leaderboardController = starter.LeaderboardController;
+			_leaderboardController = starter.GameController.LeaderboardController;
 
 			ClearButton.onClick.AddListener(ClearLeaderboard);
 			BackButton.onClick.AddListener(ShowMain);

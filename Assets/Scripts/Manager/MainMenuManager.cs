@@ -21,7 +21,7 @@ namespace STP.Manager {
 		}
 
 		public void Init() {
-			if ( GameState.IsActiveInstanceExists ) {
+			if ( ProfileState.IsActiveInstanceExists ) {
 				ShowMain();
 			} else {
 				ShowProfiles();

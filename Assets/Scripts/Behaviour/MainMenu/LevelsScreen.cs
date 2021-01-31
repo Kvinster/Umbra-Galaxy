@@ -29,9 +29,9 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		public void Show() {
-			Assert.IsTrue(GameState.IsActiveInstanceExists);
+			Assert.IsTrue(ProfileState.IsActiveInstanceExists);
 
-			var gs          = GameState.ActiveInstance;
+			var gs          = ProfileState.ActiveInstance;
 			var levelConfig = Resources.Load<LevelsConfig>("AllLevels");
 			for ( var i = 0; i < levelConfig.Levels.Count; ++i ) {
 				var levelButton = GetFreeLevelButton();
@@ -54,7 +54,7 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void LoadLevel(int levelIndex) {
-			GameState.ActiveInstance.LevelState.CurLevelIndex = levelIndex;
+			ProfileState.ActiveInstance.LevelState.CurLevelIndex = levelIndex;
 			SceneManager.LoadScene("TestRoom");
 		}
 

@@ -42,9 +42,9 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void UpdateView() {
-			if ( GameState.IsActiveInstanceExists ) {
+			if ( ProfileState.IsActiveInstanceExists ) {
 				Debug.LogError("Active game state instance exists");
-				GameState.ReleaseActiveInstance();
+				ProfileState.ReleaseActiveInstance();
 			}
 
 			for ( var i = 0; i < SaveNames.Length; ++i ) {
@@ -59,14 +59,14 @@ namespace STP.Behaviour.MainMenu {
 
 				var       isExists     = XmlUtils.IsGameStateDocumentExists(stateName);
 				var       canInitState = isExists;
-				GameState gs           = null;
+				ProfileState gs           = null;
 				if ( isExists ) {
-					gs = GameState.LoadGameState(stateName);
+					gs = ProfileState.LoadGameState(stateName);
 					if ( gs == null ) {
 						Debug.LogErrorFormat("Can't load game state '{0}'", stateName);
 						canInitState = false;
 					} else if ( string.IsNullOrEmpty(gs.ProfileName) ) {
-						GameState.TryRemoveSave(gs.StateName);
+						ProfileState.TryRemoveSave(gs.StateName);
 						canInitState = false;
 					}
 				}
@@ -89,15 +89,15 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void LoadState(string stateName) {
-			var gs = GameState.LoadGameState(stateName);
+			var gs = ProfileState.LoadGameState(stateName);
 			if ( gs != null ) {
-				GameState.SetActiveInstance(gs);
+				ProfileState.SetActiveInstance(gs);
 				_mainMenuManager.ShowMain();
 			}
 		}
 
 		void RemoveState(string stateName) {
-			if ( GameState.TryRemoveSave(stateName) ) {
+			if ( ProfileState.TryRemoveSave(stateName) ) {
 				UpdateView();
 			}
 		}

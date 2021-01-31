@@ -44,7 +44,7 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		void OnGoToMenuClick() {
-			GameState.TryReleaseActiveInstance();
+			ProfileState.TryReleaseActiveInstance();
 			SceneManager.LoadScene("MainMenu");
 		}
 	}

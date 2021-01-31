@@ -9,7 +9,7 @@ namespace STP.Core {
 	public sealed class PowerUpController : BaseStateController {
 		readonly PowerUpConfig _powerUpConfig;
 
-		public PowerUpController(GameState gameState) : base(gameState) {
+		public PowerUpController(ProfileState profileState) {
 			_powerUpConfig = LoadConfig();
 			Assert.IsNotNull(_powerUpConfig);
 		}

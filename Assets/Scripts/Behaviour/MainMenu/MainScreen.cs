@@ -33,13 +33,13 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		public void Show() {
-			if ( !GameState.IsActiveInstanceExists ) {
+			if ( !ProfileState.IsActiveInstanceExists ) {
 				Debug.LogError("No active game state instance");
 				return;
 			}
 			gameObject.SetActive(true);
 
-			TitleText.text = string.Format(TitleFormat, GameState.ActiveInstance.ProfileName);
+			TitleText.text = string.Format(TitleFormat, ProfileState.ActiveInstance.ProfileName);
 		}
 
 		public void Hide() {
@@ -59,7 +59,7 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void ChangeProfile() {
-			GameState.ReleaseActiveInstance();
+			ProfileState.ReleaseActiveInstance();
 			_mainMenuManager.ShowProfiles();
 		}
 

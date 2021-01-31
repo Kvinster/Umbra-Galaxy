@@ -54,7 +54,7 @@ namespace STP.Core {
 		public event Action<float> OnCurHpChanged;
 		public event Action<bool>  OnIsInvincibleChanged;
 
-		public PlayerController(GameState gameState) : base(gameState) {
+		public PlayerController(ProfileState profileState) {
 			CurLives     = StartPlayerLives;
 			CurHp        = StartPlayerHp;
 			IsInvincible = false;

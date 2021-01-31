@@ -7,22 +7,31 @@ using System.Xml;
 using STP.Utils.Xml;
 
 namespace STP.Core.State {
-	public sealed class GameState {
-		public static GameState ActiveInstance { get; private set; }
+	public sealed class ProfileState {
+		public static ProfileState ActiveInstance { get; private set; }
 
 		public static bool IsActiveInstanceExists => (ActiveInstance != null);
 
-		public static string StateName => "common_state";
-
+		public readonly string StateName;
 
 		readonly List<BaseState> _states = new List<BaseState>();
 
-		public SettingsState    SettingsState    { get; }
-		public LeaderboardState LeaderboardState { get; }
+		public CommonState   CommonState   { get; }
+		public LevelState    LevelState    { get; }
+		public SettingsState SettingsState { get; }
 
-		GameState() {
-			LeaderboardState = AddState(new LeaderboardState());
-			SettingsState    = AddState(new SettingsState());
+		public string ProfileName {
+			get => CommonState.ProfileName;
+			private set {
+				CommonState.ProfileName = value;
+				Save();
+			}
+		}
+
+		ProfileState(string stateName) {
+			StateName   = stateName;
+			CommonState = AddState(new CommonState());
+			LevelState  = AddState(new LevelState());
 		}
 
 		public void Save() {
@@ -52,32 +61,33 @@ namespace STP.Core.State {
 			return state;
 		}
 
-		public static GameState CreateNewActiveGameState() {
+		public static ProfileState CreateNewActiveGameState(string stateName, string profileName) {
 			if ( IsActiveInstanceExists ) {
 				Debug.LogError("GameState active instance already exists");
 				return ActiveInstance;
 			}
-			ActiveInstance = new GameState();
+			ActiveInstance             = new ProfileState(stateName);
+			ActiveInstance.ProfileName = profileName;
 			return ActiveInstance;
 		}
 
-		public static GameState LoadGameState() {
-			var document = XmlUtils.LoadGameStateDocument(StateName);
+		public static ProfileState LoadGameState(string stateName) {
+			var document = XmlUtils.LoadGameStateDocument(stateName);
 			if ( document == null ) {
-				Debug.LogErrorFormat("Can't load save for state name '{0}'", StateName);
+				Debug.LogErrorFormat("Can't load save for state name '{0}'", stateName);
 				return null;
 			}
-			var gs = new GameState();
+			var gs = new ProfileState(stateName);
 			gs.Load(document);
 			return gs;
 		}
 
-		public static void SetActiveInstance(GameState gameState) {
+		public static void SetActiveInstance(ProfileState profileState) {
 			if ( IsActiveInstanceExists ) {
 				Debug.LogError("Can't set active game state instance: another active instance already exists");
 				return;
 			}
-			ActiveInstance = gameState;
+			ActiveInstance = profileState;
 		}
 
 		public static void TryReleaseActiveInstance() {
