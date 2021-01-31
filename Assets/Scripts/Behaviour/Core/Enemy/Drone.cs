@@ -40,7 +40,7 @@ namespace STP.Behaviour.Core.Enemy {
 			var destructible = other.gameObject.GetComponent<IDestructible>();
 			if ( destructible != null ) {
 				destructible.TakeDamage(20);
-				Die();
+				Die(fromPlayer: false);
 			}
 		}
 
@@ -60,8 +60,8 @@ namespace STP.Behaviour.Core.Enemy {
 			DetectRangeNotifier.OnTriggerExit  += OnDetectRangeExit;
 		}
 
-		protected override void Die() {
-			base.Die();
+		protected override void Die(bool fromPlayer = true) {
+			base.Die(fromPlayer);
 			DetectRangeNotifier.OnTriggerEnter -= OnDetectRangeEnter;
 			DetectRangeNotifier.OnTriggerExit  -= OnDetectRangeExit;
 

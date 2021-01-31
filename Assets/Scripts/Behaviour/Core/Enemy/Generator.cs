@@ -82,12 +82,13 @@ namespace STP.Behaviour.Core.Enemy {
             }
         }
 
-        protected override void Die() {
-            Die(false);
+
+        protected override void Die(bool fromPlayer = true) {
+            Die(false, fromPlayer);
         }
 
-        void Die(bool fromConnector) {
-            base.Die();
+        void Die(bool fromConnector, bool fromPlayer) {
+            base.Die(fromPlayer);
             if ( !fromConnector ) {
                 if ( IsMainGenerator ) {
                     _levelGoalManager.Advance();

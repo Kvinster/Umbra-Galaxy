@@ -104,8 +104,8 @@ namespace STP.Behaviour.Core.Enemy {
 			}
 		}
 
-		protected override void Die() {
-			base.Die();
+		protected override void Die(bool fromPlayer = true) {
+			base.Die(fromPlayer);
 			DetectRangeNotifier.OnTriggerEnter -= OnDetectRangeEnter;
 			DetectRangeNotifier.OnTriggerExit  -= OnDetectRangeExit;
 

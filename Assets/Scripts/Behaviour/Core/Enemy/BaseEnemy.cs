@@ -24,13 +24,15 @@ namespace STP.Behaviour.Core.Enemy {
 			IsAlive = true;
 		}
 
-		protected virtual void Die() {
+		protected virtual void Die(bool fromPlayer = true) {
 			if ( !IsAlive ) {
 				return;
 			}
 			IsAlive = false;
 			TryStartPlayingDeathSound();
-			EventManager.Fire(new EnemyDestroyed(Name));
+			if ( fromPlayer ) {
+				EventManager.Fire(new EnemyDestroyed(Name));
+			}
 		}
 
 		protected void TryStartPlayingDeathSound() {
