@@ -7,6 +7,7 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
     public class Generator : BaseEnemy, IDestructible {
+        [Space]
         public Connector Connector;
 
         public bool  IsMainGenerator;
@@ -63,6 +64,7 @@ namespace STP.Behaviour.Core.Enemy {
         }
 
         protected override void InitInternal(CoreStarter starter) {
+            base.InitInternal(starter);
             FireTrigger.OnTriggerEnter += OnFireRangeEnter;
             FireTrigger.OnTriggerExit  += OnFireRangeExit;
             Connector.OnOutOfLinks     += () => Die(true);

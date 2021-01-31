@@ -6,6 +6,7 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
 	public sealed class Fighter : BaseEnemy, IDestructible {
+		[Space]
 		public float StartHp;
 		public float MovementSpeed;
 		[Range(0f, 1f)]
@@ -57,6 +58,7 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
+			base.InitInternal(starter);
 			_spawnHelper = starter.SpawnHelper;
 			CurHp        = StartHp;
 			_fireTimer.Start(FirePeriod);

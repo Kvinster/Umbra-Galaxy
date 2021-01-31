@@ -6,6 +6,7 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
 	public sealed class Glider : BaseEnemy, IDestructible {
+		[Space]
 		public float           StartHp = 20;
 		public float           MinAttackDistance;
 		public float           MaxAttackDistance;
@@ -85,6 +86,7 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
+			base.InitInternal(starter);
 			_spawnHelper = starter.SpawnHelper;
 
 			CurHp = StartHp;
