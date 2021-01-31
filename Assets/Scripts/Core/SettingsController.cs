@@ -15,6 +15,9 @@ namespace STP.Core {
 		public float MasterVolume {
 			get => _state.MasterVolume;
 			set {
+				if ( Mathf.Approximately(MasterVolume, value) ) {
+					return;
+				}
 				_state.MasterVolume = value;
 				UpdateVolume();
 				_gameState.Save();
