@@ -69,12 +69,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6476260919088652968}
+  - component: {fileID: 6971401920323202608}
   - component: {fileID: 6476260919088652970}
   - component: {fileID: 6476260919088652971}
   - component: {fileID: 6476260919088652972}
   - component: {fileID: 6476260919088652973}
   - component: {fileID: 6476260919088652974}
-  - component: {fileID: 6971401920323202608}
   m_Layer: 10
   m_Name: Fighter
   m_TagString: Untagged
@@ -95,9 +95,33 @@ Transform:
   m_Children:
   - {fileID: 6476260918297627400}
   - {fileID: 1411003988930378201}
+  - {fileID: 1592291846104526375}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6971401920323202608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6476260919088652975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d8c79c6660e4aef9a526a501cceb97e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Fighter
+  DeathSoundPlayer: {fileID: 4762935835220863288}
+  StartHp: 20
+  MovementSpeed: 250
+  RotationSpeed: 0.1
+  Rigidbody: {fileID: 6476260919088652974}
+  Collider: {fileID: 6476260919088652973}
+  DetectRangeNotifier: {fileID: 6476260918297627402}
+  Bullet: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922, type: 3}
+  FirePeriod: 0.3
+  StartBulletForce: 200
 --- !u!114 &6476260919088652970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,28 +254,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6971401920323202608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6476260919088652975}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d8c79c6660e4aef9a526a501cceb97e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: Fighter
-  StartHp: 20
-  MovementSpeed: 250
-  RotationSpeed: 0.1
-  Rigidbody: {fileID: 6476260919088652974}
-  Collider: {fileID: 6476260919088652973}
-  DetectRangeNotifier: {fileID: 6476260918297627402}
-  Bullet: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922, type: 3}
-  FirePeriod: 0.3
-  StartBulletForce: 200
 --- !u!1 &7001162084074358171
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,3 +382,95 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1001 &4767681097754914165
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6476260919088652968}
+    m_Modifications:
+    - target: {fileID: 2665514832131900324, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: AudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 25c31de147c57fc4ea441cebe91910d5, type: 3}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084179322580691190, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyDeathSoundPlayer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 964f304fecd057148808b1c252542d97, type: 3}
+--- !u!4 &1592291846104526375 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+    type: 3}
+  m_PrefabInstance: {fileID: 4767681097754914165}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4762935835220863288 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 14474359902553165, guid: 964f304fecd057148808b1c252542d97,
+    type: 3}
+  m_PrefabInstance: {fileID: 4767681097754914165}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50eee101e20f42b39d2abc44aa636468, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -57,7 +57,7 @@ namespace STP.Core {
 		public PlayerController(GameState gameState) : base(gameState) {
 			CurLives     = StartPlayerLives;
 			CurHp        = StartPlayerHp;
-			IsInvincible = false;
+			IsInvincible = true;
 		}
 
 		public bool TakeDamage(float damage) {
