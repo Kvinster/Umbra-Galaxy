@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8385918440878554671}
   - component: {fileID: 4251787370868721333}
   - component: {fileID: 5781268260474957281}
-  - component: {fileID: 610353465852804202}
+  - component: {fileID: 6217631913747406453}
   m_Layer: 5
   m_Name: ProfileButton
   m_TagString: Untagged
@@ -53,10 +53,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e534a058c8d8469cb614eac7f94ba631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainButton: {fileID: 610353465852804202}
+  MainButton: {fileID: 6217631913747406453}
   Text: {fileID: 5598864673626675123}
   RemoveProfileButtonRoot: {fileID: 5083819471607381766}
-  RemoveProfileButton: {fileID: 4993593062420517968}
+  RemoveProfileButton: {fileID: 3247410955964756639}
 --- !u!222 &4251787370868721333
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &610353465852804202
+--- !u!114 &6217631913747406453
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2740907200125070184}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d5feb88bfc8449db80bdcc0c71a2f3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -114,7 +114,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0, g: 0.54901963, b: 1, a: 1}
+    m_NormalColor: {r: 0, g: 0.54901934, b: 1, a: 1}
     m_HighlightedColor: {r: 0.78431374, g: 0.8627451, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.78431374, g: 0.8627451, b: 1, a: 1}
@@ -305,9 +305,9 @@ GameObject:
   - component: {fileID: 7377993350588456710}
   - component: {fileID: 2122093019772914684}
   - component: {fileID: 6256299060969988074}
-  - component: {fileID: 4993593062420517968}
+  - component: {fileID: 3247410955964756639}
   m_Layer: 5
-  m_Name: ProfileButton
+  m_Name: RemoveProfileButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -370,7 +370,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4993593062420517968
+--- !u!114 &3247410955964756639
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -379,7 +379,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5083819471607381766}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d5feb88bfc8449db80bdcc0c71a2f3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:

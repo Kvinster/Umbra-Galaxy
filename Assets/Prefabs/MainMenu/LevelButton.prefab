@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5007059002398962737}
   - component: {fileID: 1363360024909575900}
   - component: {fileID: 5331570913688879836}
-  - component: {fileID: 5375781331062068794}
+  - component: {fileID: 1368337799008175232}
   m_Layer: 5
   m_Name: LevelButton
   m_TagString: Untagged
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 650626b126c848c980d8af0b6eac1c39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Button: {fileID: 5375781331062068794}
+  Button: {fileID: 1368337799008175232}
   LevelText: {fileID: 4067327318688776026}
 --- !u!222 &1363360024909575900
 CanvasRenderer:
@@ -91,7 +91,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5375781331062068794
+--- !u!114 &1368337799008175232
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2244507314274111238}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d5feb88bfc8449db80bdcc0c71a2f3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -111,7 +111,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0, g: 0.54901963, b: 1, a: 1}
+    m_NormalColor: {r: 0, g: 0.54901934, b: 1, a: 1}
     m_HighlightedColor: {r: 0.78431374, g: 0.8627451, b: 1, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.78431374, g: 0.8627451, b: 1, a: 1}

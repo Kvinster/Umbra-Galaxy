@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fefb6f5dc7e54d5ab68f89b54ad4363b, type: 3}
+  m_Name: CommonSoundsContainer
+  m_EditorClassIdentifier: 
+  UiClickClip: {fileID: 8300000, guid: 3a5f6efeb777d214c9d024bec3b973fc, type: 3}
