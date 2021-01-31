@@ -52,6 +52,11 @@ PrefabInstance:
       propertyPath: Name
       value: SuicideDrone
       objectReference: {fileID: 0}
+    - target: {fileID: 6631905783988765890, guid: a90abbdf2f3803b42bb3214e1b9d5673,
+        type: 3}
+      propertyPath: RotationSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6631905783988765891, guid: a90abbdf2f3803b42bb3214e1b9d5673,
         type: 3}
       propertyPath: m_LocalPosition.x
