@@ -62,30 +62,22 @@ namespace STP.Core.State {
 			return ActiveInstance;
 		}
 
-		public static GameState LoadGameState() {
+		public static GameState TryLoadActiveGameState() {
+			if ( IsActiveInstanceExists ) {
+				Debug.LogError("GameState active instance already exists");
+				return ActiveInstance;
+			}
+			if ( !XmlUtils.IsGameStateDocumentExists(StateName) ) {
+				return null;
+			}
 			var document = XmlUtils.LoadGameStateDocument(StateName);
 			if ( document == null ) {
 				Debug.LogErrorFormat("Can't load save for state name '{0}'", StateName);
 				return null;
 			}
-			var gs = new GameState();
-			gs.Load(document);
-			return gs;
-		}
-
-		public static void SetActiveInstance(GameState gameState) {
-			if ( IsActiveInstanceExists ) {
-				Debug.LogError("Can't set active game state instance: another active instance already exists");
-				return;
-			}
-			ActiveInstance = gameState;
-		}
-
-		public static void TryReleaseActiveInstance() {
-			if ( !IsActiveInstanceExists ) {
-				return;
-			}
-			ReleaseActiveInstance();
+			ActiveInstance = new GameState();
+			ActiveInstance.Load(document);
+			return ActiveInstance;
 		}
 
 		public static void ReleaseActiveInstance() {
@@ -94,21 +86,6 @@ namespace STP.Core.State {
 				return;
 			}
 			ActiveInstance = null;
-		}
-
-		public static bool TryRemoveSave(string stateName) {
-			var di = new DirectoryInfo(XmlUtils.BasePath);
-			if ( !di.Exists ) {
-				return false;
-			}
-			var success = false;
-			foreach ( var fi in di.EnumerateFiles("*.stpsave") ) {
-				if ( Path.GetFileNameWithoutExtension(fi.Name) == stateName ) {
-					success = true;
-					fi.Delete();
-				}
-			}
-			return success;
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 
 using STP.Behaviour.MainMenu;
 using STP.Core;
@@ -39,7 +40,8 @@ namespace STP.Behaviour.Starter {
 			if ( GameState.IsActiveInstanceExists ) {
 				return;
 			}
-			GameState.CreateNewActiveGameState();
+			var gs = GameState.TryLoadActiveGameState() ?? GameState.CreateNewActiveGameState();
+			Assert.IsNotNull(gs);
 		}
 	}
 }
