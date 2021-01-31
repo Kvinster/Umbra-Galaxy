@@ -4,7 +4,7 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
 	public sealed class SimpleSoundPlayer : BaseSimpleSoundPlayer {
-		[NotNull]
+		[NotNull(false)]
 		public AudioClip AudioClip;
 		public float     VolumeScale = 1f;
 

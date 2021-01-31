@@ -8,6 +8,8 @@ using STP.Core;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 
+using NaughtyAttributes;
+
 namespace STP.Behaviour.Core {
 	public sealed class Player : BaseCoreComponent, IDestructible {
 		const float TmpBulletDamage    = 10f;
@@ -34,9 +36,9 @@ namespace STP.Behaviour.Core {
 		[Space]
 		[NotNull]
 		public Collider2D ShieldCollider;
-		[Space]
-		[NotNull]
-		public BaseSimpleSoundPlayer ShotSoundPlayer;
+
+		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer DeathSoundPlayer;
+		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer ShotSoundPlayer;
 
 		Vector2 _input;
 
@@ -44,6 +46,7 @@ namespace STP.Behaviour.Core {
 		CoreSpawnHelper  _spawnHelper;
 		Transform        _playerStartPos;
 		PlayerManager    _playerManager;
+		PauseManager     _pauseManager;
 		LevelGoalManager _levelGoalManager;
 
 		PlayerController _playerController;
@@ -66,16 +69,23 @@ namespace STP.Behaviour.Core {
 		}
 
 		void Update() {
+			if ( _pauseManager.IsPaused ) {
+				return;
+			}
+
 			_input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
 			if ( Input.GetMouseButton(0) ) {
 				TryShoot();
 			}
 
-			_reloadTimer       -= Time.deltaTime;
+			_reloadTimer -= Time.deltaTime;
 		}
 
 		void FixedUpdate() {
+			if ( _pauseManager.IsPaused ) {
+				return;
+			}
 			if ( _input != Vector2.zero ) {
 				Rigidbody.AddForce(_input.normalized * MovementSpeed, ForceMode2D.Impulse);
 			}
@@ -89,6 +99,7 @@ namespace STP.Behaviour.Core {
 			_spawnHelper      = starter.SpawnHelper;
 			_playerStartPos   = starter.PlayerStartPos;
 			_playerManager    = starter.PlayerManager;
+			_pauseManager     = starter.PauseManager;
 			_levelGoalManager = starter.LevelGoalManager;
 
 			_playerController                =  starter.PlayerController;
@@ -122,6 +133,7 @@ namespace STP.Behaviour.Core {
 			if ( _playerController.TakeDamage(damage) ) {
 				_isAlive = false;
 				_levelGoalManager.OnPlayerDied();
+				DeathSoundPlayer.Play();
 			}
 		}
 

@@ -58,6 +58,7 @@ namespace STP.Core.State {
 				return ActiveInstance;
 			}
 			ActiveInstance = new GameState();
+			ActiveInstance.Save();
 			return ActiveInstance;
 		}
 

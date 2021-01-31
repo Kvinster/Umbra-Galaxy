@@ -8,20 +8,20 @@ namespace STP.Core {
 
 		readonly ProfileState _profileState;
 
-		public ChunkController       ChunkController       { get; }
-		public LevelController       LevelController       { get; }
-		public PlayerController      PlayerController      { get; }
-		public XpController          XpController          { get; }
-		public PowerUpController     PowerUpController     { get; }
+		public ChunkController   ChunkController   { get; }
+		public LevelController   LevelController   { get; }
+		public PlayerController  PlayerController  { get; }
+		public XpController      XpController      { get; }
+		public PowerUpController PowerUpController { get; }
 
 		public ProfileController(ProfileState profileState) {
 			_profileState = profileState;
 
-			ChunkController       = AddController(new ChunkController(_profileState));
-			LevelController       = AddController(new LevelController(_profileState));
-			PlayerController      = AddController(new PlayerController(_profileState));
-			XpController          = AddController(new XpController(_profileState));
-			PowerUpController     = AddController(new PowerUpController(_profileState));
+			ChunkController   = AddController(new ChunkController(_profileState));
+			LevelController   = AddController(new LevelController(_profileState));
+			PlayerController  = AddController(new PlayerController(_profileState));
+			XpController      = AddController(new XpController(_profileState));
+			PowerUpController = AddController(new PowerUpController(_profileState));
 		}
 
 		public void Deinit() {
