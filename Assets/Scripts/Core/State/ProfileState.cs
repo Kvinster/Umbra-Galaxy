@@ -16,9 +16,8 @@ namespace STP.Core.State {
 
 		readonly List<BaseState> _states = new List<BaseState>();
 
-		public CommonState   CommonState   { get; }
-		public LevelState    LevelState    { get; }
-		public SettingsState SettingsState { get; }
+		public CommonState CommonState { get; }
+		public LevelState  LevelState  { get; }
 
 		public string ProfileName {
 			get => CommonState.ProfileName;
