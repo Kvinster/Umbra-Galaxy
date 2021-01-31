@@ -5,7 +5,6 @@ using STP.Core;
 using STP.Core.State;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
-using STP.Utils.Xml;
 
 namespace STP.Behaviour.Starter {
 	public sealed class MainMenuStarter : BaseStarter<MainMenuStarter> {
@@ -22,11 +21,11 @@ namespace STP.Behaviour.Starter {
 
 
 		void Start() {
-			LoadGameState();
+			TryCreateGameState();
 			GameController = new GameController(GameState.ActiveInstance);
 
-			MainMenuManager =
-				new MainMenuManager(ProfilesScreen, ProfileNameScreen, MainScreen, LeaderboardWindow, LevelsScreen, SettingsScreen);
+			MainMenuManager = new MainMenuManager(ProfilesScreen, ProfileNameScreen, MainScreen, LeaderboardWindow,
+				LevelsScreen, SettingsScreen);
 
 			InitComponents();
 			// Settings for smooth gameplay
@@ -36,16 +35,11 @@ namespace STP.Behaviour.Starter {
 			MainMenuManager.Init();
 		}
 
-		void LoadGameState() {
-			var isExists = XmlUtils.IsGameStateDocumentExists(GameState.StateName);
-			if ( isExists ) {
-				var gs = GameState.LoadGameState();
-				if ( gs != null ) {
-					GameState.SetActiveInstance(gs);
-				}
-			} else {
-				GameState.CreateNewActiveGameState();
+		void TryCreateGameState() {
+			if ( GameState.IsActiveInstanceExists ) {
+				return;
 			}
+			GameState.CreateNewActiveGameState();
 		}
 	}
 }
