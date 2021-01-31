@@ -8,6 +8,8 @@ using STP.Core;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 
+using NaughtyAttributes;
+
 namespace STP.Behaviour.Core {
 	public sealed class Player : BaseCoreComponent, IDestructible {
 		const float TmpBulletDamage    = 10f;
@@ -34,9 +36,9 @@ namespace STP.Behaviour.Core {
 		[Space]
 		[NotNull]
 		public Collider2D ShieldCollider;
-		[Space]
-		[NotNull]
-		public BaseSimpleSoundPlayer ShotSoundPlayer;
+
+		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer DeathSoundPlayer;
+		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer ShotSoundPlayer;
 
 		Vector2 _input;
 
@@ -122,6 +124,7 @@ namespace STP.Behaviour.Core {
 			if ( _playerController.TakeDamage(damage) ) {
 				_isAlive = false;
 				_levelGoalManager.OnPlayerDied();
+				DeathSoundPlayer.Play();
 			}
 		}
 
