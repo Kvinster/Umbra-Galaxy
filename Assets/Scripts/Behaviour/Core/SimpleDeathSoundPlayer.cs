@@ -4,8 +4,8 @@ using STP.Behaviour.Utils;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
-namespace STP.Behaviour.Core.Enemy {
-	public sealed class SimpleEnemyDeathSoundPlayer : GameComponent {
+namespace STP.Behaviour.Core {
+	public sealed class SimpleDeathSoundPlayer : GameComponent {
 		[NotNull] public DelayedDestroyer      DeathSoundDestroyer;
 		[NotNull] public Transform             DeathSoundPlayerTransform;
 		[NotNull] public BaseSimpleSoundPlayer DeathSoundPlayer;

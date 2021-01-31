@@ -9,7 +9,7 @@ namespace STP.Behaviour.Core.Enemy {
 	public abstract class BaseEnemy : BaseCoreComponent {
 		[NotNullOrEmpty] public string Name;
 		[Space]
-		public SimpleEnemyDeathSoundPlayer DeathSoundPlayer;
+		public SimpleDeathSoundPlayer DeathSoundPlayer;
 
 		protected bool IsAlive;
 
