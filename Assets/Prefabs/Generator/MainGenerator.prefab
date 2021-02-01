@@ -27,6 +27,21 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4187137390004555335, guid: ccbc55a58ed204c47bd4952ab788781c,
+        type: 3}
+      propertyPath: color.r
+      value: 0.990566
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187137390004555335, guid: ccbc55a58ed204c47bd4952ab788781c,
+        type: 3}
+      propertyPath: color.g
+      value: 0.41875407
+      objectReference: {fileID: 0}
+    - target: {fileID: 4187137390004555335, guid: ccbc55a58ed204c47bd4952ab788781c,
+        type: 3}
+      propertyPath: color.b
+      value: 0.19157171
+      objectReference: {fileID: 0}
     - target: {fileID: 5032697858587329388, guid: ccbc55a58ed204c47bd4952ab788781c,
         type: 3}
       propertyPath: m_LocalPosition.y
