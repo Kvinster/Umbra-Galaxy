@@ -34,6 +34,7 @@ namespace STP.Manager {
 			_xpController     = xpController;
 			_tempObjectsRoot  = tempObjectsRoot;
 			_context.AddUpdateCallback(UpdateTimers);
+			_playerController.OnRespawn();
 			EventManager.Subscribe<EnemyDestroyed>(OnEnemyDestroyed);
 		}
 
