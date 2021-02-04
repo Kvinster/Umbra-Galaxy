@@ -73,6 +73,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615116}
   - {fileID: 8926484042661615128}
   - {fileID: 8926484042661615142}
+  - {fileID: 8926484042661615156}
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
   m_UISuperCollapsed: 0
@@ -2394,14 +2395,20 @@ VisualEffectResource:
         data: 00000000
     m_Events:
     - name: OnPlay
-      playSystems: 01000000
+      playSystems: 
       stopSystems: 
     - name: OnStop
       playSystems: 
-      stopSystems: 0000000001000000
+      stopSystems: 00000000
+    - name: Activate
+      playSystems: 01000000
+      stopSystems: 
     - name: OnCollision
       playSystems: 00000000
       stopSystems: 
+    - name: Deactivate
+      playSystems: 
+      stopSystems: 01000000
     m_RuntimeVersion: 10
     m_RendererSettings:
       motionVectorGenerationMode: 0
@@ -2788,7 +2795,9 @@ MonoBehaviour:
   - link:
     - context: {fileID: 8926484042661614883}
       slotIndex: 0
-  - link: []
+  - link:
+    - context: {fileID: 8926484042661615156}
+      slotIndex: 0
   m_OutputFlowSlot:
   - link:
     - context: {fileID: 8926484042661614724}
@@ -4289,7 +4298,7 @@ MonoBehaviour:
   - link:
     - context: {fileID: 8926484042661614721}
       slotIndex: 0
-  eventName: OnPlay
+  eventName: Activate
 --- !u!114 &8926484042661614884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12438,3 +12447,31 @@ MonoBehaviour:
     attributes: []
   m_Direction: 1
   m_LinkedSlots: []
+--- !u!114 &8926484042661615156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2461f61b3c026d54db1951a4e17ab20e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Parent: {fileID: 114350483966674976}
+  m_Children: []
+  m_UIPosition: {x: 1697, y: -12}
+  m_UICollapsed: 0
+  m_UISuperCollapsed: 0
+  m_InputSlots: []
+  m_OutputSlots: []
+  m_Label: 
+  m_Data: {fileID: 0}
+  m_InputFlowSlot:
+  - link: []
+  m_OutputFlowSlot:
+  - link:
+    - context: {fileID: 8926484042661614721}
+      slotIndex: 1
+  eventName: Deactivate

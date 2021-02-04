@@ -55,7 +55,7 @@ namespace STP.Behaviour.Core {
 		protected override void InitInternal(CoreStarter starter) {
 			_playerManager = starter.PlayerManager;
 
-			VisualEffect.Stop();
+			VisualEffect.SendEvent("Deactivate");
 			ShieldRoot.SetActive(false);
 
 			_playerManager.OnPowerUpStarted  += OnPowerUpStarted;
@@ -68,7 +68,7 @@ namespace STP.Behaviour.Core {
 			}
 			SetVisualEffectParams(ActiveVisualEffectParams);
 			VisualEffect.SetFloat("Intensity", StartIntensity);
-			VisualEffect.Play();
+			VisualEffect.SendEvent("Activate");
 			ShieldRoot.SetActive(true);
 			_isActive = true;
 		}
@@ -78,7 +78,7 @@ namespace STP.Behaviour.Core {
 				return;
 			}
 			SetVisualEffectParams(InactiveVisualEffectParams);
-			VisualEffect.Stop();
+			VisualEffect.SendEvent("Deactivate");
 			ShieldRoot.SetActive(false);
 			_isActive = false;
 		}
