@@ -53,7 +53,7 @@ namespace STP.Behaviour.Core {
 
 		float _reloadTimer;
 
-		bool _isAlive;
+		bool IsAlive => _playerController.IsAlive;
 
 		float CurHp => _playerController.CurHp;
 
@@ -102,8 +102,9 @@ namespace STP.Behaviour.Core {
 			_pauseManager     = starter.PauseManager;
 			_levelGoalManager = starter.LevelGoalManager;
 
-			_playerController                =  starter.PlayerController;
-			_playerController.OnCurHpChanged += OnCurHpChanged;
+			_playerController                  =  starter.PlayerController;
+			_playerController.OnCurHpChanged   += OnCurHpChanged;
+			_playerController.OnIsAliveChanged += OnIsAliveChanged;
 			OnCurHpChanged(CurHp);
 
 			HealthBar.Init(1f);
@@ -118,7 +119,6 @@ namespace STP.Behaviour.Core {
 			Rigidbody.velocity = Vector2.zero;
 			Rigidbody.rotation = 0f;
 			_reloadTimer       = 0f;
-			_isAlive           = true;
 		}
 
 		public void OnRestart() {
@@ -127,18 +127,21 @@ namespace STP.Behaviour.Core {
 		}
 
 		public void TakeDamage(float damage) {
-			if ( !_isAlive ) {
+			if ( !IsAlive ) {
 				return;
 			}
-			if ( _playerController.TakeDamage(damage) ) {
-				_isAlive = false;
-				_levelGoalManager.OnPlayerDied();
+			_playerController.TakeDamage(damage);
+		}
+
+		void OnIsAliveChanged(bool isAlive) {
+			if ( !isAlive ) {
 				DeathSoundPlayer.Play();
 			}
 		}
 
 		void Deinit() {
-			_playerController.OnCurHpChanged -= OnCurHpChanged;
+			_playerController.OnCurHpChanged   -= OnCurHpChanged;
+			_playerController.OnIsAliveChanged -= OnIsAliveChanged;
 		}
 
 		void OnCurHpChanged(float curHp) {

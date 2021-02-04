@@ -11,11 +11,11 @@ namespace STP.Manager {
 
 		readonly PlayerManager         _playerManager;
 		readonly LevelManager          _levelManager;
-		readonly CoreWindowsManager    _windowsManager;
+		readonly PlayerController      _playerController;
 		readonly LevelController       _levelController;
 		readonly XpController          _xpController;
 		readonly LeaderboardController _leaderboardController;
-		readonly ProfileState             _profileState;
+		readonly ProfileState          _profileState;
 
 		int _curLevelGoalProgress;
 
@@ -33,23 +33,33 @@ namespace STP.Manager {
 		public bool CanWinLevel { get; private set; }
 
 		public event Action<int> OnCurLevelGoalProgressChanged;
+		public event Action      OnPlayerDeath;
+		public event Action      OnLevelWon;
 
 		public LevelGoalManager(PlayerManager playerManager, LevelManager levelManager,
-			CoreWindowsManager windowsManager, LevelController levelController, XpController xpController,
+			PlayerController playerController, LevelController levelController, XpController xpController,
 			LeaderboardController leaderboardController, ProfileState profileState) {
 			_playerManager         = playerManager;
 			_levelManager          = levelManager;
-			_windowsManager        = windowsManager;
+			_playerController      = playerController;
 			_levelController       = levelController;
 			_xpController          = xpController;
 			_leaderboardController = leaderboardController;
-			_profileState             = profileState;
+			_profileState          = profileState;
 
 			var curLevelInfo = _levelController.GetCurLevelConfig();
 
 			LevelGoal = curLevelInfo.GeneratorsCount;
 
 			CurLevelGoalProgress = 0;
+
+			_playerController.OnIsAliveChanged += OnPlayerIsAliveChanged;
+		}
+
+		public void Deinit() {
+			if ( _playerController != null ) {
+				_playerController.OnIsAliveChanged -= OnPlayerIsAliveChanged;
+			}
 		}
 
 		public void Advance(int goalAdd = 1) {
@@ -61,11 +71,17 @@ namespace STP.Manager {
 			}
 		}
 
-		public void OnPlayerDied() {
+		void OnPlayerIsAliveChanged(bool isPlayerAlive) {
+			if ( !isPlayerAlive ) {
+				OnPlayerDied();
+			}
+		}
+
+		void OnPlayerDied() {
 			if ( !_playerManager.OnPlayerDied() ) {
 				_xpController.ResetXp();
 			}
-			_windowsManager.ShowDeathWindow();
+			OnPlayerDeath?.Invoke();
 		}
 
 		bool TryWinLevel() {
@@ -82,8 +98,8 @@ namespace STP.Manager {
 				_profileState.Save();
 				return _levelManager.TryReloadLevel();
 			}
-			_windowsManager.ShowWinWindow();
 			_leaderboardController.AddEntry(_profileState.ProfileName, _xpController.CurTotalXp);
+			OnLevelWon?.Invoke();
 			return true;
 		}
 	}

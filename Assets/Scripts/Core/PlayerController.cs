@@ -14,6 +14,7 @@ namespace STP.Core {
 		int   _curLives;
 		float _curHp;
 		bool  _isInvincible;
+		bool  _isAlive;
 
 		public int CurLives {
 			get => _curLives;
@@ -50,9 +51,21 @@ namespace STP.Core {
 			}
 		}
 
+		public bool IsAlive {
+			get => _isAlive;
+			private set {
+				if ( _isAlive == value ) {
+					return;
+				}
+				_isAlive = value;
+				OnIsAliveChanged?.Invoke(IsAlive);
+			}
+		}
+
 		public event Action<int>   OnCurLivesChanged;
 		public event Action<float> OnCurHpChanged;
 		public event Action<bool>  OnIsInvincibleChanged;
+		public event Action<bool>  OnIsAliveChanged;
 
 		public PlayerController(ProfileState profileState) {
 			CurLives     = StartPlayerLives;
@@ -60,15 +73,22 @@ namespace STP.Core {
 			IsInvincible = false;
 		}
 
-		public bool TakeDamage(float damage) {
+		public void TakeDamage(float damage) {
+			if ( !IsAlive ) {
+				Debug.LogError("Player taking damage when dead");
+				return;
+			}
 			if ( IsInvincible ) {
-				return false;
+				return;
 			}
 			CurHp = Mathf.Max(CurHp - damage, 0f);
-			return Mathf.Approximately(CurHp, 0f);
+			if ( Mathf.Approximately(CurHp, 0f) ) {
+				IsAlive = false;
+			}
 		}
 
 		public void OnRespawn() {
+			IsAlive      = true;
 			IsInvincible = false;
 			RestoreHp();
 		}

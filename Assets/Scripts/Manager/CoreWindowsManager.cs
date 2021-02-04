@@ -1,4 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+
+using System.Collections.Generic;
+using System.Linq;
 
 using STP.Behaviour.Core.UI;
 using STP.Core;
@@ -9,29 +13,58 @@ namespace STP.Manager {
 	public sealed class CoreWindowsManager : GameComponent {
 		[NotNull] public DeathWindow DeathWindow;
 		[NotNull] public WinWindow   WinWindow;
+		[NotNull] public PauseWindow PauseWindow;
+		[NotNull] public Button      PauseButton;
 
 		PauseManager     _pauseManager;
 		PlayerController _playerController;
 
-		public void Init(PauseManager pauseManager, LevelManager levelManager, PlayerManager playerManager,
-			PlayerController playerController, XpController xpController) {
+		List<BaseCoreWindow> _windows;
+
+		bool IsAnyWindowShown => _windows.Any(x => x.IsShown); // :uuu: LINQ :uuu:
+
+		void Update() {
+			if ( Input.GetKeyDown(KeyCode.Escape) && !IsAnyWindowShown ) {
+				ShowPauseWindow();
+			}
+		}
+
+		public void Init(PauseManager pauseManager, LevelManager levelManager, LevelGoalManager levelGoalManager,
+			PlayerManager playerManager, PlayerController playerController, XpController xpController) {
 			_pauseManager     = pauseManager;
 			_playerController = playerController;
 
-			DeathWindow.CommonInit(levelManager, playerManager);
-			WinWindow.CommonInit(playerController, xpController);
+			_windows = new List<BaseCoreWindow> {
+				DeathWindow,
+				WinWindow,
+				PauseWindow
+			};
+
+			DeathWindow.CommonInit(levelManager, playerManager, _playerController);
+			WinWindow.CommonInit(levelManager, playerController, xpController);
+			PauseWindow.CommonInit(levelManager, levelGoalManager, xpController, playerController);
+
+			PauseButton.onClick.AddListener(ShowPauseWindow);
+
+			levelGoalManager.OnLevelWon    += OnLevelWon;
+			levelGoalManager.OnPlayerDeath += OnPlayerDied;
 		}
 
-		public void ShowDeathWindow() {
-			_pauseManager.Pause(this);
-			DeathWindow.Show(_playerController.CurLives)
-				.Catch(ex => { Debug.LogError(ex.Message); })
-				.Finally(() => _pauseManager.Unpause(this));
+		void ShowPauseWindow() {
+			ShowWindow(PauseWindow);
 		}
 
-		public void ShowWinWindow() {
+		void OnLevelWon() {
+			ShowWindow(WinWindow);
+		}
+
+		void OnPlayerDied() {
+			ShowWindow(DeathWindow);
+		}
+
+		void ShowWindow<T>(T window) where T : BaseCoreWindow {
 			_pauseManager.Pause(this);
-			WinWindow.Show()
+			window.Show()
 				.Catch(ex => { Debug.LogError(ex.Message); })
 				.Finally(() => _pauseManager.Unpause(this));
 		}

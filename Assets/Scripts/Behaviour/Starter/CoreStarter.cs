@@ -33,6 +33,7 @@ namespace STP.Behaviour.Starter {
 
 		void OnDisable() {
 			GameController.Deinit();
+			LevelGoalManager.Deinit();
 		}
 
 		void Start() {
@@ -65,9 +66,9 @@ namespace STP.Behaviour.Starter {
 			PauseManager  = new PauseManager();
 			LevelManager  = new LevelManager(Player.transform, PauseManager, lc);
 			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot);
-			CoreWindowsManager.Init(PauseManager, LevelManager, PlayerManager, pc, xc);
-			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, CoreWindowsManager, lc, xc,
+			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, pc, lc, xc,
 				GameController.LeaderboardController, ProfileState.ActiveInstance);
+			CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc);
 			MinimapManager   = new MinimapManager(MinimapCamera);
 			Generator.Init(cc, puc);
 			Generator.GenerateLevel(lc.GetCurLevelConfig(), cc.GetChunkPrefab, LevelObjectsRoot);
