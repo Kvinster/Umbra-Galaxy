@@ -22,8 +22,8 @@ namespace STP.Behaviour.Core {
 			}
 		}
 
-		const float StartIntensity       = 3f;
-		const float FinishIntensity      = 0f;
+		const float StartIntensity  = 3f;
+		const float FinishIntensity = 0f;
 
 		static readonly VisualEffectParams ActiveVisualEffectParams =
 			new VisualEffectParams(lifetime: 5f, attractSpeed: 100f, escapeSpeed: 0f);
