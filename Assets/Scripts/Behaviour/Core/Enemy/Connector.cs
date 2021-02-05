@@ -39,12 +39,8 @@ namespace STP.Behaviour.Core.Enemy {
         }
 
         public void ForceDestroy() {
-            try {
-                foreach ( var link in Children ) {
-                    link.ForceDestroy();
-                }
-            } catch ( Exception e ) {
-                print("fuck");
+            foreach ( var link in Children ) {
+                link.ForceDestroy();
             }
             Destroy(gameObject);
             OnOutOfLinks?.Invoke();
