@@ -9,8 +9,6 @@ using STP.Utils.Attributes;
 namespace STP.Config {
 	[Serializable]
 	public class LevelInfo {
-		public int LevelSeed = 0;
-
 		public int                   GeneratorsCount = 1;
 		public int                   CellSize = 1500;
 		public List<PowerUpInfo>     PowerUpInfos;
@@ -31,12 +29,14 @@ namespace STP.Config {
 
 	[Serializable]
 	public class ChunkWeightInfo : WeightedValue {
-		[ChunkName]
-		public string Name;
+		public int GeneratorGridSize;
+		public int PowerUpCount;
 	}
 
 	[CreateAssetMenu(fileName = "AllLevels", menuName = "ScriptableObjects/LevelsConfig", order = 1)]
 	public class LevelsConfig : ScriptableObject {
+		public int GeneratorsCountIncCount;
+
 		public List<LevelInfo> Levels;
 
 		public LevelInfo GetLevelConfig(int levelIndex) {

@@ -70,8 +70,8 @@ namespace STP.Behaviour.Starter {
 				GameController.LeaderboardController, ProfileState.ActiveInstance);
 			CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc);
 			MinimapManager   = new MinimapManager(MinimapCamera);
-			Generator.Init(cc, puc);
-			Generator.GenerateLevel(lc.GetCurLevelConfig(), cc.GetChunkPrefab, LevelObjectsRoot);
+			Generator.Init(puc, lc);
+			Generator.GenerateLevel(LevelObjectsRoot);
 			InitComponents();
 			// Settings for smooth gameplay
 			Application.targetFrameRate = Screen.currentResolution.refreshRate;

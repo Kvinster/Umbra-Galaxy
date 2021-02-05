@@ -51,11 +51,6 @@ namespace STP.Behaviour.Core.Enemy {
             }
         }
 
-        protected override void OnEnable() {
-            base.OnEnable();
-            GeneratorsWatcher.TryAddGenerator(this);
-        }
-
         protected override void OnDisable() {
             base.OnDisable();
             GeneratorsWatcher.RemoveGenerator(this);
@@ -73,6 +68,7 @@ namespace STP.Behaviour.Core.Enemy {
 
         protected override void InitInternal(CoreStarter starter) {
             base.InitInternal(starter);
+            GeneratorsWatcher.TryAddGenerator(this);
             FireTrigger.OnTriggerEnter += OnFireRangeEnter;
             FireTrigger.OnTriggerExit  += OnFireRangeExit;
             if ( !IsMainGenerator ) {

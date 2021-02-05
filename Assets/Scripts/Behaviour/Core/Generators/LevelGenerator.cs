@@ -1,30 +1,33 @@
 ﻿using UnityEngine;
 
-using System;
 using System.Collections.Generic;
 
+using STP.Behaviour.Core.Enemy.GeneratorEditor;
 using STP.Common;
 using STP.Config;
 using STP.Core;
 using STP.Utils;
+using STP.Utils.GameComponentAttributes;
 
 using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core.Generators {
 	public sealed class LevelGenerator : GameComponent {
+		[NotNull] public ChunkCreator Creator;
 
 		LevelGeneratorState _state = new LevelGeneratorState();
 
-		ChunkController   _chunkController;
 		PowerUpController _powerUpController;
+		LevelController   _levelController;
 
-		public void Init(ChunkController chunkController, PowerUpController powerUpController) {
-			_chunkController   = chunkController;
+		public void Init(PowerUpController powerUpController, LevelController levelController) {
 			_powerUpController = powerUpController;
+			_levelController   = levelController;
 		}
 
-		public void GenerateLevel(LevelInfo levelInfo, Func<string, GameObject> prefabGetter, Transform root = null) {
+		public void GenerateLevel(Transform root = null) {
 			ResetState();
+			var levelInfo  = _levelController.GetCurLevelConfig();
 			var cellSize   = levelInfo.CellSize;
 			var randomSeed = Random.Range(int.MinValue, int.MaxValue);
 			Random.InitState(randomSeed);
@@ -33,10 +36,12 @@ namespace STP.Behaviour.Core.Generators {
 			var powerUpSpawnPoints = new List<Transform>();
 			for ( var y = 0; y < map.GetLength(1); y++ ) {
 				for ( var x = 0; x < map.GetLength(0); x++ ) {
-					var prefab    = prefabGetter(map[x, y]);
-					var pos       = (Vector3)minPoint + new Vector3(x * cellSize, y * cellSize);
-					var instance  = Instantiate(prefab, pos, Quaternion.identity, root);
-					var chunkComp = instance.GetComponent<LevelChunk>();
+					var mapCell = map[x, y];
+					var obj     = GetChunk(levelInfo, mapCell);
+					var pos = (Vector3)minPoint + new Vector3(x * cellSize, y * cellSize);
+					obj.transform.SetParent(root);
+					obj.transform.position = pos;
+					var chunkComp = obj.GetComponent<LevelChunk>();
 					powerUpSpawnPoints.AddRange(chunkComp.FreePowerUpSpawnPoints);
 				}
 			}
@@ -53,9 +58,19 @@ namespace STP.Behaviour.Core.Generators {
 			_state = new LevelGeneratorState();
 		}
 
-		string[,] GenerateMap(LevelInfo levelInfo) {
+		GameObject GetChunk(LevelInfo levelInfo, MapCell mapCell) {
+			var chunkInfo = RandomUtils.GetRandomElement(levelInfo.Chunks);
+
+			GameObject obj = null;
+			if ( mapCell.IsSafeRect ) {
+				return Instantiate(Creator.SafeAreaPrefab);
+			}
+			return Creator.CreateGeneratorChunk(mapCell.GeneratorGridSize, chunkInfo.PowerUpCount);
+		}
+
+		MapCell[,] GenerateMap(LevelInfo levelInfo) {
 			var sideCellsCount   = levelInfo.LevelSpaceSize / levelInfo.CellSize;
-			var map              = new string[sideCellsCount, sideCellsCount];
+			var map              = new MapCell[sideCellsCount, sideCellsCount];
 			var neededGenerators = levelInfo.GeneratorsCount;
 
 			var cells = new List<Vector2Int>();
@@ -65,18 +80,23 @@ namespace STP.Behaviour.Core.Generators {
 				}
 			}
 
-			//Reserve one rect for safe area
+			// Reserve one rect for safe area
 			var safeRectCoords = new Vector2Int(sideCellsCount / 2, sideCellsCount / 2);
 			cells.Remove(safeRectCoords);
-			map[safeRectCoords.x, safeRectCoords.y] = ChunkConfig.SafeRectName;
+			map[safeRectCoords.x, safeRectCoords.y] = new MapCell { IsSafeRect = true, GeneratorGridSize = 0};
 
 			for ( var i = cells.Count; i > 0; i-- ) {
 				var randIndex = Random.Range(0, i);
 				var mapIndex  = cells[randIndex];
 				cells.RemoveAt(randIndex);
-				map[mapIndex.x, mapIndex.y] = GetRandomChunk(levelInfo, neededGenerators);
-
-				neededGenerators -= _chunkController.GetGeneratorsCountInChunk(map[mapIndex.x, mapIndex.y]);
+				if ( neededGenerators == 0 ) {
+					map[mapIndex.x, mapIndex.y] = new MapCell { IsSafeRect = false, GeneratorGridSize = 0};
+				} else {
+					map[mapIndex.x, mapIndex.y] = GetRandomChunk(levelInfo);
+					if ( map[mapIndex.x, mapIndex.y].GeneratorGridSize != 0 ) {
+						neededGenerators--;
+					}
+				}
 			}
 
 			if ( neededGenerators != 0 ) {
@@ -87,54 +107,35 @@ namespace STP.Behaviour.Core.Generators {
 			return map;
 		}
 
-		void TryRaiseDifficultyInChunks(string[,] map, int moreNeededGenerators) {
-			var leftGenerators     = moreNeededGenerators;
+		void TryRaiseDifficultyInChunks(MapCell[,] map, int moreNeededGenerators) {
+			var leftGenerators = moreNeededGenerators;
 			if ( map.GetLength(0) <= 1 ) {
 				Debug.LogErrorFormat("Can't raise difficulty - space sections count is too low {0}", map.GetLength(0));
 				return;
 			}
 			while ( leftGenerators > 0 ) {
-				// Find easiest chunks
-				var minGeneratorsCount = int.MaxValue;
-				var minChunkName       = string.Empty;
-				for ( var y = 0; y < map.GetLength(1); y++ ) {
-					for ( var x = 0; x < map.GetLength(0); x++ ) {
-						var generatorsCountInCell = _chunkController.GetGeneratorsCountInChunk(map[x, y]);
-						if ( minGeneratorsCount > generatorsCountInCell && (map[x, y] != ChunkConfig.SafeRectName) ) {
-							minGeneratorsCount = generatorsCountInCell;
-							minChunkName       = map[x, y];
-						}
-					}
-				}
-				// Get more difficult chunk
-				var chunkWithHigherDifficulty = _chunkController.GetMinChunkWithGeneratorsCountHigherThan(minGeneratorsCount);
-				var newChunkGeneratorsCount   = _chunkController.GetGeneratorsCountInChunk(chunkWithHigherDifficulty);
-				if ( string.IsNullOrEmpty(chunkWithHigherDifficulty) ) {
-					Debug.LogError("Can't find more difficult chunk => can't raise a difficulty");
-					return;
-				}
 				// Get all easiest chunks on map
-				var generationsCountDiff = newChunkGeneratorsCount - minGeneratorsCount;
-				var minChunks            = new List<(int x, int y)>();
+				var minChunks = new List<(int x, int y)>();
 				for ( var y = 0; y < map.GetLength(1); y++ ) {
 					for ( var x = 0; x < map.GetLength(0); x++ ) {
-						if ( map[x, y] == minChunkName) {
+						if ( (map[x, y].GeneratorGridSize == 0) && !map[x, y].IsSafeRect ) {
 							minChunks.Add((x, y));
 						}
 					}
 				}
+
 				// Change easiest chunks with more difficult
 				while ( (leftGenerators > 0) && (minChunks.Count > 0) ) {
 					var randomChunkCoords = RandomUtils.GetAndRemoveRandomElement(minChunks);
-					map[randomChunkCoords.x, randomChunkCoords.y] =  chunkWithHigherDifficulty;
-					leftGenerators -= generationsCountDiff;
+					map[randomChunkCoords.x, randomChunkCoords.y].GeneratorGridSize = Random.Range(7, 10);
+					leftGenerators--;
 				}
 			}
 		}
 
-		string GetRandomChunk(LevelInfo levelInfo, int neededGenerators) {
-			var availableChunks = levelInfo.Chunks.FindAll((x) => IsChunkAvailable(x, neededGenerators));
-			return RandomUtils.GetRandomWeightedElement(availableChunks)?.Name;
+		MapCell GetRandomChunk(LevelInfo levelInfo) {
+			var gridSize = RandomUtils.GetRandomWeightedElement(levelInfo.Chunks)?.GeneratorGridSize ?? 0;
+			return new MapCell {IsSafeRect = false, GeneratorGridSize = gridSize};
 		}
 
 		void AddPowerUpsToLevel(List<Transform> freePowerUpsSpawnPoints, LevelInfo levelInfo, Transform root) {
@@ -169,11 +170,6 @@ namespace STP.Behaviour.Core.Generators {
 
 		GameObject GetPowerUpPrefab(PowerUpType powerUpType) {
 			return _powerUpController.GetPowerUpPrefab(powerUpType);
-		}
-
-
-		bool IsChunkAvailable(ChunkWeightInfo chunkWeightInfo, int needGenerators) {
-			return _chunkController.GetGeneratorsCountInChunk(chunkWeightInfo.Name) <= needGenerators;
 		}
 	}
 }

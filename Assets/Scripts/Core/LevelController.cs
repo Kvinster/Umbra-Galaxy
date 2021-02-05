@@ -11,7 +11,7 @@ namespace STP.Core {
 
 		public bool HasNextLevel => (LastLevelIndex != _levelsConfig.Levels.Count);
 
-		int CurLevelIndex  => _levelState.CurLevelIndex;
+		public int CurLevelIndex  => _levelState.CurLevelIndex;
 		int LastLevelIndex => _levelState.LastLevelIndex;
 
 		public LevelController(ProfileState profileState) {
@@ -35,6 +35,14 @@ namespace STP.Core {
 			}
 		}
 
+		public int GetLevelInfosCount() {
+			return _levelsConfig.Levels.Count;
+		}
+
+		public int GetCurLevelGeneratorIncValue() {
+			return CurLevelIndex / _levelsConfig.Levels.Count * _levelsConfig.GeneratorsCountIncCount;
+		}
+
 		public LevelInfo GetCurLevelConfig() {
 			Assert.IsTrue(CurLevelIndex >= 0);
 			return _levelsConfig.GetLevelConfig(CurLevelIndex);
@@ -42,15 +50,6 @@ namespace STP.Core {
 
 		static LevelsConfig LoadConfig() {
 			return Resources.Load<LevelsConfig>("AllLevels");
-		}
-
-		public static LevelInfo GetLevelConfigInEditor(int levelIndex = 0) {
-			var levelsConfig = LoadConfig();
-			if ( levelsConfig ) {
-				return levelsConfig.GetLevelConfig(levelIndex);
-			}
-			Debug.LogError("Can't load LevelsConfig in editor");
-			return null;
 		}
 	}
 }

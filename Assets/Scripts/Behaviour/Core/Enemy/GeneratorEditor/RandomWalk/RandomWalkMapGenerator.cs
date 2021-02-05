@@ -26,7 +26,12 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor.RandomWalk {
 		Vector2Int InvalidVector => new Vector2Int(-1, -1);
 
 		public WalkMap CreateMaze(int size) {
-			var map         = new WalkMap(size);
+			var map = new WalkMap(size);
+
+			if ( size == 0 ) {
+				return map;
+			}
+
 			// Prepare map
 			for ( var y = 0; y < size; y++ ) {
 				for ( var x = 0; x < size; x++ ) {
