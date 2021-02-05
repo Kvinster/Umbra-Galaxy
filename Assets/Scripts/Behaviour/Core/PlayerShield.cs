@@ -13,12 +13,10 @@ namespace STP.Behaviour.Core {
 		}
 
 		void OnCollisionEnter2D(Collision2D other) {
-			if ( other.gameObject.GetComponent<Bullet>() ) {
-				var worldContact = other.contacts[0].point;
-				VisualEffect.SetVector2("CollisionPos", VisualEffect.transform.InverseTransformPoint(worldContact));
-				VisualEffect.SetVector2("CollisionDirection", (worldContact - (Vector2) transform.position).normalized);
-				VisualEffect.SendEvent("OnCollision");
-			}
+			var worldContact = other.contacts[0].point;
+			VisualEffect.SetVector2("CollisionPos", VisualEffect.transform.InverseTransformPoint(worldContact));
+			VisualEffect.SetVector2("CollisionDirection", (worldContact - (Vector2) transform.position).normalized);
+			VisualEffect.SendEvent("OnCollision");
 		}
 	}
 }
