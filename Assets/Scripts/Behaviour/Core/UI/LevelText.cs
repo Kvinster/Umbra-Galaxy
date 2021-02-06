@@ -66,6 +66,9 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		void UpdateText() {
+			if ( !IsInit ) {
+				return;
+			}
 			var curProgress = _levelGoalManager.CurLevelGoalProgress;
 			_stringBuilder.Clear()
 				.AppendLine(string.Format(LivesTextFormat, _playerController.CurLives))

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 using System.Collections.Generic;
@@ -57,7 +56,7 @@ namespace STP.Behaviour.MainMenu {
 		void LoadLevel(int levelIndex) {
 			ProfileState.ActiveInstance.LevelState.CurLevelIndex = levelIndex;
 			ProfileController.CreateNewActiveInstance(ProfileState.ActiveInstance);
-			SceneManager.LoadScene("TestRoom");
+			CoreLoadingManager.Create().LoadCore();
 		}
 
 		void ResetLevelButtons() {

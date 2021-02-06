@@ -10,9 +10,10 @@ using Object = UnityEngine.Object;
 
 namespace STP.Manager {
 	public sealed class LevelManager {
-		readonly Transform       _playerTransform;
-		readonly PauseManager    _pauseManager;
-		readonly LevelController _levelController;
+		readonly Transform                 _playerTransform;
+		readonly SceneTransitionController _sceneTransitionController;
+		readonly PauseManager              _pauseManager;
+		readonly LevelController           _levelController;
 
 		bool _isLevelActive;
 
@@ -29,10 +30,12 @@ namespace STP.Manager {
 
 		public event Action<bool> OnIsLevelActiveChanged;
 
-		public LevelManager(Transform playerTransform, PauseManager pauseManager, LevelController levelController) {
-			_playerTransform = playerTransform;
-			_pauseManager    = pauseManager;
-			_levelController = levelController;
+		public LevelManager(Transform playerTransform, SceneTransitionController sceneTransitionController,
+			PauseManager pauseManager, LevelController levelController) {
+			_playerTransform           = playerTransform;
+			_sceneTransitionController = sceneTransitionController;
+			_pauseManager              = pauseManager;
+			_levelController           = levelController;
 
 			IsLevelActive = true;
 		}
@@ -60,11 +63,9 @@ namespace STP.Manager {
 
 		void SceneTransition() {
 			_pauseManager.Pause(this);
-			SceneTransitionController.Instance.Transition(SceneManager.GetActiveScene().name, _playerTransform.position,
-				() => {
-					var player = Object.FindObjectOfType<Player>();
-					return player ? player.transform.position : Vector3.zero;
-				});
+			_sceneTransitionController.PlayHideAnim(_playerTransform.position).Then(() => {
+				CoreLoadingManager.Create().LoadCore();
+			});
 		}
 	}
 }

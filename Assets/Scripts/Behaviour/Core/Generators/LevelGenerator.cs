@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+using System.Collections;
 using System.Collections.Generic;
 
 using STP.Behaviour.Core.Enemy.GeneratorEditor;
@@ -8,8 +9,6 @@ using STP.Config;
 using STP.Core;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
-
-using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core.Generators {
 	public sealed class LevelGenerator : GameComponent {
@@ -25,7 +24,7 @@ namespace STP.Behaviour.Core.Generators {
 			_levelController   = levelController;
 		}
 
-		public void GenerateLevel(Transform root = null) {
+		public IEnumerator GenerateLevel(Transform root = null) {
 			ResetState();
 			var levelInfo  = _levelController.GetCurLevelConfig();
 			var cellSize   = levelInfo.CellSize;
@@ -38,16 +37,18 @@ namespace STP.Behaviour.Core.Generators {
 				for ( var x = 0; x < map.GetLength(0); x++ ) {
 					var mapCell = map[x, y];
 					var obj     = GetChunk(levelInfo, mapCell);
-					var pos = (Vector3)minPoint + new Vector3(x * cellSize, y * cellSize);
+					var pos     = (Vector3) minPoint + new Vector3(x * cellSize, y * cellSize);
 					obj.transform.SetParent(root);
 					obj.transform.position = pos;
 					var chunkComp = obj.GetComponent<LevelChunk>();
 					powerUpSpawnPoints.AddRange(chunkComp.FreePowerUpSpawnPoints);
 				}
+				yield return null;
 			}
 
 			foreach ( var powerUpInfo in levelInfo.PowerUpInfos ) {
-				while ( (_state.GetOrDefaultCreatedPowerUpsCount(powerUpInfo.PowerUpType) < powerUpInfo.Count) && (powerUpSpawnPoints.Count > 0) ) {
+				while ( (_state.GetOrDefaultCreatedPowerUpsCount(powerUpInfo.PowerUpType) < powerUpInfo.Count) &&
+				        (powerUpSpawnPoints.Count > 0) ) {
 					AddPowerUpsToLevel(powerUpSpawnPoints, levelInfo, root);
 				}
 			}
@@ -61,7 +62,6 @@ namespace STP.Behaviour.Core.Generators {
 		GameObject GetChunk(LevelInfo levelInfo, MapCell mapCell) {
 			var chunkInfo = RandomUtils.GetRandomElement(levelInfo.Chunks);
 
-			GameObject obj = null;
 			if ( mapCell.IsSafeRect ) {
 				return Instantiate(Creator.SafeAreaPrefab);
 			}

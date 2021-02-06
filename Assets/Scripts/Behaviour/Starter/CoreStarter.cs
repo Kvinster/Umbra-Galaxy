@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using System.Collections;
+
 using STP.Behaviour.Core;
 using STP.Behaviour.Core.Generators;
 using STP.Core;
@@ -11,14 +13,18 @@ using STP.View.DebugGUI;
 
 namespace STP.Behaviour.Starter {
 	public class CoreStarter : BaseStarter<CoreStarter> {
-		[NotNull] public Player             Player;
-		[NotNull] public Camera             MinimapCamera;
-		[NotNull] public Transform          PlayerStartPos;
-		[NotNull] public LevelGenerator     Generator;
-		[NotNull] public CoreWindowsManager CoreWindowsManager;
+		[NotNull] public Camera                    MainCamera;
+		[NotNull] public Player                    Player;
+		[NotNull] public Camera                    MinimapCamera;
+		[NotNull] public Transform                 PlayerStartPos;
+		[NotNull] public LevelGenerator            Generator;
+		[NotNull] public CoreWindowsManager        CoreWindowsManager;
+		[NotNull] public SceneTransitionController SceneTransitionController;
 
 		[NotNull] public Transform LevelObjectsRoot;
 		[NotNull] public Transform TempObjectsRoot;
+
+		bool _isLevelInitStarted;
 
 		public CoreSpawnHelper   SpawnHelper       { get; private set; }
 		public PauseManager      PauseManager      { get; private set; }
@@ -36,7 +42,15 @@ namespace STP.Behaviour.Starter {
 			LevelGoalManager.Deinit();
 		}
 
-		void Start() {
+		IEnumerator Start() {
+			yield return null;
+			if ( !_isLevelInitStarted ) { // to properly initialize when started from editor
+				StartCoroutine(InitLevel());
+			}
+		}
+
+		public IEnumerator InitLevel() {
+			_isLevelInitStarted = true;
 #if UNITY_EDITOR
 			if ( !GameState.IsActiveInstanceExists ) {
 				Debug.Log("Trying to load GameState instance");
@@ -60,18 +74,17 @@ namespace STP.Behaviour.Starter {
 			var pc  = ProfileController.PlayerController;
 			var lc  = ProfileController.LevelController;
 			var xc  = ProfileController.XpController;
-			var cc  = ProfileController.ChunkController;
 			var puc = ProfileController.PowerUpController;
 			SpawnHelper   = new CoreSpawnHelper(this, TempObjectsRoot);
 			PauseManager  = new PauseManager();
-			LevelManager  = new LevelManager(Player.transform, PauseManager, lc);
+			LevelManager  = new LevelManager(Player.transform, SceneTransitionController, PauseManager, lc);
 			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot);
 			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, pc, lc, xc,
 				GameController.LeaderboardController, ProfileState.ActiveInstance);
 			CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc);
-			MinimapManager   = new MinimapManager(MinimapCamera);
+			MinimapManager = new MinimapManager(MinimapCamera);
 			Generator.Init(puc, lc);
-			Generator.GenerateLevel(LevelObjectsRoot);
+			yield return Generator.GenerateLevel(LevelObjectsRoot);
 			InitComponents();
 			// Settings for smooth gameplay
 			Application.targetFrameRate = Screen.currentResolution.refreshRate;

@@ -69,6 +69,9 @@ namespace STP.Behaviour.Core {
 		}
 
 		void Update() {
+			if ( !IsInit ) {
+				return;
+			}
 			if ( _pauseManager.IsPaused ) {
 				return;
 			}
@@ -83,6 +86,9 @@ namespace STP.Behaviour.Core {
 		}
 
 		void FixedUpdate() {
+			if ( !IsInit ) {
+				return;
+			}
 			if ( _pauseManager.IsPaused ) {
 				return;
 			}
@@ -95,7 +101,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
-			_camera           = Camera.main;
+			_camera           = starter.MainCamera;
 			_spawnHelper      = starter.SpawnHelper;
 			_playerStartPos   = starter.PlayerStartPos;
 			_playerManager    = starter.PlayerManager;

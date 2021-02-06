@@ -18,6 +18,9 @@ namespace STP.Behaviour.Core.Minimap {
 		MinimapManager _minimapManager;
 
 		void Update() {
+			if ( !IsInit ) {
+				return;
+			}
 			RawImage.uvRect = new Rect((Vector2) _playerTransform.position * _speed + _offset, _size);
 		}
 
