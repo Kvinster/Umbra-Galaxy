@@ -5,7 +5,6 @@ using STP.Behaviour.Starter;
 namespace STP.Behaviour.Core {
 	public sealed class Turret : BaseCoreComponent {
 		public GameObject BulletPrefab;
-		public float      BulletStartForce;
 		public float      BulletStartSpeed;
 		public float      ReloadDuration;
 		public Collider2D Collider;
