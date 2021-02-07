@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LifeTime: 15
-  RotationPower: 3000000
+  RotationVelocity: 500
   Rigidbody: {fileID: 5337318474544929416}
 --- !u!60 &5909774503264953511
 PolygonCollider2D:

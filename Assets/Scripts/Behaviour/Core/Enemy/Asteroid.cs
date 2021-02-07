@@ -5,8 +5,8 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
     public class Asteroid : GameComponent {
-        public float LifeTime = 10f;
-        public float RotationPower = 100000f;
+        public float LifeTime         = 10f;
+        public float RotationVelocity = 500;
 
         [NotNull]
         public Rigidbody2D Rigidbody;
@@ -25,8 +25,9 @@ namespace STP.Behaviour.Core.Enemy {
         }
 
         public void Init(Vector2 direction, float speed) {
+            Rigidbody.centerOfMass = Vector2.zero;
             Rigidbody.AddRelativeForce(speed * Rigidbody.mass * direction, ForceMode2D.Impulse);
-            Rigidbody.AddTorque(RotationPower, ForceMode2D.Impulse);
+            Rigidbody.AddTorque(RotationVelocity * Rigidbody.mass * 2 * Mathf.PI, ForceMode2D.Impulse);
             _lifeTimer.Start(LifeTime);
         }
     }
