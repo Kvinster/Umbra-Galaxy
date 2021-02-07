@@ -21,7 +21,7 @@ MonoBehaviour:
     x: 150
     y: -224
     width: 1236
-    height: 1868
+    height: 1886
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -242,7 +242,7 @@ VisualEffectResource:
   - compute: 0
     name: '[System 1]Output Particle Quad'
     source: "Shader \"Hidden/VFX/Explosion/System 1/Output Particle Quad\"\n{\r\n\tSubShader\r\n\t{\t\r\n\t\tCull
-      Off\r\n\t\t\r\n\t\tTags { \"Queue\"=\"Transparent\" \"IgnoreProjector\"=\"True\"
+      Off\r\n\t\t\r\n\t\tTags { \"Queue\"=\"Transparent+1\" \"IgnoreProjector\"=\"True\"
       \"RenderType\"=\"Transparent\" }\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\tBlend
       SrcAlpha OneMinusSrcAlpha\n\t\tZTest LEqual\n\t\tZWrite Off\n\t\tCull Off\n\t\t\n\t\n\t\t\t\n\t\tHLSLINCLUDE\n\t\t\n\t\t#define
       NB_THREADS_PER_GROUP 64\n\t\t#define HAS_ATTRIBUTES 1\n\t\t#define VFX_PASSDEPTH_ACTUAL
@@ -2313,6 +2313,7 @@ MonoBehaviour:
   cullMode: 0
   zWriteMode: 0
   zTestMode: 0
+  customRenderQueue: Transparent+1
   colorMapping: 0
   uvMode: 2
   useSoftParticle: 0
