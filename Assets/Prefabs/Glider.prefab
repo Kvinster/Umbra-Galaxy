@@ -123,7 +123,6 @@ MonoBehaviour:
   ShootInterval: 0.5
   BulletPrefab: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
     type: 3}
-  BulletStartForce: 50
   BulletStartSpeed: 300
   ShotSoundPlayer: {fileID: 7784412847256536032}
 --- !u!60 &1801752738528551873
