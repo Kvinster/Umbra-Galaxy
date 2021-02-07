@@ -2,8 +2,8 @@
 
 namespace STP.Behaviour.Core.Enemy.Spawners {
 	public class AsteroidSpawner : BaseSpawner {
-		public float AsteroidForce = 1000f;
-		
+		public float AsteroidSpeed;
+
 		protected override void InitItem(GameObject go) {
 			var asteroid = go.GetComponent<Asteroid>();
 			if ( !asteroid ) {
@@ -11,7 +11,7 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
 				return;
 			}
 			var dirToPlayer = Player.transform.position - go.transform.position;
-			asteroid.Init(dirToPlayer.normalized * AsteroidForce);
+			asteroid.Init(dirToPlayer.normalized, AsteroidSpeed);
 		}
 	}
 }

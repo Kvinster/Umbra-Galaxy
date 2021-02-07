@@ -3460,7 +3460,7 @@ MonoBehaviour:
   Prefab: {fileID: 5909774503264953508, guid: d9285fea4909b3a478bacecef9d606b6, type: 3}
   SpawnPeriod: 3
   SpawnRange: 1000
-  AsteroidForce: 300000
+  AsteroidSpeed: 300
 --- !u!1 &1152123489
 GameObject:
   m_ObjectHideFlags: 0
