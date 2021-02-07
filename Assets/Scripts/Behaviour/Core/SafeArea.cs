@@ -11,24 +11,37 @@ namespace STP.Behaviour.Core {
 		[NotNull] public TriggerNotifier Notifier;
 
 		protected override void InitInternal(CoreStarter starter) {
-			Notifier.OnTriggerEnter += OnPlayerEntered;
-			Notifier.OnTriggerExit  += OnPlayerExit;
+			Notifier.OnTriggerEnter += OnObjectEnter;
+			Notifier.OnTriggerExit  += OnObjectExit;
+
+			var notifierCollider = Notifier.Collider;
+			if ( notifierCollider && notifierCollider.OverlapPoint(starter.PlayerStartPos.position) ) {
+				OnPlayerEnter();
+			}
 		}
 
-		void OnPlayerEntered(GameObject obj) {
+		void OnObjectEnter(GameObject obj) {
 			var player = obj.GetComponent<Player>();
 			if ( !player ) {
 				return;
 			}
+			OnPlayerEnter();
+		}
+
+		void OnPlayerEnter() {
 			EventManager.Fire(new PlayerEnteredSafeArea());
 		}
 
-		void OnPlayerExit(GameObject obj) {
+		void OnObjectExit(GameObject obj) {
 			var player = obj.GetComponent<Player>();
 			if ( !player ) {
 				return;
 			}
-			EventManager.Fire(new PlayerLeavedSafeArea());
+			OnPlayerExit();
+		}
+
+		void OnPlayerExit() {
+			EventManager.Fire(new PlayerLeftSafeArea());
 		}
 	}
 }

@@ -29,17 +29,27 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
 
         void Update() {
             if ( !_isStopped && _spawnTimer.DeltaTick() ) {
-                SpawnAsteroid();
+                Spawn();
             }
+        }
+
+        protected override void OnEnable() {
+            base.OnEnable();
+            EventManager.Subscribe<PlayerEnteredSafeArea>(OnPlayerEnteredSafeArea);
+            EventManager.Subscribe<PlayerLeftSafeArea>(OnPlayerLeftSafeArea);
+        }
+
+        protected override void OnDisable() {
+            base.OnDisable();
+            EventManager.Unsubscribe<PlayerEnteredSafeArea>(OnPlayerEnteredSafeArea);
+            EventManager.Unsubscribe<PlayerLeftSafeArea>(OnPlayerLeftSafeArea);
         }
 
         protected override void InitInternal(CoreStarter starter) {
             SpawnHelper = starter.SpawnHelper;
             _spawnTimer.Start(SpawnPeriod);
-            Player = starter.Player;
+            Player              =  starter.Player;
             Player.OnPlayerDied += OnPlayerDied;
-            EventManager.Subscribe<PlayerEnteredSafeArea>(OnPlayerEnteredSafeArea);
-            EventManager.Subscribe<PlayerLeavedSafeArea>(OnPlayerLeavedSafeArea);
         }
 
         protected virtual void InitItem(GameObject go) { }
@@ -48,7 +58,7 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
             _isStopped = true;
         }
 
-        void OnPlayerLeavedSafeArea(PlayerLeavedSafeArea e) {
+        void OnPlayerLeftSafeArea(PlayerLeftSafeArea e) {
             _isStopped = false;
         }
 
@@ -56,7 +66,7 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
             Player = null;
         }
 
-        void SpawnAsteroid() {
+        void Spawn() {
             if ( !Player ) {
                 return;
             }
