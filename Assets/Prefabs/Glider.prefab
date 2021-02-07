@@ -124,6 +124,7 @@ MonoBehaviour:
   BulletPrefab: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
     type: 3}
   BulletStartForce: 50
+  BulletStartSpeed: 300
   ShotSoundPlayer: {fileID: 7784412847256536032}
 --- !u!60 &1801752738528551873
 PolygonCollider2D:
@@ -169,7 +170,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 116.50007
+  m_Mass: 118.08712
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1

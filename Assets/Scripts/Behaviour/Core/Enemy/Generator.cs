@@ -6,7 +6,8 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
-    public class Generator : BaseEnemy, IDestructible {
+    [SelectionBase]
+    public sealed class Generator : BaseEnemy, IDestructible {
         [Space]
         public Connector Connector;
 
@@ -29,7 +30,7 @@ namespace STP.Behaviour.Core.Enemy {
         public Transform BulletOrigin;
         [NotNull]
         public GameObject BulletPrefab;
-        public float      BulletRunForce;
+        public float      BulletStartSpeed;
         [Header("Sound")]
         [NotNull]
         public BaseSimpleSoundPlayer ShotSoundPlayer;
@@ -147,7 +148,7 @@ namespace STP.Behaviour.Core.Enemy {
 
         void InitCreatedObject(GameObject go) {
             var bulletComp = go.GetComponent<IBullet>();
-            bulletComp?.Init(10f, Vector2.up * BulletRunForce, GetViewAngleToTarget(), Collider);
+            bulletComp?.Init(10f, BulletStartSpeed, GetViewAngleToTarget(), Collider);
             _spawnHelper.TryInitSpawnedObject(go);
         }
 

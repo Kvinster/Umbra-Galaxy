@@ -26,8 +26,8 @@ namespace STP.Behaviour.Core {
 		[NotNull]
 		public GameObject EnhancedBulletPrefab;
 		[NotNull]
-		public Transform  GunPoint;
-		public float BulletStartForce;
+		public Transform GunPoint;
+		public float     BulletStartSpeed;
 		[Space]
 		public float ReloadDuration;
 		[Space]
@@ -171,7 +171,7 @@ namespace STP.Behaviour.Core {
 			var bullet = bulletGo.GetComponent<IBullet>();
 			if ( bullet != null ) {
 				var mult = isX2DamageActive ? 2f : 1f;
-				bullet.Init(TmpBulletDamage * mult, Vector2.up * BulletStartForce, Rigidbody.rotation, Collider,
+				bullet.Init(TmpBulletDamage * mult, BulletStartSpeed, Rigidbody.rotation, Collider,
 					ShieldCollider);
 			} else {
 				Debug.LogErrorFormat("No Bullet component on current bullet prefab (x2 damage: '{0}')",

@@ -707,6 +707,7 @@ MonoBehaviour:
     type: 3}
   GunPoint: {fileID: 3830987399395142193}
   BulletStartForce: 200
+  BulletStartSpeed: 1500
   ReloadDuration: 0.1
   HealthBar: {fileID: 8866180828008973164}
   ShieldCollider: {fileID: 6433092364805186969}

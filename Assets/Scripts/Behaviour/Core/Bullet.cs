@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
-using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
@@ -29,11 +28,12 @@ namespace STP.Behaviour.Core {
 			Destroy(gameObject);
 		}
 
-		public void Init(float damage, Vector2 force, float rotation, params Collider2D[] ownerColliders) {
+		public void Init(float damage, float speed, float rotation, params Collider2D[] ownerColliders) {
 			_damage = damage;
 
+			transform.rotation = Quaternion.Euler(0, 0, rotation);
 			Rigidbody.rotation = rotation;
-			Rigidbody.AddRelativeForce(force, ForceMode2D.Impulse);
+			Rigidbody.AddRelativeForce(speed * Rigidbody.mass * Vector2.up, ForceMode2D.Impulse);
 			foreach ( var ownerCollider in ownerColliders ) {
 				IgnoreCollider(ownerCollider);
 			}

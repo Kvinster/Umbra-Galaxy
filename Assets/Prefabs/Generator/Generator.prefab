@@ -590,6 +590,7 @@ MonoBehaviour:
   BulletPrefab: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
     type: 3}
   BulletRunForce: 100
+  BulletStartSpeed: 625
   ShotSoundPlayer: {fileID: 5603130762187255581}
 --- !u!58 &2956093766420446193
 CircleCollider2D:

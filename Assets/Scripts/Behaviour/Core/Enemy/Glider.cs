@@ -18,7 +18,7 @@ namespace STP.Behaviour.Core.Enemy {
 		public TriggerNotifier DetectRangeNotifier;
 		public float           ShootInterval;
 		public GameObject      BulletPrefab;
-		public float           BulletStartForce;
+		public float           BulletStartSpeed;
 		[Header("Sound")]
 		[NotNull]
 		public BaseSimpleSoundPlayer ShotSoundPlayer;
@@ -60,7 +60,7 @@ namespace STP.Behaviour.Core.Enemy {
 			var bulletGo = Instantiate(BulletPrefab, transform.position, Quaternion.identity, _spawnHelper.TempObjRoot);
 			var bullet   = bulletGo.GetComponent<IBullet>();
 			if ( bullet != null ) {
-				bullet.Init(10f, Vector2.up * BulletStartForce, Rigidbody.rotation, Collider);
+				bullet.Init(10f, BulletStartSpeed, Rigidbody.rotation, Collider);
 			} else {
 				Debug.LogError("No Bullet component on BulletPrefab");
 				return false;

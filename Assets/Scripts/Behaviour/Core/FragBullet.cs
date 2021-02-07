@@ -41,13 +41,13 @@ namespace STP.Behaviour.Core {
 			Explode();
 		}
 
-		public void Init(float damage, Vector2 force, float rotation, params Collider2D[] ownerColliders) {
+		public void Init(float damage, float speed, float rotation, params Collider2D[] ownerColliders) {
 			_damage = damage;
 			foreach ( var bullet in InnerBullets ) {
 				bullet.gameObject.SetActive(false);
 			}
 			Rigidbody.rotation = rotation;
-			Rigidbody.AddRelativeForce(force, ForceMode2D.Impulse);
+			Rigidbody.AddRelativeForce(speed * Rigidbody.mass * Vector2.up, ForceMode2D.Impulse);
 			foreach ( var ownerCollider in ownerColliders ) {
 				IgnoreCollider(ownerCollider);
 			}
@@ -71,13 +71,15 @@ namespace STP.Behaviour.Core {
 		}
 
 		void Explode() {
+			var bulletSpeed = Rigidbody.velocity.magnitude / 3;
+			var toPlayerDir = (_player.transform.position - transform.position).normalized;
+			var baseAngle   = Vector2.SignedAngle(toPlayerDir, Vector2.right) + 90;
 			for ( var index = 0; index < InnerBullets.Count; index++ ) {
 				var bullet = InnerBullets[index];
-				bullet.transform.SetParent(transform.parent);
 				bullet.gameObject.SetActive(true);
-				var toPlayerDir = (_player.transform.position - transform.position).normalized;
-				var baseAngle   = Vector2.SignedAngle(toPlayerDir, Vector2.right);
-				bullet.Init(_damage, Vector2.right * Rigidbody.velocity.magnitude / 3,  -baseAngle + -30 + index * 15, Collider);
+				bullet.transform.SetParent(transform.parent);
+				bullet.Rigidbody.velocity = Vector3.zero;
+				bullet.Init(_damage, bulletSpeed, -baseAngle + -30 + index * 15, Collider);
 			}
 
 			Destroy(gameObject);

@@ -6,6 +6,7 @@ namespace STP.Behaviour.Core {
 	public sealed class Turret : BaseCoreComponent {
 		public GameObject BulletPrefab;
 		public float      BulletStartForce;
+		public float      BulletStartSpeed;
 		public float      ReloadDuration;
 		public Collider2D Collider;
 
@@ -32,7 +33,7 @@ namespace STP.Behaviour.Core {
 		void Shoot() {
 			var bulletGo = Instantiate(BulletPrefab, transform.position, Quaternion.identity, _spawnHelper.TempObjRoot);
 			var bulletComp = bulletGo.GetComponent<IBullet>();
-			bulletComp.Init(10f, Vector2.up * BulletStartForce, transform.rotation.eulerAngles.z, Collider);
+			bulletComp.Init(10f, BulletStartSpeed, transform.rotation.eulerAngles.z, Collider);
 			_spawnHelper.TryInitSpawnedObject(bulletGo);
 		}
 	}

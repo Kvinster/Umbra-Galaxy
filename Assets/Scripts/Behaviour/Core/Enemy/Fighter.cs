@@ -22,7 +22,7 @@ namespace STP.Behaviour.Core.Enemy {
 		[NotNull]
 		public GameObject Bullet;
 		public float      FirePeriod;
-		public float      StartBulletForce;
+		public float      BulletStartSpeed;
 
 		[Header("Sound")]
 		[NotNull]
@@ -105,7 +105,7 @@ namespace STP.Behaviour.Core.Enemy {
 				Destroy(go);
 				return;
 			}
-			bullet.Init(10f, Vector2.up * StartBulletForce, transform.rotation.eulerAngles.z, Collider);
+			bullet.Init(10f, BulletStartSpeed, transform.rotation.eulerAngles.z, Collider);
 			_spawnHelper.TryInitSpawnedObject(go);
 			ShotSoundPlayer.Play();
 		}
