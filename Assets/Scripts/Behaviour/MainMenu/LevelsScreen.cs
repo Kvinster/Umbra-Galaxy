@@ -60,7 +60,7 @@ namespace STP.Behaviour.MainMenu {
 			ProfileController.CreateNewActiveInstance(ProfileState.ActiveInstance);
 			var clm = CoreLoadingManager.Create();
 			if ( clm != null ) {
-				UniTask.Run(clm.LoadCore);
+				UniTask.Void(clm.LoadCore);
 			}
 		}
 

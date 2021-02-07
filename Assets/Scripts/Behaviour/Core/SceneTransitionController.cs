@@ -49,7 +49,7 @@ namespace STP.Behaviour.Core {
 			_camera          = starter.MainCamera;
 			_playerTransform = starter.Player.transform;
 
-			UniTask.Run(PlayShowAnim);
+			UniTask.Create(PlayShowAnim);
 		}
 
 		public async UniTask PlayHideAnim(Vector3 fadeInWorldCenter) {
@@ -58,8 +58,6 @@ namespace STP.Behaviour.Core {
 				Debug.LogError(error);
 				throw new OperationCanceledException(error);
 			}
-
-			await UniTask.SwitchToMainThread();
 
 			_isAnimPlaying = true;
 			await CreateHideAnim(fadeInWorldCenter);
@@ -72,8 +70,6 @@ namespace STP.Behaviour.Core {
 				Debug.LogError(error);
 				return;
 			}
-
-			await UniTask.SwitchToMainThread();
 
 			_isAnimPlaying = true;
 			await CreateShowAnim(_playerTransform.position);

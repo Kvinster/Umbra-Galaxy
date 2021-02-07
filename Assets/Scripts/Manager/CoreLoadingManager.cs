@@ -15,8 +15,6 @@ namespace STP.Manager {
 		bool IsLoading { get; set; }
 
 		public async UniTaskVoid LoadCore() {
-			await UniTask.SwitchToMainThread();
-
 			IsLoading = true;
 
 			await LoadSceneAsync(LoadingSceneName, LoadSceneMode.Single);
