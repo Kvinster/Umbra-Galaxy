@@ -6,7 +6,7 @@ using System;
 using STP.Behaviour.Core;
 using STP.Core;
 
-using Object = UnityEngine.Object;
+using Cysharp.Threading.Tasks;
 
 namespace STP.Manager {
 	public sealed class LevelManager {
@@ -64,7 +64,10 @@ namespace STP.Manager {
 		void SceneTransition() {
 			_pauseManager.Pause(this);
 			_sceneTransitionController.PlayHideAnim(_playerTransform.position).Then(() => {
-				CoreLoadingManager.Create().LoadCore();
+				var clm = CoreLoadingManager.Create();
+				if ( clm != null ) {
+					UniTask.Run(clm.LoadCore);
+				}
 			});
 		}
 	}

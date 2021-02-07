@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-using System.Collections;
 using System.Collections.Generic;
 
 using STP.Behaviour.Core.Enemy.GeneratorEditor;
@@ -9,6 +8,8 @@ using STP.Config;
 using STP.Core;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
+
+using Cysharp.Threading.Tasks;
 
 namespace STP.Behaviour.Core.Generators {
 	public sealed class LevelGenerator : GameComponent {
@@ -24,13 +25,14 @@ namespace STP.Behaviour.Core.Generators {
 			_levelController   = levelController;
 		}
 
-		public IEnumerator GenerateLevel(Transform root = null) {
+		public async UniTask GenerateLevel(Transform root = null) {
 			ResetState();
 			var levelInfo  = _levelController.GetCurLevelConfig();
 			var cellSize   = levelInfo.CellSize;
 			var randomSeed = Random.Range(int.MinValue, int.MaxValue);
 			Random.InitState(randomSeed);
-			var minPoint          = new Vector2(-levelInfo.LevelSpaceSize / 2.0f, -levelInfo.LevelSpaceSize / 2.0f) + new Vector2(cellSize / 2.0f, cellSize / 2.0f);
+			var minPoint = new Vector2(-levelInfo.LevelSpaceSize / 2.0f, -levelInfo.LevelSpaceSize / 2.0f) +
+			               new Vector2(cellSize / 2.0f, cellSize / 2.0f);
 			var map               = GenerateMap(levelInfo);
 			var powerUpSpawnPoints = new List<Transform>();
 			for ( var y = 0; y < map.GetLength(1); y++ ) {
@@ -43,7 +45,7 @@ namespace STP.Behaviour.Core.Generators {
 					var chunkComp = obj.GetComponent<LevelChunk>();
 					powerUpSpawnPoints.AddRange(chunkComp.FreePowerUpSpawnPoints);
 				}
-				yield return null;
+				await UniTask.Yield();
 			}
 
 			foreach ( var powerUpInfo in levelInfo.PowerUpInfos ) {

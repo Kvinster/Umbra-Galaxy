@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using System.Collections;
-
 using STP.Behaviour.Starter;
-using STP.Utils;
 
-using RSG;
+using Cysharp.Threading.Tasks;
 
 namespace STP.Manager {
 	public sealed class CoreLoadingManager {
@@ -17,64 +14,39 @@ namespace STP.Manager {
 
 		bool IsLoading { get; set; }
 
-		public void LoadCore() {
+		public async UniTaskVoid LoadCore() {
+			await UniTask.SwitchToMainThread();
+
 			IsLoading = true;
-			LoadSceneAsync(LoadingSceneName, LoadSceneMode.Single)
-				.Then(() => LoadSceneAsync(CoreSceneName, LoadSceneMode.Additive))
-				.Then(InitLevel)
-				.Then(() => UnloadSceneAsync(LoadingSceneName))
-				.Then(() => {
-					IsLoading = false;
 
-					UnpauseLevel();
-					Release();
-				});
+			await LoadSceneAsync(LoadingSceneName, LoadSceneMode.Single);
+			await LoadSceneAsync(CoreSceneName, LoadSceneMode.Additive);
+			await InitLevel();
+			await UnloadSceneAsync(LoadingSceneName);
+
+			IsLoading = false;
+
+			UnpauseLevel();
+			Release();
 		}
 
 
-		IPromise LoadSceneAsync(string sceneName, LoadSceneMode mode) {
-			var promise = new Promise();
-			UnityContext.Instance.StartCoroutine(LoadSceneAsyncCoro(sceneName, mode, promise));
-			return promise;
+		async UniTask LoadSceneAsync(string sceneName, LoadSceneMode mode) {
+			await SceneManager.LoadSceneAsync(sceneName, mode);
 		}
 
-		IEnumerator LoadSceneAsyncCoro(string sceneName, LoadSceneMode mode, Promise promise) {
-			var op = SceneManager.LoadSceneAsync(sceneName, mode);
-			while ( !op.isDone ) {
-				yield return null;
-			}
-			promise.Resolve();
+		async UniTask UnloadSceneAsync(string sceneName) {
+			await SceneManager.UnloadSceneAsync(sceneName);
 		}
 
-		IPromise UnloadSceneAsync(string sceneName) {
-			var promise = new Promise();
-			UnityContext.Instance.StartCoroutine(UnloadSceneAsyncCoro(sceneName, promise));
-			return promise;
-		}
-
-		IEnumerator UnloadSceneAsyncCoro(string sceneName, Promise promise) {
-			var op = SceneManager.UnloadSceneAsync(sceneName);
-			while ( !op.isDone ) {
-				yield return null;
-			}
-			promise.Resolve();
-		}
-
-		IPromise InitLevel() {
-			var promise = new Promise();
-			UnityContext.Instance.StartCoroutine(InitLevelCoro(promise));
-			return promise;
-		}
-
-		IEnumerator InitLevelCoro(Promise promise) {
-			var starter = Object.FindObjectOfType<CoreStarter>();
-			if ( starter ) {
-				yield return starter.InitLevel();
-				starter.PauseManager.Pause(this);
-			} else {
-				Debug.LogErrorFormat("Can't find {0} instance", nameof(CoreStarter));
-			}
-			promise.Resolve();
+		 async UniTask InitLevel() {
+			 var starter = Object.FindObjectOfType<CoreStarter>();
+			 if ( starter ) {
+				 await starter.InitLevel();
+				 starter.PauseManager.Pause(this);
+			 } else {
+				 Debug.LogErrorFormat("Can't find {0} instance", nameof(CoreStarter));
+			 }
 		}
 
 		void UnpauseLevel() {

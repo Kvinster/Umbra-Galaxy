@@ -11,6 +11,8 @@ using STP.Core.State;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 
+using Cysharp.Threading.Tasks;
+
 namespace STP.Behaviour.MainMenu {
 	public sealed class LevelsScreen : BaseMainMenuComponent {
 		[NotNull] public Transform  LevelButtonParent;
@@ -56,7 +58,10 @@ namespace STP.Behaviour.MainMenu {
 		void LoadLevel(int levelIndex) {
 			ProfileState.ActiveInstance.LevelState.CurLevelIndex = levelIndex;
 			ProfileController.CreateNewActiveInstance(ProfileState.ActiveInstance);
-			CoreLoadingManager.Create().LoadCore();
+			var clm = CoreLoadingManager.Create();
+			if ( clm != null ) {
+				UniTask.Run(clm.LoadCore);
+			}
 		}
 
 		void ResetLevelButtons() {

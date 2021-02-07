@@ -11,6 +11,8 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 using STP.View.DebugGUI;
 
+using Cysharp.Threading.Tasks;
+
 namespace STP.Behaviour.Starter {
 	public class CoreStarter : BaseStarter<CoreStarter> {
 		[NotNull] public Camera                    MainCamera;
@@ -45,11 +47,13 @@ namespace STP.Behaviour.Starter {
 		IEnumerator Start() {
 			yield return null;
 			if ( !_isLevelInitStarted ) { // to properly initialize when started from editor
-				StartCoroutine(InitLevel());
+				#pragma warning disable 4014
+				InitLevel();
+				#pragma warning restore 4014
 			}
 		}
 
-		public IEnumerator InitLevel() {
+		public async UniTask InitLevel() {
 			_isLevelInitStarted = true;
 #if UNITY_EDITOR
 			if ( !GameState.IsActiveInstanceExists ) {
@@ -84,7 +88,7 @@ namespace STP.Behaviour.Starter {
 			CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc);
 			MinimapManager = new MinimapManager(MinimapCamera);
 			Generator.Init(puc, lc);
-			yield return Generator.GenerateLevel(LevelObjectsRoot);
+			await Generator.GenerateLevel(LevelObjectsRoot);
 			InitComponents();
 			// Settings for smooth gameplay
 			Application.targetFrameRate = Screen.currentResolution.refreshRate;
