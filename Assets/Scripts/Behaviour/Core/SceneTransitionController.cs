@@ -5,8 +5,8 @@ using System;
 using STP.Behaviour.Starter;
 using STP.Utils.GameComponentAttributes;
 
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using RSG;
 
 namespace STP.Behaviour.Core {
 	public sealed class SceneTransitionController : BaseCoreComponent {
@@ -18,7 +18,7 @@ namespace STP.Behaviour.Core {
 		public float FadeInDuration;
 		public float FadeOutDuration;
 
-		Sequence _anim;
+		bool _isAnimPlaying;
 
 		Camera    _camera;
 		Transform _playerTransform;
@@ -49,31 +49,35 @@ namespace STP.Behaviour.Core {
 			_camera          = starter.MainCamera;
 			_playerTransform = starter.Player.transform;
 
-			PlayShowAnim();
+			UniTask.Run(PlayShowAnim);
 		}
 
-		public IPromise PlayHideAnim(Vector3 fadeInWorldCenter) {
-			if ( _anim != null ) {
+		public async UniTask PlayHideAnim(Vector3 fadeInWorldCenter) {
+			if ( _isAnimPlaying ) {
 				var error = "Anim is already playing";
 				Debug.LogError(error);
-				return Promise.Rejected(new Exception(error));
+				throw new OperationCanceledException(error);
 			}
 
-			var promise = new Promise();
-			_anim = CreateHideAnim(fadeInWorldCenter)
-				.AppendCallback(promise.Resolve);
-			return promise;
+			await UniTask.SwitchToMainThread();
+
+			_isAnimPlaying = true;
+			await CreateHideAnim(fadeInWorldCenter);
+			_isAnimPlaying = false;
 		}
 
-		void PlayShowAnim() {
-			if ( _anim != null ) {
+		async UniTask PlayShowAnim() {
+			if ( _isAnimPlaying ) {
 				var error = "Anim is already playing";
 				Debug.LogError(error);
 				return;
 			}
 
-			_anim = CreateShowAnim(_playerTransform.position)
-				.AppendCallback(() => { _anim = null; });
+			await UniTask.SwitchToMainThread();
+
+			_isAnimPlaying = true;
+			await CreateShowAnim(_playerTransform.position);
+			_isAnimPlaying = false;
 		}
 
 		Sequence CreateHideAnim(Vector3 fadeInWorldCenter) {

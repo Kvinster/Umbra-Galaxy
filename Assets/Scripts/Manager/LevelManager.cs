@@ -46,7 +46,7 @@ namespace STP.Manager {
 				return false;
 			}
 			IsLevelActive = false;
-			SceneTransition();
+			UniTask.Run(SceneTransition);
 			return true;
 		}
 
@@ -61,14 +61,17 @@ namespace STP.Manager {
 			SceneManager.LoadScene("MainMenu");
 		}
 
-		void SceneTransition() {
+		async UniTask SceneTransition() {
+			await UniTask.SwitchToMainThread();
+
 			_pauseManager.Pause(this);
-			_sceneTransitionController.PlayHideAnim(_playerTransform.position).Then(() => {
-				var clm = CoreLoadingManager.Create();
-				if ( clm != null ) {
-					UniTask.Run(clm.LoadCore);
-				}
-			});
+
+			await _sceneTransitionController.PlayHideAnim(_playerTransform.position);
+
+			var clm = CoreLoadingManager.Create();
+			if ( clm != null ) {
+				UniTask.Run(clm.LoadCore);
+			}
 		}
 	}
 }
