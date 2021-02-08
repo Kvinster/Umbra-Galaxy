@@ -51,7 +51,7 @@ namespace STP.Behaviour.Core.Generators {
 			foreach ( var powerUpInfo in levelInfo.PowerUpInfos ) {
 				while ( (_state.GetOrDefaultCreatedPowerUpsCount(powerUpInfo.PowerUpType) < powerUpInfo.Count) &&
 				        (powerUpSpawnPoints.Count > 0) ) {
-					AddPowerUpsToLevel(powerUpSpawnPoints, levelInfo, root);
+					AddPowerUpsToLevel(powerUpSpawnPoints, levelInfo);
 				}
 			}
 			Debug.Log($"Level generated. Seed {randomSeed}");
@@ -140,17 +140,16 @@ namespace STP.Behaviour.Core.Generators {
 			return new MapCell {IsSafeRect = false, GeneratorGridSize = gridSize};
 		}
 
-		void AddPowerUpsToLevel(List<Transform> freePowerUpsSpawnPoints, LevelInfo levelInfo, Transform root) {
-			var powerUpSpawn = RandomUtils.GetRandomElement(freePowerUpsSpawnPoints);
+		void AddPowerUpsToLevel(List<Transform> freePowerUpsSpawnPoints, LevelInfo levelInfo) {
+			var powerUpSpawn = RandomUtils.GetAndRemoveRandomElement(freePowerUpsSpawnPoints);
 			if ( !powerUpSpawn ) {
 				Debug.LogError("Can't spawn power up - no available spawn points");
 				return;
 			}
-			freePowerUpsSpawnPoints.Remove(powerUpSpawn);
 			var availablePowerUps = GetAvailableToSpawnPowerUps(levelInfo);
 			var powerUp           = RandomUtils.GetRandomElement(availablePowerUps);
 			var prefab            = GetPowerUpPrefab(powerUp);
-			Instantiate(prefab, powerUpSpawn.position, Quaternion.identity, root);
+			Instantiate(prefab, powerUpSpawn.position, Quaternion.identity, powerUpSpawn.parent);
 			if ( _state.CreatedPowerUpsCount.ContainsKey(powerUp) ) {
 				_state.CreatedPowerUpsCount[powerUp]++;
 			} else {
