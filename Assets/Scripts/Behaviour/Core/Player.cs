@@ -57,7 +57,7 @@ namespace STP.Behaviour.Core {
 
 		float _reloadTimer;
 
-		bool IsAlive => _playerController.IsAlive;
+		bool IsAlive => (_playerController?.IsAlive ?? false);
 
 		float CurHp => _playerController.CurHp;
 
