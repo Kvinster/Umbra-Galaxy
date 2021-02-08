@@ -98,6 +98,9 @@ namespace STP.Core {
 		}
 
 		public void AddHp(float hp) {
+			if ( !IsAlive ) {
+				return;
+			}
 			if ( hp < 0 ) {
 				Debug.LogError($"Can't add negative hp {hp}");
 				return;
