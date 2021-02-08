@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+using STP.Behaviour.Sound;
 using STP.Core;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
@@ -45,17 +46,20 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		void OnQuitClick() {
+			PersistentAudioPlayer.Instance.SetPitch(1f);
 			Hide();
 			_levelManager.QuitToMenu();
 		}
 
 		void OnContinueClick() {
+			PersistentAudioPlayer.Instance.SetPitch(1f);
 			_playerManager.Respawn();
 			Hide();
 		}
 
 		void OnRestartClick() {
 			_playerManager.Restart();
+			PersistentAudioPlayer.Instance.SetPitch(1f);
 			_levelManager.TryReloadLevel();
 			Hide();
 		}

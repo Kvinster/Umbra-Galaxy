@@ -20,7 +20,6 @@ namespace STP.Behaviour.Starter {
 
 		public GameController GameController { get; private set; }
 
-
 		void Start() {
 			TryCreateGameState();
 			GameController = new GameController(GameState.ActiveInstance);

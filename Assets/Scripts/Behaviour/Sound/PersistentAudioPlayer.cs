@@ -56,5 +56,11 @@ namespace STP.Behaviour.Sound {
 			_musicAudioSource.clip   = clip;
 			_musicAudioSource.Play();
 		}
+
+		public void SetPitch(float pitch) {
+			pitch                   = Mathf.Clamp01(pitch);
+			_musicAudioSource.pitch = pitch;
+			_soundAudioSource.pitch = pitch;
+		}
 	}
 }

@@ -2,8 +2,12 @@
 
 using System;
 
+using STP.Behaviour.Sound;
 using STP.Core;
 using STP.Core.State;
+
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 
 namespace STP.Manager {
 	public sealed class LevelGoalManager {
@@ -81,6 +85,18 @@ namespace STP.Manager {
 			if ( !_playerManager.OnPlayerDied() ) {
 				_xpController.ResetXp();
 			}
+
+			UniTask.Void(StartPlayerDeath);
+		}
+
+		async UniTaskVoid StartPlayerDeath() {
+			var progress = 0f;
+			Time.timeScale = 0.5f;
+			var anim = DOTween.To(() => progress, x => {
+				progress = x;
+				PersistentAudioPlayer.Instance.SetPitch(1f - x);
+			}, 1f, 2f).SetUpdate(true).SetEase(Ease.OutQuad);
+			await anim;
 			OnPlayerDeath?.Invoke();
 		}
 

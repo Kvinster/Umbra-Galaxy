@@ -1,15 +1,13 @@
 ﻿using UnityEngine;
 
 using STP.Utils;
-using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
-	[RequireComponent(typeof(AudioSource))]
 	public abstract class BaseSoundPlayer : GameComponent {
-		[NotNull] public AudioSource AudioSource;
+		public AudioSource OverrideAudioSource;
 
 		protected virtual void Reset() {
-			AudioSource = GetComponentInChildren<AudioSource>();
+			OverrideAudioSource = GetComponentInChildren<AudioSource>();
 		}
 	}
 }

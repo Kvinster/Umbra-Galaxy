@@ -9,7 +9,7 @@ namespace STP.Behaviour.Core {
 		public float     VolumeScale = 1f;
 
 		public override void Play() {
-			AudioSource.PlayOneShot(AudioClip, VolumeScale);
+			PlayOneShot(AudioClip, VolumeScale);
 		}
 	}
 }

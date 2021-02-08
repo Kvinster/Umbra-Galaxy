@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.VFX;
 
 using System;
 
@@ -36,18 +37,21 @@ namespace STP.Behaviour.Core {
 		[Space]
 		[NotNull]
 		public Collider2D ShieldCollider;
+		[Space]
+		[NotNull]
+		public GameObject   DeathVisualEffectRoot;
+		public VisualEffect DeathVisualEffect;
 
 		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer DeathSoundPlayer;
 		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer ShotSoundPlayer;
 
 		Vector2 _input;
 
-		Camera           _camera;
-		CoreSpawnHelper  _spawnHelper;
-		Transform        _playerStartPos;
-		PlayerManager    _playerManager;
-		PauseManager     _pauseManager;
-		LevelGoalManager _levelGoalManager;
+		Camera          _camera;
+		CoreSpawnHelper _spawnHelper;
+		Transform       _playerStartPos;
+		PlayerManager   _playerManager;
+		PauseManager    _pauseManager;
 
 		PlayerController _playerController;
 
@@ -69,7 +73,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		void Update() {
-			if ( !IsInit ) {
+			if ( !IsInit || !IsAlive ) {
 				return;
 			}
 			if ( _pauseManager.IsPaused ) {
@@ -83,10 +87,15 @@ namespace STP.Behaviour.Core {
 			}
 
 			_reloadTimer -= Time.deltaTime;
+
+			if ( Input.GetKeyDown(KeyCode.Q) ) {
+				_playerController.IsInvincible = true;
+				_playerManager.AddTimeToPowerUp(PowerUpType.Shield, 10);
+			}
 		}
 
 		void FixedUpdate() {
-			if ( !IsInit ) {
+			if ( !IsInit || !IsAlive ) {
 				return;
 			}
 			if ( _pauseManager.IsPaused ) {
@@ -101,12 +110,11 @@ namespace STP.Behaviour.Core {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
-			_camera           = starter.MainCamera;
-			_spawnHelper      = starter.SpawnHelper;
-			_playerStartPos   = starter.PlayerStartPos;
-			_playerManager    = starter.PlayerManager;
-			_pauseManager     = starter.PauseManager;
-			_levelGoalManager = starter.LevelGoalManager;
+			_camera         = starter.MainCamera;
+			_spawnHelper    = starter.SpawnHelper;
+			_playerStartPos = starter.PlayerStartPos;
+			_playerManager  = starter.PlayerManager;
+			_pauseManager   = starter.PauseManager;
 
 			_playerController                  =  starter.PlayerController;
 			_playerController.OnCurHpChanged   += OnCurHpChanged;
@@ -125,6 +133,9 @@ namespace STP.Behaviour.Core {
 			Rigidbody.velocity = Vector2.zero;
 			Rigidbody.rotation = 0f;
 			_reloadTimer       = 0f;
+
+			DeathVisualEffectRoot.SetActive(false);
+			DeathVisualEffect.Stop();
 		}
 
 		public void OnRestart() {
@@ -142,6 +153,8 @@ namespace STP.Behaviour.Core {
 		void OnIsAliveChanged(bool isAlive) {
 			if ( !isAlive ) {
 				DeathSoundPlayer.Play();
+				DeathVisualEffectRoot.SetActive(true);
+				DeathVisualEffect.Play();
 			}
 		}
 
