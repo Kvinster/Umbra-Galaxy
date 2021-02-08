@@ -43,7 +43,11 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor.RandomWalk {
 			var startDirs   = Random.Range(0, 2) == 0 ? StartHorizontalDirections : StartVerticalDirections;
 			var pointsList = new List<Vector2Int>();
 
+			//Init first cells
+			map.SetCell(startPoint.x, startPoint.y, CellState.Wall);
 			foreach ( var dir in startDirs ) {
+				var point = dir + startPoint;
+				map.SetCell(point.x, point.y, CellState.Wall);
 				pointsList.Add(dir + startPoint);
 			}
 
