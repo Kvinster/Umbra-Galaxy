@@ -95,7 +95,7 @@ namespace STP.Manager {
 			var anim = DOTween.To(() => progress, x => {
 				progress = x;
 				PersistentAudioPlayer.Instance.SetPitch(1f - x);
-			}, 1f, 2f).SetUpdate(true).SetEase(Ease.OutQuad);
+			}, 1f, 1f).SetUpdate(true).SetEase(Ease.OutQuad);
 			await anim;
 			OnPlayerDeath?.Invoke();
 		}
