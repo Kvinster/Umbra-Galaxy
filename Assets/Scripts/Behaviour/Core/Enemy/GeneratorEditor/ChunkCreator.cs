@@ -48,28 +48,23 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 
 		GameObject CreateGeneratorsVariant(GeneratorsMap map, int powerUpPointsCount) {
 			var cellSize = 100;
-
-			var baseGo = new GameObject();
-
+			var baseGo = new GameObject($"generator_{map.Size}_powerups_{powerUpPointsCount}");
 			var comp = baseGo.AddComponent<LevelChunk>();
-
+			if ( map.Size == 0 ) {
+				return baseGo;
+			}
 			// Create Random powerup points
 			for ( var i = 0; i < powerUpPointsCount; i++ ) {
-				var x     = Random.Range(-map.Size / 2f, map.Size / 2f) * cellSize;
-				var y     = Random.Range(-map.Size / 2f, map.Size / 2f) * cellSize;
-				var point = new GameObject();
+				var x     = Random.Range(-map.Size / 2, map.Size / 2) * cellSize + cellSize / 2f;
+				var y     = Random.Range(-map.Size / 2, map.Size / 2) * cellSize + cellSize / 2f;
+				var point = new GameObject("spawnPoint");
 				point.transform.position = new Vector3(x, y, 0);
 				point.transform.SetParent(baseGo.transform);
 				comp.FreePowerUpSpawnPoints.Add(point.transform);
 			}
-
-			if ( map.Size == 0 ) {
-				return baseGo;
-			}
-
+			// Create generators and init connectors map
 			var connectorsMap = new Map<Connector>(map.Size);
 			var mainGenPoint  = InvalidVector;
-			// Create generators and init connectors map
 			for ( var y = 0; y < map.Size; y++ ) {
 				for ( var x = 0; x < map.Size; x++ ) {
 					var cell     = map.GetCell(x, y);
