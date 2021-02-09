@@ -562,6 +562,7 @@ GameObject:
   - component: {fileID: 3127888978083334662}
   - component: {fileID: 3127888978083334667}
   - component: {fileID: 3127888978083334668}
+  - component: {fileID: 2615716648906306800}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -617,6 +618,7 @@ MonoBehaviour:
   ShieldCollider: {fileID: 6433092364805186969}
   DeathVisualEffectRoot: {fileID: 6687908338199043058}
   DeathVisualEffect: {fileID: 8940948242690298101}
+  PlayerDeathAnimationController: {fileID: 2615716648906306800}
   DeathSoundPlayer: {fileID: 2794699610254917383}
   ShotSoundPlayer: {fileID: 587117463023655764}
 --- !u!60 &3127888978083334667
@@ -668,6 +670,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &2615716648906306800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3127888978083334669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d632aa35ba504d248956e17a981521d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerDeathAnimDuration: 1
 --- !u!1 &5098145204709111165
 GameObject:
   m_ObjectHideFlags: 0

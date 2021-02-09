@@ -2,12 +2,8 @@
 
 using System;
 
-using STP.Behaviour.Sound;
 using STP.Core;
 using STP.Core.State;
-
-using Cysharp.Threading.Tasks;
-using DG.Tweening;
 
 namespace STP.Manager {
 	public sealed class LevelGoalManager {
@@ -15,7 +11,6 @@ namespace STP.Manager {
 
 		readonly PlayerManager         _playerManager;
 		readonly LevelManager          _levelManager;
-		readonly PlayerController      _playerController;
 		readonly LevelController       _levelController;
 		readonly XpController          _xpController;
 		readonly LeaderboardController _leaderboardController;
@@ -40,12 +35,10 @@ namespace STP.Manager {
 		public event Action      OnPlayerDeath;
 		public event Action      OnLevelWon;
 
-		public LevelGoalManager(PlayerManager playerManager, LevelManager levelManager,
-			PlayerController playerController, LevelController levelController, XpController xpController,
-			LeaderboardController leaderboardController, ProfileState profileState) {
+		public LevelGoalManager(PlayerManager playerManager, LevelManager levelManager, LevelController levelController,
+			XpController xpController, LeaderboardController leaderboardController, ProfileState profileState) {
 			_playerManager         = playerManager;
 			_levelManager          = levelManager;
-			_playerController      = playerController;
 			_levelController       = levelController;
 			_xpController          = xpController;
 			_leaderboardController = leaderboardController;
@@ -56,15 +49,9 @@ namespace STP.Manager {
 			LevelGoal = curLevelInfo.GeneratorsCount;
 
 			CurLevelGoalProgress = 0;
-
-			_playerController.OnIsAliveChanged += OnPlayerIsAliveChanged;
 		}
 
-		public void Deinit() {
-			if ( _playerController != null ) {
-				_playerController.OnIsAliveChanged -= OnPlayerIsAliveChanged;
-			}
-		}
+		public void Deinit() { }
 
 		public void Advance(int goalAdd = 1) {
 			CurLevelGoalProgress += goalAdd;
@@ -75,28 +62,11 @@ namespace STP.Manager {
 			}
 		}
 
-		void OnPlayerIsAliveChanged(bool isPlayerAlive) {
-			if ( !isPlayerAlive ) {
-				OnPlayerDied();
-			}
-		}
-
-		void OnPlayerDied() {
+		public void OnPlayerDied() {
 			if ( !_playerManager.OnPlayerDied() ) {
 				_xpController.ResetXp();
 			}
 
-			UniTask.Void(StartPlayerDeath);
-		}
-
-		async UniTaskVoid StartPlayerDeath() {
-			var progress = 0f;
-			Time.timeScale = 0.5f;
-			var anim = DOTween.To(() => progress, x => {
-				progress = x;
-				PersistentAudioPlayer.Instance.SetPitch(1f - x);
-			}, 1f, 1f).SetUpdate(true).SetEase(Ease.OutQuad);
-			await anim;
 			OnPlayerDeath?.Invoke();
 		}
 

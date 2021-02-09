@@ -3,6 +3,8 @@ using UnityEngine.VFX;
 
 using System;
 
+using Cysharp.Threading.Tasks;
+
 using STP.Behaviour.Starter;
 using STP.Common;
 using STP.Core;
@@ -41,17 +43,21 @@ namespace STP.Behaviour.Core {
 		[NotNull]
 		public GameObject   DeathVisualEffectRoot;
 		public VisualEffect DeathVisualEffect;
+		[Space]
+		[NotNull]
+		public PlayerDeathAnimationController PlayerDeathAnimationController;
 
 		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer DeathSoundPlayer;
 		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer ShotSoundPlayer;
 
 		Vector2 _input;
 
-		Camera          _camera;
-		CoreSpawnHelper _spawnHelper;
-		Transform       _playerStartPos;
-		PlayerManager   _playerManager;
-		PauseManager    _pauseManager;
+		Camera           _camera;
+		CoreSpawnHelper  _spawnHelper;
+		Transform        _playerStartPos;
+		PlayerManager    _playerManager;
+		LevelGoalManager _levelGoalManager;
+		PauseManager     _pauseManager;
 
 		PlayerController _playerController;
 
@@ -110,11 +116,12 @@ namespace STP.Behaviour.Core {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
-			_camera         = starter.MainCamera;
-			_spawnHelper    = starter.SpawnHelper;
-			_playerStartPos = starter.PlayerStartPos;
-			_playerManager  = starter.PlayerManager;
-			_pauseManager   = starter.PauseManager;
+			_camera           = starter.MainCamera;
+			_spawnHelper      = starter.SpawnHelper;
+			_playerStartPos   = starter.PlayerStartPos;
+			_playerManager    = starter.PlayerManager;
+			_levelGoalManager = starter.LevelGoalManager;
+			_pauseManager     = starter.PauseManager;
 
 			_playerController                  =  starter.PlayerController;
 			_playerController.OnCurHpChanged   += OnCurHpChanged;
@@ -136,6 +143,8 @@ namespace STP.Behaviour.Core {
 
 			DeathVisualEffectRoot.SetActive(false);
 			DeathVisualEffect.Stop();
+
+			PlayerDeathAnimationController.ResetAnim();
 		}
 
 		public void OnRestart() {
@@ -155,7 +164,14 @@ namespace STP.Behaviour.Core {
 				DeathSoundPlayer.Play();
 				DeathVisualEffectRoot.SetActive(true);
 				DeathVisualEffect.Play();
+
+				UniTask.Void(OnDeath);
 			}
+		}
+
+		async UniTaskVoid OnDeath() {
+			await PlayerDeathAnimationController.PlayPlayerDeathAnim();
+			_levelGoalManager.OnPlayerDied();
 		}
 
 		void Deinit() {

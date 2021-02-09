@@ -83,7 +83,7 @@ namespace STP.Behaviour.Starter {
 			PauseManager  = new PauseManager();
 			LevelManager  = new LevelManager(Player.transform, SceneTransitionController, PauseManager, lc);
 			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot);
-			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, pc, lc, xc,
+			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, lc, xc,
 				GameController.LeaderboardController, ProfileState.ActiveInstance);
 			CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc);
 			MinimapManager = new MinimapManager(MinimapCamera);
