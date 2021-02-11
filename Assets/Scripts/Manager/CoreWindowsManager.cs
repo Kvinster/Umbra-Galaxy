@@ -11,6 +11,8 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Manager {
 	public sealed class CoreWindowsManager : GameComponent {
+		[NotNull] public GameObject  UiRoot;
+		[Space]
 		[NotNull] public DeathWindow DeathWindow;
 		[NotNull] public WinWindow   WinWindow;
 		[NotNull] public PauseWindow PauseWindow;
@@ -51,7 +53,7 @@ namespace STP.Manager {
 		}
 
 		void ShowPauseWindow() {
-			ShowWindow(PauseWindow);
+			ShowWindow(PauseWindow, false);
 		}
 
 		void OnLevelWon() {
@@ -62,11 +64,19 @@ namespace STP.Manager {
 			ShowWindow(DeathWindow);
 		}
 
-		void ShowWindow<T>(T window) where T : BaseCoreWindow {
+		void ShowWindow<T>(T window, bool hideUi = true) where T : BaseCoreWindow {
+			if ( hideUi ) {
+				UiRoot.SetActive(false);
+			}
 			_pauseManager.Pause(this);
 			window.Show()
 				.Catch(ex => { Debug.LogError(ex.Message); })
-				.Finally(() => _pauseManager.Unpause(this));
+				.Finally(() => {
+					_pauseManager.Unpause(this);
+					if ( hideUi ) {
+						UiRoot.SetActive(true);
+					}
+				});
 		}
 	}
 }
