@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.VFX;
 
 using System;
-
-using Cysharp.Threading.Tasks;
+using System.Threading;
 
 using STP.Behaviour.Starter;
 using STP.Common;
@@ -11,6 +13,7 @@ using STP.Core;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 
+using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 
 namespace STP.Behaviour.Core {
@@ -62,6 +65,9 @@ namespace STP.Behaviour.Core {
 		PlayerController _playerController;
 
 		float _reloadTimer;
+
+		ChromaticAberration     _chromaticAberration;
+		CancellationTokenSource _damageEffectCancellationTokenSource;
 
 		bool IsAlive => (_playerController?.IsAlive ?? false);
 
@@ -123,6 +129,9 @@ namespace STP.Behaviour.Core {
 			_levelGoalManager = starter.LevelGoalManager;
 			_pauseManager     = starter.PauseManager;
 
+			_camera.GetComponent<Volume>().profile.TryGet(out _chromaticAberration);
+			Assert.IsTrue(_chromaticAberration);
+
 			_playerController                  =  starter.PlayerController;
 			_playerController.OnCurHpChanged   += OnCurHpChanged;
 			_playerController.OnIsAliveChanged += OnIsAliveChanged;
@@ -144,6 +153,9 @@ namespace STP.Behaviour.Core {
 			DeathVisualEffectRoot.SetActive(false);
 			DeathVisualEffect.Stop();
 
+			_damageEffectCancellationTokenSource?.Cancel();
+			SetDamageEffect(0f);
+
 			PlayerDeathAnimationController.ResetAnim();
 		}
 
@@ -157,6 +169,26 @@ namespace STP.Behaviour.Core {
 				return;
 			}
 			_playerController.TakeDamage(damage);
+			_damageEffectCancellationTokenSource?.Cancel();
+			_damageEffectCancellationTokenSource = new CancellationTokenSource();
+			UniTask.Void(DamageEffect, _damageEffectCancellationTokenSource.Token);
+		}
+
+		async UniTaskVoid DamageEffect(CancellationToken cancellationToken) {
+			var value = 1.0f;
+			SetDamageEffect(value);
+			while ( value > 0f ) {
+				if ( cancellationToken.IsCancellationRequested ) {
+					return;
+				}
+				value = Mathf.Clamp01(value - Time.deltaTime);
+				SetDamageEffect(value);
+				await UniTask.WaitForEndOfFrame(cancellationToken);
+			}
+		}
+
+		void SetDamageEffect(float value) {
+			_chromaticAberration.intensity.value = value;
 		}
 
 		void OnIsAliveChanged(bool isAlive) {
@@ -177,6 +209,8 @@ namespace STP.Behaviour.Core {
 		void Deinit() {
 			_playerController.OnCurHpChanged   -= OnCurHpChanged;
 			_playerController.OnIsAliveChanged -= OnIsAliveChanged;
+
+			_damageEffectCancellationTokenSource?.Cancel();
 		}
 
 		void OnCurHpChanged(float curHp) {
