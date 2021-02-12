@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3127888978083334663}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &6174636235558273996
 AudioSource:
@@ -250,7 +250,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1477654825
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 1
 --- !u!1 &295705638261645060
 GameObject:
@@ -586,6 +586,7 @@ Transform:
   - {fileID: 8794539669627288879}
   - {fileID: 8269483859924232889}
   - {fileID: 3117271717892815255}
+  - {fileID: 2806362644056190440}
   - {fileID: 4639545893220496220}
   - {fileID: 1682024682484484221}
   - {fileID: 8325034334877650358}
@@ -619,6 +620,7 @@ MonoBehaviour:
   DeathVisualEffectRoot: {fileID: 6687908338199043058}
   DeathVisualEffect: {fileID: 8940948242690298101}
   PlayerDeathAnimationController: {fileID: 2615716648906306800}
+  DamageSoundPlayer: {fileID: 6653595593194903652}
   DeathSoundPlayer: {fileID: 2794699610254917383}
   ShotSoundPlayer: {fileID: 587117463023655764}
 --- !u!60 &3127888978083334667
@@ -683,6 +685,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerDeathAnimDuration: 1
+--- !u!1 &3700359231125913513
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2806362644056190440}
+  - component: {fileID: 6653595593194903652}
+  m_Layer: 0
+  m_Name: DamageSoundPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2806362644056190440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3700359231125913513}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3127888978083334663}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6653595593194903652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3700359231125913513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ee4b2edf3e40f49abe2edd656d1ebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverrideAudioSource: {fileID: 0}
+  VolumeScale: 1
+  Clips:
+  - {fileID: 8300000, guid: a2137bd55c5546848aeb48630b633f7c, type: 3}
 --- !u!1 &5098145204709111165
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,7 +901,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3127888978083334663}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!2083052967 &8940948242690298101
 VisualEffect:
@@ -1033,7 +1082,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1477654825
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
 --- !u!1 &7405953647315998196
 GameObject:
@@ -1064,7 +1113,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3127888978083334663}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3002131637546299109
 SpriteRenderer:

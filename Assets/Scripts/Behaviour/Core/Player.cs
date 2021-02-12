@@ -46,6 +46,7 @@ namespace STP.Behaviour.Core {
 		[NotNull]
 		public PlayerDeathAnimationController PlayerDeathAnimationController;
 
+		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer DamageSoundPlayer;
 		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer DeathSoundPlayer;
 		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer ShotSoundPlayer;
 
@@ -163,6 +164,7 @@ namespace STP.Behaviour.Core {
 			}
 			_playerController.TakeDamage(damage);
 			OnPlayerTakeDamage?.Invoke();
+			DamageSoundPlayer.Play();
 		}
 
 		void OnIsAliveChanged(bool isAlive) {
