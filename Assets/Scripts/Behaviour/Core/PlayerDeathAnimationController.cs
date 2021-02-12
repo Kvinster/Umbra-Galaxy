@@ -2,6 +2,8 @@
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
+using System.Threading;
+
 using STP.Behaviour.Starter;
 
 using Cysharp.Threading.Tasks;
@@ -16,8 +18,14 @@ namespace STP.Behaviour.Core {
 
 		Tween _anim;
 
+		CancellationTokenSource _cancellationTokenSource;
+
+		protected override void OnDisable() {
+			base.OnDisable();
+			_cancellationTokenSource?.Cancel();
+		}
+
 		protected override void InitInternal(CoreStarter starter) {
-			// _colorAdjustments = VolumeManager.instance.stack.GetComponent<ColorAdjustments>();
 			var v = starter.MainCamera.GetComponentInChildren<Volume>();
 			v.profile.TryGet(out _colorAdjustments);
 		}
@@ -27,26 +35,29 @@ namespace STP.Behaviour.Core {
 				Debug.LogError("Anim is already playing");
 				return;
 			}
+
+			_cancellationTokenSource = new CancellationTokenSource();
+
 			SetProgress(0f);
 			var progress = 0f;
 			_anim = DOTween.To(() => progress, x => {
 				progress = x;
 				SetProgress(progress);
 			}, 1f, PlayerDeathAnimDuration).SetEase(Ease.OutQuad).SetUpdate(true);
-			await _anim;
-			_anim = null;
+			await _anim.ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+			_anim                    = null;
+			_cancellationTokenSource = null;
 		}
 
 		public void ResetAnim() {
-			if ( _anim != null ) {
-				_anim.Kill();
-				_anim = null;
-			}
+			_cancellationTokenSource?.Cancel();
+			_anim                    = null;
+			_cancellationTokenSource = null;
 			SetProgress(0f);
 		}
 
 		void SetProgress(float progress) {
-			Time.timeScale                    = 1f - progress;
+			Time.timeScale                     = 1f - progress;
 			_colorAdjustments.saturation.value = -100f * progress;
 		}
 	}

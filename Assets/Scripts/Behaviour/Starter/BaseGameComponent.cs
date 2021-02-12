@@ -8,7 +8,7 @@ namespace STP.Behaviour.Starter {
 
         public virtual bool HighPriorityInit => false;
 
-        protected bool IsInit { get; private set; }
+        public bool IsInit { get; private set; }
 
         protected virtual void OnEnable() {
             if ( HighPriorityInit ) {

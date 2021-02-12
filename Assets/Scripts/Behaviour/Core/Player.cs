@@ -131,6 +131,9 @@ namespace STP.Behaviour.Core {
 
 			HealthBar.Init(1f);
 
+			if ( !PlayerDeathAnimationController.IsInit ) {
+				PlayerDeathAnimationController.Init(starter);
+			}
 			OnRespawn();
 
 			Physics2D.IgnoreCollision(Collider, ShieldCollider);
