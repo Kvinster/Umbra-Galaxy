@@ -1130,7 +1130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OverrideAudioSource: {fileID: 0}
-  AudioClip: {fileID: 8300000, guid: 899a4f347a5dad645a747173c2e255ee, type: 3}
+  AudioClip: {fileID: 8300000, guid: ac25005e1289fd84ba3c47442dc0acd2, type: 3}
   VolumeScale: 0.4
 --- !u!1 &7405953647315998196
 GameObject:
