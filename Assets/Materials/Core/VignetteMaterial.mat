@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SceneTransitionMaterial
+  m_Name: VignetteMaterial
   m_Shader: {fileID: -6465566751694194690, guid: 28374ae0e7590d04e8d7afeb42568b8a,
     type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
@@ -26,8 +26,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_34948911: 0.431
-    - Vector1_E70BA1CF: 0.1
+    - Vector1_E70BA1CF: 1
     - _Progress: 0
+    - _Smooth: 0.1
     m_Colors:
     - Vector2_A9B6121B: {r: 0, g: 0, b: 0, a: 0}
     - _Center: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0, g: 0, b: 0, a: 1}
