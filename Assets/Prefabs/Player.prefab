@@ -283,6 +283,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6096956030084875469}
+  - {fileID: 3782429589223992806}
   m_Father: {fileID: 3127888978083334663}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -854,6 +855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8592bdbad92a4b7f98947cf1b0eeac6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ImpactSoundPlayer: {fileID: 7189362568192057228}
   VisualEffect: {fileID: 1919486042972707917}
 --- !u!58 &6433092364805186969
 CircleCollider2D:
@@ -1084,6 +1086,52 @@ MeshRenderer:
   m_SortingLayerID: -1477654825
   m_SortingLayer: 2
   m_SortingOrder: 0
+--- !u!1 &7316797824693892897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3782429589223992806}
+  - component: {fileID: 7189362568192057228}
+  m_Layer: 0
+  m_Name: PlayerShieldImpactSoundPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3782429589223992806
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7316797824693892897}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8269483859924232889}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7189362568192057228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7316797824693892897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263840edafcd4ababe665ec528fc618c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverrideAudioSource: {fileID: 0}
+  AudioClip: {fileID: 8300000, guid: 899a4f347a5dad645a747173c2e255ee, type: 3}
+  VolumeScale: 0.4
 --- !u!1 &7405953647315998196
 GameObject:
   m_ObjectHideFlags: 0

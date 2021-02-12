@@ -7,7 +7,8 @@ using STP.Utils.GameComponentAttributes;
 namespace STP.Behaviour.Core {
 	[RequireComponent(typeof(Collider2D))]
 	public sealed class PlayerShield : BaseCoreComponent {
-		[NotNull] public VisualEffect VisualEffect;
+		[NotNull] public BaseSimpleSoundPlayer ImpactSoundPlayer;
+		[NotNull] public VisualEffect          VisualEffect;
 
 		protected override void InitInternal(CoreStarter starter) {
 		}
@@ -17,6 +18,8 @@ namespace STP.Behaviour.Core {
 			VisualEffect.SetVector2("CollisionPos", VisualEffect.transform.InverseTransformPoint(worldContact));
 			VisualEffect.SetVector2("CollisionDirection", (worldContact - (Vector2) transform.position).normalized);
 			VisualEffect.SendEvent("OnCollision");
+
+			ImpactSoundPlayer.Play();
 		}
 	}
 }
