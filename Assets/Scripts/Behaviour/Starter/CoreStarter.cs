@@ -85,7 +85,7 @@ namespace STP.Behaviour.Starter {
 				GameController.LeaderboardController, ProfileController.ActiveInstance);
 			CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc);
 			MinimapManager = new MinimapManager(MinimapCamera);
-			Generator.Init(puc, lc);
+			Generator.Init(Player, puc, lc);
 			await Generator.GenerateLevel(LevelObjectsRoot);
 			InitComponents();
 			// Settings for smooth gameplay

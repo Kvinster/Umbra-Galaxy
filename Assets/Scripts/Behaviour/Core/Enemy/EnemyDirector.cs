@@ -10,13 +10,27 @@ namespace STP.Behaviour.Core.Enemy {
 		[NotNull] public TriggerNotifier TriggerNotifier;
 
 		List<BaseControllableEnemy> _enemies;
+
+		Dictionary<BaseControllableEnemy, Vector3> _startPositions;
+
+		Player _player;
 		
-		public void Init(List<BaseControllableEnemy> enemies) {
+		void OnDestroy() {
+			TriggerNotifier.OnTriggerEnter -= OnPlayerEnterZone;
+			_player.OnPlayerRespawn        -= OnPlayerDied;
+		}
+
+		public void Init(Player player, List<BaseControllableEnemy> enemies) {
 			_enemies = enemies;
+			_player  = player;
+			_startPositions = new Dictionary<BaseControllableEnemy, Vector3>();
 			foreach (var enemy in _enemies) {
-				enemy.OnDestroyed += OnEnemyDied;
+				enemy.OnDestroyed      += OnEnemyDied;
+				_startPositions[enemy] =  enemy.transform.position;
 			}
+			
 			TriggerNotifier.OnTriggerEnter += OnPlayerEnterZone;
+			_player.OnPlayerRespawn        += OnPlayerDied;
 		}
 
 		void OnPlayerEnterZone(GameObject obj) {
@@ -29,9 +43,17 @@ namespace STP.Behaviour.Core.Enemy {
 			}
 		}
 
+		void OnPlayerDied() {
+			foreach ( var enemy in _enemies ) {
+				enemy.transform.position = _startPositions[enemy];
+				enemy.SetTarget(null);
+			}
+		}
+
 		void OnEnemyDied(BaseEnemy e) {
 			if ( e is BaseControllableEnemy controllable ) {
 				_enemies.Remove(controllable);
+				_startPositions.Remove(controllable);
 				controllable.OnDestroyed -= OnEnemyDied;
 			}
 		}

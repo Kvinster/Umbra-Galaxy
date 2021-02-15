@@ -24,9 +24,12 @@ namespace STP.Behaviour.Core.Generators {
 		PowerUpController _powerUpController;
 		LevelController   _levelController;
 
-		public void Init(PowerUpController powerUpController, LevelController levelController) {
+		Player _player;
+
+		public void Init(Player player, PowerUpController powerUpController, LevelController levelController) {
 			_powerUpController = powerUpController;
 			_levelController   = levelController;
+			_player            = player;
 		}
 
 		public async UniTask GenerateLevel(Transform root = null) {
@@ -49,7 +52,7 @@ namespace STP.Behaviour.Core.Generators {
 					var chunkComp = obj.GetComponent<LevelChunk>();
 					if ( chunkComp is IdleEnemyChunk idleChunk ) {
 						var controllableEnemies = idleChunk.GetComponentsInChildren<BaseControllableEnemy>();
-						idleChunk.Director.Init(new List<BaseControllableEnemy>(controllableEnemies));
+						idleChunk.Director.Init(_player, new List<BaseControllableEnemy>(controllableEnemies));
 					}
 					powerUpSpawnPoints.AddRange(chunkComp.FreePowerUpSpawnPoints);
 				}
