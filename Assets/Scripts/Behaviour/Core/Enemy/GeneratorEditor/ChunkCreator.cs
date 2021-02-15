@@ -27,7 +27,8 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		public GameObject       LinePrefab;
 
 		[Header("Specific chunks")]
-		public GameObject SafeAreaPrefab;
+		public GameObject       SafeAreaPrefab;
+		public List<GameObject> IdleChunks;
 
 		List<Vector2Int> PossibleDirections => new List<Vector2Int> {
 			Vector2Int.down,
@@ -44,6 +45,10 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			var map     = MapConverter.ConvertMap(cellMap);
 			var go      = CreateGeneratorsVariant(map, powerUpPointsCount);
 			return go;
+		}
+
+		public GameObject CreateRandomIdleChunk() {
+			return Instantiate(RandomUtils.GetRandomElement(IdleChunks));
 		}
 
 		GameObject CreateGeneratorsVariant(GeneratorsMap map, int powerUpPointsCount) {

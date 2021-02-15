@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using System;
+
 using STP.Behaviour.Starter;
 using STP.Events;
 using STP.Utils.Events;
@@ -11,8 +13,10 @@ namespace STP.Behaviour.Core.Enemy {
 		[Space]
 		public SimpleDeathSoundPlayer DeathSoundPlayer;
 
+		public event Action<BaseEnemy> OnDestroyed;
+		
 		protected bool IsAlive;
-
+		
 		protected override void InitInternal(CoreStarter starter) {
 			if ( DeathSoundPlayer ) {
 				DeathSoundPlayer.Init(starter.TempObjectsRoot);
@@ -25,6 +29,7 @@ namespace STP.Behaviour.Core.Enemy {
 			if ( !IsAlive ) {
 				return;
 			}
+			OnDestroyed?.Invoke(this);
 			IsAlive = false;
 			TryStartPlayingDeathSound();
 			if ( fromPlayer ) {

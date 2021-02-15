@@ -70,3 +70,8 @@ MonoBehaviour:
     type: 3}
   SafeAreaPrefab: {fileID: 8244082116085525965, guid: 226f5af3cca21f4459f29fbe2eb35828,
     type: 3}
+  IdleChunks:
+  - {fileID: 8244082116085525965, guid: 3cb35c93ab929064fb1b631eb79f5b86, type: 3}
+  - {fileID: 8244082116085525965, guid: 818cda1543da75b47adde2cbeb903703, type: 3}
+  - {fileID: 8244082116085525965, guid: 7a12b083fe6817347a007c291dc50803, type: 3}
+  - {fileID: 8244082116085525965, guid: e22b5fa5fdc9bf248ae947bbf1766fca, type: 3}
