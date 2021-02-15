@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using STP.Behaviour.Starter;
 using STP.Config;
 using STP.Core;
-using STP.Core.State;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 
@@ -31,14 +30,15 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		public void Show() {
-			Assert.IsTrue(ProfileState.IsActiveInstanceExists);
+			Assert.IsTrue(ProfileController.IsActiveInstanceExists);
 
-			var gs          = ProfileState.ActiveInstance;
+			var ps          = ProfileController.ActiveInstance;
 			var levelConfig = Resources.Load<LevelsConfig>("AllLevels");
 			for ( var i = 0; i < levelConfig.Levels.Count; ++i ) {
 				var levelButton = GetFreeLevelButton();
 				var levelIndex  = i;
-				levelButton.Init(() => LoadLevel(levelIndex), levelIndex, levelIndex <= gs.LevelState.LastLevelIndex);
+				levelButton.Init(() => LoadLevel(levelIndex), levelIndex,
+					levelIndex <= ps.ProfileState.LevelState.LastLevelIndex);
 				_activeLevelButtons.Add(levelButton);
 			}
 
@@ -56,8 +56,7 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void LoadLevel(int levelIndex) {
-			ProfileState.ActiveInstance.LevelState.CurLevelIndex = levelIndex;
-			ProfileController.CreateNewActiveInstance(ProfileState.ActiveInstance);
+			ProfileController.ActiveInstance.StartLevel(levelIndex);
 			var clm = CoreLoadingManager.Create();
 			if ( clm != null ) {
 				UniTask.Void(clm.LoadCore);

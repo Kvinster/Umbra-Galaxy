@@ -8,10 +8,6 @@ using STP.Utils.Xml;
 
 namespace STP.Core.State {
 	public sealed class ProfileState {
-		public static ProfileState ActiveInstance { get; private set; }
-
-		public static bool IsActiveInstanceExists => (ActiveInstance != null);
-
 		public readonly string StateName;
 
 		readonly List<BaseState> _states = new List<BaseState>();
@@ -60,14 +56,9 @@ namespace STP.Core.State {
 			return state;
 		}
 
-		public static ProfileState CreateNewActiveGameState(string stateName, string profileName) {
-			if ( IsActiveInstanceExists ) {
-				Debug.LogError("GameState active instance already exists");
-				return ActiveInstance;
-			}
-			ActiveInstance             = new ProfileState(stateName);
-			ActiveInstance.ProfileName = profileName;
-			return ActiveInstance;
+		public static ProfileState CreateNewProfileState(string stateName, string profileName) {
+			var profileState = new ProfileState(stateName) { ProfileName = profileName };
+			return profileState;
 		}
 
 		public static ProfileState LoadGameState(string stateName) {
@@ -79,29 +70,6 @@ namespace STP.Core.State {
 			var gs = new ProfileState(stateName);
 			gs.Load(document);
 			return gs;
-		}
-
-		public static void SetActiveInstance(ProfileState profileState) {
-			if ( IsActiveInstanceExists ) {
-				Debug.LogError("Can't set active game state instance: another active instance already exists");
-				return;
-			}
-			ActiveInstance = profileState;
-		}
-
-		public static void TryReleaseActiveInstance() {
-			if ( !IsActiveInstanceExists ) {
-				return;
-			}
-			ReleaseActiveInstance();
-		}
-
-		public static void ReleaseActiveInstance() {
-			if ( !IsActiveInstanceExists ) {
-				Debug.LogError("No active release instance");
-				return;
-			}
-			ActiveInstance = null;
 		}
 
 		public static bool TryRemoveSave(string stateName) {
