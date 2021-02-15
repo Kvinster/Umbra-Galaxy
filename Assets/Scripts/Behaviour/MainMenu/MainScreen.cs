@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 using STP.Behaviour.Starter;
+using STP.Core;
 using STP.Core.State;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
@@ -33,13 +33,13 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		public void Show() {
-			if ( !ProfileState.IsActiveInstanceExists ) {
-				Debug.LogError("No active game state instance");
+			if ( !ProfileController.IsActiveInstanceExists ) {
+				Debug.LogError("No active profile controller instance");
 				return;
 			}
 			gameObject.SetActive(true);
 
-			TitleText.text = string.Format(TitleFormat, ProfileState.ActiveInstance.ProfileName);
+			TitleText.text = string.Format(TitleFormat, ProfileController.ActiveInstance.ProfileName);
 		}
 
 		public void Hide() {
@@ -59,7 +59,7 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void ChangeProfile() {
-			ProfileState.ReleaseActiveInstance();
+			ProfileController.ReleaseActiveInstance();
 			_mainMenuManager.ShowProfiles();
 		}
 

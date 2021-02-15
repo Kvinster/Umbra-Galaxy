@@ -1,5 +1,5 @@
 ﻿using STP.Behaviour.MainMenu;
-using STP.Core.State;
+using STP.Core;
 
 namespace STP.Manager {
 	public sealed class MainMenuManager {
@@ -21,7 +21,7 @@ namespace STP.Manager {
 		}
 
 		public void Init() {
-			if ( ProfileState.IsActiveInstanceExists ) {
+			if ( ProfileController.IsActiveInstanceExists ) {
 				ShowMain();
 			} else {
 				ShowProfiles();

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 
 using STP.Behaviour.Starter;
+using STP.Core;
 using STP.Core.State;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
@@ -42,9 +43,9 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void UpdateView() {
-			if ( ProfileState.IsActiveInstanceExists ) {
-				Debug.LogError("Active game state instance exists");
-				ProfileState.ReleaseActiveInstance();
+			if ( ProfileController.IsActiveInstanceExists ) {
+				Debug.LogError("Active profile controller instance exists");
+				ProfileController.ReleaseActiveInstance();
 			}
 
 			for ( var i = 0; i < SaveNames.Length; ++i ) {
@@ -57,23 +58,22 @@ namespace STP.Behaviour.MainMenu {
 				Action onMainClick;
 				Action onRemoveClick = null;
 
-				var       isExists     = XmlUtils.IsGameStateDocumentExists(stateName);
-				var       canInitState = isExists;
-				ProfileState gs           = null;
+				var          isExists     = XmlUtils.IsGameStateDocumentExists(stateName);
+				var          canInitState = isExists;
+				ProfileState ps           = null;
 				if ( isExists ) {
-					gs = ProfileState.LoadGameState(stateName);
-					if ( gs == null ) {
-						Debug.LogErrorFormat("Can't load game state '{0}'", stateName);
+					ps = ProfileState.LoadGameState(stateName);
+					if ( ps == null ) {
+						Debug.LogErrorFormat("Can't load profile state '{0}'", stateName);
 						canInitState = false;
-					} else if ( string.IsNullOrEmpty(gs.ProfileName) ) {
-						ProfileState.TryRemoveSave(gs.StateName);
+					} else if ( string.IsNullOrEmpty(ps.ProfileName) ) {
+						ProfileState.TryRemoveSave(ps.StateName);
 						canInitState = false;
 					}
 				}
 
 				if ( canInitState ) {
-					text = string.Format(ExistingStateFormat, gs.ProfileName,
-						gs.LevelState.LastLevelIndex + 1);
+					text = string.Format(ExistingStateFormat, ps.ProfileName, ps.LevelState.LastLevelIndex + 1);
 					onMainClick   = () => LoadState(stateName);
 					onRemoveClick = () => RemoveState(stateName);
 				} else {
@@ -89,9 +89,9 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void LoadState(string stateName) {
-			var gs = ProfileState.LoadGameState(stateName);
-			if ( gs != null ) {
-				ProfileState.SetActiveInstance(gs);
+			var ps = ProfileState.LoadGameState(stateName);
+			if ( ps != null ) {
+				ProfileController.CreateNewActiveInstance(ps);
 				_mainMenuManager.ShowMain();
 			}
 		}

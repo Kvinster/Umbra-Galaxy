@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 
 using STP.Behaviour.Starter;
+using STP.Core;
 using STP.Core.State;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
@@ -32,7 +33,7 @@ namespace STP.Behaviour.MainMenu {
 			_stateName      = stateName;
 			InputField.text = "";
 
-			Assert.IsFalse(ProfileState.IsActiveInstanceExists);
+			Assert.IsFalse(ProfileController.IsActiveInstanceExists);
 
 			gameObject.SetActive(true);
 		}
@@ -53,7 +54,7 @@ namespace STP.Behaviour.MainMenu {
 			if ( string.IsNullOrEmpty(profileName) ) {
 				return;
 			}
-			if ( ProfileState.CreateNewActiveGameState(_stateName, profileName) != null ) {
+			if ( ProfileState.CreateNewProfileState(_stateName, profileName) != null ) {
 				_mainMenuManager.ShowMain();
 			}
 		}

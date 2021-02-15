@@ -64,13 +64,11 @@ namespace STP.Behaviour.Starter {
 					GameState.CreateNewActiveGameState();
 				}
 			}
-			if ( !ProfileState.IsActiveInstanceExists ) {
-				Debug.Log("Creating new ProfileState instance");
-				var gs = ProfileState.CreateNewActiveGameState("test", "test");
-				gs.LevelState.CurLevelIndex = 0;
-			}
 			if ( !ProfileController.IsActiveInstanceExists ) {
-				ProfileController.CreateNewActiveInstance(ProfileState.ActiveInstance);
+				Debug.Log("Creating new ProfileState instance");
+				var ps         = ProfileState.CreateNewProfileState("test", "test");
+				var controller = ProfileController.CreateNewActiveInstance(ps);
+				controller.StartLevel(0);
 			}
 #endif
 			GameController    = new GameController(GameState.ActiveInstance);
@@ -84,7 +82,7 @@ namespace STP.Behaviour.Starter {
 			LevelManager  = new LevelManager(Player.transform, SceneTransitionController, PauseManager, lc);
 			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot);
 			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, lc, xc,
-				GameController.LeaderboardController, ProfileState.ActiveInstance);
+				GameController.LeaderboardController, ProfileController.ActiveInstance);
 			CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc);
 			MinimapManager = new MinimapManager(MinimapCamera);
 			Generator.Init(puc, lc);

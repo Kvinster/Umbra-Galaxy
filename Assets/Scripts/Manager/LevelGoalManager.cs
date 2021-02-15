@@ -3,7 +3,6 @@
 using System;
 
 using STP.Core;
-using STP.Core.State;
 
 namespace STP.Manager {
 	public sealed class LevelGoalManager {
@@ -14,7 +13,7 @@ namespace STP.Manager {
 		readonly LevelController       _levelController;
 		readonly XpController          _xpController;
 		readonly LeaderboardController _leaderboardController;
-		readonly ProfileState          _profileState;
+		readonly ProfileController     _profileController;
 
 		int _curLevelGoalProgress;
 
@@ -36,13 +35,14 @@ namespace STP.Manager {
 		public event Action      OnLevelWon;
 
 		public LevelGoalManager(PlayerManager playerManager, LevelManager levelManager, LevelController levelController,
-			XpController xpController, LeaderboardController leaderboardController, ProfileState profileState) {
+			XpController xpController, LeaderboardController leaderboardController,
+			ProfileController profileController) {
 			_playerManager         = playerManager;
 			_levelManager          = levelManager;
 			_levelController       = levelController;
 			_xpController          = xpController;
 			_leaderboardController = leaderboardController;
-			_profileState          = profileState;
+			_profileController     = profileController;
 
 			var curLevelInfo = _levelController.GetCurLevelConfig();
 
@@ -70,23 +70,23 @@ namespace STP.Manager {
 			OnPlayerDeath?.Invoke();
 		}
 
-		bool TryWinLevel() {
+		void TryWinLevel() {
 			if ( !CanWinLevel ) {
-				return false;
+				return;
 			}
 			if ( !_levelManager.IsLevelActive ) {
 				Debug.LogError("Can't win level — level is not active");
-				return false;
+				return;
 			}
 			_levelController.FinishLevel(true);
 			_xpController.OnLevelWon();
 			if ( _levelController.HasNextLevel ) {
-				_profileState.Save();
-				return _levelManager.TryReloadLevel();
+				_profileController.Save();
+				_levelManager.TryReloadLevel();
+				return;
 			}
-			_leaderboardController.AddEntry(_profileState.ProfileName, _xpController.CurTotalXp);
+			_leaderboardController.AddEntry(_profileController.ProfileName, _xpController.CurTotalXp);
 			OnLevelWon?.Invoke();
-			return true;
 		}
 	}
 }

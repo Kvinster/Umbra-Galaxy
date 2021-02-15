@@ -12,7 +12,9 @@ namespace STP.Core {
 
 		readonly List<BaseStateController> _controllers = new List<BaseStateController>();
 
-		readonly ProfileState _profileState;
+		public string ProfileName => ProfileState.ProfileName;
+
+		public ProfileState ProfileState { get; }
 
 		public ChunkController   ChunkController   { get; }
 		public LevelController   LevelController   { get; }
@@ -21,19 +23,27 @@ namespace STP.Core {
 		public PowerUpController PowerUpController { get; }
 
 		ProfileController(ProfileState profileState) {
-			_profileState = profileState;
+			ProfileState = profileState;
 
-			ChunkController   = AddController(new ChunkController(_profileState));
-			LevelController   = AddController(new LevelController(_profileState));
-			PlayerController  = AddController(new PlayerController(_profileState));
-			XpController      = AddController(new XpController(_profileState));
-			PowerUpController = AddController(new PowerUpController(_profileState));
+			ChunkController   = AddController(new ChunkController(ProfileState));
+			LevelController   = AddController(new LevelController(ProfileState));
+			PlayerController  = AddController(new PlayerController(ProfileState));
+			XpController      = AddController(new XpController(ProfileState));
+			PowerUpController = AddController(new PowerUpController(ProfileState));
 		}
 
 		public void Deinit() {
 			foreach ( var controller in _controllers ) {
 				controller.Deinit();
 			}
+		}
+
+		public void Save() {
+			ProfileState.Save();
+		}
+
+		public void StartLevel(int levelIndex) {
+			LevelController.StartLevel(levelIndex);
 		}
 
 		T AddController<T>(T controller) where T : BaseStateController {
@@ -44,7 +54,7 @@ namespace STP.Core {
 		public static ProfileController CreateNewActiveInstance(ProfileState profileState) {
 			if ( IsActiveInstanceExists ) {
 				Debug.LogError("Another ProfileController active instance exists");
-				return ActiveInstance;
+				ReleaseActiveInstance();
 			}
 			ActiveInstance = new ProfileController(profileState);
 			return ActiveInstance;

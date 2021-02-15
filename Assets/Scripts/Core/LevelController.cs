@@ -12,14 +12,20 @@ namespace STP.Core {
 		public bool HasNextLevel => (LastLevelIndex != _levelsConfig.Levels.Count);
 
 		public int CurLevelIndex  => _levelState.CurLevelIndex;
+
 		int LastLevelIndex => _levelState.LastLevelIndex;
 
 		public LevelController(ProfileState profileState) {
 			_levelState   = profileState.LevelState;
 			_levelsConfig = LoadConfig();
 
-			Assert.AreNotEqual(CurLevelIndex, -1);
 			Assert.IsTrue(_levelsConfig);
+			Assert.AreEqual(CurLevelIndex, -1);
+		}
+
+		public void StartLevel(int levelIndex) {
+			Assert.AreEqual(CurLevelIndex, -1);
+			_levelState.CurLevelIndex = levelIndex;
 		}
 
 		public void FinishLevel(bool win) {
