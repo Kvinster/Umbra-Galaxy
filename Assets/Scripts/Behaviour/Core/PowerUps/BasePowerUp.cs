@@ -1,42 +1,23 @@
-﻿using UnityEngine;
-
-using STP.Behaviour.Starter;
+﻿using STP.Behaviour.Starter;
+using STP.Common;
 using STP.Core;
 using STP.Manager;
-using STP.Utils;
-using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.PowerUps {
-	public abstract class BasePowerUp : BaseCoreComponent {
-		[NotNull] public TriggerNotifier Notifier;
-
+	public abstract class BasePowerUp : BasePickupable {
 		protected PlayerManager    PlayerManager;
 		protected PlayerController PlayerController;
 
-		protected void Reset() {
-			Notifier = GetComponentInChildren<TriggerNotifier>();
-		}
+		protected abstract PowerUpType PowerUpType { get; }
 
 		protected override void InitInternal(CoreStarter starter) {
+			base.InitInternal(starter);
 			PlayerManager    = starter.PlayerManager;
 			PlayerController = starter.PlayerController;
-
-			Notifier.OnTriggerEnter += OnRangeEnter;
 		}
 
-		protected void OnDestroy() {
-			Notifier.OnTriggerEnter -= OnRangeEnter;
+		protected override bool OnPlayerEnter() {
+			return PlayerManager.TryPickupPowerUp(PowerUpType);
 		}
-
-		protected virtual void OnRangeEnter(GameObject go) {
-			var playerComp = go.GetComponent<Player>();
-			if ( !playerComp ) {
-				return;
-			}
-			OnPlayerEnter();
-			Destroy(gameObject);
-		}
-
-		protected abstract void OnPlayerEnter();
 	}
 }

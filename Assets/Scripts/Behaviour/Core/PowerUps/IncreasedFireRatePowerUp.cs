@@ -2,10 +2,6 @@
 
 namespace STP.Behaviour.Core.PowerUps {
 	public sealed class IncreasedFireRatePowerUp : BasePowerUp {
-		const float TmpDuration = 10f;
-
-		protected override void OnPlayerEnter() {
-			PlayerManager.AddTimeToPowerUp(PowerUpType.IncFireRate, TmpDuration);
-		}
+		protected override PowerUpType PowerUpType => PowerUpType.IncFireRate;
 	}
 }

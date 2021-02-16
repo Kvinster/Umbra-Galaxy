@@ -1,7 +1,7 @@
-﻿namespace STP.Behaviour.Core.PowerUps {
+﻿using STP.Common;
+
+namespace STP.Behaviour.Core.PowerUps {
 	public sealed class RestoreHpPowerUp : BasePowerUp {
-		protected override void OnPlayerEnter() {
-			PlayerController.RestoreHp();
-		}
+		protected override PowerUpType PowerUpType => PowerUpType.RestoreHp;
 	}
 }

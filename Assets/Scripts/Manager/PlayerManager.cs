@@ -10,9 +10,16 @@ using STP.Events;
 using STP.Utils;
 using STP.Utils.Events;
 
+using Object = UnityEngine.Object;
+
 namespace STP.Manager {
 	public sealed class PlayerManager {
-		const float HealPowerPerSecond = 10;
+		static readonly Dictionary<PowerUpType, float> PowerUpTypeTimes = new Dictionary<PowerUpType, float> {
+			{ PowerUpType.X2Xp, 10f },
+			{ PowerUpType.Shield, 10f },
+			{ PowerUpType.IncFireRate, 10f },
+			{ PowerUpType.X2Damage, 10f },
+		};
 
 		readonly Player           _player;
 		readonly PlayerController _playerController;
@@ -45,23 +52,33 @@ namespace STP.Manager {
 			EventManager.Unsubscribe<EnemyDestroyed>(OnEnemyDestroyed);
 		}
 
-		public void AddTimeToPowerUp(PowerUpType type, float time) {
-			var powerUpTimer = _powerUpStates.Find(x => x.Type == type);
-			if ( powerUpTimer != null ) {
-				powerUpTimer.AddTime(time);
-			} else {
-				_powerUpStates.Add(new PowerUpState(type, time));
-				OnPowerUpStarted?.Invoke(type);
+		public bool TryPickupPowerUp(PowerUpType powerUpType) {
+			return _playerController.TryPickupPowerUp(powerUpType);
+		}
+
+		public bool TryUsePowerUp(PowerUpType powerUpType) {
+			if ( !_playerController.TryUsePowerUp(powerUpType) ) {
+				return false;
 			}
+			HandlePowerUpStart(powerUpType);
+			return true;
 		}
 
 		public List<PowerUpState> GetAllActivePowerUpStates() {
 			return _powerUpStates;
 		}
 
-		public float GetPowerUpTime(PowerUpType type) {
-			var powerUp = _powerUpStates.Find(x => x.Type == type);
+		public float GetPowerUpCurTime(PowerUpType powerUpType) {
+			var powerUp = _powerUpStates.Find(x => x.Type == powerUpType);
 			return powerUp?.TimeLeft ?? -1f;
+		}
+
+		public float GetPowerUpTotalTime(PowerUpType powerUpType) {
+			if ( PowerUpTypeTimes.TryGetValue(powerUpType, out var time) ) {
+				return time;
+			}
+			Debug.LogErrorFormat("No time for power up type '{0}'", powerUpType.ToString());
+			return -1f;
 		}
 
 		public bool HasActivePowerUp(PowerUpType type) {
@@ -83,7 +100,7 @@ namespace STP.Manager {
 
 			if ( _tempObjectsRoot ) {
 				for ( var i = _tempObjectsRoot.childCount - 1; i >= 0; i-- ) {
-					GameObject.Destroy(_tempObjectsRoot.GetChild(i).gameObject);
+					Object.Destroy(_tempObjectsRoot.GetChild(i).gameObject);
 				}
 			}
 
@@ -108,11 +125,60 @@ namespace STP.Manager {
 			}
 		}
 
+		void HandlePowerUpStart(PowerUpType powerUpType) {
+			switch ( powerUpType ) {
+				case PowerUpType.Shield: {
+					_playerController.IsInvincible = true;
+					AddTimeToPowerUp(powerUpType, PowerUpTypeTimes[PowerUpType.Shield]);
+					break;
+				}
+				case PowerUpType.X2Xp:
+				case PowerUpType.IncFireRate:
+				case PowerUpType.X2Damage: {
+					AddTimeToPowerUp(powerUpType, PowerUpTypeTimes[powerUpType]);
+					break;
+				}
+				case PowerUpType.RestoreHp: {
+					_playerController.RestoreHp();
+					break;
+				}
+				default: {
+					Debug.LogErrorFormat("Unsupported power up type '{0}'", powerUpType.ToString());
+					break;
+				}
+			}
+		}
+
+		void AddTimeToPowerUp(PowerUpType type, float time) {
+			var powerUpTimer = _powerUpStates.Find(x => x.Type == type);
+			if ( powerUpTimer != null ) {
+				powerUpTimer.AddTime(time);
+			} else {
+				_powerUpStates.Add(new PowerUpState(type, time));
+				OnPowerUpStarted?.Invoke(type);
+			}
+		}
+
+		void HandlePowerUpProgress(PowerUpState state, float timePassed) {
+			var powerUpType = state.Type;
+			switch ( powerUpType ) {
+				case PowerUpType.X2Xp:
+				case PowerUpType.Shield:
+				case PowerUpType.X2Damage:
+				case PowerUpType.IncFireRate: {
+					break;
+				}
+				default: {
+					Debug.LogErrorFormat("Unsupported power up type '{0}'", powerUpType);
+					break;
+				}
+			}
+		}
+
 		void HandlePowerUpFinish(PowerUpState powerUpState) {
 			var powerUpName = powerUpState.Type;
 			switch ( powerUpName ) {
 				case PowerUpType.X2Xp:
-				case PowerUpType.Heal:
 				case PowerUpType.X2Damage:
 				case PowerUpType.IncFireRate: {
 					break;
@@ -128,27 +194,6 @@ namespace STP.Manager {
 			}
 			_powerUpStates.Remove(powerUpState);
 			OnPowerUpFinished?.Invoke(powerUpName);
-		}
-
-		void HandlePowerUpProgress(PowerUpState state, float timePassed) {
-			var powerUpType = state.Type;
-			switch ( powerUpType ) {
-				case PowerUpType.X2Xp:
-				case PowerUpType.Shield:
-				case PowerUpType.X2Damage:
-				case PowerUpType.IncFireRate: {
-					break;
-				}
-				case PowerUpType.Heal: {
-					var hpToAdd = HealPowerPerSecond * timePassed;
-					_playerController.AddHp(hpToAdd);
-					break;
-				}
-				default: {
-					Debug.LogErrorFormat("Unsupported power up type '{0}'", powerUpType);
-					break;
-				}
-			}
 		}
 
 		void OnEnemyDestroyed(EnemyDestroyed e) {

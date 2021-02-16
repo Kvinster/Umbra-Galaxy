@@ -27,4 +27,4 @@ Material:
     m_Floats: []
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _HdrColor: {r: 1, g: 1, b: 1, a: 1}
+    - _HdrColor: {r: 4, g: 4, b: 4, a: 1}

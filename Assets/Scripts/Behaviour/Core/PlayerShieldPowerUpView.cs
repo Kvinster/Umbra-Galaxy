@@ -48,7 +48,8 @@ namespace STP.Behaviour.Core {
 			if ( !_isActive ) {
 				return;
 			}
-			var coef = 1f - _playerManager.GetPowerUpTime(PowerUpType.Shield) / ShieldPowerUp.TmpShieldDuration;
+			var coef = 1f - _playerManager.GetPowerUpCurTime(PowerUpType.Shield) /
+				_playerManager.GetPowerUpTotalTime(PowerUpType.Shield);
 			VisualEffect.SetFloat("Intensity", MathUtils.LerpFloat(StartIntensity, FinishIntensity, coef * coef * coef));
 		}
 

@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
 using System;
+using System.Collections.Generic;
 
+using STP.Common;
 using STP.Core.State;
 
 namespace STP.Core {
@@ -15,6 +17,8 @@ namespace STP.Core {
 		float _curHp;
 		bool  _isInvincible;
 		bool  _isAlive;
+
+		readonly Dictionary<PowerUpType, bool> _powerUpStates = new Dictionary<PowerUpType, bool>();
 
 		public int CurLives {
 			get => _curLives;
@@ -62,15 +66,20 @@ namespace STP.Core {
 			}
 		}
 
-		public event Action<int>   OnCurLivesChanged;
-		public event Action<float> OnCurHpChanged;
-		public event Action<bool>  OnIsInvincibleChanged;
-		public event Action<bool>  OnIsAliveChanged;
+		public event Action<int>               OnCurLivesChanged;
+		public event Action<float>             OnCurHpChanged;
+		public event Action<bool>              OnIsInvincibleChanged;
+		public event Action<bool>              OnIsAliveChanged;
+		public event Action<PowerUpType, bool> OnPowerUpStateChanged;
 
 		public PlayerController(ProfileState profileState) {
 			CurLives     = StartPlayerLives;
 			CurHp        = StartPlayerHp;
 			IsInvincible = false;
+
+			foreach ( var powerUpType in PowerUpTypeHelper.PowerUpTypes ) {
+				_powerUpStates.Add(powerUpType, false);
+			}
 		}
 
 		public void TakeDamage(float damage) {
@@ -91,6 +100,9 @@ namespace STP.Core {
 			IsAlive      = true;
 			IsInvincible = false;
 			RestoreHp();
+			foreach ( var powerUpType in PowerUpTypeHelper.PowerUpTypes ) {
+				SetPowerUpState(powerUpType, false);
+			}
 		}
 
 		public void RestoreHp() {
@@ -126,6 +138,34 @@ namespace STP.Core {
 
 		public void AddLives(int addLives = 1) {
 			CurLives += addLives;
+		}
+
+		public bool TryPickupPowerUp(PowerUpType powerUpType) {
+			if ( !GetPowerUpState(powerUpType) ) {
+				SetPowerUpState(powerUpType, true);
+				return true;
+			}
+			return false;
+		}
+
+		public bool TryUsePowerUp(PowerUpType powerUpType) {
+			if ( GetPowerUpState(powerUpType) ) {
+				SetPowerUpState(powerUpType, false);
+				return true;
+			}
+			return false;
+		}
+
+		public bool GetPowerUpState(PowerUpType powerUpType) {
+			return _powerUpStates[powerUpType];
+		}
+
+		void SetPowerUpState(PowerUpType powerUpType, bool state) {
+			if ( GetPowerUpState(powerUpType) == state ) {
+				return;
+			}
+			_powerUpStates[powerUpType] = state;
+			OnPowerUpStateChanged?.Invoke(powerUpType, state);
 		}
 	}
 }

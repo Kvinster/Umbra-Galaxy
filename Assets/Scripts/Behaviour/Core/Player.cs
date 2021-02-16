@@ -95,11 +95,6 @@ namespace STP.Behaviour.Core {
 			}
 
 			_reloadTimer -= Time.deltaTime;
-
-			if ( Input.GetKeyDown(KeyCode.Q) ) {
-				_playerController.IsInvincible = true;
-				_playerManager.AddTimeToPowerUp(PowerUpType.Shield, 10);
-			}
 		}
 
 		void FixedUpdate() {
