@@ -679,7 +679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 708060931}
-  PlayerCameraFollower: {fileID: 283534263}
+  PlayerCameraFollower: {fileID: 283534257}
   Player: {fileID: 64283269}
   MinimapCamera: {fileID: 459281098}
   PlayerStartPos: {fileID: 1673112872}
@@ -841,13 +841,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1532339882}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &283534262 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8449917695322343331, guid: 7eb72f298b2b0f84b911f364418a4a90,
-    type: 3}
-  m_PrefabInstance: {fileID: 1532339882}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &283534263
+--- !u!114 &283534257
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -856,10 +850,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 283534256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9449060c2e5a4bc8a783489d5606f26f, type: 3}
+  m_Script: {fileID: 11500000, guid: 26de21304f294f65894bfcfb7ca580dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Offset: {x: 0, y: 0, z: -10}
+--- !u!4 &283534262 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8449917695322343331, guid: 7eb72f298b2b0f84b911f364418a4a90,
+    type: 3}
+  m_PrefabInstance: {fileID: 1532339882}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &285571362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1622,6 +1622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9449060c2e5a4bc8a783489d5606f26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Target: {fileID: 755611258}
   Offset: {x: 0, y: 0, z: -10}
 --- !u!114 &459281097
 MonoBehaviour:
@@ -3028,6 +3029,12 @@ Canvas:
   m_SortingLayerID: -767848993
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!4 &755611258 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3127888978083334663, guid: 23d602c749af09d4b94cdd7fd8346a19,
+    type: 3}
+  m_PrefabInstance: {fileID: 3127888978908689759}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &771032738
 GameObject:
   m_ObjectHideFlags: 0
@@ -8016,6 +8023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9449060c2e5a4bc8a783489d5606f26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Target: {fileID: 755611258}
   Offset: {x: 0, y: 0, z: 0}
 --- !u!114 &5769987945671266818
 MonoBehaviour:

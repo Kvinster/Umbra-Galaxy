@@ -16,14 +16,14 @@ using Cysharp.Threading.Tasks;
 
 namespace STP.Behaviour.Starter {
 	public class CoreStarter : BaseStarter<CoreStarter> {
-		[NotNull] public Camera                    MainCamera;
-		[NotNull] public TransformFollower         PlayerCameraFollower;
-		[NotNull] public Player                    Player;
-		[NotNull] public Camera                    MinimapCamera;
-		[NotNull] public Transform                 PlayerStartPos;
-		[NotNull] public LevelGenerator            Generator;
-		[NotNull] public CoreWindowsManager        CoreWindowsManager;
-		[NotNull] public SceneTransitionController SceneTransitionController;
+		[NotNull] public Camera                      MainCamera;
+		[NotNull] public RestrictedTransformFollower PlayerCameraFollower;
+		[NotNull] public Player                      Player;
+		[NotNull] public Camera                      MinimapCamera;
+		[NotNull] public Transform                   PlayerStartPos;
+		[NotNull] public LevelGenerator              Generator;
+		[NotNull] public CoreWindowsManager          CoreWindowsManager;
+		[NotNull] public SceneTransitionController   SceneTransitionController;
 
 		[NotNull] public Transform LevelObjectsRoot;
 		[NotNull] public Transform TempObjectsRoot;
