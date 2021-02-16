@@ -29,12 +29,5 @@ namespace STP.Behaviour.Utils {
 				transform.position = new Vector3(worldPos.x, worldPos.y, transform.position.z);
 			}
 		}
-
-		Vector2 ConvertVector(Vector2 vector2) {
-			var abs      = (Mathf.Abs(vector2.x) >= 1) ? Mathf.Abs(vector2.x) : 0;
-			var abs2     = (Mathf.Abs(vector2.y) >= 1) ? Mathf.Abs(vector2.y) : 0;
-			var maxValue = Mathf.Max(abs, abs2);
-			return vector2 / maxValue;
-		} 
 	}
 }
