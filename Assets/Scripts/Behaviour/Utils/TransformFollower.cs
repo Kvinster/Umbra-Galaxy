@@ -25,7 +25,6 @@ namespace STP.Behaviour.Utils {
 			else {
 				var normalizedPos = Rect.PointToNormalized(_areaBorder, _target.position);
 				var worldPos      = Rect.NormalizedToPoint(_areaBorder, normalizedPos);
-				print($"{worldPos} {normalizedPos} {_target.position}");
 				transform.position = new Vector3(worldPos.x, worldPos.y, transform.position.z);
 			}
 		}
