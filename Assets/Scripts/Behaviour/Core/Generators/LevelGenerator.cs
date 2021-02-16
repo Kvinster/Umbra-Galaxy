@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using STP.Behaviour.Core.Enemy;
 using STP.Behaviour.Core.Enemy.GeneratorEditor;
+using STP.Behaviour.Starter;
 using STP.Common;
 using STP.Config;
 using STP.Core;
@@ -18,29 +19,23 @@ using Random = UnityEngine.Random;
 namespace STP.Behaviour.Core.Generators {
 	public sealed class LevelGenerator : GameComponent {
 		[NotNull] public ChunkCreator Creator;
+		[NotNull] public Transform    BordersRoot;
 
 		LevelGeneratorState _state = new LevelGeneratorState();
 
 		PowerUpController _powerUpController;
-		LevelController   _levelController;
-
-		Player _player;
-
-		public void Init(Player player, PowerUpController powerUpController, LevelController levelController) {
-			_powerUpController = powerUpController;
-			_levelController   = levelController;
-			_player            = player;
-		}
-
-		public async UniTask GenerateLevel(Transform root = null) {
+		
+		public async UniTask GenerateLevel(PowerUpController powerUpController, LevelController levelController, CoreStarter starter, Transform root = null) {
 			ResetState();
-			var levelInfo  = _levelController.GetCurLevelConfig();
+			_powerUpController = powerUpController;
+			
+			var levelInfo  = levelController.GetCurLevelConfig();
 			var cellSize   = levelInfo.CellSize;
 			var randomSeed = Random.Range(int.MinValue, int.MaxValue);
 			Random.InitState(randomSeed);
 			var minPoint = new Vector2(-levelInfo.LevelSpaceSize / 2.0f, -levelInfo.LevelSpaceSize / 2.0f) +
 			               new Vector2(cellSize / 2.0f, cellSize / 2.0f);
-			var map               = GenerateMap(levelInfo);
+			var map                = GenerateMap(levelInfo);
 			var powerUpSpawnPoints = new List<Transform>();
 			for ( var y = 0; y < map.GetLength(1); y++ ) {
 				for ( var x = 0; x < map.GetLength(0); x++ ) {
@@ -52,7 +47,7 @@ namespace STP.Behaviour.Core.Generators {
 					var chunkComp = obj.GetComponent<LevelChunk>();
 					if ( chunkComp is IdleEnemyChunk idleChunk ) {
 						var controllableEnemies = idleChunk.GetComponentsInChildren<BaseControllableEnemy>();
-						idleChunk.Director.Init(_player, new List<BaseControllableEnemy>(controllableEnemies));
+						idleChunk.Director.Init(starter.Player, new List<BaseControllableEnemy>(controllableEnemies));
 					}
 					powerUpSpawnPoints.AddRange(chunkComp.FreePowerUpSpawnPoints);
 				}
@@ -65,6 +60,12 @@ namespace STP.Behaviour.Core.Generators {
 					AddPowerUpsToLevel(powerUpSpawnPoints, levelInfo);
 				}
 			}
+			
+			var areaSize = new Vector2(cellSize * (map.GetLength(0) + 1) , cellSize * (map.GetLength(1) + 1));
+			var areaMin  = -areaSize / 2;
+			var areaRect = new Rect(areaMin, areaSize);
+			starter.PlayerCameraFollower.Init(starter.MainCamera, starter.Player.transform, areaRect);
+			BordersRoot.localScale = new Vector3(areaSize.x, areaSize.y, 1);
 			Debug.Log($"Level generated. Seed {randomSeed}");
 		}
 

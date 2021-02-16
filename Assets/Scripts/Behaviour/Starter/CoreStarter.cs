@@ -4,6 +4,7 @@ using System.Collections;
 
 using STP.Behaviour.Core;
 using STP.Behaviour.Core.Generators;
+using STP.Behaviour.Utils;
 using STP.Core;
 using STP.Core.State;
 using STP.Manager;
@@ -16,6 +17,7 @@ using Cysharp.Threading.Tasks;
 namespace STP.Behaviour.Starter {
 	public class CoreStarter : BaseStarter<CoreStarter> {
 		[NotNull] public Camera                    MainCamera;
+		[NotNull] public TransformFollower         PlayerCameraFollower;
 		[NotNull] public Player                    Player;
 		[NotNull] public Camera                    MinimapCamera;
 		[NotNull] public Transform                 PlayerStartPos;
@@ -85,8 +87,7 @@ namespace STP.Behaviour.Starter {
 				GameController.LeaderboardController, ProfileController.ActiveInstance);
 			CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc);
 			MinimapManager = new MinimapManager(MinimapCamera);
-			Generator.Init(Player, puc, lc);
-			await Generator.GenerateLevel(LevelObjectsRoot);
+			await Generator.GenerateLevel(puc, lc, this, LevelObjectsRoot);
 			InitComponents();
 			// Settings for smooth gameplay
 			Application.targetFrameRate = Screen.currentResolution.refreshRate;
