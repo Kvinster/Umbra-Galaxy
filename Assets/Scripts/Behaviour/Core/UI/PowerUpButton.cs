@@ -28,7 +28,7 @@ namespace STP.Behaviour.Core.UI {
 			}
 		}
 
-		protected void OnDestroy() {
+		void OnDestroy() {
 			if ( _player ) {
 				_player.OnPlayerRespawn -= OnPlayerRespawn;
 			}
