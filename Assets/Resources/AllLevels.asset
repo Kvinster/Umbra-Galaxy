@@ -12,22 +12,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95ddd49bfeec4dee93536b672463a128, type: 3}
   m_Name: AllLevels
   m_EditorClassIdentifier: 
-  GeneratorsCountIncCount: 2
   Levels:
   - GeneratorsCount: 3
-    CellSize: 1500
-    PowerUpInfos:
-    - PowerUpType: 3
-      Count: 2
-    - PowerUpType: 1
-      Count: 4
-    - PowerUpType: 2
-      Count: 2
-    Chunks:
-    - Weight: 150
-      GeneratorGridSize: 0
-      PowerUpCount: 0
-    - Weight: 150
-      GeneratorGridSize: 7
-      PowerUpCount: 3
-    LevelSpaceSize: 4500
+    GeneratorsSideSize: 7
+    EnemyGroupsCount: 1
+    PowerUps: 
+  - GeneratorsCount: 3
+    GeneratorsSideSize: 7
+    EnemyGroupsCount: 2
+    PowerUps: 00000000
+  - GeneratorsCount: 4
+    GeneratorsSideSize: 8
+    EnemyGroupsCount: 2
+    PowerUps: 04000000
+  - GeneratorsCount: 4
+    GeneratorsSideSize: 11
+    EnemyGroupsCount: 2
+    PowerUps: 0400000003000000
+  - GeneratorsCount: 4
+    GeneratorsSideSize: 10
+    EnemyGroupsCount: 4
+    PowerUps: 010000000400000003000000
+  - GeneratorsCount: 2
+    GeneratorsSideSize: 11
+    EnemyGroupsCount: 2
+    PowerUps: 0000000004000000
+  - GeneratorsCount: 3
+    GeneratorsSideSize: 12
+    EnemyGroupsCount: 2
+    PowerUps: 04000000010000000200000000000000
+  - GeneratorsCount: 4
+    GeneratorsSideSize: 12
+    EnemyGroupsCount: 2
+    PowerUps: 04000000010000000200000004000000
+  - GeneratorsCount: 4
+    GeneratorsSideSize: 14
+    EnemyGroupsCount: 1
+    PowerUps: 010000000200000003000000
+  - GeneratorsCount: 5
+    GeneratorsSideSize: 14
+    EnemyGroupsCount: 1
+    PowerUps: 0200000003000000
+  - GeneratorsCount: 7
+    GeneratorsSideSize: 8
+    EnemyGroupsCount: 2
+    PowerUps: 000000000400000000000000
+  - GeneratorsCount: 6
+    GeneratorsSideSize: 8
+    EnemyGroupsCount: 3
+    PowerUps: 0200000001000000
+  - GeneratorsCount: 6
+    GeneratorsSideSize: 10
+    EnemyGroupsCount: 4
+    PowerUps: 02000000040000000100000003000000
+  - GeneratorsCount: 6
+    GeneratorsSideSize: 12
+    EnemyGroupsCount: 4
+    PowerUps: 01000000030000000000000002000000
+  - GeneratorsCount: 8
+    GeneratorsSideSize: 12
+    EnemyGroupsCount: 5
+    PowerUps: 010000000200000003000000040000000200000001000000

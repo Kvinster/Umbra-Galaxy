@@ -41,14 +41,6 @@ namespace STP.Core {
 			}
 		}
 
-		public int GetLevelInfosCount() {
-			return _levelsConfig.Levels.Count;
-		}
-
-		public int GetCurLevelGeneratorIncValue() {
-			return CurLevelIndex / _levelsConfig.Levels.Count * _levelsConfig.GeneratorsCountIncCount;
-		}
-
 		public LevelInfo GetCurLevelConfig() {
 			Assert.IsTrue(CurLevelIndex >= 0);
 			return _levelsConfig.GetLevelConfig(CurLevelIndex);

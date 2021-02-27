@@ -39,6 +39,10 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 
 		Vector2Int InvalidVector => -Vector2Int.one;
 
+		public GameObject CreateEmptyChunk() {
+			return CreateGeneratorChunk(0, 0);
+		}
+		
 		public GameObject CreateGeneratorChunk(int gridSize, int powerUpPointsCount) {
 			var mazeGen = new RandomWalkMapGenerator();
 			var cellMap = mazeGen.CreateMaze(gridSize);

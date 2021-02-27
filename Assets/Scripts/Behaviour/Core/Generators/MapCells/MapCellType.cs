@@ -1,7 +1,8 @@
 ﻿namespace STP.Behaviour.Core.Generators {
 	public enum MapCellType {
-		SafeRect,
+		Empty,
+		SafeZone,
 		Generator,
-		IdleEnemies
+		IdleEnemies,
 	}
 }

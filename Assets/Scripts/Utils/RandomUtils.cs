@@ -35,18 +35,5 @@ namespace STP.Utils {
 			collection.RemoveAt(index);
 			return res;
 		}
-
-		public static T GetRandomWeightedElement<T>(List<T> collection) where T : WeightedValue {
-			var totalWeight = collection.Sum(chunk => chunk.Weight);
-			var randomValue = Random.Range(0, totalWeight);
-			foreach ( var obj in collection ) {
-				if ( obj.Weight > randomValue ) {
-					return obj;
-				}
-				randomValue -= obj.Weight;
-			}
-			Debug.LogWarning("Something went wrong. Returning default value");
-			return default;
-		}
 	}
 }
