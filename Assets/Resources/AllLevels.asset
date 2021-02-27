@@ -13,10 +13,18 @@ MonoBehaviour:
   m_Name: AllLevels
   m_EditorClassIdentifier: 
   Levels:
-  - GeneratorsCount: 3
+  - GeneratorsCount: 1
+    GeneratorsSideSize: 7
+    EnemyGroupsCount: 0
+    PowerUps: 
+  - GeneratorsCount: 2
     GeneratorsSideSize: 7
     EnemyGroupsCount: 1
     PowerUps: 
+  - GeneratorsCount: 3
+    GeneratorsSideSize: 7
+    EnemyGroupsCount: 1
+    PowerUps: 04000000
   - GeneratorsCount: 3
     GeneratorsSideSize: 7
     EnemyGroupsCount: 2
