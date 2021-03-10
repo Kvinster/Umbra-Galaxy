@@ -54,9 +54,13 @@ namespace STP.Behaviour.MainMenu {
 			if ( string.IsNullOrEmpty(profileName) ) {
 				return;
 			}
-			if ( ProfileState.CreateNewProfileState(_stateName, profileName) != null ) {
-				_mainMenuManager.ShowMain();
+
+			var profileState = ProfileState.CreateNewProfileState(_stateName, profileName);
+			if ( profileState == null ) {
+				return;
 			}
+			ProfileController.CreateNewActiveInstance(profileState);
+			_mainMenuManager.ShowMain();
 		}
 
 		void OnCancelClick() {
