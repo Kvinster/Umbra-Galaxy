@@ -17,7 +17,8 @@ namespace STP.Behaviour.MainMenu {
 		[NotNull] public Transform  LevelButtonParent;
 		[NotNull] public GameObject LevelButtonPrefab;
 		[NotNull] public Button     BackButton;
-
+		[NotNull] public ScrollRect LevelButtonsScrollRect;
+		
 		MainMenuManager _mainMenuManager;
 
 		readonly List<LevelButton> _activeLevelButtons   = new List<LevelButton>();
@@ -41,8 +42,10 @@ namespace STP.Behaviour.MainMenu {
 					levelIndex <= ps.ProfileState.LevelState.LastLevelIndex);
 				_activeLevelButtons.Add(levelButton);
 			}
-
+			
 			gameObject.SetActive(true);
+			
+			LevelButtonsScrollRect.horizontalNormalizedPosition = 0f;
 		}
 
 		public void Hide() {

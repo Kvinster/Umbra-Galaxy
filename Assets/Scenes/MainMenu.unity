@@ -2436,7 +2436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Content: {fileID: 0}
+  m_Content: {fileID: 1538083194}
   m_Horizontal: 1
   m_Vertical: 0
   m_MovementType: 1
@@ -6714,6 +6714,7 @@ MonoBehaviour:
   LevelButtonPrefab: {fileID: 2244507314274111238, guid: 2b84af45a82b14e4c9ced4cbae50ae84,
     type: 3}
   BackButton: {fileID: 1224297726}
+  LevelButtonsScrollRect: {fileID: 777707889}
 --- !u!1 &1859642872
 GameObject:
   m_ObjectHideFlags: 0
