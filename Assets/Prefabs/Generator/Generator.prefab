@@ -481,7 +481,7 @@ MonoBehaviour:
   DeathSoundPlayer: {fileID: 7993925769150215763}
   Connector: {fileID: 7006289408050465386}
   IsMainGenerator: 0
-  StartHp: 100
+  StartHp: 25
   ViewTransform: {fileID: 7425354721623827813}
   Collider: {fileID: 2956093766420446193}
   HealthBar: {fileID: 8147379892703251958}
@@ -613,7 +613,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1477654825
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 1
 --- !u!1 &8147379894631770967
 GameObject:
@@ -779,7 +779,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1477654825
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
 --- !u!1001 &7370765703959707313
 PrefabInstance:
