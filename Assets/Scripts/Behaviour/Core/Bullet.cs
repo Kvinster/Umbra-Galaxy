@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 
-using STP.Behaviour.Starter;
+using STP.Behaviour.EndlessLevel;
+using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
-	public  class Bullet : BaseCoreComponent, IBullet {
+	public sealed class Bullet : GameComponent, IBullet {
 		[NotNull]
 		public Rigidbody2D Rigidbody;
 		[NotNull]
@@ -28,19 +29,25 @@ namespace STP.Behaviour.Core {
 			Destroy(gameObject);
 		}
 
+		//TODO: Remove this init method. Use only Init method with reduced args.
 		public void Init(float damage, float speed, float rotation, params Collider2D[] ownerColliders) {
 			_damage = damage;
 
 			transform.rotation = Quaternion.Euler(0, 0, rotation);
 			Rigidbody.rotation = rotation;
 			Rigidbody.AddRelativeForce(speed * Rigidbody.mass * Vector2.up, ForceMode2D.Impulse);
+			Rigidbody.AddRelativeForce(Vector2.up * (speed * Rigidbody.mass), ForceMode2D.Impulse);
 			foreach ( var ownerCollider in ownerColliders ) {
 				IgnoreCollider(ownerCollider);
 			}
 		}
 
-		protected override void InitInternal(CoreStarter starter) {
-
+		public void Init(float damage, float speed, params Collider2D[] ownerColliders) {
+			_damage = damage;
+			Rigidbody.AddRelativeForce(Vector2.up * (speed * Rigidbody.mass), ForceMode2D.Impulse);
+			foreach ( var ownerCollider in ownerColliders ) {
+				IgnoreCollider(ownerCollider);
+			}
 		}
 
 		void IgnoreCollider(Collider2D ignoreCollider) {

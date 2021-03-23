@@ -55,6 +55,10 @@ namespace STP.Behaviour.Core {
 			Notifier.OnTriggerEnter += OnRangeEnter;
 		}
 
+		public void Init(float damage, float speed, params Collider2D[] ownerColliders) {
+			throw new System.NotImplementedException();
+		}
+
 		protected override void InitInternal(CoreStarter starter) {
 			_player = starter.Player;
 		}
