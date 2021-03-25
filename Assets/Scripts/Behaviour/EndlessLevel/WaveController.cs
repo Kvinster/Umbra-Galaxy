@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 using System.Collections.Generic;
 using STP.Behaviour.EndlessLevel.Enemies;
@@ -9,23 +10,31 @@ using STP.Utils.GameComponentAttributes;
 namespace STP.Behaviour.EndlessLevel {
 	public class WaveController : BaseEndlessLevelComponent {
 		[NotNullOrEmpty] public List<WaveInfo> Waves = new List<WaveInfo>();
-
+		
 		readonly Timer _timer = new Timer();
+		
+		ShipsWatcher _shipsWatcher = new ShipsWatcher();
 		
 		int _curWaveIndex;
 
 		EndlessLevelStarter _starter;
 		
 		void Update() {
+			_shipsWatcher.Tick();
 			if ( _timer.Tick(Time.deltaTime) ) {
 				RunNextWave();
 			}
 		}
-		
+
+		void OnDestroy() {
+			_shipsWatcher.OnAllShipsDestroyed -= RunNextWave;
+		}
+
 		protected override void InitInternal(EndlessLevelStarter starter) {
-			_curWaveIndex = 0;
-			_starter      = starter;
+			_curWaveIndex =  0;
+			_starter      =  starter;
 			RunWave(_curWaveIndex);
+			_shipsWatcher.OnAllShipsDestroyed += RunNextWave;
 		}
 
 		void RunNextWave() {
@@ -49,6 +58,7 @@ namespace STP.Behaviour.EndlessLevel {
 					var enemyComp = go.GetComponent<BaseEnemy>();
 					if ( enemyComp ) {
 						enemyComp.Init(_starter);
+						_shipsWatcher.RegisterShip(enemyComp);
 					} else {
 						Debug.LogError($"Enemy doesn't have an {nameof(BaseEnemy)} comp");	
 					}
