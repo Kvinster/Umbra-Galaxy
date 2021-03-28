@@ -1,7 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
+using System;
 using System.Collections.Generic;
+
 using STP.Behaviour.EndlessLevel.Enemies;
 using STP.Behaviour.Starter;
 using STP.Utils;
@@ -12,12 +13,14 @@ namespace STP.Behaviour.EndlessLevel {
 		[NotNullOrEmpty] public List<WaveInfo> Waves = new List<WaveInfo>();
 		
 		readonly Timer _timer = new Timer();
-		
-		ShipsWatcher _shipsWatcher = new ShipsWatcher();
+
+		readonly ShipsWatcher _shipsWatcher = new ShipsWatcher();
 		
 		int _curWaveIndex;
 
 		EndlessLevelStarter _starter;
+
+		public event Action<int> OnWaveStarted; 
 		
 		void Update() {
 			_shipsWatcher.Tick();
@@ -46,7 +49,8 @@ namespace STP.Behaviour.EndlessLevel {
 			var curWave = Waves[index];
 			_timer.Reset(curWave.MaxTimeUntilNextWave);
 			SpawnEnemies(curWave);
-			Debug.Log($"started wave {_curWaveIndex}");
+			OnWaveStarted?.Invoke(index);
+			Debug.Log($"started wave {index}");
 		}
 
 		void SpawnEnemies(WaveInfo wave) {

@@ -8,7 +8,8 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public Camera             Camera;
 		[NotNull] public EndlessLevelPlayer Player;
 		[NotNull] public Transform          TmpObjectsRoot;
- 
+		[NotNull] public WaveController     WaveController;
+		
 		void Start() {
 			InitComponents();
 		}
