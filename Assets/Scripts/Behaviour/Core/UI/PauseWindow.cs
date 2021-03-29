@@ -32,7 +32,7 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		public override IPromise Show() {
-			InfoText.text = string.Format(InfoTextTemplate, _playerController.CurLives, _xpController.CurTotalXp,
+			InfoText.text = string.Format(InfoTextTemplate, _playerController.CurLives, _xpController.Xp,
 				$"{_levelGoalManager.CurLevelGoalProgress}/{_levelGoalManager.LevelGoal}");
 			return base.Show();
 		}

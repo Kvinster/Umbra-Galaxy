@@ -63,9 +63,6 @@ namespace STP.Manager {
 		}
 
 		public void OnPlayerDied() {
-			if ( !_playerManager.OnPlayerDied() ) {
-				_xpController.ResetXp();
-			}
 
 			OnPlayerDeath?.Invoke();
 		}
@@ -79,13 +76,12 @@ namespace STP.Manager {
 				return;
 			}
 			_levelController.FinishLevel(true);
-			_xpController.OnLevelWon();
 			if ( _levelController.HasNextLevel ) {
 				_profileController.Save();
 				_levelManager.TryReloadLevel();
 				return;
 			}
-			_leaderboardController.AddEntry(_profileController.ProfileName, _xpController.CurTotalXp);
+			_leaderboardController.AddEntry(_profileController.ProfileName, _xpController.Xp.Value);
 			OnLevelWon?.Invoke();
 		}
 	}

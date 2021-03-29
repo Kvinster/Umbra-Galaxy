@@ -28,7 +28,7 @@ namespace STP.Core {
 			ChunkController   = AddController(new ChunkController(ProfileState));
 			LevelController   = AddController(new LevelController(ProfileState));
 			PlayerController  = AddController(new PlayerController(ProfileState));
-			XpController      = AddController(new XpController(ProfileState));
+			XpController      = AddController(new XpController());
 			PowerUpController = AddController(new PowerUpController(ProfileState));
 		}
 

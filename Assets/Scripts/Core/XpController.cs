@@ -7,51 +7,55 @@ using STP.Core.State;
 
 namespace STP.Core {
 	public sealed class XpController : BaseStateController {
+		
+		public class BoxedValue<T> where T : IComparable<T> {
+			T _value;
+
+			public T Value {
+				get => _value;
+				set {
+					if ( _value.CompareTo(value) == 0 ) {
+						return;
+					}
+					_value = value;
+					OnValueChanged?.Invoke(_value);
+				}
+			}
+
+			public static implicit operator T(BoxedValue<T> value)
+			{
+				return value.Value;
+			}
+			
+			public event Action<T> OnValueChanged;
+		}
+		
 		readonly LevelController _levelController;
 
 		XpConfig _xpConfig;
+		
+		public readonly BoxedValue<int> Xp            = new BoxedValue<int>();
+		public readonly BoxedValue<int> Level         = new BoxedValue<int>();
+		public readonly BoxedValue<int> LevelUpsCount = new BoxedValue<int>();
 
-		int _curPrevXp;
-		int _curLevelXp;
-
-		public int CurTotalXp => _curLevelXp + _curPrevXp;
-
-		int CurLevelXp {
-			get => _curLevelXp;
-			set {
-				if ( _curLevelXp == value ) {
-					return;
-				}
-				_curLevelXp = value;
-				OnXpChanged?.Invoke(CurTotalXp);
-			}
-		}
-
-		public event Action<int> OnXpChanged;
-
-		public XpController(ProfileState profileState) {
+		public bool IsMaxLevelReached => Level == _xpConfig.LevelUpInfos.Count;
+		public int  LevelXpCap => !IsMaxLevelReached ? _xpConfig.LevelUpInfos[Level].NeededXp : int.MaxValue;
+		
+		public XpController() {
 			LoadConfig();
 		}
-
-		public void ResetXp() {
-			CurLevelXp = 0;
-		}
-
-		public void OnLevelStart() {
-			CurLevelXp = 0;
-		}
-
-		public void OnLevelWon() {
-			_curPrevXp += CurLevelXp;
-			CurLevelXp =  0;
-		}
-
+		
 		public void AddLevelXp(int value) {
 			if ( value < 0 ) {
 				Debug.LogWarning($"Strange xp amount {value}. Ignoring");
 				return;
 			}
-			CurLevelXp += value;
+			Xp.Value += value;
+			if ( !IsMaxLevelReached && (Xp.Value > LevelXpCap) ) {
+				Xp.Value -= LevelXpCap;
+				Level.Value++;
+				LevelUpsCount.Value++;
+			}
 		}
 
 		public int GetDestroyedEnemyXp(string enemyName) {

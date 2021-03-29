@@ -13,7 +13,8 @@ namespace STP.Config {
 	[CreateAssetMenu(fileName = "XpConfig", menuName = "ScriptableObjects/XpConfig", order = 1)]
 	public class XpConfig : ScriptableObject {
 		public List<DestroyedEnemyXpInfo> EnemyXpInfo;
-
+		public List<PlayerLevelUpInfo>    LevelUpInfos;
+		
 		public int GetDestroyedEnemyXp(string enemyName) {
 			var item = EnemyXpInfo.Find(x => x.EnemyName == enemyName);
 			if ( item == null ) {
@@ -22,5 +23,11 @@ namespace STP.Config {
 			}
 			return item.XpAmount;
 		}
+	}
+
+	[Serializable]
+	public class PlayerLevelUpInfo {
+		public List<GameObject> ShipsToSelect;
+		public int              NeededXp;
 	}
 }

@@ -28,7 +28,7 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		public override IPromise Show() {
-			StatsText.text = string.Format(StatsFormat, _playerController.CurLives, _xpController.CurTotalXp);
+			StatsText.text = string.Format(StatsFormat, _playerController.CurLives, _xpController.Xp);
 
 			return base.Show();
 		}
