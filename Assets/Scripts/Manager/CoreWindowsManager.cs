@@ -13,13 +13,15 @@ namespace STP.Manager {
 	public sealed class CoreWindowsManager : GameComponent {
 		[NotNull] public GameObject  UiRoot;
 		[Space]
-		[NotNull] public DeathWindow DeathWindow;
-		[NotNull] public WinWindow   WinWindow;
-		[NotNull] public PauseWindow PauseWindow;
-		[NotNull] public Button      PauseButton;
+		[NotNull] public DeathWindow   DeathWindow;
+		[NotNull] public WinWindow     WinWindow;
+		[NotNull] public PauseWindow   PauseWindow;
+		[NotNull] public LevelUpWindow LevelUpWindow;
+		[NotNull] public Button        PauseButton;
 
 		PauseManager     _pauseManager;
 		PlayerController _playerController;
+		XpController     _xpController;
 
 		List<BaseCoreWindow> _windows;
 
@@ -29,27 +31,38 @@ namespace STP.Manager {
 			if ( Input.GetKeyDown(KeyCode.Escape) && !IsAnyWindowShown ) {
 				ShowPauseWindow();
 			}
+
+			if ( Input.GetKeyDown(KeyCode.Q) && (_xpController.LevelUpsCount > 0) ) {
+				ShowLevelUpWindow();
+			}
 		}
 
 		public void Init(PauseManager pauseManager, LevelManager levelManager, LevelGoalManager levelGoalManager,
 			PlayerManager playerManager, PlayerController playerController, XpController xpController) {
 			_pauseManager     = pauseManager;
 			_playerController = playerController;
+			_xpController     = xpController;
 
 			_windows = new List<BaseCoreWindow> {
 				DeathWindow,
 				WinWindow,
-				PauseWindow
+				PauseWindow,
+				LevelUpWindow
 			};
 
 			DeathWindow.CommonInit(levelManager, playerManager, _playerController);
 			WinWindow.CommonInit(levelManager, playerController, xpController);
 			PauseWindow.CommonInit(levelManager, levelGoalManager, xpController, playerController);
+			LevelUpWindow.CommonInit();
 
 			PauseButton.onClick.AddListener(ShowPauseWindow);
 
 			levelGoalManager.OnLevelWon    += OnLevelWon;
 			levelGoalManager.OnPlayerDeath += OnPlayerDied;
+		}
+
+		void ShowLevelUpWindow() {
+			ShowWindow(LevelUpWindow);
 		}
 
 		void ShowPauseWindow() {
