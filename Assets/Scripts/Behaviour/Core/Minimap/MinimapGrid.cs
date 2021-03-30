@@ -2,7 +2,9 @@
 using UnityEngine.UI;
 
 using STP.Behaviour.Starter;
+using STP.Events;
 using STP.Manager;
+using STP.Utils.Events;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Minimap {
@@ -24,6 +26,10 @@ namespace STP.Behaviour.Core.Minimap {
 			RawImage.uvRect = new Rect((Vector2) _playerTransform.position * _speed + _offset, _size);
 		}
 
+		void OnDestroy() {
+			EventManager.Unsubscribe<PlayerShipChanged>(UpdatePlayerComp);
+		}
+
 		protected override void InitInternal(CoreStarter starter) {
 			_playerTransform = starter.Player.transform;
 			_minimapManager  = starter.MinimapManager;
@@ -33,6 +39,11 @@ namespace STP.Behaviour.Core.Minimap {
 
 			_minimapManager.OnCurZoomChanged += OnMinimapZoomChanged;
 			OnMinimapZoomChanged(_minimapManager.CurZoom);
+			EventManager.Subscribe<PlayerShipChanged>(UpdatePlayerComp);
+		}
+
+		void UpdatePlayerComp(PlayerShipChanged ship) {
+			_playerTransform = ship.NewPlayer.transform;
 		}
 
 		void OnMinimapZoomChanged(float zoom) {

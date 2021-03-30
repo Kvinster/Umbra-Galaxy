@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using STP.Behaviour.Core.UI;
+using STP.Behaviour.Core.UI.LevelUpWindow;
+using STP.Behaviour.Starter;
 using STP.Core;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
@@ -35,9 +37,13 @@ namespace STP.Manager {
 			if ( Input.GetKeyDown(KeyCode.Q) && (_xpController.LevelUpsCount > 0) ) {
 				ShowLevelUpWindow();
 			}
+			
+			if ( Input.GetKeyDown(KeyCode.E) ) {
+				_xpController.AddLevelXp(_xpController.LevelXpCap+1);
+			}
 		}
 
-		public void Init(PauseManager pauseManager, LevelManager levelManager, LevelGoalManager levelGoalManager,
+		public void Init(CoreStarter starter, PauseManager pauseManager, LevelManager levelManager, LevelGoalManager levelGoalManager,
 			PlayerManager playerManager, PlayerController playerController, XpController xpController) {
 			_pauseManager     = pauseManager;
 			_playerController = playerController;
@@ -53,7 +59,7 @@ namespace STP.Manager {
 			DeathWindow.CommonInit(levelManager, playerManager, _playerController);
 			WinWindow.CommonInit(levelManager, playerController, xpController);
 			PauseWindow.CommonInit(levelManager, levelGoalManager, xpController, playerController);
-			LevelUpWindow.CommonInit();
+			LevelUpWindow.CommonInit(xpController, starter);
 
 			PauseButton.onClick.AddListener(ShowPauseWindow);
 

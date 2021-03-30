@@ -2,8 +2,8 @@
 
 using System;
 
+using STP.Behaviour.Core;
 using STP.Config;
-using STP.Core.State;
 
 namespace STP.Core {
 	public sealed class XpController : BaseStateController {
@@ -58,6 +58,22 @@ namespace STP.Core {
 			}
 		}
 
+		public void UseLevelUp() {
+			LevelUpsCount.Value--;
+		}
+
+		public PlayerLevelUpInfo GetLevelUpInfo(int level) {
+			if ( (level < 0) || (level >= _xpConfig.LevelUpInfos.Count) ) {
+				Debug.LogError($"can't get level up info. Invalid level {level}");
+				return null;
+			}
+			return _xpConfig.LevelUpInfos[level];
+		}
+		
+		public ShipVisual GetShipVisuals(ShipType type) {
+			return _xpConfig.GetShipVisual(type);
+		}
+		
 		public int GetDestroyedEnemyXp(string enemyName) {
 			return _xpConfig.GetDestroyedEnemyXp(enemyName);
 		}

@@ -5,12 +5,14 @@ using System;
 
 using STP.Behaviour.Core;
 using STP.Core;
+using STP.Events;
+using STP.Utils.Events;
 
 using Cysharp.Threading.Tasks;
 
 namespace STP.Manager {
 	public sealed class LevelManager {
-		readonly Transform                 _playerTransform;
+		Transform _playerTransform;
 		readonly SceneTransitionController _sceneTransitionController;
 		readonly PauseManager              _pauseManager;
 		readonly LevelController           _levelController;
@@ -38,6 +40,11 @@ namespace STP.Manager {
 			_levelController           = levelController;
 
 			IsLevelActive = true;
+			EventManager.Subscribe<PlayerShipChanged>(UpdatePlayerComp);
+		}
+
+		public void Deinit() {
+			EventManager.Unsubscribe<PlayerShipChanged>(UpdatePlayerComp);
 		}
 
 		public bool TryReloadLevel() {
@@ -70,6 +77,10 @@ namespace STP.Manager {
 			if ( clm != null ) {
 				UniTask.Void(clm.LoadCore);
 			}
+		}
+
+		void UpdatePlayerComp(PlayerShipChanged ship) {
+			_playerTransform = ship.NewPlayer.transform;
 		}
 	}
 }

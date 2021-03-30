@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 
+using STP.Behaviour.Core;
+
 namespace STP.Config {
 	[Serializable]
 	public class DestroyedEnemyXpInfo {
@@ -14,6 +16,7 @@ namespace STP.Config {
 	public class XpConfig : ScriptableObject {
 		public List<DestroyedEnemyXpInfo> EnemyXpInfo;
 		public List<PlayerLevelUpInfo>    LevelUpInfos;
+		public List<ShipVisual>           ShipViews;
 		
 		public int GetDestroyedEnemyXp(string enemyName) {
 			var item = EnemyXpInfo.Find(x => x.EnemyName == enemyName);
@@ -23,11 +26,22 @@ namespace STP.Config {
 			}
 			return item.XpAmount;
 		}
+
+		public ShipVisual GetShipVisual(ShipType shipType) {
+			return ShipViews.Find(x => x.ShipType == shipType);
+		}
+	}
+
+	[Serializable]
+	public class ShipVisual {
+		public ShipType   ShipType;
+		public Sprite     ShipSprite;
+		public GameObject ShipPrefab;
 	}
 
 	[Serializable]
 	public class PlayerLevelUpInfo {
-		public List<GameObject> ShipsToSelect;
-		public int              NeededXp;
+		public List<ShipType> ShipsToSelect;
+		public int            NeededXp;
 	}
 }
