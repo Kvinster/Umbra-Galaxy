@@ -29,13 +29,14 @@ namespace STP.Behaviour.Core.UI.LevelUpWindow {
 		}
 
 		void CreateNewShip(CoreStarter starter, GameObject newPlayerShip) {
-			var newShipInstance = Instantiate(newPlayerShip, starter.Player.transform.position, Quaternion.identity);
+			var newShipInstance = Instantiate(newPlayerShip);
 			var playerComp      = newShipInstance.GetComponent<Player>();
 			if ( !playerComp ) {
 				Debug.LogError($"can't find player component. GO {newShipInstance}");
 				return;
 			}
 			playerComp.Init(starter);
+			playerComp.transform.position = starter.Player.transform.position;
 			Destroy(starter.Player.gameObject);
 			starter.Player = playerComp;
 			EventManager.Fire(new PlayerShipChanged(playerComp));
