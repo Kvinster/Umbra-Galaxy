@@ -16,7 +16,6 @@ namespace STP.Core {
 
 		public ProfileState ProfileState { get; }
 
-		public ChunkController   ChunkController   { get; }
 		public LevelController   LevelController   { get; }
 		public PlayerController  PlayerController  { get; }
 		public XpController      XpController      { get; }
@@ -25,7 +24,6 @@ namespace STP.Core {
 		ProfileController(ProfileState profileState) {
 			ProfileState = profileState;
 
-			ChunkController   = AddController(new ChunkController(ProfileState));
 			LevelController   = AddController(new LevelController(ProfileState));
 			PlayerController  = AddController(new PlayerController(ProfileState));
 			XpController      = AddController(new XpController());
