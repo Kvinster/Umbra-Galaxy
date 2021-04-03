@@ -23,6 +23,7 @@ namespace STP.Behaviour.Utils {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
+			_target = starter.Player.transform;
 			EventManager.Subscribe<PlayerShipChanged>(UpdatePlayerComp);
 		}
 
