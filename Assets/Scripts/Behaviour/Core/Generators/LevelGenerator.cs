@@ -26,13 +26,13 @@ namespace STP.Behaviour.Core.Generators {
 		LevelGeneratorState _state = new LevelGeneratorState();
 		LevelInfo           _levelInfo;
 
-		PowerUpController _powerUpController;
+		PrefabsController _prefabsController;
 		
-		public async UniTask GenerateLevel(PowerUpController powerUpController, LevelController levelController, CoreStarter starter, Transform root = null) {
+		public async UniTask GenerateLevel(PrefabsController prefabsController, LevelController levelController, CoreStarter starter, Transform root = null) {
 			var randomSeed = Random.Range(int.MinValue, int.MaxValue);
 			Random.InitState(randomSeed);
 			ResetState();
-			_powerUpController = powerUpController;
+			_prefabsController = prefabsController;
 			_levelInfo         = levelController.GetCurLevelConfig();
 			UpdateMapSizesInState();
 			var map            = GenerateMap();
@@ -164,7 +164,7 @@ namespace STP.Behaviour.Core.Generators {
 		}
 		
 		GameObject GetPowerUpPrefab(PowerUpType powerUpType) {
-			return _powerUpController.GetPowerUpPrefab(powerUpType);
+			return _prefabsController.GetPowerUpPrefab(powerUpType);
 		}
 	}
 }

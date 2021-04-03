@@ -27,6 +27,7 @@ namespace STP.Behaviour.Core.Minimap {
 		}
 
 		void OnDestroy() {
+			_minimapManager.OnCurZoomChanged -= OnMinimapZoomChanged;
 			EventManager.Unsubscribe<PlayerShipChanged>(UpdatePlayerComp);
 		}
 

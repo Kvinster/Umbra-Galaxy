@@ -18,7 +18,6 @@ namespace STP.Behaviour.Starter {
 	public class CoreStarter : BaseStarter<CoreStarter> {
 		[NotNull] public Camera                      MainCamera;
 		[NotNull] public RestrictedTransformFollower PlayerCameraFollower;
-		[NotNull] public Player                      Player;
 		[NotNull] public Camera                      MinimapCamera;
 		[NotNull] public Transform                   PlayerStartPos;
 		[NotNull] public LevelGenerator              Generator;
@@ -30,6 +29,7 @@ namespace STP.Behaviour.Starter {
 
 		bool _isLevelInitStarted;
 
+		public Player            Player            { get; set; }
 		public CoreSpawnHelper   SpawnHelper       { get; private set; }
 		public PauseManager      PauseManager      { get; private set; }
 		public LevelManager      LevelManager      { get; private set; }
@@ -40,6 +40,7 @@ namespace STP.Behaviour.Starter {
 		public ProfileController ProfileController { get; private set; }
 		public PlayerController  PlayerController  => ProfileController.PlayerController;
 		public XpController      XpController      => ProfileController.XpController;
+		public ShipCreator       ShipCreator       { get; private set; }
 
 		void OnDisable() {
 			GameController.Deinit();
@@ -75,12 +76,14 @@ namespace STP.Behaviour.Starter {
 #endif
 			GameController    = new GameController(GameState.ActiveInstance);
 			ProfileController = ProfileController.ActiveInstance;
+			ShipCreator       = new ShipCreator(LevelObjectsRoot, ProfileController.PrefabsController);
 			var pc  = ProfileController.PlayerController;
 			var lc  = ProfileController.LevelController;
 			var xc  = ProfileController.XpController;
-			var puc = ProfileController.PowerUpController;
+			var puc = ProfileController.PrefabsController;
 			SpawnHelper   = new CoreSpawnHelper(this, TempObjectsRoot);
 			PauseManager  = new PauseManager();
+			Player        = ShipCreator.CreatePlayerShip(PlayerController.Ship);
 			LevelManager  = new LevelManager(Player.transform, SceneTransitionController, PauseManager, lc);
 			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot);
 			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, lc, xc,

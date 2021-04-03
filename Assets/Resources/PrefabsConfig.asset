@@ -28,3 +28,13 @@ MonoBehaviour:
   - Type: 4
     Prefab: {fileID: 2088453129690375775, guid: a16795ed183ca5048ba744984e10f85a,
       type: 3}
+  Ships:
+  - Type: 0
+    Prefab: {fileID: 3127888978083334669, guid: 23d602c749af09d4b94cdd7fd8346a19,
+      type: 3}
+  - Type: 1
+    Prefab: {fileID: 3127888978083334669, guid: 7416b39df8edee943a1910b994fc98fd,
+      type: 3}
+  - Type: 2
+    Prefab: {fileID: 3127888978083334669, guid: 7416b39df8edee943a1910b994fc98fd,
+      type: 3}

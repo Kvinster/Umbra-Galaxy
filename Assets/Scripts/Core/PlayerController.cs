@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-
+using STP.Behaviour.Core;
 using STP.Common;
 using STP.Core.State;
 
@@ -12,6 +12,8 @@ namespace STP.Core {
 
 		const int   StartPlayerLives = 3;
 		const float StartPlayerHp    = MaxPlayerHp;
+		
+		public ShipType Ship;
 
 		int   _curLives;
 		float _curHp;
@@ -82,6 +84,7 @@ namespace STP.Core {
 			}
 		}
 
+		
 		public void TakeDamage(float damage) {
 			if ( !IsAlive ) {
 				Debug.LogError("Player taking damage when dead");

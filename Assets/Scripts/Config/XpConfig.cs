@@ -36,7 +36,6 @@ namespace STP.Config {
 	public class ShipVisual {
 		public ShipType   ShipType;
 		public Sprite     ShipSprite;
-		public GameObject ShipPrefab;
 	}
 
 	[Serializable]

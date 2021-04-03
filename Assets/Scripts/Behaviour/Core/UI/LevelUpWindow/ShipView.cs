@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
 using System;
 
@@ -19,7 +18,7 @@ namespace STP.Behaviour.Core.UI.LevelUpWindow {
 			var shipVisual = xpController.GetShipVisuals(shipType);
 			Image.sprite = shipVisual.ShipSprite;
 			Button.onClick.AddListener(() => {
-				CreateNewShip(starter, shipVisual.ShipPrefab);
+				CreateNewShip(starter, shipType);
 				hideWindowAction();
 			});
 		}
@@ -28,18 +27,18 @@ namespace STP.Behaviour.Core.UI.LevelUpWindow {
 			Button.onClick.RemoveAllListeners();
 		}
 
-		void CreateNewShip(CoreStarter starter, GameObject newPlayerShip) {
-			var newShipInstance = Instantiate(newPlayerShip);
-			var playerComp      = newShipInstance.GetComponent<Player>();
-			if ( !playerComp ) {
-				Debug.LogError($"can't find player component. GO {newShipInstance}");
+		void CreateNewShip(CoreStarter starter, ShipType shipType) {
+			starter.PlayerController.Ship = shipType;
+			var newPlayer = starter.ShipCreator.CreatePlayerShip(shipType);
+			if ( !newPlayer ) {
 				return;
 			}
-			playerComp.Init(starter);
-			playerComp.transform.position = starter.Player.transform.position;
+			newPlayer.Init(starter);
+			// Workaround cause player init sets (0,0) start position
+			newPlayer.transform.position = starter.Player.transform.position;
 			Destroy(starter.Player.gameObject);
-			starter.Player = playerComp;
-			EventManager.Fire(new PlayerShipChanged(playerComp));
+			starter.Player = newPlayer;
+			EventManager.Fire(new PlayerShipChanged(newPlayer));
 		}
 	}
 }

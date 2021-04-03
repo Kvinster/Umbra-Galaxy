@@ -19,7 +19,7 @@ namespace STP.Core {
 		public LevelController   LevelController   { get; }
 		public PlayerController  PlayerController  { get; }
 		public XpController      XpController      { get; }
-		public PowerUpController PowerUpController { get; }
+		public PrefabsController PrefabsController { get; }
 
 		ProfileController(ProfileState profileState) {
 			ProfileState = profileState;
@@ -27,7 +27,7 @@ namespace STP.Core {
 			LevelController   = AddController(new LevelController(ProfileState));
 			PlayerController  = AddController(new PlayerController(ProfileState));
 			XpController      = AddController(new XpController());
-			PowerUpController = AddController(new PowerUpController(ProfileState));
+			PrefabsController = AddController(new PrefabsController(ProfileState));
 		}
 
 		public void Deinit() {
