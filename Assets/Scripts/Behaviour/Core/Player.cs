@@ -52,6 +52,7 @@ namespace STP.Behaviour.Core {
 		LevelGoalManager  _levelGoalManager;
 		PauseManager      _pauseManager;
 		PrefabsController _prefabsController;
+		XpController      _xpController;
 
 		PlayerController _playerController;
 
@@ -104,7 +105,6 @@ namespace STP.Behaviour.Core {
 		}
 
 		void OnDestroy() {
-			Debug.LogError("I'm dead");
 			Deinit();
 		}
 
@@ -116,6 +116,7 @@ namespace STP.Behaviour.Core {
 			_levelGoalManager  = starter.LevelGoalManager;
 			_pauseManager      = starter.PauseManager;
 			_prefabsController = starter.PrefabsController;
+			_xpController      = starter.XpController;
 			_actualParams      = DefaultShootingParams.ShallowCopy();
 			_shootingSystem    = new ShootingSystem(_spawnHelper, _actualParams);
 			
@@ -193,16 +194,25 @@ namespace STP.Behaviour.Core {
 
 		void TryUpdateShootingParams() {
 			//Try update load params
-			var firerateMultiplier = _playerManager.HasActivePowerUp(PowerUpType.IncFireRate)
-				? TmpIncFireRateMult
-				: 1f;
-			_actualParams.ReloadTime = DefaultShootingParams.ReloadTime / firerateMultiplier;
+			_actualParams.ReloadTime = CalcReloadTime();
 			//Try update bullet
 			var isX2Damage = _playerManager.HasActivePowerUp(PowerUpType.X2Damage);
 			_actualParams.BulletPrefab = _prefabsController.GetBulletPrefab(isX2Damage);
 			//Try update damage
-			var damageMultiplier = isX2Damage ? 2f : 1f;
-			_actualParams.BulletDamage = damageMultiplier * DefaultShootingParams.BulletDamage;
+			_actualParams.BulletDamage = CalcDamage();
+		}
+
+		float CalcReloadTime() {
+			var firerateMultiplier = _playerManager.HasActivePowerUp(PowerUpType.IncFireRate)
+				? TmpIncFireRateMult
+				: 1f;
+			return Mathf.Max((DefaultShootingParams.ReloadTime - 0.01f * _xpController.Level), DefaultShootingParams.ReloadTime / 10f)  / firerateMultiplier;
+		}
+		
+		float CalcDamage() {
+			var damageMultiplier     = _playerManager.HasActivePowerUp(PowerUpType.X2Damage) ? 2f : 1f;
+			var levelDependentDamage = DefaultShootingParams.BulletDamage + 1.5f * _xpController.Level;
+			return damageMultiplier * levelDependentDamage;
 		}
 	}
 }
