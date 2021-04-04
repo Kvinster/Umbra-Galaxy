@@ -206,7 +206,7 @@ namespace STP.Behaviour.Core {
 			var firerateMultiplier = _playerManager.HasActivePowerUp(PowerUpType.IncFireRate)
 				? TmpIncFireRateMult
 				: 1f;
-			return Mathf.Max((DefaultShootingParams.ReloadTime - 0.01f * _xpController.Level), DefaultShootingParams.ReloadTime / 10f)  / firerateMultiplier;
+			return Mathf.Max((DefaultShootingParams.ReloadTime - 0.005f * _xpController.Level), DefaultShootingParams.ReloadTime / 10f)  / firerateMultiplier;
 		}
 		
 		float CalcDamage() {
