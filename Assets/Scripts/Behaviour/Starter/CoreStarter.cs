@@ -90,7 +90,7 @@ namespace STP.Behaviour.Starter {
 			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot);
 			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, lc, xc,
 				GameController.LeaderboardController, ProfileController.ActiveInstance);
-			CoreWindowsManager.Init(this, PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc);
+			CoreWindowsManager.Init(this, PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc, PrefabsController);
 			MinimapManager = new MinimapManager(MinimapCamera);
 			await Generator.GenerateLevel(puc, lc, this, LevelObjectsRoot);
 			InitComponents();

@@ -44,7 +44,7 @@ namespace STP.Manager {
 		}
 
 		public void Init(CoreStarter starter, PauseManager pauseManager, LevelManager levelManager, LevelGoalManager levelGoalManager,
-			PlayerManager playerManager, PlayerController playerController, XpController xpController) {
+			PlayerManager playerManager, PlayerController playerController, XpController xpController, PrefabsController prefabsController) {
 			_pauseManager     = pauseManager;
 			_playerController = playerController;
 			_xpController     = xpController;
@@ -59,7 +59,7 @@ namespace STP.Manager {
 			DeathWindow.CommonInit(levelManager, playerManager, _playerController);
 			WinWindow.CommonInit(levelManager, playerController, xpController);
 			PauseWindow.CommonInit(levelManager, levelGoalManager, xpController, playerController);
-			LevelUpWindow.CommonInit(xpController, starter);
+			LevelUpWindow.CommonInit(prefabsController, xpController, starter);
 
 			PauseButton.onClick.AddListener(ShowPauseWindow);
 

@@ -14,9 +14,8 @@ namespace STP.Behaviour.Core.UI.LevelUpWindow {
 		[NotNull] public Image  Image;
 		[NotNull] public Button Button;
 		
-		public void Init(CoreStarter starter, XpController xpController, ShipType shipType, Action hideWindowAction) {
-			var shipVisual = xpController.GetShipVisuals(shipType);
-			Image.sprite = shipVisual.ShipSprite;
+		public void Init(CoreStarter starter, PrefabsController prefabsController, ShipType shipType, Action hideWindowAction) {
+			Image.sprite = prefabsController.GetShipPreview(shipType);
 			Button.onClick.AddListener(() => {
 				CreateNewShip(starter, shipType);
 				hideWindowAction();

@@ -70,10 +70,6 @@ namespace STP.Core {
 			return _xpConfig.LevelUpInfos[level];
 		}
 		
-		public ShipVisual GetShipVisuals(ShipType type) {
-			return _xpConfig.GetShipVisual(type);
-		}
-		
 		public int GetDestroyedEnemyXp(string enemyName) {
 			return _xpConfig.GetDestroyedEnemyXp(enemyName);
 		}

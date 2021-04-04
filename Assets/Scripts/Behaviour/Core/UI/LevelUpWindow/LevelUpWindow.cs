@@ -12,12 +12,14 @@ namespace STP.Behaviour.Core.UI.LevelUpWindow {
 	public class LevelUpWindow : BaseCoreWindow {
 		[NotNullOrEmpty] public List<ShipView> Views;
 
-		XpController _xpController;
-		CoreStarter  _starter;
+		PrefabsController _prefabsController;
+		XpController      _xpController;
+		CoreStarter       _starter;
 		
-		public void CommonInit(XpController xpController, CoreStarter starter) {
-			_xpController = xpController;
-			_starter      = starter;
+		public void CommonInit(PrefabsController prefabsController, XpController xpController, CoreStarter starter) {
+			_xpController      = xpController;
+			_prefabsController = prefabsController;
+			_starter           = starter;
 		}
 
 		public override IPromise Show() {
@@ -25,7 +27,7 @@ namespace STP.Behaviour.Core.UI.LevelUpWindow {
 			var minCount  = Mathf.Min(Views.Count, shipTypes.Count);
 			for ( var i = 0; i < minCount; i++ ) {
 				var shipType = shipTypes[i];
-				Views[i].Init(_starter, _xpController, shipType, Hide);
+				Views[i].Init(_starter, _prefabsController, shipType, Hide);
 			}
 			_xpController.UseLevelUp();
 			return base.Show();

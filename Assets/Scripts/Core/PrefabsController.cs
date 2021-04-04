@@ -22,6 +22,9 @@ namespace STP.Core {
 		public GameObject GetShipPrefab(ShipType type) {
 			return _config.GetShipPrefab(type);
 		}
+		public Sprite GetShipPreview(ShipType type) {
+			return _config.GetShipPreviewSprite(type);
+		}
 		
 		public GameObject GetBulletPrefab(bool isEnhanced) {
 			var bulletType = isEnhanced ? BulletType.Enhanced : BulletType.Default;

@@ -16,7 +16,6 @@ namespace STP.Config {
 	public class XpConfig : ScriptableObject {
 		public List<DestroyedEnemyXpInfo> EnemyXpInfo;
 		public List<PlayerLevelUpInfo>    LevelUpInfos;
-		public List<ShipVisual>           ShipViews;
 		
 		public int GetDestroyedEnemyXp(string enemyName) {
 			var item = EnemyXpInfo.Find(x => x.EnemyName == enemyName);
@@ -26,18 +25,8 @@ namespace STP.Config {
 			}
 			return item.XpAmount;
 		}
-
-		public ShipVisual GetShipVisual(ShipType shipType) {
-			return ShipViews.Find(x => x.ShipType == shipType);
-		}
 	}
-
-	[Serializable]
-	public class ShipVisual {
-		public ShipType   ShipType;
-		public Sprite     ShipSprite;
-	}
-
+	
 	[Serializable]
 	public class PlayerLevelUpInfo {
 		public List<ShipType> ShipsToSelect;
