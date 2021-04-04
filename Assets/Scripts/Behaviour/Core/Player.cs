@@ -14,24 +14,14 @@ using NaughtyAttributes;
 
 namespace STP.Behaviour.Core {
 	public sealed class Player : BaseCoreComponent, IDestructible {
-		const float TmpBulletDamage    = 10f;
-		const float TmpIncFireRateMult = 1f / 4f;
-
+		const float TmpIncFireRateMult = 4f;
+		[NotNull] 
+		public ShootingSystemParams DefaultShootingParams;
 		[NotNull]
 		public Rigidbody2D Rigidbody;
 		[NotNull]
 		public Collider2D  Collider;
 		public float       MovementSpeed;
-		[Space]
-		[NotNull]
-		public GameObject BulletPrefab;
-		[NotNull]
-		public GameObject EnhancedBulletPrefab;
-		[NotNull]
-		public Transform GunPoint;
-		public float     BulletStartSpeed;
-		[Space]
-		public float ReloadDuration;
 		[Space]
 		[NotNull]
 		public ProgressBar HealthBar;
@@ -52,16 +42,18 @@ namespace STP.Behaviour.Core {
 
 		Vector2 _input;
 
-		Camera           _camera;
-		CoreSpawnHelper  _spawnHelper;
-		Transform        _playerStartPos;
-		PlayerManager    _playerManager;
-		LevelGoalManager _levelGoalManager;
-		PauseManager     _pauseManager;
+		ShootingSystem       _shootingSystem;
+		ShootingSystemParams _actualParams;
+
+		Camera            _camera;
+		CoreSpawnHelper   _spawnHelper;
+		Transform         _playerStartPos;
+		PlayerManager     _playerManager;
+		LevelGoalManager  _levelGoalManager;
+		PauseManager      _pauseManager;
+		PrefabsController _prefabsController;
 
 		PlayerController _playerController;
-
-		float _reloadTimer;
 
 		bool IsAlive => (_playerController?.IsAlive ?? false);
 
@@ -90,11 +82,10 @@ namespace STP.Behaviour.Core {
 
 			_input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
+			_shootingSystem.DeltaTick();
 			if ( Input.GetMouseButton(0) ) {
 				TryShoot();
 			}
-
-			_reloadTimer -= Time.deltaTime;
 		}
 
 		void FixedUpdate() {
@@ -112,14 +103,22 @@ namespace STP.Behaviour.Core {
 			Rigidbody.MoveRotation(neededRotation);
 		}
 
-		protected override void InitInternal(CoreStarter starter) {
-			_camera           = starter.MainCamera;
-			_spawnHelper      = starter.SpawnHelper;
-			_playerStartPos   = starter.PlayerStartPos;
-			_playerManager    = starter.PlayerManager;
-			_levelGoalManager = starter.LevelGoalManager;
-			_pauseManager     = starter.PauseManager;
+		void OnDestroy() {
+			Debug.LogError("I'm dead");
+			Deinit();
+		}
 
+		protected override void InitInternal(CoreStarter starter) {
+			_camera            = starter.MainCamera;
+			_spawnHelper       = starter.SpawnHelper;
+			_playerStartPos    = starter.PlayerStartPos;
+			_playerManager     = starter.PlayerManager;
+			_levelGoalManager  = starter.LevelGoalManager;
+			_pauseManager      = starter.PauseManager;
+			_prefabsController = starter.PrefabsController;
+			_actualParams      = DefaultShootingParams.ShallowCopy();
+			_shootingSystem    = new ShootingSystem(_spawnHelper, _actualParams);
+			
 			_playerController                  =  starter.PlayerController;
 			_playerController.OnCurHpChanged   += OnCurHpChanged;
 			_playerController.OnIsAliveChanged += OnIsAliveChanged;
@@ -139,7 +138,6 @@ namespace STP.Behaviour.Core {
 			Rigidbody.position = _playerStartPos.position;
 			Rigidbody.velocity = Vector2.zero;
 			Rigidbody.rotation = 0f;
-			_reloadTimer       = 0f;
 
 			DeathVisualEffectRoot.SetActive(false);
 			DeathVisualEffect.Stop();
@@ -187,29 +185,24 @@ namespace STP.Behaviour.Core {
 		}
 
 		void TryShoot() {
-			if ( _reloadTimer <= 0 ) {
-				Shoot();
-				_reloadTimer = ReloadDuration * (_playerManager.HasActivePowerUp(PowerUpType.IncFireRate)
-					? TmpIncFireRateMult
-					: 1f);
+			TryUpdateShootingParams();
+			if ( _shootingSystem.TryShoot() ) {
 				ShotSoundPlayer.Play();
 			}
 		}
 
-		void Shoot() {
-			var isX2DamageActive = _playerManager.HasActivePowerUp(PowerUpType.X2Damage);
-			var bulletGo = Instantiate(isX2DamageActive ? EnhancedBulletPrefab : BulletPrefab,
-				GunPoint.position, Quaternion.AngleAxis(Rigidbody.rotation, Vector3.forward), _spawnHelper.TempObjRoot);
-			var bullet = bulletGo.GetComponent<IBullet>();
-			if ( bullet != null ) {
-				var mult = isX2DamageActive ? 2f : 1f;
-				bullet.Init(TmpBulletDamage * mult, BulletStartSpeed, Rigidbody.rotation, Collider,
-					ShieldCollider);
-			} else {
-				Debug.LogErrorFormat("No Bullet component on current bullet prefab (x2 damage: '{0}')",
-					isX2DamageActive);
-			}
-			_spawnHelper.TryInitSpawnedObject(bulletGo);
+		void TryUpdateShootingParams() {
+			//Try update load params
+			var firerateMultiplier = _playerManager.HasActivePowerUp(PowerUpType.IncFireRate)
+				? TmpIncFireRateMult
+				: 1f;
+			_actualParams.ReloadTime = DefaultShootingParams.ReloadTime / firerateMultiplier;
+			//Try update bullet
+			var isX2Damage = _playerManager.HasActivePowerUp(PowerUpType.X2Damage);
+			_actualParams.BulletPrefab = _prefabsController.GetBulletPrefab(isX2Damage);
+			//Try update damage
+			var damageMultiplier = isX2Damage ? 2f : 1f;
+			_actualParams.BulletDamage = damageMultiplier * DefaultShootingParams.BulletDamage;
 		}
 	}
 }

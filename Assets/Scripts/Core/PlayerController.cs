@@ -67,6 +67,8 @@ namespace STP.Core {
 				OnIsAliveChanged?.Invoke(IsAlive);
 			}
 		}
+		
+		ShootingSystem _shootingSystem;
 
 		public event Action<int>               OnCurLivesChanged;
 		public event Action<float>             OnCurHpChanged;
@@ -82,6 +84,7 @@ namespace STP.Core {
 			foreach ( var powerUpType in PowerUpTypeHelper.PowerUpTypes ) {
 				_powerUpStates.Add(powerUpType, false);
 			}
+			
 		}
 
 		

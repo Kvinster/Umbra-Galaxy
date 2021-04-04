@@ -13,6 +13,7 @@ using STP.Utils.GameComponentAttributes;
 using STP.View.DebugGUI;
 
 using Cysharp.Threading.Tasks;
+using STP.Config;
 
 namespace STP.Behaviour.Starter {
 	public class CoreStarter : BaseStarter<CoreStarter> {
@@ -41,6 +42,7 @@ namespace STP.Behaviour.Starter {
 		public PlayerController  PlayerController  => ProfileController.PlayerController;
 		public XpController      XpController      => ProfileController.XpController;
 		public ShipCreator       ShipCreator       { get; private set; }
+		public PrefabsController PrefabsController => ProfileController.PrefabsController;
 
 		void OnDisable() {
 			GameController.Deinit();

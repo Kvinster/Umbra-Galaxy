@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-using STP.Behaviour.EndlessLevel;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 

@@ -21,7 +21,7 @@ namespace STP.Manager {
 			{ PowerUpType.X2Damage, 10f },
 		};
 
-		readonly Player           _player;
+		Player _player;
 		readonly PlayerController _playerController;
 		readonly XpController     _xpController;
 
@@ -42,6 +42,7 @@ namespace STP.Manager {
 			_tempObjectsRoot  = tempObjectsRoot;
 			_context.AddUpdateCallback(UpdateTimers);
 			_playerController.OnRespawn();
+			EventManager.Subscribe<PlayerShipChanged>(OnPlayerChanged);
 			EventManager.Subscribe<EnemyDestroyed>(OnEnemyDestroyed);
 		}
 
@@ -49,6 +50,7 @@ namespace STP.Manager {
 			if ( _context ) {
 				_context.RemoveUpdateCallback(UpdateTimers);
 			}
+			EventManager.Unsubscribe<PlayerShipChanged>(OnPlayerChanged);
 			EventManager.Unsubscribe<EnemyDestroyed>(OnEnemyDestroyed);
 		}
 
@@ -111,6 +113,10 @@ namespace STP.Manager {
 			_playerController.OnRespawn();
 			_playerController.RestoreLives();
 			_player.OnRestart();
+		}
+
+		void OnPlayerChanged(PlayerShipChanged e) {
+			_player = e.NewPlayer;
 		}
 
 		void UpdateTimers(float deltaTime) {

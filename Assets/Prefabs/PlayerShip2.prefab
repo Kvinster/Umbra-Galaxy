@@ -606,6 +606,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86c25252feeb4efa995c32a0aded234b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DefaultShootingParams:
+    BulletPrefab: {fileID: 4765969172863325119, guid: dc0d0b1b9499fb24586f6cf21eca349f,
+      type: 3}
+    BulletOrigin: {fileID: 3830987399395142193}
+    RotationSource: {fileID: 3127888978083334663}
+    BulletSpeed: 1500
+    ReloadTime: 0.1
+    BulletDamage: 10
+    IgnoreColliders:
+    - {fileID: 3127888978083334667}
   Rigidbody: {fileID: 3127888978083334668}
   Collider: {fileID: 3127888978083334667}
   MovementSpeed: 10000

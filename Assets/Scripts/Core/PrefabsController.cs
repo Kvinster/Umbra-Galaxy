@@ -23,6 +23,11 @@ namespace STP.Core {
 			return _config.GetShipPrefab(type);
 		}
 		
+		public GameObject GetBulletPrefab(bool isEnhanced) {
+			var bulletType = isEnhanced ? BulletType.Enhanced : BulletType.Default;
+			return _config.GetBulletPrefab(bulletType);
+		}
+		
 		static PrefabConfig LoadConfig() {
 			return Resources.Load<PrefabConfig>("PrefabsConfig");
 		}
