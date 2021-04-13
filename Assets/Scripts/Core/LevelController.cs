@@ -41,9 +41,15 @@ namespace STP.Core {
 			}
 		}
 
-		public LevelInfo GetCurLevelConfig() {
+		public RegularLevelInfo GetCurLevelConfig() {
 			Assert.IsTrue(CurLevelIndex >= 0);
-			return _levelsConfig.GetLevelConfig(CurLevelIndex);
+			var levelInfo = _levelsConfig.GetLevelConfig(CurLevelIndex);
+			Assert.IsNotNull(levelInfo);
+			if ( !(levelInfo is RegularLevelInfo regularLevelInfo) ) {
+				Debug.LogErrorFormat("Unsupported level info type '{0}'", levelInfo.LevelType.ToString());
+				return null;
+			}
+			return regularLevelInfo;
 		}
 
 		static LevelsConfig LoadConfig() {

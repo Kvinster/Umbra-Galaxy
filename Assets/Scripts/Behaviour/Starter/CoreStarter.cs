@@ -13,7 +13,6 @@ using STP.Utils.GameComponentAttributes;
 using STP.View.DebugGUI;
 
 using Cysharp.Threading.Tasks;
-using STP.Config;
 
 namespace STP.Behaviour.Starter {
 	public class CoreStarter : BaseStarter<CoreStarter> {
@@ -74,7 +73,7 @@ namespace STP.Behaviour.Starter {
 				var ps         = ProfileState.CreateNewProfileState("test", "test");
 				var controller = ProfileController.CreateNewActiveInstance(ps);
 				controller.StartLevel(0);
-			} 	
+			}
 #endif
 			GameController    = new GameController(GameState.ActiveInstance);
 			ProfileController = ProfileController.ActiveInstance;

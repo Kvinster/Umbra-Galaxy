@@ -19,15 +19,15 @@ namespace STP.Behaviour.Core.Generators {
 	public sealed class LevelGenerator : GameComponent {
 		const int PowerUpPlacesCountInGeneratorChunk = 3;
 		const int MinSpaceBetweenGenerators = 300;
-		
+
 		[NotNull] public ChunkCreator Creator;
 		[NotNull] public Transform    BordersRoot;
 
 		LevelGeneratorState _state = new LevelGeneratorState();
-		LevelInfo           _levelInfo;
+		RegularLevelInfo    _levelInfo;
 
 		PrefabsController _prefabsController;
-		
+
 		public async UniTask GenerateLevel(PrefabsController prefabsController, LevelController levelController, CoreStarter starter, Transform root = null) {
 			var randomSeed = Random.Range(int.MinValue, int.MaxValue);
 			Random.InitState(randomSeed);
@@ -87,7 +87,7 @@ namespace STP.Behaviour.Core.Generators {
 						Debug.LogError("Can't instantiate generator cell - map cell class type is incorrect");
 						return Creator.CreateEmptyChunk();
 					}
-					return Creator.CreateGeneratorChunk(generatorCell.GeneratorGridSize, PowerUpPlacesCountInGeneratorChunk); 
+					return Creator.CreateGeneratorChunk(generatorCell.GeneratorGridSize, PowerUpPlacesCountInGeneratorChunk);
 				}
 				case MapCellType.Empty: {
 					return Creator.CreateEmptyChunk();
@@ -100,7 +100,7 @@ namespace STP.Behaviour.Core.Generators {
 		}
 
 		void UpdateMapSizesInState() {
-			var idleEnemyChunkSize = (_levelInfo.EnemyGroupsCount > 0) ? LevelInfo.IdleEnemyGroupChunkSize : 0; 
+			var idleEnemyChunkSize = (_levelInfo.EnemyGroupsCount > 0) ? LevelInfo.IdleEnemyGroupChunkSize : 0;
 			_state.LevelChunkSideSize = Mathf.Max(_levelInfo.GeneratorsSideSize * LevelInfo.GeneratorCellSize + MinSpaceBetweenGenerators / 2 , idleEnemyChunkSize);
 			// Calculating level size in chunks
 			// Generating free cells count
@@ -162,7 +162,7 @@ namespace STP.Behaviour.Core.Generators {
 				_state.CreatedPowerUpsCount[powerUpType] = 1;
 			}
 		}
-		
+
 		GameObject GetPowerUpPrefab(PowerUpType powerUpType) {
 			return _prefabsController.GetPowerUpPrefab(powerUpType);
 		}
