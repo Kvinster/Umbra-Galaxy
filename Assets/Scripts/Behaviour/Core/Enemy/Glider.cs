@@ -5,7 +5,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
-	public sealed class Glider : BaseControllableEnemy, IDestructible {
+	public sealed class Glider : BaseEnemy, IDestructible {
 		[Space]
 		public float           StartHp = 20;
 		public float           MinAttackDistance;

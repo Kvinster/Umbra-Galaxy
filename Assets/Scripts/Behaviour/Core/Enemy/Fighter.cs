@@ -5,7 +5,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
-	public sealed class Fighter : BaseControllableEnemy, IDestructible {
+	public sealed class Fighter : BaseEnemy, IDestructible {
 		[Space]
 		public float StartHp;
 		public float MovementSpeed;

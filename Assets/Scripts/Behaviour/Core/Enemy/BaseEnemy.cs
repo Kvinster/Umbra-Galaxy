@@ -17,6 +17,8 @@ namespace STP.Behaviour.Core.Enemy {
 		
 		protected bool IsAlive;
 		
+		public abstract void SetTarget(Transform target);
+		
 		protected override void InitInternal(CoreStarter starter) {
 			if ( DeathSoundPlayer ) {
 				DeathSoundPlayer.Init(starter.TempObjectsRoot);

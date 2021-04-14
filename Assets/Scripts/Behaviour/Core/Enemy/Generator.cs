@@ -40,7 +40,7 @@ namespace STP.Behaviour.Core.Enemy {
 
         readonly Timer _fireTimer = new Timer();
 
-        GameObject _target;
+        Transform _target;
 
         float _curHp;
 
@@ -64,6 +64,15 @@ namespace STP.Behaviour.Core.Enemy {
             ViewTransform.rotation = Quaternion.Euler(0, 0, GetViewAngleToTarget());
             if ( _fireTimer.DeltaTick() ) {
                 Fire();
+            }
+        }
+
+        public override void SetTarget(Transform target) {
+            _target = target;
+            if ( _target ) {
+                _fireTimer.Start(ReloadDuration);
+            } else {
+              _fireTimer.Stop();  
             }
         }
 
@@ -124,13 +133,13 @@ namespace STP.Behaviour.Core.Enemy {
         void OnFireRangeEnter(GameObject other) {
             var playerComp = other.GetComponent<Player>();
             if ( playerComp ) {
-                _target = other;
+                _target = other.transform;
                 _fireTimer.Start(ReloadDuration);
             }
         }
 
         void OnFireRangeExit(GameObject other) {
-            if ( _target == other ) {
+            if ( _target == other.transform ) {
                 _target = null;
                 _fireTimer.Stop();
             }

@@ -56,7 +56,11 @@ namespace STP.Behaviour.Core {
 		}
 
 		public void Init(float damage, float speed, params Collider2D[] ownerColliders) {
-			throw new System.NotImplementedException();
+			_damage = damage;
+			Rigidbody.AddRelativeForce(Vector2.up * (speed * Rigidbody.mass), ForceMode2D.Impulse);
+			foreach ( var ownerCollider in ownerColliders ) {
+				IgnoreCollider(ownerCollider);
+			}
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
