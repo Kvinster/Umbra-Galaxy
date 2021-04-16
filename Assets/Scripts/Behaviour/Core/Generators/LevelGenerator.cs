@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
 
-using STP.Behaviour.Core.Enemy.GeneratorEditor;
 using STP.Behaviour.Core.Generators.Regular;
 using STP.Behaviour.Starter;
 using STP.Config;
@@ -13,8 +12,7 @@ using Cysharp.Threading.Tasks;
 
 namespace STP.Behaviour.Core.Generators {
 	public sealed class LevelGenerator : GameComponent {
-		[NotNull] public ChunkCreator Creator;
-		[NotNull] public Transform    BordersRoot;
+		[NotNull] public Transform BordersRoot;
 
 		Transform         _levelObjectsRoot;
 		CoreStarter       _coreStarter;
@@ -41,8 +39,8 @@ namespace STP.Behaviour.Core.Generators {
 			Assert.IsNotNull(_curLevelInfo);
 			switch ( _curLevelInfo ) {
 				case RegularLevelInfo regularLevelInfo: {
-					return new RegularLevelGeneratorImpl(regularLevelInfo, _levelObjectsRoot, BordersRoot, Creator,
-						_coreStarter, _prefabsController);
+					return new RegularLevelGeneratorImpl(regularLevelInfo, _levelObjectsRoot, BordersRoot, _coreStarter,
+						_prefabsController);
 				}
 				default: {
 					Debug.LogErrorFormat("{0}.{1}: unsupported level info type '{2}'", nameof(LevelGenerator),

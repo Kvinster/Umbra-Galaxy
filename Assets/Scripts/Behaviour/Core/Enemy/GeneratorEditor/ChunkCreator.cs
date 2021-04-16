@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 
-using System;
 using System.Collections.Generic;
 
 using STP.Behaviour.Core.Generators;
@@ -12,37 +12,27 @@ using Shapes;
 using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
-	public class ChunkCreator : GameComponent {
-		[Serializable]
-		public class BulletPair {
-			public GameObject MainGenBullet;
-			public GameObject SubGenBullet;
-		}
-
-		[Header("For generator")]
-		public GameObject       MainGeneratorPrefab;
-		public GameObject       GeneratorPrefab;
-		public List<BulletPair> BulletPrefabs;
-		public GameObject       ConnectorPrefab;
-		public GameObject       LinePrefab;
-
-		[Header("Specific chunks")]
-		public GameObject       SafeAreaPrefab;
-		public List<GameObject> IdleChunks;
-
-		List<Vector2Int> PossibleDirections => new List<Vector2Int> {
+	public sealed class ChunkCreator {
+		static List<Vector2Int> PossibleDirections => new List<Vector2Int> {
 			Vector2Int.down,
 			Vector2Int.left,
 			Vector2Int.up,
 			Vector2Int.right
 		};
 
-		Vector2Int InvalidVector => -Vector2Int.one;
+		static Vector2Int InvalidVector => -Vector2Int.one;
+
+		readonly ChunkConfig _config;
+
+		public ChunkCreator() {
+			_config = Resources.Load<ChunkConfig>("ChunkConfig");
+			Assert.IsTrue(_config);
+		}
 
 		public GameObject CreateEmptyChunk() {
 			return CreateGeneratorChunk(0, 0);
 		}
-		
+
 		public GameObject CreateGeneratorChunk(int gridSize, int powerUpPointsCount) {
 			var mazeGen = new RandomWalkMapGenerator();
 			var cellMap = mazeGen.CreateMaze(gridSize);
@@ -52,7 +42,11 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		}
 
 		public GameObject CreateRandomIdleChunk() {
-			return Instantiate(RandomUtils.GetRandomElement(IdleChunks));
+			return Object.Instantiate(RandomUtils.GetRandomElement(_config.IdleChunks));
+		}
+
+		public GameObject CreateSafeAreaChunk() {
+			return Object.Instantiate(_config.SafeAreaPrefab);
 		}
 
 		GameObject CreateGeneratorsVariant(GeneratorsMap map, int powerUpPointsCount) {
@@ -83,15 +77,17 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 					}
 
 					if ( cell == PlaceType.MainGenerator || cell == PlaceType.SubGenerator ) {
-						var genPrefab = (cell == PlaceType.MainGenerator) ? MainGeneratorPrefab : GeneratorPrefab;
-						var genGo = Instantiate(genPrefab, baseGo.transform);
+						var genPrefab = (cell == PlaceType.MainGenerator)
+							? _config.MainGeneratorPrefab
+							: _config.GeneratorPrefab;
+						var genGo = Object.Instantiate(genPrefab, baseGo.transform);
 						if ( !genGo ) {
 							Debug.LogError("Can't cast instance to GameObject. aborting instancing generator");
 							continue;
 						}
 						genGo.transform.position = worldPos * cellSize;
 						var genComp    = genGo.GetComponent<Generator>();
-						var bulletPair = RandomUtils.GetRandomElement(BulletPrefabs);
+						var bulletPair = RandomUtils.GetRandomElement(_config.BulletPrefabs);
 						genComp.BulletPrefab    = (cell == PlaceType.MainGenerator) ?  bulletPair.MainGenBullet : bulletPair.SubGenBullet;
 						genComp.IsMainGenerator = (cell == PlaceType.MainGenerator);
 						var connector = genGo.GetComponentInChildren<Connector>();
@@ -99,7 +95,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 					}
 
 					if ( cell == PlaceType.Connector ) {
-						var connectorGo = Instantiate(ConnectorPrefab, baseGo.transform);
+						var connectorGo = Object.Instantiate(_config.ConnectorPrefab, baseGo.transform);
 						if ( !connectorGo ) {
 							Debug.LogError("Can't cast instance to GameObject. aborting instancing connector");
 							continue;
@@ -151,7 +147,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		}
 
 		void CreateLine(Connector one, Connector other) {
-			var lineGo               = Instantiate(LinePrefab, one.transform);
+			var lineGo               = Object.Instantiate(_config.LinePrefab, one.transform);
 			var lineComp             = lineGo.GetComponent<Line>();
 			var vectorToConnectorEnd = (other.transform.position - one.transform.position);
 			lineComp.Start = Vector3.zero;
@@ -164,7 +160,11 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			}
 
 			collider.offset = vectorToConnectorEnd / 2;
-			var size = new Vector2(Mathf.Abs(!Mathf.Approximately(vectorToConnectorEnd.x, 0) ? vectorToConnectorEnd.x : 0) + lineComp.Thickness, Mathf.Abs(!Mathf.Approximately(vectorToConnectorEnd.y, 0) ? vectorToConnectorEnd.y : 0)+ lineComp.Thickness);
+			var size = new Vector2(
+				Mathf.Abs(!Mathf.Approximately(vectorToConnectorEnd.x, 0) ? vectorToConnectorEnd.x : 0) +
+				lineComp.Thickness,
+				Mathf.Abs(!Mathf.Approximately(vectorToConnectorEnd.y, 0) ? vectorToConnectorEnd.y : 0) +
+				lineComp.Thickness);
 			collider.size = size;
 		}
 	}

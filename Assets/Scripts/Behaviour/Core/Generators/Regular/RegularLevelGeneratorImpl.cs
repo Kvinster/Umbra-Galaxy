@@ -22,18 +22,20 @@ namespace STP.Behaviour.Core.Generators.Regular {
 		readonly RegularLevelInfo  _levelInfo;
 		readonly Transform         _levelObjectsRoot;
 		readonly Transform         _bordersRoot;
-		readonly ChunkCreator      _chunkCreator;
 		readonly CoreStarter       _coreStarter;
 		readonly PrefabsController _prefabsController;
 
+		readonly ChunkCreator _chunkCreator;
+
 		public RegularLevelGeneratorImpl(RegularLevelInfo levelInfo, Transform levelObjectsRoot, Transform bordersRoot,
-			ChunkCreator chunkCreator, CoreStarter coreStarter, PrefabsController prefabsController) {
+			CoreStarter coreStarter, PrefabsController prefabsController) {
 			_levelInfo         = levelInfo;
 			_levelObjectsRoot  = levelObjectsRoot;
 			_bordersRoot       = bordersRoot;
-			_chunkCreator      = chunkCreator;
 			_coreStarter       = coreStarter;
 			_prefabsController = prefabsController;
+
+			_chunkCreator = new ChunkCreator();
 		}
 
 		public async UniTask GenerateLevel() {
@@ -78,7 +80,7 @@ namespace STP.Behaviour.Core.Generators.Regular {
 		GameObject GetChunk(BaseMapCell baseMapCell) {
 			switch ( baseMapCell.CellType ) {
 				case MapCellType.SafeZone: {
-					return Object.Instantiate(_chunkCreator.SafeAreaPrefab);
+					return _chunkCreator.CreateSafeAreaChunk();
 				}
 				case MapCellType.IdleEnemies: {
 					return _chunkCreator.CreateRandomIdleChunk();
