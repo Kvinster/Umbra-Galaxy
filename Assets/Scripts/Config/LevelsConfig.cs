@@ -7,18 +7,6 @@ using System.IO;
 using STP.Common;
 
 namespace STP.Config {
-	[Serializable]
-	public class LevelInfo {
-		public const int GeneratorCellSize       = 100;
-		public const int IdleEnemyGroupChunkSize = 1500;
-
-		public int               GeneratorsCount    = 1;
-		public int               GeneratorsSideSize = 7;
-		public int               EnemyGroupsCount   = 0;
-		public List<PowerUpType> PowerUps;
-	}
-
-
 	[CreateAssetMenu(fileName = "AllLevels", menuName = "ScriptableObjects/LevelsConfig", order = 1)]
 	public sealed class LevelsConfig : ScriptableObject {
 		public List<BaseLevelInfo> Levels;

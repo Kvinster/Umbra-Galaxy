@@ -100,8 +100,11 @@ namespace STP.Behaviour.Core.Generators {
 		}
 
 		void UpdateMapSizesInState() {
-			var idleEnemyChunkSize = (_levelInfo.EnemyGroupsCount > 0) ? LevelInfo.IdleEnemyGroupChunkSize : 0;
-			_state.LevelChunkSideSize = Mathf.Max(_levelInfo.GeneratorsSideSize * LevelInfo.GeneratorCellSize + MinSpaceBetweenGenerators / 2 , idleEnemyChunkSize);
+			var idleEnemyChunkSize = (_levelInfo.EnemyGroupsCount > 0) ? RegularLevelInfo.IdleEnemyGroupChunkSize : 0;
+			_state.LevelChunkSideSize =
+				Mathf.Max(
+					_levelInfo.GeneratorsSideSize * RegularLevelInfo.GeneratorCellSize + MinSpaceBetweenGenerators / 2 ,
+					idleEnemyChunkSize);
 			// Calculating level size in chunks
 			// Generating free cells count
 			var freeCellsOnLevel = Random.Range(0, 6);
