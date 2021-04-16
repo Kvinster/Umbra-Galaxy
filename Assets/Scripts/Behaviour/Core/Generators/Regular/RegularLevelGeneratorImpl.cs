@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 using STP.Behaviour.Core.Enemy;
 using STP.Behaviour.Core.Enemy.GeneratorEditor;
-using STP.Behaviour.Starter;
 using STP.Common;
 using STP.Config;
 using STP.Core;
@@ -22,18 +21,20 @@ namespace STP.Behaviour.Core.Generators.Regular {
 		readonly RegularLevelInfo  _levelInfo;
 		readonly Transform         _levelObjectsRoot;
 		readonly Transform         _bordersRoot;
-		readonly CoreStarter       _coreStarter;
+		readonly Player            _player;
 		readonly PrefabsController _prefabsController;
 
 		readonly ChunkCreator _chunkCreator;
 
+		public Rect AreaRect { get; private set; }
+
 		public RegularLevelGeneratorImpl(RegularLevelInfo levelInfo, Transform levelObjectsRoot, Transform bordersRoot,
-			CoreStarter coreStarter, PrefabsController prefabsController) {
-			_levelInfo         = levelInfo;
-			_levelObjectsRoot  = levelObjectsRoot;
-			_bordersRoot       = bordersRoot;
-			_coreStarter       = coreStarter;
-			_prefabsController = prefabsController;
+			Player player, PrefabsController prefabsController) {
+			_levelInfo            = levelInfo;
+			_levelObjectsRoot     = levelObjectsRoot;
+			_bordersRoot          = bordersRoot;
+			_player               = player;
+			_prefabsController    = prefabsController;
 
 			_chunkCreator = new ChunkCreator();
 		}
@@ -58,7 +59,7 @@ namespace STP.Behaviour.Core.Generators.Regular {
 					var chunkComp = obj.GetComponent<LevelChunk>();
 					if ( chunkComp is IdleEnemyChunk idleChunk ) {
 						var controllableEnemies = idleChunk.GetComponentsInChildren<BaseControllableEnemy>();
-						idleChunk.Director.Init(_coreStarter.Player, new List<BaseControllableEnemy>(controllableEnemies));
+						idleChunk.Director.Init(_player, new List<BaseControllableEnemy>(controllableEnemies));
 					}
 					powerUpSpawnPoints.AddRange(chunkComp.FreePowerUpSpawnPoints);
 				}
@@ -71,8 +72,7 @@ namespace STP.Behaviour.Core.Generators.Regular {
 			// Init player camera follower
 			var areaSize = new Vector2(_state.LevelChunkSideSize * (map.GetLength(0) + 1) , _state.LevelChunkSideSize * (map.GetLength(1) + 1));
 			var areaMin  = -areaSize / 2;
-			var areaRect = new Rect(areaMin, areaSize);
-			_coreStarter.PlayerCameraFollower.Init(_coreStarter.MainCamera, _coreStarter.Player.transform, areaRect);
+			AreaRect = new Rect(areaMin, areaSize);
 			_bordersRoot.localScale = new Vector3(areaSize.x, areaSize.y, 1);
 			Debug.Log($"Level generated. Seed {randomSeed}");
 		}

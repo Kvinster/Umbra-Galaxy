@@ -20,12 +20,12 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public RestrictedTransformFollower PlayerCameraFollower;
 		[NotNull] public Camera                      MinimapCamera;
 		[NotNull] public Transform                   PlayerStartPos;
-		[NotNull] public LevelGenerator              Generator;
 		[NotNull] public CoreWindowsManager          CoreWindowsManager;
 		[NotNull] public SceneTransitionController   SceneTransitionController;
 
 		[NotNull] public Transform LevelObjectsRoot;
 		[NotNull] public Transform TempObjectsRoot;
+		[NotNull] public Transform BordersRoot;
 
 		bool _isLevelInitStarted;
 
@@ -38,10 +38,12 @@ namespace STP.Behaviour.Starter {
 		public MinimapManager    MinimapManager    { get; private set; }
 		public GameController    GameController    { get; private set; }
 		public ProfileController ProfileController { get; private set; }
+		public ShipCreator       ShipCreator       { get; private set; }
+
 		public PlayerController  PlayerController  => ProfileController.PlayerController;
 		public XpController      XpController      => ProfileController.XpController;
-		public ShipCreator       ShipCreator       { get; private set; }
 		public PrefabsController PrefabsController => ProfileController.PrefabsController;
+		public LevelController   LevelController   => ProfileController.LevelController;
 
 		void OnDisable() {
 			GameController.Deinit();
@@ -78,10 +80,9 @@ namespace STP.Behaviour.Starter {
 			GameController    = new GameController(GameState.ActiveInstance);
 			ProfileController = ProfileController.ActiveInstance;
 			ShipCreator       = new ShipCreator(LevelObjectsRoot, ProfileController.PrefabsController);
-			var pc  = ProfileController.PlayerController;
-			var lc  = ProfileController.LevelController;
-			var xc  = ProfileController.XpController;
-			var puc = ProfileController.PrefabsController;
+			var pc = ProfileController.PlayerController;
+			var lc = ProfileController.LevelController;
+			var xc = ProfileController.XpController;
 			SpawnHelper   = new CoreSpawnHelper(this, TempObjectsRoot);
 			PauseManager  = new PauseManager();
 			Player        = ShipCreator.CreatePlayerShip(PlayerController.Ship);
@@ -91,7 +92,9 @@ namespace STP.Behaviour.Starter {
 				GameController.LeaderboardController, ProfileController.ActiveInstance);
 			CoreWindowsManager.Init(this, PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc, PrefabsController);
 			MinimapManager = new MinimapManager(MinimapCamera);
-			await Generator.Init(LevelObjectsRoot, this, puc, lc).GenerateLevel();
+			var lg = new LevelGenerator(this);
+			await lg.GenerateLevel();
+			PlayerCameraFollower.Init(MainCamera, Player.transform, lg.AreaRect);
 			InitComponents();
 			// Settings for smooth gameplay
 			Application.targetFrameRate = Screen.currentResolution.refreshRate;

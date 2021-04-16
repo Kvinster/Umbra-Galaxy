@@ -4,47 +4,37 @@ using UnityEngine.Assertions;
 using STP.Behaviour.Core.Generators.Regular;
 using STP.Behaviour.Starter;
 using STP.Config;
-using STP.Core;
-using STP.Utils;
-using STP.Utils.GameComponentAttributes;
 
 using Cysharp.Threading.Tasks;
 
 namespace STP.Behaviour.Core.Generators {
-	public sealed class LevelGenerator : GameComponent {
-		[NotNull] public Transform BordersRoot;
+	public sealed class LevelGenerator {
+		readonly CoreStarter _coreStarter;
 
-		Transform         _levelObjectsRoot;
-		CoreStarter       _coreStarter;
-		PrefabsController _prefabsController;
+		readonly ILevelGeneratorImpl _impl;
 
-		BaseLevelInfo _curLevelInfo;
+		public Rect AreaRect => _impl?.AreaRect ?? default;
 
-		public LevelGenerator Init(Transform levelObjectsRoot, CoreStarter coreStarter, PrefabsController prefabsController,
-			LevelController levelController) {
-			_levelObjectsRoot  = levelObjectsRoot;
-			_coreStarter       = coreStarter;
-			_prefabsController = prefabsController;
+		public LevelGenerator(CoreStarter coreStarter) {
+			_coreStarter = coreStarter;
 
-			_curLevelInfo = levelController.GetCurLevelConfig();
-
-			return this;
+			_impl = CreateImplementation(coreStarter.LevelController.GetCurLevelConfig());
 		}
 
 		public async UniTask GenerateLevel() {
-			await CreateImplementation().GenerateLevel();
+			await (_impl?.GenerateLevel() ?? default);
 		}
 
-		ILevelGeneratorImpl CreateImplementation() {
-			Assert.IsNotNull(_curLevelInfo);
-			switch ( _curLevelInfo ) {
+		ILevelGeneratorImpl CreateImplementation(BaseLevelInfo curLevelInfo) {
+			Assert.IsNotNull(curLevelInfo);
+			switch ( curLevelInfo ) {
 				case RegularLevelInfo regularLevelInfo: {
-					return new RegularLevelGeneratorImpl(regularLevelInfo, _levelObjectsRoot, BordersRoot, _coreStarter,
-						_prefabsController);
+					return new RegularLevelGeneratorImpl(regularLevelInfo, _coreStarter.LevelObjectsRoot,
+						_coreStarter.BordersRoot, _coreStarter.Player, _coreStarter.PrefabsController);
 				}
 				default: {
 					Debug.LogErrorFormat("{0}.{1}: unsupported level info type '{2}'", nameof(LevelGenerator),
-						nameof(CreateImplementation), _curLevelInfo.GetType().Name);
+						nameof(CreateImplementation), curLevelInfo.GetType().Name);
 					return null;
 				}
 			}

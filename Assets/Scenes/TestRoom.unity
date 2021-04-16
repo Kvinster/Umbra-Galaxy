@@ -709,7 +709,6 @@ GameObject:
   m_Component:
   - component: {fileID: 194620073}
   - component: {fileID: 194620072}
-  - component: {fileID: 194620075}
   - component: {fileID: 194620076}
   - component: {fileID: 194620074}
   m_Layer: 0
@@ -735,11 +734,11 @@ MonoBehaviour:
   PlayerCameraFollower: {fileID: 283534257}
   MinimapCamera: {fileID: 459281098}
   PlayerStartPos: {fileID: 1673112872}
-  Generator: {fileID: 194620075}
   CoreWindowsManager: {fileID: 46128630}
   SceneTransitionController: {fileID: 2232436511625254768}
   LevelObjectsRoot: {fileID: 1206698621}
   TempObjectsRoot: {fileID: 706838148}
+  BordersRoot: {fileID: 1414590054}
 --- !u!4 &194620073
 Transform:
   m_ObjectHideFlags: 0
@@ -767,19 +766,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MusicPlayer: {fileID: 194620076}
---- !u!114 &194620075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 194620071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 126924c6c60646f18229d0351ed0a60e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BordersRoot: {fileID: 1414590054}
 --- !u!114 &194620076
 MonoBehaviour:
   m_ObjectHideFlags: 0
