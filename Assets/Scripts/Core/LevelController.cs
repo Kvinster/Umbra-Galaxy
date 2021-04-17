@@ -41,9 +41,11 @@ namespace STP.Core {
 			}
 		}
 
-		public LevelInfo GetCurLevelConfig() {
+		public BaseLevelInfo GetCurLevelConfig() {
 			Assert.IsTrue(CurLevelIndex >= 0);
-			return _levelsConfig.GetLevelConfig(CurLevelIndex);
+			var levelInfo = _levelsConfig.GetLevelConfig(CurLevelIndex);
+			Assert.IsNotNull(levelInfo);
+			return levelInfo;
 		}
 
 		static LevelsConfig LoadConfig() {

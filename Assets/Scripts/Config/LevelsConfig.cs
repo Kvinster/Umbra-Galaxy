@@ -7,32 +7,19 @@ using System.IO;
 using STP.Common;
 
 namespace STP.Config {
-	[Serializable]
-	public class LevelInfo {
-		public const int GeneratorCellSize       = 100;
-		public const int IdleEnemyGroupChunkSize = 1500;
-		
-		public int               GeneratorsCount    = 1;
-		public int               GeneratorsSideSize = 7;
-		public int               EnemyGroupsCount   = 0;
-		public List<PowerUpType> PowerUps;
-	}
-
-
 	[CreateAssetMenu(fileName = "AllLevels", menuName = "ScriptableObjects/LevelsConfig", order = 1)]
-	public class LevelsConfig : ScriptableObject {
-		public List<LevelInfo> Levels;
+	public sealed class LevelsConfig : ScriptableObject {
+		public List<BaseLevelInfo> Levels;
 
-		public LevelInfo GetLevelConfig(int levelIndex) {
+		public BaseLevelInfo GetLevelConfig(int levelIndex) {
 			if ( (levelIndex < 0) || (levelIndex >= Levels.Count) ) {
 				Debug.LogErrorFormat("Invalid level index '{0}'", levelIndex);
 				return null;
 			}
 			return Levels[levelIndex];
 		}
-		
-		
-		#if UNITY_EDITOR
+
+#if UNITY_EDITOR
 		[ContextMenu("Populate from csv")]
 		public void PopulateFromConfig() {
 			var config = Resources.Load<TextAsset>("Balance");
@@ -52,23 +39,23 @@ namespace STP.Config {
 						}
 						else {
 							Debug.LogError($"Can't parse powerup name {powerUpName}");
-						} 
-					}	
-					// Creating level info
-					var levelInfo = new LevelInfo {
-						GeneratorsCount    = int.Parse(elements[0]),
-						GeneratorsSideSize = int.Parse(elements[1]),
-						EnemyGroupsCount   = int.Parse(elements[2]),
-						PowerUps           = powerUps
-					};
+						}
+					}
+					var levelInfo = CreateInstance<RegularLevelInfo>();
+					levelInfo.GeneratorsCount    = int.Parse(elements[0]);
+					levelInfo.GeneratorsSideSize = int.Parse(elements[1]);
+					levelInfo.EnemyGroupsCount   = int.Parse(elements[2]);
+					levelInfo.PowerUps           = powerUps;
+					UnityEditor.AssetDatabase.CreateAsset(levelInfo, "Assets/Resources/NewLevel.asset");
 					Levels.Add(levelInfo);
-				} 
-				
+				}
 			}
-			
+			UnityEditor.AssetDatabase.SaveAssets();
+			UnityEditor.AssetDatabase.Refresh();
+			UnityEditor.EditorUtility.SetDirty(this);
+
 		}
-		
-		#endif
+#endif
 	}
-	
+
 }

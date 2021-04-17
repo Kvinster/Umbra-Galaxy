@@ -2,6 +2,7 @@
 
 using System;
 
+using STP.Config;
 using STP.Core;
 
 namespace STP.Manager {
@@ -45,8 +46,13 @@ namespace STP.Manager {
 			_profileController     = profileController;
 
 			var curLevelInfo = _levelController.GetCurLevelConfig();
+			if ( !(curLevelInfo is RegularLevelInfo regularLevelInfo) ) {
+				Debug.LogErrorFormat("{0}: unsupported level info type '{1}'", nameof(LevelGoalManager),
+					curLevelInfo.GetType().Name);
+				return;
+			}
 
-			LevelGoal = curLevelInfo.GeneratorsCount;
+			LevelGoal = regularLevelInfo.GeneratorsCount;
 
 			CurLevelGoalProgress = 0;
 		}
