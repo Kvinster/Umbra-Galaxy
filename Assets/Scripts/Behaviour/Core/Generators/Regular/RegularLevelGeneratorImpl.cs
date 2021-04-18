@@ -58,8 +58,8 @@ namespace STP.Behaviour.Core.Generators.Regular {
 					obj.transform.position = pos;
 					var chunkComp = obj.GetComponent<LevelChunk>();
 					if ( chunkComp is IdleEnemyChunk idleChunk ) {
-						var controllableEnemies = idleChunk.GetComponentsInChildren<BaseControllableEnemy>();
-						idleChunk.Director.Init(_player, new List<BaseControllableEnemy>(controllableEnemies));
+						var controllableEnemies = idleChunk.GetComponentsInChildren<BaseEnemy>();
+						idleChunk.Director.Init(_player, new List<BaseEnemy>(controllableEnemies));
 					}
 					powerUpSpawnPoints.AddRange(chunkComp.FreePowerUpSpawnPoints);
 				}
