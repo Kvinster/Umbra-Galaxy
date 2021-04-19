@@ -67,6 +67,14 @@ namespace STP.Behaviour.Core.Enemy {
             }
         }
 
+        public override void OnBecomeVisibleForPlayer(Transform playerTransform) {
+            SetTarget(playerTransform);
+        }
+
+        public override void OnBecomeInvisibleForPlayer() {
+            SetTarget(null);
+        }
+
         public override void SetTarget(Transform target) {
             _target = target;
             if ( _target ) {

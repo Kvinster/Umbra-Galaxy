@@ -16,6 +16,10 @@ namespace STP.Behaviour.Core.Enemy {
 		public event Action<BaseEnemy> OnDestroyed;
 		
 		protected bool IsAlive;
+
+		public abstract void OnBecomeVisibleForPlayer(Transform playerTransform);
+
+		public abstract void OnBecomeInvisibleForPlayer();
 		
 		public abstract void SetTarget(Transform target);
 		

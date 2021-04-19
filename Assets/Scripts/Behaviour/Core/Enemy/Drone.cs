@@ -17,7 +17,7 @@ namespace STP.Behaviour.Core.Enemy {
 		public TriggerNotifier DetectRangeNotifier;
 
 		Transform _target;
-
+		
 		float CurHp { get; set; }
 
 		void Update() {
@@ -30,9 +30,6 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 		void FixedUpdate() {
-			if ( !_target ) {
-				return;
-			}
 			Rigidbody.MovePosition(transform.position + transform.up * (MovementSpeed * Time.fixedDeltaTime));
 		}
 
@@ -66,6 +63,14 @@ namespace STP.Behaviour.Core.Enemy {
 			DetectRangeNotifier.OnTriggerExit  -= OnDetectRangeExit;
 
 			Destroy(gameObject);
+		}
+
+		public override void OnBecomeVisibleForPlayer(Transform playerTransform) {
+			SetTarget(playerTransform);
+		}
+
+		public override void OnBecomeInvisibleForPlayer() {
+			// Do nothing
 		}
 
 		public override void SetTarget(Transform target) {

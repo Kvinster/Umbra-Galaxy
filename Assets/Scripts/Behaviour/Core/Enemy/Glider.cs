@@ -117,6 +117,14 @@ namespace STP.Behaviour.Core.Enemy {
 			Destroy(gameObject);
 		}
 
+		public override void OnBecomeVisibleForPlayer(Transform playerTransform) {
+			SetTarget(playerTransform);
+		}
+
+		public override void OnBecomeInvisibleForPlayer() {
+			
+		}
+
 		public override void SetTarget(Transform target) {
 			_target = target;
 		}

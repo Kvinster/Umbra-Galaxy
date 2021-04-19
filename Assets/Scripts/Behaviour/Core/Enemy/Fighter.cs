@@ -47,9 +47,6 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 		void FixedUpdate() {
-			if ( !_target ) {
-				return;
-			}
 			Rigidbody.MovePosition(transform.position + transform.up * (MovementSpeed * Time.fixedDeltaTime));
 		}
 
@@ -85,6 +82,15 @@ namespace STP.Behaviour.Core.Enemy {
 			Destroy(gameObject);
 		}
 
+
+		public override void OnBecomeVisibleForPlayer(Transform playerTransform) {
+			SetTarget(playerTransform);
+		}
+
+		public override void OnBecomeInvisibleForPlayer() {
+			// Do nothing
+		}
+		
 		public override void SetTarget(Transform target) {
 			_target = target;
 		}
