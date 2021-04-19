@@ -15,8 +15,6 @@ namespace STP.Behaviour.Core.Enemy {
 		public Rigidbody2D Rigidbody;
 		[NotNull]
 		public Collider2D  Collider;
-		[NotNull]
-		public TriggerNotifier DetectRangeNotifier;
 
 		[Header("Gun")]
 		[NotNull]
@@ -63,8 +61,6 @@ namespace STP.Behaviour.Core.Enemy {
 			_spawnHelper = starter.SpawnHelper;
 			CurHp        = StartHp;
 			_fireTimer.Start(FirePeriod);
-			DetectRangeNotifier.OnTriggerEnter += OnDetectRangeEnter;
-			DetectRangeNotifier.OnTriggerExit  += OnDetectRangeExit;
 		}
 
 		public void TakeDamage(float damage) {
@@ -76,8 +72,6 @@ namespace STP.Behaviour.Core.Enemy {
 
 		protected override void Die(bool fromPlayer = true) {
 			base.Die(fromPlayer);
-			DetectRangeNotifier.OnTriggerEnter -= OnDetectRangeEnter;
-			DetectRangeNotifier.OnTriggerExit  -= OnDetectRangeExit;
 
 			Destroy(gameObject);
 		}
@@ -93,18 +87,6 @@ namespace STP.Behaviour.Core.Enemy {
 		
 		public override void SetTarget(Transform target) {
 			_target = target;
-		}
-
-		void OnDetectRangeEnter(GameObject other) {
-			if ( other.GetComponent<Player>() ) {
-				_target = other.transform;
-			}
-		}
-
-		void OnDetectRangeExit(GameObject other) {
-			if ( _target && (other.transform == _target) ) {
-				_target = null;
-			}
 		}
 
 		void Fire() {

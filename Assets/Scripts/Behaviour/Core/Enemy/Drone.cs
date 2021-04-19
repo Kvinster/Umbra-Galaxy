@@ -13,8 +13,6 @@ namespace STP.Behaviour.Core.Enemy {
 		public float RotationSpeed;
 		[NotNull]
 		public Rigidbody2D Rigidbody;
-		[NotNull]
-		public TriggerNotifier DetectRangeNotifier;
 
 		Transform _target;
 		
@@ -52,15 +50,10 @@ namespace STP.Behaviour.Core.Enemy {
 			base.InitInternal(starter);
 
 			CurHp = StartHp;
-
-			DetectRangeNotifier.OnTriggerEnter += OnDetectRangeEnter;
-			DetectRangeNotifier.OnTriggerExit  += OnDetectRangeExit;
 		}
 
 		protected override void Die(bool fromPlayer = true) {
 			base.Die(fromPlayer);
-			DetectRangeNotifier.OnTriggerEnter -= OnDetectRangeEnter;
-			DetectRangeNotifier.OnTriggerExit  -= OnDetectRangeExit;
 
 			Destroy(gameObject);
 		}
@@ -75,18 +68,6 @@ namespace STP.Behaviour.Core.Enemy {
 
 		public override void SetTarget(Transform target) {
 			_target = target;
-		}
-
-		void OnDetectRangeEnter(GameObject other) {
-			if ( other.GetComponent<Player>() ) {
-				_target = other.transform;
-			}
-		}
-
-		void OnDetectRangeExit(GameObject other) {
-			if ( _target && (other.transform == _target) ) {
-				_target = null;
-			}
 		}
 	}
 }

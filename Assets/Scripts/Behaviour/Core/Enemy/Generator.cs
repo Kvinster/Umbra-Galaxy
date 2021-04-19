@@ -22,8 +22,6 @@ namespace STP.Behaviour.Core.Enemy {
         [NotNull]
         public VfxRunner   ExplosionEffect;
         [Header("Turret")]
-        [NotNull]
-        public TriggerNotifier FireTrigger;
         public float           ReloadDuration;
         [Header("Bullet")]
         [NotNull]
@@ -69,10 +67,12 @@ namespace STP.Behaviour.Core.Enemy {
 
         public override void OnBecomeVisibleForPlayer(Transform playerTransform) {
             SetTarget(playerTransform);
+            _fireTimer.Start(ReloadDuration);
         }
 
         public override void OnBecomeInvisibleForPlayer() {
             SetTarget(null);
+            _fireTimer.Stop();
         }
 
         public override void SetTarget(Transform target) {
@@ -87,8 +87,6 @@ namespace STP.Behaviour.Core.Enemy {
         protected override void InitInternal(CoreStarter starter) {
             base.InitInternal(starter);
             GeneratorsWatcher.TryAddGenerator(this);
-            FireTrigger.OnTriggerEnter += OnFireRangeEnter;
-            FireTrigger.OnTriggerExit  += OnFireRangeExit;
             if ( !IsMainGenerator ) {
                 Connector.OnOutOfLinks += DieFromGenerator;
             }
@@ -134,22 +132,6 @@ namespace STP.Behaviour.Core.Enemy {
                 ExplosionEffect.ScheduleVfx(0.5f, true);
             } else {
                 ExplosionEffect.RunVfx(true);
-            }
-        }
-
-
-        void OnFireRangeEnter(GameObject other) {
-            var playerComp = other.GetComponent<Player>();
-            if ( playerComp ) {
-                _target = other.transform;
-                _fireTimer.Start(ReloadDuration);
-            }
-        }
-
-        void OnFireRangeExit(GameObject other) {
-            if ( _target == other.transform ) {
-                _target = null;
-                _fireTimer.Stop();
             }
         }
 
