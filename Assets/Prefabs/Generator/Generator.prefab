@@ -437,6 +437,7 @@ GameObject:
   - component: {fileID: 8147379892999961652}
   - component: {fileID: 8147379892999961653}
   - component: {fileID: 2956093766420446193}
+  - component: {fileID: 671948912358997241}
   m_Layer: 10
   m_Name: Generator
   m_TagString: Untagged
@@ -509,6 +510,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 30
+--- !u!50 &671948912358997241
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8147379892999961673}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &8147379893773813049
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,6 +810,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8147379892999961652}
     m_Modifications:
+    - target: {fileID: 1157636767128212879, guid: 25d8c025cba384a4e881a021643f7ea8,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1734968038793418229, guid: 25d8c025cba384a4e881a021643f7ea8,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
