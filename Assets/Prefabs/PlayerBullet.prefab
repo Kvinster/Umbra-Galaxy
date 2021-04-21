@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3395102655451276190}
-  - component: {fileID: 8323022803498144131}
   - component: {fileID: 3852704616686126073}
   - component: {fileID: 6687193854482185786}
+  - component: {fileID: 2996238631844867110}
   m_Layer: 9
   m_Name: PlayerBullet
   m_TagString: Untagged
@@ -35,21 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8323022803498144131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4765969172863325119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d403a813d55d4bcfb3abab4611b29bd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Rigidbody: {fileID: 6687193854482185786}
-  Collider: {fileID: 3852704616686126073}
-  LifeTime: 2
 --- !u!60 &3852704616686126073
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -104,6 +89,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &2996238631844867110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4765969172863325119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3e208d59d8544f29eb712b210e7523a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Rigidbody: {fileID: 6687193854482185786}
+  Collider: {fileID: 3852704616686126073}
+  LifeTime: 2
 --- !u!1 &5632205815499334121
 GameObject:
   m_ObjectHideFlags: 0

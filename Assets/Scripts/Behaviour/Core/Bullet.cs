@@ -4,7 +4,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
-	public sealed class Bullet : GameComponent, IBullet {
+	public class Bullet : GameComponent, IBullet {
 		[NotNull]
 		public Rigidbody2D Rigidbody;
 		[NotNull]
@@ -15,9 +15,11 @@ namespace STP.Behaviour.Core {
 		float _lifeTimer;
 		float _damage;
 
+		public virtual bool NeedToDestroy => (_lifeTimer >= LifeTime);
+
 		void Update() {
 			_lifeTimer += Time.deltaTime;
-			if ( _lifeTimer >= LifeTime ) {
+			if ( NeedToDestroy ) {
 				Destroy(gameObject);
 			}
 		}
@@ -28,7 +30,7 @@ namespace STP.Behaviour.Core {
 			Destroy(gameObject);
 		}
 
-		//TODO: Remove this init method. Use only Init method with reduced args.
+		// TODO: Remove this init method. Use only Init method with reduced args.
 		public void Init(float damage, float speed, float rotation, params Collider2D[] ownerColliders) {
 			_damage = damage;
 
