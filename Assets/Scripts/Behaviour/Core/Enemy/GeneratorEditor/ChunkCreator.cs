@@ -88,7 +88,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 						genGo.transform.position = worldPos * cellSize;
 						var genComp    = genGo.GetComponent<Generator>();
 						var bulletPair = RandomUtils.GetRandomElement(_config.BulletPrefabs);
-						genComp.BulletPrefab    = (cell == PlaceType.MainGenerator) ?  bulletPair.MainGenBullet : bulletPair.SubGenBullet;
+						genComp.ShootingParams.BulletPrefab    = (cell == PlaceType.MainGenerator) ?  bulletPair.MainGenBullet : bulletPair.SubGenBullet;
 						genComp.IsMainGenerator = (cell == PlaceType.MainGenerator);
 						var connector = genGo.GetComponentInChildren<Connector>();
 						connectorsMap.SetCell(x, y, connector);

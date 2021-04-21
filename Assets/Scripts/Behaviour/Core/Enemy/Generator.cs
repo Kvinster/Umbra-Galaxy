@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
+using STP.Core.ShootingsSystems;
 using STP.Manager;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
@@ -8,32 +9,23 @@ using STP.Utils.GameComponentAttributes;
 namespace STP.Behaviour.Core.Enemy {
     [SelectionBase]
     public sealed class Generator : BaseEnemy, IDestructible {
+        public ShootingSystemParams ShootingParams;
         [Space]
         public Connector Connector;
-
-        public bool  IsMainGenerator;
+        public bool IsMainGenerator;
         public float StartHp = 100;
         [NotNull]
         public Transform ViewTransform;
         [NotNull]
-        public Collider2D  Collider;
-        [NotNull]
         public ProgressBar HealthBar;
         [NotNull]
-        public VfxRunner   ExplosionEffect;
-        [Header("Turret")]
-        public float           ReloadDuration;
-        [Header("Bullet")]
-        [NotNull]
-        public Transform BulletOrigin;
-        [NotNull]
-        public GameObject BulletPrefab;
-        public float      BulletStartSpeed;
+        public VfxRunner ExplosionEffect;
         [Header("Sound")]
         [NotNull]
         public BaseSimpleSoundPlayer ShotSoundPlayer;
 
-        CoreSpawnHelper  _spawnHelper;
+        ShootingSystem _shootingSystem;
+        
         LevelGoalManager _levelGoalManager;
 
         readonly Timer _fireTimer = new Timer();
@@ -56,32 +48,26 @@ namespace STP.Behaviour.Core.Enemy {
         }
 
         void Update() {
+            _shootingSystem?.DeltaTick();
             if ( !_target ) {
                 return;
             }
             ViewTransform.rotation = Quaternion.Euler(0, 0, GetViewAngleToTarget());
-            if ( _fireTimer.DeltaTick() ) {
-                Fire();
+            if ( _shootingSystem.TryShoot() ) {
+                ShotSoundPlayer.Play();
             }
         }
 
         public override void OnBecomeVisibleForPlayer(Transform playerTransform) {
             SetTarget(playerTransform);
-            _fireTimer.Start(ReloadDuration);
         }
 
         public override void OnBecomeInvisibleForPlayer() {
             SetTarget(null);
-            _fireTimer.Stop();
         }
 
         public override void SetTarget(Transform target) {
             _target = target;
-            if ( _target ) {
-                _fireTimer.Start(ReloadDuration);
-            } else {
-              _fireTimer.Stop();  
-            }
         }
 
         protected override void InitInternal(CoreStarter starter) {
@@ -91,7 +77,7 @@ namespace STP.Behaviour.Core.Enemy {
                 Connector.OnOutOfLinks += DieFromGenerator;
             }
 
-            _spawnHelper      = starter.SpawnHelper;
+            _shootingSystem = new ShootingSystem(starter.SpawnHelper, ShootingParams);
             _levelGoalManager = starter.LevelGoalManager;
 
             CurHp = StartHp;
@@ -133,22 +119,6 @@ namespace STP.Behaviour.Core.Enemy {
             } else {
                 ExplosionEffect.RunVfx(true);
             }
-        }
-
-        void Fire() {
-            if ( !_target ) {
-                Debug.LogError("Can't fire. Target not found.");
-                return;
-            }
-            var go = Instantiate(BulletPrefab, BulletOrigin.position, Quaternion.Euler(0, 0, GetViewAngleToTarget()), _spawnHelper.TempObjRoot);
-            InitCreatedObject(go);
-            ShotSoundPlayer.Play();
-        }
-
-        void InitCreatedObject(GameObject go) {
-            var bulletComp = go.GetComponent<IBullet>();
-            bulletComp?.Init(10f, BulletStartSpeed, GetViewAngleToTarget(), Collider);
-            _spawnHelper.TryInitSpawnedObject(go);
         }
 
         float GetViewAngleToTarget() {

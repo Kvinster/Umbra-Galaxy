@@ -479,18 +479,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Generator
   DeathSoundPlayer: {fileID: 7993925769150215763}
+  ShootingParams:
+    BulletPrefab: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
+      type: 3}
+    BulletOrigin: {fileID: 5032697858587329388}
+    RotationSource: {fileID: 7425354721623827813}
+    BulletSpeed: 625
+    ReloadTime: 0.5
+    BulletDamage: 10
+    IgnoreColliders:
+    - {fileID: 2956093766420446193}
   Connector: {fileID: 7006289408050465386}
   IsMainGenerator: 0
   StartHp: 25
   ViewTransform: {fileID: 7425354721623827813}
-  Collider: {fileID: 2956093766420446193}
   HealthBar: {fileID: 8147379892703251958}
   ExplosionEffect: {fileID: 9104554851719870160}
-  ReloadDuration: 0.2
-  BulletOrigin: {fileID: 5032697858587329388}
-  BulletPrefab: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
-    type: 3}
-  BulletStartSpeed: 625
   ShotSoundPlayer: {fileID: 5603130762187255581}
 --- !u!58 &2956093766420446193
 CircleCollider2D:
