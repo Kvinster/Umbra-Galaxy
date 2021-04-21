@@ -4,9 +4,9 @@ using System;
 
 using STP.Utils.GameComponentAttributes;
 
-namespace STP.Common {
+namespace STP.Core.ShootingsSystems {
 	[Serializable]
-	public sealed class ShootingSystemParams {
+	public class ShootingSystemParams {
 		[NotNull] 
 		public GameObject   BulletPrefab;
 		[NotNull]

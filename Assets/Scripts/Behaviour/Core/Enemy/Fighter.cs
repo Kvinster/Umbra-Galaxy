@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
+using STP.Core.ShootingsSystems;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
 	public sealed class Fighter : BaseEnemy, IDestructible {
+		public ShootingSystemParams ShootingParams;
 		[Space]
 		public float StartHp;
 		public float MovementSpeed;
@@ -13,32 +15,24 @@ namespace STP.Behaviour.Core.Enemy {
 		public float RotationSpeed;
 		[NotNull]
 		public Rigidbody2D Rigidbody;
-		[NotNull]
-		public Collider2D  Collider;
-
-		[Header("Gun")]
-		[NotNull]
-		public GameObject Bullet;
-		public float      FirePeriod;
-		public float      BulletStartSpeed;
 
 		[Header("Sound")]
 		[NotNull]
 		public BaseSimpleSoundPlayer ShotSoundPlayer;
 
-		readonly Timer _fireTimer = new Timer();
-
 		Transform       _target;
-		CoreSpawnHelper _spawnHelper;
+
+		ShootingSystem  _shootingSystem;
 
 		float CurHp { get; set; }
 
 		void Update() {
+			_shootingSystem.DeltaTick();
 			if ( !_target ) {
 				return;
 			}
-			if ( _fireTimer.DeltaTick() ) {
-				Fire();
+			if ( _shootingSystem.TryShoot() ) {
+				ShotSoundPlayer.Play();
 			}
 			var dirRaw = _target.position - transform.position;
 			Rigidbody.rotation += MathUtils.GetSmoothRotationAngleOffset(transform.up, dirRaw, RotationSpeed);
@@ -58,9 +52,8 @@ namespace STP.Behaviour.Core.Enemy {
 
 		protected override void InitInternal(CoreStarter starter) {
 			base.InitInternal(starter);
-			_spawnHelper = starter.SpawnHelper;
+			_shootingSystem = new ShootingSystem(starter.SpawnHelper, ShootingParams);
 			CurHp        = StartHp;
-			_fireTimer.Start(FirePeriod);
 		}
 
 		public void TakeDamage(float damage) {
@@ -72,7 +65,6 @@ namespace STP.Behaviour.Core.Enemy {
 
 		protected override void Die(bool fromPlayer = true) {
 			base.Die(fromPlayer);
-
 			Destroy(gameObject);
 		}
 
@@ -87,19 +79,6 @@ namespace STP.Behaviour.Core.Enemy {
 		
 		public override void SetTarget(Transform target) {
 			_target = target;
-		}
-
-		void Fire() {
-			var go = Instantiate(Bullet, transform.position, Quaternion.identity, _spawnHelper.TempObjRoot);
-			var bullet = go.GetComponent<IBullet>();
-			if ( bullet == null ) {
-				Debug.LogError("Can't init bullet in fighter. Component Bullet not found");
-				Destroy(go);
-				return;
-			}
-			bullet.Init(10f, BulletStartSpeed, transform.rotation.eulerAngles.z, Collider);
-			_spawnHelper.TryInitSpawnedObject(go);
-			ShotSoundPlayer.Play();
 		}
 	}
 }

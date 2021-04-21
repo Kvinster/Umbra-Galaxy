@@ -1,72 +1,39 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
+using STP.Common;
+using STP.Core.ShootingsSystems.Glider;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
 	public sealed class Glider : BaseEnemy, IDestructible {
+		public GliderShootingSystemParams ShootingParams;
 		[Space]
 		public float           StartHp = 20;
-		public float           MinAttackDistance;
-		public float           MaxAttackDistance;
 		public float           MovementSpeed;
 		public float           RotationSpeed;
 		[NotNull]
-		public Collider2D      Collider;
 		public Rigidbody2D     Rigidbody;
-		public float           ShootInterval;
-		public GameObject      BulletPrefab;
-		public float           BulletStartSpeed;
 		[Header("Sound")]
 		[NotNull]
 		public BaseSimpleSoundPlayer ShotSoundPlayer;
 
 		Transform _target;
 
-		CoreSpawnHelper _spawnHelper;
+		GliderShootingSystem _shootingSystem;
 
 		bool _rotateClockwise;
 
 		float _reloadTimer;
 
-		bool CanShoot {
-			get {
-				if ( !_target ) {
-					return false;
-				}
-				if ( _reloadTimer > 0f ) {
-					return false;
-				}
-				var distance = Vector2.Distance(_target.position, Rigidbody.position);
-				return (distance <= MaxAttackDistance) && (distance >= MinAttackDistance);
-			}
-		}
-
 		float CurHp { get; set; }
 
 		void Update() {
-			_reloadTimer -= Time.deltaTime;
-			if ( TryShoot() ) {
-				_reloadTimer = ShootInterval;
+			_shootingSystem.DeltaTick();
+			if ( _shootingSystem.TryShoot() ) {
+				ShotSoundPlayer.Play();
 			}
-		}
-
-		bool TryShoot() {
-			if ( !CanShoot ) {
-				return false;
-			}
-			var bulletGo = Instantiate(BulletPrefab, transform.position, Quaternion.identity, _spawnHelper.TempObjRoot);
-			var bullet   = bulletGo.GetComponent<IBullet>();
-			if ( bullet != null ) {
-				bullet.Init(10f, BulletStartSpeed, Rigidbody.rotation, Collider);
-			} else {
-				Debug.LogError("No Bullet component on BulletPrefab");
-				return false;
-			}
-			_spawnHelper.TryInitSpawnedObject(bulletGo);
-			ShotSoundPlayer.Play();
-			return true;
 		}
 
 		void FixedUpdate() {
@@ -81,9 +48,9 @@ namespace STP.Behaviour.Core.Enemy {
 			var curAngle = Vector2.SignedAngle(Vector2.right, (Rigidbody.position - targetPos));
 			var nextAngle = (curAngle + RotationSpeed * Time.fixedDeltaTime * (_rotateClockwise ? -1 : 1)) *
 			                Mathf.Deg2Rad;
-			if ( distance > MaxAttackDistance ) {
+			if ( distance > ShootingParams.MaxAttackDistance) {
 				distance -= 0.5f * MovementSpeed * Time.fixedDeltaTime;
-			} else if ( distance < MinAttackDistance ) {
+			} else if ( distance < ShootingParams.MinAttackDistance ) {
 				distance += 0.5f * MovementSpeed * Time.fixedDeltaTime;
 			}
 			Rigidbody.MovePosition(targetPos + new Vector2(Mathf.Cos(nextAngle), Mathf.Sin(nextAngle)) * distance);
@@ -91,7 +58,7 @@ namespace STP.Behaviour.Core.Enemy {
 
 		protected override void InitInternal(CoreStarter starter) {
 			base.InitInternal(starter);
-			_spawnHelper = starter.SpawnHelper;
+			_shootingSystem = new GliderShootingSystem(starter.SpawnHelper, ShootingParams);
 
 			CurHp = StartHp;
 
@@ -115,10 +82,11 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 		public override void OnBecomeInvisibleForPlayer() {
-			
+			// Do nothing
 		}
 
 		public override void SetTarget(Transform target) {
+			_shootingSystem.SetTarget(target);
 			_target = target;
 		}
 

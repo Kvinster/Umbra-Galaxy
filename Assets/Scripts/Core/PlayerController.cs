@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using STP.Behaviour.Core;
 using STP.Common;
+using STP.Core.ShootingsSystems;
 using STP.Core.State;
 
 namespace STP.Core {

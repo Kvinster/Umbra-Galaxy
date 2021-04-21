@@ -6,6 +6,7 @@ using System;
 using STP.Behaviour.Starter;
 using STP.Common;
 using STP.Core;
+using STP.Core.ShootingsSystems;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 
