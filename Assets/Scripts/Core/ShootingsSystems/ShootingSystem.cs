@@ -34,19 +34,15 @@ namespace STP.Core.ShootingsSystems {
 			var angle = Params.RotationSource.rotation.eulerAngles.z;
 			var bulletGo = Object.Instantiate(Params.BulletPrefab, Params.BulletOrigin.position, Quaternion.AngleAxis(angle, Vector3.forward));
 			var bullet   = bulletGo.GetComponent<IBullet>();
-			if ( bullet != null ) {
-				bullet.Init(Params.BulletDamage, Params.BulletSpeed, Params.IgnoreColliders);
-			} else {
-				Debug.LogError("No bullet component on current bullet prefab");
-			}
+			// Init custom bullet component if necessary
+			bullet?.Init(Params.BulletDamage, Params.BulletSpeed, Params.IgnoreColliders);
+			// Init all other BaseCoreComponent components
 			_spawnHelper.TryInitSpawnedObject(bulletGo);
 		}
 	}
 	
 	public sealed class ShootingSystem : ShootingSystem<ShootingSystemParams> {
 		public ShootingSystem(CoreSpawnHelper spawnHelper, ShootingSystemParams shootingParams) : base(spawnHelper,
-			shootingParams) {
-			
-		}
+			shootingParams) { }
 	}
 }
