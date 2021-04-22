@@ -1,23 +1,21 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
+using STP.Config;
 using STP.Events;
 using STP.Utils;
 using STP.Utils.Events;
-using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy.Spawners {
     public abstract class BaseSpawner : BaseCoreComponent {
-        [NotNull]
-        public GameObject Prefab;
-
-        public float SpawnPeriod = 1f;
-        public float SpawnRange  = 1000f;
-
         protected Player          Player;
         protected CoreSpawnHelper SpawnHelper;
 
         readonly Timer _spawnTimer = new Timer();
+
+        float      _spawnPeriod;
+        float      _spawnRange;
+        GameObject _prefab;
 
         bool _isStopped;
 
@@ -46,11 +44,24 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
         }
 
         protected override void InitInternal(CoreStarter starter) {
+            var settings = InitSettings(starter);
+            if ( !settings.Enabled ) {
+                _isStopped = true;
+                EventManager.Unsubscribe<PlayerEnteredSafeArea>(OnPlayerEnteredSafeArea);
+                EventManager.Unsubscribe<PlayerLeftSafeArea>(OnPlayerLeftSafeArea);
+                return;
+            }
+            _spawnPeriod = settings.SpawnPeriod;
+            _spawnRange  = settings.SpawnRange;
+            _prefab      = settings.Prefab;
+
             SpawnHelper = starter.SpawnHelper;
-            _spawnTimer.Start(SpawnPeriod);
+            _spawnTimer.Start(_spawnPeriod);
             Player              =  starter.Player;
             Player.OnPlayerDied += OnPlayerDied;
         }
+
+        protected abstract BaseSpawnerSettings InitSettings(CoreStarter starter);
 
         protected virtual void InitItem(GameObject go) { }
 
@@ -72,8 +83,8 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
             }
             var randPos = Random.insideUnitCircle.normalized;
             randPos = (randPos == Vector2.zero) ? Vector2.right : randPos;
-            var pos = (Vector3) randPos * SpawnRange + Player.transform.position;
-            var go  = Instantiate(Prefab, pos, Quaternion.identity, SpawnHelper.TempObjRoot);
+            var pos = (Vector3) randPos * _spawnRange + Player.transform.position;
+            var go  = Instantiate(_prefab, pos, Quaternion.identity, SpawnHelper.TempObjRoot);
             InitItem(go);
             // Init mini icon
             SpawnHelper.TryInitSpawnedObject(go);

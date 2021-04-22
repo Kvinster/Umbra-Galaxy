@@ -1,8 +1,16 @@
 ﻿using UnityEngine;
 
+using STP.Behaviour.Starter;
+using STP.Config;
+
 namespace STP.Behaviour.Core.Enemy.Spawners {
-	public class AsteroidSpawner : BaseSpawner {
-		public float AsteroidSpeed;
+	public sealed class AsteroidSpawner : BaseSpawner {
+		AsteroidSpawnerSettings _spawnerSettings;
+
+		protected override BaseSpawnerSettings InitSettings(CoreStarter starter) {
+			_spawnerSettings = starter.LevelController.GetCurLevelConfig().AsteroidSpawnerSettings;
+			return _spawnerSettings;
+		}
 
 		protected override void InitItem(GameObject go) {
 			var asteroid = go.GetComponent<Asteroid>();
@@ -11,7 +19,7 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
 				return;
 			}
 			var dirToPlayer = Player.transform.position - go.transform.position;
-			asteroid.Init(dirToPlayer.normalized, AsteroidSpeed);
+			asteroid.Init(dirToPlayer.normalized, _spawnerSettings.AsteroidSpeed);
 		}
 	}
 }

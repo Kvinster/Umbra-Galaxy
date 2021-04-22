@@ -22,5 +22,6 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		[Header("Specific chunks")]
 		public GameObject       SafeAreaPrefab;
 		public List<GameObject> IdleChunks;
+		public List<GameObject> BossChunks;
 	}
 }

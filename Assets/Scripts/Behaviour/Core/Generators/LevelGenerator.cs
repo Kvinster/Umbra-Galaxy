@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
 
+using STP.Behaviour.Core.Generators.Boss;
 using STP.Behaviour.Core.Generators.Regular;
 using STP.Behaviour.Starter;
 using STP.Config;
@@ -31,6 +32,10 @@ namespace STP.Behaviour.Core.Generators {
 				case RegularLevelInfo regularLevelInfo: {
 					return new RegularLevelGeneratorImpl(regularLevelInfo, _coreStarter.LevelObjectsRoot,
 						_coreStarter.BordersRoot, _coreStarter.Player, _coreStarter.PrefabsController);
+				}
+				case BossLevelInfo bossLevelInfo: {
+					return new BoosLevelGeneratorImpl(bossLevelInfo, _coreStarter.LevelObjectsRoot,
+						_coreStarter.BordersRoot, _coreStarter.Player);
 				}
 				default: {
 					Debug.LogErrorFormat("{0}.{1}: unsupported level info type '{2}'", nameof(LevelGenerator),

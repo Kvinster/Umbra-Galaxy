@@ -4867,10 +4867,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6813f0f01ca41be8eb3cd2ce5832475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 5909774503264953508, guid: d9285fea4909b3a478bacecef9d606b6, type: 3}
-  SpawnPeriod: 3
-  SpawnRange: 1000
-  AsteroidSpeed: 300
 --- !u!1 &1152123489
 GameObject:
   m_ObjectHideFlags: 0
@@ -5556,9 +5552,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be70604052fc451f99fa9d922ff95de3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 347348299669463199, guid: 1908074338af77047b08f2adb77fde73, type: 3}
-  SpawnPeriod: 2
-  SpawnRange: 1000
 --- !u!4 &1245491197
 Transform:
   m_ObjectHideFlags: 0

@@ -46,13 +46,21 @@ namespace STP.Manager {
 			_profileController     = profileController;
 
 			var curLevelInfo = _levelController.GetCurLevelConfig();
-			if ( !(curLevelInfo is RegularLevelInfo regularLevelInfo) ) {
-				Debug.LogErrorFormat("{0}: unsupported level info type '{1}'", nameof(LevelGoalManager),
-					curLevelInfo.GetType().Name);
-				return;
+			switch ( curLevelInfo ) {
+				case RegularLevelInfo regularLevelInfo: {
+					LevelGoal = regularLevelInfo.GeneratorsCount;
+					break;
+				}
+				case BossLevelInfo bossLevelInfo: {
+					LevelGoal = 1; // TODO: boss count?
+					break;
+				}
+				default: {
+					Debug.LogErrorFormat("{0}: unsupported level info type '{1}'", nameof(LevelGoalManager),
+						curLevelInfo.GetType().Name);
+					return;
+				}
 			}
-
-			LevelGoal = regularLevelInfo.GeneratorsCount;
 
 			CurLevelGoalProgress = 0;
 		}

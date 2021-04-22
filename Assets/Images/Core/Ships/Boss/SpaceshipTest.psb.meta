@@ -1,0 +1,466 @@
+fileFormatVersion: 2
+guid: 35fba00506d60f642a9676c4f4badaa4
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: b2a9591990af98743ba3ff7cf1000886, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 1
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    isReadable: 0
+    streamingMipmaps: 1
+    streamingMipmapsPriority: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 2
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+    applyGammaDecoding: 0
+  spriteImportData:
+  - name: SpaceshipTest_1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 553
+      height: 243
+    spriteID: 
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 0, y: 0}
+  mosaicSpriteImportData:
+  - name: CentralTurret
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 308
+      y: 4
+      width: 154
+      height: 218
+    spriteID: c73693a84c34f3c43be84b3a3aa2e3c8
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 113, y: -21}
+  - name: LeftGate
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 384
+      width: 122
+      height: 121
+    spriteID: c85726a15d194704fb7919b01cf0bdfb
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 332}
+  - name: RightPulser
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 238
+      width: 138
+      height: 138
+    spriteID: 1c8bea53b2ea9574fad8eba77a2e5247
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -411, y: 195}
+  - name: RightBase
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 150
+      y: 238
+      width: 124
+      height: 124
+    spriteID: d3f0bc6f0ffb4b848a69be0d2da16541
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -272, y: 189}
+  - name: LeftBase
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 282
+      y: 238
+      width: 124
+      height: 124
+    spriteID: 7a9eb9e7a8090ae49bac66cb4a8262cd
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 282, y: 189}
+  - name: CenterBase
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 296
+      height: 226
+    spriteID: 21d62f164a049564290e314ba5feaf11
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -120, y: 4}
+  rigSpriteImportData:
+  - name: CentralTurret
+    originalName: 
+    pivot: {x: 0.5, y: 0.385}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 308
+      y: 4
+      width: 154
+      height: 218
+    spriteID: 1931f0c91eceb78449bb5b9599f68b1a
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 113, y: -21}
+  - name: LeftGate
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 384
+      width: 122
+      height: 121
+    spriteID: eee09ab6e724aa142a78ded6c31b9197
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 332}
+  - name: RightPulser
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 238
+      width: 138
+      height: 138
+    spriteID: a5ec3047d066e6e4cbb32951799d316b
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -411, y: 195}
+  - name: RightBase
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 150
+      y: 238
+      width: 124
+      height: 124
+    spriteID: ba99ab6b4c60c8540b23b873c086d5db
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -272, y: 189}
+  - name: LeftBase
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 282
+      y: 238
+      width: 124
+      height: 124
+    spriteID: dc32dd86e7bb0cd44b69e0fa6f5b6fb7
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 282, y: 189}
+  - name: CenterBase
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 296
+      height: 226
+    spriteID: 5de4e8dddfcc56e4d8d23de79b044087
+    internalID: 0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: -120, y: 4}
+  platformSettings: []
+  mosaicLayers: 1
+  documentPivot: {x: 0, y: 0}
+  documentAlignment: 7
+  importHiddenLayers: 0
+  importedTextureWidth: 512
+  importedTextureHeight: 512
+  documentSize: {x: 553, y: 243}
+  paperDollMode: 0
+  keepDupilcateSpriteName: 0
+  spriteCategoryList:
+    categories: []
+  textureActualWidth: 512
+  textureActualHeight: 512
+  spritePackingTag: 
+  resliceFromLayer: 0
+  characterMode: 1
+  mosaicPSDLayers:
+  - name: CentralTurret
+    spriteName: CentralTurret
+    isGroup: 0
+    parentIndex: -1
+    spriteID: c73693a84c34f3c43be84b3a3aa2e3c8
+    layerID: 6
+    mosaicPosition: {x: 308, y: 4}
+  - name: LeftGate
+    spriteName: LeftGate
+    isGroup: 0
+    parentIndex: -1
+    spriteID: c85726a15d194704fb7919b01cf0bdfb
+    layerID: 11
+    mosaicPosition: {x: 4, y: 384}
+  - name: RightPulser
+    spriteName: RightPulser
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 1c8bea53b2ea9574fad8eba77a2e5247
+    layerID: 20
+    mosaicPosition: {x: 4, y: 238}
+  - name: RightBase
+    spriteName: RightBase
+    isGroup: 0
+    parentIndex: -1
+    spriteID: d3f0bc6f0ffb4b848a69be0d2da16541
+    layerID: 17
+    mosaicPosition: {x: 150, y: 238}
+  - name: LeftBase
+    spriteName: LeftBase
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 7a9eb9e7a8090ae49bac66cb4a8262cd
+    layerID: 12
+    mosaicPosition: {x: 282, y: 238}
+  - name: CenterBase
+    spriteName: CenterBase
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 21d62f164a049564290e314ba5feaf11
+    layerID: 13
+    mosaicPosition: {x: 4, y: 4}
+  rigPSDLayers:
+  - name: CentralTurret
+    spriteName: CentralTurret
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 1931f0c91eceb78449bb5b9599f68b1a
+    layerID: 6
+    mosaicPosition: {x: 308, y: 4}
+  - name: LeftGate
+    spriteName: LeftGate
+    isGroup: 0
+    parentIndex: -1
+    spriteID: eee09ab6e724aa142a78ded6c31b9197
+    layerID: 11
+    mosaicPosition: {x: 4, y: 384}
+  - name: RightPulser
+    spriteName: RightPulser
+    isGroup: 0
+    parentIndex: -1
+    spriteID: a5ec3047d066e6e4cbb32951799d316b
+    layerID: 20
+    mosaicPosition: {x: 4, y: 238}
+  - name: RightBase
+    spriteName: RightBase
+    isGroup: 0
+    parentIndex: -1
+    spriteID: ba99ab6b4c60c8540b23b873c086d5db
+    layerID: 17
+    mosaicPosition: {x: 150, y: 238}
+  - name: LeftBase
+    spriteName: LeftBase
+    isGroup: 0
+    parentIndex: -1
+    spriteID: dc32dd86e7bb0cd44b69e0fa6f5b6fb7
+    layerID: 12
+    mosaicPosition: {x: 282, y: 238}
+  - name: CenterBase
+    spriteName: CenterBase
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 5de4e8dddfcc56e4d8d23de79b044087
+    layerID: 13
+    mosaicPosition: {x: 4, y: 4}
+  characterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+  generateGOHierarchy: 0
+  textureAssetName: SpaceshipTest Texture
+  prefabAssetName: SpaceshipTest Prefab
+  spriteLibAssetName: SpaceshipTest Sprite Lib
+  secondarySpriteTextures: []
