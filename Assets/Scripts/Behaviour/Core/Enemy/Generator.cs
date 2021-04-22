@@ -28,8 +28,6 @@ namespace STP.Behaviour.Core.Enemy {
         
         LevelGoalManager _levelGoalManager;
 
-        readonly Timer _fireTimer = new Timer();
-
         Transform _target;
 
         float _curHp;
@@ -48,7 +46,10 @@ namespace STP.Behaviour.Core.Enemy {
         }
 
         void Update() {
-            _shootingSystem?.DeltaTick();
+            if ( !IsInit ) {
+                return;
+            }
+            _shootingSystem.DeltaTick();
             if ( !_target ) {
                 return;
             }

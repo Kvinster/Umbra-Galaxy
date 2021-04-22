@@ -30,6 +30,9 @@ namespace STP.Behaviour.Core.Enemy {
 		float CurHp { get; set; }
 
 		void Update() {
+			if ( !IsInit ) {
+				return;
+			}
 			_shootingSystem.DeltaTick();
 			if ( _shootingSystem.TryShoot() ) {
 				ShotSoundPlayer.Play();
@@ -86,6 +89,9 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 		public override void SetTarget(Transform target) {
+			if ( !IsInit ) {
+				return;
+			}
 			_shootingSystem.SetTarget(target);
 			_target = target;
 		}

@@ -27,6 +27,9 @@ namespace STP.Behaviour.Core.Enemy {
 		float CurHp { get; set; }
 
 		void Update() {
+			if ( !IsInit ) {
+				return;
+			}
 			_shootingSystem.DeltaTick();
 			if ( !_target ) {
 				return;
