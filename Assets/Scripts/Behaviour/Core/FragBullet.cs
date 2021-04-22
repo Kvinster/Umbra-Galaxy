@@ -86,7 +86,6 @@ namespace STP.Behaviour.Core {
 				bullet.Rigidbody.velocity = Vector3.zero;
 				bullet.Rigidbody.rotation = -baseAngle + -30 + index * 15;
 				bullet.Init(_damage, bulletSpeed, Collider);
-				print(bulletSpeed);
 			}
 			Destroy(gameObject);
 		}
