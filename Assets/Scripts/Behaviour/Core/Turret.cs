@@ -32,7 +32,7 @@ namespace STP.Behaviour.Core {
 		void Shoot() {
 			var bulletGo = Instantiate(BulletPrefab, transform.position, Quaternion.identity, _spawnHelper.TempObjRoot);
 			var bulletComp = bulletGo.GetComponent<IBullet>();
-			bulletComp.Init(10f, BulletStartSpeed, transform.rotation.eulerAngles.z, Collider);
+			bulletComp.Init(10f, BulletStartSpeed, Collider);
 			_spawnHelper.TryInitSpawnedObject(bulletGo);
 		}
 	}

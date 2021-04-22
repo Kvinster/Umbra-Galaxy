@@ -174,7 +174,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 100
+  m_Radius: 200
 --- !u!114 &3592847936194751282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,7 +280,7 @@ MonoBehaviour:
   angUnitInput: 1
   angRadiansStart: 0
   angRadiansEnd: 2.3561945
-  radius: 5
+  radius: 25
   radiusSpace: 0
   thickness: 0.5
   thicknessSpace: 0
@@ -354,7 +354,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 0.15707964
+  m_Mass: 3.9269912
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -378,7 +378,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 5
+  m_Radius: 25
 --- !u!1001 &131006320986193524
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -441,40 +441,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].y
-      value: -0.022232056
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].x
-      value: 4.002421
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].x
-      value: -4.0408382
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].y
-      value: 2.0432663
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].x
-      value: -4.04326
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].y
-      value: -2.038414
-      objectReference: {fileID: 0}
     - target: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Name
       value: EnemyBullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6325313882582903362, guid: dee46161708a3234aa1d930651519922,
         type: 3}
@@ -484,17 +459,17 @@ PrefabInstance:
     - target: {fileID: 6687193854482185786, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Mass
-      value: 0.16417506
-      objectReference: {fileID: 0}
-    - target: {fileID: 6687193854482185786, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_CollisionDetection
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7645503397324154705, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994056819264970492, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dee46161708a3234aa1d930651519922, type: 3}
@@ -583,6 +558,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyBullet (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6325313882582903362, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Mesh
@@ -591,12 +571,17 @@ PrefabInstance:
     - target: {fileID: 6687193854482185786, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Mass
-      value: 0.16
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7645503397324154705, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994056819264970492, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dee46161708a3234aa1d930651519922, type: 3}
@@ -680,40 +665,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].y
-      value: -0.022232056
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].x
-      value: 4.002421
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].x
-      value: -4.0408382
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].y
-      value: 2.0432663
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].x
-      value: -4.04326
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].y
-      value: -2.038414
-      objectReference: {fileID: 0}
     - target: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Name
       value: EnemyBullet (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6325313882582903362, guid: dee46161708a3234aa1d930651519922,
         type: 3}
@@ -723,17 +683,17 @@ PrefabInstance:
     - target: {fileID: 6687193854482185786, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Mass
-      value: 0.16417506
-      objectReference: {fileID: 0}
-    - target: {fileID: 6687193854482185786, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_CollisionDetection
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7645503397324154705, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994056819264970492, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dee46161708a3234aa1d930651519922, type: 3}
@@ -817,40 +777,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].y
-      value: -0.022232056
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].x
-      value: 4.002421
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].x
-      value: -4.0408382
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].y
-      value: 2.0432663
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].x
-      value: -4.04326
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].y
-      value: -2.038414
-      objectReference: {fileID: 0}
     - target: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Name
       value: EnemyBullet (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6325313882582903362, guid: dee46161708a3234aa1d930651519922,
         type: 3}
@@ -860,17 +795,17 @@ PrefabInstance:
     - target: {fileID: 6687193854482185786, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Mass
-      value: 0.16417506
-      objectReference: {fileID: 0}
-    - target: {fileID: 6687193854482185786, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_CollisionDetection
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7645503397324154705, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994056819264970492, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dee46161708a3234aa1d930651519922, type: 3}
@@ -954,40 +889,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].y
-      value: -0.022232056
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].x
-      value: 4.002421
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].x
-      value: -4.0408382
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].y
-      value: 2.0432663
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].x
-      value: -4.04326
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852704616686126073, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].y
-      value: -2.038414
-      objectReference: {fileID: 0}
     - target: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Name
       value: EnemyBullet (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6325313882582903362, guid: dee46161708a3234aa1d930651519922,
         type: 3}
@@ -997,17 +907,17 @@ PrefabInstance:
     - target: {fileID: 6687193854482185786, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Mass
-      value: 0.16417506
-      objectReference: {fileID: 0}
-    - target: {fileID: 6687193854482185786, guid: dee46161708a3234aa1d930651519922,
-        type: 3}
-      propertyPath: m_CollisionDetection
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7645503397324154705, guid: dee46161708a3234aa1d930651519922,
         type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7994056819264970492, guid: dee46161708a3234aa1d930651519922,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dee46161708a3234aa1d930651519922, type: 3}

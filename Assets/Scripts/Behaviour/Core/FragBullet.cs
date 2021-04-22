@@ -38,21 +38,12 @@ namespace STP.Behaviour.Core {
 		void OnCollisionEnter2D(Collision2D other) {
 			var destructible = other.gameObject.GetComponent<IDestructible>();
 			destructible?.TakeDamage(_damage);
-			Explode();
-		}
-
-		public void Init(float damage, float speed, float rotation, params Collider2D[] ownerColliders) {
-			_damage = damage;
-			foreach ( var bullet in InnerBullets ) {
-				bullet.gameObject.SetActive(false);
+			var bullet = other.gameObject.GetComponent<IBullet>();
+			if ( bullet == null ) {
+				Explode();
+			} else { 
+				Destroy(gameObject);
 			}
-			Rigidbody.rotation = rotation;
-			Rigidbody.AddRelativeForce(speed * Rigidbody.mass * Vector2.up, ForceMode2D.Impulse);
-			foreach ( var ownerCollider in ownerColliders ) {
-				IgnoreCollider(ownerCollider);
-			}
-
-			Notifier.OnTriggerEnter += OnRangeEnter;
 		}
 
 		public void Init(float damage, float speed, params Collider2D[] ownerColliders) {
@@ -61,6 +52,11 @@ namespace STP.Behaviour.Core {
 			foreach ( var ownerCollider in ownerColliders ) {
 				IgnoreCollider(ownerCollider);
 			}
+
+			foreach ( var bullet in InnerBullets ) {
+				bullet.gameObject.SetActive(false);
+			}
+			Notifier.OnTriggerEnter += OnRangeEnter;
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
@@ -79,17 +75,19 @@ namespace STP.Behaviour.Core {
 		}
 
 		void Explode() {
-			var bulletSpeed = Rigidbody.velocity.magnitude / 3;
+			var bulletSpeed = Rigidbody.velocity.magnitude;
 			var toPlayerDir = (_player.transform.position - transform.position).normalized;
 			var baseAngle   = Vector2.SignedAngle(toPlayerDir, Vector2.right) + 90;
 			for ( var index = 0; index < InnerBullets.Count; index++ ) {
 				var bullet = InnerBullets[index];
 				bullet.gameObject.SetActive(true);
 				bullet.transform.SetParent(transform.parent);
+				bullet.transform.rotation = Quaternion.AngleAxis(-baseAngle + -30 + index * 15, Vector3.forward);
 				bullet.Rigidbody.velocity = Vector3.zero;
-				bullet.Init(_damage, bulletSpeed, -baseAngle + -30 + index * 15, Collider);
+				bullet.Rigidbody.rotation = -baseAngle + -30 + index * 15;
+				bullet.Init(_damage, bulletSpeed, Collider);
+				print(bulletSpeed);
 			}
-
 			Destroy(gameObject);
 		}
 	}
