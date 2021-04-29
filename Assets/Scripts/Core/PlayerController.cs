@@ -9,17 +9,16 @@ using STP.Core.State;
 
 namespace STP.Core {
 	public sealed class PlayerController : BaseStateController {
-		public const float MaxPlayerHp = 100f;
+		public const float StartHp = 100f;
 
 		const int   StartPlayerLives = 3;
-		const float StartPlayerHp    = MaxPlayerHp;
 		
 		public ShipType Ship;
 
+		public HpSystem HpSystem;
+
 		int   _curLives;
-		float _curHp;
 		bool  _isInvincible;
-		bool  _isAlive;
 
 		readonly Dictionary<PowerUpType, bool> _powerUpStates = new Dictionary<PowerUpType, bool>();
 
@@ -35,18 +34,6 @@ namespace STP.Core {
 			}
 		}
 
-		public float CurHp {
-			get => _curHp;
-			private set {
-				if ( Mathf.Approximately(_curHp, value) ) {
-					return;
-				}
-
-				_curHp = value;
-				OnCurHpChanged?.Invoke(_curHp);
-			}
-		}
-
 		public bool IsInvincible {
 			get => _isInvincible;
 			set {
@@ -57,29 +44,16 @@ namespace STP.Core {
 				OnIsInvincibleChanged?.Invoke(_isInvincible);
 			}
 		}
-
-		public bool IsAlive {
-			get => _isAlive;
-			private set {
-				if ( _isAlive == value ) {
-					return;
-				}
-				_isAlive = value;
-				OnIsAliveChanged?.Invoke(IsAlive);
-			}
-		}
 		
 		ShootingSystem _shootingSystem;
 
 		public event Action<int>               OnCurLivesChanged;
-		public event Action<float>             OnCurHpChanged;
 		public event Action<bool>              OnIsInvincibleChanged;
-		public event Action<bool>              OnIsAliveChanged;
 		public event Action<PowerUpType, bool> OnPowerUpStateChanged;
 
 		public PlayerController(ProfileState profileState) {
 			CurLives     = StartPlayerLives;
-			CurHp        = StartPlayerHp;
+			HpSystem = new HpSystem(StartHp);
 			IsInvincible = false;
 
 			foreach ( var powerUpType in PowerUpTypeHelper.PowerUpTypes ) {
@@ -90,21 +64,13 @@ namespace STP.Core {
 
 		
 		public void TakeDamage(float damage) {
-			if ( !IsAlive ) {
-				Debug.LogError("Player taking damage when dead");
-				return;
-			}
 			if ( IsInvincible ) {
 				return;
 			}
-			CurHp = Mathf.Max(CurHp - damage, 0f);
-			if ( Mathf.Approximately(CurHp, 0f) ) {
-				IsAlive = false;
-			}
+			HpSystem.TakeDamage(damage);
 		}
 
 		public void OnRespawn() {
-			IsAlive      = true;
 			IsInvincible = false;
 			RestoreHp();
 			foreach ( var powerUpType in PowerUpTypeHelper.PowerUpTypes ) {
@@ -113,21 +79,14 @@ namespace STP.Core {
 		}
 
 		public void RestoreHp() {
-			CurHp = StartPlayerHp;
+			HpSystem.ResetHp();
 		}
 
 		public void AddHp(float hp) {
-			if ( !IsAlive ) {
+			if ( !HpSystem.IsAlive ) {
 				return;
 			}
-			if ( hp < 0 ) {
-				Debug.LogError($"Can't add negative hp {hp}");
-				return;
-			}
-			if ( Mathf.Approximately(CurHp, MaxPlayerHp) ) {
-				return;
-			}
-			CurHp = Mathf.Clamp(CurHp + hp, 0, MaxPlayerHp);
+			HpSystem.AddHp(hp);
 		}
 
 		public void RestoreLives() {

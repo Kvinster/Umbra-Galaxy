@@ -9,7 +9,6 @@ namespace STP.Behaviour.Core.Enemy {
 	public sealed class Fighter : BaseEnemy, IDestructible {
 		public ShootingSystemParams ShootingParams;
 		[Space]
-		public float StartHp;
 		public float MovementSpeed;
 		[Range(0f, 1f)]
 		public float RotationSpeed;
@@ -23,8 +22,6 @@ namespace STP.Behaviour.Core.Enemy {
 		Transform       _target;
 
 		ShootingSystem  _shootingSystem;
-
-		float CurHp { get; set; }
 
 		void Update() {
 			if ( !IsInit ) {
@@ -56,14 +53,11 @@ namespace STP.Behaviour.Core.Enemy {
 		protected override void InitInternal(CoreStarter starter) {
 			base.InitInternal(starter);
 			_shootingSystem = new ShootingSystem(starter.SpawnHelper, ShootingParams);
-			CurHp        = StartHp;
+			HpSystem.OnDied += DieFromPlayer;
 		}
 
 		public void TakeDamage(float damage) {
-			CurHp = Mathf.Max(CurHp - damage, 0);
-			if ( CurHp == 0 ) {
-				Die();
-			}
+			HpSystem.TakeDamage(damage);
 		}
 
 		protected override void Die(bool fromPlayer = true) {
@@ -82,6 +76,10 @@ namespace STP.Behaviour.Core.Enemy {
 		
 		public override void SetTarget(Transform target) {
 			_target = target;
+		}
+
+		void DieFromPlayer() {
+			Die();
 		}
 	}
 }

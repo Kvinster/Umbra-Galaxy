@@ -9,8 +9,6 @@ using STP.Utils.GameComponentAttributes;
 namespace STP.Behaviour.Core.Enemy {
 	public sealed class Glider : BaseEnemy, IDestructible {
 		public GliderShootingSystemParams ShootingParams;
-		[Space]
-		public float           StartHp = 20;
 		public float           MovementSpeed;
 		public float           RotationSpeed;
 		[NotNull]
@@ -26,8 +24,6 @@ namespace STP.Behaviour.Core.Enemy {
 		bool _rotateClockwise;
 
 		float _reloadTimer;
-
-		float CurHp { get; set; }
 
 		void Update() {
 			if ( !IsInit ) {
@@ -62,17 +58,12 @@ namespace STP.Behaviour.Core.Enemy {
 		protected override void InitInternal(CoreStarter starter) {
 			base.InitInternal(starter);
 			_shootingSystem = new GliderShootingSystem(starter.SpawnHelper, ShootingParams);
-
-			CurHp = StartHp;
-
+			HpSystem.OnDied += DieFromPlayer;
 			_rotateClockwise = (Random.Range(0, 2) == 1);
 		}
 
 		public void TakeDamage(float damage) {
-			CurHp = Mathf.Max(CurHp - damage, 0);
-			if ( CurHp == 0 ) {
-				Die();
-			}
+			HpSystem.TakeDamage(damage);
 		}
 
 		protected override void Die(bool fromPlayer = true) {
@@ -102,6 +93,10 @@ namespace STP.Behaviour.Core.Enemy {
 				player.TakeDamage(20);
 				Die();
 			}
+		}
+        
+		void DieFromPlayer() {
+			Die();
 		}
 	}
 }

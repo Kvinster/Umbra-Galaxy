@@ -57,9 +57,7 @@ namespace STP.Behaviour.Core {
 
 		PlayerController _playerController;
 
-		bool IsAlive => (_playerController?.IsAlive ?? false);
-
-		float CurHp => _playerController.CurHp;
+		HpSystem _playerHpSystem;
 
 		public event Action OnPlayerTakeDamage;
 		public event Action OnPlayerRespawn;
@@ -75,7 +73,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		void Update() {
-			if ( !IsInit || !IsAlive ) {
+			if ( !IsInit || !_playerHpSystem.IsAlive ) {
 				return;
 			}
 			if ( _pauseManager.IsPaused ) {
@@ -91,7 +89,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		void FixedUpdate() {
-			if ( !IsInit || !IsAlive ) {
+			if ( !IsInit || !_playerHpSystem.IsAlive ) {
 				return;
 			}
 			if ( _pauseManager.IsPaused ) {
@@ -120,11 +118,13 @@ namespace STP.Behaviour.Core {
 			_xpController      = starter.XpController;
 			_actualParams      = DefaultShootingParams.ShallowCopy();
 			_shootingSystem    = new ShootingSystem(_spawnHelper, _actualParams);
-			
-			_playerController                  =  starter.PlayerController;
-			_playerController.OnCurHpChanged   += OnCurHpChanged;
-			_playerController.OnIsAliveChanged += OnIsAliveChanged;
-			OnCurHpChanged(CurHp);
+			_playerController = starter.PlayerController;
+			_playerHpSystem    = _playerController.HpSystem;
+
+
+			_playerHpSystem.OnHpChanged += OnCurHpChanged;
+			_playerHpSystem.OnDied += OnDied;
+			OnCurHpChanged(_playerHpSystem.Hp);
 
 			HealthBar.Init(1f);
 
@@ -154,7 +154,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		public void TakeDamage(float damage) {
-			if ( !IsAlive || _playerController.IsInvincible ) {
+			if ( !_playerHpSystem.IsAlive || _playerController.IsInvincible ) {
 				return;
 			}
 			_playerController.TakeDamage(damage);
@@ -162,14 +162,11 @@ namespace STP.Behaviour.Core {
 			DamageSoundPlayer.Play();
 		}
 
-		void OnIsAliveChanged(bool isAlive) {
-			if ( !isAlive ) {
-				DeathSoundPlayer.Play();
-				DeathVisualEffectRoot.SetActive(true);
-				DeathVisualEffect.Play();
-
-				UniTask.Void(OnDeath);
-			}
+		void OnDied() {
+			DeathSoundPlayer.Play();
+			DeathVisualEffectRoot.SetActive(true);
+			DeathVisualEffect.Play();
+			UniTask.Void(OnDeath);
 		}
 
 		async UniTaskVoid OnDeath() {
@@ -178,12 +175,12 @@ namespace STP.Behaviour.Core {
 		}
 
 		void Deinit() {
-			_playerController.OnCurHpChanged   -= OnCurHpChanged;
-			_playerController.OnIsAliveChanged -= OnIsAliveChanged;
+			_playerHpSystem.OnHpChanged -= OnCurHpChanged;
+			_playerHpSystem.OnDied -= OnDied;
 		}
 
 		void OnCurHpChanged(float curHp) {
-			HealthBar.Progress = (curHp / PlayerController.MaxPlayerHp);
+			HealthBar.Progress = (curHp / PlayerController.StartHp);
 		}
 
 		void TryShoot() {

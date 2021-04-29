@@ -13,7 +13,6 @@ namespace STP.Behaviour.Core.Enemy {
         [Space]
         public Connector Connector;
         public bool IsMainGenerator;
-        public float StartHp = 100;
         [NotNull]
         public Transform ViewTransform;
         [NotNull]
@@ -29,16 +28,6 @@ namespace STP.Behaviour.Core.Enemy {
         LevelGoalManager _levelGoalManager;
 
         Transform _target;
-
-        float _curHp;
-
-        float CurHp {
-            get => _curHp;
-            set {
-                _curHp = value;
-                HealthBar.Progress = _curHp / StartHp;
-            }
-        }
 
         protected override void OnDisable() {
             base.OnDisable();
@@ -78,23 +67,28 @@ namespace STP.Behaviour.Core.Enemy {
                 Connector.OnOutOfLinks += DieFromGenerator;
             }
 
+            HpSystem.OnDied += DieFromPlayer;
+            HpSystem.OnHpChanged += OnHpChanged;
+            
             _shootingSystem = new ShootingSystem(starter.SpawnHelper, ShootingParams);
             _levelGoalManager = starter.LevelGoalManager;
-
-            CurHp = StartHp;
         }
 
         public void TakeDamage(float damage) {
-            CurHp = Mathf.Max(CurHp - damage, 0);
-            if ( CurHp == 0 ) {
-                Die();
-            }
+            HpSystem.TakeDamage(damage);
         }
 
         protected override void Die(bool fromPlayer = true) {
             Die(fromConnector: false, fromPlayer);
         }
+        
+        void DieFromPlayer() {
+            Die();
+        }
 
+        void OnHpChanged(float newHp) {
+            HealthBar.Progress = newHp / StartHp;
+        }
 
         void DieFromGenerator() {
             Die(fromConnector: true, fromPlayer: true);

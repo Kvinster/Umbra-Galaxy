@@ -6,8 +6,6 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
 	public sealed class Drone : BaseEnemy, IDestructible {
-		[Space]
-		public float StartHp;
 		public float MovementSpeed;
 		[Range(0f, 1f)]
 		public float RotationSpeed;
@@ -15,8 +13,6 @@ namespace STP.Behaviour.Core.Enemy {
 		public Rigidbody2D Rigidbody;
 
 		Transform _target;
-		
-		float CurHp { get; set; }
 
 		void Update() {
 			if ( !_target ) {
@@ -40,18 +36,14 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 		public void TakeDamage(float damage) {
-			CurHp = Mathf.Max(CurHp - damage, 0);
-			if ( CurHp == 0 ) {
-				Die();
-			}
+			HpSystem.TakeDamage(damage);
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
 			base.InitInternal(starter);
-
-			CurHp = StartHp;
+			HpSystem.OnDied += DieFromPlayer;
 		}
-
+		
 		protected override void Die(bool fromPlayer = true) {
 			base.Die(fromPlayer);
 
@@ -68,6 +60,10 @@ namespace STP.Behaviour.Core.Enemy {
 
 		public override void SetTarget(Transform target) {
 			_target = target;
+		}
+
+		void DieFromPlayer() {
+			Die();
 		}
 	}
 }
