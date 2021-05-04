@@ -43,10 +43,12 @@ namespace STP.Core {
 				if ( CurLevelIndex == LastLevelIndex ) {
 					_levelState.LastLevelIndex++;
 				}
-				++_levelState.CurLevelIndex;
-			} else {
-				_levelState.CurLevelIndex = -1;
 			}
+
+			_levelState.CurLevelIndex = -1;
+
+			CurLevelType   = LevelType.Unknown;
+			CurLevelConfig = null;
 		}
 
 		BaseLevelInfo GetCurLevelConfig() {
