@@ -4,6 +4,7 @@ using UnityEngine.VFX;
 using System;
 
 using STP.Behaviour.Starter;
+using STP.Behaviour.Utils.ProgressBar;
 using STP.Common;
 using STP.Core;
 using STP.Core.ShootingsSystems;
@@ -16,7 +17,7 @@ using NaughtyAttributes;
 namespace STP.Behaviour.Core {
 	public sealed class Player : BaseCoreComponent, IDestructible {
 		const float TmpIncFireRateMult = 4f;
-		[NotNull] 
+		[NotNull]
 		public ShootingSystemParams DefaultShootingParams;
 		[NotNull]
 		public Rigidbody2D Rigidbody;
@@ -25,7 +26,7 @@ namespace STP.Behaviour.Core {
 		public float       MovementSpeed;
 		[Space]
 		[NotNull]
-		public ProgressBar HealthBar;
+		public BaseProgressBar HealthBar;
 		[Space]
 		[NotNull]
 		public Collider2D ShieldCollider;
@@ -176,7 +177,7 @@ namespace STP.Behaviour.Core {
 
 		void Deinit() {
 			_playerHpSystem.OnHpChanged -= OnCurHpChanged;
-			_playerHpSystem.OnDied -= OnDied;
+			_playerHpSystem.OnDied      -= OnDied;
 		}
 
 		void OnCurHpChanged(float curHp) {
@@ -206,7 +207,7 @@ namespace STP.Behaviour.Core {
 				: 1f;
 			return Mathf.Max((DefaultShootingParams.ReloadTime - 0.005f * _xpController.Level), DefaultShootingParams.ReloadTime / 10f)  / firerateMultiplier;
 		}
-		
+
 		float CalcDamage() {
 			var damageMultiplier     = _playerManager.HasActivePowerUp(PowerUpType.X2Damage) ? 2f : 1f;
 			var levelDependentDamage = DefaultShootingParams.BulletDamage + 1.5f * _xpController.Level;

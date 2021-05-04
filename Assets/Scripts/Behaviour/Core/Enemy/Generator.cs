@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
+using STP.Behaviour.Utils.ProgressBar;
 using STP.Core.ShootingsSystems;
 using STP.Manager;
 using STP.Utils;
@@ -16,7 +17,7 @@ namespace STP.Behaviour.Core.Enemy {
         [NotNull]
         public Transform ViewTransform;
         [NotNull]
-        public ProgressBar HealthBar;
+        public BaseProgressBar HealthBar;
         [NotNull]
         public VfxRunner ExplosionEffect;
         [Header("Sound")]
@@ -24,7 +25,7 @@ namespace STP.Behaviour.Core.Enemy {
         public BaseSimpleSoundPlayer ShotSoundPlayer;
 
         ShootingSystem _shootingSystem;
-        
+
         LevelGoalManager _levelGoalManager;
 
         Transform _target;
@@ -69,7 +70,7 @@ namespace STP.Behaviour.Core.Enemy {
 
             HpSystem.OnDied += DieFromPlayer;
             HpSystem.OnHpChanged += OnHpChanged;
-            
+
             _shootingSystem = new ShootingSystem(starter.SpawnHelper, ShootingParams);
             _levelGoalManager = starter.LevelGoalManager;
         }
@@ -81,7 +82,7 @@ namespace STP.Behaviour.Core.Enemy {
         protected override void Die(bool fromPlayer = true) {
             Die(fromConnector: false, fromPlayer);
         }
-        
+
         void DieFromPlayer() {
             Die();
         }

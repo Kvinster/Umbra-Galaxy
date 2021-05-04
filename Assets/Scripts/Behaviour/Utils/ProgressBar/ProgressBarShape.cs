@@ -2,8 +2,8 @@
 
 using Shapes;
 
-namespace STP.Behaviour.Core {
-	public sealed class ProgressBar : MonoBehaviour {
+namespace STP.Behaviour.Utils.ProgressBar {
+	public sealed class ProgressBarShape : BaseProgressBar {
 		public Rectangle Foreground;
 		public Color     FullColor;
 		public Color     EmptyColor;
@@ -12,7 +12,7 @@ namespace STP.Behaviour.Core {
 
 		bool _isInit;
 
-		public float Progress {
+		public override float Progress {
 			set {
 				TryInit();
 				Foreground.Width = _maxWidth * Mathf.Clamp01(value);
@@ -20,7 +20,7 @@ namespace STP.Behaviour.Core {
 			}
 		}
 
-		public void Init(float startProgress) {
+		public override void Init(float startProgress) {
 			Progress = startProgress;
 		}
 
