@@ -4,8 +4,9 @@ using STP.Utils.Xml;
 
 namespace STP.Core.State {
 	public sealed class LevelState : BaseState {
-		public int CurLevelIndex  = -1; // don't save!
 		public int LastLevelIndex = -1;
+
+		public int CurLevelIndex { get; set; } = -1; // don't save!
 
 		public override string Name => "level";
 

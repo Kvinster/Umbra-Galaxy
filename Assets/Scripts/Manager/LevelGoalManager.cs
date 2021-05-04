@@ -45,7 +45,7 @@ namespace STP.Manager {
 			_leaderboardController = leaderboardController;
 			_profileController     = profileController;
 
-			var curLevelInfo = _levelController.GetCurLevelConfig();
+			var curLevelInfo = _levelController.CurLevelConfig;
 			switch ( curLevelInfo ) {
 				case RegularLevelInfo regularLevelInfo: {
 					LevelGoal = regularLevelInfo.GeneratorsCount;
@@ -89,9 +89,11 @@ namespace STP.Manager {
 				Debug.LogError("Can't win level — level is not active");
 				return;
 			}
+			var levelIndex = _levelController.CurLevelIndex;
 			_levelController.FinishLevel(true);
 			if ( _levelController.HasNextLevel ) {
 				_profileController.Save();
+				_profileController.StartLevel(levelIndex + 1);
 				_levelManager.TryReloadLevel();
 				return;
 			}

@@ -4,6 +4,7 @@ using System;
 
 using STP.Behaviour.Starter;
 using STP.Behaviour.Core.Enemy.Boss.AI;
+using STP.Core;
 using STP.Manager;
 using STP.Utils.BehaviourTree;
 using STP.Utils.GameComponentAttributes;
@@ -12,6 +13,8 @@ using Cysharp.Threading.Tasks;
 
 namespace STP.Behaviour.Core.Enemy.Boss {
 	public sealed class BossController : BaseCoreComponent, IDestructible {
+		public static BossController Instance { get; private set; }
+
 		[Header("Parameters")]
 		public float StartHp = 100;
 		[Header("Dependencies")]
@@ -26,7 +29,30 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 
 		BehaviourTree _tree;
 
-		float _curHp;
+		HpSystem _hpSystem;
+
+		public override bool HighPriorityInit => true;
+
+		public float CurHp => _hpSystem.Hp;
+		public float MaxHp => _hpSystem.MaxHp;
+
+		public event Action<float> OnCurHpChanged;
+
+		protected override void Awake() {
+			base.Awake();
+			if ( Instance ) {
+				Debug.LogErrorFormat(this, "{0}.{1}: more than one {2} instance is not supported",
+					nameof(BossController), nameof(Awake), nameof(BossController));
+				return;
+			}
+			Instance = this;
+		}
+
+		void OnDestroy() {
+			if ( Instance && (Instance == this) ) {
+				Instance = null;
+			}
+		}
 
 		protected override void InitInternal(CoreStarter starter) {
 			_levelGoalManager = starter.LevelGoalManager;
@@ -38,7 +64,10 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 				)
 			);
 
-			_curHp = StartHp;
+			_hpSystem = new HpSystem(StartHp);
+
+			_hpSystem.OnHpChanged += OnHpChanged;
+			_hpSystem.OnDied      += Die;
 
 			MoveAgent.SetTarget(starter.Player.transform);
 			GunRotationController.SetTarget(starter.Player.transform);
@@ -52,11 +81,11 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 		}
 
 		public void TakeDamage(float damage) {
-			_curHp = Mathf.Max(_curHp - damage, 0f);
+			_hpSystem.TakeDamage(damage);
+		}
 
-			if ( Mathf.Approximately(_curHp, 0f) ) {
-				Die();
-			}
+		void OnHpChanged(float hp) {
+			OnCurHpChanged?.Invoke(hp);
 		}
 
 		void Die() {

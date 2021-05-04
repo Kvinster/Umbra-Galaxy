@@ -8,7 +8,7 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
 		AsteroidSpawnerSettings _spawnerSettings;
 
 		protected override BaseSpawnerSettings InitSettings(CoreStarter starter) {
-			_spawnerSettings = starter.LevelController.GetCurLevelConfig().AsteroidSpawnerSettings;
+			_spawnerSettings = starter.LevelController.CurLevelConfig.AsteroidSpawnerSettings;
 			return _spawnerSettings;
 		}
 
