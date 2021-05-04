@@ -11,7 +11,11 @@ namespace STP.Core {
 
 		public bool HasNextLevel => (LastLevelIndex != _levelsConfig.Levels.Count);
 
-		public int CurLevelIndex  => _levelState.CurLevelIndex;
+		public LevelType CurLevelType { get; private set; } = LevelType.Unknown;
+
+		public BaseLevelInfo CurLevelConfig { get; private set; }
+
+		public int CurLevelIndex => _levelState.CurLevelIndex;
 
 		int LastLevelIndex => _levelState.LastLevelIndex;
 
@@ -26,6 +30,10 @@ namespace STP.Core {
 		public void StartLevel(int levelIndex) {
 			Assert.AreEqual(CurLevelIndex, -1);
 			_levelState.CurLevelIndex = levelIndex;
+
+			CurLevelConfig = GetCurLevelConfig();
+			Assert.IsTrue(CurLevelConfig);
+			CurLevelType = CurLevelConfig.LevelType;
 		}
 
 		public void FinishLevel(bool win) {
@@ -41,10 +49,10 @@ namespace STP.Core {
 			}
 		}
 
-		public BaseLevelInfo GetCurLevelConfig() {
+		BaseLevelInfo GetCurLevelConfig() {
 			Assert.IsTrue(CurLevelIndex >= 0);
 			var levelInfo = _levelsConfig.GetLevelConfig(CurLevelIndex);
-			Assert.IsNotNull(levelInfo);
+			Assert.IsTrue(levelInfo);
 			return levelInfo;
 		}
 

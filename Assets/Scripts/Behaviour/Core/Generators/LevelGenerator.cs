@@ -19,7 +19,7 @@ namespace STP.Behaviour.Core.Generators {
 		public LevelGenerator(CoreStarter coreStarter) {
 			_coreStarter = coreStarter;
 
-			_impl = CreateImplementation(coreStarter.LevelController.GetCurLevelConfig());
+			_impl = CreateImplementation(coreStarter.LevelController.CurLevelConfig);
 		}
 
 		public async UniTask GenerateLevel() {

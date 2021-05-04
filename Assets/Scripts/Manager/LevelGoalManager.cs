@@ -45,7 +45,7 @@ namespace STP.Manager {
 			_leaderboardController = leaderboardController;
 			_profileController     = profileController;
 
-			var curLevelInfo = _levelController.GetCurLevelConfig();
+			var curLevelInfo = _levelController.CurLevelConfig;
 			switch ( curLevelInfo ) {
 				case RegularLevelInfo regularLevelInfo: {
 					LevelGoal = regularLevelInfo.GeneratorsCount;

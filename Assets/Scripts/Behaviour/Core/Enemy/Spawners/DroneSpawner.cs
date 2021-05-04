@@ -4,7 +4,7 @@ using STP.Config;
 namespace STP.Behaviour.Core.Enemy.Spawners {
 	public sealed class DroneSpawner : BaseSpawner {
 		protected override BaseSpawnerSettings InitSettings(CoreStarter starter) {
-			return starter.LevelController.GetCurLevelConfig().DroneSpawnerSettings;
+			return starter.LevelController.CurLevelConfig.DroneSpawnerSettings;
 		}
 	}
 }
