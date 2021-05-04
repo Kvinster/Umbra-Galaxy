@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace STP.Manager {
 	public sealed class PauseManager {
-		readonly HashSet<object> _pauseHolders = new HashSet<object>();
+		readonly List<object> _pauseHolders = new List<object>();
 
 		public bool IsPaused => (_pauseHolders.Count > 0);
 

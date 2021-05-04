@@ -45,10 +45,6 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			return Object.Instantiate(RandomUtils.GetRandomElement(_config.IdleChunks));
 		}
 
-		public GameObject CreateSafeAreaChunk() {
-			return Object.Instantiate(_config.SafeAreaPrefab);
-		}
-
 		GameObject CreateGeneratorsVariant(GeneratorsMap map, int powerUpPointsCount) {
 			var cellSize = 100;
 			var baseGo = new GameObject($"generator_{map.Size}_powerups_{powerUpPointsCount}");

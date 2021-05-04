@@ -50,6 +50,7 @@ namespace STP.Core {
 		public event Action<int>               OnCurLivesChanged;
 		public event Action<bool>              OnIsInvincibleChanged;
 		public event Action<PowerUpType, bool> OnPowerUpStateChanged;
+		public event Action                    OnRespawned;
 
 		public PlayerController(ProfileState profileState) {
 			CurLives     = StartPlayerLives;
@@ -62,7 +63,6 @@ namespace STP.Core {
 			
 		}
 
-		
 		public void TakeDamage(float damage) {
 			if ( IsInvincible ) {
 				return;
@@ -70,12 +70,13 @@ namespace STP.Core {
 			HpSystem.TakeDamage(damage);
 		}
 
-		public void OnRespawn() {
+		public void Respawn() {
 			IsInvincible = false;
 			RestoreHp();
 			foreach ( var powerUpType in PowerUpTypeHelper.PowerUpTypes ) {
 				SetPowerUpState(powerUpType, false);
 			}
+			OnRespawned?.Invoke();
 		}
 
 		public void RestoreHp() {

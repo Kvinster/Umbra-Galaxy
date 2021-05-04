@@ -52,16 +52,16 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		void OnContinueClick() {
+			Hide();
 			PersistentAudioPlayer.Instance.SetPitch(1f);
 			_playerManager.Respawn();
-			Hide();
 		}
 
 		void OnRestartClick() {
+			Hide();
 			_playerManager.Restart();
 			PersistentAudioPlayer.Instance.SetPitch(1f);
 			_levelManager.TryReloadLevel();
-			Hide();
 		}
 	}
 }

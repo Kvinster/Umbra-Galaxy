@@ -99,9 +99,12 @@ namespace STP.Behaviour.Starter {
 			// Settings for smooth gameplay
 			Application.targetFrameRate = Screen.currentResolution.refreshRate;
 			QualitySettings.vSyncCount  = 0;
+			PlayerController.OnRespawned += CoreWindowsManager.ShowGetReadyWindow;
+			CoreWindowsManager.ShowGetReadyWindow();
 		}
 
 		void OnDestroy() {
+			PlayerController.OnRespawned -= CoreWindowsManager.ShowGetReadyWindow;
 			PauseManager?.Deinit();
 			if ( DebugGuiController.HasInstance ) {
 				DebugGuiController.Instance.SetDrawable(null);

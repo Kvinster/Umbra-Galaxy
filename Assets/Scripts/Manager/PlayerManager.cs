@@ -41,7 +41,7 @@ namespace STP.Manager {
 			_xpController     = xpController;
 			_tempObjectsRoot  = tempObjectsRoot;
 			_context.AddUpdateCallback(UpdateTimers);
-			_playerController.OnRespawn();
+			_playerController.Respawn();
 			EventManager.Subscribe<PlayerShipChanged>(OnPlayerChanged);
 			EventManager.Subscribe<EnemyDestroyed>(OnEnemyDestroyed);
 		}
@@ -95,7 +95,7 @@ namespace STP.Manager {
 		}
 
 		public void Respawn() {
-			_playerController.OnRespawn();
+			_playerController.Respawn();
 			for ( var i = _powerUpStates.Count - 1; i >= 0; i-- ) {
 				HandlePowerUpFinish(_powerUpStates[i]);
 			}
@@ -110,7 +110,7 @@ namespace STP.Manager {
 		}
 
 		public void Restart() {
-			_playerController.OnRespawn();
+			_playerController.Respawn();
 			_playerController.RestoreLives();
 			_player.OnRestart();
 		}

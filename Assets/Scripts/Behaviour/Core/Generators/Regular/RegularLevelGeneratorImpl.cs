@@ -79,9 +79,6 @@ namespace STP.Behaviour.Core.Generators.Regular {
 
 		GameObject GetChunk(BaseMapCell baseMapCell) {
 			switch ( baseMapCell.CellType ) {
-				case MapCellType.SafeZone: {
-					return _chunkCreator.CreateSafeAreaChunk();
-				}
 				case MapCellType.IdleEnemies: {
 					return _chunkCreator.CreateRandomIdleChunk();
 				}
@@ -132,7 +129,7 @@ namespace STP.Behaviour.Core.Generators.Regular {
 			// Reserve one rect for safe area
 			var safeRectCoords = new Vector2Int(_state.LevelSideBlocksCount / 2, _state.LevelSideBlocksCount / 2);
 			cells.Remove(safeRectCoords);
-			map[safeRectCoords.x, safeRectCoords.y] = new BaseMapCell{ CellType = MapCellType.SafeZone };
+			map[safeRectCoords.x, safeRectCoords.y] = new BaseMapCell{ CellType = MapCellType.Empty };
 			// Creating generators
 			var neededGenerators = _levelInfo.GeneratorsCount;
 			while ( (neededGenerators > 0) && (cells.Count > 0) ) {

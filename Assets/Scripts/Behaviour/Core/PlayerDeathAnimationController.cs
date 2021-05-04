@@ -5,6 +5,7 @@ using UnityEngine.Rendering.Universal;
 using System.Threading;
 
 using STP.Behaviour.Starter;
+using STP.Manager;
 
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -20,12 +21,15 @@ namespace STP.Behaviour.Core {
 
 		CancellationTokenSource _cancellationTokenSource;
 
+		PauseManager _pauseManager;
+		
 		protected override void OnDisable() {
 			base.OnDisable();
 			_cancellationTokenSource?.Cancel();
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
+			_pauseManager = starter.PauseManager;
 			var v = starter.MainCamera.GetComponentInChildren<Volume>();
 			v.profile.TryGet(out _colorAdjustments);
 		}
@@ -57,7 +61,9 @@ namespace STP.Behaviour.Core {
 		}
 
 		void SetProgress(float progress) {
-			Time.timeScale                     = 1f - progress;
+			if ( !_pauseManager.IsPaused ) {
+				Time.timeScale = 1f - progress;
+			}
 			_colorAdjustments.saturation.value = -100f * progress;
 		}
 	}

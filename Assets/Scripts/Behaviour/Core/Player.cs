@@ -141,6 +141,8 @@ namespace STP.Behaviour.Core {
 			Rigidbody.velocity = Vector2.zero;
 			Rigidbody.rotation = 0f;
 
+			transform.position = _playerStartPos.position;
+
 			DeathVisualEffectRoot.SetActive(false);
 			DeathVisualEffect.Stop();
 

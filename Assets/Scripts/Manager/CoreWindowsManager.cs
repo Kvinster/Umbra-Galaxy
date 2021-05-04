@@ -15,11 +15,12 @@ namespace STP.Manager {
 	public sealed class CoreWindowsManager : GameComponent {
 		[NotNull] public GameObject  UiRoot;
 		[Space]
-		[NotNull] public DeathWindow   DeathWindow;
-		[NotNull] public WinWindow     WinWindow;
-		[NotNull] public PauseWindow   PauseWindow;
-		[NotNull] public LevelUpWindow LevelUpWindow;
-		[NotNull] public Button        PauseButton;
+		[NotNull] public DeathWindow    DeathWindow;
+		[NotNull] public WinWindow      WinWindow;
+		[NotNull] public PauseWindow    PauseWindow;
+		[NotNull] public LevelUpWindow  LevelUpWindow;
+		[NotNull] public Button         PauseButton;
+		[NotNull] public GetReadyWindow GetReadyWindow;
 
 		PauseManager     _pauseManager;
 		PlayerController _playerController;
@@ -53,18 +54,22 @@ namespace STP.Manager {
 				DeathWindow,
 				WinWindow,
 				PauseWindow,
-				LevelUpWindow
+				LevelUpWindow,
+				GetReadyWindow
 			};
 
 			DeathWindow.CommonInit(levelManager, playerManager, _playerController);
 			WinWindow.CommonInit(levelManager, playerController, xpController);
 			PauseWindow.CommonInit(levelManager, levelGoalManager, xpController, playerController);
 			LevelUpWindow.CommonInit(prefabsController, xpController, starter);
-
 			PauseButton.onClick.AddListener(ShowPauseWindow);
 
 			levelGoalManager.OnLevelWon    += OnLevelWon;
 			levelGoalManager.OnPlayerDeath += OnPlayerDied;
+		}
+
+		public void ShowGetReadyWindow() {
+			ShowWindow(GetReadyWindow);
 		}
 
 		void ShowLevelUpWindow() {
