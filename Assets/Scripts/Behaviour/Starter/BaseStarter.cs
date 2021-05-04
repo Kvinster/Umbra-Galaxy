@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
+
+using System;
+using System.Collections.Generic;
 
 using STP.Utils;
 
@@ -10,7 +13,12 @@ namespace STP.Behaviour.Starter {
             var comps   = new List<BaseGameComponent<T>>(BaseGameComponent<T>.Instances);
             var starter = this as T;
             foreach ( var comp in comps ) {
-                comp.Init(starter);
+                try {
+                    comp.Init(starter);
+                } catch ( Exception e ) {
+                    Debug.LogErrorFormat("{0}.{1}: exception when initializing {2}\n{3}", nameof(BaseStarter),
+                        nameof(InitComponents), comp.GetType().Name, e.Message);
+                }
             }
         }
     }
