@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 using System.Collections.Generic;
-using System.IO;
 using System.Xml;
 
 using STP.Utils.Xml;
@@ -17,12 +16,14 @@ namespace STP.Core.State {
 
 		readonly List<BaseState> _states = new List<BaseState>();
 
+		public LevelState       LevelState       { get; }
 		public SettingsState    SettingsState    { get; }
 		public LeaderboardState LeaderboardState { get; }
 
 		GameState() {
 			LeaderboardState = AddState(new LeaderboardState());
 			SettingsState    = AddState(new SettingsState());
+			LevelState       = AddState(new LevelState());
 		}
 
 		public void Save() {
@@ -34,6 +35,7 @@ namespace STP.Core.State {
 				state.Save(childElement);
 				root.AppendChild(childElement);
 			}
+
 			document.SaveGameStateDocument(StateName);
 		}
 
@@ -57,6 +59,7 @@ namespace STP.Core.State {
 				Debug.LogError("GameState active instance already exists");
 				return ActiveInstance;
 			}
+
 			ActiveInstance = new GameState();
 			ActiveInstance.Save();
 			return ActiveInstance;
@@ -67,14 +70,17 @@ namespace STP.Core.State {
 				Debug.LogError("GameState active instance already exists");
 				return ActiveInstance;
 			}
+
 			if ( !XmlUtils.IsGameStateDocumentExists(StateName) ) {
 				return null;
 			}
+
 			var document = XmlUtils.LoadGameStateDocument(StateName);
 			if ( document == null ) {
 				Debug.LogErrorFormat("Can't load save for state name '{0}'", StateName);
 				return null;
 			}
+
 			ActiveInstance = new GameState();
 			ActiveInstance.Load(document);
 			return ActiveInstance;
@@ -85,6 +91,7 @@ namespace STP.Core.State {
 				Debug.LogError("No active release instance");
 				return;
 			}
+
 			ActiveInstance = null;
 		}
 	}

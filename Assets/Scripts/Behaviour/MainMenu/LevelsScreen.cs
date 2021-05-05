@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using STP.Behaviour.Starter;
 using STP.Config;
 using STP.Core;
+using STP.Core.State;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 
@@ -18,6 +18,8 @@ namespace STP.Behaviour.MainMenu {
 		[NotNull] public GameObject LevelButtonPrefab;
 		[NotNull] public Button     BackButton;
 		[NotNull] public ScrollRect LevelButtonsScrollRect;
+
+		LevelController _levelController;
 		
 		MainMenuManager _mainMenuManager;
 
@@ -26,20 +28,19 @@ namespace STP.Behaviour.MainMenu {
 
 		protected override void InitInternal(MainMenuStarter starter) {
 			_mainMenuManager = starter.MainMenuManager;
+			_levelController = starter.GameController.LevelController;
 
 			BackButton.onClick.AddListener(OnBackClick);
 		}
 
 		public void Show() {
-			Assert.IsTrue(ProfileController.IsActiveInstanceExists);
-
-			var ps          = ProfileController.ActiveInstance;
+			var gs          = GameState.ActiveInstance;
 			var levelConfig = Resources.Load<LevelsConfig>("AllLevels");
 			for ( var i = 0; i < levelConfig.Levels.Count; ++i ) {
 				var levelButton = GetFreeLevelButton();
 				var levelIndex  = i;
 				levelButton.Init(() => LoadLevel(levelIndex), levelIndex,
-					levelIndex <= ps.ProfileState.LevelState.LastLevelIndex);
+					levelIndex <= gs.LevelState.LastLevelIndex);
 				_activeLevelButtons.Add(levelButton);
 			}
 			
@@ -59,7 +60,7 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void LoadLevel(int levelIndex) {
-			ProfileController.ActiveInstance.StartLevel(levelIndex);
+			_levelController.StartLevel(levelIndex);
 			var clm = CoreLoadingManager.Create();
 			if ( clm != null ) {
 				UniTask.Void(clm.LoadCore);

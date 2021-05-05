@@ -19,8 +19,8 @@ namespace STP.Core {
 
 		int LastLevelIndex => _levelState.LastLevelIndex;
 
-		public LevelController(ProfileState profileState) {
-			_levelState   = profileState.LevelState;
+		public LevelController(LevelState levelState) {
+			_levelState   = levelState;
 			_levelsConfig = LoadConfig();
 
 			Assert.IsTrue(_levelsConfig);

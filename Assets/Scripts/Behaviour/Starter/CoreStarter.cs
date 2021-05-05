@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 using System.Collections;
-
 using STP.Behaviour.Core;
 using STP.Behaviour.Core.Generators;
 using STP.Behaviour.Utils;
@@ -16,34 +16,49 @@ using Cysharp.Threading.Tasks;
 
 namespace STP.Behaviour.Starter {
 	public class CoreStarter : BaseStarter<CoreStarter> {
-		[NotNull] public Camera                      MainCamera;
-		[NotNull] public RestrictedTransformFollower PlayerCameraFollower;
-		[NotNull] public Camera                      MinimapCamera;
-		[NotNull] public Transform                   PlayerStartPos;
-		[NotNull] public CoreWindowsManager          CoreWindowsManager;
-		[NotNull] public SceneTransitionController   SceneTransitionController;
+		[NotNull]
+		public Camera MainCamera;
 
-		[NotNull] public Transform LevelObjectsRoot;
-		[NotNull] public Transform TempObjectsRoot;
-		[NotNull] public Transform BordersRoot;
+		[NotNull]
+		public RestrictedTransformFollower PlayerCameraFollower;
+
+		[NotNull]
+		public Camera MinimapCamera;
+
+		[NotNull]
+		public Transform PlayerStartPos;
+
+		[NotNull]
+		public CoreWindowsManager CoreWindowsManager;
+
+		[NotNull]
+		public SceneTransitionController SceneTransitionController;
+
+		[NotNull]
+		public Transform LevelObjectsRoot;
+
+		[NotNull]
+		public Transform TempObjectsRoot;
+
+		[NotNull]
+		public Transform BordersRoot;
 
 		bool _isLevelInitStarted;
 
-		public Player            Player            { get; set; }
-		public CoreSpawnHelper   SpawnHelper       { get; private set; }
-		public PauseManager      PauseManager      { get; private set; }
-		public LevelManager      LevelManager      { get; private set; }
-		public PlayerManager     PlayerManager     { get; private set; }
-		public LevelGoalManager  LevelGoalManager  { get; private set; }
-		public MinimapManager    MinimapManager    { get; private set; }
-		public GameController    GameController    { get; private set; }
-		public ProfileController ProfileController { get; private set; }
-		public ShipCreator       ShipCreator       { get; private set; }
+		public Player           Player           { get; set; }
+		public CoreSpawnHelper  SpawnHelper      { get; private set; }
+		public PauseManager     PauseManager     { get; private set; }
+		public LevelManager     LevelManager     { get; private set; }
+		public PlayerManager    PlayerManager    { get; private set; }
+		public LevelGoalManager LevelGoalManager { get; private set; }
+		public MinimapManager   MinimapManager   { get; private set; }
+		public ShipCreator      ShipCreator      { get; private set; }
 
-		public PlayerController  PlayerController  => ProfileController.PlayerController;
-		public XpController      XpController      => ProfileController.XpController;
-		public PrefabsController PrefabsController => ProfileController.PrefabsController;
-		public LevelController   LevelController   => ProfileController.LevelController;
+		public GameController    GameController    => GameController.Instance;
+		public PlayerController  PlayerController  => GameController.PlayerController;
+		public XpController      XpController      => GameController.XpController;
+		public PrefabsController PrefabsController => GameController.PrefabsController;
+		public LevelController   LevelController   => GameController.LevelController;
 
 		void OnDisable() {
 			GameController.Deinit();
@@ -52,16 +67,22 @@ namespace STP.Behaviour.Starter {
 
 		IEnumerator Start() {
 			yield return null;
-			if ( !_isLevelInitStarted ) { // to properly initialize when started from editor
-				#pragma warning disable 4014
+			if (!_isLevelInitStarted) {
+				// to properly initialize when started from editor
+#pragma warning disable 4014
+				UniTaskScheduler.UnobservedTaskException += RaiseUnhandledException;
 				InitLevel();
-				#pragma warning restore 4014
+#pragma warning restore 4014
 			}
 		}
 
+		void RaiseUnhandledException(Exception e) {
+			Debug.LogException(e);
+		}
+		
 		public async UniTask InitLevel() {
 			_isLevelInitStarted = true;
-#if UNITY_EDITOR
+			#if UNITY_EDITOR
 			if ( !GameState.IsActiveInstanceExists ) {
 				Debug.Log("Trying to load GameState instance");
 				var gs = GameState.TryLoadActiveGameState();
@@ -69,36 +90,31 @@ namespace STP.Behaviour.Starter {
 					Debug.Log("Loading failed, creating new GameState instance");
 					GameState.CreateNewActiveGameState();
 				}
+				GameController.CreateGameController(GameState.ActiveInstance);
+				LevelController.StartLevel(0);
 			}
-			if ( !ProfileController.IsActiveInstanceExists ) {
-				Debug.Log("Creating new ProfileState instance");
-				var ps         = ProfileState.CreateNewProfileState("test", "test");
-				var controller = ProfileController.CreateNewActiveInstance(ps);
-				controller.StartLevel(0);
-			}
-#endif
-			GameController    = new GameController(GameState.ActiveInstance);
-			ProfileController = ProfileController.ActiveInstance;
-			ShipCreator       = new ShipCreator(LevelObjectsRoot, ProfileController.PrefabsController);
-			var pc = ProfileController.PlayerController;
-			var lc = ProfileController.LevelController;
-			var xc = ProfileController.XpController;
+			#endif
+			ShipCreator = new ShipCreator(LevelObjectsRoot, GameController.PrefabsController);
+			var pc = GameController.PlayerController;
+			var lc = GameController.LevelController;
+			var xc = GameController.XpController;
 			SpawnHelper   = new CoreSpawnHelper(this, TempObjectsRoot);
 			PauseManager  = new PauseManager();
 			Player        = ShipCreator.CreatePlayerShip(PlayerController.Ship);
 			LevelManager  = new LevelManager(Player.transform, SceneTransitionController, PauseManager, lc);
-			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot, ProfileController);
-			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, lc, xc,
-				GameController.LeaderboardController, ProfileController.ActiveInstance);
-			CoreWindowsManager.Init(this, PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc, PrefabsController);
+			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot);
+			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, lc, xc, 
+													GameController.LeaderboardController);
+			CoreWindowsManager.Init(this, PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc,
+									PrefabsController);
 			MinimapManager = new MinimapManager(MinimapCamera);
 			var lg = new LevelGenerator(this);
 			await lg.GenerateLevel();
 			PlayerCameraFollower.Init(MainCamera, Player.transform, lg.AreaRect);
 			InitComponents();
 			// Settings for smooth gameplay
-			Application.targetFrameRate = Screen.currentResolution.refreshRate;
-			QualitySettings.vSyncCount  = 0;
+			Application.targetFrameRate  =  Screen.currentResolution.refreshRate;
+			QualitySettings.vSyncCount   =  0;
 			PlayerController.OnRespawned += CoreWindowsManager.ShowGetReadyWindow;
 			CoreWindowsManager.ShowGetReadyWindow();
 		}
@@ -106,9 +122,10 @@ namespace STP.Behaviour.Starter {
 		void OnDestroy() {
 			PlayerController.OnRespawned -= CoreWindowsManager.ShowGetReadyWindow;
 			PauseManager?.Deinit();
-			if ( DebugGuiController.HasInstance ) {
+			if (DebugGuiController.HasInstance) {
 				DebugGuiController.Instance.SetDrawable(null);
 			}
+
 			LevelManager?.Deinit();
 			PlayerManager?.Deinit();
 		}

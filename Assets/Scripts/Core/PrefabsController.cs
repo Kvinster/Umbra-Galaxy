@@ -10,7 +10,7 @@ namespace STP.Core {
 	public sealed class PrefabsController : BaseStateController {
 		readonly PrefabConfig _config;
 
-		public PrefabsController(ProfileState profileState) {
+		public PrefabsController() {
 			_config = LoadConfig();
 			Assert.IsNotNull(_config);
 		}

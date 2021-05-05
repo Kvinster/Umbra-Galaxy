@@ -14,7 +14,6 @@ namespace STP.Manager {
 		readonly LevelController       _levelController;
 		readonly XpController          _xpController;
 		readonly LeaderboardController _leaderboardController;
-		readonly ProfileController     _profileController;
 
 		int _curLevelGoalProgress;
 
@@ -36,14 +35,12 @@ namespace STP.Manager {
 		public event Action      OnLevelWon;
 
 		public LevelGoalManager(PlayerManager playerManager, LevelManager levelManager, LevelController levelController,
-			XpController xpController, LeaderboardController leaderboardController,
-			ProfileController profileController) {
+			XpController xpController, LeaderboardController leaderboardController) {
 			_playerManager         = playerManager;
 			_levelManager          = levelManager;
 			_levelController       = levelController;
 			_xpController          = xpController;
 			_leaderboardController = leaderboardController;
-			_profileController     = profileController;
 
 			var curLevelInfo = _levelController.CurLevelConfig;
 			switch ( curLevelInfo ) {
@@ -92,12 +89,10 @@ namespace STP.Manager {
 			var levelIndex = _levelController.CurLevelIndex;
 			_levelController.FinishLevel(true);
 			if ( _levelController.HasNextLevel ) {
-				_profileController.Save();
-				_profileController.StartLevel(levelIndex + 1);
+				_levelController.StartLevel(levelIndex + 1);
 				_levelManager.TryReloadLevel();
 				return;
 			}
-			_leaderboardController.AddEntry(_profileController.ProfileName, _xpController.Xp.Value);
 			OnLevelWon?.Invoke();
 		}
 	}

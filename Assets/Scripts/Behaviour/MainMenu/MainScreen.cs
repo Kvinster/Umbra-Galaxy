@@ -11,12 +11,11 @@ using TMPro;
 
 namespace STP.Behaviour.MainMenu {
 	public sealed class MainScreen : BaseMainMenuComponent {
-		const string TitleFormat = "Welcome, {0}";
+		const string TitleStr = "Welcome!";
 
 		[NotNull] public TMP_Text TitleText;
 		[NotNull] public Button   PlayButton;
 		[NotNull] public Button   ShowLeaderboardWindowButton;
-		[NotNull] public Button   ChangeProfileButton;
 		[NotNull] public Button   SettingsButton;
 		[NotNull] public Button   ExitButton;
 
@@ -28,18 +27,13 @@ namespace STP.Behaviour.MainMenu {
 			PlayButton.onClick.AddListener(Play);
 			SettingsButton.onClick.AddListener(ShowSettingsWindow);
 			ShowLeaderboardWindowButton.onClick.AddListener(ShowLeaderboardWindow);
-			ChangeProfileButton.onClick.AddListener(ChangeProfile);
 			ExitButton.onClick.AddListener(Exit);
 		}
 
 		public void Show() {
-			if ( !ProfileController.IsActiveInstanceExists ) {
-				Debug.LogError("No active profile controller instance");
-				return;
-			}
 			gameObject.SetActive(true);
 
-			TitleText.text = string.Format(TitleFormat, ProfileController.ActiveInstance.ProfileName);
+			TitleText.text = TitleStr;
 		}
 
 		public void Hide() {
@@ -56,11 +50,6 @@ namespace STP.Behaviour.MainMenu {
 
 		void ShowLeaderboardWindow() {
 			_mainMenuManager.ShowLeaderboard();
-		}
-
-		void ChangeProfile() {
-			ProfileController.ReleaseActiveInstance();
-			_mainMenuManager.ShowProfiles();
 		}
 
 		void Exit() {

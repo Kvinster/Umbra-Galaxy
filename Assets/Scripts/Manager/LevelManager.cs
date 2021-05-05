@@ -64,7 +64,6 @@ namespace STP.Manager {
 			}
 			IsLevelActive = false;
 			_levelController.FinishLevel(false);
-			ProfileController.ReleaseActiveInstance();
 			SceneManager.LoadScene("MainMenu");
 		}
 

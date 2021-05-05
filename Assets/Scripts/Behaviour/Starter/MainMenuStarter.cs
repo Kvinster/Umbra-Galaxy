@@ -9,8 +9,6 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Starter {
 	public sealed class MainMenuStarter : BaseStarter<MainMenuStarter> {
-		[NotNull] public ProfilesScreen    ProfilesScreen;
-		[NotNull] public ProfileNameScreen ProfileNameScreen;
 		[NotNull] public MainScreen        MainScreen;
 		[NotNull] public LeaderboardWindow LeaderboardWindow;
 		[NotNull] public LevelsScreen      LevelsScreen;
@@ -18,14 +16,13 @@ namespace STP.Behaviour.Starter {
 
 		public MainMenuManager MainMenuManager { get; private set; }
 
-		public GameController GameController { get; private set; }
+		public GameController GameController => GameController.Instance;
 
 		void Start() {
 			TryCreateGameState();
-			GameController = new GameController(GameState.ActiveInstance);
+			GameController.CreateGameController(GameState.ActiveInstance);
 
-			MainMenuManager = new MainMenuManager(ProfilesScreen, ProfileNameScreen, MainScreen, LeaderboardWindow,
-				LevelsScreen, SettingsScreen);
+			MainMenuManager = new MainMenuManager(MainScreen, LeaderboardWindow, LevelsScreen, SettingsScreen);
 
 			InitComponents();
 			// Settings for smooth gameplay

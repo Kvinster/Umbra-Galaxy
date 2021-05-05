@@ -52,7 +52,7 @@ namespace STP.Core {
 		public event Action<PowerUpType, bool> OnPowerUpStateChanged;
 		public event Action                    OnRespawned;
 
-		public PlayerController(ProfileState profileState) {
+		public PlayerController() {
 			CurLives     = StartPlayerLives;
 			HpSystem = new HpSystem(StartHp);
 			IsInvincible = false;
