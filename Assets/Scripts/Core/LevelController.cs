@@ -43,9 +43,12 @@ namespace STP.Core {
 				if ( CurLevelIndex == LastLevelIndex ) {
 					_levelState.LastLevelIndex++;
 				}
+			} else {
+				_levelState.ResetState();
 			}
 
 			_levelState.CurLevelIndex = -1;
+		
 
 			CurLevelType   = LevelType.Unknown;
 			CurLevelConfig = null;

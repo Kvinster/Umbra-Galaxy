@@ -87,7 +87,7 @@ namespace STP.Behaviour.Starter {
 			PauseManager  = new PauseManager();
 			Player        = ShipCreator.CreatePlayerShip(PlayerController.Ship);
 			LevelManager  = new LevelManager(Player.transform, SceneTransitionController, PauseManager, lc);
-			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot);
+			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot, ProfileController);
 			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, lc, xc,
 				GameController.LeaderboardController, ProfileController.ActiveInstance);
 			CoreWindowsManager.Init(this, PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc, PrefabsController);

@@ -15,10 +15,7 @@ namespace STP.Behaviour.Core.UI {
 
 		[NotNull] public TMP_Text   LivesText;
 		[NotNull] public Button     QuitButton;
-		[NotNull] public GameObject HasLivesRoot;
 		[NotNull] public Button     ContinueButton;
-		[NotNull] public GameObject NoLivesRoot;
-		[NotNull] public Button     RestartButton;
 
 		LevelManager     _levelManager;
 		PlayerManager    _playerManager;
@@ -32,15 +29,13 @@ namespace STP.Behaviour.Core.UI {
 
 			QuitButton.onClick.AddListener(OnQuitClick);
 			ContinueButton.onClick.AddListener(OnContinueClick);
-			RestartButton.onClick.AddListener(OnRestartClick);
 		}
 
 		public override IPromise Show() {
 			var livesLeft = _playerController.CurLives;
 			LivesText.text = string.Format(LivesTextFormat, livesLeft);
 
-			HasLivesRoot.SetActive(livesLeft > 0);
-			NoLivesRoot.SetActive(livesLeft <= 0);
+			ContinueButton.gameObject.SetActive(livesLeft > 0);
 
 			return base.Show();
 		}
@@ -55,13 +50,6 @@ namespace STP.Behaviour.Core.UI {
 			Hide();
 			PersistentAudioPlayer.Instance.SetPitch(1f);
 			_playerManager.Respawn();
-		}
-
-		void OnRestartClick() {
-			Hide();
-			_playerManager.Restart();
-			PersistentAudioPlayer.Instance.SetPitch(1f);
-			_levelManager.TryReloadLevel();
 		}
 	}
 }

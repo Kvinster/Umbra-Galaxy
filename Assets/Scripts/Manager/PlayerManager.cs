@@ -23,6 +23,7 @@ namespace STP.Manager {
 
 		Player _player;
 		readonly PlayerController _playerController;
+		readonly ProfileController _profileController;
 		readonly XpController     _xpController;
 
 		readonly UnityContext _context;
@@ -34,12 +35,14 @@ namespace STP.Manager {
 		public event Action<PowerUpType> OnPowerUpStarted;
 		public event Action<PowerUpType> OnPowerUpFinished;
 
-		public PlayerManager(Player player, PlayerController playerController, XpController xpController, UnityContext context, Transform tempObjectsRoot) {
+		public PlayerManager(Player player, PlayerController playerController, XpController xpController, UnityContext context, 
+			Transform tempObjectsRoot, ProfileController profileController) {
 			_player           = player;
 			_playerController = playerController;
 			_context          = context;
 			_xpController     = xpController;
 			_tempObjectsRoot  = tempObjectsRoot;
+			_profileController = profileController;
 			_context.AddUpdateCallback(UpdateTimers);
 			_playerController.Respawn();
 			EventManager.Subscribe<PlayerShipChanged>(OnPlayerChanged);
