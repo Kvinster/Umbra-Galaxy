@@ -77,7 +77,7 @@ namespace STP.Manager {
 		}
 
 		public void OnPlayerDied() {
-
+			_playerManager.SubLife();
 			OnPlayerDeath?.Invoke();
 		}
 

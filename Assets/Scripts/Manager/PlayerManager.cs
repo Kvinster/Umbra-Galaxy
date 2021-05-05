@@ -87,11 +87,10 @@ namespace STP.Manager {
 			return _powerUpStates.Find(x => x.Type == type) != null;
 		}
 
-		public bool OnPlayerDied() {
+		public void SubLife() {
 			if ( !_playerController.TrySubLives(1) ) {
 				Debug.LogError("Can's sub life");
 			}
-			return (_playerController.CurLives > 0);
 		}
 
 		public void Respawn() {
