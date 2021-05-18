@@ -13,6 +13,7 @@ using STP.Utils.GameComponentAttributes;
 using STP.View.DebugGUI;
 
 using Cysharp.Threading.Tasks;
+using STP.Config;
 
 namespace STP.Behaviour.Starter {
 	public class CoreStarter : BaseStarter<CoreStarter> {
@@ -42,7 +43,7 @@ namespace STP.Behaviour.Starter {
 
 		[NotNull]
 		public Transform BordersRoot;
-
+		
 		bool _isLevelInitStarted;
 
 		public Player           Player           { get; set; }
@@ -91,7 +92,7 @@ namespace STP.Behaviour.Starter {
 					GameState.CreateNewActiveGameState();
 				}
 				GameController.CreateGameController(GameState.ActiveInstance);
-				LevelController.StartLevel(0);
+				LevelController.StartLevel(LevelController.StartLevelNode);
 			}
 			#endif
 			ShipCreator = new ShipCreator(LevelObjectsRoot, GameController.PrefabsController);

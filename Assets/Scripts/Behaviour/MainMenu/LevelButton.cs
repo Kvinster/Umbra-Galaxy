@@ -2,7 +2,7 @@
 using UnityEngine.Assertions;
 
 using System;
-
+using STP.Config;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
@@ -10,8 +10,9 @@ using TMPro;
 
 namespace STP.Behaviour.MainMenu {
 	public sealed class LevelButton : GameComponent {
-		[NotNull] public Button   Button;
-		[NotNull] public TMP_Text LevelText;
+		[NotNull] public Button        Button;
+		[NotNull] public TMP_Text      LevelText;
+		[NotNull(false)] public BaseLevelInfo LevelsConfig;
 
 		public void Init(Action loadLevel, int levelIndex, bool isActive) {
 			Assert.IsNotNull(loadLevel);

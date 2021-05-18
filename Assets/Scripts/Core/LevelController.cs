@@ -1,68 +1,95 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
 
+using System.Collections.Generic;
+
 using STP.Config;
-using STP.Core.State;
 
 namespace STP.Core {
 	public sealed class LevelController : BaseStateController {
-		readonly LevelState   _levelState;
-		readonly LevelsConfig _levelsConfig;
+		public class CompletedMainLevelInfo {
+			public   LevelNode       MainLevel;
+			
+			readonly List<LevelNode> _completedOptionalLevels = new List<LevelNode>();
 
-		public bool HasNextLevel => (LastLevelIndex != _levelsConfig.Levels.Count);
-
-		public LevelType CurLevelType { get; private set; } = LevelType.Unknown;
-
-		public BaseLevelInfo CurLevelConfig { get; private set; }
-
-		public int CurLevelIndex => _levelState.CurLevelIndex;
-
-		int LastLevelIndex => _levelState.LastLevelIndex;
-
-		public LevelController(LevelState levelState) {
-			_levelState   = levelState;
-			_levelsConfig = LoadConfig();
-
-			Assert.IsTrue(_levelsConfig);
-			Assert.AreEqual(CurLevelIndex, -1);
-		}
-
-		public void StartLevel(int levelIndex) {
-			Assert.AreEqual(CurLevelIndex, -1);
-			_levelState.CurLevelIndex = levelIndex;
-
-			CurLevelConfig = GetCurLevelConfig();
-			Assert.IsTrue(CurLevelConfig);
-			CurLevelType = CurLevelConfig.LevelType;
-		}
-
-		public void FinishLevel(bool win) {
-			Assert.IsTrue(CurLevelIndex >= 0);
-
-			if ( win ) {
-				if ( CurLevelIndex == LastLevelIndex ) {
-					_levelState.LastLevelIndex++;
-				}
-			} else {
-				_levelState.ResetState();
+			public bool IsNextMainLevel(LevelNode node) {
+				return MainLevel.NextLevels.Contains(node);
 			}
 
-			_levelState.CurLevelIndex = -1;
+			public bool IsOptionalLevel(LevelNode node) {
+				return MainLevel.OptionalLevels.Contains(node);
+			}
+			
+			public bool IsOptionalLevelCompleted(LevelNode node) {
+				return _completedOptionalLevels.Contains(node);
+			}
+
+			public void SetOptionalLevelAsCompleted(LevelNode node) {
+				_completedOptionalLevels.Add(node);
+			} 
+		}
 		
+		readonly LevelsGraph _allLevels;
+		
+		readonly List<CompletedMainLevelInfo> _completedLevels = new List<CompletedMainLevelInfo>();
 
-			CurLevelType   = LevelType.Unknown;
-			CurLevelConfig = null;
+		LevelNode _curStartedLevel;
+
+		public StartLevelNode StartLevelNode => _allLevels.nodes.Find(x => x is StartLevelNode) as StartLevelNode;
+		
+		public LevelType CurLevelType => CurLevelConfig.LevelType;
+
+		public BaseLevelInfo CurLevelConfig => _curStartedLevel.Config;
+		
+		CompletedMainLevelInfo LastCompletedMainBranchLevel => HasCompletedLevels ? _completedLevels[_completedLevels.Count - 1] : null;
+
+		bool HasCompletedLevels => _completedLevels.Count > 0;
+
+		public LevelController() {
+			_allLevels = LoadGraph();
+			Assert.IsTrue(_allLevels);
+		}
+		
+		public void StartLevel(LevelNode level) {
+			_curStartedLevel = level;
+			Assert.IsTrue(CurLevelConfig);
 		}
 
-		BaseLevelInfo GetCurLevelConfig() {
-			Assert.IsTrue(CurLevelIndex >= 0);
-			var levelInfo = _levelsConfig.GetLevelConfig(CurLevelIndex);
-			Assert.IsTrue(levelInfo);
-			return levelInfo;
+		public LevelNode GetNodeFromConfig(BaseLevelInfo levelInfo) {
+			return _allLevels.nodes.Find(x => {
+				var node = x as LevelNode;
+				return (node.Config == levelInfo);
+			}) as LevelNode;
+		}  
+
+		public void FinishLevel(bool win) {
+			if ( win ) {
+				// Mark level as completed
+				if ( !HasCompletedLevels || LastCompletedMainBranchLevel.IsNextMainLevel(_curStartedLevel) ) {
+					_completedLevels.Add(new CompletedMainLevelInfo{ MainLevel = _curStartedLevel});
+				} else {
+					LastCompletedMainBranchLevel.SetOptionalLevelAsCompleted(_curStartedLevel);
+				}
+			} else {
+				// Reset all progress
+				_completedLevels.Clear();
+			}
+			_curStartedLevel = null;
 		}
 
-		static LevelsConfig LoadConfig() {
-			return Resources.Load<LevelsConfig>("AllLevels");
+		public bool IsLevelCompleted(LevelNode node) {
+			return _completedLevels.Exists(x => (x.MainLevel == node) || x.IsOptionalLevelCompleted(node));
+		}
+		
+		public bool IsLevelAvailableToRun(LevelNode node) {
+			if ( !HasCompletedLevels ) {
+				return node == StartLevelNode;
+			}
+			return LastCompletedMainBranchLevel.IsNextMainLevel(node) || LastCompletedMainBranchLevel.IsOptionalLevel(node);
+		}
+
+		LevelsGraph LoadGraph() {
+			return Resources.Load<LevelsGraph>("LevelsGraph");
 		}
 	}
 }

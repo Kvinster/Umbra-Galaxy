@@ -16,14 +16,12 @@ namespace STP.Core.State {
 
 		readonly List<BaseState> _states = new List<BaseState>();
 
-		public LevelState       LevelState       { get; }
 		public SettingsState    SettingsState    { get; }
 		public LeaderboardState LeaderboardState { get; }
 
 		GameState() {
 			LeaderboardState = AddState(new LeaderboardState());
 			SettingsState    = AddState(new SettingsState());
-			LevelState       = AddState(new LevelState());
 		}
 
 		public void Save() {

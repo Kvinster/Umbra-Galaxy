@@ -86,13 +86,8 @@ namespace STP.Manager {
 				Debug.LogError("Can't win level — level is not active");
 				return;
 			}
-			var levelIndex = _levelController.CurLevelIndex;
 			_levelController.FinishLevel(true);
-			if ( _levelController.HasNextLevel ) {
-				_levelController.StartLevel(levelIndex + 1);
-				_levelManager.TryReloadLevel();
-				return;
-			}
+			_levelManager.QuitToMenu();
 			OnLevelWon?.Invoke();
 		}
 	}

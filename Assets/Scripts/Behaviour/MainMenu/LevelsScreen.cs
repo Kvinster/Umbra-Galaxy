@@ -14,79 +14,64 @@ using Cysharp.Threading.Tasks;
 
 namespace STP.Behaviour.MainMenu {
 	public sealed class LevelsScreen : BaseMainMenuComponent {
-		[NotNull] public Transform  LevelButtonParent;
-		[NotNull] public GameObject LevelButtonPrefab;
 		[NotNull] public Button     BackButton;
 		[NotNull] public ScrollRect LevelButtonsScrollRect;
 
+		[NotNull] public GameObject LevelButtonPrefab;
+		[NotNull] public GameObject LayerPrefab;
+		
 		LevelController _levelController;
 		
 		MainMenuManager _mainMenuManager;
 
-		readonly List<LevelButton> _activeLevelButtons   = new List<LevelButton>();
-		readonly List<LevelButton> _inactiveLevelButtons = new List<LevelButton>();
-
+		LevelGraphDrawer _graphDrawer = new LevelGraphDrawer();
+		
 		protected override void InitInternal(MainMenuStarter starter) {
 			_mainMenuManager = starter.MainMenuManager;
 			_levelController = starter.GameController.LevelController;
-
+			_graphDrawer.InitGraph(LayerPrefab, LevelButtonPrefab, LevelButtonsScrollRect.content.gameObject, _levelController.StartLevelNode);
 			BackButton.onClick.AddListener(OnBackClick);
 		}
 
 		public void Show() {
-			var gs          = GameState.ActiveInstance;
-			var levelConfig = Resources.Load<LevelsConfig>("AllLevels");
-			for ( var i = 0; i < levelConfig.Levels.Count; ++i ) {
-				var levelButton = GetFreeLevelButton();
-				var levelIndex  = i;
-				levelButton.Init(() => LoadLevel(levelIndex), levelIndex,
-					levelIndex <= gs.LevelState.LastLevelIndex);
-				_activeLevelButtons.Add(levelButton);
-			}
+			_graphDrawer.DrawGraph();
 			
+			// foreach ( var button in Buttons ) {
+			// 	var node        = lc.GetNodeFromConfig(button.LevelsConfig);
+			// 	var isCompleted = lc.IsLevelCompleted(node);
+			// 	var isAvailable = lc.IsLevelAvailableToRun(node);
+			// 	if ( isCompleted ) {
+			// 		button.LevelText.text = "X";
+			// 	}
+			// 	if ( isAvailable ) {
+			// 		button.LevelText.text = "P";
+			// 	}
+			// 	if ( !isCompleted && !isAvailable ) {
+			// 		button.LevelText.text = "W";
+			// 	}
+			// 	button.Button.onClick.RemoveAllListeners();
+			// 	button.Button.onClick.AddListener(() => LoadLevel(node));
+			// 	button.Button.interactable = isAvailable;
+			// }
+			//
 			gameObject.SetActive(true);
 			
 			LevelButtonsScrollRect.horizontalNormalizedPosition = 0f;
 		}
 
 		public void Hide() {
-			ResetLevelButtons();
-
 			gameObject.SetActive(false);
 		}
 
 		void OnBackClick() {
 			_mainMenuManager?.ShowMain();
 		}
-
-		void LoadLevel(int levelIndex) {
-			_levelController.StartLevel(levelIndex);
+		
+		void LoadLevel(LevelNode node) {
+			_levelController.StartLevel(node);
 			var clm = CoreLoadingManager.Create();
 			if ( clm != null ) {
 				UniTask.Void(clm.LoadCore);
-			}
-		}
-
-		void ResetLevelButtons() {
-			foreach ( var lb in _activeLevelButtons ) {
-				lb.Deinit();
-				lb.gameObject.SetActive(false);
-				_inactiveLevelButtons.Add(lb);
-			}
-			_activeLevelButtons.Clear();
-		}
-
-		LevelButton GetFreeLevelButton() {
-			if ( _inactiveLevelButtons.Count > 0 ) {
-				var lb = _inactiveLevelButtons[0];
-				_inactiveLevelButtons.RemoveAt(0);
-				lb.gameObject.SetActive(true);
-				return lb;
-			} else {
-				var lbGo = Instantiate(LevelButtonPrefab, LevelButtonParent);
-				lbGo.transform.SetAsLastSibling();
-				var lb = lbGo.GetComponent<LevelButton>();
-				return lb;
 			}
 		}
 	}
