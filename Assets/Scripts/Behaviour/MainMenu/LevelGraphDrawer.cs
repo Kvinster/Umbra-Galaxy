@@ -6,7 +6,8 @@ using STP.Config;
 
 namespace STP.Behaviour.MainMenu {
 	public class LevelGraphDrawer {
-		readonly Dictionary<LevelNode, MainLevelUiContainer> _createdButtons = new Dictionary<LevelNode, MainLevelUiContainer>();
+		Dictionary<int, List<LevelNode>> _nodeLayers = new Dictionary<int, List<LevelNode>>();
+		
 		readonly Dictionary<int, GameObject> _layerRoots = new Dictionary<int, GameObject>();
 
 		GameObject _levelButtonPrefab;
@@ -23,39 +24,60 @@ namespace STP.Behaviour.MainMenu {
 		}
 		
 		public void DrawGraph() {
-			DrawSubGraph(_startLevelNode);
+			DistributeLevels(_startLevelNode);
+			DrawLayers();
 		}
 
-		void DrawSubGraph(LevelNode root) {
-			TryCreateMainNode(root);
-			foreach ( var level in root.NextLevels ) {
-				DrawSubGraph(level);
+		void DistributeLevels(LevelNode node) {
+			TryAddNodeToDistribution(node);
+			foreach ( var optionalLevel in node.OptionalLevels ) {
+				TryAddNodeToDistribution(optionalLevel);
 			}
-			TryInitOptionalLevelNodes(root);
+			foreach ( var nextNode in node.NextLevels ) {
+				DistributeLevels(nextNode);
+			}
 		}
 
-		void TryInitOptionalLevelNodes(LevelNode root) {
-			//Draw optional levels
-			var mainNodeButtonContainer = _createdButtons[root];
-			for ( var i = 0; i < mainNodeButtonContainer.OptionalLevels.Count; i++ ) {
-				mainNodeButtonContainer.OptionalLevels[i].gameObject.SetActive(i < root.OptionalLevels.Count);
-			}
-		}
-		
-		void TryCreateMainNode(LevelNode node) {
-			if ( _createdButtons.ContainsKey(node) ) {
+		void TryAddNodeToDistribution(LevelNode levelNode) {
+			var pathStepsCount = GetMaxPathToNode(_startLevelNode, levelNode);
+			var layer = GetOrCreateNodeLayer(pathStepsCount);
+			if ( layer.Contains(levelNode) ) {
 				return;
 			}
-			var nodeLayer = GetMaxPathToNode(_startLevelNode, node);
-			Debug.Log($"node: {node.name}, layer: {nodeLayer}");
-			var layerGo = GetOrCreateLayer(nodeLayer);
-			var button  = CreateMainRoadLevelButton(layerGo.transform);
-			_createdButtons.Add(node, button);
+			layer.Add(levelNode);
 		}
 
-		MainLevelUiContainer CreateMainRoadLevelButton(Transform root) {
+		List<LevelNode> GetOrCreateNodeLayer(int index) {
+			if ( _nodeLayers.TryGetValue(index, out var res) ) {
+				return res;
+			}
+			var newRes = new List<LevelNode>();
+			_nodeLayers.Add(index, newRes);
+			return newRes;
+		}
+
+		void DrawLayers() {
+			for ( var layerIndex = 0; layerIndex < _nodeLayers.Count; layerIndex++ ) {
+				DrawLayer(layerIndex);
+			}
+		}
+
+		void DrawLayer(int layerIndex) {
+			var layerGo    = GetOrCreateLayer(layerIndex);
+			var layerNodes = _nodeLayers[layerIndex];
+			foreach ( var layerNode in layerNodes ) {
+				CreateLevelButton(layerGo.transform, layerNode);
+			}
+		}
+
+		void DrawConnection(GameObject srcNode, GameObject dstNode) {
+			
+		}
+
+		void CreateLevelButton(Transform root, LevelNode node) {
 			var buttonGo = GameObject.Instantiate(_levelButtonPrefab, root);
-			return buttonGo.transform.GetComponent<MainLevelUiContainer>();
+			var buttonComp = buttonGo.transform.GetComponent<LevelButton>();
+			buttonComp.LevelsConfig = node.Config;
 		}
 
 		GameObject GetOrCreateLayer(int layerIndex) {
@@ -68,7 +90,7 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		int GetMaxPathToNode(LevelNode curNode, LevelNode dst) {
-			if ( curNode.NextLevels.Contains(dst) ) {
+			if ( curNode.NextLevels.Contains(dst) || curNode.OptionalLevels.Contains(dst)) {
 				return 1;
 			}
 			if ( curNode == dst ) {
@@ -82,6 +104,7 @@ namespace STP.Behaviour.MainMenu {
 				}
 				max = Mathf.Max(path + 1, max);
 			}
+			
 			return max;
 		}
 	}
