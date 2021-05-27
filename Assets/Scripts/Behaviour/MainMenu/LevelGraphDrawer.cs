@@ -3,24 +3,30 @@
 using System.Collections.Generic;
 
 using STP.Config;
+using STP.Core;
 
 namespace STP.Behaviour.MainMenu {
 	public class LevelGraphDrawer {
-		Dictionary<int, List<LevelNode>> _nodeLayers = new Dictionary<int, List<LevelNode>>();
+		readonly Dictionary<int, List<LevelNode>>  _nodeLayers   = new Dictionary<int, List<LevelNode>>();
+		readonly Dictionary<LevelNode, GameObject> _levelButtons = new Dictionary<LevelNode, GameObject>();
 		
 		readonly Dictionary<int, GameObject> _layerRoots = new Dictionary<int, GameObject>();
 
+		LevelController _levelController;
+		
 		GameObject _levelButtonPrefab;
 		GameObject _layerPrefab;
 
 		StartLevelNode _startLevelNode;
 		GameObject     _graphRoot;
 		
-		public void InitGraph(GameObject layerPrefab, GameObject levelButtonPrefab, GameObject graphRoot, StartLevelNode startLevelNode) {
+		public void InitGraph(LevelController levelController, GameObject layerPrefab, GameObject levelButtonPrefab, 
+			GameObject graphRoot, StartLevelNode startLevelNode) {
 			_levelButtonPrefab = levelButtonPrefab;
 			_layerPrefab       = layerPrefab;
 			_startLevelNode    = startLevelNode;
 			_graphRoot         = graphRoot;
+			_levelController   = levelController;
 		}
 		
 		public void DrawGraph() {
@@ -70,14 +76,17 @@ namespace STP.Behaviour.MainMenu {
 			}
 		}
 
-		void DrawConnection(GameObject srcNode, GameObject dstNode) {
+		void DrawConnection(LevelNode srcNode, LevelNode dstNode) {
+			var srcGo = _levelButtons[srcNode];
+			var dstGo = _levelButtons[dstNode];
 			
 		}
 
 		void CreateLevelButton(Transform root, LevelNode node) {
 			var buttonGo = GameObject.Instantiate(_levelButtonPrefab, root);
 			var buttonComp = buttonGo.transform.GetComponent<LevelButton>();
-			buttonComp.LevelsConfig = node.Config;
+			buttonComp.Init(_levelController, node);
+			_levelButtons.Add(node, buttonGo);
 		}
 
 		GameObject GetOrCreateLayer(int layerIndex) {

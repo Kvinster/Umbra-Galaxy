@@ -32,7 +32,7 @@ namespace STP.Core {
 		
 		GameController(GameState gameState) {
 			_gameState            = gameState;
-			LevelController       = AddController(new LevelController());
+			LevelController       = AddController(new LevelController(gameState));
 			PlayerController      = AddController(new PlayerController());
 			XpController          = AddController(new XpController());
 			PrefabsController     = AddController(new PrefabsController());

@@ -63,7 +63,6 @@ namespace STP.Manager {
 				return;
 			}
 			IsLevelActive = false;
-			_levelController.FinishLevel(false);
 			SceneManager.LoadScene("MainMenu");
 		}
 

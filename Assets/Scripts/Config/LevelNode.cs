@@ -6,6 +6,7 @@ using XNode;
 namespace STP.Config {
 	public class LevelNode : Node {
 		public BaseLevelInfo Config;
+		public string        LevelName;
 
 		[Input]  public List<LevelNode> NextLevelsInput;
 		[Input]  public List<LevelNode> OptionalLevelsInput;
