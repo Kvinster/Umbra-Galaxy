@@ -29,7 +29,7 @@ namespace STP.Behaviour.MainMenu {
 		protected override void InitInternal(MainMenuStarter starter) {
 			_mainMenuManager = starter.MainMenuManager;
 			_levelController = starter.GameController.LevelController;
-			_graphDrawer.InitGraph(_levelController, LayerPrefab, LevelButtonPrefab, LevelButtonsScrollRect.content.gameObject, _levelController.StartLevelNode);
+			_graphDrawer.InitGraph(_levelController, LayerPrefab, LevelButtonPrefab, _levelController.StartLevelNode, LevelButtonsScrollRect.content);
 			BackButton.onClick.AddListener(OnBackClick);
 		}
 

@@ -5205,7 +5205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BackButton: {fileID: 1224297726}
   LevelButtonsScrollRect: {fileID: 777707889}
-  LevelButtonPrefab: {fileID: 9177825226284566826, guid: 2be3020d5626c584e9b30cc4b85af97f,
+  LevelButtonPrefab: {fileID: 2244507314274111238, guid: 2b84af45a82b14e4c9ced4cbae50ae84,
     type: 3}
   LayerPrefab: {fileID: 5662504650863209837, guid: 38dd9466562c926409817ac8a8cc0244,
     type: 3}

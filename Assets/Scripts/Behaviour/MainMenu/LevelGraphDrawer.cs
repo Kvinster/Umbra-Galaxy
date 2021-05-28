@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using STP.Config;
 using STP.Core;
 
+using Cysharp.Threading.Tasks;
+using Shapes;
+
 namespace STP.Behaviour.MainMenu {
 	public class LevelGraphDrawer {
 		readonly Dictionary<int, List<LevelNode>>  _nodeLayers   = new Dictionary<int, List<LevelNode>>();
 		readonly Dictionary<LevelNode, GameObject> _levelButtons = new Dictionary<LevelNode, GameObject>();
-		
+
 		readonly Dictionary<int, GameObject> _layerRoots = new Dictionary<int, GameObject>();
 
 		LevelController _levelController;
@@ -18,10 +21,10 @@ namespace STP.Behaviour.MainMenu {
 		GameObject _layerPrefab;
 
 		StartLevelNode _startLevelNode;
-		GameObject     _graphRoot;
-		
-		public void InitGraph(LevelController levelController, GameObject layerPrefab, GameObject levelButtonPrefab, 
-			GameObject graphRoot, StartLevelNode startLevelNode) {
+		RectTransform  _graphRoot;
+
+		public void InitGraph(LevelController levelController, GameObject layerPrefab, GameObject levelButtonPrefab,
+			StartLevelNode startLevelNode, RectTransform graphRoot) {
 			_levelButtonPrefab = levelButtonPrefab;
 			_layerPrefab       = layerPrefab;
 			_startLevelNode    = startLevelNode;
@@ -32,6 +35,7 @@ namespace STP.Behaviour.MainMenu {
 		public void DrawGraph() {
 			DistributeLevels(_startLevelNode);
 			DrawLayers();
+			UniTask.Void(DrawConnections);
 		}
 
 		void DistributeLevels(LevelNode node) {
@@ -62,6 +66,20 @@ namespace STP.Behaviour.MainMenu {
 			return newRes;
 		}
 
+		async UniTaskVoid DrawConnections() {
+			await UniTask.Yield();
+			foreach ( var nodeLayer in _nodeLayers ) {
+				foreach ( var node in nodeLayer.Value ) {
+					foreach ( var nextNode in node.NextLevels ) {
+						DrawConnection(node, nextNode);
+					}
+					foreach ( var nextNode in node.OptionalLevels ) {
+						DrawConnection(node, nextNode);
+					}
+				}
+			}
+		}
+
 		void DrawLayers() {
 			for ( var layerIndex = 0; layerIndex < _nodeLayers.Count; layerIndex++ ) {
 				DrawLayer(layerIndex);
@@ -79,7 +97,19 @@ namespace STP.Behaviour.MainMenu {
 		void DrawConnection(LevelNode srcNode, LevelNode dstNode) {
 			var srcGo = _levelButtons[srcNode];
 			var dstGo = _levelButtons[dstNode];
-			
+			var line  = CreateLine(srcGo.transform);
+			line.Thickness  = 10;
+			line.End        = dstGo.transform.position - srcGo.transform.position;
+			line.ColorMode  = Line.LineColorMode.Double;
+			line.ColorStart = Color.red;
+			line.ColorEnd   = Color.magenta;
+		}
+
+		Line CreateLine(Transform parent) {
+			var go = new GameObject();
+			go.transform.SetParent(parent);
+			go.transform.localPosition = Vector3.zero;
+			return go.AddComponent<Line>();
 		}
 
 		void CreateLevelButton(Transform root, LevelNode node) {
@@ -93,7 +123,7 @@ namespace STP.Behaviour.MainMenu {
 			if ( _layerRoots.ContainsKey(layerIndex) ) {
 				return _layerRoots[layerIndex];
 			}
-			var layerGo = GameObject.Instantiate(_layerPrefab, _graphRoot.transform);
+			var layerGo = GameObject.Instantiate(_layerPrefab, _graphRoot);
 			_layerRoots.Add(layerIndex, layerGo);
 			return layerGo;
 		}

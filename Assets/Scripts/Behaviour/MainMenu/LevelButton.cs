@@ -1,14 +1,13 @@
-﻿using UnityEngine.UI;
-using UnityEngine.Assertions;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
-using System;
-using Cysharp.Threading.Tasks;
 using STP.Config;
 using STP.Core;
 using STP.Manager;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
+using Cysharp.Threading.Tasks;
 using TMPro;
 
 namespace STP.Behaviour.MainMenu {
@@ -23,6 +22,11 @@ namespace STP.Behaviour.MainMenu {
 			_node               = node;
 			Button.interactable = _levelController.IsLevelAvailableToRun(node);
 			LevelText.text      = node.LevelName;
+			if ( _levelController.IsLevelCompleted(node) ) {
+				var colors = Button.colors;
+				colors.disabledColor = new Color(0.77f, 0.70f, 0f);
+				Button.colors = colors;
+			}
 			Button.onClick.AddListener(LoadLevel);
 		}
 		
