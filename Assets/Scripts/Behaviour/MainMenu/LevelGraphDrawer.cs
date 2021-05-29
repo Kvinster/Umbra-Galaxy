@@ -39,13 +39,35 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void DistributeLevels(LevelNode node) {
-			TryAddNodeToDistribution(node);
+			DistributeMainLevels(node);
+			DistributeOptionalLevels(node);
+		}
+
+		void DistributeOptionalLevels(LevelNode node) {
 			foreach ( var optionalLevel in node.OptionalLevels ) {
-				TryAddNodeToDistribution(optionalLevel);
+				TryAddOptionalNodeToDistribution(node, optionalLevel);
 			}
 			foreach ( var nextNode in node.NextLevels ) {
-				DistributeLevels(nextNode);
+				DistributeOptionalLevels(nextNode);
 			}
+		}	
+		
+		void DistributeMainLevels(LevelNode node) {
+			TryAddNodeToDistribution(node);
+			foreach ( var nextNode in node.NextLevels ) {
+				DistributeMainLevels(nextNode);
+			}
+		}
+
+		void TryAddOptionalNodeToDistribution(LevelNode mainLevelNode, LevelNode levelNode) {
+			var pathStepsCount = GetMaxPathToNode(_startLevelNode, mainLevelNode);
+			var layer          = GetOrCreateNodeLayer(pathStepsCount);
+			if ( (layer[0] == mainLevelNode) || (layer[layer.Count - 1] == mainLevelNode) ) {
+				TryAddNodeToLayer(layer, levelNode);
+				return;
+			}
+			layer = GetOrCreateNodeLayer(pathStepsCount + 1);
+			TryAddNodeToLayer(layer, levelNode);
 		}
 
 		void TryAddNodeToDistribution(LevelNode levelNode) {
@@ -55,6 +77,14 @@ namespace STP.Behaviour.MainMenu {
 				return;
 			}
 			layer.Add(levelNode);
+		}
+
+		bool TryAddNodeToLayer(List<LevelNode> layer, LevelNode node) {
+			if ( layer.Contains(node) ) {
+				return false;
+			}
+			layer.Add(node);
+			return true;
 		}
 
 		List<LevelNode> GetOrCreateNodeLayer(int index) {

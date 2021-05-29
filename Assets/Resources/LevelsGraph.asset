@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -40, y: 152}
+  position: {x: 376, y: 168}
   ports:
     keys:
     - OptionalLevelsInput
@@ -198,6 +198,64 @@ MonoBehaviour:
   - {fileID: 8381620376877708110}
   - {fileID: -6663160412565954934}
   - {fileID: -3938362870839278415}
+  - {fileID: 2830801443448345880}
+--- !u!114 &2830801443448345880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e79fc950d3c47c9a4aa30bad73eadf3, type: 3}
+  m_Name: Level
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -40, y: 184}
+  ports:
+    keys:
+    - OptionalLevelsInput
+    - NextLevelsInput
+    - ThisNode
+    values:
+    - _fieldName: OptionalLevelsInput
+      _node: {fileID: 2830801443448345880}
+      _typeQualifiedName: System.Collections.Generic.List`1[[STP.Config.LevelNode,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
+        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: NextLevelsInput
+      _node: {fileID: 2830801443448345880}
+      _typeQualifiedName: System.Collections.Generic.List`1[[STP.Config.LevelNode,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
+        mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: ThisNode
+      _node: {fileID: 2830801443448345880}
+      _typeQualifiedName: STP.Config.LevelNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: OptionalLevelsInput
+        node: {fileID: 8381620376877708110}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  Config: {fileID: 11400000, guid: e58d0882339c4154b808ce69c574308b, type: 2}
+  LevelName: optional_1
+  NextLevelsInput: []
+  OptionalLevelsInput: []
+  ThisNode: {fileID: 0}
 --- !u!114 &4117461277956381660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,7 +353,10 @@ MonoBehaviour:
       _typeQualifiedName: System.Collections.Generic.List`1[[STP.Config.LevelNode,
         Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
         mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-      connections: []
+      connections:
+      - fieldName: ThisNode
+        node: {fileID: 2830801443448345880}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
