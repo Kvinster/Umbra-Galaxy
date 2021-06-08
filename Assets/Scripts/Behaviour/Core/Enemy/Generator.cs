@@ -3,6 +3,7 @@
 using STP.Behaviour.Starter;
 using STP.Behaviour.Utils.ProgressBar;
 using STP.Core.ShootingsSystems;
+using STP.Core.ShootingsSystems.Generator;
 using STP.Manager;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
@@ -10,7 +11,7 @@ using STP.Utils.GameComponentAttributes;
 namespace STP.Behaviour.Core.Enemy {
     [SelectionBase]
     public sealed class Generator : BaseEnemy, IDestructible {
-        public ShootingSystemParams ShootingParams;
+        public GeneratorShootingSystemParams ShootingParams;
         [Space]
         public Connector Connector;
         public bool IsMainGenerator;
@@ -24,7 +25,7 @@ namespace STP.Behaviour.Core.Enemy {
         [NotNull]
         public BaseSimpleSoundPlayer ShotSoundPlayer;
 
-        ShootingSystem _shootingSystem;
+        GeneratorShootingSystem _shootingSystem;
 
         LevelGoalManager _levelGoalManager;
 
@@ -59,6 +60,7 @@ namespace STP.Behaviour.Core.Enemy {
 
         public override void SetTarget(Transform target) {
             _target = target;
+            _shootingSystem.SetTarget(target);
         }
 
         protected override void InitInternal(CoreStarter starter) {
@@ -71,7 +73,7 @@ namespace STP.Behaviour.Core.Enemy {
             HpSystem.OnDied += DieFromPlayer;
             HpSystem.OnHpChanged += OnHpChanged;
 
-            _shootingSystem = new ShootingSystem(starter.SpawnHelper, ShootingParams);
+            _shootingSystem = new GeneratorShootingSystem(starter.SpawnHelper, ShootingParams, transform);
             _levelGoalManager = starter.LevelGoalManager;
         }
 

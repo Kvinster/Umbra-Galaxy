@@ -21,17 +21,17 @@ namespace STP.Behaviour.Core.Enemy {
 
 		Transform       _target;
 
-		ShootingSystem  _shootingSystem;
+		DefaultShootingSystem  _defaultShootingSystem;
 
 		void Update() {
 			if ( !IsInit ) {
 				return;
 			}
-			_shootingSystem.DeltaTick();
+			_defaultShootingSystem.DeltaTick();
 			if ( !_target ) {
 				return;
 			}
-			if ( _shootingSystem.TryShoot() ) {
+			if ( _defaultShootingSystem.TryShoot() ) {
 				ShotSoundPlayer.Play();
 			}
 			var dirRaw = _target.position - transform.position;
@@ -52,7 +52,7 @@ namespace STP.Behaviour.Core.Enemy {
 
 		protected override void InitInternal(CoreStarter starter) {
 			base.InitInternal(starter);
-			_shootingSystem = new ShootingSystem(starter.SpawnHelper, ShootingParams);
+			_defaultShootingSystem = new DefaultShootingSystem(starter.SpawnHelper, ShootingParams);
 			HpSystem.OnDied += DieFromPlayer;
 		}
 

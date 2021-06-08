@@ -44,7 +44,7 @@ namespace STP.Behaviour.Core {
 
 		Vector2 _input;
 
-		ShootingSystem       _shootingSystem;
+		DefaultShootingSystem       _defaultShootingSystem;
 		ShootingSystemParams _actualParams;
 
 		Camera            _camera;
@@ -83,7 +83,7 @@ namespace STP.Behaviour.Core {
 
 			_input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-			_shootingSystem.DeltaTick();
+			_defaultShootingSystem.DeltaTick();
 			if ( Input.GetMouseButton(0) ) {
 				TryShoot();
 			}
@@ -118,7 +118,7 @@ namespace STP.Behaviour.Core {
 			_prefabsController = starter.PrefabsController;
 			_xpController      = starter.XpController;
 			_actualParams      = DefaultShootingParams.ShallowCopy();
-			_shootingSystem    = new ShootingSystem(_spawnHelper, _actualParams);
+			_defaultShootingSystem    = new DefaultShootingSystem(_spawnHelper, _actualParams);
 			_playerController = starter.PlayerController;
 			_playerHpSystem    = _playerController.HpSystem;
 
@@ -188,7 +188,7 @@ namespace STP.Behaviour.Core {
 
 		void TryShoot() {
 			TryUpdateShootingParams();
-			if ( _shootingSystem.TryShoot() ) {
+			if ( _defaultShootingSystem.TryShoot() ) {
 				ShotSoundPlayer.Play();
 			}
 		}

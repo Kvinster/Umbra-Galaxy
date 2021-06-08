@@ -10,7 +10,7 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 		public float                ChargeTime;
 		public ShootingSystemParams ShootingSystemParams;
 
-		ShootingSystem _shootingSystem;
+		DefaultShootingSystem _defaultShootingSystem;
 
 		bool  _isCharging;
 		float _chargeTimer;
@@ -18,7 +18,7 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 		public bool IsCharged { get; private set; }
 
 		protected override void InitInternal(CoreStarter starter) {
-			_shootingSystem = new ShootingSystem(starter.SpawnHelper, ShootingSystemParams);
+			_defaultShootingSystem = new DefaultShootingSystem(starter.SpawnHelper, ShootingSystemParams);
 
 			_chargeTimer = ChargeTime;
 		}
@@ -46,7 +46,7 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 			Assert.IsFalse(_isCharging);
 			Assert.IsTrue(IsCharged);
 
-			if ( !_shootingSystem.TryShoot() ) {
+			if ( !_defaultShootingSystem.TryShoot() ) {
 				Debug.LogErrorFormat("{0}.{1}: can't shoot for some reason", nameof(BossGunController), nameof(Shoot));
 			}
 

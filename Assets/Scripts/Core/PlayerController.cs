@@ -45,7 +45,7 @@ namespace STP.Core {
 			}
 		}
 		
-		ShootingSystem _shootingSystem;
+		DefaultShootingSystem _defaultShootingSystem;
 
 		public event Action<int>               OnCurLivesChanged;
 		public event Action<bool>              OnIsInvincibleChanged;

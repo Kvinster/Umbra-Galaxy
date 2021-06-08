@@ -479,6 +479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Generator
   DeathSoundPlayer: {fileID: 7993925769150215763}
+  StartHp: 25
   ShootingParams:
     BulletPrefab: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
       type: 3}
@@ -489,9 +490,10 @@ MonoBehaviour:
     BulletDamage: 10
     IgnoreColliders:
     - {fileID: 2956093766420446193}
+    MinBulletSpeed: 150
+    MaxSpeedDegradationDistance: 1000
   Connector: {fileID: 7006289408050465386}
   IsMainGenerator: 0
-  StartHp: 25
   ViewTransform: {fileID: 7425354721623827813}
   HealthBar: {fileID: 8147379892703251958}
   ExplosionEffect: {fileID: 9104554851719870160}
