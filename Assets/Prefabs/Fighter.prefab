@@ -186,17 +186,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Fighter
   DeathSoundPlayer: {fileID: 4762935835220863288}
+  StartHp: 20
   ShootingParams:
     BulletPrefab: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
       type: 3}
     BulletOrigin: {fileID: 6476260919088652968}
     RotationSource: {fileID: 6476260919088652968}
-    BulletSpeed: 1250
+    BulletSpeed: 625
     ReloadTime: 1
     BulletDamage: 10
     IgnoreColliders:
     - {fileID: 6476260919088652973}
-  StartHp: 20
   MovementSpeed: 250
   RotationSpeed: 0.1
   Rigidbody: {fileID: 6476260919088652974}

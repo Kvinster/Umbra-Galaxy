@@ -118,6 +118,11 @@ PrefabInstance:
       propertyPath: ShootingParams.MinBulletSpeed
       value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 8147379892999961653, guid: ccbc55a58ed204c47bd4952ab788781c,
+        type: 3}
+      propertyPath: ShootingParams.ReloadTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8147379892999961673, guid: ccbc55a58ed204c47bd4952ab788781c,
         type: 3}
       propertyPath: m_Name
