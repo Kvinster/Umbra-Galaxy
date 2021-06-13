@@ -5,9 +5,11 @@ using STP.Config;
 
 namespace STP.Behaviour.Core.Enemy.Spawners {
 	public sealed class AsteroidSpawner : BaseSpawner {
+		CoreSpawnHelper         _spawnHelper;
 		AsteroidSpawnerSettings _spawnerSettings;
 
 		protected override BaseSpawnerSettings InitSettings(CoreStarter starter) {
+			_spawnHelper     = starter.SpawnHelper;
 			_spawnerSettings = starter.LevelController.CurLevelConfig.AsteroidSpawnerSettings;
 			return _spawnerSettings;
 		}
@@ -18,8 +20,9 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
 				Debug.LogError("Can't init asteroid");
 				return;
 			}
+			_spawnHelper.TryInitSpawnedObject(go);
 			var dirToPlayer = Player.transform.position - go.transform.position;
-			asteroid.Init(dirToPlayer.normalized, _spawnerSettings.AsteroidSpeed);
+			asteroid.SetParams(dirToPlayer.normalized, _spawnerSettings.AsteroidSpeed);
 		}
 	}
 }
