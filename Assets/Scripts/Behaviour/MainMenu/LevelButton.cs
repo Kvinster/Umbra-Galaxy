@@ -8,6 +8,8 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 using Cysharp.Threading.Tasks;
+using STP.Events;
+using STP.Utils.Events;
 using TMPro;
 
 namespace STP.Behaviour.MainMenu {
@@ -17,6 +19,12 @@ namespace STP.Behaviour.MainMenu {
 
 		LevelController _levelController;
 		LevelNode       _node;
+
+		void OnDestroy() {
+			EventManager.Unsubscribe<AllLevelButtonsAreAvailable>(ForceOpenLevel);
+			Button.onClick.RemoveAllListeners();
+		}
+
 		public void Init(LevelController levelController, LevelNode node) {
 			_levelController    = levelController;
 			_node               = node;
@@ -28,6 +36,11 @@ namespace STP.Behaviour.MainMenu {
 				Button.colors = colors;
 			}
 			Button.onClick.AddListener(LoadLevel);
+			EventManager.Subscribe<AllLevelButtonsAreAvailable>(ForceOpenLevel);
+		}
+
+		void ForceOpenLevel(AllLevelButtonsAreAvailable ev) {
+			Button.interactable = true;
 		}
 		
 		void LoadLevel() {
@@ -36,10 +49,6 @@ namespace STP.Behaviour.MainMenu {
 			if ( clm != null ) {
 				UniTask.Void(clm.LoadCore);
 			}
-		}
-
-		public void Deinit() {
-			Button.onClick.RemoveAllListeners();
 		}
 	}
 }
