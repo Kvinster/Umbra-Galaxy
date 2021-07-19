@@ -7,6 +7,13 @@
       "dependencies": {},
       "hash": "7d21a75ea8abbc3ed43afedeb450c8d44f244ece"
     },
+    "com.fluid.behavior-tree": {
+      "version": "2.2.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://registry.npmjs.org"
+    },
     "com.github.siccity.xnode": {
       "version": "https://github.com/siccity/xNode.git",
       "depth": 0,
