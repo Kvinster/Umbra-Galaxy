@@ -32,12 +32,25 @@ namespace STP.Behaviour.MainMenu {
 			_levelController   = levelController;
 		}
 		
+		
+		
 		public void DrawGraph() {
+			CleanTempObjects();
 			DistributeLevels(_startLevelNode);
 			DrawLayers();
 			UniTask.Void(DrawConnections);
 		}
 
+		void CleanTempObjects() {
+			_layerRoots.Clear();
+			_nodeLayers.Clear();
+			_levelButtons.Clear();
+
+			for ( var childIndex = _graphRoot.childCount - 1; childIndex >= 0; childIndex-- ) {
+				Object.Destroy(_graphRoot.GetChild(childIndex).gameObject);
+			}
+		}
+		
 		void DistributeLevels(LevelNode node) {
 			DistributeMainLevels(node);
 			DistributeOptionalLevels(node);
