@@ -19,10 +19,6 @@ namespace STP.Behaviour.Starter {
 
 		public GameController GameController => GameController.Instance;
 
-		void OnDestroy() {
-			DebugGuiController.Instance.SetDrawable(null);
-		}
-
 		void Start() {
 			TryCreateGameState();
 			GameController.CreateGameController(GameState.ActiveInstance);
