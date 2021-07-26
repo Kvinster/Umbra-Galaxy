@@ -4,16 +4,16 @@ namespace STP.Utils.BehaviourTree {
 	public sealed class BehaviourTree {
 		public readonly Blackboard Blackboard = new Blackboard();
 
-		readonly BaseTask _root;
-
+		public readonly BaseTask Root;
+		
 		public BehaviourTree(BaseTask root) {
-			_root = root;
+			Root = root;
 			
-			_root.SetBlackboard(Blackboard);
+			Root.SetBlackboard(Blackboard);
 		}
 
 		public void Tick() {
-			_root.Execute();
+			Root.Execute();
 		}
 	}
 }

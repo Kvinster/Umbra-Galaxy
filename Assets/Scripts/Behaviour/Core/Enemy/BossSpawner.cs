@@ -13,24 +13,31 @@ namespace STP.Behaviour.Core.Enemy {
 
 		protected override void InitInternal(CoreStarter starter) {
 			_tree = new BehaviourTree(
-				new LogTask()
-			);
-		}
+				new SequenceTask(
+					new SelectorTask(
+						new LogTask(),
+						new LogTask(),
+						new LogTask()
+					),
+					new LogTask()
+				)
+		);
+	}
 		
 		public void TakeDamage(float damage) {
 			
 		}
-
-		int _firedCount;
-		int _spawnedCount;
 		
-		bool NeedToFire() {
-			return _firedCount < 2;
-		}
-		
-		bool NeedToSpawn() {
-			return _spawnedCount < 2;
-		}
+		// int _firedCount;
+		// int _spawnedCount;
+		//
+		// bool NeedToFire() {
+		// 	return _firedCount < 2;
+		// }
+		//
+		// bool NeedToSpawn() {
+		// 	return _spawnedCount < 2;
+		// }
 
 		// TaskStatus Spawn() {
 		// 	_spawnedCount++;
