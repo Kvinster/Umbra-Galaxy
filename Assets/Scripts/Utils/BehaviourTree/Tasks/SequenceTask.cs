@@ -14,7 +14,7 @@ namespace STP.Utils.BehaviourTree.Tasks {
 			}
 		}
 
-		public override TaskStatus Execute() {
+		protected override TaskStatus ExecuteInternal() {
 			foreach ( var task in SubTasks ) {
 				var res = task.Execute();
 				if ( (res == TaskStatus.Failure) || (res == TaskStatus.Continue) ) {

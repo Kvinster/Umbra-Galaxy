@@ -7,11 +7,14 @@ namespace STP.Utils.BehaviourTree.Tasks {
 		Success,
 		Failure,
 		Continue,
+		Unknown
 	}
 	
 	public abstract class BaseTask {
 		public List<BaseTask> SubTasks = new List<BaseTask>();
-	
+
+		public TaskStatus LastStatus = TaskStatus.Unknown;
+		
 		protected Blackboard Blackboard;
 
 		public virtual void SetBlackboard(Blackboard blackboard) {
@@ -19,6 +22,12 @@ namespace STP.Utils.BehaviourTree.Tasks {
 			Blackboard = blackboard;
 		}
 
-		public abstract TaskStatus Execute();
+		public TaskStatus Execute() {
+			var res = ExecuteInternal();
+			LastStatus = res;
+			return res;
+		}
+		
+		protected abstract TaskStatus ExecuteInternal();
 	}
 }

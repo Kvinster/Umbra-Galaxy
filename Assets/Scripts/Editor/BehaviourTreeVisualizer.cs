@@ -21,15 +21,41 @@ namespace STP.Editor {
 			window.Show();
 		}
 
+		BehaviourTree _openedTree;
+		NodeGraph     _graph;
+		
 		void OnGUI() {
-			foreach ( var tree in GetBehaviourTrees() ) {
-				DrawBehaviourTree(tree);
+			var trees = GetBehaviourTrees();
+			if ( (trees.Count == 0) || (trees[0] == _openedTree)) {
+				return;
+			}
+			if ( _openedTree != null ) {
+				_openedTree.OnBehaviourTreeUpdated -= OnBehaviourTreeUpdate;
+			}
+			_openedTree                        =  trees[0];
+			_openedTree.OnBehaviourTreeUpdated += OnBehaviourTreeUpdate;
+			_graph                             =  DrawBehaviourTree(_openedTree);
+		}
+
+		void OnBehaviourTreeUpdate(BehaviourTree tree) {
+			RefreshStatuses();
+		}
+
+		void RefreshStatuses() {
+			if ( !_graph ) {
+				return;
+			}
+			foreach ( var node in _graph.nodes ) {
+				if ( node is BehaviourTreeNode btNode ) {
+					btNode.UpdateValues();
+				}
 			}
 		}
 
-		void DrawBehaviourTree(BehaviourTree tree) {
+		NodeGraph DrawBehaviourTree(BehaviourTree tree) {
 			var graph = CreateGraphForBehaviourTree(tree);
 			NodeEditorWindow.Open(graph);
+			return graph;
 		}
 
 		NodeGraph CreateGraphForBehaviourTree(BehaviourTree tree) {
@@ -71,6 +97,7 @@ namespace STP.Editor {
 			node.ThisNode = node;
 			node.Parent   = parent;
 			node.name     = task.GetType().Name;
+			node.Task     = task;
 			NodePort parentOutputPort = null;
 			if ( parent != null ) {
 				foreach ( var port in parent.Outputs ) {
@@ -86,8 +113,8 @@ namespace STP.Editor {
 					}
 				}
 			}
-
 			node.position = new Vector2(_layer * _itemWidth, _inLayerIndex * _itemHeight);
+			node.UpdateValues();
 			return node;
 		}
 		

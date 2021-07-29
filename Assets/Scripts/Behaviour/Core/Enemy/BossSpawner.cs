@@ -8,17 +8,13 @@ namespace STP.Behaviour.Core.Enemy {
 		BehaviourTree _tree;
 		
 		void Update() {
-			
+			_tree.Tick();
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
 			_tree = new BehaviourTree(
 				new SequenceTask(
-					new SelectorTask(
-						new LogTask(),
-						new LogTask(),
-						new LogTask()
-					),
+					new WaitTask(1),
 					new LogTask()
 				)
 		);

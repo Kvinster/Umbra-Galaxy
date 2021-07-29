@@ -2,7 +2,7 @@
 
 namespace STP.Utils.BehaviourTree.Tasks {
 	public class LogTask : BaseTask {
-		public override TaskStatus Execute() {
+		protected override TaskStatus ExecuteInternal() {
 			Debug.Log("Log");
 			return TaskStatus.Success;
 		}
