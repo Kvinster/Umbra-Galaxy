@@ -18,8 +18,11 @@ namespace STP.Utils.BehaviourTree {
 		}
 
 		public void Tick() {
-			Root.Execute();
+			var result = Root.Execute();
 			OnBehaviourTreeUpdated?.Invoke(this);
+			if ( (result == TaskStatus.Success) || (result == TaskStatus.Failure) ) {
+				Root.ResetStatus();
+			}
 		}
 	}
 }

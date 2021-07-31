@@ -22,10 +22,19 @@ namespace STP.Utils.BehaviourTree.Tasks {
 			Blackboard = blackboard;
 		}
 
+		public void ResetStatus() {
+			LastStatus = TaskStatus.Unknown;
+			foreach ( var subTask in SubTasks ) {
+				subTask.ResetStatus();
+			}
+		}
+
 		public TaskStatus Execute() {
-			var res = ExecuteInternal();
-			LastStatus = res;
-			return res;
+			if ( LastStatus == TaskStatus.Success || LastStatus == TaskStatus.Failure ) {
+				return LastStatus;
+			}
+			LastStatus = ExecuteInternal();
+			return LastStatus;
 		}
 		
 		protected abstract TaskStatus ExecuteInternal();
