@@ -23,6 +23,8 @@ MonoBehaviour:
     XpAmount: 4
   - EnemyName: SuicideDrone
     XpAmount: 1
+  - EnemyName: Asteroid
+    XpAmount: 0
   LevelUpInfos:
   - ShipsToSelect: 0000000001000000
     NeededXp: 10
