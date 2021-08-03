@@ -13,16 +13,19 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public LeaderboardWindow LeaderboardWindow;
 		[NotNull] public LevelsScreen      LevelsScreen;
 		[NotNull] public SettingsScreen    SettingsScreen;
+		[NotNull] public UpgradesScreen    UpgradesScreen;
 
 		public MainMenuManager MainMenuManager { get; private set; }
 
-		public GameController GameController => GameController.Instance;
+		public GameController     GameController     => GameController.Instance;
+		public UpgradesController UpgradesController => GameController.UpgradesController;
 
 		void Start() {
 			TryCreateGameState();
 			GameController.CreateGameController(GameState.ActiveInstance);
 
-			MainMenuManager = new MainMenuManager(MainScreen, LeaderboardWindow, LevelsScreen, SettingsScreen);
+			MainMenuManager = new MainMenuManager(MainScreen, LeaderboardWindow, LevelsScreen, SettingsScreen,
+				UpgradesScreen);
 
 			InitComponents();
 			// Settings for smooth gameplay

@@ -38,6 +38,10 @@ namespace STP.Utils.Xml {
             return node.TryLoadAttrValue(attrName, FloatConverter, out var value) ? value : def;
         }
 
+        public static T GetAttrValue<T>(this XmlNode node, string attrName, T def) where T : Enum {
+            return node.TryLoadAttrValue(attrName, x => (T)Enum.Parse(typeof(T), x), out var value) ? value : def;
+        }
+
         public static List<string> LoadNodeList(this XmlNode node, string nodeName, string attrName,
             string def = default) {
             return node.LoadNodeList(nodeName, attrName, StringConverter, def);

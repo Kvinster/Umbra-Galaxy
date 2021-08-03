@@ -1,24 +1,20 @@
-﻿using UnityEngine;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using STP.Behaviour.Core;
 using STP.Common;
-using STP.Core.ShootingsSystems;
-using STP.Core.State;
 
 namespace STP.Core {
 	public sealed class PlayerController : BaseStateController {
-		public const float StartHp = 100f;
+		const int StartPlayerLives = 3;
 
-		const int   StartPlayerLives = 3;
-		
 		public ShipType Ship;
 
-		public HpSystem HpSystem;
+		public readonly HpSystem HpSystem;
 
-		int   _curLives;
-		bool  _isInvincible;
+		readonly UpgradesController _upgradesController;
+
+		int  _curLives;
+		bool _isInvincible;
 
 		readonly Dictionary<PowerUpType, bool> _powerUpStates = new Dictionary<PowerUpType, bool>();
 
@@ -44,23 +40,26 @@ namespace STP.Core {
 				OnIsInvincibleChanged?.Invoke(_isInvincible);
 			}
 		}
-		
-		DefaultShootingSystem _defaultShootingSystem;
 
 		public event Action<int>               OnCurLivesChanged;
 		public event Action<bool>              OnIsInvincibleChanged;
 		public event Action<PowerUpType, bool> OnPowerUpStateChanged;
 		public event Action                    OnRespawned;
 
-		public PlayerController() {
+		public PlayerController(UpgradesController upgradesController) {
+			_upgradesController = upgradesController;
+
 			CurLives     = StartPlayerLives;
-			HpSystem = new HpSystem(StartHp);
+			HpSystem     = new HpSystem(upgradesController.GetCurConfigMaxHp());
 			IsInvincible = false;
 
 			foreach ( var powerUpType in PowerUpTypeHelper.PowerUpTypes ) {
 				_powerUpStates.Add(powerUpType, false);
 			}
-			
+		}
+
+		public void OnLevelStart() {
+			HpSystem.SetMaxHp(_upgradesController.GetCurConfigMaxHp());
 		}
 
 		public void TakeDamage(float damage) {

@@ -7,7 +7,7 @@ namespace STP.Core {
 		public static GameController Instance { get; private set; }
 
 		public static bool IsActiveInstanceExists => (Instance != null);
-		
+
 		readonly List<BaseStateController> _controllers = new List<BaseStateController>();
 
 		readonly GameState _gameState;
@@ -15,10 +15,11 @@ namespace STP.Core {
 		public LeaderboardController LeaderboardController { get; }
 		public SettingsController    SettingsController    { get; }
 
-		public LevelController   LevelController   { get; }
-		public PlayerController  PlayerController  { get; }
-		public XpController      XpController      { get; }
-		public PrefabsController PrefabsController { get; }
+		public LevelController    LevelController    { get; }
+		public UpgradesController UpgradesController { get; }
+		public PlayerController   PlayerController   { get; }
+		public XpController       XpController       { get; }
+		public PrefabsController  PrefabsController  { get; }
 
 		public static void CreateGameController(GameState gameState) {
 			Instance = new GameController(gameState);
@@ -29,16 +30,17 @@ namespace STP.Core {
 				controller.Deinit();
 			}
 		}
-		
+
 		GameController(GameState gameState) {
 			_gameState            = gameState;
 			LevelController       = AddController(new LevelController(gameState));
-			PlayerController      = AddController(new PlayerController());
 			XpController          = AddController(new XpController());
+			UpgradesController    = AddController(new UpgradesController(gameState, XpController));
+			PlayerController      = AddController(new PlayerController(UpgradesController));
 			PrefabsController     = AddController(new PrefabsController());
 			LeaderboardController = AddController(new LeaderboardController(gameState));
 			SettingsController    = AddController(new SettingsController(gameState));
-			if (Instance == null) {
+			if ( Instance == null ) {
 				Instance = this;
 			}
 		}

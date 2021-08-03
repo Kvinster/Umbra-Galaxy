@@ -22,8 +22,7 @@ namespace STP.Behaviour.Core {
 		[NotNull]
 		public Rigidbody2D Rigidbody;
 		[NotNull]
-		public Collider2D  Collider;
-		public float       MovementSpeed;
+		public Collider2D Collider;
 		[Space]
 		[NotNull]
 		public BaseProgressBar HealthBar;
@@ -44,19 +43,21 @@ namespace STP.Behaviour.Core {
 
 		Vector2 _input;
 
-		DefaultShootingSystem       _defaultShootingSystem;
-		ShootingSystemParams _actualParams;
+		DefaultShootingSystem _defaultShootingSystem;
+		ShootingSystemParams  _actualParams;
 
-		Camera            _camera;
-		CoreSpawnHelper   _spawnHelper;
-		Transform         _playerStartPos;
-		PlayerManager     _playerManager;
-		LevelGoalManager  _levelGoalManager;
-		PauseManager      _pauseManager;
-		PrefabsController _prefabsController;
-		XpController      _xpController;
+		Camera             _camera;
+		CoreSpawnHelper    _spawnHelper;
+		Transform          _playerStartPos;
+		PlayerManager      _playerManager;
+		LevelGoalManager   _levelGoalManager;
+		PauseManager       _pauseManager;
+		PrefabsController  _prefabsController;
+		XpController       _xpController;
+		UpgradesController _upgradesController;
+		PlayerController   _playerController;
 
-		PlayerController _playerController;
+		float _movementSpeed;
 
 		HpSystem _playerHpSystem;
 
@@ -97,7 +98,7 @@ namespace STP.Behaviour.Core {
 				return;
 			}
 			if ( _input != Vector2.zero ) {
-				Rigidbody.AddForce(_input.normalized * MovementSpeed, ForceMode2D.Impulse);
+				Rigidbody.AddForce(_input.normalized * _movementSpeed, ForceMode2D.Impulse);
 			}
 			var mouseWorldPos  = _camera.ScreenToWorldPoint(Input.mousePosition);
 			var neededRotation = -Vector2.SignedAngle(mouseWorldPos - transform.position, Vector2.up);
@@ -109,22 +110,27 @@ namespace STP.Behaviour.Core {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
-			_camera            = starter.MainCamera;
-			_spawnHelper       = starter.SpawnHelper;
-			_playerStartPos    = starter.PlayerStartPos;
-			_playerManager     = starter.PlayerManager;
-			_levelGoalManager  = starter.LevelGoalManager;
-			_pauseManager      = starter.PauseManager;
-			_prefabsController = starter.PrefabsController;
-			_xpController      = starter.XpController;
-			_actualParams      = DefaultShootingParams.ShallowCopy();
-			_defaultShootingSystem    = new DefaultShootingSystem(_spawnHelper, _actualParams);
-			_playerController = starter.PlayerController;
-			_playerHpSystem    = _playerController.HpSystem;
+			_camera             = starter.MainCamera;
+			_spawnHelper        = starter.SpawnHelper;
+			_playerStartPos     = starter.PlayerStartPos;
+			_playerManager      = starter.PlayerManager;
+			_levelGoalManager   = starter.LevelGoalManager;
+			_pauseManager       = starter.PauseManager;
+			_prefabsController  = starter.PrefabsController;
+			_xpController       = starter.XpController;
+			_upgradesController = starter.UpgradesController;
+			_playerController   = starter.PlayerController;
 
+			_playerHpSystem = _playerController.HpSystem;
+
+			_actualParams = DefaultShootingParams.ShallowCopy();
+			TryUpdateShootingParams();
+			_defaultShootingSystem = new DefaultShootingSystem(_spawnHelper, _actualParams);
+
+			_movementSpeed = _upgradesController.GetCurConfigMovementSpeed();
 
 			_playerHpSystem.OnHpChanged += OnCurHpChanged;
-			_playerHpSystem.OnDied += OnDied;
+			_playerHpSystem.OnDied      += OnDied;
 			OnCurHpChanged(_playerHpSystem.Hp);
 
 			HealthBar.Init(1f);
@@ -183,7 +189,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		void OnCurHpChanged(float curHp) {
-			HealthBar.Progress = (curHp / PlayerController.StartHp);
+			HealthBar.Progress = (curHp / _upgradesController.GetCurConfigMaxHp());
 		}
 
 		void TryShoot() {
@@ -204,16 +210,17 @@ namespace STP.Behaviour.Core {
 		}
 
 		float CalcReloadTime() {
-			var firerateMultiplier = _playerManager.HasActivePowerUp(PowerUpType.IncFireRate)
+			var fireRateMultiplier = _playerManager.HasActivePowerUp(PowerUpType.IncFireRate)
 				? TmpIncFireRateMult
 				: 1f;
-			return Mathf.Max((DefaultShootingParams.ReloadTime - 0.005f * _xpController.Level), DefaultShootingParams.ReloadTime / 10f)  / firerateMultiplier;
+			var fireRate = _upgradesController.GetCurConfigFireRate();
+			return 1f / (fireRate * fireRateMultiplier);
 		}
 
 		float CalcDamage() {
-			var damageMultiplier     = _playerManager.HasActivePowerUp(PowerUpType.X2Damage) ? 2f : 1f;
-			var levelDependentDamage = DefaultShootingParams.BulletDamage + 1.5f * _xpController.Level;
-			return damageMultiplier * levelDependentDamage;
+			var damageMultiplier = _playerManager.HasActivePowerUp(PowerUpType.X2Damage) ? 2f : 1f;
+			var damage           = _upgradesController.GetCurConfigDamage();
+			return damageMultiplier * damage;
 		}
 	}
 }

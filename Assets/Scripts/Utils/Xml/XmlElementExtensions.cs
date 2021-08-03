@@ -28,6 +28,10 @@ namespace STP.Utils.Xml {
 			element.AddAttrValue(attrName, value, FloatConverter);
 		}
 
+		public static void AddAttrValue<T>(this XmlElement element, string attrName, T value) where T : Enum {
+			element.AddAttrValue(attrName, value, x => x.ToString());
+		}
+
 		public static void SaveNodeList<T>(this XmlElement element, string parentName, string name, List<T> values)
 			where T : IXmlNodeSavable {
 			if ( values == null ) {

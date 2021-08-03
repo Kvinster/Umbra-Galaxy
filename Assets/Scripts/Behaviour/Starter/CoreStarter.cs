@@ -43,7 +43,7 @@ namespace STP.Behaviour.Starter {
 
 		[NotNull]
 		public Transform BordersRoot;
-		
+
 		bool _isLevelInitStarted;
 
 		public Player           Player           { get; set; }
@@ -55,11 +55,12 @@ namespace STP.Behaviour.Starter {
 		public MinimapManager   MinimapManager   { get; private set; }
 		public ShipCreator      ShipCreator      { get; private set; }
 
-		public GameController    GameController    => GameController.Instance;
-		public PlayerController  PlayerController  => GameController.PlayerController;
-		public XpController      XpController      => GameController.XpController;
-		public PrefabsController PrefabsController => GameController.PrefabsController;
-		public LevelController   LevelController   => GameController.LevelController;
+		public GameController     GameController     => GameController.Instance;
+		public UpgradesController UpgradesController => GameController.UpgradesController;
+		public PlayerController   PlayerController   => GameController.PlayerController;
+		public XpController       XpController       => GameController.XpController;
+		public PrefabsController  PrefabsController  => GameController.PrefabsController;
+		public LevelController    LevelController    => GameController.LevelController;
 
 		void OnDisable() {
 			GameController.Deinit();
@@ -80,7 +81,7 @@ namespace STP.Behaviour.Starter {
 		void RaiseUnhandledException(Exception e) {
 			Debug.LogException(e);
 		}
-		
+
 		public async UniTask InitLevel() {
 			_isLevelInitStarted = true;
 			#if UNITY_EDITOR
@@ -99,12 +100,13 @@ namespace STP.Behaviour.Starter {
 			var pc = GameController.PlayerController;
 			var lc = GameController.LevelController;
 			var xc = GameController.XpController;
+			pc.OnLevelStart();
 			SpawnHelper   = new CoreSpawnHelper(this, TempObjectsRoot);
 			PauseManager  = new PauseManager();
 			Player        = ShipCreator.CreatePlayerShip(PlayerController.Ship);
 			LevelManager  = new LevelManager(Player.transform, SceneTransitionController, PauseManager, lc);
 			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot);
-			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, lc, xc, 
+			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, lc, xc,
 													GameController.LeaderboardController);
 			CoreWindowsManager.Init(this, PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc,
 									PrefabsController);

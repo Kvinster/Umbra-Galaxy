@@ -1,5 +1,4 @@
 ﻿using STP.Behaviour.MainMenu;
-using STP.Core;
 
 namespace STP.Manager {
 	public sealed class MainMenuManager {
@@ -7,12 +6,15 @@ namespace STP.Manager {
 		readonly LeaderboardWindow _leaderboardWindow;
 		readonly LevelsScreen      _levelsScreen;
 		readonly SettingsScreen    _settingsScreen;
+		readonly UpgradesScreen    _upgradesScreen;
 
-		public MainMenuManager(MainScreen mainScreen, LeaderboardWindow leaderboardWindow, LevelsScreen levelsScreen, SettingsScreen settingsScreen) {
+		public MainMenuManager(MainScreen mainScreen, LeaderboardWindow leaderboardWindow, LevelsScreen levelsScreen,
+			SettingsScreen settingsScreen, UpgradesScreen upgradesScreen) {
 			_mainScreen        = mainScreen;
 			_leaderboardWindow = leaderboardWindow;
 			_levelsScreen      = levelsScreen;
 			_settingsScreen    = settingsScreen;
+			_upgradesScreen    = upgradesScreen;
 		}
 
 		public void Init() {
@@ -39,11 +41,17 @@ namespace STP.Manager {
 			_levelsScreen.Show();
 		}
 
+		public void ShowUpgradesScreen() {
+			HideAll();
+			_upgradesScreen.Show();
+		}
+
 		void HideAll() {
 			_mainScreen.Hide();
 			_leaderboardWindow.Hide();
 			_levelsScreen.Hide();
 			_settingsScreen.Hide();
+			_upgradesScreen.Hide();
 		}
 	}
 }

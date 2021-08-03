@@ -2,13 +2,11 @@
 
 using System;
 
-using STP.Behaviour.Core;
 using STP.Config;
 
 namespace STP.Core {
 	public sealed class XpController : BaseStateController {
-		
-		public class BoxedValue<T> where T : IComparable<T> {
+		public sealed class BoxedValue<T> where T : IComparable<T> {
 			T _value;
 
 			public T Value {
@@ -26,25 +24,26 @@ namespace STP.Core {
 			{
 				return value.Value;
 			}
-			
+
 			public event Action<T> OnValueChanged;
 		}
-		
+
 		readonly LevelController _levelController;
 
 		XpConfig _xpConfig;
-		
-		public readonly BoxedValue<int> Xp            = new BoxedValue<int>();
-		public readonly BoxedValue<int> Level         = new BoxedValue<int>();
-		public readonly BoxedValue<int> LevelUpsCount = new BoxedValue<int>();
+
+		public readonly BoxedValue<int> Xp    = new BoxedValue<int>();
+		public readonly BoxedValue<int> Level = new BoxedValue<int>();
+
+		public event Action OnLevelUp;
 
 		public bool IsMaxLevelReached => Level == _xpConfig.LevelUpInfos.Count;
 		public int  LevelXpCap => !IsMaxLevelReached ? _xpConfig.LevelUpInfos[Level].NeededXp : int.MaxValue;
-		
+
 		public XpController() {
 			LoadConfig();
 		}
-		
+
 		public void AddLevelXp(int value) {
 			if ( value < 0 ) {
 				Debug.LogWarning($"Strange xp amount {value}. Ignoring");
@@ -54,12 +53,8 @@ namespace STP.Core {
 			if ( !IsMaxLevelReached && (Xp.Value > LevelXpCap) ) {
 				Xp.Value -= LevelXpCap;
 				Level.Value++;
-				LevelUpsCount.Value++;
+				OnLevelUp?.Invoke();
 			}
-		}
-
-		public void UseLevelUp() {
-			LevelUpsCount.Value--;
 		}
 
 		public PlayerLevelUpInfo GetLevelUpInfo(int level) {
@@ -69,7 +64,7 @@ namespace STP.Core {
 			}
 			return _xpConfig.LevelUpInfos[level];
 		}
-		
+
 		public int GetDestroyedEnemyXp(string enemyName) {
 			return _xpConfig.GetDestroyedEnemyXp(enemyName);
 		}

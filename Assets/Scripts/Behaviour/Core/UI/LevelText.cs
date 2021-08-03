@@ -80,8 +80,7 @@ namespace STP.Behaviour.Core.UI {
 			_stringBuilder.AppendLine(!_xpController.IsMaxLevelReached
 				? string.Format(CurXpTextFormat, _xpController.Xp.Value, _xpController.LevelXpCap)
 				: "P.Level maxed");
-			_stringBuilder.AppendLine(string.Format(LevelTextFormat, _xpController.Level.Value))
-				.AppendLine(string.Format(LevelUpsTextFormat, _xpController.LevelUpsCount.Value));
+			_stringBuilder.AppendLine(string.Format(LevelTextFormat, _xpController.Level.Value));
 			var allPowerUps = _playerManager.GetAllActivePowerUpStates();
 			if ( allPowerUps.Count > 0 ) {
 				_stringBuilder.AppendLine("PowerUps info:");

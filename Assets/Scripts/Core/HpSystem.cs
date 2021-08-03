@@ -23,6 +23,7 @@ namespace STP.Core {
 		public bool IsAlive => (Hp > 0f);
 
 		public event Action<float> OnHpChanged;
+		public event Action<float> OnMaxHpChanged;
 
 		public event Action OnDied;
 
@@ -46,7 +47,12 @@ namespace STP.Core {
 				Debug.LogErrorFormat("{0}.{1}: trying to add negative hp", nameof(HpSystem), nameof(AddHp));
 				return;
 			}
-			Hp = Mathf.Min(Hp + hp, MaxHp);
+			Hp = Mathf.Min(Hp + hp, Mathf.Max(Hp, MaxHp));
+		}
+
+		public void SetMaxHp(float maxHp) {
+			MaxHp = maxHp;
+			OnMaxHpChanged?.Invoke(MaxHp);
 		}
 
 		public void ResetHp() {
