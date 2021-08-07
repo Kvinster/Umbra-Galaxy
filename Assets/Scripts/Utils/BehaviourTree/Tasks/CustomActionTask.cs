@@ -8,6 +8,13 @@ namespace STP.Utils.BehaviourTree.Tasks {
 			_task = task;
 		}
 
+		public CustomActionTask(Action task) {
+			_task = () => {
+				task();
+				return TaskStatus.Success;
+			};
+		}
+
 		protected override TaskStatus ExecuteInternal() {
 			return _task();
 		}
