@@ -15,7 +15,7 @@ namespace STP.Behaviour.Core.Enemy {
 			_tree = new BehaviourTree(
 				new SequenceTask(
 					new WaitTask(1),
-					new LogTask()
+					new LogTask("log")
 				)
 		);
 	}
