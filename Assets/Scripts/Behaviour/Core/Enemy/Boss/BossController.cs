@@ -36,7 +36,7 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 		public float MaxHp => _hpSystem.MaxHp;
 
 		public event Action<float> OnCurHpChanged;
-
+		
 		protected override void Awake() {
 			base.Awake();
 			if ( Instance ) {
@@ -47,6 +47,10 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 			Instance = this;
 		}
 
+		void Update() {
+			_tree?.Tick();	
+		}
+		
 		void OnDestroy() {
 			if ( Instance && (Instance == this) ) {
 				Instance = null;
@@ -57,8 +61,22 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 			_levelGoalManager = starter.LevelGoalManager;
 
 			_tree = new BehaviourTree(
-				new SelectorTask(
-					
+				new SequenceTask(
+					new ConditionTask(() => !GunController.IsCharged),
+					new CustomActionTask(() => {
+						MoveAgent.IsActive = false;
+						GunController.StartCharging();
+					}),
+					new RepeatUntilSuccess(
+						new ConditionTask(() => GunController.IsCharged)
+					),
+					new CustomActionTask(() => {
+						GunController.Shoot();
+						MoveAgent.IsActive = true;
+					}),
+					// Idle
+					new WaitTask(1f),
+					new LogTask("tree completed")
 				)
 			);
 
