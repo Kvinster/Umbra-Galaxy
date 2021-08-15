@@ -1,58 +1,70 @@
-﻿using STP.Behaviour.Starter;
+﻿using STP.Behaviour.Core.Enemy.Boss;
+using STP.Behaviour.Starter;
 using STP.Utils.BehaviourTree;
 using STP.Utils.BehaviourTree.Tasks;
+using STP.Utils.GameComponentAttributes;
 
 
 namespace STP.Behaviour.Core.Enemy {
 	public class BossSpawner : BaseCoreComponent, IDestructible {
-		BehaviourTree _tree;
+		int _fireCount;
+		int _spawnCount;
 		
+		[NotNull] public BossGunController GunController;
+
+		BehaviourTree _tree;
+
+		bool HasGun => true;
+
+		bool HasSpawners => true;
+
 		void Update() {
 			_tree.Tick();
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
 			_tree = new BehaviourTree(
-				new SequenceTask(
-					new WaitTask(1),
-					new LogTask("log")
+				new SelectorTask(
+					new SequenceTask(
+						new ConditionTask(() => (HasGun && (_fireCount == _spawnCount)) || !HasSpawners),
+						// Charge
+						new AlwaysSuccessDecorator(
+							new SequenceTask(
+								new ConditionTask(() => !GunController.IsCharged),
+								new CustomActionTask(() => {
+									GunController.StartCharging();
+								}),
+								new RepeatUntilSuccess(
+									new ConditionTask(() => GunController.IsCharged)
+								)
+							)
+						),
+						new CustomActionTask(() => {
+							GunController.Shoot();
+							_fireCount++;
+						})
+					),
+					new SequenceTask(
+						new ConditionTask(() => (HasSpawners && (_spawnCount < _fireCount)) || !HasGun),
+						new WaitTask(3f),
+						new CustomActionTask(() => {
+							_spawnCount++;
+						})
+					)
 				)
-		);
-	}
-		
+			);
+		}
+
 		public void TakeDamage(float damage) {
 			
 		}
-		
-		// int _firedCount;
-		// int _spawnedCount;
-		//
-		// bool NeedToFire() {
-		// 	return _firedCount < 2;
-		// }
-		//
-		// bool NeedToSpawn() {
-		// 	return _spawnedCount < 2;
-		// }
 
-		// TaskStatus Spawn() {
-		// 	_spawnedCount++;
-		// 	_firedCount = 0;
-		// 	return TaskStatus.Success;
-		// }
-		//
-		// TaskStatus Fire() {
-		// 	_firedCount++;
-		// 	_spawnedCount = 0;
-		// 	return TaskStatus.Success;
-		// }
-		//
-		// TaskStatus Charge() {
-		// 	return TaskStatus.Success;
-		// }
-		//
-		// TaskStatus RotateToPlayer() {
-		// 	return TaskStatus.Continue;
-		// }
+		void StartSpawn() {
+			
+		}
+
+		void StopSpawn() {
+			
+		}
 	}
 }
