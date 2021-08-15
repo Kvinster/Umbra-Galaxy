@@ -60,37 +60,42 @@ namespace STP.Editor {
 
 		NodeGraph CreateGraphForBehaviourTree(BehaviourTree tree) {
 			var graph    = CreateInstance<BehaviourTreeGraph>();
-			_layer = 0;
-			var rootNode = CreateNode(graph, tree.Root, null);
-			_layer = 1;
-			CreateSubGraph(graph, tree.Root, rootNode);
+			CreateSubGraph(graph, tree.Root);
 			return graph;
 		}
 
 		int _layer        = 0;
 		int _inLayerIndex = 0;
 
-		float _itemHeight = 300;
+		float _itemHeight = 200;
 		float _itemWidth  = 300;
 
-		void CreateSubGraph(BehaviourTreeGraph graph, BaseTask task, BehaviourTreeNode parent) {
-			var nodes = new List<BehaviourTreeNode>();
-			
-			_inLayerIndex = 0;
-			foreach ( var subTask in task.SubTasks ) {
-				nodes.Add(CreateNode(graph, subTask, parent));
-				_inLayerIndex++;
-			}
+		void CreateSubGraph(BehaviourTreeGraph graph, BaseTask root) {
+			var visualNodes = new List<BehaviourTreeNode>();
 
-			_inLayerIndex = 0;
-			
-			_layer++;
-			for ( var i = 0; i < nodes.Count; i++ ) {
-				CreateSubGraph(graph, task.SubTasks[i], nodes[i]);
+			var nextLayerNodes    = new List<(BaseTask task, BaseTask parent)> {(root, null)};
+
+			_layer = 0;
+			while ( nextLayerNodes.Count > 0 ) {
+				_inLayerIndex     = 0;
+				var currentLayerNodes = nextLayerNodes;
+				nextLayerNodes    = new List<(BaseTask task, BaseTask parent)>();
+				foreach ( var taskPair in currentLayerNodes ) {
+					var parentNode = visualNodes.Find(x => (x.Task == taskPair.parent));
+					visualNodes.Add(CreateNode(graph, taskPair.task, parentNode));
+					nextLayerNodes.AddRange(GetTaskChild(taskPair.task));
+				}
+				_layer++;
 			}
-			_layer--;
 		}
 
+		List<(BaseTask task, BaseTask parent)> GetTaskChild(BaseTask task) {
+			var res = new List<(BaseTask task, BaseTask parent)>();
+			foreach ( var child in task.SubTasks ) {
+				res.Add((child, task));
+			}
+			return res;
+		}
 
 		BehaviourTreeNode CreateNode(BehaviourTreeGraph graph, BaseTask task, BehaviourTreeNode parent) {
 			var node = graph.AddNode<BehaviourTreeNode>();
@@ -115,6 +120,7 @@ namespace STP.Editor {
 			}
 			node.position = new Vector2(_layer * _itemWidth, _inLayerIndex * _itemHeight);
 			node.UpdateValues();
+			_inLayerIndex++;
 			return node;
 		}
 		
