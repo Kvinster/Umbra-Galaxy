@@ -6,6 +6,7 @@ using STP.Core;
 using STP.Core.State;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
+using STP.View.DebugGUI;
 
 namespace STP.Behaviour.Starter {
 	public sealed class MainMenuStarter : BaseStarter<MainMenuStarter> {
@@ -33,6 +34,8 @@ namespace STP.Behaviour.Starter {
 			QualitySettings.vSyncCount  = 0;
 
 			MainMenuManager.Init();
+			
+			DebugGuiController.Instance.SetDrawable(new MainMenuDebugDrawable(this));
 		}
 
 		void TryCreateGameState() {

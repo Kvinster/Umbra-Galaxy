@@ -3,13 +3,12 @@
 using System;
 
 using STP.Behaviour.Starter;
-using STP.Behaviour.Core.Enemy.Boss.AI;
 using STP.Core;
 using STP.Manager;
 using STP.Utils.BehaviourTree;
 using STP.Utils.GameComponentAttributes;
 
-using Cysharp.Threading.Tasks;
+using STP.Utils.BehaviourTree.Tasks;
 
 namespace STP.Behaviour.Core.Enemy.Boss {
 	public sealed class BossController : BaseCoreComponent, IDestructible {
@@ -37,7 +36,7 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 		public float MaxHp => _hpSystem.MaxHp;
 
 		public event Action<float> OnCurHpChanged;
-
+		
 		protected override void Awake() {
 			base.Awake();
 			if ( Instance ) {
@@ -48,6 +47,10 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 			Instance = this;
 		}
 
+		void Update() {
+			_tree?.Tick();	
+		}
+		
 		void OnDestroy() {
 			if ( Instance && (Instance == this) ) {
 				Instance = null;
@@ -58,9 +61,22 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 			_levelGoalManager = starter.LevelGoalManager;
 
 			_tree = new BehaviourTree(
-				new Selector(
-					new GunChargeTask(MoveAgent, GunController),
-					new IdleTask(1f)
+				new SequenceTask(
+					new ConditionTask(() => !GunController.IsCharged),
+					new CustomActionTask(() => {
+						MoveAgent.IsActive = false;
+						GunController.StartCharging();
+					}),
+					new RepeatUntilSuccess(
+						new ConditionTask(() => GunController.IsCharged)
+					),
+					new CustomActionTask(() => {
+						GunController.Shoot();
+						MoveAgent.IsActive = true;
+					}),
+					// Idle
+					new WaitTask(1f),
+					new LogTask("tree completed")
 				)
 			);
 
@@ -73,11 +89,6 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 			GunRotationController.SetTarget(starter.Player.transform);
 			GunRotationController.IsActive = true;
 
-			try {
-				UniTask.Create(_tree.Execute);
-			} catch ( Exception e ) {
-				Debug.LogError(e.Message);
-			}
 		}
 
 		public void TakeDamage(float damage) {
@@ -89,7 +100,6 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 		}
 
 		void Die() {
-			_tree.Stop();
 			_levelGoalManager.Advance();
 			Destroy(gameObject);
 		}

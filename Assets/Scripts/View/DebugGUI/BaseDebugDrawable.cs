@@ -1,4 +1,4 @@
-﻿﻿ namespace STP.View.DebugGUI {
+﻿namespace STP.View.DebugGUI {
 	public abstract class BaseDebugDrawable<T> : IDebugDrawable where T : class {
 		protected readonly T InfoHolder;
 
