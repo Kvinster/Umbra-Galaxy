@@ -1,40 +1,29 @@
-﻿using UnityEditor;
-using UnityEngine;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
-
 using STP.Config;
-using STP.Utils.BehaviourTree;
 using STP.Utils.BehaviourTree.Tasks;
-
+using UnityEditor;
+using UnityEngine;
 using XNode;
 using XNodeEditor;
 
-namespace STP.Editor {
-	public class BehaviourTreeVisualizer : EditorWindow {
-		// Add menu named "My Window" to the Window menu
-		[MenuItem("STP/Behaviour tree visualizer")]
-		static void InitWindow() {
-			// Get existing open window or if none, make a new one:
-			var window = GetWindow<BehaviourTreeVisualizer>();
-			window.Show();
-		}
-
+namespace STP.Utils.BehaviourTree.Editor.Visualiser {
+	public class BehaviourTreeDrawer : NodeGraphEditor {
 		BehaviourTree _openedTree;
-		NodeGraph     _graph;
-		
-		void OnGUI() {
-			var trees = GetBehaviourTrees();
-			if ( (trees.Count == 0) || (trees[0] == _openedTree)) {
+
+		NodeGraph _graph;
+
+		public void SetBehaviourTree(BehaviourTree tree) {
+			if ( tree.Root == null ) {
 				return;
 			}
 			if ( _openedTree != null ) {
 				_openedTree.OnBehaviourTreeUpdated -= OnBehaviourTreeUpdate;
 			}
-			_openedTree                        =  trees[0];
+			_openedTree                        =  tree;
 			_openedTree.OnBehaviourTreeUpdated += OnBehaviourTreeUpdate;
-			_graph                             =  DrawBehaviourTree(_openedTree);
+			_graph                             =  CreateGraphForBehaviourTree(_openedTree);
+			NodeEditorWindow.Open(_graph);
 		}
 
 		void OnBehaviourTreeUpdate(BehaviourTree tree) {
@@ -52,20 +41,14 @@ namespace STP.Editor {
 			}
 		}
 
-		NodeGraph DrawBehaviourTree(BehaviourTree tree) {
-			var graph = CreateGraphForBehaviourTree(tree);
-			NodeEditorWindow.Open(graph);
-			return graph;
-		}
-
 		NodeGraph CreateGraphForBehaviourTree(BehaviourTree tree) {
-			var graph    = CreateInstance<BehaviourTreeGraph>();
+			var graph    = ScriptableObject.CreateInstance<BehaviourTreeGraph>();
 			CreateSubGraph(graph, tree.Root);
 			return graph;
 		}
 
-		int _layer        = 0;
-		int _inLayerIndex = 0;
+		int _layer;
+		int _inLayerIndex;
 
 		float _itemHeight = 200;
 		float _itemWidth  = 300;

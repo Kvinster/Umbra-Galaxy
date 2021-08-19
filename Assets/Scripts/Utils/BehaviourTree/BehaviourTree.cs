@@ -3,6 +3,8 @@
 using STP.Utils.BehaviourTree.Tasks;
 
 namespace STP.Utils.BehaviourTree {
+	// Serializable needed only for enabling custom code for BT visualization in inspector
+	[Serializable]
 	public sealed class BehaviourTree {
 		public readonly Blackboard Blackboard = new Blackboard();
 
@@ -14,7 +16,6 @@ namespace STP.Utils.BehaviourTree {
 			Root = root;
 			
 			Root.SetBlackboard(Blackboard);
-			
 		}
 
 		public void Tick() {
