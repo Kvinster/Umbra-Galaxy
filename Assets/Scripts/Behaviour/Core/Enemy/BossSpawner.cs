@@ -12,18 +12,18 @@ namespace STP.Behaviour.Core.Enemy {
 		
 		[NotNull] public BossGunController GunController;
 
-		BehaviourTree _tree;
+		public BehaviourTree Tree;
 
 		bool HasGun => true;
 
 		bool HasSpawners => true;
 
 		void Update() {
-			_tree.Tick();
+			Tree.Tick();
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
-			_tree = new BehaviourTree(
+			Tree = new BehaviourTree(
 				new SelectorTask(
 					new SequenceTask(
 						new ConditionTask(() => (HasGun && (_fireCount == _spawnCount)) || !HasSpawners),
