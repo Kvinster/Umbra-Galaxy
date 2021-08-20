@@ -29,6 +29,10 @@ namespace STP.Utils.BehaviourTree.Tasks {
 			}
 		}
 
+		public void InstantFinishTask(TaskStatus result) {
+			LastStatus = result;
+		}
+
 		public TaskStatus Execute() {
 			if ( LastStatus == TaskStatus.Success || LastStatus == TaskStatus.Failure ) {
 				return LastStatus;
