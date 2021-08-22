@@ -1,27 +1,29 @@
 ﻿using System.Collections.Generic;
+using STP.Behaviour.Starter;
 using STP.Utils;
 using STP.Utils.BehaviourTree.Tasks;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
-	public class BossSpawnerGunsSubsystem : GameComponent {
-		public List<BossGun> Guns;
+	public class BossSpawnerGunsSubsystem {
+		List<BossGun> _guns;
 
 		BossGun _selectedGun;
 		
-
-		public bool HasGuns => Guns.Count > 0;
+		public bool HasGuns => _guns.Count > 0;
 
 		public BaseTask GunSubBt { get; private set; }
 		
 		public int FireCount { get; private set; }
 		
-		
-		public void Init() {
-			foreach ( var gun in Guns ) {
+		public void Init(List<BossGun> guns, CoreStarter starter) {
+			_guns = guns;
+			foreach ( var gun in _guns ) {
+				gun.Init(starter);
 				gun.OnDiedEvent += OnGunDestroyed;
 			}
 			
 			GunSubBt = new SequenceTask( 
+				// Select available gun
 				new ConditionTask(TrySelectGun),
 				// Charge
 				new AlwaysSuccessDecorator(
@@ -45,10 +47,10 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		}
 
 		bool TrySelectGun() {
-			if ( Guns.Count == 0 ) {
+			if ( _guns.Count == 0 ) {
 				return false;
 			}
-			_selectedGun = RandomUtils.GetRandomElement(Guns);
+			_selectedGun = RandomUtils.GetRandomElement(_guns);
 			return true;
 		}
 
@@ -58,13 +60,13 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		}
 
 		public void Deinit() {
-			foreach ( var gun in Guns ) {
+			foreach ( var gun in _guns ) {
 				gun.OnDiedEvent -= OnGunDestroyed;
 			}
 		}
 
 		void OnGunDestroyed(DestructiblePart destroyedGun) {
-			Guns.RemoveAll(x => x == destroyedGun);
+			_guns.RemoveAll(x => x == destroyedGun);
 			if ( _selectedGun == destroyedGun ) {
 				GunSubBt.InstantFinishTask(TaskStatus.Failure);
 			}

@@ -4,14 +4,15 @@ using STP.Utils.BehaviourTree;
 using STP.Utils.BehaviourTree.Tasks;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
-	public class BossSpawnerController : BaseCoreComponent, IDestructible {
+	public class SpawnerBossController : BaseCoreComponent, IDestructible {
 		int _spawnCount;
 		
 		public BehaviourTree Tree;
 
+		public List<BossGun>          Guns;
 		public List<DestructiblePart> Spawners;
 
-		public BossSpawnerGunsSubsystem GunsSubsystem;
+		BossSpawnerGunsSubsystem _gunsSubsystem;
 
 		bool HasSpawners => Spawners.Count > 0;
 
@@ -20,16 +21,17 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
-			GunsSubsystem.Init();
+			_gunsSubsystem = new BossSpawnerGunsSubsystem();
+			_gunsSubsystem.Init(Guns, starter);
 			
 			Tree = new BehaviourTree(
 				new SelectorTask(
 					new SequenceTask(
-						new ConditionTask(() => (GunsSubsystem.HasGuns && (GunsSubsystem.FireCount == _spawnCount)) || !HasSpawners),
-						GunsSubsystem.GunSubBt
+						new ConditionTask(() => (_gunsSubsystem.HasGuns && (_gunsSubsystem.FireCount == _spawnCount)) || !HasSpawners),
+						_gunsSubsystem.GunSubBt
 					),
 					new SequenceTask(
-						new ConditionTask(() => (HasSpawners && (_spawnCount < GunsSubsystem.FireCount)) || !GunsSubsystem.HasGuns),
+						new ConditionTask(() => (HasSpawners && (_spawnCount < _gunsSubsystem.FireCount)) || !_gunsSubsystem.HasGuns),
 						new WaitTask(3f),
 						new CustomActionTask(() => {
 							_spawnCount++;
