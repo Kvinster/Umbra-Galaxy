@@ -72,7 +72,7 @@ namespace STP.Behaviour.Core {
 			}
 
 			_isAnimPlaying = true;
-			await CreateShowAnim(_playerTransform.position);
+			await CreateShowAnim();
 			_isAnimPlaying = false;
 		}
 
@@ -93,11 +93,11 @@ namespace STP.Behaviour.Core {
 			return anim;
 		}
 
-		Sequence CreateShowAnim(Vector3 fadeOutWorldCenter) {
-			var fadeOutScreenCenter = _camera.transform.TransformPoint(fadeOutWorldCenter);
+		Sequence CreateShowAnim() {
 			var progress            = 1f;
 			MaterialPropertyBlock.SetFloat(Progress, progress);
-			MaterialPropertyBlock.SetVector(Center, fadeOutScreenCenter);
+			// Settings to zero cause custom centers in the current shared don't work properly - vignette doesn't open a whole screen
+			MaterialPropertyBlock.SetVector(Center, Vector4.zero);
 			SpriteRenderer.SetPropertyBlock(MaterialPropertyBlock);
 			var anim = DOTween.Sequence()
 				.Append(DOTween.To(() => progress, x => {
