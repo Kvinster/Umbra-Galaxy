@@ -4,7 +4,7 @@ namespace STP.Utils.BehaviourTree.Tasks {
 	public class LogTask : BaseTask {
 		string _message;
 
-		public LogTask(string message) {
+		public LogTask(string message) : base(nameof(LogTask)) {
 			_message = message;
 		}
 		

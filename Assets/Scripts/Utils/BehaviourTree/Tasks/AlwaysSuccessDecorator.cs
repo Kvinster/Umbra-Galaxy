@@ -1,6 +1,6 @@
 ﻿namespace STP.Utils.BehaviourTree.Tasks {
 	public class AlwaysSuccessDecorator : BaseTask {
-		public AlwaysSuccessDecorator(BaseTask task) {
+		public AlwaysSuccessDecorator(BaseTask task) : base(nameof(AlwaysSuccessDecorator)) {
 			SubTasks.Add(task);
 		}
 		
