@@ -7,11 +7,13 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
 	public sealed class AsteroidSpawner : BaseSpawner {
 		CoreSpawnHelper         _spawnHelper;
 		AsteroidSpawnerSettings _spawnerSettings;
-
-		protected override BaseSpawnerSettings InitSettings(CoreStarter starter) {
+		
+		protected override BaseSpawnerSettings Settings => _spawnerSettings;
+		
+		protected override void InitInternal(CoreStarter starter) {
+			base.InitInternal(starter);
 			_spawnHelper     = starter.SpawnHelper;
 			_spawnerSettings = starter.LevelController.CurLevelConfig.AsteroidSpawnerSettings;
-			return _spawnerSettings;
 		}
 
 		protected override void InitItem(GameObject go) {

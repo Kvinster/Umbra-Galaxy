@@ -13,10 +13,8 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
 
         readonly Timer _spawnTimer = new Timer();
 
-        float      _spawnPeriod;
-        float      _spawnRange;
-        GameObject _prefab;
-
+        protected abstract BaseSpawnerSettings Settings { get; }
+        
         bool _isStopped;
 
         void OnDestroy() {
@@ -44,24 +42,18 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
         }
 
         protected override void InitInternal(CoreStarter starter) {
-            var settings = InitSettings(starter);
-            if ( !settings.Enabled ) {
+            if ( !Settings.Enabled ) {
                 _isStopped = true;
                 EventManager.Unsubscribe<PlayerEnteredSafeArea>(OnPlayerEnteredSafeArea);
                 EventManager.Unsubscribe<PlayerLeftSafeArea>(OnPlayerLeftSafeArea);
                 return;
             }
-            _spawnPeriod = settings.SpawnPeriod;
-            _spawnRange  = settings.SpawnRange;
-            _prefab      = settings.Prefab;
 
             SpawnHelper = starter.SpawnHelper;
-            _spawnTimer.Start(_spawnPeriod);
+            _spawnTimer.Start(Settings.SpawnPeriod);
             Player              =  starter.Player;
             Player.OnPlayerDied += OnPlayerDied;
         }
-
-        protected abstract BaseSpawnerSettings InitSettings(CoreStarter starter);
 
         protected virtual void InitItem(GameObject go) { }
 
@@ -83,8 +75,8 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
             }
             var randPos = Random.insideUnitCircle.normalized;
             randPos = (randPos == Vector2.zero) ? Vector2.right : randPos;
-            var pos = (Vector3) randPos * _spawnRange + Player.transform.position;
-            var go  = Instantiate(_prefab, pos, Quaternion.identity, SpawnHelper.TempObjRoot);
+            var pos = (Vector3) randPos * Settings.SpawnRange + Player.transform.position;
+            var go  = Instantiate(Settings.Prefab, pos, Quaternion.identity, SpawnHelper.TempObjRoot);
             InitItem(go);
             // Init mini icon
             SpawnHelper.TryInitSpawnedObject(go);
