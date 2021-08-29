@@ -3,7 +3,7 @@ using STP.Core;
 using STP.Utils;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
-	public class DestructiblePart : GameComponent, IDestructible {
+	public abstract class DestructiblePart : GameComponent, IDestructible {
 		public float StartHp;
 
 		HpSystem _hpSystem;
