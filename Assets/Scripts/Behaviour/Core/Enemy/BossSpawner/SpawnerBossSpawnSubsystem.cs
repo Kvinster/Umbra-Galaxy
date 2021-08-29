@@ -16,16 +16,16 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 		public BaseTask BehaviourTree { get; private set; }
 		
-		public void Init(List<Spawner> spawns) {
+		public void Init(List<Spawner> spawns, CoreStarter starter) {
 			_spawns = spawns;
 			foreach ( var spawn in spawns ) {
-				spawn.Init();
+				spawn.Init(starter.SpawnHelper);
 				spawn.OnDiedEvent += OnSpawnerDestroyed;
 			}
 
 			BehaviourTree = new RepeatTask(WaveSpawnCount, new SequenceTask(
-				new ConditionTask(TrySelectSpawner),
-				new CustomActionTask(_selectedSpawn.Spawn),
+				new ConditionTask("Is spawner selected", TrySelectSpawner),
+				new CustomActionTask("Spawn", () => _selectedSpawn.Spawn()),
 				new WaitTask(WaitTime)
 			));
 		}

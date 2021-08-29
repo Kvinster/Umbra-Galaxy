@@ -27,16 +27,18 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			_gunsSubsystem.Init(Guns, starter);
 
 			_spawnSubsystem = new SpawnerBossSpawnSubsystem();
-			_spawnSubsystem.Init(Spawners);
-			
+			_spawnSubsystem.Init(Spawners, starter);
+
 			Tree = new BehaviourTree(
 				new SequenceTask(
 					new AlwaysSuccessDecorator(_gunsSubsystem.BehaviourTree),
+					new WaitTask(1f), // for debug
 					new AlwaysSuccessDecorator(_spawnSubsystem.BehaviourTree),
+					new WaitTask(1f), // for debug
 					// Self destruct if we don't have guns and spawners
 					new SequenceTask(
-						new ConditionTask(() => !_gunsSubsystem.HasGuns && !_spawnSubsystem.HasSpawners),
-						new CustomActionTask(() => Destroy(gameObject))
+						new ConditionTask("Is everything destroyed", () => !_gunsSubsystem.HasGuns && !_spawnSubsystem.HasSpawners),
+						new CustomActionTask("destroy boss object", () => Destroy(gameObject))
 					)
 				)
 			);

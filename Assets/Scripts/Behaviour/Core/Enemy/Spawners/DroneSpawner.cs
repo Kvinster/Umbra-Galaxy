@@ -8,8 +8,8 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
 		protected override BaseSpawnerSettings Settings => _settings;
 		
 		protected override void InitInternal(CoreStarter starter) {
-			base.InitInternal(starter);
 			_settings = starter.LevelController.CurLevelConfig.DroneSpawnerSettings;
+			base.InitInternal(starter);
 		}
 	}
 }

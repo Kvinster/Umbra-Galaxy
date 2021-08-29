@@ -16,8 +16,9 @@ namespace STP.Behaviour.Starter {
                 try {
                     comp.Init(starter);
                 } catch ( Exception e ) {
-                    Debug.LogErrorFormat("{0}.{1}: exception when initializing {2}\n{3}", nameof(BaseStarter),
-                        nameof(InitComponents), comp.GetType().Name, e.Message);
+                    Debug.LogErrorFormat("{0}.{1}: exception when initializing {2}", nameof(BaseStarter),
+                        nameof(InitComponents), comp.GetType().Name);
+                    Debug.LogException(e);
                 }
             }
         }

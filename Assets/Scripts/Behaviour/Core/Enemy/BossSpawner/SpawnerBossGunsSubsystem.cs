@@ -20,20 +20,20 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 				gun.OnDiedEvent += OnGunDestroyed;
 			}
 			
-			BehaviourTree = new SequenceTask( 
+			var bt = new SequenceTask( 
 				// Select available gun
-				new ConditionTask(TrySelectGun),
+				new ConditionTask("Is gun selected", TrySelectGun),
 				// Charge
 				new AlwaysSuccessDecorator(
 					new SequenceTask(
-						new ConditionTask(TryStartCharging),
+						new ConditionTask("Can start charge", TryStartCharging),
 						new RepeatUntilSuccess(
-							new ConditionTask(() => _selectedGun.GunController.IsCharged)
+							new ConditionTask("Is charged", () => _selectedGun.GunController.IsCharged)
 						)
 					)
 				),
-				// Fire
-				new CustomActionTask(_selectedGun.GunController.Shoot));
+				new CustomActionTask("Fire", () => _selectedGun.GunController.Shoot()));
+			BehaviourTree = bt;
 		}
 
 		bool TryStartCharging() {

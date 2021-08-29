@@ -11,9 +11,9 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
 		protected override BaseSpawnerSettings Settings => _spawnerSettings;
 		
 		protected override void InitInternal(CoreStarter starter) {
-			base.InitInternal(starter);
 			_spawnHelper     = starter.SpawnHelper;
 			_spawnerSettings = starter.LevelController.CurLevelConfig.AsteroidSpawnerSettings;
+			base.InitInternal(starter);
 		}
 
 		protected override void InitItem(GameObject go) {
