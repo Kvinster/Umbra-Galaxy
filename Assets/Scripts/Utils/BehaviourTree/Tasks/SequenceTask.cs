@@ -2,7 +2,9 @@
 
 namespace STP.Utils.BehaviourTree.Tasks {
 	public sealed class SequenceTask : BaseTask {
-		public SequenceTask(params BaseTask[] tasks) {
+		public SequenceTask(params BaseTask[] tasks) : this(nameof(SequenceTask), tasks) { }
+
+		public SequenceTask(string name, params BaseTask[] tasks) : base(name) {
 			Assert.IsTrue(tasks.Length > 0);
 			SubTasks.AddRange(tasks);
 		}

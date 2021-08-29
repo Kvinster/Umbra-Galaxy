@@ -84,7 +84,7 @@ namespace STP.Utils.BehaviourTree.Editor.Visualiser {
 			var node = graph.AddNode<BehaviourTreeNode>();
 			node.ThisNode = node;
 			node.Parent   = parent;
-			node.name     = task.GetType().Name;
+			node.name     = task.TaskName;
 			node.Task     = task;
 			NodePort parentOutputPort = null;
 			if ( parent != null ) {

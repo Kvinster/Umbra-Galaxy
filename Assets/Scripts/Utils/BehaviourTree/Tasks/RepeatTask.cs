@@ -3,7 +3,7 @@
 		int _rounds;
 		int _counter;
 		
-		public RepeatTask(int rounds, BaseTask task) {
+		public RepeatTask(int rounds, BaseTask task) : base($"{nameof(RepeatTask)} {rounds} rounds ") {
 			_rounds = rounds;
 			SubTasks.Add(task);
 		}

@@ -2,7 +2,7 @@
 
 namespace STP.Utils.BehaviourTree.Tasks {
 	public sealed class RepeatUntilSuccess : BaseTask {
-		public RepeatUntilSuccess(BaseTask task) {
+		public RepeatUntilSuccess(BaseTask task) : base(nameof(RepeatUntilSuccess)) {
 			SubTasks.Add(task);
 		}
 		

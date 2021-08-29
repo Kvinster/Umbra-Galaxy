@@ -2,8 +2,9 @@
 
 namespace STP.Utils.BehaviourTree.Tasks {
 	public sealed class SelectorTask : BaseTask {
+		public SelectorTask(params BaseTask[] tasks) : this(nameof(SelectorTask), tasks) { }
 
-		public SelectorTask(params BaseTask[] tasks) {
+		public SelectorTask(string name, params BaseTask[] tasks) : base(name) {
 			Assert.IsTrue(tasks.Length > 0);
 			SubTasks.AddRange(tasks);
 		}
