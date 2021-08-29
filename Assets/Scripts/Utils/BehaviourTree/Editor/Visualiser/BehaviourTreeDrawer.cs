@@ -28,6 +28,7 @@ namespace STP.Utils.BehaviourTree.Editor.Visualiser {
 
 		void OnBehaviourTreeUpdate(BehaviourTree tree) {
 			RefreshStatuses();
+			NodeEditorWindow.Open(_graph);
 		}
 
 		void RefreshStatuses() {
