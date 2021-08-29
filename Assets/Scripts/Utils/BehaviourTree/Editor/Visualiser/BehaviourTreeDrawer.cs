@@ -12,7 +12,7 @@ namespace STP.Utils.BehaviourTree.Editor.Visualiser {
 		BehaviourTree _openedTree;
 
 		NodeGraph _graph;
-
+		
 		public void SetBehaviourTree(BehaviourTree tree) {
 			if ( tree.Root == null ) {
 				return;
@@ -28,7 +28,9 @@ namespace STP.Utils.BehaviourTree.Editor.Visualiser {
 
 		void OnBehaviourTreeUpdate(BehaviourTree tree) {
 			RefreshStatuses();
-			NodeEditorWindow.Open(_graph);
+			if ( EditorWindow.HasOpenInstances<NodeEditorWindow>() ) {
+				NodeEditorWindow.RepaintAll();
+			}
 		}
 
 		void RefreshStatuses() {
