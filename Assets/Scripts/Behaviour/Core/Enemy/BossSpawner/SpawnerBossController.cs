@@ -6,6 +6,8 @@ using STP.Utils.BehaviourTree.Tasks;
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
 	public class SpawnerBossController : BaseCoreComponent {
 		public BehaviourTree Tree;
+		
+		public SpawnParams   SpawnParams;
 
 		public List<BossGun> Guns;
 		public List<Spawner> Spawners;
@@ -27,7 +29,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			_gunsSubsystem.Init(Guns, starter);
 
 			_spawnSubsystem = new SpawnerBossSpawnSubsystem();
-			_spawnSubsystem.Init(Spawners, starter);
+			_spawnSubsystem.Init(Spawners, starter, SpawnParams);
 
 			Tree = new BehaviourTree(
 				new SequenceTask(
