@@ -27,7 +27,7 @@ namespace STP.Utils.BehaviourTree.Tasks {
 			Blackboard = blackboard;
 		}
 
-		public void ResetStatus() {
+		public virtual void ResetStatus() {
 			LastStatus = TaskStatus.Unknown;
 			foreach ( var subTask in SubTasks ) {
 				subTask.ResetStatus();
