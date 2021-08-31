@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using STP.Behaviour.Starter;
+using STP.Gameplay.Weapon.LaserWeapon;
 using STP.Utils;
 using STP.Utils.BehaviourTree.Tasks;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
 	public class SpawnerBossGunsSubsystem {
+		public float  FireTime   = 1f;
+		public float  ChargeTime = 1f;
 		List<BossGun> _guns;
 
 		BossGun _selectedGun;
@@ -19,33 +22,24 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 				gun.Init(starter);
 				gun.OnDiedEvent += OnGunDestroyed;
 			}
-			
-			var bt = new SequenceTask( 
+
+			var bt = new SequenceTask(
 				// Select available gun
 				new ConditionTask("Is gun selected", TrySelectGun),
-				// Charge
+				new WaitTask(ChargeTime),
+				new CustomActionTask("Start fire", () => _selectedGun.Laser.TryShoot()),
 				new AlwaysSuccessDecorator(
-					new SequenceTask(
-						new ConditionTask("Can start charge", TryStartCharging),
-						new RepeatUntilSuccess(
-							new ConditionTask("Is charged", () => _selectedGun.GunController.IsCharged)
-						)
+					new ParallelTask(
+						new SequenceTask(
+							new WaitTask(FireTime),
+							new ConditionTask(() => false)
+						),
+						new RepeatForeverTask(new CustomActionTask(() => _selectedGun.Laser.Update()))
 					)
 				),
-				new CustomActionTask("Fire", () => _selectedGun.GunController.Shoot()));
+				new CustomActionTask("Stop fire", () => _selectedGun.Laser.TryStopShoot())
+			);
 			BehaviourTree = bt;
-		}
-
-		bool TryStartCharging() {
-			if ( _selectedGun.GunController.IsCharged ) {
-				return false;
-			}
-			_selectedGun.GunController.StartCharging();
-			return true;
-		}
-
-		void Fire() {
-			_selectedGun.GunController.Shoot();
 		}
 
 		public void Deinit() {
