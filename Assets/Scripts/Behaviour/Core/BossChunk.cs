@@ -21,6 +21,11 @@ namespace STP.Behaviour.Core {
 
 		public Vector2 AreaSize => CachedRectTransform.sizeDelta;
 
-		protected override void InitInternal(CoreStarter starter) { }
+		protected override void InitInternal(CoreStarter starter) {
+			var cam        = starter.MainCamera;
+			var areaHeight = cam.orthographicSize * 2;
+			var areaWidth  = cam.aspect * areaHeight;
+			_rectTransform.sizeDelta = new Vector2(areaWidth, areaHeight);
+		}
 	}
 }
