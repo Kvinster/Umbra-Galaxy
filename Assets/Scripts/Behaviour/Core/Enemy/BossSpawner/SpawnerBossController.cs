@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using UnityEngine;
+
+using System.Collections.Generic;
+
 using STP.Behaviour.Starter;
 using STP.Utils.BehaviourTree;
 using STP.Utils.BehaviourTree.Tasks;
+using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
 	public class SpawnerBossController : BaseCoreComponent {
@@ -9,15 +13,19 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		
 		public SpawnParams   SpawnParams;
 
+		[NotNull] public Rigidbody2D                  BossRigidbody;
+		[NotNull] public SpawnerBossMovementSubsystem MovementSubsystem;
+		
 		public List<BossGun> Guns;
 		public List<Spawner> Spawners;
 
-		SpawnerBossGunsSubsystem  _gunsSubsystem;
-		SpawnerBossSpawnSubsystem _spawnSubsystem;
+		SpawnerBossGunsSubsystem     _gunsSubsystem;
+		SpawnerBossSpawnSubsystem    _spawnSubsystem;
 
 		void Update() {
 			Tree.Tick();
 		}
+
 
 		void OnDestroy() {
 			_gunsSubsystem?.Deinit();
@@ -25,11 +33,13 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
+			MovementSubsystem.Init(BossRigidbody, starter.Player.transform);
+			
 			_gunsSubsystem = new SpawnerBossGunsSubsystem();
-			_gunsSubsystem.Init(Guns, starter);
+			_gunsSubsystem.Init(Guns, starter, MovementSubsystem);
 
 			_spawnSubsystem = new SpawnerBossSpawnSubsystem();
-			_spawnSubsystem.Init(Spawners, starter, SpawnParams);
+			_spawnSubsystem.Init(Spawners, starter, SpawnParams, MovementSubsystem);
 
 			Tree = new BehaviourTree(
 				new SequenceTask(

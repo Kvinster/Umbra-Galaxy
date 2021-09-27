@@ -12,19 +12,30 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public bool HasSpawners => _spawns.Count > 0;
 
 		public BaseTask BehaviourTree { get; private set; }
-		
-		public void Init(List<Spawner> spawns, CoreStarter starter, SpawnParams spawnParams) {
-			_spawns      = spawns;
+
+		public void Init(List<Spawner> spawns, CoreStarter starter, SpawnParams spawnParams, SpawnerBossMovementSubsystem movementSubsystem) {
+			_spawns = spawns;
 			foreach ( var spawn in spawns ) {
 				spawn.Init(starter.SpawnHelper);
 				spawn.OnDiedEvent += OnSpawnerDestroyed;
 			}
 
-			BehaviourTree = new RepeatTask(spawnParams.EnemiesInWaveCount, new SequenceTask(
-				new ConditionTask("Is spawner selected", TrySelectSpawner),
-				new CustomActionTask("Spawn", () => _selectedSpawn.Spawn()),
-				new WaitTask(spawnParams.SpawnWaitTime)
-			));
+			BehaviourTree =
+				new SequenceTask(
+					new SequenceTask(
+						new CustomActionTask("start track player + prepare dash",
+							() => movementSubsystem.SetMovementType(MovementType.ChargeDash)),
+						new WaitTask(spawnParams.DashTime),
+						new CustomActionTask("start dash", () => movementSubsystem.SetMovementType(MovementType.Dash))
+					),
+					new RepeatTask(spawnParams.EnemiesInWaveCount,
+						new SequenceTask(
+							new ConditionTask("Is spawner selected", TrySelectSpawner),
+							// new CustomActionTask("Spawn", () => _selectedSpawn.Spawn()),
+							new WaitTask(spawnParams.SpawnWaitTime)
+						)
+					)
+				);
 		}
 
 		public void Deinit() {

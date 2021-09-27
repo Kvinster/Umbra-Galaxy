@@ -16,7 +16,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 		public bool HasGuns => _guns.Count > 0;
 		
-		public void Init(List<BossGun> guns, CoreStarter starter) {
+		public void Init(List<BossGun> guns, CoreStarter starter, SpawnerBossMovementSubsystem movementSubsystem) {
 			_guns = guns;
 			foreach ( var gun in _guns ) {
 				gun.Init(starter);
@@ -26,7 +26,10 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			var bt = new SequenceTask(
 				// Select available gun
 				new ConditionTask("Is gun selected", TrySelectGun),
-				new WaitTask(ChargeTime),
+				new ParallelTask(
+					new WaitTask(ChargeTime),
+					new CustomActionTask("Start spinning", () => movementSubsystem.SetMovementType(MovementType.SpinUp))
+				),
 				new CustomActionTask("Start fire", () => _selectedGun.Laser.TryShoot()),
 				new AlwaysSuccessDecorator(
 					new ParallelTask(
@@ -37,7 +40,11 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 						new RepeatForeverTask(new CustomActionTask(() => _selectedGun.Laser.Update()))
 					)
 				),
-				new CustomActionTask("Stop fire", () => _selectedGun.Laser.TryStopShoot())
+				new CustomActionTask("Stop fire", () => _selectedGun.Laser.TryStopShoot()),
+				new ParallelTask(
+					new WaitTask(ChargeTime),
+					new CustomActionTask("Stop spinning", () => movementSubsystem.SetMovementType(MovementType.SpinDown))
+				)
 			);
 			BehaviourTree = bt;
 		}
