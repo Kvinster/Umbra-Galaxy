@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
+using STP.Behaviour.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
@@ -26,6 +27,8 @@ namespace STP.Behaviour.Core {
 			var areaHeight = cam.orthographicSize * 2;
 			var areaWidth  = cam.aspect * areaHeight;
 			_rectTransform.sizeDelta = new Vector2(areaWidth, areaHeight);
+
+			Destroy(cam.GetComponent<RestrictedTransformFollower>());
 		}
 	}
 }
