@@ -258,7 +258,6 @@ MonoBehaviour:
   DeathWindow: {fileID: 1370165982}
   WinWindow: {fileID: 1665849635}
   PauseWindow: {fileID: 30992128}
-  LevelUpWindow: {fileID: 0}
   PauseButton: {fileID: 962270906}
   GetReadyWindow: {fileID: 1056562446}
 --- !u!114 &46128631
@@ -667,6 +666,7 @@ MonoBehaviour:
   LevelObjectsRoot: {fileID: 1206698621}
   TempObjectsRoot: {fileID: 706838148}
   BordersRoot: {fileID: 1414590054}
+  MiniMapObject: {fileID: 1953582989}
 --- !u!4 &194620073
 Transform:
   m_ObjectHideFlags: 0

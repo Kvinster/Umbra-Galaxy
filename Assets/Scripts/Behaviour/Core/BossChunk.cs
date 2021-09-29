@@ -28,6 +28,9 @@ namespace STP.Behaviour.Core {
 			var areaWidth  = cam.aspect * areaHeight;
 			_rectTransform.sizeDelta = new Vector2(areaWidth, areaHeight);
 
+			starter.MiniMapObject.SetActive(false);
+			starter.Player.transform.position = new Vector3(PlayerSpawnPosition.position.x, PlayerSpawnPosition.position.y, starter.PlayerStartPos.transform.position.z); 
+
 			Destroy(cam.GetComponent<RestrictedTransformFollower>());
 		}
 	}

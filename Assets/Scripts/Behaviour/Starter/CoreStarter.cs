@@ -13,7 +13,6 @@ using STP.Utils.GameComponentAttributes;
 using STP.View.DebugGUI;
 
 using Cysharp.Threading.Tasks;
-using STP.Config;
 
 namespace STP.Behaviour.Starter {
 	public class CoreStarter : BaseStarter<CoreStarter> {
@@ -44,6 +43,8 @@ namespace STP.Behaviour.Starter {
 		[NotNull]
 		public Transform BordersRoot;
 
+		[NotNull] public GameObject MiniMapObject;
+		
 		bool _isLevelInitStarted;
 
 		public Player           Player           { get; set; }
