@@ -1380,6 +1380,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BossRigidbody: {fileID: 318140005223483596}
+  UpVector: {x: 0, y: 0, z: 0}
+  AngularSpeed: 45
   RotationAccel: 0.5
   MovementAccel: 100
 --- !u!58 &7366904051762138862

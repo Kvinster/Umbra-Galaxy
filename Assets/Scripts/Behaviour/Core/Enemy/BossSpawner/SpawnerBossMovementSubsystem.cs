@@ -1,4 +1,5 @@
-﻿using STP.Utils;
+﻿using System;
+using STP.Utils;
 using STP.Utils.BehaviourTree;
 using STP.Utils.BehaviourTree.Tasks;
 using STP.Utils.GameComponentAttributes;
@@ -16,6 +17,10 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 	public class SpawnerBossMovementSubsystem : GameComponent {
 		[NotNull] public Rigidbody2D BossRigidbody;
 
+		public Vector3 UpVector;
+
+		public float AngularSpeed;
+		
 		public float RotationAccel;
 		public float MovementAccel;
 		
@@ -52,13 +57,28 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 					BossRigidbody.angularVelocity = 0f;
 				}
 			}
+
+			LookToPlayer();
 		}
 
+		void LookToPlayer() {
+			var targetAngle       = GetAngleToPlayer();
+			var oldAngle          = BossRigidbody.rotation;
+			var diff              = targetAngle - oldAngle;
+			if ( Mathf.Abs(diff) > 180 ) {
+				diff = -diff;
+			}
+			var movementAmplitude = Mathf.Clamp(AngularSpeed * Time.deltaTime, 0, Mathf.Abs(diff));
+			var newAngle          = oldAngle + Mathf.Sign(diff) * movementAmplitude;
+			print(targetAngle + " " + oldAngle + " " + newAngle);
+			BossRigidbody.transform.rotation = Quaternion.AngleAxis(newAngle, Vector3.forward);
+		}
+		
 		float GetAngleToPlayer() {
 			var diff = _player.position - BossRigidbody.transform.position;
 			diff.Normalize();
 			var angle = Mathf.Atan2(diff.x, diff.y) * Mathf.Rad2Deg;
-			return angle;
+			return -angle;
 		}
 	}
 }
