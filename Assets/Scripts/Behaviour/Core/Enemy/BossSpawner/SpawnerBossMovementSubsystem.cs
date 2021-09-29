@@ -51,8 +51,6 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 				if ( BossRigidbody.angularVelocity != 0f ) {
 					BossRigidbody.angularVelocity = 0f;
 				}
-
-				BossRigidbody.rotation = GetAngleToPlayer() - 90;
 			}
 		}
 
