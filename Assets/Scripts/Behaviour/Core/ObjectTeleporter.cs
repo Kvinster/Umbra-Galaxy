@@ -80,9 +80,9 @@ namespace STP.Behaviour.Core {
 
 		Vector2 CalculateNewPosition(Transform obj) {
 			var objectPos                 = (Vector2) obj.position;
-			var vectorFromCenterAreaToObj = (objectPos - _battleArea.center).normalized;
+			var vectorFromCenterAreaToObj = (objectPos - _battleArea.center);
 			Vector2 teleportationVector;
-			if (Mathf.Abs(vectorFromCenterAreaToObj.y) > Mathf.Abs(vectorFromCenterAreaToObj.x)) {
+			if ( Mathf.Abs(vectorFromCenterAreaToObj.y) >= _battleArea.height / 2) {
 				//on upper or bottom border
 				// y > 0 => upper. otherwise - bottom.
 				var teleportationDirection = (vectorFromCenterAreaToObj.y > 0) ? Vector2.down : Vector2.up;
