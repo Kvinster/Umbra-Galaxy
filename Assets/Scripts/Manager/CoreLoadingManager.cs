@@ -14,6 +14,10 @@ namespace STP.Manager {
 
 		bool IsLoading { get; set; }
 
+		public void StartLoadCore() {
+			UniTask.Void(LoadCore);
+		}
+
 		public async UniTaskVoid LoadCore() {
 			IsLoading = true;
 

@@ -45,8 +45,7 @@ namespace STP.Behaviour.MainMenu {
 
 		void Play() {
 			GameController.Instance.LevelController.StartLevel(0);
-			var clm = CoreLoadingManager.Create();
-			UniTask.Void(clm.LoadCore);
+			CoreLoadingManager.Create().StartLoadCore();
 		}
 
 		void ShowLeaderboardWindow() {
