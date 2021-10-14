@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using STP.Behaviour.Core;
 using STP.Common;
+using STP.Config;
 
 namespace STP.Core {
 	public sealed class PlayerController : BaseStateController {
@@ -10,8 +11,6 @@ namespace STP.Core {
 		public ShipType Ship;
 
 		public readonly HpSystem HpSystem;
-
-		readonly UpgradesController _upgradesController;
 
 		int  _curLives;
 		bool _isInvincible;
@@ -41,16 +40,16 @@ namespace STP.Core {
 			}
 		}
 
+		public PlayerConfig Config => PlayerConfig.Instance;
+
 		public event Action<int>               OnCurLivesChanged;
 		public event Action<bool>              OnIsInvincibleChanged;
 		public event Action<PowerUpType, bool> OnPowerUpStateChanged;
 		public event Action                    OnRespawned;
 
-		public PlayerController(UpgradesController upgradesController) {
-			_upgradesController = upgradesController;
-
+		public PlayerController() {
 			CurLives     = StartPlayerLives;
-			HpSystem     = new HpSystem(upgradesController.GetCurConfigMaxHp());
+			HpSystem     = new HpSystem(Config.MaxHp);
 			IsInvincible = false;
 
 			foreach ( var powerUpType in PowerUpTypeHelper.PowerUpTypes ) {
@@ -59,7 +58,7 @@ namespace STP.Core {
 		}
 
 		public void OnLevelStart() {
-			HpSystem.SetMaxHp(_upgradesController.GetCurConfigMaxHp());
+			HpSystem.SetMaxHp(Config.MaxHp);
 		}
 
 		public void TakeDamage(float damage) {

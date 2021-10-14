@@ -1,7 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
+using System;
 using System.Collections;
+
 using STP.Behaviour.Core;
 using STP.Behaviour.Core.Generators;
 using STP.Behaviour.Utils;
@@ -13,7 +14,6 @@ using STP.Utils.GameComponentAttributes;
 using STP.View.DebugGUI;
 
 using Cysharp.Threading.Tasks;
-using STP.Config;
 
 namespace STP.Behaviour.Starter {
 	public class CoreStarter : BaseStarter<CoreStarter> {
@@ -55,12 +55,11 @@ namespace STP.Behaviour.Starter {
 		public MinimapManager   MinimapManager   { get; private set; }
 		public ShipCreator      ShipCreator      { get; private set; }
 
-		public GameController     GameController     => GameController.Instance;
-		public UpgradesController UpgradesController => GameController.UpgradesController;
-		public PlayerController   PlayerController   => GameController.PlayerController;
-		public XpController       XpController       => GameController.XpController;
-		public PrefabsController  PrefabsController  => GameController.PrefabsController;
-		public LevelController    LevelController    => GameController.LevelController;
+		public GameController    GameController    => GameController.Instance;
+		public PlayerController  PlayerController  => GameController.PlayerController;
+		public XpController      XpController      => GameController.XpController;
+		public PrefabsController PrefabsController => GameController.PrefabsController;
+		public LevelController   LevelController   => GameController.LevelController;
 
 		void OnDisable() {
 			GameController.Deinit();
@@ -69,12 +68,12 @@ namespace STP.Behaviour.Starter {
 
 		IEnumerator Start() {
 			yield return null;
-			if (!_isLevelInitStarted) {
+			if ( !_isLevelInitStarted ) {
 				// to properly initialize when started from editor
-#pragma warning disable 4014
+				#pragma warning disable 4014
 				UniTaskScheduler.UnobservedTaskException += RaiseUnhandledException;
 				InitLevel();
-#pragma warning restore 4014
+				#pragma warning restore 4014
 			}
 		}
 
@@ -84,7 +83,7 @@ namespace STP.Behaviour.Starter {
 
 		public async UniTask InitLevel() {
 			_isLevelInitStarted = true;
-			#if UNITY_EDITOR
+#if UNITY_EDITOR
 			if ( !GameState.IsActiveInstanceExists ) {
 				Debug.Log("Trying to load GameState instance");
 				var gs = GameState.TryLoadActiveGameState();
@@ -93,9 +92,9 @@ namespace STP.Behaviour.Starter {
 					GameState.CreateNewActiveGameState();
 				}
 				GameController.CreateGameController(GameState.ActiveInstance);
-				LevelController.StartLevel(LevelController.StartLevelNode);
+				LevelController.StartLevel(0);
 			}
-			#endif
+#endif
 			ShipCreator = new ShipCreator(LevelObjectsRoot, GameController.PrefabsController);
 			var pc = GameController.PlayerController;
 			var lc = GameController.LevelController;
@@ -107,9 +106,9 @@ namespace STP.Behaviour.Starter {
 			LevelManager  = new LevelManager(Player.transform, SceneTransitionController, PauseManager, lc);
 			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot);
 			LevelGoalManager = new LevelGoalManager(PlayerManager, LevelManager, lc, xc,
-													GameController.LeaderboardController);
+				GameController.LeaderboardController);
 			CoreWindowsManager.Init(this, PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc,
-									PrefabsController);
+				PrefabsController);
 			MinimapManager = new MinimapManager(MinimapCamera);
 			var lg = new LevelGenerator(this);
 			await lg.GenerateLevel();
@@ -125,7 +124,7 @@ namespace STP.Behaviour.Starter {
 		void OnDestroy() {
 			PlayerController.OnRespawned -= CoreWindowsManager.ShowGetReadyWindow;
 			PauseManager?.Deinit();
-			if (DebugGuiController.HasInstance) {
+			if ( DebugGuiController.HasInstance ) {
 				DebugGuiController.Instance.SetDrawable(null);
 			}
 

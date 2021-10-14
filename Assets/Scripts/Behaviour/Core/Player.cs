@@ -46,16 +46,15 @@ namespace STP.Behaviour.Core {
 		DefaultShootingSystem _defaultShootingSystem;
 		ShootingSystemParams  _actualParams;
 
-		Camera             _camera;
-		CoreSpawnHelper    _spawnHelper;
-		Transform          _playerStartPos;
-		PlayerManager      _playerManager;
-		LevelGoalManager   _levelGoalManager;
-		PauseManager       _pauseManager;
-		PrefabsController  _prefabsController;
-		XpController       _xpController;
-		UpgradesController _upgradesController;
-		PlayerController   _playerController;
+		Camera            _camera;
+		CoreSpawnHelper   _spawnHelper;
+		Transform         _playerStartPos;
+		PlayerManager     _playerManager;
+		LevelGoalManager  _levelGoalManager;
+		PauseManager      _pauseManager;
+		PrefabsController _prefabsController;
+		XpController      _xpController;
+		PlayerController  _playerController;
 
 		float _movementSpeed;
 
@@ -110,16 +109,15 @@ namespace STP.Behaviour.Core {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
-			_camera             = starter.MainCamera;
-			_spawnHelper        = starter.SpawnHelper;
-			_playerStartPos     = starter.PlayerStartPos;
-			_playerManager      = starter.PlayerManager;
-			_levelGoalManager   = starter.LevelGoalManager;
-			_pauseManager       = starter.PauseManager;
-			_prefabsController  = starter.PrefabsController;
-			_xpController       = starter.XpController;
-			_upgradesController = starter.UpgradesController;
-			_playerController   = starter.PlayerController;
+			_camera            = starter.MainCamera;
+			_spawnHelper       = starter.SpawnHelper;
+			_playerStartPos    = starter.PlayerStartPos;
+			_playerManager     = starter.PlayerManager;
+			_levelGoalManager  = starter.LevelGoalManager;
+			_pauseManager      = starter.PauseManager;
+			_prefabsController = starter.PrefabsController;
+			_xpController      = starter.XpController;
+			_playerController  = starter.PlayerController;
 
 			_playerHpSystem = _playerController.HpSystem;
 
@@ -127,7 +125,7 @@ namespace STP.Behaviour.Core {
 			TryUpdateShootingParams();
 			_defaultShootingSystem = new DefaultShootingSystem(_spawnHelper, _actualParams);
 
-			_movementSpeed = _upgradesController.GetCurConfigMovementSpeed();
+			_movementSpeed = _playerController.Config.MovementSpeed;
 
 			_playerHpSystem.OnHpChanged += OnCurHpChanged;
 			_playerHpSystem.OnDied      += OnDied;
@@ -189,7 +187,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		void OnCurHpChanged(float curHp) {
-			HealthBar.Progress = (curHp / _upgradesController.GetCurConfigMaxHp());
+			HealthBar.Progress = (curHp / _playerController.Config.MaxHp);
 		}
 
 		void TryShoot() {
@@ -213,13 +211,13 @@ namespace STP.Behaviour.Core {
 			var fireRateMultiplier = _playerManager.HasActivePowerUp(PowerUpType.IncFireRate)
 				? TmpIncFireRateMult
 				: 1f;
-			var fireRate = _upgradesController.GetCurConfigFireRate();
+			var fireRate = _playerController.Config.FireRate;
 			return 1f / (fireRate * fireRateMultiplier);
 		}
 
 		float CalcDamage() {
 			var damageMultiplier = _playerManager.HasActivePowerUp(PowerUpType.X2Damage) ? 2f : 1f;
-			var damage           = _upgradesController.GetCurConfigDamage();
+			var damage           = _playerController.Config.Damage;
 			return damageMultiplier * damage;
 		}
 	}
