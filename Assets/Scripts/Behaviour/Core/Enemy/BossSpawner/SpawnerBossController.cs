@@ -12,6 +12,8 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 	public class SpawnerBossController : BaseCoreComponent, IHpSource, IDestructible {
 
 		public BehaviourTree Tree;
+
+		public float CollisionDamage = 25f;
 		
 		public SpawnParams   SpawnParams;
 
@@ -78,6 +80,11 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 		public void TakeDamage(float damage) {
 			_hpSystem.TakeDamage(damage);
+		}
+		
+		void OnCollisionEnter2D(Collision2D other) {
+			var destructible = other.gameObject.GetComponent<IDestructible>();
+			destructible?.TakeDamage(CollisionDamage);
 		}
 	}
 }
