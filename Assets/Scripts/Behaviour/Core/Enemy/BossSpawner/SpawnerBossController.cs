@@ -14,6 +14,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public BehaviourTree Tree;
 
 		public float CollisionDamage = 25f;
+		public float StartHp         = 10000;
 		
 		public SpawnParams   SpawnParams;
 
@@ -54,7 +55,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
-			_hpSystem = new HpSystem(100f);
+			_hpSystem = new HpSystem(StartHp);
 
 			_hpSystem.OnDied += () => Destroy(gameObject);
 			

@@ -4,6 +4,7 @@ using STP.Utils.BehaviourTree;
 using STP.Utils.BehaviourTree.Tasks;
 using STP.Utils.GameComponentAttributes;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
 	public enum MovementType {
@@ -29,7 +30,6 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		MovementType _activeMovementType;
 		
 		
-		
 		public void Init(Rigidbody2D bossRigidbody, Transform player) {
 			BossRigidbody = bossRigidbody;
 			_player        = player;
@@ -48,13 +48,16 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			var distance   = BossRigidbody.transform.position - _player.transform.position;
 			var moveVector = (BossRigidbody.transform.rotation * Vector3.up).normalized;
 			if ( distance.magnitude < MinDistance ) {
-				BossRigidbody.AddForce(-moveVector * MovingSpeed * Time.deltaTime, ForceMode2D.Impulse);
-				print("Trying to retreat" + -moveVector);
+				BossRigidbody.velocity = -moveVector * MovingSpeed;
+				return;
 			} 
 			if ( distance.magnitude > MaxDistance ) {
-				BossRigidbody.AddForce(moveVector * MovingSpeed * Time.deltaTime, ForceMode2D.Impulse);
-				print("Trying to return " + moveVector);
+				BossRigidbody.velocity = moveVector * MovingSpeed;
+				return;
 			}
+
+			BossRigidbody.velocity = moveVector * MovingSpeed / 10;
+
 		}
 
 		void LookToPlayer() {

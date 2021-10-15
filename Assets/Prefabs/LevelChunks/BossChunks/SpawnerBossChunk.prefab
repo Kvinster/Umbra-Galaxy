@@ -1265,7 +1265,7 @@ Transform:
   m_GameObject: {fileID: 7926404280323335568}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 295, y: 209, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 6931127631711288000}
   - {fileID: 3931158805354428737}
@@ -1284,6 +1284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7dfe785a6f74e9a8d39e13782d4487e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CollisionDamage: 25
+  StartHp: 10000
   SpawnParams:
     EnemiesInWaveCount: 5
     SpawnWaitTime: 0.3
@@ -1366,7 +1368,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &3133233053201937103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1382,7 +1384,7 @@ MonoBehaviour:
   BossRigidbody: {fileID: 318140005223483596}
   MinDistance: 500
   MaxDistance: 750
-  MovingSpeed: 10000
+  MovingSpeed: 100
   AngularSpeed: 45
 --- !u!58 &7366904051762138862
 CircleCollider2D:
