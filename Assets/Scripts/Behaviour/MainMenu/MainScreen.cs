@@ -1,12 +1,11 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
 using STP.Behaviour.Starter;
 using STP.Core;
-using STP.Core.State;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 
+using Cysharp.Threading.Tasks;
 using TMPro;
 
 namespace STP.Behaviour.MainMenu {
@@ -45,7 +44,8 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void Play() {
-			_mainMenuManager.ShowLevelsScreen();
+			GameController.Instance.LevelController.StartLevel(0);
+			CoreLoadingManager.Create().StartLoadCore();
 		}
 
 		void ShowLeaderboardWindow() {

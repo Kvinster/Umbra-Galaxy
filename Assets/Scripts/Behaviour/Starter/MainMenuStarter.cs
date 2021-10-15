@@ -12,21 +12,17 @@ namespace STP.Behaviour.Starter {
 	public sealed class MainMenuStarter : BaseStarter<MainMenuStarter> {
 		[NotNull] public MainScreen        MainScreen;
 		[NotNull] public LeaderboardWindow LeaderboardWindow;
-		[NotNull] public LevelsScreen      LevelsScreen;
 		[NotNull] public SettingsScreen    SettingsScreen;
-		[NotNull] public UpgradesScreen    UpgradesScreen;
 
 		public MainMenuManager MainMenuManager { get; private set; }
 
-		public GameController     GameController     => GameController.Instance;
-		public UpgradesController UpgradesController => GameController.UpgradesController;
+		public GameController GameController => GameController.Instance;
 
 		void Start() {
 			TryCreateGameState();
 			GameController.CreateGameController(GameState.ActiveInstance);
 
-			MainMenuManager = new MainMenuManager(MainScreen, LeaderboardWindow, LevelsScreen, SettingsScreen,
-				UpgradesScreen);
+			MainMenuManager = new MainMenuManager(MainScreen, LeaderboardWindow, SettingsScreen);
 
 			InitComponents();
 			// Settings for smooth gameplay
@@ -34,7 +30,7 @@ namespace STP.Behaviour.Starter {
 			QualitySettings.vSyncCount  = 0;
 
 			MainMenuManager.Init();
-			
+
 			DebugGuiController.Instance.SetDrawable(new MainMenuDebugDrawable(this));
 		}
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,20 @@ using STP.Common;
 namespace STP.Config {
 	[CreateAssetMenu(fileName = "AllLevels", menuName = "ScriptableObjects/LevelsConfig", order = 1)]
 	public sealed class LevelsConfig : ScriptableObject {
+		const string Path = "AllLevels";
+
+		static LevelsConfig _instance;
+
+		public static LevelsConfig Instance {
+			get {
+				if ( !_instance ) {
+					_instance = Resources.Load<LevelsConfig>(Path);
+					Assert.IsTrue(_instance);
+				}
+				return _instance;
+			}
+		}
+
 		public List<BaseLevelInfo> Levels;
 
 		public BaseLevelInfo GetLevelConfig(int levelIndex) {

@@ -86,7 +86,7 @@ namespace STP.Manager {
 				Debug.LogError("Can't win level — level is not active");
 				return;
 			}
-			_levelController.FinishLevel(true);
+			_levelController.FinishLevel();
 			_levelManager.QuitToMenu();
 			OnLevelWon?.Invoke();
 		}

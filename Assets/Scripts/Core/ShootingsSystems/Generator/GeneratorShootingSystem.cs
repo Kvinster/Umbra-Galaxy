@@ -11,7 +11,7 @@ namespace STP.Core.ShootingsSystems.Generator {
 			Transform generatorTransform) : base(spawnHelper, shootingParams) {
 			_generatorTransform = generatorTransform;
 		}
-		
+
 		protected override void Shoot() {
 			if ( !_playerTransform ) {
 				// Can't shoot cause not added target transform
@@ -33,7 +33,6 @@ namespace STP.Core.ShootingsSystems.Generator {
 			// Ignore speed coeff if distance is exceeded max distance
 			curDistance = Mathf.Min(curDistance, maxDistance);
 			var res = (maxSpeed - minSpeed) * (curDistance - 0) / (maxDistance - 0) + minSpeed;
-			Debug.Log("Speed: " + res);
 			return res;
 		}
 
