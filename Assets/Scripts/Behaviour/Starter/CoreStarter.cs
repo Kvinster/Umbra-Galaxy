@@ -94,7 +94,7 @@ namespace STP.Behaviour.Starter {
 					GameState.CreateNewActiveGameState();
 				}
 				GameController.CreateGameController(GameState.ActiveInstance);
-				LevelController.StartLevel(0);
+				LevelController.StartLevel(18);
 			}
 #endif
 			ShipCreator = new ShipCreator(LevelObjectsRoot, GameController.PrefabsController);

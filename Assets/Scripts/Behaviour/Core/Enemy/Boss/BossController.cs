@@ -11,7 +11,7 @@ using STP.Utils.GameComponentAttributes;
 using STP.Utils.BehaviourTree.Tasks;
 
 namespace STP.Behaviour.Core.Enemy.Boss {
-	public sealed class BossController : BaseCoreComponent, IDestructible {
+	public sealed class BossController : BaseCoreComponent, IDestructible, IHpSource {
 		public static BossController Instance { get; private set; }
 
 		[Header("Parameters")]
@@ -35,7 +35,7 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 		public float CurHp => _hpSystem.Hp;
 		public float MaxHp => _hpSystem.MaxHp;
 
-		public event Action<float> OnCurHpChanged;
+		public HpSystem HpSystem => _hpSystem;
 		
 		protected override void Awake() {
 			base.Awake();
@@ -80,10 +80,8 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 				)
 			);
 
-			_hpSystem = new HpSystem(StartHp);
-
-			_hpSystem.OnHpChanged += OnHpChanged;
-			_hpSystem.OnDied      += Die;
+			_hpSystem        =  new HpSystem(StartHp);
+			_hpSystem.OnDied += Die;
 
 			MoveAgent.SetTarget(starter.Player.transform);
 			GunRotationController.SetTarget(starter.Player.transform);
@@ -95,13 +93,10 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 			_hpSystem.TakeDamage(damage);
 		}
 
-		void OnHpChanged(float hp) {
-			OnCurHpChanged?.Invoke(hp);
-		}
-
 		void Die() {
 			_levelGoalManager.Advance();
 			Destroy(gameObject);
 		}
+
 	}
 }

@@ -3,12 +3,14 @@
 using System.Collections.Generic;
 
 using STP.Behaviour.Starter;
+using STP.Core;
 using STP.Utils.BehaviourTree;
 using STP.Utils.BehaviourTree.Tasks;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
-	public class SpawnerBossController : BaseCoreComponent {
+	public class SpawnerBossController : BaseCoreComponent, IHpSource, IDestructible {
+
 		public BehaviourTree Tree;
 		
 		public SpawnParams   SpawnParams;
@@ -22,17 +24,38 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		SpawnerBossGunsSubsystem     _gunsSubsystem;
 		SpawnerBossSpawnSubsystem    _spawnSubsystem;
 
-		void Update() {
+		HpSystem _hpSystem;
+		
+		public static SpawnerBossController Instance { get; private set; }
+
+		public HpSystem HpSystem => _hpSystem;
+		public override bool HighPriorityInit => true;
+		
+		
+		protected override void Awake() {
+			base.Awake();
+			if ( Instance ) {
+				Debug.LogErrorFormat(this, "{0}.{1}: more than one {2} instance is not supported",
+					nameof(SpawnerBossController), nameof(Awake), nameof(SpawnerBossController));
+				return;
+			}
+			Instance = this;
+		}
+		
+		protected void Update() {
 			Tree.Tick();
 		}
-
-
+		
 		void OnDestroy() {
 			_gunsSubsystem?.Deinit();
 			_spawnSubsystem?.Deinit();
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
+			_hpSystem = new HpSystem(100f);
+
+			_hpSystem.OnDied += () => Destroy(gameObject);
+			
 			MovementSubsystem.Init(BossRigidbody, starter.Player.transform);
 			
 			_gunsSubsystem = new SpawnerBossGunsSubsystem();
@@ -51,6 +74,10 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 					)
 				)
 			);
+		}
+
+		public void TakeDamage(float damage) {
+			_hpSystem.TakeDamage(damage);
 		}
 	}
 }

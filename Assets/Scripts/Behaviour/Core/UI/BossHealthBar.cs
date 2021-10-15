@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using STP.Behaviour.Core.Enemy;
+using UnityEngine;
 
 using STP.Behaviour.Core.Enemy.Boss;
+using STP.Behaviour.Core.Enemy.BossSpawner;
 using STP.Behaviour.Starter;
 using STP.Behaviour.Utils.ProgressBar;
 using STP.Config;
+using STP.Core;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.UI {
@@ -11,10 +14,10 @@ namespace STP.Behaviour.Core.UI {
 		[NotNull] public GameObject      Root;
 		[NotNull] public BaseProgressBar ProgressBar;
 
-		bool           _isBossLevel;
-		BossController _boss;
+		bool      _isBossLevel;
+		HpSystem _controllingHpSystem;
 
-		bool IsActive => (_isBossLevel && _boss);
+		bool IsActive => (_isBossLevel && (_controllingHpSystem != null)) ;
 
 		void Reset() {
 			Root        = gameObject;
@@ -23,13 +26,20 @@ namespace STP.Behaviour.Core.UI {
 
 		protected override void InitInternal(CoreStarter starter) {
 			_isBossLevel = (starter.LevelController.CurLevelType == LevelType.Boss);
-			_boss        = BossController.Instance;
-
-			if ( _boss ) {
-				_boss.OnCurHpChanged += OnBossCurHpChanged;
-			}
+			
+			TrySubscribeToHpChanges(BossController.Instance);
+			TrySubscribeToHpChanges(SpawnerBossController.Instance);
 
 			UpdateView();
+		}
+
+		void TrySubscribeToHpChanges(IHpSource hpSource) {
+			if ( hpSource == null ) {
+				return;
+			}
+			_controllingHpSystem             =  hpSource.HpSystem;
+			_controllingHpSystem.OnHpChanged += OnBossCurHpChanged;
+			Debug.Log($"subscribed to boss {hpSource}");
 		}
 
 		void UpdateView() {
@@ -44,10 +54,10 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		void UpdateProgress() {
-			if ( !_boss ) {
+			if ( _controllingHpSystem == null  ) {
 				return;
 			}
-			ProgressBar.Progress = _boss.CurHp / _boss.MaxHp;
+			ProgressBar.Progress = _controllingHpSystem.Hp / _controllingHpSystem.MaxHp;
 		}
 	}
 }
