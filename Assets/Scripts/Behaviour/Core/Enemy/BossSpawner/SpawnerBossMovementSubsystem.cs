@@ -17,12 +17,11 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 	public class SpawnerBossMovementSubsystem : GameComponent {
 		[NotNull] public Rigidbody2D BossRigidbody;
 
-		public Vector3 UpVector;
+		public float MinDistance = 100;
+		public float MaxDistance = 100;
 
+		public float MovingSpeed;
 		public float AngularSpeed;
-		
-		public float RotationAccel;
-		public float MovementAccel;
 		
 		
 		Transform _player;
@@ -41,24 +40,21 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		}
 		
 		public void FixedUpdate() {
-			if ( _activeMovementType == MovementType.SpinUp ) {
-				BossRigidbody.AddTorque(RotationAccel, ForceMode2D.Impulse);
-			}
-			if ( _activeMovementType == MovementType.SpinDown ) {
-				BossRigidbody.AddTorque(-RotationAccel, ForceMode2D.Impulse);
-			}
-			if ( _activeMovementType == MovementType.Dash ) {
-				var toPlayerDir = (_player.position - BossRigidbody.transform.position).normalized;
-				BossRigidbody.AddForce(toPlayerDir * MovementAccel, ForceMode2D.Impulse);
-				_activeMovementType = MovementType.Nothing;
-			}
-			if ( _activeMovementType == MovementType.ChargeDash ) {
-				if ( BossRigidbody.angularVelocity != 0f ) {
-					BossRigidbody.angularVelocity = 0f;
-				}
-			}
-
 			LookToPlayer();
+			KeepDistanceFromPlayer();
+		}
+
+		void KeepDistanceFromPlayer() {
+			var distance   = BossRigidbody.transform.position - _player.transform.position;
+			var moveVector = (BossRigidbody.transform.rotation * Vector3.up).normalized;
+			if ( distance.magnitude < MinDistance ) {
+				BossRigidbody.AddForce(-moveVector * MovingSpeed * Time.deltaTime, ForceMode2D.Impulse);
+				print("Trying to retreat" + -moveVector);
+			} 
+			if ( distance.magnitude > MaxDistance ) {
+				BossRigidbody.AddForce(moveVector * MovingSpeed * Time.deltaTime, ForceMode2D.Impulse);
+				print("Trying to return " + moveVector);
+			}
 		}
 
 		void LookToPlayer() {
@@ -70,7 +66,6 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			}
 			var movementAmplitude = Mathf.Clamp(AngularSpeed * Time.deltaTime, 0, Mathf.Abs(diff));
 			var newAngle          = oldAngle + Mathf.Sign(diff) * movementAmplitude;
-			print(targetAngle + " " + oldAngle + " " + newAngle);
 			BossRigidbody.transform.rotation = Quaternion.AngleAxis(newAngle, Vector3.forward);
 		}
 		
