@@ -17,7 +17,7 @@ namespace STP.Behaviour.Core.UI {
 		bool      _isBossLevel;
 		HpSystem _controllingHpSystem;
 
-		bool IsActive => (_isBossLevel && (_controllingHpSystem != null)) ;
+		bool IsActive => (_isBossLevel && (_controllingHpSystem != null) && (_controllingHpSystem.Hp > 0)) ;
 
 		void Reset() {
 			Root        = gameObject;
@@ -39,7 +39,7 @@ namespace STP.Behaviour.Core.UI {
 			}
 			_controllingHpSystem             =  hpSource.HpSystem;
 			_controllingHpSystem.OnHpChanged += OnBossCurHpChanged;
-			Debug.Log($"subscribed to boss {hpSource}");
+			_controllingHpSystem.OnDied      += OnDied;
 		}
 
 		void UpdateView() {
@@ -47,6 +47,12 @@ namespace STP.Behaviour.Core.UI {
 			if ( IsActive ) {
 				UpdateProgress();
 			}
+		}
+
+		void OnDied() {
+			UpdateView();
+			_controllingHpSystem.OnHpChanged -= OnBossCurHpChanged;
+			_controllingHpSystem.OnDied      -= OnDied;
 		}
 
 		void OnBossCurHpChanged(float _) {
