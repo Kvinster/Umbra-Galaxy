@@ -69,7 +69,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			}
 			var movementAmplitude = Mathf.Clamp(AngularSpeed * Time.deltaTime, 0, Mathf.Abs(diff));
 			var newAngle          = oldAngle + Mathf.Sign(diff) * movementAmplitude;
-			BossRigidbody.transform.rotation = Quaternion.AngleAxis(newAngle, Vector3.forward);
+			BossRigidbody.rotation = newAngle;
 		}
 		
 		float GetAngleToPlayer() {
