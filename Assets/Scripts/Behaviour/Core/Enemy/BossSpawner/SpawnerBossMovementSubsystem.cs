@@ -23,12 +23,14 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 		public float MovingSpeed;
 		public float AngularSpeed;
-		
+
+		bool _isDash;
 		
 		Transform _player;
 
 		MovementType _activeMovementType;
 		
+		Vector2 ForwardVector => (BossRigidbody.transform.rotation * Vector3.up).normalized;
 		
 		public void Init(Rigidbody2D bossRigidbody, Transform player) {
 			BossRigidbody = bossRigidbody;
@@ -38,29 +40,44 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public void SetMovementType(MovementType movementType) {
 			_activeMovementType = movementType;
 		}
+
 		
 		public void FixedUpdate() {
 			LookToPlayer();
 			KeepDistanceFromPlayer();
 		}
 
+		
+		public void Dash() {
+			var forward = ForwardVector;
+			BossRigidbody.velocity = forward * MovingSpeed * 3;
+			_isDash                = true;
+		}
+
+		public void EndDash() {
+			_isDash = false;
+		}
+		
 		void KeepDistanceFromPlayer() {
-			var distance   = BossRigidbody.transform.position - _player.transform.position;
-			var moveVector = (BossRigidbody.transform.rotation * Vector3.up).normalized;
+			if ( _isDash ) {
+				return;
+			}
+			var distance = BossRigidbody.transform.position - _player.transform.position;
+			var forward  = ForwardVector;
 			if ( distance.magnitude < MinDistance ) {
-				BossRigidbody.velocity = -moveVector * MovingSpeed;
+				BossRigidbody.velocity = -forward * MovingSpeed / distance;
 				return;
 			} 
 			if ( distance.magnitude > MaxDistance ) {
-				BossRigidbody.velocity = moveVector * MovingSpeed;
+				BossRigidbody.velocity = forward * MovingSpeed;
 				return;
 			}
-
-			BossRigidbody.velocity = moveVector * MovingSpeed / 10;
-
 		}
 
 		void LookToPlayer() {
+			if ( _isDash ) {
+				return;
+			}
 			var targetAngle       = GetAngleToPlayer();
 			var oldAngle          = BossRigidbody.rotation;
 			var diff              = targetAngle - oldAngle;

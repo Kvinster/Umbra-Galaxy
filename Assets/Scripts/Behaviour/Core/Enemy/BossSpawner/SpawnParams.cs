@@ -5,6 +5,5 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 	public class SpawnParams {
 		public int   EnemiesInWaveCount;
 		public float SpawnWaitTime;
-		public float DashTime;
 	}
 }

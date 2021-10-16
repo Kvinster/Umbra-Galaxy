@@ -70,6 +70,13 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			Tree = new BehaviourTree(
 				new SequenceTask(
 					new AlwaysSuccessDecorator(_gunsSubsystem.BehaviourTree),
+					new AlwaysSuccessDecorator(
+						new SequenceTask(
+							new CustomActionTask("set dash speed", () => MovementSubsystem.Dash()),
+							new WaitTask(2f),
+							new CustomActionTask("stop dash", () => MovementSubsystem.EndDash())
+						)
+					),
 					new AlwaysSuccessDecorator(_spawnSubsystem.BehaviourTree),
 					new SequenceTask(
 						new ConditionTask("Is everything destroyed", () => !_gunsSubsystem.HasGuns && !_spawnSubsystem.HasSpawners),

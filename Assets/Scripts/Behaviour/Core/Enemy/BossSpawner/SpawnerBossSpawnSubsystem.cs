@@ -22,16 +22,10 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 			BehaviourTree =
 				new SequenceTask(
-					new SequenceTask(
-						new CustomActionTask("start track player + prepare dash",
-							() => movementSubsystem.SetMovementType(MovementType.ChargeDash)),
-						new WaitTask(spawnParams.DashTime),
-						new CustomActionTask("start dash", () => movementSubsystem.SetMovementType(MovementType.Dash))
-					),
 					new RepeatTask(spawnParams.EnemiesInWaveCount,
 						new SequenceTask(
 							new ConditionTask("Is spawner selected", TrySelectSpawner),
-							// new CustomActionTask("Spawn", () => _selectedSpawn.Spawn()),
+							new CustomActionTask("Spawn", () => _selectedSpawn.Spawn()),
 							new WaitTask(spawnParams.SpawnWaitTime)
 						)
 					)
