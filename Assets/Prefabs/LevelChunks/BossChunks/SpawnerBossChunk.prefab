@@ -1285,11 +1285,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollisionDamage: 25
-  StartHp: 10000
+  StartHp: 2000
   SpawnParams:
-    EnemiesInWaveCount: 5
+    EnemiesInWaveCount: 10
     SpawnWaitTime: 0.3
-    DashTime: 0.2
   BossRigidbody: {fileID: 318140005223483596}
   MovementSubsystem: {fileID: 3133233053201937103}
   Guns:
@@ -1385,7 +1384,7 @@ MonoBehaviour:
   MinDistance: 500
   MaxDistance: 750
   MovingSpeed: 100
-  AngularSpeed: 45
+  AngularSpeed: 60
 --- !u!58 &7366904051762138862
 CircleCollider2D:
   m_ObjectHideFlags: 0
