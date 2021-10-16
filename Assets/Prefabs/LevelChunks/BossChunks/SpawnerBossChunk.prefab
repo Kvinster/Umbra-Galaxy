@@ -337,7 +337,7 @@ GameObject:
   - component: {fileID: 9182237585587117087}
   - component: {fileID: 2690392103450956925}
   - component: {fileID: 3542919623149605246}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Spawner (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -457,7 +457,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3931158805354428737}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Spawners
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,7 +491,7 @@ GameObject:
   - component: {fileID: 8337924557255145682}
   - component: {fileID: 2716175116477842879}
   - component: {fileID: 7197420413985864839}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -647,7 +647,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6931127631711288000}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Guns
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -875,7 +875,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1072292505676935750}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BulletOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1124,7 +1124,7 @@ GameObject:
   - component: {fileID: 2269558424357857025}
   - component: {fileID: 562372852524662534}
   - component: {fileID: 2750794711869489803}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1244,12 +1244,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4550675999544051513}
+  - component: {fileID: 3133233053201937103}
   - component: {fileID: 7467633605259675187}
   - component: {fileID: 4845797646803654271}
   - component: {fileID: 318140005223483596}
-  - component: {fileID: 3133233053201937103}
   - component: {fileID: 7366904051762138862}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpawnerBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1272,6 +1272,23 @@ Transform:
   m_Father: {fileID: 4213705532863644591}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3133233053201937103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7926404280323335568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7b355fd26e94009aeca474d8821e915, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BossRigidbody: {fileID: 318140005223483596}
+  MinDistance: 500
+  MaxDistance: 750
+  MovingSpeed: 200
+  AngularSpeed: 45
 --- !u!114 &7467633605259675187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1287,8 +1304,8 @@ MonoBehaviour:
   CollisionDamage: 25
   StartHp: 2000
   SpawnParams:
-    EnemiesInWaveCount: 10
-    SpawnWaitTime: 0.3
+    EnemiesInWaveCount: 6
+    SpawnWaitTime: 0.15
   BossRigidbody: {fileID: 318140005223483596}
   MovementSubsystem: {fileID: 3133233053201937103}
   Guns:
@@ -1368,23 +1385,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3133233053201937103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7926404280323335568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7b355fd26e94009aeca474d8821e915, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BossRigidbody: {fileID: 318140005223483596}
-  MinDistance: 500
-  MaxDistance: 750
-  MovingSpeed: 100
-  AngularSpeed: 60
 --- !u!58 &7366904051762138862
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1467,6 +1467,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420497214326126466, guid: 4a816517f98b6b141a9b367fdfa79828,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5422182587857407787, guid: 4a816517f98b6b141a9b367fdfa79828,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7330885056079262191, guid: 4a816517f98b6b141a9b367fdfa79828,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114612997313097008, guid: 4a816517f98b6b141a9b367fdfa79828,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a816517f98b6b141a9b367fdfa79828, type: 3}
