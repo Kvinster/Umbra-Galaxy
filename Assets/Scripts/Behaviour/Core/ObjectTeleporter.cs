@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core {
 	public class ObjectTeleporter : BaseCoreComponent {
-		const float BorderMinSideSize = 50f;
+		const float BorderMinSideSize = 10f;
 		
 		[NotNull] [Count(4)] public List<TriggerNotifier> Borders;
 		
@@ -24,9 +24,6 @@ namespace STP.Behaviour.Core {
 				var obj = _checkingObjects[i];
 				if ( !obj ) {
 					_checkingObjects.Remove(obj);
-				}
-				if ( IsNeedToBeTeleported(obj) ) {
-					Teleport(obj);
 				}
 			}
 		}
@@ -64,9 +61,9 @@ namespace STP.Behaviour.Core {
 			boxCollider.size = size;
 			var debugLine = notifier.GetComponent<Line>();
 			var vector = Mathf.Approximately(size.x, BorderMinSideSize) ? new Vector2(0, size.y) : new Vector2(size.x, 0);
-			debugLine.Thickness = 50f;
-			debugLine.Start     = - vector / 2;
-			debugLine.End       =   vector / 2;
+			debugLine.Thickness = BorderMinSideSize;
+			debugLine.Start     = -vector / 2;
+			debugLine.End       = vector / 2;
 			debugLine.Color     = Random.ColorHSV();
 		}
 
@@ -86,12 +83,14 @@ namespace STP.Behaviour.Core {
 				//on upper or bottom border
 				// y > 0 => upper. otherwise - bottom.
 				var teleportationDirection = (vectorFromCenterAreaToObj.y > 0) ? Vector2.down : Vector2.up;
-				teleportationVector = teleportationDirection * _battleArea.size.y;
+				var vectorSize             = 2 * Mathf.Abs(vectorFromCenterAreaToObj.y) - BorderMinSideSize;
+				teleportationVector = teleportationDirection * vectorSize;
 			} else {
 				//on left or right border
 				//x > 0 => right. otherwise - left.
 				var teleportationDirection = (vectorFromCenterAreaToObj.x > 0) ? Vector2.left : Vector2.right;
-				teleportationVector = teleportationDirection * _battleArea.size.x;
+				var vectorSize             = 2 * Mathf.Abs(vectorFromCenterAreaToObj.x) - BorderMinSideSize;
+				teleportationVector = teleportationDirection * vectorSize;
 			}
 			return objectPos + teleportationVector;
 		}
@@ -106,6 +105,9 @@ namespace STP.Behaviour.Core {
 		
 		void OnObjectLeaveControlArea(GameObject go) {
 			_checkingObjects.Remove(go.transform);
+			if ( IsNeedToBeTeleported(go.transform) ) {
+				Teleport(go.transform);
+			}
 		}
 	}
 }
