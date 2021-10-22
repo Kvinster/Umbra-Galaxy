@@ -32,7 +32,7 @@ namespace STP.Gameplay.Weapon.LaserWeapon {
         
         public WeaponState CurState {
             get => _state;
-            protected set {
+            private set {
                 _state = value;
                 StateChanged?.Invoke(_state);
             }
