@@ -72,13 +72,13 @@ namespace STP.Behaviour.Core {
 				//on upper or bottom border
 				// y > 0 => upper. otherwise - bottom.
 				var teleportationDirection = (vectorFromCenterAreaToObj.y > 0) ? Vector2.down : Vector2.up;
-				var vectorSize             = 2 * Mathf.Abs(vectorFromCenterAreaToObj.y) - BorderMinSideSize;
+				var vectorSize             = 2 * Mathf.Abs(vectorFromCenterAreaToObj.y);
 				teleportationVector = teleportationDirection * vectorSize;
 			} else {
 				//on left or right border
 				//x > 0 => right. otherwise - left.
 				var teleportationDirection = (vectorFromCenterAreaToObj.x > 0) ? Vector2.left : Vector2.right;
-				var vectorSize             = 2 * Mathf.Abs(vectorFromCenterAreaToObj.x) - BorderMinSideSize;
+				var vectorSize             = 2 * Mathf.Abs(vectorFromCenterAreaToObj.x);
 				teleportationVector = teleportationDirection * vectorSize;
 			}
 			return objectPos + teleportationVector;
