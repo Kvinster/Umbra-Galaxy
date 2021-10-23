@@ -1,13 +1,8 @@
-﻿using System;
-using UnityEngine;
-
+﻿using UnityEngine;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks.Triggers;
-using Shapes;
 using STP.Behaviour.Starter;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
-using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core {
 	public class ObjectTeleporter : BaseCoreComponent {
@@ -59,12 +54,6 @@ namespace STP.Behaviour.Core {
 			notifier.transform.position = centerPos;
 			var boxCollider = notifier.GetComponent<BoxCollider2D>();
 			boxCollider.size = size;
-			var debugLine = notifier.GetComponent<Line>();
-			var vector = Mathf.Approximately(size.x, BorderMinSideSize) ? new Vector2(0, size.y) : new Vector2(size.x, 0);
-			debugLine.Thickness = BorderMinSideSize;
-			debugLine.Start     = -vector / 2;
-			debugLine.End       = vector / 2;
-			debugLine.Color     = Random.ColorHSV();
 		}
 
 		void OnDrawGizmos() {
