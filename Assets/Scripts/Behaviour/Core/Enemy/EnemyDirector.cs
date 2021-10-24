@@ -1,36 +1,38 @@
 ﻿using UnityEngine;
 
 using System.Collections.Generic;
+
+using STP.Behaviour.Starter;
 using STP.Events;
 using STP.Utils;
 using STP.Utils.Events;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
-	public sealed class EnemyDirector : GameComponent {
-		[NotNull] public TriggerNotifier TriggerNotifier;
-
-		List<BaseEnemy> _enemies;
+	public sealed class EnemyDirector : BaseCoreComponent {
+		[NotNull]
+		public TriggerNotifier TriggerNotifier;
+		[NotNullOrEmpty]
+		public List<BaseEnemy> Enemies;
 
 		Dictionary<BaseEnemy, Vector3> _startPositions;
 
 		Player _player;
-		
+
 		void OnDestroy() {
 			TriggerNotifier.OnTriggerEnter -= OnPlayerEnterZone;
-			_player.OnPlayerRespawn -= OnPlayerDied;
+			_player.OnPlayerRespawn        -= OnPlayerDied;
 			EventManager.Unsubscribe<PlayerShipChanged>(UpdateTarget);
 		}
 
-		public void Init(Player player, List<BaseEnemy> enemies) {
-			_enemies = enemies;
-			_player  = player;
+		protected override void InitInternal(CoreStarter starter) {
+			_player         = starter.Player;
 			_startPositions = new Dictionary<BaseEnemy, Vector3>();
-			foreach (var enemy in _enemies) {
+			foreach ( var enemy in Enemies ) {
 				enemy.OnDestroyed      += OnEnemyDied;
 				_startPositions[enemy] =  enemy.transform.position;
 			}
-			
+
 			TriggerNotifier.OnTriggerEnter += OnPlayerEnterZone;
 			_player.OnPlayerRespawn        += OnPlayerDied;
 			EventManager.Subscribe<PlayerShipChanged>(UpdateTarget);
@@ -38,16 +40,16 @@ namespace STP.Behaviour.Core.Enemy {
 
 		void OnPlayerEnterZone(GameObject obj) {
 			var player = obj.GetComponent<Player>();
-			if (!player) {
+			if ( !player ) {
 				return;
 			}
-			foreach (var enemy in _enemies) {
+			foreach ( var enemy in Enemies ) {
 				enemy.SetTarget(player.transform);
 			}
 		}
 
 		void OnPlayerDied() {
-			foreach ( var enemy in _enemies ) {
+			foreach ( var enemy in Enemies ) {
 				enemy.transform.position = _startPositions[enemy];
 				enemy.SetTarget(null);
 			}
@@ -57,11 +59,11 @@ namespace STP.Behaviour.Core.Enemy {
 			if ( !(e is BaseEnemy controllable) ) {
 				return;
 			}
-			_enemies.Remove(controllable);
+			Enemies.Remove(controllable);
 			_startPositions.Remove(controllable);
 			controllable.OnDestroyed -= OnEnemyDied;
 		}
-		
+
 		void UpdateTarget(PlayerShipChanged e) {
 			_player.OnPlayerRespawn -= OnPlayerDied;
 			_player                 =  e.NewPlayer;

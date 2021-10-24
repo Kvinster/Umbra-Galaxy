@@ -30,14 +30,18 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		}
 
 		public GameObject CreateEmptyChunk() {
-			return CreateGeneratorChunk(0, 0);
+			return CreateGeneratorChunk(0);
 		}
 
-		public GameObject CreateGeneratorChunk(int gridSize, int powerUpPointsCount) {
+		public GameObject CreateGeneratorChunk(int gridSize) {
+			return CreateGeneratorChunk(new Vector2Int(gridSize, gridSize));
+		}
+
+		public GameObject CreateGeneratorChunk(Vector2Int gridSize) {
 			var mazeGen = new RandomWalkMapGenerator();
 			var cellMap = mazeGen.CreateMaze(gridSize);
 			var map     = MapConverter.ConvertMap(cellMap);
-			var go      = CreateGeneratorsVariant(map, powerUpPointsCount);
+			var go      = CreateGeneratorsVariant(map);
 			return go;
 		}
 
@@ -45,29 +49,19 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 			return Object.Instantiate(RandomUtils.GetRandomElement(_config.IdleChunks));
 		}
 
-		GameObject CreateGeneratorsVariant(GeneratorsMap map, int powerUpPointsCount) {
+		GameObject CreateGeneratorsVariant(GeneratorsMap map) {
 			var cellSize = 100;
-			var baseGo = new GameObject($"generator_{map.Size}_powerups_{powerUpPointsCount}");
-			var comp = baseGo.AddComponent<LevelChunk>();
-			if ( map.Size == 0 ) {
+			var baseGo   = new GameObject($"generator_{map.Size}");
+			if ( map.Size == Vector2Int.zero ) {
 				return baseGo;
-			}
-			// Create Random powerup points
-			for ( var i = 0; i < powerUpPointsCount; i++ ) {
-				var x     = Random.Range(-map.Size / 2, map.Size / 2) * cellSize + cellSize / 2f;
-				var y     = Random.Range(-map.Size / 2, map.Size / 2) * cellSize + cellSize / 2f;
-				var point = new GameObject("spawnPoint");
-				point.transform.position = new Vector3(x, y, 0);
-				point.transform.SetParent(baseGo.transform);
-				comp.FreePowerUpSpawnPoints.Add(point.transform);
 			}
 			// Create generators and init connectors map
 			var connectorsMap = new Map<Connector>(map.Size);
 			var mainGenPoint  = InvalidVector;
-			for ( var y = 0; y < map.Size; y++ ) {
-				for ( var x = 0; x < map.Size; x++ ) {
+			for ( var y = 0; y < map.Size.y; y++ ) {
+				for ( var x = 0; x < map.Size.x; x++ ) {
 					var cell     = map.GetCell(x, y);
-					var worldPos = new Vector3(x - map.Size / 2, y - map.Size / 2, 0);
+					var worldPos = new Vector3(x - map.Size.x / 2, y - map.Size.y / 2, 0);
 					if ( cell == PlaceType.MainGenerator ) {
 						mainGenPoint = new Vector2Int(x, y);
 					}

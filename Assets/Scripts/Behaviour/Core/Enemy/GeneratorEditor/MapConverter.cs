@@ -15,8 +15,8 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 
 		public static GeneratorsMap ConvertMap(WalkMap map) {
 			var res = new GeneratorsMap(map.Size);
-			for ( var y = 0; y < map.Size; y++ ) {
-				for ( var x = 0; x < map.Size; x++ ) {
+			for ( var y = 0; y < map.Size.y; y++ ) {
+				for ( var x = 0; x < map.Size.x; x++ ) {
 					var cell = map.GetCell(x, y);
 					if ( cell == CellState.StartPoint ) {
 						res.SetCell(x, y, PlaceType.MainGenerator);

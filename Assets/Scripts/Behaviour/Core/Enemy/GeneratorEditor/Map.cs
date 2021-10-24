@@ -2,12 +2,16 @@
 
 namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 	public class Map<T> {
-		T[,] _map;
+		readonly Vector2Int _size;
+		readonly T[,]       _map;
 
-		public int Size => _map.GetLength(0);
+		public Vector2Int Size => _size;
 
-		public Map(int size) {
-			_map = new T[size, size];
+		public Map(int size) : this(new Vector2Int(size, size)) { }
+
+		public Map(Vector2Int size) {
+			_size = size;
+			_map  = new T[_size.x, _size.y];
 		}
 
 		public T GetCell(int x, int y) {
@@ -23,7 +27,7 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		}
 
 		bool IsOnMap(int x, int y) {
-			return (x >= 0) && (y >= 0) && (x < _map.GetLength(0)) && (y < _map.GetLength(1));
+			return (x >= 0) && (y >= 0) && (x < Size.x) && (y < Size.y);
 		}
 
 	}

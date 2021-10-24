@@ -30,7 +30,9 @@ namespace STP.Behaviour.Core.Enemy {
                 if ( line.gameObject.name.StartsWith("Minimap") ) {
                     continue;
                 }
-                line.gameObject.AddComponent<ConnectorLine>();
+                if ( !line.gameObject.GetComponent<ConnectorLine>() ) {
+                    line.gameObject.AddComponent<ConnectorLine>();
+                }
             }
         }
 

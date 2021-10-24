@@ -51,7 +51,13 @@ VisualEffect:
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 1, y: 7.5, z: 0}
+        m_Name: End
+        m_Overridden: 1
+      - m_Value: {x: 0, y: -7.5, z: 0}
+        m_Name: Start
+        m_Overridden: 1
     m_Vector4f:
       m_Array: []
     m_Uint:
@@ -117,6 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6810571377105182050}
+  - component: {fileID: 7383354448844114355}
   - component: {fileID: 4447406530565722048}
   - component: {fileID: 7237696629834727517}
   - component: {fileID: 1906488765886761135}
@@ -144,6 +151,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7383354448844114355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6863623355097347294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b6fa42f03074820b61c280b4b68b857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4447406530565722048
 MonoBehaviour:
   m_ObjectHideFlags: 0
