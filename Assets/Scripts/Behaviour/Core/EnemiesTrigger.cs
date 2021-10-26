@@ -2,9 +2,7 @@
 
 using STP.Behaviour.Core.Enemy;
 using STP.Behaviour.Starter;
-using STP.Events;
 using STP.Utils;
-using STP.Utils.Events;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
@@ -17,7 +15,6 @@ namespace STP.Behaviour.Core {
 		void OnDestroy() {
 			Notifier.OnTriggerEnter -= TrySetTarget;
 			Notifier.OnTriggerExit  -= TryRemoveTarget;
-			EventManager.Unsubscribe<PlayerShipChanged>(OnPlayerShipChanged);
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
@@ -27,11 +24,6 @@ namespace STP.Behaviour.Core {
 			var cam    = starter.MainCamera;
 			var height = cam.orthographicSize * 2;
 			TriggerArea.size = new Vector2(cam.aspect * height, height);
-			EventManager.Subscribe<PlayerShipChanged>(OnPlayerShipChanged);
-		}
-
-		void OnPlayerShipChanged(PlayerShipChanged e) {
-			_playerTransform = e.NewPlayer.transform;
 		}
 
 		void TryRemoveTarget(GameObject obj) {
@@ -41,7 +33,7 @@ namespace STP.Behaviour.Core {
 			}
 			enemyComp.OnBecomeInvisibleForPlayer();
 		}
-		
+
 		void TrySetTarget(GameObject obj) {
 			var enemyComp = obj.GetComponent<BaseEnemy>();
 			if ( !enemyComp ) {

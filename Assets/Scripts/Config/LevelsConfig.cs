@@ -26,6 +26,8 @@ namespace STP.Config {
 
 		public List<BaseLevelInfo> Levels;
 
+		public int TotalLevelsCount => Levels.Count;
+
 		public BaseLevelInfo GetLevelConfig(int levelIndex) {
 			if ( (levelIndex < 0) || (levelIndex >= Levels.Count) ) {
 				Debug.LogErrorFormat("Invalid level index '{0}'", levelIndex);
@@ -40,27 +42,8 @@ namespace STP.Config {
 			var config = Resources.Load<TextAsset>("Balance");
 			Levels.Clear();
 			using ( var reader = new StringReader(config.text) ) {
-				for (var line = reader.ReadLine(); line != null; line = reader.ReadLine()) {
-					var elements    = line.Split(',');
-					var powerUps = new List<PowerUpType>();
-					// Parsing powerups
-					var powerUpNames = elements[4].Split(' ');
-					foreach ( var powerUpName in powerUpNames ) {
-						if ( string.IsNullOrEmpty(powerUpName) ) {
-							continue;
-						}
-						if ( Enum.TryParse(powerUpName, out PowerUpType powerUp) ) {
-							powerUps.Add(powerUp);
-						}
-						else {
-							Debug.LogError($"Can't parse powerup name {powerUpName}");
-						}
-					}
+				for ( var line = reader.ReadLine(); line != null; line = reader.ReadLine() ) {
 					var levelInfo = CreateInstance<RegularLevelInfo>();
-					levelInfo.GeneratorsCount    = int.Parse(elements[0]);
-					levelInfo.GeneratorsSideSize = int.Parse(elements[1]);
-					levelInfo.EnemyGroupsCount   = int.Parse(elements[2]);
-					levelInfo.PowerUps           = powerUps;
 					UnityEditor.AssetDatabase.CreateAsset(levelInfo, "Assets/Resources/NewLevel.asset");
 					Levels.Add(levelInfo);
 				}

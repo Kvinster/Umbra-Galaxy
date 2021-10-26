@@ -3,9 +3,7 @@
 using System.Collections.Generic;
 
 using STP.Behaviour.Starter;
-using STP.Events;
 using STP.Utils;
-using STP.Utils.Events;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
@@ -22,7 +20,6 @@ namespace STP.Behaviour.Core.Enemy {
 		void OnDestroy() {
 			TriggerNotifier.OnTriggerEnter -= OnPlayerEnterZone;
 			_player.OnPlayerRespawn        -= OnPlayerDied;
-			EventManager.Unsubscribe<PlayerShipChanged>(UpdateTarget);
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
@@ -35,7 +32,6 @@ namespace STP.Behaviour.Core.Enemy {
 
 			TriggerNotifier.OnTriggerEnter += OnPlayerEnterZone;
 			_player.OnPlayerRespawn        += OnPlayerDied;
-			EventManager.Subscribe<PlayerShipChanged>(UpdateTarget);
 		}
 
 		void OnPlayerEnterZone(GameObject obj) {
@@ -62,12 +58,6 @@ namespace STP.Behaviour.Core.Enemy {
 			Enemies.Remove(controllable);
 			_startPositions.Remove(controllable);
 			controllable.OnDestroyed -= OnEnemyDied;
-		}
-
-		void UpdateTarget(PlayerShipChanged e) {
-			_player.OnPlayerRespawn -= OnPlayerDied;
-			_player                 =  e.NewPlayer;
-			_player.OnPlayerRespawn += OnPlayerDied;
 		}
 	}
 }

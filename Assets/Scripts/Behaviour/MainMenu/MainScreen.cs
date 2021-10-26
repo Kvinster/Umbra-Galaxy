@@ -3,9 +3,9 @@
 using STP.Behaviour.Starter;
 using STP.Core;
 using STP.Manager;
+using STP.Service;
 using STP.Utils.GameComponentAttributes;
 
-using Cysharp.Threading.Tasks;
 using TMPro;
 
 namespace STP.Behaviour.MainMenu {
@@ -45,7 +45,7 @@ namespace STP.Behaviour.MainMenu {
 
 		void Play() {
 			GameController.Instance.LevelController.StartLevel(0);
-			CoreLoadingManager.Create().StartLoadCore();
+			SceneService.LoadLevel(0);
 		}
 
 		void ShowLeaderboardWindow() {

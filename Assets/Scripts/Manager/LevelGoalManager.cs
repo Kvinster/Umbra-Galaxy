@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 
 using System;
+using System.Linq;
 
+using STP.Behaviour.Core.Enemy;
 using STP.Config;
 using STP.Core;
+
+using Object = UnityEngine.Object;
 
 namespace STP.Manager {
 	public sealed class LevelGoalManager {
@@ -45,7 +49,7 @@ namespace STP.Manager {
 			var curLevelInfo = _levelController.CurLevelConfig;
 			switch ( curLevelInfo ) {
 				case RegularLevelInfo regularLevelInfo: {
-					LevelGoal = regularLevelInfo.GeneratorsCount;
+					LevelGoal = Object.FindObjectsOfType<Generator>().Count(x => x.IsMainGenerator); // TODO: <– not that
 					break;
 				}
 				case BossLevelInfo bossLevelInfo: {
@@ -87,7 +91,6 @@ namespace STP.Manager {
 				return;
 			}
 			_levelController.FinishLevel();
-			_levelManager.QuitToMenu();
 			OnLevelWon?.Invoke();
 		}
 	}

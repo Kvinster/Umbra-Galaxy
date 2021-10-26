@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level3
   m_EditorClassIdentifier: 
   AsteroidSpawnerSettings:
-    Enabled: 1
+    Enabled: 0
     SpawnPeriod: 3
     SpawnRange: 1000
     Prefab: {fileID: 5909774503264953508, guid: d9285fea4909b3a478bacecef9d606b6,
@@ -21,11 +21,7 @@ MonoBehaviour:
     AsteroidSpeed: 300
   DroneSpawnerSettings:
     Enabled: 1
-    SpawnPeriod: 2
+    SpawnPeriod: 7
     SpawnRange: 1000
     Prefab: {fileID: 6631905783988765892, guid: a90abbdf2f3803b42bb3214e1b9d5673,
       type: 3}
-  GeneratorsCount: 3
-  GeneratorsSideSize: 7
-  EnemyGroupsCount: 2
-  PowerUps: 00000000

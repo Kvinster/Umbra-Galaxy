@@ -1,23 +1,25 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 using System;
 
 using STP.Behaviour.Core;
 using STP.Core;
 using STP.Events;
+using STP.Service;
 using STP.Utils.Events;
 
 using Cysharp.Threading.Tasks;
 
 namespace STP.Manager {
 	public sealed class LevelManager {
-		Transform _playerTransform;
+		readonly Transform                 _playerTransform;
 		readonly SceneTransitionController _sceneTransitionController;
 		readonly PauseManager              _pauseManager;
 		readonly LevelController           _levelController;
 
 		bool _isLevelActive;
+
+		public int CurLevelIndex { get; }
 
 		public bool IsLevelActive {
 			get => _isLevelActive;
@@ -39,13 +41,12 @@ namespace STP.Manager {
 			_pauseManager              = pauseManager;
 			_levelController           = levelController;
 
+			CurLevelIndex = _levelController.CurLevelIndex;
+
 			IsLevelActive = true;
-			EventManager.Subscribe<PlayerShipChanged>(UpdatePlayerComp);
 		}
 
-		public void Deinit() {
-			EventManager.Unsubscribe<PlayerShipChanged>(UpdatePlayerComp);
-		}
+		public void Deinit() { }
 
 		public bool TryReloadLevel() {
 			if ( !IsLevelActive ) {
@@ -63,7 +64,7 @@ namespace STP.Manager {
 				return;
 			}
 			IsLevelActive = false;
-			SceneManager.LoadScene("MainMenu");
+			SceneService.LoadMainMenu();
 		}
 
 		async UniTaskVoid SceneTransition() {
@@ -71,11 +72,7 @@ namespace STP.Manager {
 
 			await _sceneTransitionController.PlayHideAnim(_playerTransform.position);
 
-			CoreLoadingManager.Create().StartLoadCore();
-		}
-
-		void UpdatePlayerComp(PlayerShipChanged ship) {
-			_playerTransform = ship.NewPlayer.transform;
+			SceneService.ReloadScene();
 		}
 	}
 }

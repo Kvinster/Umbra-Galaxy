@@ -2,9 +2,7 @@
 
 using STP.Behaviour.Starter;
 using STP.Config;
-using STP.Events;
 using STP.Utils;
-using STP.Utils.Events;
 
 namespace STP.Behaviour.Core.Enemy.Spawners {
     public abstract class BaseSpawner : BaseCoreComponent {
@@ -14,7 +12,7 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
         readonly Timer _spawnTimer = new Timer();
 
         protected abstract BaseSpawnerSettings Settings { get; }
-        
+
         bool _isStopped;
 
         void OnDestroy() {
@@ -29,23 +27,9 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
             }
         }
 
-        protected override void OnEnable() {
-            base.OnEnable();
-            EventManager.Subscribe<PlayerEnteredSafeArea>(OnPlayerEnteredSafeArea);
-            EventManager.Subscribe<PlayerLeftSafeArea>(OnPlayerLeftSafeArea);
-        }
-
-        protected override void OnDisable() {
-            base.OnDisable();
-            EventManager.Unsubscribe<PlayerEnteredSafeArea>(OnPlayerEnteredSafeArea);
-            EventManager.Unsubscribe<PlayerLeftSafeArea>(OnPlayerLeftSafeArea);
-        }
-
         protected override void InitInternal(CoreStarter starter) {
             if ( !Settings.Enabled ) {
                 _isStopped = true;
-                EventManager.Unsubscribe<PlayerEnteredSafeArea>(OnPlayerEnteredSafeArea);
-                EventManager.Unsubscribe<PlayerLeftSafeArea>(OnPlayerLeftSafeArea);
                 return;
             }
 
@@ -56,14 +40,6 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
         }
 
         protected virtual void InitItem(GameObject go) { }
-
-        void OnPlayerEnteredSafeArea(PlayerEnteredSafeArea e) {
-            _isStopped = true;
-        }
-
-        void OnPlayerLeftSafeArea(PlayerLeftSafeArea e) {
-            _isStopped = false;
-        }
 
         void OnPlayerDied() {
             Player = null;

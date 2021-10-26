@@ -21,7 +21,7 @@ namespace STP.Manager {
 			{ PowerUpType.X2Damage, 10f },
 		};
 
-		Player _player;
+		readonly Player           _player;
 		readonly PlayerController _playerController;
 		readonly XpController     _xpController;
 
@@ -34,7 +34,7 @@ namespace STP.Manager {
 		public event Action<PowerUpType> OnPowerUpStarted;
 		public event Action<PowerUpType> OnPowerUpFinished;
 
-		public PlayerManager(Player player, PlayerController playerController, XpController xpController, UnityContext context, 
+		public PlayerManager(Player player, PlayerController playerController, XpController xpController, UnityContext context,
 			Transform tempObjectsRoot) {
 			_player           = player;
 			_playerController = playerController;
@@ -43,7 +43,6 @@ namespace STP.Manager {
 			_tempObjectsRoot  = tempObjectsRoot;
 			_context.AddUpdateCallback(UpdateTimers);
 			_playerController.Respawn();
-			EventManager.Subscribe<PlayerShipChanged>(OnPlayerChanged);
 			EventManager.Subscribe<EnemyDestroyed>(OnEnemyDestroyed);
 		}
 
@@ -51,7 +50,6 @@ namespace STP.Manager {
 			if ( _context ) {
 				_context.RemoveUpdateCallback(UpdateTimers);
 			}
-			EventManager.Unsubscribe<PlayerShipChanged>(OnPlayerChanged);
 			EventManager.Unsubscribe<EnemyDestroyed>(OnEnemyDestroyed);
 		}
 
@@ -113,10 +111,6 @@ namespace STP.Manager {
 			_playerController.Respawn();
 			_playerController.RestoreLives();
 			_player.OnRestart();
-		}
-
-		void OnPlayerChanged(PlayerShipChanged e) {
-			_player = e.NewPlayer;
 		}
 
 		void UpdateTimers(float deltaTime) {
