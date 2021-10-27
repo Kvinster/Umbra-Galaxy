@@ -2,7 +2,6 @@
 
 using STP.Behaviour.Starter;
 using STP.Behaviour.Utils.ProgressBar;
-using STP.Core.ShootingsSystems;
 using STP.Core.ShootingsSystems.Generator;
 using STP.Manager;
 using STP.Utils;
