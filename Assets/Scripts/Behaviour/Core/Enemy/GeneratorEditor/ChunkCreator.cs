@@ -1,15 +1,15 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using UnityEngine;
 using UnityEngine.Assertions;
 
 using System.Collections.Generic;
 
-using STP.Behaviour.Core.Generators;
 using STP.Behaviour.Core.Enemy.GeneratorEditor.RandomWalk;
 using STP.Utils;
 
 using Shapes;
-
-using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 	public sealed class ChunkCreator {
@@ -70,7 +70,11 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 						var genPrefab = (cell == PlaceType.MainGenerator)
 							? _config.MainGeneratorPrefab
 							: _config.GeneratorPrefab;
+#if UNITY_EDITOR
+						var genGo = PrefabUtility.InstantiatePrefab(genPrefab, baseGo.transform) as GameObject;
+#else
 						var genGo = Object.Instantiate(genPrefab, baseGo.transform);
+#endif
 						if ( !genGo ) {
 							Debug.LogError("Can't cast instance to GameObject. aborting instancing generator");
 							continue;
@@ -85,7 +89,11 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 					}
 
 					if ( cell == PlaceType.Connector ) {
+#if UNITY_EDITOR
+						var connectorGo = PrefabUtility.InstantiatePrefab(_config.ConnectorPrefab, baseGo.transform) as GameObject;
+#else
 						var connectorGo = Object.Instantiate(_config.ConnectorPrefab, baseGo.transform);
+#endif
 						if ( !connectorGo ) {
 							Debug.LogError("Can't cast instance to GameObject. aborting instancing connector");
 							continue;
@@ -137,7 +145,11 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		}
 
 		void CreateLine(Connector one, Connector other) {
+#if UNITY_EDITOR
+			var lineGo = PrefabUtility.InstantiatePrefab(_config.LinePrefab, one.transform) as GameObject;
+#else
 			var lineGo               = Object.Instantiate(_config.LinePrefab, one.transform);
+#endif
 			var lineComp             = lineGo.GetComponent<Line>();
 			var vectorToConnectorEnd = (other.transform.position - one.transform.position);
 			lineComp.Start = Vector3.zero;
