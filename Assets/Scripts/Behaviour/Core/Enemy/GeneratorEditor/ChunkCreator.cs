@@ -150,6 +150,9 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 #else
 			var lineGo               = Object.Instantiate(_config.LinePrefab, one.transform);
 #endif
+			Assert.IsTrue(lineGo);
+			var connectorLineComp = lineGo.GetComponent<ConnectorLine>();
+			connectorLineComp.Connector = one;
 			var lineComp             = lineGo.GetComponent<Line>();
 			var vectorToConnectorEnd = (other.transform.position - one.transform.position);
 			lineComp.Start = Vector3.zero;

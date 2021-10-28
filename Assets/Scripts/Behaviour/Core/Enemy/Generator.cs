@@ -102,20 +102,16 @@ namespace STP.Behaviour.Core.Enemy {
                 if ( IsMainGenerator ) {
                     _levelGoalManager.Advance();
                     if ( Connector ) {
-                        Connector.ForceDestroy();
+                        Connector.StartForceDestroyConnector(false);
                     }
                 } else {
-                    Connector.DestroyConnector();
+                    Connector.StartDestroyConnector(false);
                 }
             }
             Destroy(gameObject);
             // detach VFX on death
             ExplosionEffect.transform.SetParent(transform.parent);
-            if ( fromConnector ) {
-                ExplosionEffect.ScheduleVfx(0.5f, true);
-            } else {
-                ExplosionEffect.RunVfx(true);
-            }
+            ExplosionEffect.RunVfx(true);
         }
 
         float GetViewAngleToTarget() {
