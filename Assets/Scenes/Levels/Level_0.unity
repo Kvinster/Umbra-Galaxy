@@ -7342,7 +7342,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ShootingParams.BulletPrefab
       value: 
-      objectReference: {fileID: 4765969172863325119, guid: 89faa3303a93b0941af9c078aad27d7e,
+      objectReference: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
         type: 3}
     - target: {fileID: 7014569917127402253, guid: 0fc848f1dc484bd46b6eca0b583fc75e,
         type: 3}
