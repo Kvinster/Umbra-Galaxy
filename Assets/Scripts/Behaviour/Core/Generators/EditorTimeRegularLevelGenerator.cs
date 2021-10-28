@@ -1,10 +1,9 @@
 using UnityEngine;
 
+using System.Collections.Generic;
+
 using STP.Behaviour.Core.Enemy.GeneratorEditor;
 using STP.Utils;
-
-using JetBrains.Annotations;
-using NaughtyAttributes;
 
 namespace STP.Behaviour.Core.Generators {
 	public sealed class EditorTimeRegularLevelGenerator : GameComponent {
@@ -12,6 +11,10 @@ namespace STP.Behaviour.Core.Generators {
 		public Vector2Int GeneratorsSideSize = new Vector2Int(5, 5);
 		[Header("Dependencies")]
 		public Transform LevelObjectsRoot;
+		public GameObject GeneratorBulletPrefab;
+		public GameObject MainGeneratorBulletPrefab;
+		[Space]
+		public List<GameObject> BulletPrefabs = new List<GameObject>();
 
 		void Start() {
 			if ( Application.isPlaying ) {
@@ -19,21 +22,17 @@ namespace STP.Behaviour.Core.Generators {
 			}
 		}
 
-		[Button("Generate level")]
-		[UsedImplicitly]
 		public void GenerateLevel() {
 			ResetLevel();
 			var levelObjectsRootGo = new GameObject("LevelObjects");
 			LevelObjectsRoot = levelObjectsRootGo.transform;
 			LevelObjectsRoot.position = Vector3.zero;
-			var chunkCreator = new ChunkCreator();
+			var chunkCreator = new ChunkCreator(GeneratorBulletPrefab, MainGeneratorBulletPrefab);
 			var obj          = chunkCreator.CreateGeneratorChunk(GeneratorsSideSize);
 			obj.transform.SetParent(LevelObjectsRoot);
 			obj.transform.localPosition = Vector3.zero;
 		}
 
-		[Button("Reset level")]
-		[UsedImplicitly]
 		public void ResetLevel() {
 			if ( LevelObjectsRoot ) {
 				DestroyImmediate(LevelObjectsRoot.gameObject);
@@ -41,8 +40,6 @@ namespace STP.Behaviour.Core.Generators {
 			}
 		}
 
-		[Button("Reset field")]
-		[UsedImplicitly]
 		public void ResetField() {
 			LevelObjectsRoot = null;
 		}

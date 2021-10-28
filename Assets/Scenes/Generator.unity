@@ -152,6 +152,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GeneratorsSideSize: {x: 10, y: 10}
   LevelObjectsRoot: {fileID: 0}
+  GeneratorBulletPrefab: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
+    type: 3}
+  MainGeneratorBulletPrefab: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
+    type: 3}
+  BulletPrefabs:
+  - {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922, type: 3}
+  - {fileID: 4765969172863325119, guid: 89faa3303a93b0941af9c078aad27d7e, type: 3}
+  - {fileID: 1801752738528551879, guid: 8f78de707d449ed4c88f5d99fdc27f42, type: 3}
+  - {fileID: 347348299669463199, guid: 1908074338af77047b08f2adb77fde73, type: 3}
 --- !u!4 &1897825082
 Transform:
   m_ObjectHideFlags: 0

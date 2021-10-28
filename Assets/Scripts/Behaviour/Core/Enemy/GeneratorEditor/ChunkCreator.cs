@@ -23,9 +23,13 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 		static Vector2Int InvalidVector => -Vector2Int.one;
 
 		readonly ChunkConfig _config;
+		readonly GameObject  _generatorBulletPrefab;
+		readonly GameObject  _mainGeneratorBulletPrefab;
 
-		public ChunkCreator() {
-			_config = Resources.Load<ChunkConfig>("ChunkConfig");
+		public ChunkCreator(GameObject generatorBulletPrefab, GameObject mainGeneratorBulletPrefab) {
+			_config                    = Resources.Load<ChunkConfig>("ChunkConfig");
+			_generatorBulletPrefab     = generatorBulletPrefab;
+			_mainGeneratorBulletPrefab = mainGeneratorBulletPrefab;
 			Assert.IsTrue(_config);
 		}
 
@@ -84,6 +88,9 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 						var bulletPair = RandomUtils.GetRandomElement(_config.BulletPrefabs);
 						genComp.ShootingParams.BulletPrefab    = (cell == PlaceType.MainGenerator) ?  bulletPair.MainGenBullet : bulletPair.SubGenBullet;
 						genComp.IsMainGenerator = (cell == PlaceType.MainGenerator);
+						genComp.ShootingParams.BulletPrefab = (cell == PlaceType.MainGenerator)
+							? _mainGeneratorBulletPrefab
+							: _generatorBulletPrefab;
 						var connector = genGo.GetComponentInChildren<Connector>();
 						connectorsMap.SetCell(x, y, connector);
 					}
