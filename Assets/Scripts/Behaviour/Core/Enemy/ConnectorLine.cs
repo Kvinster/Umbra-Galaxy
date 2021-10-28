@@ -20,9 +20,15 @@ namespace STP.Behaviour.Core.Enemy {
 
 		[NotNull(false)] public Connector Connector;
 
-		Collider2D   _collider;
-		Line         _line;
-		VisualEffect _visualEffect;
+		BoxCollider2D _collider;
+		Line          _line;
+		VisualEffect  _visualEffect;
+
+		bool _invert;
+
+		Vector2 _start;
+		Vector2 _end;
+		float   _thickness;
 
 		bool _isHorizontal;
 
@@ -56,27 +62,30 @@ namespace STP.Behaviour.Core.Enemy {
 			if ( !Application.isPlaying ) {
 				return;
 			}
-			_collider     = GetComponentInChildren<Collider2D>();
+			_collider     = GetComponentInChildren<BoxCollider2D>();
 			_line         = GetComponentInChildren<Line>();
 			_visualEffect = GetComponentInChildren<VisualEffect>();
 			Assert.IsTrue(_collider);
 			Assert.IsTrue(_line);
 			Assert.IsTrue(_visualEffect);
 
+			_start     = _line.Start;
+			_end       = _line.End;
+			_thickness = _line.Thickness;
+
 			_isHorizontal = Mathf.Approximately(_line.Start.y, _line.End.y);
 
-			if ( _visualEffect ) {
-				var halfThickness = _line.Thickness / 2f;
-				var start = _line.Start + (_isHorizontal ? new Vector3(0, -halfThickness) : new Vector3(-halfThickness, 0));
-				var end   = _line.End + (_isHorizontal ? new Vector3(0, halfThickness) : new Vector3(halfThickness, 0));
-				_visualEffect.SetVector3(StartId, start);
-				_visualEffect.SetVector3(EndId, end);
-				_visualEffect.SetFloat(FillId, 1f);
-			}
+			var halfThickness = _line.Thickness / 2f;
+			var start = _line.Start + (_isHorizontal ? new Vector3(0, -halfThickness) : new Vector3(-halfThickness, 0));
+			var end   = _line.End + (_isHorizontal ? new Vector3(0, halfThickness) : new Vector3(halfThickness, 0));
+			_visualEffect.SetVector3(StartId, start);
+			_visualEffect.SetVector3(EndId, end);
+			_visualEffect.SetFloat(FillId, 1f);
 			if ( Connector ) {
 				Connector.OnHpChanged    += OnConnectorHpChanged;
 				Connector.OnStartedDying += OnConnectorStartedDying;
 				OnConnectorHpChanged(Connector.Hp);
+				SetupCollider(Connector.Hp);
 			}
 		}
 
@@ -87,16 +96,37 @@ namespace STP.Behaviour.Core.Enemy {
 			}
 		}
 
-		void OnConnectorHpChanged(float hp) {
-			if ( _visualEffect ) {
-				_visualEffect.SetFloat(FillId, Mathf.Clamp01(hp));
+		void SetupCollider(float hp) {
+			Vector2 diff;
+			if ( Mathf.Approximately(hp, 1f) ) {
+				diff             = _end - _start;
+				_collider.offset = diff / 2;
+			} else {
+				if ( _invert ) {
+					var end = Vector2.Lerp(_end, _start, 1f - Mathf.Clamp01(hp));
+					diff             = end - _start;
+					_collider.offset = diff / 2;
+				} else {
+					var start = Vector2.Lerp(_start, _end, 1f - Mathf.Clamp01(hp));
+					diff = _end - start;
+					_collider.offset = start + diff / 2;
+				}
 			}
+			var size = new Vector2(
+				Mathf.Abs(!Mathf.Approximately(diff.x, 0) ? diff.x : 0) + _thickness,
+				Mathf.Abs(!Mathf.Approximately(diff.y, 0) ? diff.y : 0) + _thickness);
+			_collider.size = size;
+		}
+
+		void OnConnectorHpChanged(float hp) {
+			_visualEffect.SetFloat(FillId, Mathf.Clamp01(hp));
+			SetupCollider(hp);
 		}
 
 		void OnConnectorStartedDying(bool fromMainConnector) {
-			if ( _visualEffect ) {
-				_visualEffect.SetBool(FillInvertId, fromMainConnector);
-			}
+			_invert = fromMainConnector;
+			_visualEffect.SetBool(FillInvertId, fromMainConnector);
+			SetupCollider(Connector.Hp);
 		}
 
 		void OnCollisionEnter2D(Collision2D other) {
