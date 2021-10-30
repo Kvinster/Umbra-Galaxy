@@ -6,6 +6,20 @@
       "scopes": [
         "com.fluid"
       ]
+    },
+    {
+      "name": "Unity",
+      "url": "https://packages.unity.com",
+      "scopes": [
+        "com.unity"
+      ]
+    },
+    {
+      "name": "UniGame",
+      "url": "http://packages.unigame.pro:4873/",
+      "scopes": [
+        "com.unigame"
+      ]
     }
   ],
   "dependencies": {
@@ -30,6 +44,7 @@
     "com.unity.ugui": "1.0.0",
     "com.unity.visualeffectgraph": "7.3.1",
     "com.unity.xr.legacyinputhelpers": "2.1.4",
+    "com.yasirkula.assetusagedetector": "https://github.com/yasirkula/UnityAssetUsageDetector.git",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
