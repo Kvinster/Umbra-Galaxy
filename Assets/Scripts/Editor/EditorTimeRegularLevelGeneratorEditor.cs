@@ -27,6 +27,9 @@ namespace STP.Editor {
 			if ( bulletPrefabsProperty.arraySize > 0 ) {
 				for ( var i = 0; i < bulletPrefabsProperty.arraySize; ++i ) {
 					var obj = bulletPrefabsProperty.GetArrayElementAtIndex(i).objectReferenceValue;
+					if ( !obj ) {
+						continue;
+					}
 					if ( obj is GameObject go ) {
 						prefabs[i + 1]     = go;
 						prefabNames[i + 1] = go.name;
