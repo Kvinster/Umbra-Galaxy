@@ -21,10 +21,6 @@ MonoBehaviour:
       type: 3}
     SubGenBullet: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
       type: 3}
-  - MainGenBullet: {fileID: 1801752738528551879, guid: 8f78de707d449ed4c88f5d99fdc27f42,
-      type: 3}
-    SubGenBullet: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
-      type: 3}
   - MainGenBullet: {fileID: 6476260919088652975, guid: 72ed1cd7b3ddbe24689473372804e610,
       type: 3}
     SubGenBullet: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
@@ -41,7 +37,6 @@ MonoBehaviour:
   - {fileID: 8244082116085525965, guid: 3cb35c93ab929064fb1b631eb79f5b86, type: 3}
   - {fileID: 8244082116085525965, guid: 818cda1543da75b47adde2cbeb903703, type: 3}
   - {fileID: 8244082116085525965, guid: 7a12b083fe6817347a007c291dc50803, type: 3}
-  - {fileID: 8244082116085525965, guid: e22b5fa5fdc9bf248ae947bbf1766fca, type: 3}
   BossChunks:
   - {fileID: 5689183706950962367, guid: 79cd11a851f672748aaf4fa766a8c1d3, type: 3}
   - {fileID: 5689183706950962367, guid: 7dc1c40d5426cfa4a91a2f4782a435ba, type: 3}
