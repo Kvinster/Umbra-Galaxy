@@ -131,8 +131,8 @@ MonoBehaviour:
   Name: Drone
   DeathSoundPlayer: {fileID: 8398175368522010061}
   StartHp: 20
-  MovementSpeed: 500
-  RotationSpeed: 0.03
+  MovementSpeed: 400
+  RotationSpeed: 0.2
   Rigidbody: {fileID: 6631905783988765893}
 --- !u!60 &6631905783988765894
 PolygonCollider2D:
