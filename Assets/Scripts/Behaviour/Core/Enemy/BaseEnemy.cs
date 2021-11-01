@@ -13,21 +13,22 @@ namespace STP.Behaviour.Core.Enemy {
 		[NotNullOrEmpty] public string Name;
 		[Space]
 		public SimpleDeathSoundPlayer DeathSoundPlayer;
+		public VfxRunner              DeathEffectRunner;
 
 		public float StartHp;
 
 		public event Action<BaseEnemy> OnDestroyed;
-		
+
 		protected bool IsAlive;
-		
+
 		protected HpSystem HpSystem;
 
 		public abstract void OnBecomeVisibleForPlayer(Transform playerTransform);
 
 		public abstract void OnBecomeInvisibleForPlayer();
-		
+
 		public abstract void SetTarget(Transform target);
-		
+
 		protected override void InitInternal(CoreStarter starter) {
 			if ( DeathSoundPlayer ) {
 				DeathSoundPlayer.Init(starter.TempObjectsRoot);
@@ -44,6 +45,7 @@ namespace STP.Behaviour.Core.Enemy {
 			OnDestroyed?.Invoke(this);
 			IsAlive = false;
 			TryStartPlayingDeathSound();
+			TryRunDeathEffect();
 			if ( fromPlayer ) {
 				EventManager.Fire(new EnemyDestroyed(Name));
 			}
@@ -52,6 +54,13 @@ namespace STP.Behaviour.Core.Enemy {
 		protected void TryStartPlayingDeathSound() {
 			if ( DeathSoundPlayer ) {
 				DeathSoundPlayer.Play();
+			}
+		}
+
+		protected void TryRunDeathEffect() {
+			if ( DeathEffectRunner ) {
+				DeathEffectRunner.transform.parent = transform.parent;
+				DeathEffectRunner.RunVfx(true);
 			}
 		}
 	}
