@@ -3,6 +3,5 @@
 		Shield      = 1,
 		IncFireRate = 2,
 		X2Damage    = 3,
-		RestoreHp   = 4,
 	}
 }

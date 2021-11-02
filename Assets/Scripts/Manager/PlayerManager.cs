@@ -136,10 +136,6 @@ namespace STP.Manager {
 					AddTimeToPowerUp(powerUpType, PowerUpTypeTimes[powerUpType]);
 					break;
 				}
-				case PowerUpType.RestoreHp: {
-					_playerController.RestoreHp();
-					break;
-				}
 				default: {
 					Debug.LogErrorFormat("Unsupported power up type '{0}'", powerUpType.ToString());
 					break;
