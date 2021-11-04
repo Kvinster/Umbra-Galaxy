@@ -42,7 +42,7 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		public override IPromise Show() {
-			StatsText.text = string.Format(StatsFormat, _playerController.CurLives, _xpController.Xp);
+			StatsText.text = string.Format(StatsFormat, _playerController.CurLives, _xpController.Xp.Value);
 
 			return base.Show();
 		}
