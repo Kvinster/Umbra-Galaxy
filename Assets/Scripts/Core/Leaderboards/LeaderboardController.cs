@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using PlayFab;
@@ -15,7 +16,7 @@ namespace STP.Core.Leaderboards {
 		bool IsLoggedIn => PlayFabClientAPI.IsClientLoggedIn();
 
 		public LeaderboardController() {
-			TryLoginAsync();
+			UniTask.Create(TryLoginAsync);
 		}
 		
 		public async UniTask PublishScoreAsync(int score) {
@@ -54,18 +55,22 @@ namespace STP.Core.Leaderboards {
 			var isRequestCompleted = false;
 			PlayFabClientAPI.LoginWithCustomID(request, (result) => {
 				isRequestCompleted = true;
-				_displayName       = result.InfoResultPayload.PlayerProfile?.DisplayName ?? "Anonymous";
+				_displayName       = result.InfoResultPayload.PlayerProfile?.DisplayName;
 				_playfabId         = result.PlayFabId;
 			}, (error) => HandleError(out isRequestCompleted, error));
 			await UniTask.WaitWhile(() => !isRequestCompleted);
+			if ( string.IsNullOrEmpty(_displayName) ) {
+				await UpdateUserName("Anonymous");
+			}
 		}
 
-		public async UniTaskVoid UpdateUserName(string newName) {
+		public async UniTask UpdateUserName(string newName) {
 			var request     = FormUpdateUserNameRequest(newName);
 			var isCompleted = false;
 			PlayFabClientAPI.UpdateUserTitleDisplayName(request, _ => isCompleted = true,
 				error => HandleError(out isCompleted, error));
 			await UniTask.WaitUntil(() => isCompleted);
+			Debug.Log($"name updated to {newName}");
 		}
 
 		List<Score> ConvertPlayFabInfoToOurFormat(List<PlayerLeaderboardEntry> scores) {
@@ -79,7 +84,7 @@ namespace STP.Core.Leaderboards {
 
 		LoginWithCustomIDRequest FormLoginRequest() {
 			return new LoginWithCustomIDRequest{
-				CustomId      = SystemInfo.deviceUniqueIdentifier,
+				CustomId      = Guid.NewGuid().ToString(),
 				CreateAccount = true,
 				InfoRequestParameters = new GetPlayerCombinedInfoRequestParams {
 					GetPlayerProfile = true
