@@ -28,12 +28,13 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 		}
 
 		public override IPromise Show() {
-			ShowInternal();
+			UniTask.Void(ShowInternal);
 			return base.Show();
 		}
 
-		async void ShowInternal() {
+		async UniTaskVoid ShowInternal() {
 			await _leaderboardController.PublishScoreAsync(_xpController.Xp);
+			await UniTask.Delay(1000, DelayType.UnscaledDeltaTime);
 			await GenerateText();
 		}
 
@@ -41,7 +42,8 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 			var sb     = new StringBuilder();
 			var scores = await _leaderboardController.GetScoresAroundPlayerAsync(MaxRecordsCount);
 			foreach ( var score in scores ) {
-				sb.AppendFormat(LeaderboardRecordFormat, score.UserName, score.ScoreValue);
+				sb.AppendFormat(LeaderboardRecordFormat, score.UserName, score.ScoreValue)
+					.AppendLine();
 			}
 			StatsText.text = sb.ToString();
 		}
