@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 using STP.Behaviour.Core.UI;
+using STP.Behaviour.Core.UI.WinWindow;
 using STP.Behaviour.Starter;
 using STP.Core;
+using STP.Core.Leaderboards;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
@@ -39,8 +41,7 @@ namespace STP.Manager {
 		}
 
 		public void Init(PauseManager pauseManager, LevelManager levelManager, LevelGoalManager levelGoalManager,
-			PlayerManager playerManager, PlayerController playerController, XpController xpController,
-			LevelController levelController) {
+			PlayerManager playerManager, PlayerController playerController, XpController xpController, LeaderboardController leaderboardController) {
 			_pauseManager     = pauseManager;
 			_playerController = playerController;
 			_xpController     = xpController;
@@ -53,7 +54,7 @@ namespace STP.Manager {
 			};
 
 			DeathWindow.CommonInit(levelManager, playerManager, _playerController);
-			WinWindow.CommonInit(levelManager, playerController, xpController, levelController);
+			WinWindow.CommonInit(xpController, leaderboardController, levelManager);
 			PauseWindow.CommonInit(levelManager, levelGoalManager, xpController, playerController);
 			PauseButton.onClick.AddListener(ShowPauseWindow);
 

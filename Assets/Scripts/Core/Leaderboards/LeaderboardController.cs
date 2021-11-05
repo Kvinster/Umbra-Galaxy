@@ -13,6 +13,10 @@ namespace STP.Core.Leaderboards {
 		string _displayName;
 		
 		bool IsLoggedIn => PlayFabClientAPI.IsClientLoggedIn();
+
+		public LeaderboardController() {
+			TryLoginAsync();
+		}
 		
 		public async UniTask PublishScoreAsync(int score) {
 			if ( !IsLoggedIn ) {
@@ -27,7 +31,7 @@ namespace STP.Core.Leaderboards {
 
 		public async UniTask<List<Score>> GetScoresAroundPlayerAsync(int recordsCount) {
 			if ( !IsLoggedIn ) {
-				return null;
+				return new List<Score>();
 			}
 			var isRequestCompleted = false;
 			var request            = FormLeaderboardRequest(recordsCount);
@@ -43,7 +47,7 @@ namespace STP.Core.Leaderboards {
 
 		public async UniTask TryLoginAsync() {
 			if ( IsLoggedIn ) {
-				Debug.LogError("You are already logged in.");
+				Debug.LogWarning("You are already logged in.");
 				return;
 			}
 			var request            = FormLoginRequest();
@@ -63,8 +67,7 @@ namespace STP.Core.Leaderboards {
 				error => HandleError(out isCompleted, error));
 			await UniTask.WaitUntil(() => isCompleted);
 		}
-		
-		
+
 		List<Score> ConvertPlayFabInfoToOurFormat(List<PlayerLeaderboardEntry> scores) {
 			return scores?.Where(score => !string.IsNullOrEmpty(score.DisplayName)).Select(score => new Score(score.Position, score.StatValue, score.DisplayName)).ToList();
 		}

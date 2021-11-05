@@ -94,7 +94,7 @@ namespace STP.Behaviour.Starter {
 			LevelGoalManager =
 				new LevelGoalManager(PlayerManager, LevelManager, lc);
 			_commonStarter.CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc,
-				lc);
+				GameController.LeaderboardController);
 			MinimapManager = new MinimapManager(_commonStarter.MinimapCamera);
 			_commonStarter.PlayerCameraFollower.Init(_commonStarter.MainCamera, Player.transform, AreaRect);
 			InitComponents();
