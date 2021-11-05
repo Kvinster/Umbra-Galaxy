@@ -41,7 +41,7 @@ namespace STP.Core.Leaderboards {
 			return ConvertPlayFabInfoToOurFormat(results);
 		}
 
-		public async UniTaskVoid TryLoginAsync() {
+		public async UniTask TryLoginAsync() {
 			if ( IsLoggedIn ) {
 				Debug.LogError("You are already logged in.");
 				return;
@@ -66,7 +66,7 @@ namespace STP.Core.Leaderboards {
 		
 		
 		List<Score> ConvertPlayFabInfoToOurFormat(List<PlayerLeaderboardEntry> scores) {
-			return scores?.Select(score => new Score(score.Position, score.StatValue, score.DisplayName)).ToList();
+			return scores?.Where(score => !string.IsNullOrEmpty(score.DisplayName)).Select(score => new Score(score.Position, score.StatValue, score.DisplayName)).ToList();
 		}
 
 		void HandleError(out bool operationCompletionFlag, PlayFabError error) {

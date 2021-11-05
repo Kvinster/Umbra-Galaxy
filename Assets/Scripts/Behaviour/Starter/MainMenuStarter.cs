@@ -12,16 +12,18 @@ namespace STP.Behaviour.Starter {
 	public sealed class MainMenuStarter : BaseStarter<MainMenuStarter> {
 		[NotNull] public MainScreen        MainScreen;
 		[NotNull] public SettingsScreen    SettingsScreen;
+		[NotNull] public LeaderboardWindow LeaderboardWindow;
 
 		public MainMenuManager MainMenuManager { get; private set; }
 
 		public GameController GameController => GameController.Instance;
 
-		void Start() {
+		async void Start() {
 			TryCreateGameState();
 			GameController.CreateGameController(GameState.ActiveInstance);
+			await GameController.LeaderboardController.TryLoginAsync();
 
-			MainMenuManager = new MainMenuManager(MainScreen, SettingsScreen);
+			MainMenuManager = new MainMenuManager(MainScreen, SettingsScreen, LeaderboardWindow);
 
 			InitComponents();
 			// Settings for smooth gameplay
