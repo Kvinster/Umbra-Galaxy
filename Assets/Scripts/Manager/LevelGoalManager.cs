@@ -16,8 +16,6 @@ namespace STP.Manager {
 		readonly PlayerManager         _playerManager;
 		readonly LevelManager          _levelManager;
 		readonly LevelController       _levelController;
-		readonly XpController          _xpController;
-		readonly LeaderboardController _leaderboardController;
 
 		int _curLevelGoalProgress;
 
@@ -38,13 +36,10 @@ namespace STP.Manager {
 		public event Action      OnPlayerDeath;
 		public event Action      OnLevelWon;
 
-		public LevelGoalManager(PlayerManager playerManager, LevelManager levelManager, LevelController levelController,
-			XpController xpController, LeaderboardController leaderboardController) {
+		public LevelGoalManager(PlayerManager playerManager, LevelManager levelManager, LevelController levelController) {
 			_playerManager         = playerManager;
 			_levelManager          = levelManager;
 			_levelController       = levelController;
-			_xpController          = xpController;
-			_leaderboardController = leaderboardController;
 
 			var curLevelInfo = _levelController.CurLevelConfig;
 			switch ( curLevelInfo ) {

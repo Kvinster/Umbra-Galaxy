@@ -12,7 +12,6 @@ namespace STP.Core {
 
 		readonly GameState _gameState;
 
-		public LeaderboardController LeaderboardController { get; }
 		public SettingsController    SettingsController    { get; }
 
 		public LevelController   LevelController   { get; }
@@ -36,7 +35,6 @@ namespace STP.Core {
 			XpController          = AddController(new XpController());
 			PlayerController      = AddController(new PlayerController());
 			PrefabsController     = AddController(new PrefabsController());
-			LeaderboardController = AddController(new LeaderboardController(gameState));
 			SettingsController    = AddController(new SettingsController(gameState));
 			if ( Instance == null ) {
 				Instance = this;
