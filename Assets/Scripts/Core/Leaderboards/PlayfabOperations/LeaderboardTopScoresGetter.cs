@@ -4,7 +4,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
 
-namespace STP.Core.Leaderboards {
+namespace STP.Core.Leaderboards.PlayfabOperations {
 	public class LeaderboardTopScoresGetter : BasePlayfabOperation {
 		class OperationState {
 			public List<PlayerLeaderboardEntry> Scores;
@@ -27,7 +27,6 @@ namespace STP.Core.Leaderboards {
 			await UniTask.WaitUntil(() => state.IsCompleted);
 			return state.Scores;
 		}
-
 
 		void OnSuccessOperation(GetLeaderboardResult result, OperationState state) {
 			state.Scores       = result.Leaderboard;

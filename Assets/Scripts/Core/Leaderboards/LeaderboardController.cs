@@ -4,14 +4,16 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using PlayFab;
 using PlayFab.ClientModels;
+using STP.Core.Leaderboards.PlayfabOperations;
 using UnityEngine;
 
 namespace STP.Core.Leaderboards {
 	public class LeaderboardController : BaseStateController  {
 		const string LeaderBoardName = "Scores";
 		
-		string _playfabId;
 		string _displayName;
+		
+		public string PlayerId { get; private set; }
 		
 		bool IsLoggedIn => PlayFabClientAPI.IsClientLoggedIn();
 
@@ -19,7 +21,11 @@ namespace STP.Core.Leaderboards {
 		
 		public LeaderboardController() {
 			_topScoresGetter = new LeaderboardTopScoresGetter(LeaderBoardName);
-			UniTask.Create(TryLoginAsync);
+			UniTask.Create(() => TryLoginAsync());
+		}
+
+		public void ResetUserId() {
+			UniTask.Create(() => TryLoginAsync(true));
 		}
 		
 		public async UniTask PublishScoreAsync(int score) {
@@ -45,6 +51,7 @@ namespace STP.Core.Leaderboards {
 			var isRequestCompleted = false;
 			var request            = FormLeaderboardRequest(recordsCount);
 
+			
 			List<PlayerLeaderboardEntry> results = null;
 			PlayFabClientAPI.GetLeaderboardAroundPlayer(request, (resultObj) => {
 				results            = resultObj.Leaderboard;
@@ -54,8 +61,8 @@ namespace STP.Core.Leaderboards {
 			return ConvertPlayFabInfoToOurFormat(results);
 		}
 
-		public async UniTask TryLoginAsync() {
-			if ( IsLoggedIn ) {
+		public async UniTask TryLoginAsync(bool ignoreOldLogin = false) {
+			if ( IsLoggedIn && !ignoreOldLogin ) {
 				Debug.LogWarning("You are already logged in.");
 				return;
 			}
@@ -64,7 +71,7 @@ namespace STP.Core.Leaderboards {
 			PlayFabClientAPI.LoginWithCustomID(request, (result) => {
 				isRequestCompleted = true;
 				_displayName       = result.InfoResultPayload.PlayerProfile?.DisplayName;
-				_playfabId         = result.PlayFabId;
+				PlayerId          = result.PlayFabId;
 			}, (error) => HandleError(out isRequestCompleted, error));
 			await UniTask.WaitWhile(() => !isRequestCompleted);
 			if ( string.IsNullOrEmpty(_displayName) ) {
@@ -73,6 +80,9 @@ namespace STP.Core.Leaderboards {
 		}
 
 		public async UniTask UpdateUserName(string newName) {
+			if ( string.IsNullOrEmpty(newName) ) {
+				newName = "Anonymous";
+			}
 			var request     = FormUpdateUserNameRequest(newName);
 			var isCompleted = false;
 			PlayFabClientAPI.UpdateUserTitleDisplayName(request, _ => isCompleted = true,
@@ -82,7 +92,7 @@ namespace STP.Core.Leaderboards {
 		}
 
 		List<Score> ConvertPlayFabInfoToOurFormat(List<PlayerLeaderboardEntry> scores) {
-			return scores?.Where(score => !string.IsNullOrEmpty(score.DisplayName)).Select(score => new Score(score.Position, score.StatValue, score.DisplayName)).ToList();
+			return scores?.Where(score => !string.IsNullOrEmpty(score.DisplayName)).Select(score => new Score(score.Position, score.StatValue, score.DisplayName, score.PlayFabId)).ToList();
 		}
 
 		void HandleError(out bool operationCompletionFlag, PlayFabError error) {
