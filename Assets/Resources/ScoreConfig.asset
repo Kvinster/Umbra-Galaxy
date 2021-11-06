@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe967b6200d14deb9f9d9fa5062051b1, type: 3}
-  m_Name: XpConfig
+  m_Name: ScoreConfig
   m_EditorClassIdentifier: 
   EnemyXpInfo:
   - EnemyName: Glider
@@ -25,24 +25,3 @@ MonoBehaviour:
     XpAmount: 1
   - EnemyName: Asteroid
     XpAmount: 0
-  LevelUpInfos:
-  - ShipsToSelect: 0000000001000000
-    NeededXp: 10
-  - ShipsToSelect: 0000000001000000
-    NeededXp: 20
-  - ShipsToSelect: 0000000001000000
-    NeededXp: 30
-  - ShipsToSelect: 0000000001000000
-    NeededXp: 40
-  - ShipsToSelect: 0000000001000000
-    NeededXp: 50
-  - ShipsToSelect: 0000000001000000
-    NeededXp: 60
-  - ShipsToSelect: 0000000001000000
-    NeededXp: 70
-  - ShipsToSelect: 0000000001000000
-    NeededXp: 80
-  - ShipsToSelect: 0000000001000000
-    NeededXp: 90
-  - ShipsToSelect: 0000000001000000
-    NeededXp: 100
