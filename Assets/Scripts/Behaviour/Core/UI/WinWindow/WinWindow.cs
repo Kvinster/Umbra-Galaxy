@@ -13,13 +13,9 @@ using IPromise = RSG.IPromise;
 
 namespace STP.Behaviour.Core.UI.WinWindow {
 	public sealed class WinWindow : BaseCoreWindow {
-		const int    MaxRecordsCount         = 10;
-		const string LeaderboardRecordFormat = "{0} - {1} : {2}";
+		[NotNull] public List<LeaderboardEntryView> Entries;
 		
-		[NotNull] public TMP_Text   StatsText;
 		[NotNull] public Button     ContinueButton;
-
-		[NotNull] public TMP_InputField InputField;
 
 		LeaderboardController _leaderboardController;
 		LevelManager          _levelManager;
@@ -27,61 +23,64 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 
 		List<Score> _scores;
 
-		bool _isUsernamePassed;
+		LeaderboardEntryView _activePlayerView;
 		
 		public void CommonInit(XpController xpController, LeaderboardController leaderboardController, LevelManager levelManager) {
 			_xpController          = xpController;
 			_leaderboardController = leaderboardController;
 			_levelManager          = levelManager;
 			ContinueButton.onClick.AddListener(OnContinueClick);
-			InputField.onValueChanged.AddListener(GenerateText);
-			InputField.onEndEdit.AddListener(FinishUserNameInput);
 		}
 
 		public override IPromise Show() {
 			var promise = base.Show();
-			InputField.Select();
 			UniTask.Void(UpdateLeaderboard);
 			return promise;
 		}
 
-		void FinishUserNameInput(string lastResult) {
-			// submit name only on enter
-			if ( !Input.GetKey(KeyCode.Return) ) {
+		void InitViews() {
+			if ( _scores == null ) {
 				return;
 			}
-			_isUsernamePassed = true;
+			// reset all views
+			if ( _activePlayerView ) {
+				_activePlayerView.OnEndNameEdition -= FinishUserNameInput;
+				_activePlayerView                  =  null;
+			}
+			foreach ( var entry in Entries ) {
+				entry.Reset();
+			}
+			// show all scores
+			var viewIndex = 0;
+			foreach ( var score in _scores ) {
+				var view = Entries[viewIndex];
+				view.ShowEntry(score);
+				if ( score.Id == _leaderboardController.PlayerId ) {
+					_activePlayerView = view;
+					_activePlayerView.SetAsCurrentPlayerView();
+					_activePlayerView.OnEndNameEdition += FinishUserNameInput;
+				}
+				viewIndex++;
+			}
+			// hide unnecessary views
+			for ( var i = viewIndex; i < Entries.Count; i++) {
+				Entries[i].Hide();
+			}
+		}
+
+		void FinishUserNameInput(string lastResult) {
 			UniTask.Create(() => _leaderboardController.UpdateUserName(lastResult));
-			GenerateText(lastResult);
 		}
 
 		async UniTaskVoid UpdateLeaderboard() {
 			await _leaderboardController.PublishScoreAsync(_xpController.Xp);
 			await UniTask.Delay(1000, DelayType.UnscaledDeltaTime);
-			_scores = await _leaderboardController.GetScoresAroundPlayerAsync(MaxRecordsCount);
-			GenerateText(InputField.text);
-		}
-		
-		void GenerateText(string playerName) {
-			if ( _scores == null ) {
-				return;
-			}
-			var sb = new StringBuilder();
-			foreach ( var score in _scores ) {
-				var userName = score.UserName;
-				if ( score.Id == _leaderboardController.PlayerId ) {
-					playerName = (_isUsernamePassed) ? playerName : (playerName + "|");
-					userName   = $"<color=#FFFF00>{playerName}</color>";
-				}
-				sb.AppendFormat(LeaderboardRecordFormat, score.Rank, userName, score.ScoreValue)
-					.AppendLine();
-			}
-			StatsText.text = sb.ToString();
+			_scores = await _leaderboardController.GetScoresAroundPlayerAsync(Entries.Count);
+			InitViews();
 		}
 
 		void OnContinueClick() {
 			Hide();
-			_isUsernamePassed = false;
 			_levelManager.QuitToMenu();
 		}
 	}
