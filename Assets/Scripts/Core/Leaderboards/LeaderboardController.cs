@@ -23,10 +23,6 @@ namespace STP.Core.Leaderboards {
 			_topScoresGetter = new LeaderboardTopScoresGetter(LeaderBoardName);
 			UniTask.Create(() => TryLoginAsync());
 		}
-
-		public void ResetUserId() {
-			UniTask.Create(() => TryLoginAsync(true));
-		}
 		
 		public async UniTask PublishScoreAsync(int score) {
 			if ( !IsLoggedIn ) {
@@ -61,17 +57,13 @@ namespace STP.Core.Leaderboards {
 			return ConvertPlayFabInfoToOurFormat(results);
 		}
 
-		public async UniTask TryLoginAsync(bool ignoreOldLogin = false) {
-			if ( IsLoggedIn && !ignoreOldLogin ) {
-				Debug.LogWarning("You are already logged in.");
-				return;
-			}
+		public async UniTask TryLoginAsync() {
 			var request            = FormLoginRequest();
 			var isRequestCompleted = false;
 			PlayFabClientAPI.LoginWithCustomID(request, (result) => {
 				isRequestCompleted = true;
 				_displayName       = result.InfoResultPayload.PlayerProfile?.DisplayName;
-				PlayerId          = result.PlayFabId;
+				PlayerId           = result.PlayFabId;
 			}, (error) => HandleError(out isRequestCompleted, error));
 			await UniTask.WaitWhile(() => !isRequestCompleted);
 			if ( string.IsNullOrEmpty(_displayName) ) {

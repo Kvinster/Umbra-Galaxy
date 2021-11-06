@@ -83,7 +83,6 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 			Hide();
 			_isUsernamePassed = false;
 			_levelManager.QuitToMenu();
-			_leaderboardController.ResetUserId();
 		}
 	}
 }
