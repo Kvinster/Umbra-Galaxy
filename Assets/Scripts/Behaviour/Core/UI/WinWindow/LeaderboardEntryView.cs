@@ -15,6 +15,7 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 		public event Action<string> OnEndNameEdition;
 		
 		public void Reset() {
+			PlayerNameText.readOnly = true;
 			PlayerNameText.onEndEdit.RemoveAllListeners();
 			SetTextColor(Color.white);
 		}
@@ -28,6 +29,7 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 		
 		public void SetAsCurrentPlayerView() {
 			SetTextColor(Color.yellow);
+			PlayerNameText.text     = string.Empty;
 			PlayerNameText.readOnly = false;
 			PlayerNameText.Select();
 			PlayerNameText.onEndEdit.AddListener(OnEndTextEdition);
