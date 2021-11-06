@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using PlayFab;
@@ -10,6 +9,8 @@ using UnityEngine;
 namespace STP.Core.Leaderboards {
 	public class LeaderboardController : BaseStateController  {
 		const string LeaderBoardName = "Scores";
+
+		const string SharedUserName = "Anonymous";
 		
 		string _displayName;
 		
@@ -18,9 +19,11 @@ namespace STP.Core.Leaderboards {
 		bool IsLoggedIn => PlayFabClientAPI.IsClientLoggedIn();
 
 		LeaderboardTopScoresGetter _topScoresGetter;
+		LoginOperation             _loginOperation;
 		
 		public LeaderboardController() {
 			_topScoresGetter = new LeaderboardTopScoresGetter(LeaderBoardName);
+			_loginOperation  = new LoginOperation();
 			UniTask.Create(() => TryLoginAsync());
 		}
 		
@@ -57,23 +60,17 @@ namespace STP.Core.Leaderboards {
 			return ConvertPlayFabInfoToOurFormat(results);
 		}
 
-		public async UniTask TryLoginAsync() {
-			var request            = FormLoginRequest();
-			var isRequestCompleted = false;
-			PlayFabClientAPI.LoginWithCustomID(request, (result) => {
-				isRequestCompleted = true;
-				_displayName       = result.InfoResultPayload.PlayerProfile?.DisplayName;
-				PlayerId           = result.PlayFabId;
-			}, (error) => HandleError(out isRequestCompleted, error));
-			await UniTask.WaitWhile(() => !isRequestCompleted);
-			if ( string.IsNullOrEmpty(_displayName) ) {
-				await UpdateUserName("Anonymous");
+		public async UniTask TryLoginAsync(bool isShared = true) {
+			var (id, displayName) = (isShared) ? await _loginOperation.SharedLoginAsync() : await _loginOperation.UniqueLoginAsync();
+			PlayerId = id;
+			if ( string.IsNullOrEmpty(displayName) ) {
+				await UpdateUserName(SharedUserName);
 			}
 		}
 
 		public async UniTask UpdateUserName(string newName) {
 			if ( string.IsNullOrEmpty(newName) ) {
-				newName = "Anonymous";
+				newName = SharedUserName;
 			}
 			var request     = FormUpdateUserNameRequest(newName);
 			var isCompleted = false;
@@ -94,16 +91,6 @@ namespace STP.Core.Leaderboards {
 			Debug.LogError($"Playfab operation failed. Reason: {error.ErrorMessage}");
 			operationCompletionFlag = true;
 		} 
-
-		LoginWithCustomIDRequest FormLoginRequest() {
-			return new LoginWithCustomIDRequest{
-				CustomId      = Guid.NewGuid().ToString(),
-				CreateAccount = true,
-				InfoRequestParameters = new GetPlayerCombinedInfoRequestParams {
-					GetPlayerProfile = true
-				}
-			};
-		}
 
 		UpdateUserTitleDisplayNameRequest FormUpdateUserNameRequest(string newName) {
 			return new UpdateUserTitleDisplayNameRequest {
