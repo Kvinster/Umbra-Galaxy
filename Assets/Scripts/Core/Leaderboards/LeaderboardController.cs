@@ -84,7 +84,10 @@ namespace STP.Core.Leaderboards {
 		}
 
 		List<Score> ConvertPlayFabInfoToOurFormat(List<PlayerLeaderboardEntry> scores) {
-			return scores?.Where(score => !string.IsNullOrEmpty(score.DisplayName)).Select(score => new Score(score.Position, score.StatValue, score.DisplayName, score.PlayFabId)).ToList();
+			return scores?
+				.Where(score => !string.IsNullOrEmpty(score.DisplayName))
+				.Select(score => new Score(score.Position + 1, score.StatValue, score.DisplayName, score.PlayFabId))
+				.ToList();
 		}
 
 		void HandleError(out bool operationCompletionFlag, PlayFabError error) {
