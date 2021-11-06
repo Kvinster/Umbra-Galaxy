@@ -24,7 +24,9 @@ namespace STP.Manager {
 
 		PauseManager     _pauseManager;
 		PlayerController _playerController;
-		ScoreController     _scoreController;
+		ScoreController  _scoreController;
+		LevelManager     _levelManager;
+		LevelGoalManager _levelGoalManager;
 
 		List<BaseCoreWindow> _windows;
 
@@ -40,7 +42,8 @@ namespace STP.Manager {
 			PlayerManager playerManager, PlayerController playerController, ScoreController scoreController, LeaderboardController leaderboardController) {
 			_pauseManager     = pauseManager;
 			_playerController = playerController;
-			_scoreController     = scoreController;
+			_scoreController  = scoreController;
+			_levelManager     = levelManager;
 
 			_windows = new List<BaseCoreWindow> {
 				DeathWindow,
@@ -54,7 +57,7 @@ namespace STP.Manager {
 			PauseWindow.CommonInit(levelManager, levelGoalManager, scoreController, playerController);
 			PauseButton.onClick.AddListener(ShowPauseWindow);
 
-			levelGoalManager.OnLevelWon    += OnLevelWon;
+			levelGoalManager.OnLastLevelWon    += LastLevelWon;
 			levelGoalManager.OnPlayerDeath += OnPlayerDied;
 		}
 
@@ -66,7 +69,7 @@ namespace STP.Manager {
 			ShowWindow(PauseWindow, false);
 		}
 
-		void OnLevelWon() {
+		void LastLevelWon() {
 			ShowWindow(WinWindow);
 		}
 

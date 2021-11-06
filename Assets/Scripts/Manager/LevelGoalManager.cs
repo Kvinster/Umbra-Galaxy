@@ -34,7 +34,7 @@ namespace STP.Manager {
 
 		public event Action<int> OnCurLevelGoalProgressChanged;
 		public event Action      OnPlayerDeath;
-		public event Action      OnLevelWon;
+		public event Action      OnLastLevelWon;
 
 		public LevelGoalManager(PlayerManager playerManager, LevelManager levelManager, LevelController levelController) {
 			_playerManager         = playerManager;
@@ -86,7 +86,12 @@ namespace STP.Manager {
 				return;
 			}
 			_levelController.FinishLevel();
-			OnLevelWon?.Invoke();
+			if ( _levelManager.CurLevelIndex < LevelsConfig.Instance.TotalLevelsCount - 1) {
+				_levelManager.GoToNextLevel();
+			}
+			else {
+				OnLastLevelWon?.Invoke();
+			}
 		}
 	}
 }
