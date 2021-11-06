@@ -15,7 +15,10 @@ namespace STP.Core.Leaderboards {
 		
 		bool IsLoggedIn => PlayFabClientAPI.IsClientLoggedIn();
 
+		LeaderboardTopScoresGetter _topScoresGetter;
+		
 		public LeaderboardController() {
+			_topScoresGetter = new LeaderboardTopScoresGetter(LeaderBoardName);
 			UniTask.Create(TryLoginAsync);
 		}
 		
@@ -28,6 +31,11 @@ namespace STP.Core.Leaderboards {
 			PlayFabClientAPI.UpdatePlayerStatistics(request, _ => { isPublishCompleted = true; }, 
 				(error) => HandleError(out isPublishCompleted, error));
 			await UniTask.WaitWhile(() => !isPublishCompleted);
+		}
+
+		public async UniTask<List<Score>> GetTopScores(int recordsCount) {
+			var playfabScores = await _topScoresGetter.GetTopScores(recordsCount);
+			return ConvertPlayFabInfoToOurFormat(playfabScores);
 		}
 
 		public async UniTask<List<Score>> GetScoresAroundPlayerAsync(int recordsCount) {
