@@ -3,14 +3,13 @@
 namespace STP.Manager {
 	public sealed class MainMenuManager {
 		readonly MainScreen        _mainScreen;
-		readonly LeaderboardWindow _leaderboardWindow;
 		readonly SettingsScreen    _settingsScreen;
+		readonly LeaderboardWindow _leaderboardWindow;
 
-		public MainMenuManager(MainScreen mainScreen, LeaderboardWindow leaderboardWindow,
-			SettingsScreen settingsScreen) {
+		public MainMenuManager(MainScreen mainScreen, SettingsScreen settingsScreen, LeaderboardWindow leaderboardWindow) {
 			_mainScreen        = mainScreen;
-			_leaderboardWindow = leaderboardWindow;
 			_settingsScreen    = settingsScreen;
+			_leaderboardWindow = leaderboardWindow;
 		}
 
 		public void Init() {
@@ -34,8 +33,8 @@ namespace STP.Manager {
 
 		void HideAll() {
 			_mainScreen.Hide();
-			_leaderboardWindow.Hide();
 			_settingsScreen.Hide();
+			_leaderboardWindow.Hide();
 		}
 	}
 }
