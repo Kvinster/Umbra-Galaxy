@@ -22,7 +22,7 @@ namespace STP.Manager {
 
 		readonly Player           _player;
 		readonly PlayerController _playerController;
-		readonly XpController     _xpController;
+		readonly ScoreController     _scoreController;
 
 		readonly UnityContext _context;
 
@@ -33,12 +33,12 @@ namespace STP.Manager {
 		public event Action<PowerUpType> OnPowerUpStarted;
 		public event Action<PowerUpType> OnPowerUpFinished;
 
-		public PlayerManager(Player player, PlayerController playerController, XpController xpController, UnityContext context,
+		public PlayerManager(Player player, PlayerController playerController, ScoreController scoreController, UnityContext context,
 			Transform tempObjectsRoot) {
 			_player           = player;
 			_playerController = playerController;
 			_context          = context;
-			_xpController     = xpController;
+			_scoreController     = scoreController;
 			_tempObjectsRoot  = tempObjectsRoot;
 			_context.AddUpdateCallback(UpdateTimers);
 			_playerController.Respawn();
@@ -189,8 +189,8 @@ namespace STP.Manager {
 		}
 
 		void OnEnemyDestroyed(EnemyDestroyed e) {
-			var xpAmount = _xpController.GetDestroyedEnemyXp(e.EnemyName);
-			_xpController.AddLevelXp(xpAmount);
+			var xpAmount = _scoreController.GetDestroyedEnemyXp(e.EnemyName);
+			_scoreController.AddLevelXp(xpAmount);
 		}
 	}
 }

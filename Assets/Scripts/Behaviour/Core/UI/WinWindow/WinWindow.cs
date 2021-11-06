@@ -19,14 +19,14 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 
 		LeaderboardController _leaderboardController;
 		LevelManager          _levelManager;
-		XpController          _xpController;
+		ScoreController          _scoreController;
 
 		List<Score> _scores;
 
 		LeaderboardEntryView _activePlayerView;
 		
-		public void CommonInit(XpController xpController, LeaderboardController leaderboardController, LevelManager levelManager) {
-			_xpController          = xpController;
+		public void CommonInit(ScoreController scoreController, LeaderboardController leaderboardController, LevelManager levelManager) {
+			_scoreController          = scoreController;
 			_leaderboardController = leaderboardController;
 			_levelManager          = levelManager;
 			ContinueButton.onClick.AddListener(OnContinueClick);
@@ -73,7 +73,7 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 		}
 
 		async UniTaskVoid UpdateLeaderboard() {
-			await _leaderboardController.PublishScoreAsync(_xpController.Xp);
+			await _leaderboardController.PublishScoreAsync(_scoreController.Score);
 			await UniTask.Delay(1000, DelayType.UnscaledDeltaTime);
 			_scores = await _leaderboardController.GetScoresAroundPlayerAsync(Entries.Count);
 			InitViews();

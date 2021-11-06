@@ -7,17 +7,16 @@ using STP.Behaviour.Core;
 
 namespace STP.Config {
 	[Serializable]
-	public class DestroyedEnemyXpInfo {
+	public class DestroyedEnemyScoreInfo {
 		public string EnemyName;
 		public int    XpAmount;
 	}
 
 	[CreateAssetMenu(fileName = "XpConfig", menuName = "ScriptableObjects/XpConfig", order = 1)]
-	public class XpConfig : ScriptableObject {
-		public List<DestroyedEnemyXpInfo> EnemyXpInfo;
-		public List<PlayerLevelUpInfo>    LevelUpInfos;
+	public class ScoreConfig : ScriptableObject {
+		public List<DestroyedEnemyScoreInfo> EnemyXpInfo;
 		
-		public int GetDestroyedEnemyXp(string enemyName) {
+		public int GetDestroyedEnemyScore(string enemyName) {
 			var item = EnemyXpInfo.Find(x => x.EnemyName == enemyName);
 			if ( item == null ) {
 				Debug.LogError($"Can't find xp amount for enemy {enemyName}");
@@ -25,11 +24,5 @@ namespace STP.Config {
 			}
 			return item.XpAmount;
 		}
-	}
-	
-	[Serializable]
-	public class PlayerLevelUpInfo {
-		public List<ShipType> ShipsToSelect;
-		public int            NeededXp;
 	}
 }

@@ -24,7 +24,7 @@ namespace STP.Manager {
 
 		PauseManager     _pauseManager;
 		PlayerController _playerController;
-		XpController     _xpController;
+		ScoreController     _scoreController;
 
 		List<BaseCoreWindow> _windows;
 
@@ -34,17 +34,13 @@ namespace STP.Manager {
 			if ( Input.GetKeyDown(KeyCode.Escape) && !IsAnyWindowShown ) {
 				ShowPauseWindow();
 			}
-
-			if ( Input.GetKeyDown(KeyCode.E) ) {
-				_xpController.AddLevelXp(_xpController.LevelXpCap+1);
-			}
 		}
 
 		public void Init(PauseManager pauseManager, LevelManager levelManager, LevelGoalManager levelGoalManager,
-			PlayerManager playerManager, PlayerController playerController, XpController xpController, LeaderboardController leaderboardController) {
+			PlayerManager playerManager, PlayerController playerController, ScoreController scoreController, LeaderboardController leaderboardController) {
 			_pauseManager     = pauseManager;
 			_playerController = playerController;
-			_xpController     = xpController;
+			_scoreController     = scoreController;
 
 			_windows = new List<BaseCoreWindow> {
 				DeathWindow,
@@ -54,8 +50,8 @@ namespace STP.Manager {
 			};
 
 			DeathWindow.CommonInit(levelManager, playerManager, _playerController);
-			WinWindow.CommonInit(xpController, leaderboardController, levelManager);
-			PauseWindow.CommonInit(levelManager, levelGoalManager, xpController, playerController);
+			WinWindow.CommonInit(scoreController, leaderboardController, levelManager);
+			PauseWindow.CommonInit(levelManager, levelGoalManager, scoreController, playerController);
 			PauseButton.onClick.AddListener(ShowPauseWindow);
 
 			levelGoalManager.OnLevelWon    += OnLevelWon;

@@ -16,7 +16,7 @@ namespace STP.Core {
 
 		public LevelController   LevelController   { get; }
 		public PlayerController  PlayerController  { get; }
-		public XpController      XpController      { get; }
+		public ScoreController      ScoreController      { get; }
 		public PrefabsController PrefabsController { get; }
 		public LeaderboardController LeaderboardController { get; }
 
@@ -33,7 +33,7 @@ namespace STP.Core {
 		GameController(GameState gameState) {
 			_gameState            = gameState;
 			LevelController       = AddController(new LevelController(gameState));
-			XpController          = AddController(new XpController());
+			ScoreController          = AddController(new ScoreController());
 			PlayerController      = AddController(new PlayerController());
 			PrefabsController     = AddController(new PrefabsController());
 			SettingsController    = AddController(new SettingsController(gameState));
