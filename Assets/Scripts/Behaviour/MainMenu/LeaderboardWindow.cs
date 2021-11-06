@@ -49,7 +49,7 @@ namespace STP.Behaviour.MainMenu {
 		async void UpdateView() {
 			ResetEntries();
 
-			var entries    = await _leaderboardController.GetScoresAroundPlayerAsync(Entries.Count);
+			var entries    = await _leaderboardController.GetTopScores(Entries.Count);
 			var entryIndex = 0;
 			foreach ( var entry in entries ) {
 				if ( entryIndex >= Entries.Count ) {
