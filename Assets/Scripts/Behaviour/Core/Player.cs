@@ -161,7 +161,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		public void TakeDamage(float damage) {
-			if ( !_playerHpSystem.IsAlive || _playerController.IsInvincible ) {
+			if ( !_playerHpSystem.IsAlive || _playerController.IsInvincible || _levelGoalManager.IsLevelWon ) {
 				return;
 			}
 			_playerController.TakeDamage(damage);
