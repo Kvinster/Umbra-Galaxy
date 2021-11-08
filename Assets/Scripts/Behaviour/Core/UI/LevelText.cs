@@ -12,9 +12,7 @@ namespace STP.Behaviour.Core.UI {
 		const string LivesTextFormat          = "Lives: {0}";
 		const string UnfinishedGoalTextFormat = "<color=white>Goal: {0}/{1}</color>";
 		const string FinishedGoalTextFormat   = "<color=green>Goal: {0}/{1}</color>";
-		const string CurXpTextFormat          = "<color=white>Xp: {0}/{1}</color>";
-		const string LevelTextFormat          = "<color=white>P.Level: {0}</color>";
-		const string LevelUpsTextFormat       = "<color=white>P.LevelUps: {0}</color>";
+		const string CurScoreTextFormat       = "<color=white>Score: {0}</color>";
 		const string PowerUpInfoFormat        = "<color=white>name: {0} left: {1:00}</color>";
 
 		[NotNull] public TMP_Text Text;
@@ -22,7 +20,7 @@ namespace STP.Behaviour.Core.UI {
 		LevelGoalManager _levelGoalManager;
 		PlayerManager    _playerManager;
 		PlayerController _playerController;
-		XpController     _xpController;
+		ScoreController     _scoreController;
 
 		readonly StringBuilder _stringBuilder = new StringBuilder();
 
@@ -30,11 +28,11 @@ namespace STP.Behaviour.Core.UI {
 			_levelGoalManager = starter.LevelGoalManager;
 			_playerManager    = starter.PlayerManager;
 			_playerController = starter.PlayerController;
-			_xpController     = starter.XpController;
+			_scoreController     = starter.ScoreController;
 
 			_levelGoalManager.OnCurLevelGoalProgressChanged += OnCurLevelGoalProgressChanged;
 			_playerController.OnCurLivesChanged             += OnCurPlayerLivesChanged;
-			_xpController.Xp.OnValueChanged                 += OnXpAmountChanged;
+			_scoreController.Score.OnValueChanged                 += ScoreAmountChanged;
 
 			UpdateText();
 		}
@@ -46,8 +44,8 @@ namespace STP.Behaviour.Core.UI {
 			if ( _playerController != null) {
 				_playerController.OnCurLivesChanged -= OnCurPlayerLivesChanged;
 			}
-			if ( _xpController != null) {
-				_xpController.Xp.OnValueChanged -= OnXpAmountChanged;
+			if ( _scoreController != null) {
+				_scoreController.Score.OnValueChanged -= ScoreAmountChanged;
 			}
 		}
 
@@ -55,7 +53,7 @@ namespace STP.Behaviour.Core.UI {
 			UpdateText();
 		}
 
-		void OnXpAmountChanged(int xpAmount) {
+		void ScoreAmountChanged(int xpAmount) {
 			UpdateText();
 		}
 
@@ -76,11 +74,8 @@ namespace STP.Behaviour.Core.UI {
 				.AppendLine(string.Format(LivesTextFormat, _playerController.CurLives))
 				.AppendLine(string.Format(
 					(curProgress >= _levelGoalManager.LevelGoal) ? FinishedGoalTextFormat : UnfinishedGoalTextFormat,
-					curProgress, _levelGoalManager.LevelGoal));
-			_stringBuilder.AppendLine(!_xpController.IsMaxLevelReached
-				? string.Format(CurXpTextFormat, _xpController.Xp.Value, _xpController.LevelXpCap)
-				: "P.Level maxed");
-			_stringBuilder.AppendLine(string.Format(LevelTextFormat, _xpController.Level.Value));
+					curProgress, _levelGoalManager.LevelGoal))
+				.AppendLine(string.Format(CurScoreTextFormat, _scoreController.Score.Value));
 			var allPowerUps = _playerManager.GetAllActivePowerUpStates();
 			if ( allPowerUps.Count > 0 ) {
 				_stringBuilder.AppendLine("PowerUps info:");

@@ -7,6 +7,7 @@ using STP.Service;
 using STP.Utils.GameComponentAttributes;
 
 using TMPro;
+using UnityEngine;
 
 namespace STP.Behaviour.MainMenu {
 	public sealed class MainScreen : BaseMainMenuComponent {

@@ -1,6 +1,4 @@
-﻿using UnityEngine.Assertions;
-
-using STP.Core.State;
+﻿using STP.Core.Leaderboards;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
@@ -12,10 +10,8 @@ namespace STP.Behaviour.MainMenu {
 
 		[NotNull] public TMP_Text DescText;
 
-		public void Init(LeaderboardEntry leaderboardEntry) {
-			Assert.IsNotNull(leaderboardEntry);
-
-			DescText.text = string.Format(DescFormat, leaderboardEntry.ProfileName, leaderboardEntry.Highscore);
+		public void Init(Score leaderboardEntry) {
+			DescText.text = string.Format(DescFormat, leaderboardEntry.UserName, leaderboardEntry.ScoreValue);
 		}
 
 		public void Deinit() { }

@@ -15,7 +15,6 @@ using Object = UnityEngine.Object;
 namespace STP.Manager {
 	public sealed class PlayerManager {
 		static readonly Dictionary<PowerUpType, float> PowerUpTypeTimes = new Dictionary<PowerUpType, float> {
-			{ PowerUpType.X2Xp, 10f },
 			{ PowerUpType.Shield, 10f },
 			{ PowerUpType.IncFireRate, 10f },
 			{ PowerUpType.X2Damage, 10f },
@@ -23,7 +22,7 @@ namespace STP.Manager {
 
 		readonly Player           _player;
 		readonly PlayerController _playerController;
-		readonly XpController     _xpController;
+		readonly ScoreController     _scoreController;
 
 		readonly UnityContext _context;
 
@@ -34,12 +33,12 @@ namespace STP.Manager {
 		public event Action<PowerUpType> OnPowerUpStarted;
 		public event Action<PowerUpType> OnPowerUpFinished;
 
-		public PlayerManager(Player player, PlayerController playerController, XpController xpController, UnityContext context,
+		public PlayerManager(Player player, PlayerController playerController, ScoreController scoreController, UnityContext context,
 			Transform tempObjectsRoot) {
 			_player           = player;
 			_playerController = playerController;
 			_context          = context;
-			_xpController     = xpController;
+			_scoreController     = scoreController;
 			_tempObjectsRoot  = tempObjectsRoot;
 			_context.AddUpdateCallback(UpdateTimers);
 			_playerController.Respawn();
@@ -132,14 +131,9 @@ namespace STP.Manager {
 					AddTimeToPowerUp(powerUpType, PowerUpTypeTimes[PowerUpType.Shield]);
 					break;
 				}
-				case PowerUpType.X2Xp:
 				case PowerUpType.IncFireRate:
 				case PowerUpType.X2Damage: {
 					AddTimeToPowerUp(powerUpType, PowerUpTypeTimes[powerUpType]);
-					break;
-				}
-				case PowerUpType.RestoreHp: {
-					_playerController.RestoreHp();
 					break;
 				}
 				default: {
@@ -162,7 +156,6 @@ namespace STP.Manager {
 		void HandlePowerUpProgress(PowerUpState state, float timePassed) {
 			var powerUpType = state.Type;
 			switch ( powerUpType ) {
-				case PowerUpType.X2Xp:
 				case PowerUpType.Shield:
 				case PowerUpType.X2Damage:
 				case PowerUpType.IncFireRate: {
@@ -178,7 +171,6 @@ namespace STP.Manager {
 		void HandlePowerUpFinish(PowerUpState powerUpState) {
 			var powerUpName = powerUpState.Type;
 			switch ( powerUpName ) {
-				case PowerUpType.X2Xp:
 				case PowerUpType.X2Damage:
 				case PowerUpType.IncFireRate: {
 					break;
@@ -197,11 +189,8 @@ namespace STP.Manager {
 		}
 
 		void OnEnemyDestroyed(EnemyDestroyed e) {
-			var xpAmount = _xpController.GetDestroyedEnemyXp(e.EnemyName);
-			if ( HasActivePowerUp(PowerUpType.X2Xp) ) {
-				xpAmount *= 2;
-			}
-			_xpController.AddLevelXp(xpAmount);
+			var xpAmount = _scoreController.GetDestroyedEnemyXp(e.EnemyName);
+			_scoreController.AddLevelXp(xpAmount);
 		}
 	}
 }

@@ -17,14 +17,14 @@ namespace STP.Behaviour.Core.UI {
 
 		LevelManager     _levelManager;
 		LevelGoalManager _levelGoalManager;
-		XpController     _xpController;
+		ScoreController     _scoreController;
 		PlayerController _playerController;
 
-		public void CommonInit(LevelManager levelManager, LevelGoalManager levelGoalManager, XpController xpController,
+		public void CommonInit(LevelManager levelManager, LevelGoalManager levelGoalManager, ScoreController scoreController,
 			PlayerController playerController) {
 			_levelManager     = levelManager;
 			_levelGoalManager = levelGoalManager;
-			_xpController     = xpController;
+			_scoreController     = scoreController;
 			_playerController = playerController;
 
 			ResumeButton.onClick.AddListener(OnResumeClick);
@@ -32,7 +32,7 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		public override IPromise Show() {
-			InfoText.text = string.Format(InfoTextTemplate, _playerController.CurLives, _xpController.Xp.Value,
+			InfoText.text = string.Format(InfoTextTemplate, _playerController.CurLives, _scoreController.Score.Value,
 				$"{_levelGoalManager.CurLevelGoalProgress}/{_levelGoalManager.LevelGoal}");
 			return base.Show();
 		}

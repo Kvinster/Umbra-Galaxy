@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using STP.Core.Leaderboards;
 using STP.Core.State;
 
 namespace STP.Core {
@@ -12,13 +12,13 @@ namespace STP.Core {
 
 		readonly GameState _gameState;
 
-		public LeaderboardController LeaderboardController { get; }
 		public SettingsController    SettingsController    { get; }
 
 		public LevelController   LevelController   { get; }
 		public PlayerController  PlayerController  { get; }
-		public XpController      XpController      { get; }
+		public ScoreController      ScoreController      { get; }
 		public PrefabsController PrefabsController { get; }
+		public LeaderboardController LeaderboardController { get; }
 
 		public static void CreateGameController(GameState gameState) {
 			Instance = new GameController(gameState);
@@ -33,11 +33,11 @@ namespace STP.Core {
 		GameController(GameState gameState) {
 			_gameState            = gameState;
 			LevelController       = AddController(new LevelController(gameState));
-			XpController          = AddController(new XpController());
+			ScoreController          = AddController(new ScoreController());
 			PlayerController      = AddController(new PlayerController());
 			PrefabsController     = AddController(new PrefabsController());
-			LeaderboardController = AddController(new LeaderboardController(gameState));
 			SettingsController    = AddController(new SettingsController(gameState));
+			LeaderboardController = AddController(new LeaderboardController());
 			if ( Instance == null ) {
 				Instance = this;
 			}

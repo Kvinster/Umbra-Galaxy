@@ -48,6 +48,11 @@ namespace STP.Manager {
 
 		public void Deinit() { }
 
+		public void GoToNextLevel() {
+			_levelController.StartLevel(CurLevelIndex + 1);
+			SceneService.LoadLevel(CurLevelIndex + 1);
+		}
+
 		public bool TryReloadLevel() {
 			if ( !IsLevelActive ) {
 				Debug.LogError("Can't reload level — level not active");

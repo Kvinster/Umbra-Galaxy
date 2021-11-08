@@ -36,7 +36,7 @@ namespace STP.Behaviour.Starter {
 
 		public GameController    GameController    => GameController.Instance;
 		public PlayerController  PlayerController  => GameController.PlayerController;
-		public XpController      XpController      => GameController.XpController;
+		public ScoreController      ScoreController      => GameController.ScoreController;
 		public PrefabsController PrefabsController => GameController.PrefabsController;
 		public LevelController   LevelController   => GameController.LevelController;
 
@@ -84,7 +84,7 @@ namespace STP.Behaviour.Starter {
 #endif
 			var pc = GameController.PlayerController;
 			var lc = GameController.LevelController;
-			var xc = GameController.XpController;
+			var xc = GameController.ScoreController;
 			pc.OnLevelStart();
 			SpawnHelper   = new CoreSpawnHelper(this, _commonStarter.TempObjectsRoot);
 			PauseManager  = new PauseManager();
@@ -92,9 +92,9 @@ namespace STP.Behaviour.Starter {
 				lc);
 			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, _commonStarter.TempObjectsRoot);
 			LevelGoalManager =
-				new LevelGoalManager(PlayerManager, LevelManager, lc, xc, GameController.LeaderboardController);
+				new LevelGoalManager(PlayerManager, LevelManager, lc);
 			_commonStarter.CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc,
-				lc);
+				GameController.LeaderboardController);
 			MinimapManager = new MinimapManager(_commonStarter.MinimapCamera);
 			_commonStarter.PlayerCameraFollower.Init(_commonStarter.MainCamera, Player.transform, AreaRect);
 			InitComponents();

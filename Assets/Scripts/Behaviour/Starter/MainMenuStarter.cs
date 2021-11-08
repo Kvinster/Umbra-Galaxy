@@ -11,8 +11,8 @@ using STP.View.DebugGUI;
 namespace STP.Behaviour.Starter {
 	public sealed class MainMenuStarter : BaseStarter<MainMenuStarter> {
 		[NotNull] public MainScreen        MainScreen;
-		[NotNull] public LeaderboardWindow LeaderboardWindow;
 		[NotNull] public SettingsScreen    SettingsScreen;
+		[NotNull] public LeaderboardWindow LeaderboardWindow;
 
 		public MainMenuManager MainMenuManager { get; private set; }
 
@@ -22,7 +22,7 @@ namespace STP.Behaviour.Starter {
 			TryCreateGameState();
 			GameController.CreateGameController(GameState.ActiveInstance);
 
-			MainMenuManager = new MainMenuManager(MainScreen, LeaderboardWindow, SettingsScreen);
+			MainMenuManager = new MainMenuManager(MainScreen, SettingsScreen, LeaderboardWindow);
 
 			InitComponents();
 			// Settings for smooth gameplay

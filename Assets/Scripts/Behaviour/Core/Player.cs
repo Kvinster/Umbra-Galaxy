@@ -53,7 +53,7 @@ namespace STP.Behaviour.Core {
 		LevelGoalManager  _levelGoalManager;
 		PauseManager      _pauseManager;
 		PrefabsController _prefabsController;
-		XpController      _xpController;
+		ScoreController      _scoreController;
 		PlayerController  _playerController;
 
 		float _movementSpeed;
@@ -116,7 +116,7 @@ namespace STP.Behaviour.Core {
 			_levelGoalManager  = starter.LevelGoalManager;
 			_pauseManager      = starter.PauseManager;
 			_prefabsController = starter.PrefabsController;
-			_xpController      = starter.XpController;
+			_scoreController      = starter.ScoreController;
 			_playerController  = starter.PlayerController;
 
 			_playerHpSystem = _playerController.HpSystem;

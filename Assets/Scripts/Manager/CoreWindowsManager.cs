@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 using STP.Behaviour.Core.UI;
+using STP.Behaviour.Core.UI.WinWindow;
 using STP.Behaviour.Starter;
 using STP.Core;
+using STP.Core.Leaderboards;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
@@ -22,7 +24,9 @@ namespace STP.Manager {
 
 		PauseManager     _pauseManager;
 		PlayerController _playerController;
-		XpController     _xpController;
+		ScoreController  _scoreController;
+		LevelManager     _levelManager;
+		LevelGoalManager _levelGoalManager;
 
 		List<BaseCoreWindow> _windows;
 
@@ -32,18 +36,14 @@ namespace STP.Manager {
 			if ( Input.GetKeyDown(KeyCode.Escape) && !IsAnyWindowShown ) {
 				ShowPauseWindow();
 			}
-
-			if ( Input.GetKeyDown(KeyCode.E) ) {
-				_xpController.AddLevelXp(_xpController.LevelXpCap+1);
-			}
 		}
 
 		public void Init(PauseManager pauseManager, LevelManager levelManager, LevelGoalManager levelGoalManager,
-			PlayerManager playerManager, PlayerController playerController, XpController xpController,
-			LevelController levelController) {
+			PlayerManager playerManager, PlayerController playerController, ScoreController scoreController, LeaderboardController leaderboardController) {
 			_pauseManager     = pauseManager;
 			_playerController = playerController;
-			_xpController     = xpController;
+			_scoreController  = scoreController;
+			_levelManager     = levelManager;
 
 			_windows = new List<BaseCoreWindow> {
 				DeathWindow,
@@ -53,11 +53,11 @@ namespace STP.Manager {
 			};
 
 			DeathWindow.CommonInit(levelManager, playerManager, _playerController);
-			WinWindow.CommonInit(levelManager, playerController, xpController, levelController);
-			PauseWindow.CommonInit(levelManager, levelGoalManager, xpController, playerController);
+			WinWindow.CommonInit(scoreController, leaderboardController, levelManager);
+			PauseWindow.CommonInit(levelManager, levelGoalManager, scoreController, playerController);
 			PauseButton.onClick.AddListener(ShowPauseWindow);
 
-			levelGoalManager.OnLevelWon    += OnLevelWon;
+			levelGoalManager.OnLastLevelWon    += LastLevelWon;
 			levelGoalManager.OnPlayerDeath += OnPlayerDied;
 		}
 
@@ -69,7 +69,7 @@ namespace STP.Manager {
 			ShowWindow(PauseWindow, false);
 		}
 
-		void OnLevelWon() {
+		void LastLevelWon() {
 			ShowWindow(WinWindow);
 		}
 

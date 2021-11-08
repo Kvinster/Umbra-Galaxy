@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 using STP.Behaviour.Starter;
-using STP.Core;
+using STP.Core.Leaderboards;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 
@@ -16,8 +16,6 @@ namespace STP.Behaviour.MainMenu {
 		public GameObject NoLeaderboardEntriesRoot;
 		[NotNull]
 		public ScrollRect ScrollRect;
-		[NotNull]
-		public Button ClearButton;
 		[NotNull]
 		public Button BackButton;
 		[NotNullOrEmpty]
@@ -35,7 +33,6 @@ namespace STP.Behaviour.MainMenu {
 			_mainMenuManager       = starter.MainMenuManager;
 			_leaderboardController = starter.GameController.LeaderboardController;
 
-			ClearButton.onClick.AddListener(ClearLeaderboard);
 			BackButton.onClick.AddListener(ShowMain);
 		}
 
@@ -49,12 +46,11 @@ namespace STP.Behaviour.MainMenu {
 			gameObject.SetActive(false);
 		}
 
-		void UpdateView() {
+		async void UpdateView() {
 			ResetEntries();
 
-			var entries        = _leaderboardController.Entries;
-			var haveSavedGames = (entries.Count > 0);
-			var entryIndex     = 0;
+			var entries    = await _leaderboardController.GetTopScores(Entries.Count);
+			var entryIndex = 0;
 			foreach ( var entry in entries ) {
 				if ( entryIndex >= Entries.Count ) {
 					Debug.LogError("Not enough LeaderboardEntryViews");
@@ -67,18 +63,15 @@ namespace STP.Behaviour.MainMenu {
 
 			ScrollRect.verticalNormalizedPosition = 1f;
 
-			HaveLeaderboardEntriesRoot.SetActive(haveSavedGames);
-			NoLeaderboardEntriesRoot.SetActive(!haveSavedGames);
+			var haveScores = (entries.Count > 0);
+			HaveLeaderboardEntriesRoot.SetActive(haveScores);
+			NoLeaderboardEntriesRoot.SetActive(!haveScores);
 		}
 
 		void ShowMain() {
 			_mainMenuManager.ShowMain();
 		}
 
-		void ClearLeaderboard() {
-			_leaderboardController.Clear();
-			UpdateView();
-		}
 
 		void ResetEntries() {
 			foreach ( var entry in Entries ) {
