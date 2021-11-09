@@ -10,6 +10,8 @@ using STP.Utils.GameComponentAttributes;
 namespace STP.Behaviour.Core.Enemy {
     [SelectionBase]
     public sealed class Generator : BaseEnemy, IDestructible {
+        static int _instancesCount;
+
         public GeneratorShootingSystemParams ShootingParams;
         [Space]
         public Connector Connector;
@@ -26,13 +28,23 @@ namespace STP.Behaviour.Core.Enemy {
 
         GeneratorShootingSystem _shootingSystem;
 
+        LevelManager     _levelManager;
         LevelGoalManager _levelGoalManager;
 
         Transform _target;
 
+        protected override void OnEnable() {
+            base.OnEnable();
+            ++_instancesCount;
+        }
+
         protected override void OnDisable() {
             base.OnDisable();
             GeneratorsWatcher.RemoveGenerator(this);
+            --_instancesCount;
+            if ( (_instancesCount == 0) && _levelManager.IsLevelActive && _levelGoalManager.IsLevelWon ) {
+                _levelManager.StartLevelWin();
+            }
         }
 
         void Update() {
@@ -64,6 +76,11 @@ namespace STP.Behaviour.Core.Enemy {
 
         protected override void InitInternal(CoreStarter starter) {
             base.InitInternal(starter);
+
+            _levelManager     = starter.LevelManager;
+            _levelGoalManager = starter.LevelGoalManager;
+            _shootingSystem   = new GeneratorShootingSystem(starter.SpawnHelper, ShootingParams, transform);
+
             GeneratorsWatcher.TryAddGenerator(this);
             if ( !IsMainGenerator ) {
                 Connector.OnOutOfLinks += DieFromGenerator;
@@ -71,9 +88,6 @@ namespace STP.Behaviour.Core.Enemy {
 
             HpSystem.OnDied += DieFromPlayer;
             HpSystem.OnHpChanged += OnHpChanged;
-
-            _shootingSystem = new GeneratorShootingSystem(starter.SpawnHelper, ShootingParams, transform);
-            _levelGoalManager = starter.LevelGoalManager;
         }
 
         public void TakeDamage(float damage) {

@@ -3,15 +3,17 @@
 using System;
 
 using STP.Behaviour.Core;
+using STP.Config;
 using STP.Core;
-using STP.Events;
 using STP.Service;
-using STP.Utils.Events;
+using STP.Utils;
 
 using Cysharp.Threading.Tasks;
 
 namespace STP.Manager {
 	public sealed class LevelManager {
+		const float LevelWinDelay = 2f;
+
 		readonly Transform                 _playerTransform;
 		readonly SceneTransitionController _sceneTransitionController;
 		readonly PauseManager              _pauseManager;
@@ -33,6 +35,7 @@ namespace STP.Manager {
 		}
 
 		public event Action<bool> OnIsLevelActiveChanged;
+		public event Action       OnLastLevelWon;
 
 		public LevelManager(Transform playerTransform, SceneTransitionController sceneTransitionController,
 			PauseManager pauseManager, LevelController levelController) {
@@ -70,6 +73,19 @@ namespace STP.Manager {
 			}
 			IsLevelActive = false;
 			SceneService.LoadMainMenu();
+		}
+
+		public void StartLevelWin() {
+			AsyncUtils.DelayedAction(StartLevelWinInternal, LevelWinDelay);
+		}
+
+		void StartLevelWinInternal() {
+			_levelController.FinishLevel();
+			if ( CurLevelIndex < LevelsConfig.Instance.TotalLevelsCount - 1 ) {
+				GoToNextLevel();
+			} else {
+				OnLastLevelWon?.Invoke();
+			}
 		}
 
 		async UniTaskVoid SceneTransition() {

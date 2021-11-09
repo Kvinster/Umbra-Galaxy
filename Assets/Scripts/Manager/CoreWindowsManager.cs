@@ -6,7 +6,6 @@ using System.Linq;
 
 using STP.Behaviour.Core.UI;
 using STP.Behaviour.Core.UI.WinWindow;
-using STP.Behaviour.Starter;
 using STP.Core;
 using STP.Core.Leaderboards;
 using STP.Utils;
@@ -30,7 +29,7 @@ namespace STP.Manager {
 
 		List<BaseCoreWindow> _windows;
 
-		bool IsAnyWindowShown => _windows.Any(x => x.IsShown); // :uuu: LINQ :uuu:
+		bool IsAnyWindowShown => _windows.Any(x => x.IsShown);
 
 		void Update() {
 			if ( Input.GetKeyDown(KeyCode.Escape) && !IsAnyWindowShown ) {
@@ -57,7 +56,7 @@ namespace STP.Manager {
 			PauseWindow.CommonInit(levelManager, levelGoalManager, scoreController, playerController);
 			PauseButton.onClick.AddListener(ShowPauseWindow);
 
-			levelGoalManager.OnLastLevelWon    += LastLevelWon;
+			levelManager.OnLastLevelWon    += LastLevelWon;
 			levelGoalManager.OnPlayerDeath += OnPlayerDied;
 		}
 

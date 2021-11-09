@@ -13,9 +13,8 @@ namespace STP.Manager {
 	public sealed class LevelGoalManager {
 		public readonly int LevelGoal;
 
-		readonly PlayerManager         _playerManager;
-		readonly LevelManager          _levelManager;
-		readonly LevelController       _levelController;
+		readonly PlayerManager _playerManager;
+		readonly LevelManager  _levelManager;
 
 		int _curLevelGoalProgress;
 
@@ -31,17 +30,16 @@ namespace STP.Manager {
 		}
 
 		public bool CanWinLevel { get; private set; }
+		public bool IsLevelWon  { get; private set; }
 
 		public event Action<int> OnCurLevelGoalProgressChanged;
 		public event Action      OnPlayerDeath;
-		public event Action      OnLastLevelWon;
 
 		public LevelGoalManager(PlayerManager playerManager, LevelManager levelManager, LevelController levelController) {
-			_playerManager         = playerManager;
-			_levelManager          = levelManager;
-			_levelController       = levelController;
+			_playerManager = playerManager;
+			_levelManager  = levelManager;
 
-			var curLevelInfo = _levelController.CurLevelConfig;
+			var curLevelInfo = levelController.CurLevelConfig;
 			switch ( curLevelInfo ) {
 				case RegularLevelInfo regularLevelInfo: {
 					LevelGoal = Object.FindObjectsOfType<Generator>().Count(x => x.IsMainGenerator); // TODO: <– not that
@@ -78,20 +76,14 @@ namespace STP.Manager {
 		}
 
 		void TryWinLevel() {
-			if ( !CanWinLevel ) {
+			if ( !CanWinLevel || IsLevelWon ) {
 				return;
 			}
 			if ( !_levelManager.IsLevelActive ) {
 				Debug.LogError("Can't win level — level is not active");
 				return;
 			}
-			_levelController.FinishLevel();
-			if ( _levelManager.CurLevelIndex < LevelsConfig.Instance.TotalLevelsCount - 1) {
-				_levelManager.GoToNextLevel();
-			}
-			else {
-				OnLastLevelWon?.Invoke();
-			}
+			IsLevelWon = true;
 		}
 	}
 }
