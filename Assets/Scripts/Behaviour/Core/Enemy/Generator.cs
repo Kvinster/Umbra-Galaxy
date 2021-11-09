@@ -20,11 +20,12 @@ namespace STP.Behaviour.Core.Enemy {
         public Transform ViewTransform;
         [NotNull]
         public BaseProgressBar HealthBar;
-        [NotNull]
-        public VfxRunner ExplosionEffect;
         [Header("Sound")]
         [NotNull]
         public BaseSimpleSoundPlayer ShotSoundPlayer;
+        [Header("Explosion")]
+        public float ExplosionDamage;
+        public TriggerNotifier ExplosionNotifier;
 
         GeneratorShootingSystem _shootingSystem;
 
@@ -123,9 +124,6 @@ namespace STP.Behaviour.Core.Enemy {
                 }
             }
             Destroy(gameObject);
-            // detach VFX on death
-            ExplosionEffect.transform.SetParent(transform.parent);
-            ExplosionEffect.RunVfx(true);
         }
 
         float GetViewAngleToTarget() {
