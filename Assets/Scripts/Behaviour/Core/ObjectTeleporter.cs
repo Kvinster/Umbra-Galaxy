@@ -56,10 +56,6 @@ namespace STP.Behaviour.Core {
 			boxCollider.size = size;
 		}
 
-		void OnDrawGizmos() {
-			Gizmos.DrawCube(_battleArea.center, new Vector3(_battleArea.size.x, _battleArea.size.y, 10));
-		}
-
 		void Teleport(Transform obj) {
 			obj.position = CalculateNewPosition(obj);
 		}

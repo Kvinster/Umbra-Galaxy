@@ -687,6 +687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerSpawnPosition: {fileID: 2276751005929353860}
+  OwnTransform: {fileID: 4213705532863644591}
 --- !u!1 &6201028610891603490
 GameObject:
   m_ObjectHideFlags: 0

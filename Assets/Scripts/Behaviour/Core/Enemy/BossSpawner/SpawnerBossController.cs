@@ -57,7 +57,10 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		protected override void InitInternal(CoreStarter starter) {
 			_hpSystem = new HpSystem(StartHp);
 
-			_hpSystem.OnDied += () => Destroy(gameObject);
+			_hpSystem.OnDied += () => {
+				Destroy(gameObject);
+				starter.LevelManager.StartLevelWin();
+			};
 			
 			MovementSubsystem.Init(BossRigidbody, starter.Player.transform);
 			
@@ -77,11 +80,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 							new CustomActionTask("stop dash", () => MovementSubsystem.EndDash())
 						)
 					),
-					new AlwaysSuccessDecorator(_spawnSubsystem.BehaviourTree),
-					new SequenceTask(
-						new ConditionTask("Is everything destroyed", () => !_gunsSubsystem.HasGuns && !_spawnSubsystem.HasSpawners),
-						new CustomActionTask("destroy boss object", () => Destroy(gameObject))
-					)
+					new AlwaysSuccessDecorator(_spawnSubsystem.BehaviourTree)
 				)
 			);
 		}

@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using NaughtyAttributes;
+using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 using STP.Behaviour.Core;
+using STP.Behaviour.Utils;
+using STP.Config;
 using STP.Core;
 using STP.Core.State;
 using STP.Manager;
@@ -12,8 +15,9 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Starter {
 	public sealed class CoreStarter : BaseStarter<CoreStarter> {
-		[Header("Parameters")]
+		[Header("Parameters")] 
 		public Rect AreaRect;
+		
 		[Header("Dependencies")]
 		[NotNull] public Player    Player;
 		[NotNull] public Transform PlayerStartPos;
@@ -40,6 +44,17 @@ namespace STP.Behaviour.Starter {
 		public PrefabsController PrefabsController => GameController.PrefabsController;
 		public LevelController   LevelController   => GameController.LevelController;
 
+		public Rect LevelArea => AreaRect;
+
+		public Rect CameraArea {
+			get {
+				var center = (Vector2)MainCamera.transform.position;
+				var size   = new Vector2(MainCamera.aspect * MainCamera.orthographicSize * 2, MainCamera.orthographicSize * 2);
+				return new Rect(center - size / 2, size);
+			}
+		}
+		
+		
 		void OnDisable() {
 			GameController.Deinit();
 			LevelGoalManager.Deinit();
@@ -62,14 +77,17 @@ namespace STP.Behaviour.Starter {
 		}
 
 		void InitLevel() {
+
 			_isLevelInitStarted = true;
 			_commonStarter      = CoreCommonStarter.Instance;
 			Assert.IsTrue(_commonStarter, "Couldn't find CoreCommonStarter instance");
 			SceneManager.MoveGameObjectToScene(_commonStarter.TempObjectsRoot.gameObject, SceneManager.GetActiveScene());
 			SceneManager.MoveGameObjectToScene(_commonStarter.BordersRoot.gameObject, SceneManager.GetActiveScene());
+
 			_commonStarter.TempObjectsRoot.position = Vector3.zero;
 			_commonStarter.BordersRoot.position     = AreaRect.center;
 			_commonStarter.BordersRoot.localScale   = new Vector3(AreaRect.width, AreaRect.height, 1);
+			
 #if UNITY_EDITOR
 			if ( !GameState.IsActiveInstanceExists ) {
 				Debug.Log("Trying to load GameState instance");
@@ -104,8 +122,19 @@ namespace STP.Behaviour.Starter {
 			// Settings for smooth gameplay
 			Application.targetFrameRate  =  Screen.currentResolution.refreshRate;
 			QualitySettings.vSyncCount   =  0;
+			
+			if ( LevelController.CurLevelType == LevelType.Boss ) {
+				InitAsBossLevel();
+			}
 		}
 
+		void InitAsBossLevel() {
+			if ( MainCamera.TryGetComponent<RestrictedTransformFollower>(out var comp) ) {
+				comp.enabled = false;
+			}
+			MiniMapObject.SetActive(false);
+		}
+		
 		void OnDestroy() {
 			PlayerController.OnRespawned -= _commonStarter.CoreWindowsManager.ShowGetReadyWindow;
 			PauseManager?.Deinit();
@@ -113,6 +142,7 @@ namespace STP.Behaviour.Starter {
 			PlayerManager?.Deinit();
 		}
 
+		
 		void OnDrawGizmos() {
 			// drawing future game area
 			var color = Gizmos.color;
