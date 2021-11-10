@@ -19,9 +19,9 @@ namespace STP.Behaviour.Core.Enemy {
 
 		public event Action<BaseEnemy> OnDestroyed;
 
-		protected bool IsAlive;
-
 		protected HpSystem HpSystem;
+
+		public bool IsAlive { get; protected set; }
 
 		public abstract void OnBecomeVisibleForPlayer(Transform playerTransform);
 
@@ -38,7 +38,7 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 
-		protected virtual void Die(bool fromPlayer = true) {
+		public virtual void Die(bool fromPlayer = true) {
 			if ( !IsAlive ) {
 				return;
 			}

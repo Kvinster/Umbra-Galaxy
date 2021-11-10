@@ -41,8 +41,8 @@ namespace STP.Behaviour.Core {
 			var bullet = other.gameObject.GetComponent<IBullet>();
 			if ( bullet == null ) {
 				Explode();
-			} else { 
-				Destroy(gameObject);
+			} else {
+				Die();
 			}
 		}
 
@@ -57,6 +57,10 @@ namespace STP.Behaviour.Core {
 				bullet.gameObject.SetActive(false);
 			}
 			Notifier.OnTriggerEnter += OnRangeEnter;
+		}
+
+		public void Die() {
+			Destroy(gameObject);
 		}
 
 		protected override void InitInternal(CoreStarter starter) {

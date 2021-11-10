@@ -95,7 +95,7 @@ namespace STP.Behaviour.Core.Enemy {
             HpSystem.TakeDamage(damage);
         }
 
-        protected override void Die(bool fromPlayer = true) {
+        public override void Die(bool fromPlayer = true) {
             Die(fromConnector: false, fromPlayer);
         }
 

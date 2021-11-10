@@ -41,6 +41,8 @@ namespace STP.Behaviour.Core {
 		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer DeathSoundPlayer;
 		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer ShotSoundPlayer;
 
+		[BoxGroup("Level Win Zone")] public LevelWinExplosionZone LevelWinExplosionZone;
+
 		Vector2 _input;
 
 		DefaultShootingSystem _defaultShootingSystem;
@@ -53,7 +55,6 @@ namespace STP.Behaviour.Core {
 		LevelGoalManager  _levelGoalManager;
 		PauseManager      _pauseManager;
 		PrefabsController _prefabsController;
-		ScoreController      _scoreController;
 		PlayerController  _playerController;
 
 		float _movementSpeed;
@@ -116,7 +117,6 @@ namespace STP.Behaviour.Core {
 			_levelGoalManager  = starter.LevelGoalManager;
 			_pauseManager      = starter.PauseManager;
 			_prefabsController = starter.PrefabsController;
-			_scoreController      = starter.ScoreController;
 			_playerController  = starter.PlayerController;
 
 			_playerHpSystem = _playerController.HpSystem;
@@ -139,6 +139,8 @@ namespace STP.Behaviour.Core {
 			OnRespawn();
 
 			Physics2D.IgnoreCollision(Collider, ShieldCollider);
+
+			LevelWinExplosionZone.SetActive(false);
 		}
 
 		public void OnRespawn() {
@@ -167,6 +169,10 @@ namespace STP.Behaviour.Core {
 			_playerController.TakeDamage(damage);
 			OnPlayerTakeDamage?.Invoke();
 			DamageSoundPlayer.Play();
+		}
+
+		public void OnLevelWin() {
+			LevelWinExplosionZone.SetActive(true);
 		}
 
 		void OnDied() {

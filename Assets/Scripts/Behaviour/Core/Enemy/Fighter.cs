@@ -60,11 +60,10 @@ namespace STP.Behaviour.Core.Enemy {
 			HpSystem.TakeDamage(damage);
 		}
 
-		protected override void Die(bool fromPlayer = true) {
+		public override void Die(bool fromPlayer = true) {
 			base.Die(fromPlayer);
 			Destroy(gameObject);
 		}
-
 
 		public override void OnBecomeVisibleForPlayer(Transform playerTransform) {
 			SetTarget(playerTransform);
@@ -73,7 +72,7 @@ namespace STP.Behaviour.Core.Enemy {
 		public override void OnBecomeInvisibleForPlayer() {
 			// Do nothing
 		}
-		
+
 		public override void SetTarget(Transform target) {
 			_target = target;
 		}

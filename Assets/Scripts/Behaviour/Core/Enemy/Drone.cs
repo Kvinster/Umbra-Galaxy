@@ -43,8 +43,8 @@ namespace STP.Behaviour.Core.Enemy {
 			base.InitInternal(starter);
 			HpSystem.OnDied += DieFromPlayer;
 		}
-		
-		protected override void Die(bool fromPlayer = true) {
+
+		public override void Die(bool fromPlayer = true) {
 			base.Die(fromPlayer);
 
 			Destroy(gameObject);

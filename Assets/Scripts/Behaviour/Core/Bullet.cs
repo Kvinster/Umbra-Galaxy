@@ -27,7 +27,7 @@ namespace STP.Behaviour.Core {
 		void OnCollisionEnter2D(Collision2D other) {
 			var destructible = other.gameObject.GetComponent<IDestructible>();
 			destructible?.TakeDamage(_damage);
-			Destroy(gameObject);
+			Die();
 		}
 
 		public void Init(float damage, float speed, params Collider2D[] ownerColliders) {
@@ -36,6 +36,10 @@ namespace STP.Behaviour.Core {
 			foreach ( var ownerCollider in ownerColliders ) {
 				IgnoreCollider(ownerCollider);
 			}
+		}
+
+		public void Die() {
+			Destroy(gameObject);
 		}
 
 		void IgnoreCollider(Collider2D ignoreCollider) {

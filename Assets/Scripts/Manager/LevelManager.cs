@@ -14,6 +14,7 @@ namespace STP.Manager {
 	public sealed class LevelManager {
 		const float LevelWinDelay = 2f;
 
+		readonly Player                    _player;
 		readonly Transform                 _playerTransform;
 		readonly SceneTransitionController _sceneTransitionController;
 		readonly PauseManager              _pauseManager;
@@ -37,9 +38,10 @@ namespace STP.Manager {
 		public event Action<bool> OnIsLevelActiveChanged;
 		public event Action       OnLastLevelWon;
 
-		public LevelManager(Transform playerTransform, SceneTransitionController sceneTransitionController,
+		public LevelManager(Player player, SceneTransitionController sceneTransitionController,
 			PauseManager pauseManager, LevelController levelController) {
-			_playerTransform           = playerTransform;
+			_player                    = player;
+			_playerTransform           = player.transform;
 			_sceneTransitionController = sceneTransitionController;
 			_pauseManager              = pauseManager;
 			_levelController           = levelController;
@@ -76,6 +78,7 @@ namespace STP.Manager {
 		}
 
 		public void StartLevelWin() {
+			_player.OnLevelWin();
 			AsyncUtils.DelayedAction(StartLevelWinInternal, LevelWinDelay);
 		}
 
