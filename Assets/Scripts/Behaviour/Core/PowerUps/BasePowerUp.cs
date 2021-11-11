@@ -17,7 +17,7 @@ namespace STP.Behaviour.Core.PowerUps {
 		}
 
 		protected override bool OnPlayerEnter() {
-			return PlayerManager.TryPickupPowerUp(PowerUpType);
+			return PlayerManager.TryUsePowerUp(PowerUpType);
 		}
 	}
 }

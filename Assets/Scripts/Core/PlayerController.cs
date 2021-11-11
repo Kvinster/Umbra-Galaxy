@@ -15,8 +15,6 @@ namespace STP.Core {
 		int  _curLives;
 		bool _isInvincible;
 
-		readonly Dictionary<PowerUpType, bool> _powerUpStates = new Dictionary<PowerUpType, bool>();
-
 		public int CurLives {
 			get => _curLives;
 			private set {
@@ -51,10 +49,6 @@ namespace STP.Core {
 			CurLives     = StartPlayerLives;
 			HpSystem     = new HpSystem(Config.MaxHp);
 			IsInvincible = false;
-
-			foreach ( var powerUpType in PowerUpTypeHelper.PowerUpTypes ) {
-				_powerUpStates.Add(powerUpType, false);
-			}
 		}
 
 		public void OnLevelStart() {
@@ -71,9 +65,6 @@ namespace STP.Core {
 		public void Respawn() {
 			IsInvincible = false;
 			RestoreHp();
-			foreach ( var powerUpType in PowerUpTypeHelper.PowerUpTypes ) {
-				SetPowerUpState(powerUpType, false);
-			}
 			OnRespawned?.Invoke();
 		}
 
@@ -105,32 +96,5 @@ namespace STP.Core {
 			CurLives += addLives;
 		}
 
-		public bool TryPickupPowerUp(PowerUpType powerUpType) {
-			if ( !GetPowerUpState(powerUpType) ) {
-				SetPowerUpState(powerUpType, true);
-				return true;
-			}
-			return false;
-		}
-
-		public bool TryUsePowerUp(PowerUpType powerUpType) {
-			if ( GetPowerUpState(powerUpType) ) {
-				SetPowerUpState(powerUpType, false);
-				return true;
-			}
-			return false;
-		}
-
-		public bool GetPowerUpState(PowerUpType powerUpType) {
-			return _powerUpStates[powerUpType];
-		}
-
-		void SetPowerUpState(PowerUpType powerUpType, bool state) {
-			if ( GetPowerUpState(powerUpType) == state ) {
-				return;
-			}
-			_powerUpStates[powerUpType] = state;
-			OnPowerUpStateChanged?.Invoke(powerUpType, state);
-		}
 	}
 }

@@ -22,7 +22,7 @@ namespace STP.Manager {
 
 		readonly Player           _player;
 		readonly PlayerController _playerController;
-		readonly ScoreController     _scoreController;
+		readonly ScoreController  _scoreController;
 
 		readonly UnityContext _context;
 
@@ -38,7 +38,7 @@ namespace STP.Manager {
 			_player           = player;
 			_playerController = playerController;
 			_context          = context;
-			_scoreController     = scoreController;
+			_scoreController  = scoreController;
 			_tempObjectsRoot  = tempObjectsRoot;
 			_context.AddUpdateCallback(UpdateTimers);
 			_playerController.Respawn();
@@ -52,14 +52,7 @@ namespace STP.Manager {
 			EventManager.Unsubscribe<EnemyDestroyed>(OnEnemyDestroyed);
 		}
 
-		public bool TryPickupPowerUp(PowerUpType powerUpType) {
-			return _playerController.TryPickupPowerUp(powerUpType);
-		}
-
 		public bool TryUsePowerUp(PowerUpType powerUpType) {
-			if ( !_playerController.TryUsePowerUp(powerUpType) ) {
-				return false;
-			}
 			HandlePowerUpStart(powerUpType);
 			return true;
 		}
