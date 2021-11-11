@@ -15,12 +15,12 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 		public float CollisionDamage = 25f;
 		public float StartHp         = 10000;
-		
+
 		public SpawnParams   SpawnParams;
 
 		[NotNull] public Rigidbody2D                  BossRigidbody;
 		[NotNull] public SpawnerBossMovementSubsystem MovementSubsystem;
-		
+
 		public List<BossGun> Guns;
 		public List<Spawner> Spawners;
 
@@ -28,13 +28,13 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		SpawnerBossSpawnSubsystem    _spawnSubsystem;
 
 		HpSystem _hpSystem;
-		
+
 		public static SpawnerBossController Instance { get; private set; }
 
 		public HpSystem HpSystem => _hpSystem;
 		public override bool HighPriorityInit => true;
-		
-		
+
+
 		protected override void Awake() {
 			base.Awake();
 			if ( Instance ) {
@@ -44,11 +44,11 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			}
 			Instance = this;
 		}
-		
+
 		protected void Update() {
 			Tree.Tick();
 		}
-		
+
 		void OnDestroy() {
 			_gunsSubsystem?.Deinit();
 			_spawnSubsystem?.Deinit();
@@ -61,9 +61,9 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 				Destroy(gameObject);
 				starter.LevelManager.StartLevelWin();
 			};
-			
+
 			MovementSubsystem.Init(BossRigidbody, starter.Player.transform);
-			
+
 			_gunsSubsystem = new SpawnerBossGunsSubsystem();
 			_gunsSubsystem.Init(Guns, starter, MovementSubsystem);
 
@@ -88,10 +88,9 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public void TakeDamage(float damage) {
 			_hpSystem.TakeDamage(damage);
 		}
-		
+
 		void OnCollisionEnter2D(Collision2D other) {
-			var destructible = other.gameObject.GetComponent<IDestructible>();
-			destructible?.TakeDamage(CollisionDamage);
+			other.TryTakeDamage(CollisionDamage);
 		}
 	}
 }
