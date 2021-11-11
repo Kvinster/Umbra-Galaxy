@@ -15,8 +15,7 @@ namespace STP.Behaviour.Core.Enemy {
         readonly Timer _lifeTimer = new Timer();
 
         void OnCollisionEnter2D(Collision2D other) {
-            var destructible = other.gameObject.GetComponent<IDestructible>();
-            destructible?.TakeDamage(float.MaxValue);
+            other.TryTakeDamage(float.MaxValue);
         }
 
         void Update() {

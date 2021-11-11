@@ -43,17 +43,15 @@ namespace STP.Behaviour.Core.Enemy {
 		}
 
 		void OnCollisionEnter2D(Collision2D other) {
-			var destructible = other.gameObject.GetComponent<IDestructible>();
-			if ( destructible != null ) {
-				destructible.TakeDamage(20);
+			if ( other.TryTakeDamage(20) || other.collider.gameObject.GetComponent<PlayerShield>() ) {
 				Die();
 			}
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
 			base.InitInternal(starter);
-			_defaultShootingSystem = new DefaultShootingSystem(starter.SpawnHelper, ShootingParams);
-			HpSystem.OnDied += DieFromPlayer;
+			_defaultShootingSystem =  new DefaultShootingSystem(starter.SpawnHelper, ShootingParams);
+			HpSystem.OnDied        += DieFromPlayer;
 		}
 
 		public void TakeDamage(float damage) {

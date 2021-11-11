@@ -25,8 +25,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		void OnCollisionEnter2D(Collision2D other) {
-			var destructible = other.gameObject.GetComponent<IDestructible>();
-			destructible?.TakeDamage(_damage);
+			other.TryTakeDamage(_damage);
 			Die();
 		}
 

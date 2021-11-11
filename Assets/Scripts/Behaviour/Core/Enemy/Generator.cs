@@ -23,9 +23,6 @@ namespace STP.Behaviour.Core.Enemy {
         [Header("Sound")]
         [NotNull]
         public BaseSimpleSoundPlayer ShotSoundPlayer;
-        [Header("Explosion")]
-        public float ExplosionDamage;
-        public TriggerNotifier ExplosionNotifier;
 
         GeneratorShootingSystem _shootingSystem;
 
