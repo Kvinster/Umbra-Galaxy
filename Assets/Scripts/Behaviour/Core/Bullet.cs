@@ -5,10 +5,10 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
 	public class Bullet : GameComponent, IBullet {
-		[NotNull]
-		public Rigidbody2D Rigidbody;
-		[NotNull]
-		public Collider2D  Collider;
+		[NotNull] public Rigidbody2D Rigidbody;
+		[NotNull] public Collider2D  Collider;
+		[Space]
+		public VfxRunner DeathEffectRunner;
 
 		public float LifeTime = 3f;
 
@@ -39,6 +39,10 @@ namespace STP.Behaviour.Core {
 		}
 
 		public void Die() {
+			if ( DeathEffectRunner ) {
+				DeathEffectRunner.transform.parent = transform.parent;
+				DeathEffectRunner.RunVfx(true);
+			}
 			Destroy(gameObject);
 		}
 
