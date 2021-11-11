@@ -40,10 +40,9 @@ namespace STP.Core {
 
 		public PlayerConfig Config => PlayerConfig.Instance;
 
-		public event Action<int>               OnCurLivesChanged;
-		public event Action<bool>              OnIsInvincibleChanged;
-		public event Action<PowerUpType, bool> OnPowerUpStateChanged;
-		public event Action                    OnRespawned;
+		public event Action<int>  OnCurLivesChanged;
+		public event Action<bool> OnIsInvincibleChanged;
+		public event Action       OnRespawned;
 
 		public PlayerController() {
 			CurLives     = StartPlayerLives;
