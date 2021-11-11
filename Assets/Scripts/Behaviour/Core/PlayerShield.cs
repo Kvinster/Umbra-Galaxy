@@ -10,8 +10,7 @@ namespace STP.Behaviour.Core {
 		[NotNull] public BaseSimpleSoundPlayer ImpactSoundPlayer;
 		[NotNull] public VisualEffect          VisualEffect;
 
-		protected override void InitInternal(CoreStarter starter) {
-		}
+		protected override void InitInternal(CoreStarter starter) { }
 
 		void OnCollisionEnter2D(Collision2D other) {
 			var worldContact = other.contacts[0].point;
