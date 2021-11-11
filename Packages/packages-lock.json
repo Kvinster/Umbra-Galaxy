@@ -205,13 +205,12 @@
       }
     },
     "com.unity.visualeffectgraph": {
-      "version": "7.3.1",
+      "version": "file:com.unity.visualeffectgraph@7.3.1",
       "depth": 0,
-      "source": "registry",
+      "source": "embedded",
       "dependencies": {
         "com.unity.shadergraph": "7.3.1"
-      },
-      "url": "https://packages.unity.com"
+      }
     },
     "com.unity.xr.legacyinputhelpers": {
       "version": "2.1.4",
