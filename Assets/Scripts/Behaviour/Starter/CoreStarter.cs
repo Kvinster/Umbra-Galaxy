@@ -1,5 +1,4 @@
-﻿using NaughtyAttributes;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
@@ -40,7 +39,7 @@ namespace STP.Behaviour.Starter {
 
 		public GameController    GameController    => GameController.Instance;
 		public PlayerController  PlayerController  => GameController.PlayerController;
-		public ScoreController      ScoreController      => GameController.ScoreController;
+		public ScoreController   ScoreController   => GameController.ScoreController;
 		public PrefabsController PrefabsController => GameController.PrefabsController;
 		public LevelController   LevelController   => GameController.LevelController;
 
