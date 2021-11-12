@@ -22,6 +22,8 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public Transform PlayerStartPos;
 		[NotNull] public Transform LevelObjectsRoot;
 
+		public CameraShake CameraShake;
+
 		CoreCommonStarter _commonStarter;
 
 		bool _isLevelInitStarted;
@@ -73,7 +75,7 @@ namespace STP.Behaviour.Starter {
 		}
 
 		void InitLevel() {
-
+			
 			_isLevelInitStarted = true;
 			_commonStarter      = CoreCommonStarter.Instance;
 			Assert.IsTrue(_commonStarter, "Couldn't find CoreCommonStarter instance");
@@ -110,6 +112,7 @@ namespace STP.Behaviour.Starter {
 				GameController.LeaderboardController);
 			MinimapManager = new MinimapManager(_commonStarter.MinimapCamera);
 			_commonStarter.PlayerCameraFollower.Init(_commonStarter.MainCamera, Player.transform, AreaRect);
+			CameraShake = MainCamera.GetComponent<CameraShake>();
 			InitComponents();
 			PlayerController.OnRespawned += _commonStarter.CoreWindowsManager.ShowGetReadyWindow;
 			_commonStarter.CoreWindowsManager.ShowGetReadyWindow();
@@ -118,6 +121,8 @@ namespace STP.Behaviour.Starter {
 			Application.targetFrameRate  =  Screen.currentResolution.refreshRate;
 			QualitySettings.vSyncCount   =  0;
 
+			
+			
 			if ( LevelController.CurLevelType == LevelType.Boss ) {
 				InitAsBossLevel();
 			}
