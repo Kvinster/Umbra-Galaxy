@@ -89,7 +89,6 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		}
 
 		void Slowdown() {
-			print(AngularSpeed);
 			AngularSpeed           = Mathf.Lerp(startAngularSpeed, 0f, _timer.NormalizedProgress);
 			BossRigidbody.velocity = Vector2.Lerp(startSpeed, Vector2.zero, _timer.NormalizedProgress);
 		}
