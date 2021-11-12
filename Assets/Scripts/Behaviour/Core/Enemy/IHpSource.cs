@@ -2,6 +2,6 @@
 
 namespace STP.Behaviour.Core.Enemy {
 	public interface IHpSource {
-		HpSystem HpSystem { get; }
+		HpSystem HpSystemComponent { get; }
 	}
 }

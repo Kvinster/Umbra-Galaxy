@@ -1,25 +1,28 @@
 ﻿using UnityEngine;
-
 using System.Collections.Generic;
-
+using Cysharp.Threading.Tasks;
 using STP.Behaviour.Starter;
 using STP.Core;
+using STP.Manager;
+using STP.Utils;
 using STP.Utils.BehaviourTree;
 using STP.Utils.BehaviourTree.Tasks;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
-	public class SpawnerBossController : BaseCoreComponent, IHpSource, IDestructible {
-
+	public class SpawnerBossController : BaseEnemy, IHpSource, IDestructible {
 		public BehaviourTree Tree;
 
 		public float CollisionDamage = 25f;
-		public float StartHp         = 10000;
+
+		public float DeathEffectTime = 2f;
 
 		public SpawnParams   SpawnParams;
 
 		[NotNull] public Rigidbody2D                  BossRigidbody;
 		[NotNull] public SpawnerBossMovementSubsystem MovementSubsystem;
+
+		[NotNull] public LevelWinExplosionZone Shockwave;
 
 		public List<BossGun> Guns;
 		public List<Spawner> Spawners;
@@ -27,13 +30,27 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		SpawnerBossGunsSubsystem     _gunsSubsystem;
 		SpawnerBossSpawnSubsystem    _spawnSubsystem;
 
-		HpSystem _hpSystem;
+		LevelManager _levelManager;
 
+		CameraShake _cameraShake;
+		
 		public static SpawnerBossController Instance { get; private set; }
 
-		public HpSystem HpSystem => _hpSystem;
 		public override bool HighPriorityInit => true;
+		
+		public HpSystem HpSystemComponent => HpSystem;
 
+		public override void OnBecomeVisibleForPlayer(Transform playerTransform) {
+			// Do nothing
+		}
+
+		public override void OnBecomeInvisibleForPlayer() {
+			// Do nothing
+		}
+
+		public override void SetTarget(Transform target) {
+			// Do nothing
+		}
 
 		protected override void Awake() {
 			base.Awake();
@@ -46,7 +63,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		}
 
 		protected void Update() {
-			Tree.Tick();
+			Tree?.Tick();
 		}
 
 		void OnDestroy() {
@@ -55,14 +72,12 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
-			_hpSystem = new HpSystem(StartHp);
-
-			_hpSystem.OnDied += () => {
-				Destroy(gameObject);
-				starter.LevelManager.StartLevelWin();
-			};
-
-			MovementSubsystem.Init(BossRigidbody, starter.Player.transform);
+			base.InitInternal(starter);
+			Shockwave.gameObject.SetActive(false);
+			_levelManager = starter.LevelManager;
+			_cameraShake  = starter.CameraShake;
+			
+			MovementSubsystem.Init(BossRigidbody, starter.Player.transform, HpSystem);
 
 			_gunsSubsystem = new SpawnerBossGunsSubsystem();
 			_gunsSubsystem.Init(Guns, starter, MovementSubsystem);
@@ -86,11 +101,32 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		}
 
 		public void TakeDamage(float damage) {
-			_hpSystem.TakeDamage(damage);
+			HpSystem.TakeDamage(damage);
+			if ( !HpSystem.IsAlive ) {
+				Die();
+			}
+		}
+
+		public override void Die(bool fromPlayer = true) {
+			base.Die(fromPlayer);
+			Tree = null;
+			_gunsSubsystem.Deinit();
+			_spawnSubsystem.Deinit();
+			_cameraShake.Shake(DeathEffectTime, 1f).Forget();
+			AsyncUtils.DelayedAction(SomeAction, DeathEffectTime);
 		}
 
 		void OnCollisionEnter2D(Collision2D other) {
 			other.TryTakeDamage(CollisionDamage);
+		}
+
+		void SomeAction() {
+			DeathEffectRunner.StopVfx();
+			Shockwave.gameObject.SetActive(true);
+			Shockwave.transform.parent = transform.parent;
+			_cameraShake.Shake(1f, 4f).Forget();
+			Destroy(gameObject);
+			AsyncUtils.DelayedAction(_levelManager.StartLevelWin, 3f);
 		}
 	}
 }

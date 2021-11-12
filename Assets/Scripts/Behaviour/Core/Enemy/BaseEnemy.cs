@@ -15,6 +15,8 @@ namespace STP.Behaviour.Core.Enemy {
 		public SimpleDeathSoundPlayer DeathSoundPlayer;
 		public VfxRunner              DeathEffectRunner;
 
+		public bool DetachVfxOnDeath = true;
+		
 		public float StartHp;
 
 		public event Action<BaseEnemy> OnDestroyed;
@@ -59,7 +61,9 @@ namespace STP.Behaviour.Core.Enemy {
 
 		protected void TryRunDeathEffect() {
 			if ( DeathEffectRunner ) {
-				DeathEffectRunner.transform.parent = transform.parent;
+				if ( DetachVfxOnDeath ) {
+					DeathEffectRunner.transform.parent = transform.parent;
+				}
 				DeathEffectRunner.RunVfx(true);
 			}
 		}

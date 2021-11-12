@@ -1,4 +1,5 @@
 ﻿using System;
+using STP.Core;
 using STP.Utils;
 using STP.Utils.BehaviourTree;
 using STP.Utils.BehaviourTree.Tasks;
@@ -24,6 +25,12 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public float MovingSpeed;
 		public float AngularSpeed;
 
+		public float SlowdownTime = 2f;
+
+		Timer   _timer = new Timer();
+		float   startAngularSpeed;
+		Vector2 startSpeed;
+
 		bool _isDash;
 		
 		Transform _player;
@@ -31,20 +38,36 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		MovementType _activeMovementType;
 		
 		Vector2 ForwardVector => (BossRigidbody.transform.rotation * Vector3.up).normalized;
+
+		HpSystem _hpSystem;
 		
-		public void Init(Rigidbody2D bossRigidbody, Transform player) {
-			BossRigidbody = bossRigidbody;
-			_player        = player;
+		public void Init(Rigidbody2D bossRigidbody, Transform player, HpSystem hpSystem) {
+			BossRigidbody    =  bossRigidbody;
+			_player          =  player;
+			_hpSystem        =  hpSystem;
+			_hpSystem.OnDied += OnDied;
+			_timer.Reset(int.MaxValue);
 		}
 
 		public void SetMovementType(MovementType movementType) {
 			_activeMovementType = movementType;
 		}
 
-		
+
 		public void FixedUpdate() {
+			if ( !_hpSystem.IsAlive ) {
+				if ( _timer.DeltaTick() ) {
+					BossRigidbody.bodyType = RigidbodyType2D.Static;
+					_timer.Reset(int.MaxValue);
+					enabled = false;
+					return;
+				}
+				Slowdown();
+			}
+			else {
+				KeepDistanceFromPlayer();
+			}
 			LookToPlayer();
-			KeepDistanceFromPlayer();
 		}
 
 		
@@ -56,6 +79,19 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 		public void EndDash() {
 			_isDash = false;
+		}
+		
+		void OnDied() {
+			_timer.Reset(SlowdownTime);
+			startSpeed        =  BossRigidbody.velocity;
+			startAngularSpeed =  (!_isDash) ? AngularSpeed : 0f;
+			_hpSystem.OnDied  -= OnDied;
+		}
+
+		void Slowdown() {
+			print(AngularSpeed);
+			AngularSpeed           = Mathf.Lerp(startAngularSpeed, 0f, _timer.NormalizedProgress);
+			BossRigidbody.velocity = Vector2.Lerp(startSpeed, Vector2.zero, _timer.NormalizedProgress);
 		}
 		
 		void KeepDistanceFromPlayer() {

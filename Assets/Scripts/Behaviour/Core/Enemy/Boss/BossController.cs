@@ -35,7 +35,7 @@ namespace STP.Behaviour.Core.Enemy.Boss {
 		public float CurHp => _hpSystem.Hp;
 		public float MaxHp => _hpSystem.MaxHp;
 
-		public HpSystem HpSystem => _hpSystem;
+		public HpSystem HpSystemComponent => _hpSystem;
 		
 		protected override void Awake() {
 			base.Awake();

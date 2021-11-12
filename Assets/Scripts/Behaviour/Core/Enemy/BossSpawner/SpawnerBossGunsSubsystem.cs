@@ -52,6 +52,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public void Deinit() {
 			foreach ( var gun in _guns ) {
 				gun.OnDiedEvent -= OnGunDestroyed;
+				gun.Laser.TryStopShoot();
 			}
 		}
 

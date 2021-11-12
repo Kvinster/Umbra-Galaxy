@@ -37,7 +37,7 @@ namespace STP.Behaviour.Core.UI {
 			if ( hpSource == null ) {
 				return;
 			}
-			_controllingHpSystem             =  hpSource.HpSystem;
+			_controllingHpSystem             =  hpSource.HpSystemComponent;
 			_controllingHpSystem.OnHpChanged += OnBossCurHpChanged;
 			_controllingHpSystem.OnDied      += OnDied;
 		}

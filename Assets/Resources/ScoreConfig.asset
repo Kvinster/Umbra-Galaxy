@@ -25,3 +25,5 @@ MonoBehaviour:
     XpAmount: 1
   - EnemyName: Asteroid
     XpAmount: 0
+  - EnemyName: SpawnerBoss
+    XpAmount: 500
