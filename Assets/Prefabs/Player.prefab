@@ -511,7 +511,7 @@ GameObject:
   - component: {fileID: 48662018932155136}
   - component: {fileID: 6874216400439033633}
   - component: {fileID: 5048729778655334938}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: LevelWinExplosionZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
