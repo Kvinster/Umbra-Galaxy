@@ -4,14 +4,13 @@ using STP.Utils.GameComponentAttributes;
 using UnityEngine;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
-	public class Spawner : DestructiblePart {
+	public class Spawner : GameComponent {
 		[NotNullOrEmpty] public List<GameObject> SpawningEnemies;
 
 		CoreSpawnHelper _spawnHelper;
 		
 		public void Init(CoreSpawnHelper spawnHelper) {
 			_spawnHelper = spawnHelper;
-			InitInternal();
 		}
 
 		public void Spawn() {

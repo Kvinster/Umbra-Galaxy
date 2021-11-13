@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using STP.Behaviour.Starter;
@@ -68,7 +69,6 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 		void OnDestroy() {
 			_gunsSubsystem?.Deinit();
-			_spawnSubsystem?.Deinit();
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
@@ -80,22 +80,16 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			MovementSubsystem.Init(BossRigidbody, starter.Player.transform, HpSystem);
 
 			_gunsSubsystem = new SpawnerBossGunsSubsystem();
-			_gunsSubsystem.Init(Guns, starter, MovementSubsystem);
+			_gunsSubsystem.Init(Guns, starter);
 
 			_spawnSubsystem = new SpawnerBossSpawnSubsystem();
 			_spawnSubsystem.Init(Spawners, starter, SpawnParams, MovementSubsystem);
 
 			Tree = new BehaviourTree(
 				new SequenceTask(
-					new AlwaysSuccessDecorator(_gunsSubsystem.BehaviourTree),
-					new AlwaysSuccessDecorator(
-						new SequenceTask(
-							new CustomActionTask("set dash speed", () => MovementSubsystem.Dash()),
-							new WaitTask(2f),
-							new CustomActionTask("stop dash", () => MovementSubsystem.EndDash())
-						)
-					),
-					new AlwaysSuccessDecorator(_spawnSubsystem.BehaviourTree)
+					new AlwaysSuccessDecorator(_gunsSubsystem.FireTask),
+					new AlwaysSuccessDecorator(MovementSubsystem.DashTask),
+					new AlwaysSuccessDecorator(_spawnSubsystem.SpawnTask)
 				)
 			);
 		}
@@ -111,22 +105,26 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			base.Die(fromPlayer);
 			Tree = null;
 			_gunsSubsystem.Deinit();
-			_spawnSubsystem.Deinit();
-			_cameraShake.Shake(DeathEffectTime, 1f).Forget();
-			AsyncUtils.DelayedAction(SomeAction, DeathEffectTime);
+			PlayDeathVFXs().Forget();
 		}
 
 		void OnCollisionEnter2D(Collision2D other) {
 			other.TryTakeDamage(CollisionDamage);
 		}
 
-		void SomeAction() {
+		async UniTask PlayDeathVFXs() {
+			_cameraShake.Shake(DeathEffectTime, 1f).Forget();
+			await UniTask.Delay(TimeSpan.FromSeconds(DeathEffectTime));
 			DeathEffectRunner.StopVfx();
+			
+			// Run last shockwave
 			Shockwave.gameObject.SetActive(true);
 			Shockwave.transform.parent = transform.parent;
 			_cameraShake.Shake(1f, 4f).Forget();
 			Destroy(gameObject);
-			AsyncUtils.DelayedAction(_levelManager.StartLevelWin, 3f);
+			
+			// win level
+			_levelManager.StartLevelWin();
 		}
 	}
 }

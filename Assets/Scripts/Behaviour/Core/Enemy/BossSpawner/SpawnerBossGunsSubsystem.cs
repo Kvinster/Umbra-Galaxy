@@ -1,74 +1,45 @@
 ﻿using System.Collections.Generic;
 using STP.Behaviour.Starter;
-using STP.Gameplay.Weapon.LaserWeapon;
-using STP.Utils;
 using STP.Utils.BehaviourTree.Tasks;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
 	public class SpawnerBossGunsSubsystem {
-		public float  FireTime   = 1f;
-		public float  ChargeTime = 1f;
-		List<BossGun> _guns;
-
-		BossGun _selectedGun;
-
-		public BaseTask BehaviourTree { get; private set; }
-
-		public bool HasGuns => _guns.Count > 0;
+		const float   FireTime   = 1f;
+		const float   ChargeTime = 1f;
 		
-		public void Init(List<BossGun> guns, CoreStarter starter, SpawnerBossMovementSubsystem movementSubsystem) {
-			_guns = guns;
-			foreach ( var gun in _guns ) {
-				gun.Init(starter);
-				gun.OnDiedEvent += OnGunDestroyed;
-			}
+		BossGun _gun;
 
-			var bt = new SequenceTask(
-				// Select available gun
-				new ConditionTask("Is gun selected", TrySelectGun),
+		public BaseTask FireTask => 
+			new SequenceTask(
 				new ParallelTask(
-					new WaitTask(ChargeTime),
-					new CustomActionTask("Start spinning", () => movementSubsystem.SetMovementType(MovementType.SpinUp))
+					new WaitTask(ChargeTime)
 				),
-				new CustomActionTask("Start fire", () => _selectedGun.Laser.TryShoot()),
+				new CustomActionTask("Start fire", () => _gun.Laser.TryShoot()),
 				new AlwaysSuccessDecorator(
 					new ParallelTask(
 						new SequenceTask(
 							new WaitTask(FireTime),
 							new ConditionTask(() => false)
 						),
-						new RepeatForeverTask(new CustomActionTask(() => _selectedGun.Laser.Update()))
+						new RepeatForeverTask(new CustomActionTask(() => _gun.Laser.Update()))
 					)
 				),
-				new CustomActionTask("Stop fire", () => _selectedGun.Laser.TryStopShoot()),
+				new CustomActionTask("Stop fire", () => _gun.Laser.TryStopShoot()),
 				new ParallelTask(
-					new WaitTask(ChargeTime),
-					new CustomActionTask("Stop spinning", () => movementSubsystem.SetMovementType(MovementType.SpinDown))
+					new WaitTask(ChargeTime)
 				)
 			);
-			BehaviourTree = bt;
+		
+
+		public void Init(List<BossGun> guns, CoreStarter starter) {
+			foreach ( var gun in guns ) {
+				gun.Init(starter);
+			}
+			_gun = guns[0];
 		}
 
 		public void Deinit() {
-			foreach ( var gun in _guns ) {
-				gun.OnDiedEvent -= OnGunDestroyed;
-				gun.Laser.TryStopShoot();
-			}
-		}
-
-		void OnGunDestroyed(DestructiblePart destroyedGun) {
-			_guns.RemoveAll(x => x == destroyedGun);
-			if ( _selectedGun == destroyedGun ) {
-				BehaviourTree.InstantFinishTask(TaskStatus.Failure);
-			}
-		}
-		
-		bool TrySelectGun() {
-			if ( _guns.Count == 0 ) {
-				return false;
-			}
-			_selectedGun = RandomUtils.GetRandomElement(_guns);
-			return true;
+			_gun.Laser.TryStopShoot();
 		}
 	}
 }
