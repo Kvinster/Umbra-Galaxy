@@ -21,7 +21,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 				)
 			);
 
-		public void Init(List<Spawner> spawns, CoreStarter starter, SpawnParams spawnParams, SpawnerBossMovementSubsystem movementSubsystem) {
+		public void Init(List<Spawner> spawns, CoreStarter starter, SpawnParams spawnParams, BossMovementSubsystem movementSubsystem) {
 			_spawns      = spawns;
 			_spawnParams = spawnParams;
 			foreach ( var spawn in spawns ) {

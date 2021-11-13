@@ -6,7 +6,7 @@ using STP.Utils.GameComponentAttributes;
 using UnityEngine;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
-	public class SpawnerBossMovementSubsystem : GameComponent {
+	public class BossMovementSubsystem : GameComponent {
 		[NotNull] public Rigidbody2D BossRigidbody;
 
 		public float MinDistance = 100;

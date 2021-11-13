@@ -21,7 +21,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public SpawnParams   SpawnParams;
 
 		[NotNull] public Rigidbody2D                  BossRigidbody;
-		[NotNull] public SpawnerBossMovementSubsystem MovementSubsystem;
+		[NotNull] public BossMovementSubsystem MovementSubsystem;
 
 		[NotNull] public LevelWinExplosionZone Shockwave;
 
