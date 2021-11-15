@@ -41,17 +41,6 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		
 		public HpSystem HpSystemComponent => HpSystem;
 
-		public override void OnBecomeVisibleForPlayer(Transform playerTransform) {
-			// Do nothing
-		}
-
-		public override void OnBecomeInvisibleForPlayer() {
-			// Do nothing
-		}
-
-		public override void SetTarget(Transform target) {
-			// Do nothing
-		}
 
 		protected override void Awake() {
 			base.Awake();
@@ -83,7 +72,8 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			_gunsSubsystem.Init(Guns, starter);
 
 			_spawnSubsystem = new SpawnerBossSpawnSubsystem();
-			_spawnSubsystem.Init(Spawners, starter, SpawnParams, MovementSubsystem);
+			var list = new List<ISpawner>(Spawners);
+			_spawnSubsystem.Init(list, starter, SpawnParams);
 
 			Tree = new BehaviourTree(
 				new SequenceTask(

@@ -5,9 +5,9 @@ using STP.Utils.BehaviourTree.Tasks;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
 	public class SpawnerBossSpawnSubsystem {
-		List<Spawner> _spawns;
+		List<ISpawner> _spawns;
 
-		Spawner     _selectedSpawn;
+		ISpawner    _selectedSpawn;
 		SpawnParams _spawnParams;
 		
 		public BaseTask SpawnTask =>
@@ -21,7 +21,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 				)
 			);
 
-		public void Init(List<Spawner> spawns, CoreStarter starter, SpawnParams spawnParams, BossMovementSubsystem movementSubsystem) {
+		public void Init(List<ISpawner> spawns, CoreStarter starter, SpawnParams spawnParams) {
 			_spawns      = spawns;
 			_spawnParams = spawnParams;
 			foreach ( var spawn in spawns ) {
@@ -31,7 +31,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 		bool TrySelectSpawner() {
 			_selectedSpawn = RandomUtils.GetRandomElement(_spawns);
-			return _selectedSpawn;
+			return _selectedSpawn != null;
 		}
 	}
 }

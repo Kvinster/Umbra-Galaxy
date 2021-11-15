@@ -1,20 +1,20 @@
-﻿using System.Collections.Generic;
-using STP.Utils;
+﻿using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 using UnityEngine;
 
-namespace STP.Behaviour.Core.Enemy.BossSpawner {
-	public class MineSpawner : GameComponent {
+namespace STP.Behaviour.Core.Enemy.SecondBoss {
+	public class MineSpawner : GameComponent, ISpawner {
 		[NotNullOrEmpty] public GameObject MinePrefab;
+
+		public float MaxStartSpeed = 100f;
+		public float LinearDrag    = 1f;
 
 		
 		CoreSpawnHelper _spawnHelper;
-		Transform       _bossTransform;
 		
 		
-		public void Init(CoreSpawnHelper spawnHelper, Transform bossTransform) {
-			_spawnHelper = spawnHelper;
-			_bossTransform        = bossTransform;
+		public void Init(CoreSpawnHelper spawnHelper) {
+			_spawnHelper   = spawnHelper;
 		}
 
 		public void Spawn() {
@@ -25,6 +25,8 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 				Debug.LogError("Can't get rigidbody from spawned mines");
 				return;
 			}
+			enemyRigidbody.velocity = Random.insideUnitCircle * MaxStartSpeed;
+			enemyRigidbody.drag     = LinearDrag;
 		}
 	}
 }

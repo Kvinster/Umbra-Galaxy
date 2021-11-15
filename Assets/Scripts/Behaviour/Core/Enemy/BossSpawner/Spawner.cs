@@ -4,7 +4,7 @@ using STP.Utils.GameComponentAttributes;
 using UnityEngine;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
-	public class Spawner : GameComponent {
+	public class Spawner : GameComponent, ISpawner {
 		[NotNullOrEmpty] public List<GameObject> SpawningEnemies;
 
 		CoreSpawnHelper _spawnHelper;

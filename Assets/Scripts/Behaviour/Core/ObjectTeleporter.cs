@@ -6,7 +6,7 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
 	public class ObjectTeleporter : BaseCoreComponent {
-		const float BorderMinSideSize = 10f;
+		public float BorderMinSideSize = 10f;
 		
 		[NotNull] [Count(4)] public List<TriggerNotifier> Borders;
 		

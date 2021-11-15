@@ -25,11 +25,17 @@ namespace STP.Behaviour.Core.Enemy {
 
 		public bool IsAlive { get; protected set; }
 
-		public abstract void OnBecomeVisibleForPlayer(Transform playerTransform);
+		public virtual void OnBecomeVisibleForPlayer(Transform playerTransform) {
+			// Do nothing
+		}
 
-		public abstract void OnBecomeInvisibleForPlayer();
+		public virtual void OnBecomeInvisibleForPlayer() {
+			// Do nothing
+		}
 
-		public abstract void SetTarget(Transform target);
+		public virtual void SetTarget(Transform target) {
+			// Do nothing
+		}
 
 		protected override void InitInternal(CoreStarter starter) {
 			if ( DeathSoundPlayer ) {
