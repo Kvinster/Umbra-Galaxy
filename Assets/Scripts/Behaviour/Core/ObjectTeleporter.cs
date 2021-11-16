@@ -1,98 +1,93 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System;
+using PlayFab.Internal;
+using Shapes;
+using UnityEngine;
 using STP.Behaviour.Starter;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
 	public class ObjectTeleporter : BaseCoreComponent {
-		public float BorderMinSideSize = 10f;
-		
-		[NotNull] [Count(4)] public List<TriggerNotifier> Borders;
+		[Header("battle area")]
+		[NotNull] public TriggerNotifier BattleArea;
+		[NotNull] public BoxCollider2D   BoxCollider2D;
+		[Header("fallback area")]
+		[NotNull] public TriggerNotifier SpawnControlArea;
 		
 		Rect _battleArea;
-
-		readonly List<Transform> _checkingObjects = new List<Transform>();
 		
-		void Update() {
-			for ( var i = _checkingObjects.Count - 1; i >= 0; i-- ) {
-				var obj = _checkingObjects[i];
-				if ( !obj ) {
-					_checkingObjects.Remove(obj);
-				}
-			}
-		}
-
-		void OnDestroy() {
-			foreach ( var borderControl in Borders ) {
-				borderControl.OnTriggerEnter -= OnObjectEnterControlArea;
-				borderControl.OnTriggerExit  -= OnObjectLeaveControlArea;
-			}
-		}
-
 		protected override void InitInternal(CoreStarter starter) {
 			var cam        = starter.MainCamera;
 			var areaHeight = cam.orthographicSize * 2;
 			var areaWidth  = cam.aspect * areaHeight;
-			_battleArea = new Rect(new Vector2(-areaWidth/2, -areaHeight/2), new Vector2(areaWidth, areaHeight));
-			InitBorders();
+			_battleArea = new Rect(new Vector2(-areaWidth / 2, -areaHeight / 2), new Vector2(areaWidth, areaHeight));
+			
+			BoxCollider2D.size = _battleArea.size;
+
+			BattleArea.OnTriggerExit        += OnBattleAreaExit;
+			SpawnControlArea.OnTriggerEnter += OnSpawn;
 		}
 
-		void InitBorders() {
-			InitColliderSize(Borders[0], new Vector2(_battleArea.size.x + BorderMinSideSize * 2, BorderMinSideSize), _battleArea.center + Vector2.up    * (_battleArea.size.y + BorderMinSideSize) / 2);
-			InitColliderSize(Borders[1], new Vector2(_battleArea.size.x + BorderMinSideSize * 2, BorderMinSideSize), _battleArea.center + Vector2.down  * (_battleArea.size.y + BorderMinSideSize) / 2);
-			InitColliderSize(Borders[2], new Vector2(BorderMinSideSize                    , _battleArea.size.y    ), _battleArea.center + Vector2.left  * (_battleArea.size.x + BorderMinSideSize) / 2);
-			InitColliderSize(Borders[3], new Vector2(BorderMinSideSize                    , _battleArea.size.y    ), _battleArea.center + Vector2.right * (_battleArea.size.x + BorderMinSideSize) / 2);
-
-			foreach ( var borderControl in Borders ) {
-				borderControl.OnTriggerEnter += OnObjectEnterControlArea;
-				borderControl.OnTriggerExit  += OnObjectLeaveControlArea;
-			}
-		}
-
-		void InitColliderSize(TriggerNotifier notifier, Vector2 size, Vector2 centerPos) {
-			notifier.transform.position = centerPos;
-			var boxCollider = notifier.GetComponent<BoxCollider2D>();
-			boxCollider.size = size;
+		void OnDestroy() {
+			BattleArea.OnTriggerExit        -= OnBattleAreaExit;
+			SpawnControlArea.OnTriggerEnter -= OnSpawn;
 		}
 
 		void Teleport(Transform obj) {
-			obj.position = CalculateNewPosition(obj);
+			var newPos = CalculateNewPosition(obj);
+			obj.position = newPos;
 		}
 
+		void OnBattleAreaExit(GameObject other) {
+			var teleportingObjectTransform = other.gameObject.transform;
+			if ( IsNeedToBeTeleported(teleportingObjectTransform) ) {
+				Teleport(teleportingObjectTransform);
+			}
+		}
+
+		void OnSpawn(GameObject other) {
+			if ( IsNeedToBeTeleported(other.transform) ) {
+				Teleport(other.transform);
+			}
+		}
+		
 		Vector2 CalculateNewPosition(Transform obj) {
 			var objectPos                 = (Vector2) obj.position;
 			var vectorFromCenterAreaToObj = (objectPos - _battleArea.center);
-			Vector2 teleportationVector;
-			if ( Mathf.Abs(vectorFromCenterAreaToObj.y) >= _battleArea.height / 2) {
-				//on upper or bottom border
-				// y > 0 => upper. otherwise - bottom.
-				var teleportationDirection = (vectorFromCenterAreaToObj.y > 0) ? Vector2.down : Vector2.up;
-				var vectorSize             = 2 * Mathf.Abs(vectorFromCenterAreaToObj.y);
-				teleportationVector = teleportationDirection * vectorSize;
-			} else {
-				//on left or right border
-				//x > 0 => right. otherwise - left.
-				var teleportationDirection = (vectorFromCenterAreaToObj.x > 0) ? Vector2.left : Vector2.right;
-				var vectorSize             = 2 * Mathf.Abs(vectorFromCenterAreaToObj.x);
-				teleportationVector = teleportationDirection * vectorSize;
+
+
+			var rect = Rect.zero;
+			var sr   = obj.GetComponentInChildren<SpriteRenderer>();
+			if ( sr ) {
+				rect = sr.sprite.rect;
 			}
-			return objectPos + teleportationVector;
+			var shapesRenderer = obj.GetComponentInChildren<ShapeRenderer>();
+			if ( shapesRenderer ) {
+				var bounds = shapesRenderer.Mesh.bounds;
+				rect = new Rect(bounds.min, bounds.max - bounds.min);
+			}
+			if ( rect == Rect.zero ) {
+				Debug.LogError($"Can't get object rect => no teleporting for {obj.gameObject.name}");
+				return objectPos;
+			}
+
+			if ( Mathf.Abs(vectorFromCenterAreaToObj.y) >= _battleArea.height / 2) {
+				// y > 0 => upper. otherwise - bottom.
+				var newY = ( vectorFromCenterAreaToObj.y > 0 ) 
+					? _battleArea.yMin - rect.height / 2f + 2f
+					: _battleArea.yMax + rect.height / 2f - 2f;
+				return new Vector2(objectPos.x, newY);
+			} else {
+				// y > 0 => upper. otherwise - bottom.
+				var newX = ( vectorFromCenterAreaToObj.x > 0 ) 
+					? _battleArea.xMin - rect.width / 2f
+					: _battleArea.xMax + rect.width / 2f;
+				return new Vector2(newX, objectPos.y);
+			}
 		}
 
 		bool IsNeedToBeTeleported(Transform obj) {
 			return !_battleArea.Contains(obj.position);
-		}
-
-		void OnObjectEnterControlArea(GameObject go) {
-			_checkingObjects.Add(go.transform);
-		}
-		
-		void OnObjectLeaveControlArea(GameObject go) {
-			_checkingObjects.Remove(go.transform);
-			if ( IsNeedToBeTeleported(go.transform) ) {
-				Teleport(go.transform);
-			}
 		}
 	}
 }
