@@ -1348,7 +1348,7 @@ GameObject:
   - component: {fileID: 3002131637546299109}
   - component: {fileID: 8181114386157998994}
   - component: {fileID: 4238155785480006897}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: ShipSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

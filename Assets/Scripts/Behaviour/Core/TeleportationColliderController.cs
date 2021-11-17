@@ -6,6 +6,8 @@ using UnityEngine;
 namespace STP.Behaviour.Core {
 	[RequireComponent(typeof(BoxCollider2D))]
 	public class TeleportationColliderController : GameComponent {
+		public bool KillOnTeleportation;
+			
 		[NotNull] public BoxCollider2D BoxCollider2D;
 
 		public Rect Rect;

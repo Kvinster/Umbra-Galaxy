@@ -35,13 +35,18 @@ namespace STP.Behaviour.Core {
 		}
 
 		void TryTeleport(Transform obj) {
-			var parent = obj.parent;
-			var newPos = CalculateNewPosition(parent);
+			var teleportationComponent = obj.GetComponentInChildren<TeleportationColliderController>();
+			if ( !_battleArea.Contains(obj.parent.position) && teleportationComponent.KillOnTeleportation ) {
+				Destroy(obj.parent.gameObject);
+				return;
+			}
+			
+			var parent                 = obj.parent;
+			var newPos                 = CalculateNewPosition(parent, teleportationComponent);
 			parent.position = newPos;
 		}
 
 		void OnBattleAreaExit(GameObject other) {
-			print("exit area");
 			var teleportingObjectTransform = other.gameObject.transform;
 			TryTeleport(teleportingObjectTransform);
 		}
@@ -50,16 +55,11 @@ namespace STP.Behaviour.Core {
 			TryTeleport(other.transform);
 		}
 		
-		Vector2 CalculateNewPosition(Transform obj) {
+		Vector2 CalculateNewPosition(Transform obj, TeleportationColliderController teleportationColliderController) {
 			var objectPos                 = (Vector2) obj.position;
 			var vectorFromCenterAreaToObj = (objectPos - _battleArea.center);
 
-			var teleportationComponent = obj.GetComponentInChildren<TeleportationColliderController>();
-			if ( !teleportationComponent ) {
-				return objectPos;
-			}
-
-			var rect = teleportationComponent.Rect;
+			var rect = teleportationColliderController.Rect;
 
 			var res = objectPos;
 			
