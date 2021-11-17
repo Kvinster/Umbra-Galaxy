@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using STP.Behaviour.Core.Enemy.BossSpawner;
-using STP.Behaviour.Starter;
+﻿using STP.Behaviour.Starter;
 using STP.Utils.BehaviourTree.Tasks;
 
 namespace STP.Behaviour.Core.Enemy.SecondBoss {
 	public class SecondBossGunsSubsystem {
-		const float   FireTime   = 1f;
-		
 		SecondBossGun _gun;
 
 		public BaseTask FireTask => 
