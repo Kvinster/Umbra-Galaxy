@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5941099464202153368}
   - component: {fileID: 4573096388249299234}
-  m_Layer: 0
+  - component: {fileID: 6727080091562599859}
+  - component: {fileID: 7343475895049758227}
+  m_Layer: 16
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +48,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -81,6 +84,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &6727080091562599859
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994795890703397003}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 31.5, y: 42}
+    newSize: {x: 102, y: 125.333336}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 31.5, y: 42}
+  m_EdgeRadius: 0
+--- !u!114 &7343475895049758227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994795890703397003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c448574a4f844d83a8ba2b7206c0d72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BoxCollider2D: {fileID: 6727080091562599859}
+  Rect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 31.5
+    height: 42
 --- !u!1 &1433198391336060483
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,6 +243,7 @@ VisualEffect:
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
+  m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
       m_Array: []
@@ -233,6 +282,7 @@ VFXRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -310,6 +360,7 @@ MonoBehaviour:
   Name: Fighter
   DeathSoundPlayer: {fileID: 4762935835220863288}
   DeathEffectRunner: {fileID: 1185227724114834442}
+  DetachVfxOnDeath: 1
   StartHp: 20
   ShootingParams:
     BulletPrefab: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
@@ -372,7 +423,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 112.36174
+  m_Mass: 1435.3617
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -395,6 +446,11 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 25c31de147c57fc4ea441cebe91910d5, type: 3}
     - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -410,6 +466,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -421,16 +482,6 @@ PrefabInstance:
     - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,

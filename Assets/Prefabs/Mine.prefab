@@ -137,8 +137,10 @@ GameObject:
   - component: {fileID: 8968832097201900879}
   - component: {fileID: 4681772341899495527}
   - component: {fileID: 1123486913527018733}
+  - component: {fileID: 1708001035894306437}
+  - component: {fileID: 677859239838338117}
   m_Layer: 10
-  m_Name: Sprite
+  m_Name: Sprite+Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,6 +248,51 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!61 &1708001035894306437
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2765286122955288447}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 20, y: 20}
+  m_EdgeRadius: 0
+--- !u!114 &677859239838338117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2765286122955288447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c448574a4f844d83a8ba2b7206c0d72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BoxCollider2D: {fileID: 1708001035894306437}
+  Rect:
+    serializedVersion: 2
+    x: -10
+    y: -10
+    width: 20
+    height: 20
 --- !u!1 &6631905783988765892
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +371,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 24.019714
+  m_Mass: 424.0197
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -351,6 +398,7 @@ MonoBehaviour:
   DetachVfxOnDeath: 1
   StartHp: 2.147484e+9
   DamageOnCollision: 2.1474836e+9
+  Lifetime: 5
 --- !u!1001 &8412508986639075712
 PrefabInstance:
   m_ObjectHideFlags: 0

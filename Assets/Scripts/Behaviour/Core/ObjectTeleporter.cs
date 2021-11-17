@@ -21,6 +21,7 @@ namespace STP.Behaviour.Core {
 			var areaHeight = cam.orthographicSize * 2;
 			var areaWidth  = cam.aspect * areaHeight;
 			_battleArea = new Rect(new Vector2(-areaWidth / 2, -areaHeight / 2), new Vector2(areaWidth, areaHeight));
+			print("Battle area " + _battleArea);
 			
 			BoxCollider2D.size = _battleArea.size;
 
@@ -33,57 +34,50 @@ namespace STP.Behaviour.Core {
 			SpawnControlArea.OnTriggerEnter -= OnSpawn;
 		}
 
-		void Teleport(Transform obj) {
-			var newPos = CalculateNewPosition(obj);
-			obj.position = newPos;
+		void TryTeleport(Transform obj) {
+			var parent = obj.parent;
+			var newPos = CalculateNewPosition(parent);
+			parent.position = newPos;
 		}
 
 		void OnBattleAreaExit(GameObject other) {
+			print("exit area");
 			var teleportingObjectTransform = other.gameObject.transform;
-			if ( IsNeedToBeTeleported(teleportingObjectTransform) ) {
-				Teleport(teleportingObjectTransform);
-			}
+			TryTeleport(teleportingObjectTransform);
 		}
 
 		void OnSpawn(GameObject other) {
-			if ( IsNeedToBeTeleported(other.transform) ) {
-				Teleport(other.transform);
-			}
+			TryTeleport(other.transform);
 		}
 		
 		Vector2 CalculateNewPosition(Transform obj) {
 			var objectPos                 = (Vector2) obj.position;
 			var vectorFromCenterAreaToObj = (objectPos - _battleArea.center);
 
-
-			var rect = Rect.zero;
-			var sr   = obj.GetComponentInChildren<SpriteRenderer>();
-			if ( sr ) {
-				rect = sr.sprite.rect;
-			}
-			var shapesRenderer = obj.GetComponentInChildren<ShapeRenderer>();
-			if ( shapesRenderer ) {
-				var bounds = shapesRenderer.Mesh.bounds;
-				rect = new Rect(bounds.min, bounds.max - bounds.min);
-			}
-			if ( rect == Rect.zero ) {
-				Debug.LogError($"Can't get object rect => no teleporting for {obj.gameObject.name}");
+			var teleportationComponent = obj.GetComponentInChildren<TeleportationColliderController>();
+			if ( !teleportationComponent ) {
 				return objectPos;
 			}
 
-			if ( Mathf.Abs(vectorFromCenterAreaToObj.y) >= _battleArea.height / 2) {
+			var rect = teleportationComponent.Rect;
+
+			var res = objectPos;
+			
+			if ( Mathf.Abs(vectorFromCenterAreaToObj.y) >= _battleArea.height / 2 + rect.height / 2) {
 				// y > 0 => upper. otherwise - bottom.
 				var newY = ( vectorFromCenterAreaToObj.y > 0 ) 
 					? _battleArea.yMin - rect.height / 2f + 2f
 					: _battleArea.yMax + rect.height / 2f - 2f;
-				return new Vector2(objectPos.x, newY);
-			} else {
-				// y > 0 => upper. otherwise - bottom.
-				var newX = ( vectorFromCenterAreaToObj.x > 0 ) 
-					? _battleArea.xMin - rect.width / 2f
-					: _battleArea.xMax + rect.width / 2f;
-				return new Vector2(newX, objectPos.y);
+				res.y = newY;
 			}
+			if ( Mathf.Abs(vectorFromCenterAreaToObj.x) >= _battleArea.width / 2 + rect.width / 2) {
+				// x > 0 => left. otherwise - right.
+				var newX = ( vectorFromCenterAreaToObj.x > 0 ) 
+					? _battleArea.xMin - rect.width / 2f + 2f
+					: _battleArea.xMax + rect.width / 2f - 2f;
+				res.x = newX;
+			}
+			return res;
 		}
 
 		bool IsNeedToBeTeleported(Transform obj) {
