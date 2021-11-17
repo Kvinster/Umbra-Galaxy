@@ -1,5 +1,4 @@
-﻿using Shapes;
-using STP.Utils;
+﻿using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 using UnityEngine;
 

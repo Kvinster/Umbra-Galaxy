@@ -9,10 +9,13 @@ using UnityEngine;
 
 namespace STP.Behaviour.Core.Enemy.SecondBoss {
 	public class SecondBossController : BaseEnemy, IHpSource, IDestructible {
+		[Header("movement")]
 		[NotNull] public BossMovementSubsystem MovementSubsystem;
-
+		[Header("spawners")]
 		[NotNull]        public SpawnParams   SpawnParams;
-		[NotNullOrEmpty] public List<MineSpawner> Spawners; 
+		[NotNullOrEmpty] public List<MineSpawner> Spawners;
+		[Header("guns")]
+		[NotNull] public SecondBossGun Gun;
 		
 		[NotNull] public Rigidbody2D OwnRigidbody;
 
@@ -22,6 +25,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 		public BehaviourTree Tree;
 		
 		SpawnerBossSpawnSubsystem _spawnSubsystem;
+		SecondBossGunsSubsystem   _gunController;
 		
 		public HpSystem HpSystemComponent => HpSystem;
 		
@@ -35,12 +39,18 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 			_spawnSubsystem = new SpawnerBossSpawnSubsystem();
 			var list = new List<ISpawner>(Spawners);
 			_spawnSubsystem.Init(list, starter, SpawnParams);
-			
+
+			_gunController = new SecondBossGunsSubsystem();
+			_gunController.Init(Gun, starter);
+
 			MovementSubsystem.Init(OwnRigidbody, starter.Player.transform, HpSystemComponent);
 			
 			Tree = new BehaviourTree(
-				new ParallelTask(
+				new SequenceTask(
+					new AlwaysSuccessDecorator(_gunController.FireTask),
+					new WaitTask(1f),
 					new AlwaysSuccessDecorator(MovementSubsystem.DashTask),
+					new WaitTask(1f),
 					new AlwaysSuccessDecorator(_spawnSubsystem.SpawnTask)
 				)
 			);
@@ -54,8 +64,5 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 				Die();
 			}
 		}
-		
-		
-
 	}
 }
