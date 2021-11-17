@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShootingSystemParams:
-    BulletPrefab: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
+    BulletPrefab: {fileID: 4765969172863325119, guid: 8c626940ca19f0a4ba591c282ec418a9,
       type: 3}
     BulletOrigin: {fileID: 1072292505676935750}
     RotationSource: {fileID: 4550675999544051513}
