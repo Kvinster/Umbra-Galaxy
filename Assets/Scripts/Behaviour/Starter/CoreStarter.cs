@@ -38,6 +38,8 @@ namespace STP.Behaviour.Starter {
 		public Camera     MainCamera      => _commonStarter.MainCamera;
 		public GameObject MiniMapObject   => _commonStarter.MiniMapObject;
 		public Transform  TempObjectsRoot => _commonStarter.TempObjectsRoot;
+		public Transform  BordersRoot     => _commonStarter.BordersRoot;
+		public Portal     Portal          => _commonStarter.Portal;
 
 		public GameController    GameController    => GameController.Instance;
 		public PlayerController  PlayerController  => GameController.PlayerController;
@@ -75,16 +77,16 @@ namespace STP.Behaviour.Starter {
 		}
 
 		void InitLevel() {
-			
+
 			_isLevelInitStarted = true;
 			_commonStarter      = CoreCommonStarter.Instance;
 			Assert.IsTrue(_commonStarter, "Couldn't find CoreCommonStarter instance");
-			SceneManager.MoveGameObjectToScene(_commonStarter.TempObjectsRoot.gameObject, SceneManager.GetActiveScene());
-			SceneManager.MoveGameObjectToScene(_commonStarter.BordersRoot.gameObject, SceneManager.GetActiveScene());
+			SceneManager.MoveGameObjectToScene(TempObjectsRoot.gameObject, SceneManager.GetActiveScene());
+			SceneManager.MoveGameObjectToScene(BordersRoot.gameObject, SceneManager.GetActiveScene());
 
-			_commonStarter.TempObjectsRoot.position = Vector3.zero;
-			_commonStarter.BordersRoot.position     = AreaRect.center;
-			_commonStarter.BordersRoot.localScale   = new Vector3(AreaRect.width, AreaRect.height, 1);
+			TempObjectsRoot.position = Vector3.zero;
+			BordersRoot.position     = AreaRect.center;
+			BordersRoot.localScale   = new Vector3(AreaRect.width, AreaRect.height, 1);
 
 #if UNITY_EDITOR
 			if ( !GameState.IsActiveInstanceExists ) {
@@ -102,27 +104,26 @@ namespace STP.Behaviour.Starter {
 			var lc = GameController.LevelController;
 			var xc = GameController.ScoreController;
 			pc.OnLevelStart();
-			SpawnHelper   = new CoreSpawnHelper(this, _commonStarter.TempObjectsRoot);
+			SpawnHelper   = new CoreSpawnHelper(this, TempObjectsRoot);
 			PauseManager  = new PauseManager();
-			LevelManager  = new LevelManager(Player, _commonStarter.SceneTransitionController, PauseManager, lc);
-			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, _commonStarter.TempObjectsRoot);
+			LevelManager = new LevelManager(Player, _commonStarter.SceneTransitionController, PauseManager, lc,
+				_commonStarter.CoreWindowsManager);
+			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot);
 			LevelGoalManager =
 				new LevelGoalManager(PlayerManager, LevelManager, lc);
-			_commonStarter.CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, pc, xc,
-				GameController.LeaderboardController);
 			MinimapManager = new MinimapManager(_commonStarter.MinimapCamera);
+			_commonStarter.CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager,
+				MinimapManager, lc, pc, xc, GameController.LeaderboardController);
+			_commonStarter.Portal.Init(Player, PlayerStartPos, LevelGoalManager, LevelManager,
+				_commonStarter.CoreWindowsManager);
 			_commonStarter.PlayerCameraFollower.Init(_commonStarter.MainCamera, Player.transform, AreaRect);
 			CameraShake = MainCamera.GetComponent<CameraShake>();
 			InitComponents();
-			PlayerController.OnRespawned += _commonStarter.CoreWindowsManager.ShowGetReadyWindow;
-			_commonStarter.CoreWindowsManager.ShowGetReadyWindow();
 
 			// Settings for smooth gameplay
 			Application.targetFrameRate  =  Screen.currentResolution.refreshRate;
 			QualitySettings.vSyncCount   =  0;
 
-			
-			
 			if ( LevelController.CurLevelType == LevelType.Boss ) {
 				InitAsBossLevel();
 			}
@@ -136,12 +137,10 @@ namespace STP.Behaviour.Starter {
 		}
 
 		void OnDestroy() {
-			PlayerController.OnRespawned -= _commonStarter.CoreWindowsManager.ShowGetReadyWindow;
 			PauseManager?.Deinit();
 			LevelManager?.Deinit();
 			PlayerManager?.Deinit();
 		}
-
 
 		void OnDrawGizmos() {
 			// drawing future game area

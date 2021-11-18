@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4259493163715986091}
   - component: {fileID: 3462819756116448746}
   - component: {fileID: 8202459543179154357}
+  - component: {fileID: 856657372082606812}
   m_Layer: 0
   m_Name: Connector
   m_TagString: Untagged
@@ -45,6 +46,7 @@ VisualEffect:
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
+  m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
       m_Array: []
@@ -89,6 +91,7 @@ VFXRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -114,6 +117,21 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &856657372082606812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4526011640015560620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39027b112b084bbd9e1483e308701935, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Renderer: {fileID: 8202459543179154357}
+  SortingOrder: -1
+  SortingLayer: Default
 --- !u!1 &6863623355097347294
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,6 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b6fa42f03074820b61c280b4b68b857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Connector: {fileID: 0}
 --- !u!114 &4447406530565722048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +242,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -247,6 +267,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!61 &2885175715370964737
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -382,6 +403,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -406,3 +428,4 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
+  m_AdditionalVertexStreams: {fileID: 0}

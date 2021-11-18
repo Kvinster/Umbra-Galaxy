@@ -53,13 +53,18 @@ namespace STP.Behaviour.Core {
 		Transform         _playerStartPos;
 		PlayerManager     _playerManager;
 		LevelGoalManager  _levelGoalManager;
+		LevelManager      _levelManager;
 		PauseManager      _pauseManager;
 		PrefabsController _prefabsController;
 		PlayerController  _playerController;
 
 		float _movementSpeed;
+		bool  _movementDisabled;
 
 		HpSystem _playerHpSystem;
+
+		bool CanMove => IsInit && _playerHpSystem.IsAlive && !_pauseManager.IsPaused && _levelManager.IsLevelActive &&
+		                !_movementDisabled;
 
 		public event Action OnPlayerTakeDamage;
 		public event Action OnPlayerRespawn;
@@ -75,10 +80,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		void Update() {
-			if ( !IsInit || !_playerHpSystem.IsAlive ) {
-				return;
-			}
-			if ( _pauseManager.IsPaused ) {
+			if ( !CanMove ) {
 				return;
 			}
 
@@ -91,10 +93,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		void FixedUpdate() {
-			if ( !IsInit || !_playerHpSystem.IsAlive ) {
-				return;
-			}
-			if ( _pauseManager.IsPaused ) {
+			if ( !CanMove ) {
 				return;
 			}
 			if ( _input != Vector2.zero ) {
@@ -115,6 +114,7 @@ namespace STP.Behaviour.Core {
 			_playerStartPos    = starter.PlayerStartPos;
 			_playerManager     = starter.PlayerManager;
 			_levelGoalManager  = starter.LevelGoalManager;
+			_levelManager      = starter.LevelManager;
 			_pauseManager      = starter.PauseManager;
 			_prefabsController = starter.PrefabsController;
 			_playerController  = starter.PlayerController;
@@ -171,8 +171,12 @@ namespace STP.Behaviour.Core {
 			DamageSoundPlayer.Play();
 		}
 
-		public void OnLevelWin() {
+		public void OnLevelWin() { // TODO: redo for death shockwave
 			LevelWinExplosionZone.SetActive(true);
+		}
+
+		public void DisableMovement() {
+			_movementDisabled = true;
 		}
 
 		void OnDied() {

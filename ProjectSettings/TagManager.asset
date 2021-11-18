@@ -35,7 +35,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - SceneTransition
   - Minimap
   m_SortingLayers:
   - name: Background

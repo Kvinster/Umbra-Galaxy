@@ -12,11 +12,11 @@ namespace STP.Behaviour.Core {
 		readonly List<BaseCoreComponent> _components = new List<BaseCoreComponent>(5);
 
 		public CoreSpawnHelper(CoreStarter starter, Transform tempObjRoot) {
-			_starter     = starter;
+			_starter    = starter;
 			TempObjRoot = tempObjRoot;
 		}
 
-		public void TryInitSpawnedObject(GameObject gameObject) {
+		public void TryInitSpawnedObject(GameObject gameObject, bool isTempObject = true) {
 			if ( !gameObject ) {
 				Debug.LogError("Game object is null");
 				return;
@@ -27,6 +27,9 @@ namespace STP.Behaviour.Core {
 				comp.Init(_starter);
 			}
 			_components.Clear();
+			if ( isTempObject ) {
+				gameObject.transform.SetParent(TempObjRoot);
+			}
 		}
 	}
 }

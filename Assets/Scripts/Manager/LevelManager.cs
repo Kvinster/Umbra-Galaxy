@@ -19,6 +19,7 @@ namespace STP.Manager {
 		readonly SceneTransitionController _sceneTransitionController;
 		readonly PauseManager              _pauseManager;
 		readonly LevelController           _levelController;
+		readonly CoreWindowsManager        _windowsManager;
 
 		bool _isLevelActive;
 
@@ -36,24 +37,25 @@ namespace STP.Manager {
 		}
 
 		public event Action<bool> OnIsLevelActiveChanged;
+		public event Action       OnLevelWinStarted;
 		public event Action       OnLastLevelWon;
 
 		public LevelManager(Player player, SceneTransitionController sceneTransitionController,
-			PauseManager pauseManager, LevelController levelController) {
+			PauseManager pauseManager, LevelController levelController, CoreWindowsManager windowsManager) {
 			_player                    = player;
 			_playerTransform           = player.transform;
 			_sceneTransitionController = sceneTransitionController;
 			_pauseManager              = pauseManager;
 			_levelController           = levelController;
+			_windowsManager            = windowsManager;
 
 			CurLevelIndex = _levelController.CurLevelIndex;
-
-			IsLevelActive = true;
 		}
 
 		public void Deinit() { }
 
-		public void GoToNextLevel() {
+		void GoToNextLevel() {
+			_pauseManager.Pause(this);
 			_levelController.StartLevel(CurLevelIndex + 1);
 			SceneService.LoadLevel(CurLevelIndex + 1);
 		}
@@ -78,17 +80,20 @@ namespace STP.Manager {
 		}
 
 		public void StartLevelWin() {
-			_player.OnLevelWin();
-			AsyncUtils.DelayedAction(StartLevelWinInternal, LevelWinDelay);
+			OnLevelWinStarted?.Invoke();
 		}
 
-		void StartLevelWinInternal() {
+		public void FinishLevelWin() {
 			_levelController.FinishLevel();
 			if ( CurLevelIndex < LevelsConfig.Instance.TotalLevelsCount - 1 ) {
 				GoToNextLevel();
 			} else {
 				OnLastLevelWon?.Invoke();
 			}
+		}
+
+		public void ActivateLevel() {
+			IsLevelActive = true;
 		}
 
 		async UniTaskVoid SceneTransition() {

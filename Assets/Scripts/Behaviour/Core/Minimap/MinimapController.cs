@@ -4,10 +4,11 @@ using UnityEngine.UI;
 using STP.Behaviour.Starter;
 using STP.Behaviour.Utils;
 using STP.Manager;
+using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Minimap {
-	public sealed class MinimapController : BaseCoreComponent {
+	public sealed class MinimapController : GameComponent {
 		[NotNull] public PressButton ZoomInButton;
 		[NotNull] public PressButton ZoomOutButton;
 		[NotNull] public Button      ResetButton;
@@ -24,8 +25,8 @@ namespace STP.Behaviour.Core.Minimap {
 			}
 		}
 
-		protected override void InitInternal(CoreStarter starter) {
-			_minimapManager = starter.MinimapManager;
+		public void Init(MinimapManager minimapManager) {
+			_minimapManager = minimapManager;
 
 			ZoomInButton.OnPressed.AddListener(ZoomIn);
 			ZoomOutButton.OnPressed.AddListener(ZoomOut);

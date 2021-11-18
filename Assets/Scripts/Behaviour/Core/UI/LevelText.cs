@@ -3,12 +3,13 @@
 using STP.Behaviour.Starter;
 using STP.Core;
 using STP.Manager;
+using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 using TMPro;
 
 namespace STP.Behaviour.Core.UI {
-	public sealed class LevelText : BaseCoreComponent {
+	public sealed class LevelText : GameComponent {
 		const string LivesTextFormat          = "Lives: {0}";
 		const string UnfinishedGoalTextFormat = "<color=white>Goal: {0}/{1}</color>";
 		const string FinishedGoalTextFormat   = "<color=green>Goal: {0}/{1}</color>";
@@ -24,11 +25,14 @@ namespace STP.Behaviour.Core.UI {
 
 		readonly StringBuilder _stringBuilder = new StringBuilder();
 
-		protected override void InitInternal(CoreStarter starter) {
-			_levelGoalManager = starter.LevelGoalManager;
-			_playerManager    = starter.PlayerManager;
-			_playerController = starter.PlayerController;
-			_scoreController     = starter.ScoreController;
+		bool IsInit => (_levelGoalManager != null);
+
+		public void Init(LevelGoalManager levelGoalManager, PlayerManager playerManager,
+			PlayerController playerController, ScoreController scoreController) {
+			_levelGoalManager = levelGoalManager;
+			_playerManager    = playerManager;
+			_playerController = playerController;
+			_scoreController  = scoreController;
 
 			_levelGoalManager.OnCurLevelGoalProgressChanged += OnCurLevelGoalProgressChanged;
 			_playerController.OnCurLivesChanged             += OnCurPlayerLivesChanged;

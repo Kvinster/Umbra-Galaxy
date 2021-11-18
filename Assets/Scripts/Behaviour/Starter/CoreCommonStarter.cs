@@ -40,8 +40,7 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public Transform                   TempObjectsRoot;
 		[NotNull] public Transform                   BordersRoot;
 		[NotNull] public GameObject                  MiniMapObject;
-
-		bool _isLevelInitStarted;
+		[NotNull] public Portal                      Portal;
 
 		void OnDestroy() {
 			if ( DebugGuiController.HasInstance ) {

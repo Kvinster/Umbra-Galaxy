@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
 
+using STP.Behaviour.Core.Minimap;
 using STP.Behaviour.Core.UI;
 using STP.Behaviour.Core.UI.WinWindow;
 using STP.Core;
@@ -15,17 +16,17 @@ namespace STP.Manager {
 	public sealed class CoreWindowsManager : GameComponent {
 		[NotNull] public GameObject  UiRoot;
 		[Space]
+		[NotNull] public BossHealthBar BossHealthBar;
+		[NotNull] public MinimapController MinimapController;
+		[NotNull] public LevelText         LevelText;
+		[Space]
 		[NotNull] public DeathWindow    DeathWindow;
-		[NotNull] public WinWindow      WinWindow;
-		[NotNull] public PauseWindow    PauseWindow;
-		[NotNull] public Button         PauseButton;
-		[NotNull] public GetReadyWindow GetReadyWindow;
+		[NotNull] public WinWindow   WinWindow;
+		[NotNull] public PauseWindow PauseWindow;
+		[NotNull] public Button      PauseButton;
 
 		PauseManager     _pauseManager;
 		PlayerController _playerController;
-		ScoreController  _scoreController;
-		LevelManager     _levelManager;
-		LevelGoalManager _levelGoalManager;
 
 		List<BaseCoreWindow> _windows;
 
@@ -38,18 +39,21 @@ namespace STP.Manager {
 		}
 
 		public void Init(PauseManager pauseManager, LevelManager levelManager, LevelGoalManager levelGoalManager,
-			PlayerManager playerManager, PlayerController playerController, ScoreController scoreController, LeaderboardController leaderboardController) {
+			PlayerManager playerManager, MinimapManager minimapManager, LevelController levelController,
+			PlayerController playerController, ScoreController scoreController,
+			LeaderboardController leaderboardController) {
 			_pauseManager     = pauseManager;
 			_playerController = playerController;
-			_scoreController  = scoreController;
-			_levelManager     = levelManager;
 
 			_windows = new List<BaseCoreWindow> {
 				DeathWindow,
 				WinWindow,
 				PauseWindow,
-				GetReadyWindow
 			};
+
+			BossHealthBar.Init(levelController);
+			MinimapController.Init(minimapManager);
+			LevelText.Init(levelGoalManager, playerManager, playerController, scoreController);
 
 			DeathWindow.CommonInit(levelManager, playerManager, _playerController);
 			WinWindow.CommonInit(scoreController, leaderboardController, levelManager);
@@ -60,8 +64,12 @@ namespace STP.Manager {
 			levelGoalManager.OnPlayerDeath += OnPlayerDied;
 		}
 
-		public void ShowGetReadyWindow() {
-			ShowWindow(GetReadyWindow);
+		public void HideLevelUi() {
+			UiRoot.SetActive(false);
+		}
+
+		public void ShowLevelUi() {
+			UiRoot.SetActive(true);
 		}
 
 		void ShowPauseWindow() {
@@ -78,7 +86,7 @@ namespace STP.Manager {
 
 		void ShowWindow<T>(T window, bool hideUi = true) where T : BaseCoreWindow {
 			if ( hideUi ) {
-				UiRoot.SetActive(false);
+				HideLevelUi();
 			}
 			_pauseManager.Pause(this);
 			window.Show()
@@ -86,7 +94,7 @@ namespace STP.Manager {
 				.Finally(() => {
 					_pauseManager.Unpause(this);
 					if ( hideUi ) {
-						UiRoot.SetActive(true);
+						ShowLevelUi();
 					}
 				});
 		}

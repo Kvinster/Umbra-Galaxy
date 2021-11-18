@@ -29,6 +29,12 @@ namespace STP.Behaviour.Core.Enemy {
             HpSystem.OnDied += Die;
         }
 
+        public override void Die(bool fromPlayer) {
+            base.Die(fromPlayer);
+
+            Destroy(gameObject);
+        }
+
         public void SetParams(Vector2 direction, float speed) {
             Rigidbody.centerOfMass = Vector2.zero;
             Rigidbody.AddRelativeForce(speed * Rigidbody.mass * direction, ForceMode2D.Impulse);

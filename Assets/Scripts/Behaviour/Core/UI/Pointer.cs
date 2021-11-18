@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+using STP.Behaviour.Utils;
 using STP.Utils;
 
 using Shapes;
@@ -24,9 +25,6 @@ namespace STP.Behaviour.Core.UI {
 
 		Rect CameraRect {
 			get {
-				if ( !_camera ) {
-					_camera = Camera.main;
-				}
 				var height     = _camera.orthographicSize * 2;
 				var weight     = height * _camera.aspect;
 				var screenSize = new Vector2(weight, height);
@@ -36,7 +34,7 @@ namespace STP.Behaviour.Core.UI {
 
 		public void Init(Transform target) {
 			_target  = target;
-			_camera = Camera.main;
+			_camera = CameraUtility.HasInstance ? CameraUtility.Instance.Camera : Camera.main;
 		}
 
 		public void Deinit() {
@@ -44,7 +42,7 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		void Update() {
-			if ( !_target ) {
+			if ( !_target || !_camera ) {
 				return;
 			}
 			var rect            = CameraRect;

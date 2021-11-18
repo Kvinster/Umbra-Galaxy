@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2232436510693053392}
   - component: {fileID: 2232436510693053393}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: SpriteRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1477654825
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 10000
   m_Sprite: {fileID: 21300000, guid: 4a0cad95188313c4db2eab25a2f81104, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2232436510945603953}
   - component: {fileID: 2232436510945603954}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: SceneTransitionController
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -48,8 +48,6 @@ namespace STP.Behaviour.Core {
 		protected override void InitInternal(CoreStarter starter) {
 			_camera          = starter.MainCamera;
 			_playerTransform = starter.Player.transform;
-
-			UniTask.Create(PlayShowAnim);
 		}
 
 		public async UniTask PlayHideAnim(Vector3 fadeInWorldCenter) {
@@ -64,7 +62,7 @@ namespace STP.Behaviour.Core {
 			_isAnimPlaying = false;
 		}
 
-		async UniTask PlayShowAnim() {
+		public async UniTask PlayShowAnim() {
 			if ( _isAnimPlaying ) {
 				var error = "Anim is already playing";
 				Debug.LogError(error);
@@ -74,6 +72,13 @@ namespace STP.Behaviour.Core {
 			_isAnimPlaying = true;
 			await CreateShowAnim();
 			_isAnimPlaying = false;
+		}
+
+		public void SetShown() {
+			MaterialPropertyBlock.SetFloat(Progress, 1f);
+			// Settings to zero cause custom centers in the current shared don't work properly - vignette doesn't open a whole screen
+			MaterialPropertyBlock.SetVector(Center, Vector4.zero);
+			SpriteRenderer.SetPropertyBlock(MaterialPropertyBlock);
 		}
 
 		Sequence CreateHideAnim(Vector3 fadeInWorldCenter) {
@@ -94,11 +99,8 @@ namespace STP.Behaviour.Core {
 		}
 
 		Sequence CreateShowAnim() {
-			var progress            = 1f;
-			MaterialPropertyBlock.SetFloat(Progress, progress);
-			// Settings to zero cause custom centers in the current shared don't work properly - vignette doesn't open a whole screen
-			MaterialPropertyBlock.SetVector(Center, Vector4.zero);
-			SpriteRenderer.SetPropertyBlock(MaterialPropertyBlock);
+			SetShown();
+			var progress = 1f;
 			var anim = DOTween.Sequence()
 				.Append(DOTween.To(() => progress, x => {
 					progress = x;

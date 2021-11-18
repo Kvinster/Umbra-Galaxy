@@ -7,10 +7,11 @@ using STP.Behaviour.Starter;
 using STP.Behaviour.Utils.ProgressBar;
 using STP.Config;
 using STP.Core;
+using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.UI {
-	public sealed class BossHealthBar : BaseCoreComponent {
+	public sealed class BossHealthBar : GameComponent {
 		[NotNull] public GameObject      Root;
 		[NotNull] public BaseProgressBar ProgressBar;
 
@@ -24,9 +25,9 @@ namespace STP.Behaviour.Core.UI {
 			ProgressBar = GetComponentInChildren<BaseProgressBar>();
 		}
 
-		protected override void InitInternal(CoreStarter starter) {
-			_isBossLevel = (starter.LevelController.CurLevelType == LevelType.Boss);
-			
+		public void Init(LevelController levelController) {
+			_isBossLevel = (levelController.CurLevelType == LevelType.Boss);
+
 			TrySubscribeToHpChanges(BossController.Instance);
 			TrySubscribeToHpChanges(SpawnerBossController.Instance);
 

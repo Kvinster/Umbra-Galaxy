@@ -2,6 +2,7 @@
 
 using STP.Behaviour.Starter;
 using STP.Config;
+using STP.Manager;
 using STP.Utils;
 
 namespace STP.Behaviour.Core.Enemy.Spawners {
@@ -13,6 +14,8 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
 
         protected abstract BaseSpawnerSettings Settings { get; }
 
+        LevelManager _levelManager;
+
         bool _isStopped;
 
         void OnDestroy() {
@@ -22,6 +25,9 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
         }
 
         void Update() {
+            if ( !(_levelManager?.IsLevelActive ?? false) ) {
+                return;
+            }
             if ( !_isStopped && _spawnTimer.DeltaTick() ) {
                 Spawn();
             }
@@ -32,6 +38,8 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
                 _isStopped = true;
                 return;
             }
+
+            _levelManager = starter.LevelManager;
 
             SpawnHelper = starter.SpawnHelper;
             _spawnTimer.Start(Settings.SpawnPeriod);

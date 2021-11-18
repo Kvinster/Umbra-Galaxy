@@ -3,16 +3,27 @@
 using System.Collections.Generic;
 
 using STP.Behaviour.Starter;
+using STP.Manager;
 
 namespace STP.Behaviour.Core.UI {
 	public class GeneratorPointersController : BaseCoreComponent {
 		public List<Pointer> Pointers;
 
+		Portal       _portal;
+		LevelManager _levelManager;
+
 		void OnDestroy() {
 			GeneratorsWatcher.GeneratorsCountChanged -= OnGeneratorsCountChanged;
+			if ( _levelManager != null ) {
+				_levelManager.OnLevelWinStarted -= OnLevelWon;
+			}
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
+			_portal                         =  starter.Portal;
+			_levelManager                   =  starter.LevelManager;
+			_levelManager.OnLevelWinStarted += OnLevelWon;
+
 			GeneratorsWatcher.GeneratorsCountChanged += OnGeneratorsCountChanged;
 			OnGeneratorsCountChanged();
 		}
@@ -31,6 +42,12 @@ namespace STP.Behaviour.Core.UI {
 				pointer.Deinit();
 				pointer.gameObject.SetActive(false);
 			}
+		}
+
+		void OnLevelWon() {
+			var pointer = Pointers[0];
+			pointer.Init(_portal.transform);
+			pointer.gameObject.SetActive(true);
 		}
 	}
 }
