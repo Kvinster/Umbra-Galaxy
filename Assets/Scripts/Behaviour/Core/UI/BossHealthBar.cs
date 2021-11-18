@@ -1,9 +1,6 @@
 ﻿using STP.Behaviour.Core.Enemy;
 using UnityEngine;
-
-using STP.Behaviour.Core.Enemy.Boss;
 using STP.Behaviour.Core.Enemy.BossSpawner;
-using STP.Behaviour.Starter;
 using STP.Behaviour.Utils.ProgressBar;
 using STP.Config;
 using STP.Core;
@@ -28,7 +25,6 @@ namespace STP.Behaviour.Core.UI {
 		public void Init(LevelController levelController) {
 			_isBossLevel = (levelController.CurLevelType == LevelType.Boss);
 
-			TrySubscribeToHpChanges(BossController.Instance);
 			TrySubscribeToHpChanges(SpawnerBossController.Instance);
 
 			UpdateView();

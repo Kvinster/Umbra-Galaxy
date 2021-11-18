@@ -9,19 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d70edd4b6b240deac7c799287e78219, type: 3}
+  m_Script: {fileID: 11500000, guid: be429f81efb443558f408c3348ed44e8, type: 3}
   m_Name: Level4
   m_EditorClassIdentifier: 
   AsteroidSpawnerSettings:
     Enabled: 0
-    SpawnPeriod: 3
+    SpawnPeriod: 1
     SpawnRange: 1000
-    Prefab: {fileID: 5909774503264953508, guid: d9285fea4909b3a478bacecef9d606b6,
-      type: 3}
-    AsteroidSpeed: 300
+    Prefab: {fileID: 0}
+    AsteroidSpeed: 0
   DroneSpawnerSettings:
-    Enabled: 1
-    SpawnPeriod: 5
+    Enabled: 0
+    SpawnPeriod: 1
     SpawnRange: 1000
-    Prefab: {fileID: 6631905783988765892, guid: a90abbdf2f3803b42bb3214e1b9d5673,
-      type: 3}
+    Prefab: {fileID: 0}

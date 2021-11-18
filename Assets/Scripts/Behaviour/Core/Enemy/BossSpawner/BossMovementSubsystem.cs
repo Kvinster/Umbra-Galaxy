@@ -1,22 +1,12 @@
-﻿using System;
-using STP.Core;
+﻿using STP.Core;
 using STP.Utils;
 using STP.Utils.BehaviourTree;
 using STP.Utils.BehaviourTree.Tasks;
 using STP.Utils.GameComponentAttributes;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
-	public enum MovementType {
-		SpinUp,
-		SpinDown,
-		ChargeDash,
-		Dash,
-		Nothing,
-	}
-	
-	public class SpawnerBossMovementSubsystem : GameComponent {
+	public class BossMovementSubsystem : GameComponent {
 		[NotNull] public Rigidbody2D BossRigidbody;
 
 		public float MinDistance = 100;
@@ -26,17 +16,25 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public float AngularSpeed;
 
 		public float SlowdownTime = 2f;
+		public float DashTime     = 2f;
 
-		Timer   _timer = new Timer();
-		float   startAngularSpeed;
-		Vector2 startSpeed;
+		public BaseTask DashTask => new SequenceTask(
+			new CustomActionTask("set dash speed", Dash),
+			new WaitTask(DashTime),
+			new CustomActionTask("stop dash", EndDash)
+		);
+		
+
+
+		readonly Timer _timer = new Timer();
+		
+		float   _startAngularSpeed;
+		Vector2 _startSpeed;
 
 		bool _isDash;
 		
 		Transform _player;
 
-		MovementType _activeMovementType;
-		
 		Vector2 ForwardVector => (BossRigidbody.transform.rotation * Vector3.up).normalized;
 
 		HpSystem _hpSystem;
@@ -48,12 +46,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			_hpSystem.OnDied += OnDied;
 			_timer.Reset(int.MaxValue);
 		}
-
-		public void SetMovementType(MovementType movementType) {
-			_activeMovementType = movementType;
-		}
-
-
+		
 		public void FixedUpdate() {
 			if ( !_hpSystem.IsAlive ) {
 				if ( _timer.DeltaTick() ) {
@@ -83,14 +76,14 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		
 		void OnDied() {
 			_timer.Reset(SlowdownTime);
-			startSpeed        =  BossRigidbody.velocity;
-			startAngularSpeed =  (!_isDash) ? AngularSpeed : 0f;
+			_startSpeed        =  BossRigidbody.velocity;
+			_startAngularSpeed =  (!_isDash) ? AngularSpeed : 0f;
 			_hpSystem.OnDied  -= OnDied;
 		}
 
 		void Slowdown() {
-			AngularSpeed           = Mathf.Lerp(startAngularSpeed, 0f, _timer.NormalizedProgress);
-			BossRigidbody.velocity = Vector2.Lerp(startSpeed, Vector2.zero, _timer.NormalizedProgress);
+			AngularSpeed           = Mathf.Lerp(_startAngularSpeed, 0f, _timer.NormalizedProgress);
+			BossRigidbody.velocity = Vector2.Lerp(_startSpeed, Vector2.zero, _timer.NormalizedProgress);
 		}
 		
 		void KeepDistanceFromPlayer() {
@@ -105,7 +98,6 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			} 
 			if ( distance.magnitude > MaxDistance ) {
 				BossRigidbody.velocity = forward * MovingSpeed;
-				return;
 			}
 		}
 

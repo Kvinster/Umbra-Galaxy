@@ -134,9 +134,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6819130848262282604}
-  - component: {fileID: 3168380541342773639}
-  - component: {fileID: 4491573089355333234}
-  - component: {fileID: 1393356542898972558}
+  - component: {fileID: 8968832097201900879}
+  - component: {fileID: 4681772341899495527}
+  - component: {fileID: 1123486913527018733}
+  - component: {fileID: 1708001035894306437}
+  - component: {fileID: 677859239838338117}
   m_Layer: 16
   m_Name: Sprite+Collider
   m_TagString: Untagged
@@ -158,26 +160,73 @@ Transform:
   m_Father: {fileID: 6631905783988765891}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &3168380541342773639
-SpriteRenderer:
+--- !u!114 &8968832097201900879
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2765286122955288447}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56df0c96eec286545998945068c17e17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshOutOfDate: 1
+  blendMode: 1
+  scaleMode: 0
+  color: {r: 1, g: 1, b: 1, a: 1}
+  zTest: 4
+  zOffsetFactor: 0
+  zOffsetUnits: 0
+  fill:
+    type: 0
+    space: 0
+    colorStart: {r: 0, g: 0, b: 0, a: 1}
+    colorEnd: {r: 1, g: 1, b: 1, a: 1}
+    linearStart: {x: 0, y: 0, z: 0}
+    linearEnd: {x: 0, y: 1, z: 0}
+    radialOrigin: {x: 0, y: 0, z: 0}
+    radialRadius: 1
+  useFill: 0
+  hollow: 0
+  sides: 5
+  roundness: 0
+  angle: 1.5707964
+  radius: 10
+  angUnitInput: 1
+  geometry: 0
+  radiusSpace: 0
+  thickness: 0.5
+  thicknessSpace: 0
+--- !u!33 &4681772341899495527
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2765286122955288447}
+  m_Mesh: {fileID: 0}
+--- !u!23 &1123486913527018733
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2765286122955288447}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
+  m_RayTracingMode: 2
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: fe78e08f23b8ea44bafd0f2564309ce5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -190,26 +239,16 @@ SpriteRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c04138de70aa61349b92520809fc91cc, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 59.166664, y: 62.499996}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!61 &4491573089355333234
+  m_SortingOrder: 3
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!61 &1708001035894306437
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,23 +258,23 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 32, y: 42.5}
-    newSize: {x: 59.166664, y: 62.499996}
-    adaptiveTilingThreshold: 0.5
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 32, y: 42.5}
+  m_Size: {x: 20, y: 20}
   m_EdgeRadius: 0
---- !u!114 &1393356542898972558
+--- !u!114 &677859239838338117
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -247,13 +286,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c448574a4f844d83a8ba2b7206c0d72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoxCollider2D: {fileID: 4491573089355333234}
+  KillOnTeleportation: 1
+  BoxCollider2D: {fileID: 1708001035894306437}
   Rect:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 32
-    height: 42.5
+    width: 0
+    height: 0
 --- !u!1 &6631905783988765892
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,11 +303,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6631905783988765891}
-  - component: {fileID: 6631905783988765890}
   - component: {fileID: 6631905783988765894}
   - component: {fileID: 6631905783988765893}
+  - component: {fileID: 4761740234854155467}
   m_Layer: 10
-  m_Name: Drone
+  m_Name: Mine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -290,26 +330,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6631905783988765890
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6631905783988765892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93ffd61c307a427d82ba6230ac308d8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: Drone
-  DeathSoundPlayer: {fileID: 8398175368522010061}
-  DeathEffectRunner: {fileID: 1581512878839223783}
-  DetachVfxOnDeath: 1
-  StartHp: 20
-  MovementSpeed: 500
-  RotationSpeed: 0.03
-  Rigidbody: {fileID: 6631905783988765893}
 --- !u!60 &6631905783988765894
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -335,12 +355,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0, y: 20}
-      - {x: -15, y: 0}
-      - {x: -15, y: -15}
-      - {x: 0, y: -22}
-      - {x: 15, y: -15}
-      - {x: 15, y: 0}
+    - - {x: 9.583612, y: 2.9655404}
+      - {x: 0, y: 10.206129}
+      - {x: -9.688985, y: 2.9302158}
+      - {x: -5.786215, y: -8.04074}
+      - {x: 6.0488143, y: -7.9544964}
 --- !u!50 &6631905783988765893
 Rigidbody2D:
   serializedVersion: 4
@@ -353,7 +372,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 1445.5
+  m_Mass: 24.019714
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -362,6 +381,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &4761740234854155467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6631905783988765892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e3651c1687b4477a8be9672278ae046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Mine
+  DeathSoundPlayer: {fileID: 8398175368522010061}
+  DeathEffectRunner: {fileID: 1581512878839223783}
+  DetachVfxOnDeath: 1
+  StartHp: 2.147484e+9
+  DamageOnCollision: 2.1474836e+9
+  Lifetime: 5
 --- !u!1001 &8412508986639075712
 PrefabInstance:
   m_ObjectHideFlags: 0
