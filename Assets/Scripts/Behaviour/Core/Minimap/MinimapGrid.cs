@@ -25,7 +25,9 @@ namespace STP.Behaviour.Core.Minimap {
 		}
 
 		void OnDestroy() {
-			_minimapManager.OnCurZoomChanged -= OnMinimapZoomChanged;
+			if ( _minimapManager != null ) {
+				_minimapManager.OnCurZoomChanged -= OnMinimapZoomChanged;
+			}
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
