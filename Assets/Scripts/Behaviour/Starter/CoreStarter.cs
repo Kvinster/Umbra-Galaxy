@@ -112,13 +112,13 @@ namespace STP.Behaviour.Starter {
 			LevelGoalManager =
 				new LevelGoalManager(PlayerManager, LevelManager, lc);
 			MinimapManager = new MinimapManager(_commonStarter.MinimapCamera);
-			_commonStarter.CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager,
-				MinimapManager, lc, pc, xc, GameController.LeaderboardController);
 			_commonStarter.Portal.Init(Player, PlayerStartPos, LevelGoalManager, LevelManager,
 				_commonStarter.CoreWindowsManager);
 			_commonStarter.PlayerCameraFollower.Init(_commonStarter.MainCamera, Player.transform, AreaRect);
 			CameraShake = MainCamera.GetComponent<CameraShake>();
 			InitComponents();
+			_commonStarter.CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager,
+				MinimapManager, lc, pc, xc, GameController.LeaderboardController);
 
 			// Settings for smooth gameplay
 			Application.targetFrameRate  =  Screen.currentResolution.refreshRate;
