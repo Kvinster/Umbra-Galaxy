@@ -5,7 +5,6 @@ using Cysharp.Threading.Tasks;
 using STP.Behaviour.Starter;
 using STP.Core;
 using STP.Manager;
-using STP.Utils;
 using STP.Utils.BehaviourTree;
 using STP.Utils.BehaviourTree.Tasks;
 using STP.Utils.GameComponentAttributes;
@@ -28,17 +27,18 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public List<BossGun> Guns;
 		public List<Spawner> Spawners;
 
-		SpawnerBossGunsSubsystem     _gunsSubsystem;
-		SpawnerBossSpawnSubsystem    _spawnSubsystem;
+		SpawnerBossGunsSubsystem  _gunsSubsystem;
+		SpawnerBossSpawnSubsystem _spawnSubsystem;
 
-		LevelManager _levelManager;
+		LevelGoalManager _levelGoalManager;
+		LevelManager     _levelManager;
 
 		CameraShake _cameraShake;
-		
+
 		public static SpawnerBossController Instance { get; private set; }
 
 		public override bool HighPriorityInit => true;
-		
+
 		public HpSystem HpSystemComponent => HpSystem;
 
 
@@ -63,9 +63,10 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		protected override void InitInternal(CoreStarter starter) {
 			base.InitInternal(starter);
 			Shockwave.gameObject.SetActive(false);
-			_levelManager = starter.LevelManager;
-			_cameraShake  = starter.CameraShake;
-			
+			_levelGoalManager = starter.LevelGoalManager;
+			_levelManager     = starter.LevelManager;
+			_cameraShake      = starter.CameraShake;
+
 			MovementSubsystem.Init(BossRigidbody, starter.Player.transform, HpSystem);
 
 			_gunsSubsystem = new SpawnerBossGunsSubsystem();
@@ -94,6 +95,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public override void Die(bool fromPlayer = true) {
 			base.Die(fromPlayer);
 			Tree = null;
+			_levelGoalManager.Advance();
 			_gunsSubsystem.Deinit();
 			PlayDeathVFXs().Forget();
 		}
@@ -106,13 +108,13 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			_cameraShake.Shake(DeathEffectTime, 1f).Forget();
 			await UniTask.Delay(TimeSpan.FromSeconds(DeathEffectTime));
 			DeathEffectRunner.StopVfx();
-			
+
 			// Run last shockwave
 			Shockwave.gameObject.SetActive(true);
 			Shockwave.transform.parent = transform.parent;
 			_cameraShake.Shake(1f, 4f).Forget();
 			Destroy(gameObject);
-			
+
 			// win level
 			_levelManager.StartLevelWin();
 		}
