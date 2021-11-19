@@ -4,6 +4,8 @@ using STP.Behaviour.Core.Enemy;
 using STP.Behaviour.Starter;
 using STP.Utils.GameComponentAttributes;
 
+using Shapes;
+
 namespace STP.Behaviour.Core {
 	public sealed class LevelWinExplosionZone : BaseCoreComponent {
 		[Header("Parameters")]
@@ -13,10 +15,15 @@ namespace STP.Behaviour.Core {
 		[Header("Dependencies")]
 		[NotNull] public CircleCollider2D Collider;
 
+		public Disc Disc;
+
 		bool _stoppedGrow;
 
 		protected override void InitInternal(CoreStarter starter) {
 			Collider.radius = StartRadius;
+			if ( Disc ) {
+				Disc.Radius = StartRadius;
+			}
 		}
 
 		void FixedUpdate() {
@@ -25,6 +32,9 @@ namespace STP.Behaviour.Core {
 			}
 			var radius = Collider.radius + Time.fixedDeltaTime * GrowSpeed;
 			Collider.radius = radius;
+			if ( Disc ) {
+				Disc.Radius = radius;
+			}
 			if ( radius >= MaxRadius ) {
 				_stoppedGrow = true;
 			}
