@@ -9,6 +9,7 @@ using STP.Manager;
 using STP.Utils.BehaviourTree;
 using STP.Utils.BehaviourTree.Tasks;
 using STP.Utils.GameComponentAttributes;
+using UnityEngine.VFX;
 
 namespace STP.Behaviour.Core.Enemy.SecondBoss {
 	public class SecondBossController : BaseEnemy, IHpSource, IDestructible {
@@ -27,28 +28,45 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 		[Header("public for editor only")]
 		public BehaviourTree Tree;
 
+		public VisualEffect ChargingEffect;
+
 		SpawnerBossSpawnSubsystem _spawnSubsystem;
 		SecondBossGunsSubsystem   _gunController;
 
 		LevelGoalManager _levelGoalManager;
+		LevelManager     _levelManager;
 
 		public HpSystem HpSystemComponent => HpSystem;
+
+		public static SecondBossController Instance { get; private set; }
 
 		protected void Update() {
 			Tree?.Tick();
 		}
 
+		protected override void Awake() {
+			base.Awake();
+			if ( Instance ) {
+				Debug.LogErrorFormat(this, "{0}.{1}: more than one {2} instance is not supported",
+					nameof(SecondBossController), nameof(Awake), nameof(SecondBossController));
+				return;
+			}
+			Instance = this;
+		}
+
+
 		protected override void InitInternal(CoreStarter starter) {
 			base.InitInternal(starter);
 
 			_levelGoalManager = starter.LevelGoalManager;
+			_levelManager     = starter.LevelManager;
 
 			_spawnSubsystem = new SpawnerBossSpawnSubsystem();
 			var list = new List<ISpawner>(Spawners);
 			_spawnSubsystem.Init(list, starter, SpawnParams);
 
 			_gunController = new SecondBossGunsSubsystem();
-			_gunController.Init(Gun, starter);
+			_gunController.Init(Gun, ChargingEffect, starter);
 
 			MovementSubsystem.Init(OwnRigidbody, starter.Player.transform, HpSystemComponent);
 
@@ -74,7 +92,10 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 
 		public override void Die(bool fromPlayer = true) {
 			base.Die(fromPlayer);
+			// win level
 			_levelGoalManager.Advance();
+			_levelManager.StartLevelWin();
+			Tree = null;
 		}
 	}
 }
