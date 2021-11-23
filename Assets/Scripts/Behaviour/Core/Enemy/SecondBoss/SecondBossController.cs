@@ -23,7 +23,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 
 		[NotNull] public Rigidbody2D OwnRigidbody;
 
-		[NotNull] public LevelWinExplosionZone DeathShockwave;
+		[NotNull] public LevelExplosionZone DeathShockwave;
 
 		[Header("public for editor only")]
 		public BehaviourTree Tree;

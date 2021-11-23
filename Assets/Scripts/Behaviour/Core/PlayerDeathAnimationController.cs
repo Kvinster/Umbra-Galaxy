@@ -1,70 +1,134 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.VFX;
 
+using System;
 using System.Threading;
 
 using STP.Behaviour.Starter;
+using STP.Core;
 using STP.Manager;
+using STP.Utils.GameComponentAttributes;
 
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 
 namespace STP.Behaviour.Core {
 	public sealed class PlayerDeathAnimationController : BaseCoreComponent {
-		[Range(0f, 10f)]
-		public float PlayerDeathAnimDuration;
+		[Header("Parameters")]
+		[Header("Not final death anim")]
+		public float DiscolorationInAnimDuration  = 3f;
+		public float DiscolorationOutAnimDuration = 0.5f;
+		public float ExplosionWaitTime            = 3f;
+		public float DangerScreenShowDuration     = 0.5f;
+		public float DangerScreenHideDuration     = 0.5f;
+		[Header("Final death anim")]
+		public float FinalDiscolorationAnimDuration = 1f;
+		[Header("Dependencies")]
+		[Header("Not final death anim")]
+		[NotNull] public LevelExplosionZone ExplosionZone;
+		[Header("Final death anim")]
+		[NotNull] public GameObject FinalDeathVisualEffectRoot;
+		[NotNull] public VisualEffect          FinalDeathVisualEffect;
+		[NotNull] public BaseSimpleSoundPlayer FinalDeathSoundPlayer;
+
+		PauseManager       _pauseManager;
+		CoreWindowsManager _windowsManager;
+		PlayerController   _playerController;
 
 		ColorAdjustments _colorAdjustments;
 
-		Tween _anim;
-
 		CancellationTokenSource _cancellationTokenSource;
 
-		PauseManager _pauseManager;
-		
 		protected override void OnDisable() {
 			base.OnDisable();
 			_cancellationTokenSource?.Cancel();
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
-			_pauseManager = starter.PauseManager;
+			_pauseManager     = starter.PauseManager;
+			_windowsManager   = starter.WindowsManager;
+			_playerController = starter.PlayerController;
 			var v = starter.MainCamera.GetComponentInChildren<Volume>();
 			v.profile.TryGet(out _colorAdjustments);
+			ExplosionZone.IgnoreMainEnemies = true;
+			ExplosionZone.UseUnscaledTime   = true;
+			ExplosionZone.SetActive(false);
+
+			FinalDeathVisualEffectRoot.SetActive(false);
 		}
 
 		public async UniTask PlayPlayerDeathAnim() {
-			if ( _anim != null ) {
-				Debug.LogError("Anim is already playing");
-				return;
-			}
-
+			Assert.IsNull(_cancellationTokenSource);
 			_cancellationTokenSource = new CancellationTokenSource();
 
-			SetProgress(0f);
-			var progress = 0f;
-			_anim = DOTween.To(() => progress, x => {
-				progress = x;
-				SetProgress(progress);
-			}, 1f, PlayerDeathAnimDuration).SetEase(Ease.OutQuad).SetUpdate(true);
-			await _anim.ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
-			_anim                    = null;
+			await _windowsManager.DangerScreen.Show(DangerScreenShowDuration)
+				.ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+			await PlayDiscolorationAnim(DiscolorationInAnimDuration, false)
+				.ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+			await _windowsManager.LivesUi.PlayLoseLiveAnim();
+			await PlayDiscolorationAnim(DiscolorationOutAnimDuration, true)
+				.ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+			ExplosionZone.ResetToStart();
+			ExplosionZone.SetActive(true);
+			_playerController.RestoreHp();
+
+			await _windowsManager.DangerScreen.Hide(DangerScreenHideDuration)
+				.ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+			await UniTask.Delay(TimeSpan.FromSeconds(ExplosionWaitTime), true, PlayerLoopTiming.Update,
+				_cancellationTokenSource.Token);
+			ExplosionZone.SetActive(false);
+
+			_cancellationTokenSource = null;
+		}
+
+		public async UniTask PlayFinalPlayerDeathAnim() {
+			Assert.IsNull(_cancellationTokenSource);
+			_cancellationTokenSource = new CancellationTokenSource();
+
+			FinalDeathSoundPlayer.Play();
+			FinalDeathVisualEffectRoot.SetActive(true);
+			FinalDeathVisualEffect.Play();
+			await PlayDiscolorationAnim(FinalDiscolorationAnimDuration, false)
+				.ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+
+			_windowsManager.ShowDeathWindow();
+
 			_cancellationTokenSource = null;
 		}
 
 		public void ResetAnim() {
 			_cancellationTokenSource?.Cancel();
-			_anim                    = null;
 			_cancellationTokenSource = null;
-			SetProgress(0f);
+			ResetDiscoloration();
+			ResetTimeScale();
+			FinalDeathVisualEffectRoot.SetActive(false);
 		}
 
-		void SetProgress(float progress) {
-			if ( !_pauseManager.IsPaused ) {
-				Time.timeScale = 1f - progress;
+		Tween PlayDiscolorationAnim(float duration, bool invert) {
+			void SetProgress(float progress) {
+				if ( !_pauseManager.IsPaused ) {
+					Time.timeScale = 1f - progress;
+				}
+				_colorAdjustments.saturation.value = -100f * progress;
 			}
-			_colorAdjustments.saturation.value = -100f * progress;
+
+			SetProgress(invert ? 1f : 0f);
+			var progress = 0f;
+			return DOTween.To(() => progress, x => {
+				progress = x;
+				SetProgress(invert ? 1f - progress : progress);
+			}, 1f, duration).SetEase(Ease.OutQuad).SetUpdate(true);
+		}
+
+		void ResetDiscoloration() {
+			_colorAdjustments.saturation.value = 0f;
+		}
+
+		void ResetTimeScale() {
+			Time.timeScale = 1f;
 		}
 	}
 }

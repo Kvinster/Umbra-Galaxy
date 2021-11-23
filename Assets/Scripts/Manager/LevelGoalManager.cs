@@ -33,7 +33,6 @@ namespace STP.Manager {
 		public bool IsLevelWon  { get; private set; }
 
 		public event Action<int> OnCurLevelGoalProgressChanged;
-		public event Action      OnPlayerDeath;
 
 		public LevelGoalManager(PlayerManager playerManager, LevelManager levelManager, LevelController levelController) {
 			_playerManager = playerManager;
@@ -68,11 +67,6 @@ namespace STP.Manager {
 				CanWinLevel = true;
 				TryWinLevel();
 			}
-		}
-
-		public void OnPlayerDied() {
-			_playerManager.SubLife();
-			OnPlayerDeath?.Invoke();
 		}
 
 		void TryWinLevel() {

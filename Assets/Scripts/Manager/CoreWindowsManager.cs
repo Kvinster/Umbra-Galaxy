@@ -19,8 +19,10 @@ namespace STP.Manager {
 		[NotNull] public BossHealthBar BossHealthBar;
 		[NotNull] public MinimapController MinimapController;
 		[NotNull] public LevelText         LevelText;
+		[NotNull] public PlayerLivesUi     LivesUi;
+		[NotNull] public DangerScreen      DangerScreen;
 		[Space]
-		[NotNull] public DeathWindow    DeathWindow;
+		[NotNull] public DeathWindow DeathWindow;
 		[NotNull] public WinWindow   WinWindow;
 		[NotNull] public PauseWindow PauseWindow;
 		[NotNull] public Button      PauseButton;
@@ -54,14 +56,16 @@ namespace STP.Manager {
 			BossHealthBar.Init(levelController);
 			MinimapController.Init(minimapManager);
 			LevelText.Init(levelGoalManager, playerManager, playerController, scoreController);
+			LivesUi.Init(playerController);
 
 			DeathWindow.CommonInit(levelManager, playerManager, _playerController);
 			WinWindow.CommonInit(scoreController, leaderboardController, levelManager);
 			PauseWindow.CommonInit(levelManager, levelGoalManager, scoreController, playerController);
 			PauseButton.onClick.AddListener(ShowPauseWindow);
 
-			levelManager.OnLastLevelWon    += LastLevelWon;
-			levelGoalManager.OnPlayerDeath += OnPlayerDied;
+			DangerScreen.Init();
+
+			levelManager.OnLastLevelWon += LastLevelWon;
 		}
 
 		public void HideLevelUi() {
@@ -72,16 +76,16 @@ namespace STP.Manager {
 			UiRoot.SetActive(true);
 		}
 
+		public void ShowDeathWindow() {
+			ShowWindow(DeathWindow, true);
+		}
+
 		void ShowPauseWindow() {
 			ShowWindow(PauseWindow, false);
 		}
 
 		void LastLevelWon() {
 			ShowWindow(WinWindow);
-		}
-
-		void OnPlayerDied() {
-			ShowWindow(DeathWindow);
 		}
 
 		void ShowWindow<T>(T window, bool hideUi = true) where T : BaseCoreWindow {

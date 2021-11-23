@@ -29,7 +29,7 @@ namespace STP.Behaviour.Core {
 		public float ExplosionStartTime;
 		[Header("Dependencies")]
 		[NotNull] public VisualEffect VisualEffect;
-		[NotNull] public LevelWinExplosionZone LevelWinExplosionZone;
+		[NotNull] public LevelExplosionZone LevelWinExplosionZone;
 
 		Player             _player;
 		Transform          _playerStartPos;

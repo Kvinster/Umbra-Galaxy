@@ -3,9 +3,9 @@ using STP.Utils;
 using UnityEngine;
 
 namespace STP.Behaviour.Core {
-	public class CameraShake : GameComponent {
+	public sealed class CameraShake : GameComponent {
 		public async UniTask Shake(float duration, float magnitude) {
-			var startPos = transform.position;
+			var startPos = transform.localPosition;
 
 			var time = 0f;
 
@@ -13,13 +13,13 @@ namespace STP.Behaviour.Core {
 				var x = Random.Range(-magnitude, magnitude);
 				var y = Random.Range(-magnitude, magnitude);
 
-				transform.localPosition = new Vector3(x, y, startPos.z);
-				
+				transform.localPosition = startPos + new Vector3(x, y, 0f);
+
 				time += Time.deltaTime;
 				await UniTask.WaitForEndOfFrame();
 			}
 
-			transform.position = startPos;
-		} 
+			transform.localPosition = startPos;
+		}
 	}
 }

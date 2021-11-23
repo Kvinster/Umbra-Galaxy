@@ -41,6 +41,7 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public Transform                   BordersRoot;
 		[NotNull] public GameObject                  MiniMapObject;
 		[NotNull] public Portal                      Portal;
+		[NotNull] public CameraShake                 CameraShake;
 
 		void OnDestroy() {
 			if ( DebugGuiController.HasInstance ) {

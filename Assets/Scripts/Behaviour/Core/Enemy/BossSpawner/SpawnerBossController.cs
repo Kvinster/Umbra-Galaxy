@@ -22,7 +22,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		[NotNull] public Rigidbody2D                  BossRigidbody;
 		[NotNull] public BossMovementSubsystem MovementSubsystem;
 
-		[NotNull] public LevelWinExplosionZone Shockwave;
+		[NotNull] public LevelExplosionZone Shockwave;
 
 		public List<BossGun> Guns;
 		public List<Spawner> Spawners;

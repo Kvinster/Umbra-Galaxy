@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.VFX;
 
 using System;
 
@@ -31,17 +30,10 @@ namespace STP.Behaviour.Core {
 		public Collider2D ShieldCollider;
 		[Space]
 		[NotNull]
-		public GameObject   DeathVisualEffectRoot;
-		public VisualEffect DeathVisualEffect;
-		[Space]
-		[NotNull]
 		public PlayerDeathAnimationController PlayerDeathAnimationController;
 
 		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer DamageSoundPlayer;
-		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer DeathSoundPlayer;
 		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer ShotSoundPlayer;
-
-		[BoxGroup("Level Win Zone")] public LevelWinExplosionZone LevelWinExplosionZone;
 
 		Vector2 _input;
 
@@ -79,6 +71,10 @@ namespace STP.Behaviour.Core {
 			Deinit();
 		}
 
+		void OnDestroy() {
+			Deinit();
+		}
+
 		void Update() {
 			if ( !CanMove ) {
 				return;
@@ -102,10 +98,6 @@ namespace STP.Behaviour.Core {
 			var mouseWorldPos  = _camera.ScreenToWorldPoint(Input.mousePosition);
 			var neededRotation = -Vector2.SignedAngle(mouseWorldPos - transform.position, Vector2.up);
 			Rigidbody.MoveRotation(neededRotation);
-		}
-
-		void OnDestroy() {
-			Deinit();
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
@@ -139,8 +131,6 @@ namespace STP.Behaviour.Core {
 			OnRespawn();
 
 			Physics2D.IgnoreCollision(Collider, ShieldCollider);
-
-			LevelWinExplosionZone.SetActive(false);
 		}
 
 		public void OnRespawn() {
@@ -149,9 +139,6 @@ namespace STP.Behaviour.Core {
 			Rigidbody.rotation = 0f;
 
 			transform.position = _playerStartPos.position;
-
-			DeathVisualEffectRoot.SetActive(false);
-			DeathVisualEffect.Stop();
 
 			OnPlayerRespawn?.Invoke();
 			PlayerDeathAnimationController.ResetAnim();
@@ -171,24 +158,25 @@ namespace STP.Behaviour.Core {
 			DamageSoundPlayer.Play();
 		}
 
-		public void OnLevelWin() { // TODO: redo for death shockwave
-			LevelWinExplosionZone.SetActive(true);
-		}
-
 		public void DisableMovement() {
 			_movementDisabled = true;
 		}
 
 		void OnDied() {
-			DeathSoundPlayer.Play();
-			DeathVisualEffectRoot.SetActive(true);
-			DeathVisualEffect.Play();
-			UniTask.Void(OnDeath);
+			_playerController.SubLife();
+			if ( _playerController.CurLives == 0 ) {
+				OnFinalDeath();
+			} else {
+				OnDeath();
+			}
 		}
 
-		async UniTaskVoid OnDeath() {
-			await PlayerDeathAnimationController.PlayPlayerDeathAnim();
-			_levelGoalManager.OnPlayerDied();
+		void OnDeath() {
+			PlayerDeathAnimationController.PlayPlayerDeathAnim().Forget();
+		}
+
+		void OnFinalDeath() {
+			PlayerDeathAnimationController.PlayFinalPlayerDeathAnim().Forget();
 		}
 
 		void Deinit() {
