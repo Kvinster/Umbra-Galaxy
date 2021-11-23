@@ -2,21 +2,19 @@
 
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
+using UnityEngine.VFX;
 
 namespace STP.Behaviour.Core {
-	public class Bullet : GameComponent, IBullet {
+	public class BossBullet : GameComponent, IBullet {
 		[NotNull] public Rigidbody2D Rigidbody;
 		[NotNull] public Collider2D  Collider;
 
-		public bool KillParent;
+		[NotNull] public VfxRunner                  BulletVfxRunner;
+		[NotNull] public RigidbodyParamsToVfxSender VfxToRbConnection;
 		
 		[Space]
 		public VfxRunner DeathEffectRunner;
-		
-		public TransformBulletMover TransformBulletMover;
-		public float                PlayerPushForce = 0f;
-		
-		
+
 		public float LifeTime = 3f;
 
 		float _lifeTimer;
@@ -33,11 +31,6 @@ namespace STP.Behaviour.Core {
 
 		void OnCollisionEnter2D(Collision2D other) {
 			other.TryTakeDamage(_damage);
-			var rb = other.gameObject.GetComponent<Rigidbody2D>();
-			if ( rb ) {
-				var movementDirection = Rigidbody.velocity.normalized;
-				rb.AddForce(movementDirection * PlayerPushForce, ForceMode2D.Impulse);
-			}
 			Die();
 		}
 
@@ -47,12 +40,8 @@ namespace STP.Behaviour.Core {
 			foreach ( var ownerCollider in ownerColliders ) {
 				IgnoreCollider(ownerCollider);
 			}
-
-			if ( TransformBulletMover ) {
-				TransformBulletMover.enabled          = true;
-				TransformBulletMover.Velocity         = Rigidbody.velocity;
-				TransformBulletMover.transform.parent = transform.parent;
-			}
+			// Detach main vfx
+			BulletVfxRunner.RunVfx(true);
 		}
 
 		public void Die() {
@@ -60,8 +49,7 @@ namespace STP.Behaviour.Core {
 				DeathEffectRunner.transform.parent = transform.parent;
 				DeathEffectRunner.RunVfx(true);
 			}
-
-			Destroy(KillParent ? transform.parent.gameObject : gameObject);
+			Destroy(gameObject);
 		}
 
 		void IgnoreCollider(Collider2D ignoreCollider) {

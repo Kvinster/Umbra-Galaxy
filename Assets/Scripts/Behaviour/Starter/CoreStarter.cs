@@ -100,6 +100,8 @@ namespace STP.Behaviour.Starter {
 				LevelController.StartLevel(SceneService.GetLevelIndexFromSceneName());
 			}
 #endif
+
+			BordersRoot.gameObject.SetActive(LevelController.CurLevelType == LevelType.Regular);
 			var pc = GameController.PlayerController;
 			var lc = GameController.LevelController;
 			var xc = GameController.ScoreController;
@@ -113,7 +115,9 @@ namespace STP.Behaviour.Starter {
 				new LevelGoalManager(PlayerManager, LevelManager, lc);
 			MinimapManager = new MinimapManager(_commonStarter.MinimapCamera);
 			_commonStarter.Portal.Init(Player, PlayerStartPos, LevelGoalManager, LevelManager, WindowsManager);
-			_commonStarter.PlayerCameraFollower.Init(_commonStarter.MainCamera, Player.transform, AreaRect);
+			if ( LevelController.CurLevelType == LevelType.Regular ) {
+				_commonStarter.PlayerCameraFollower.Init(_commonStarter.MainCamera, Player.transform, AreaRect);
+			}
 			InitComponents();
 			WindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, MinimapManager, lc, pc, xc,
 				GameController.LeaderboardController);

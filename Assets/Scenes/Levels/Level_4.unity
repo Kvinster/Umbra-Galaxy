@@ -183,6 +183,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1528040157}
     m_Modifications:
+    - target: {fileID: 2308940229683343243, guid: d1e262daeaf8b694699818bade82bf27,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4213705532863644591, guid: d1e262daeaf8b694699818bade82bf27,
         type: 3}
       propertyPath: m_Pivot.x
@@ -295,8 +300,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4780008161017000647, guid: d1e262daeaf8b694699818bade82bf27,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4780008161017000647, guid: d1e262daeaf8b694699818bade82bf27,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552997865504447707, guid: d1e262daeaf8b694699818bade82bf27,
+        type: 3}
+      propertyPath: ShootingSystemParams.BulletSpeed
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552997865504447707, guid: d1e262daeaf8b694699818bade82bf27,
+        type: 3}
+      propertyPath: ShootingSystemParams.BulletDamage
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5689183706950962367, guid: d1e262daeaf8b694699818bade82bf27,
         type: 3}
@@ -322,21 +342,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1228983584152391952, guid: 23d602c749af09d4b94cdd7fd8346a19,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2008195073958418126, guid: 23d602c749af09d4b94cdd7fd8346a19,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2384400802315583049, guid: 23d602c749af09d4b94cdd7fd8346a19,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3127888978083334663, guid: 23d602c749af09d4b94cdd7fd8346a19,
         type: 3}
@@ -417,11 +422,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5048729778655334938, guid: 23d602c749af09d4b94cdd7fd8346a19,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5304981804933727207, guid: 23d602c749af09d4b94cdd7fd8346a19,
         type: 3}
