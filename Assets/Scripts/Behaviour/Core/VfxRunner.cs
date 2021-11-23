@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿	using UnityEngine;
 using UnityEngine.VFX;
 
 using System;
@@ -11,6 +11,8 @@ namespace STP.Behaviour.Core {
 	public class VfxRunner : GameComponent {
 		[NotNull] public List<VisualEffect> Effects;
 
+		public bool StopOnStart = true;
+
 		bool _spawned;
 		bool _destroyOnEnd;
 
@@ -18,11 +20,16 @@ namespace STP.Behaviour.Core {
 
 		readonly Timer _timer = new Timer();
 
-
 		public bool Running { get; private set; }
 
 		void Start() {
-			StopVfx();
+			if ( StopOnStart ) {
+				StopVfx();
+			}
+			else {
+				Running       = true;
+				_destroyOnEnd = true;
+			}
 		}
 
 		void Update() {

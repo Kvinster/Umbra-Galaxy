@@ -306,7 +306,7 @@ MonoBehaviour:
       type: 3}
     BulletOrigin: {fileID: 1072292505676935750}
     RotationSource: {fileID: 4550675999544051513}
-    BulletSpeed: 625
+    BulletSpeed: 2000
     ReloadTime: 1
     BulletDamage: 999
     IgnoreColliders:
@@ -441,6 +441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartRadius: 5
+  MaxRadius: 0
   GrowSpeed: 1000
   Collider: {fileID: 4711764143018213152}
   Disc: {fileID: 3681086827694962570}
@@ -1004,7 +1005,7 @@ Transform:
   m_GameObject: {fileID: 7926404280323335568}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 295, y: 209, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children:
   - {fileID: 4876735815890680002}
   - {fileID: 8750334789249547316}
@@ -1058,7 +1059,7 @@ MonoBehaviour:
   MinDistance: 500
   MaxDistance: 750
   MovingSpeed: 200
-  AngularSpeed: 45
+  AngularSpeed: 60
   SlowdownTime: 1
   DashTime: 2
 --- !u!212 &4845797646803654271
