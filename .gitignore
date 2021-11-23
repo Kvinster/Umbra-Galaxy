@@ -64,3 +64,6 @@ Assets/Plugins/Editor/JetBrains*
 
 #MacOS
 **/.DS_Store
+
+#Unity UserSettings
+UserSettings/*

@@ -552,7 +552,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartRadius: 5
+  MaxRadius: 10000
   GrowSpeed: 1000
+  RadiusTolerance: 50
   Collider: {fileID: 5048729778655334938}
   Disc: {fileID: 2384400802315583049}
 --- !u!58 &5048729778655334938
@@ -817,13 +819,9 @@ MonoBehaviour:
   Collider: {fileID: 3127888978083334667}
   HealthBar: {fileID: 8866180828008973164}
   ShieldCollider: {fileID: 6433092364805186969}
-  DeathVisualEffectRoot: {fileID: 6687908338199043058}
-  DeathVisualEffect: {fileID: 8940948242690298101}
   PlayerDeathAnimationController: {fileID: 2615716648906306800}
   DamageSoundPlayer: {fileID: 6653595593194903652}
-  DeathSoundPlayer: {fileID: 2794699610254917383}
   ShotSoundPlayer: {fileID: 587117463023655764}
-  LevelWinExplosionZone: {fileID: 6874216400439033633}
 --- !u!60 &3127888978083334667
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -885,7 +883,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d632aa35ba504d248956e17a981521d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerDeathAnimDuration: 1
+  DiscolorationInAnimDuration: 1
+  DiscolorationOutAnimDuration: 0.1
+  ExplosionWaitTime: 0.5
+  DangerScreenShowDuration: 0.5
+  DangerScreenHideDuration: 0.5
+  FinalDiscolorationAnimDuration: 1.5
+  ExplosionZone: {fileID: 6874216400439033633}
+  FinalDeathVisualEffectRoot: {fileID: 6687908338199043058}
+  FinalDeathVisualEffect: {fileID: 8940948242690298101}
+  FinalDeathSoundPlayer: {fileID: 2794699610254917383}
 --- !u!1 &3700359231125913513
 GameObject:
   m_ObjectHideFlags: 0
@@ -1114,8 +1121,8 @@ VisualEffect:
   m_GameObject: {fileID: 6687908338199043058}
   m_Enabled: 1
   m_Asset: {fileID: 8926484042661614526, guid: 3b31cd0be9dce464db1d58e1784df307, type: 3}
-  m_InitialEventName: OnPlay
-  m_InitialEventNameOverriden: 0
+  m_InitialEventName: 
+  m_InitialEventNameOverriden: 1
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
   m_ResourceVersion: 1
@@ -1458,6 +1465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c448574a4f844d83a8ba2b7206c0d72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  KillOnTeleportation: 0
   BoxCollider2D: {fileID: 8181114386157998994}
   Rect:
     serializedVersion: 2

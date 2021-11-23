@@ -27,9 +27,6 @@ MonoBehaviour:
   - Type: 0
     Entry: {fileID: 3127888978083334669, guid: 23d602c749af09d4b94cdd7fd8346a19, type: 3}
     PreviewSprite: {fileID: 21300000, guid: c99771b0a7014fb4d933de214db586cb, type: 3}
-  - Type: 1
-    Entry: {fileID: 3127888978083334669, guid: 7416b39df8edee943a1910b994fc98fd, type: 3}
-    PreviewSprite: {fileID: 21300000, guid: 659dbf7363bbe7141a27298db52a1a11, type: 3}
   PlayerBullets:
   - Type: 0
     Entry: {fileID: 4765969172863325119, guid: dc0d0b1b9499fb24586f6cf21eca349f, type: 3}

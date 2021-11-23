@@ -22,8 +22,6 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public Transform PlayerStartPos;
 		[NotNull] public Transform LevelObjectsRoot;
 
-		public CameraShake CameraShake;
-
 		CoreCommonStarter _commonStarter;
 
 		bool _isLevelInitStarted;
@@ -35,11 +33,13 @@ namespace STP.Behaviour.Starter {
 		public LevelGoalManager LevelGoalManager { get; private set; }
 		public MinimapManager   MinimapManager   { get; private set; }
 
-		public Camera     MainCamera      => _commonStarter.MainCamera;
-		public GameObject MiniMapObject   => _commonStarter.MiniMapObject;
-		public Transform  TempObjectsRoot => _commonStarter.TempObjectsRoot;
-		public Transform  BordersRoot     => _commonStarter.BordersRoot;
-		public Portal     Portal          => _commonStarter.Portal;
+		public Camera             MainCamera      => _commonStarter.MainCamera;
+		public GameObject         MiniMapObject   => _commonStarter.MiniMapObject;
+		public Transform          TempObjectsRoot => _commonStarter.TempObjectsRoot;
+		public Transform          BordersRoot     => _commonStarter.BordersRoot;
+		public Portal             Portal          => _commonStarter.Portal;
+		public CoreWindowsManager WindowsManager  => _commonStarter.CoreWindowsManager;
+		public CameraShake        CameraShake     => _commonStarter.CameraShake;
 
 		public GameController    GameController    => GameController.Instance;
 		public PlayerController  PlayerController  => GameController.PlayerController;
@@ -107,18 +107,16 @@ namespace STP.Behaviour.Starter {
 			SpawnHelper   = new CoreSpawnHelper(this, TempObjectsRoot);
 			PauseManager  = new PauseManager();
 			LevelManager = new LevelManager(Player, _commonStarter.SceneTransitionController, PauseManager, lc,
-				_commonStarter.CoreWindowsManager);
+				WindowsManager);
 			PlayerManager = new PlayerManager(Player, pc, xc, UnityContext.Instance, TempObjectsRoot);
 			LevelGoalManager =
 				new LevelGoalManager(PlayerManager, LevelManager, lc);
 			MinimapManager = new MinimapManager(_commonStarter.MinimapCamera);
-			_commonStarter.Portal.Init(Player, PlayerStartPos, LevelGoalManager, LevelManager,
-				_commonStarter.CoreWindowsManager);
+			_commonStarter.Portal.Init(Player, PlayerStartPos, LevelGoalManager, LevelManager, WindowsManager);
 			_commonStarter.PlayerCameraFollower.Init(_commonStarter.MainCamera, Player.transform, AreaRect);
-			CameraShake = MainCamera.GetComponent<CameraShake>();
 			InitComponents();
-			_commonStarter.CoreWindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager,
-				MinimapManager, lc, pc, xc, GameController.LeaderboardController);
+			WindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, MinimapManager, lc, pc, xc,
+				GameController.LeaderboardController);
 
 			// Settings for smooth gameplay
 			Application.targetFrameRate  =  Screen.currentResolution.refreshRate;

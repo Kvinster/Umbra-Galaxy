@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using UnityEngine;
+
+using System;
+
 using STP.Behaviour.Core;
-using STP.Common;
 using STP.Config;
 
 namespace STP.Core {
@@ -80,6 +81,14 @@ namespace STP.Core {
 
 		public void RestoreLives() {
 			CurLives = StartPlayerLives;
+		}
+
+		public void SubLife() {
+			if ( CurLives < 1 ) {
+				Debug.LogErrorFormat("PlayerController.SubLife: can't sub life from '{0}'", CurLives);
+				return;
+			}
+			CurLives -= 1;
 		}
 
 		public bool TrySubLives(int subLives = 1) {
