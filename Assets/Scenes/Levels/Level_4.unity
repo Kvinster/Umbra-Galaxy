@@ -161,7 +161,6 @@ MonoBehaviour:
   Player: {fileID: 1024475111}
   PlayerStartPos: {fileID: 1640043516}
   LevelObjectsRoot: {fileID: 1528040157}
-  CameraShake: {fileID: 0}
 --- !u!4 &983939232
 Transform:
   m_ObjectHideFlags: 0
@@ -183,25 +182,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1528040157}
     m_Modifications:
-    - target: {fileID: 1659087466169560738, guid: d1e262daeaf8b694699818bade82bf27,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1659087466169560738, guid: d1e262daeaf8b694699818bade82bf27,
-        type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
+    - target: {fileID: 771801509, guid: d1e262daeaf8b694699818bade82bf27, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1659087466169560738, guid: d1e262daeaf8b694699818bade82bf27,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2308940229683343243, guid: d1e262daeaf8b694699818bade82bf27,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4213705532863644591, guid: d1e262daeaf8b694699818bade82bf27,
         type: 3}
@@ -315,58 +303,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4780008161017000647, guid: d1e262daeaf8b694699818bade82bf27,
         type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4780008161017000647, guid: d1e262daeaf8b694699818bade82bf27,
-        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5552997865504447707, guid: d1e262daeaf8b694699818bade82bf27,
-        type: 3}
-      propertyPath: ShootingSystemParams.BulletSpeed
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5552997865504447707, guid: d1e262daeaf8b694699818bade82bf27,
-        type: 3}
-      propertyPath: ShootingSystemParams.BulletDamage
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5689183706950962367, guid: d1e262daeaf8b694699818bade82bf27,
         type: 3}
       propertyPath: m_Name
       value: SecondBossChunk
-      objectReference: {fileID: 0}
-    - target: {fileID: 7139040817123733091, guid: d1e262daeaf8b694699818bade82bf27,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.92567265
-      objectReference: {fileID: 0}
-    - target: {fileID: 7139040817123733091, guid: d1e262daeaf8b694699818bade82bf27,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7139040817123733091, guid: d1e262daeaf8b694699818bade82bf27,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.37832546
-      objectReference: {fileID: 0}
-    - target: {fileID: 7139040817123733091, guid: d1e262daeaf8b694699818bade82bf27,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7139040817123733091, guid: d1e262daeaf8b694699818bade82bf27,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 44.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 8587763964270120618, guid: d1e262daeaf8b694699818bade82bf27,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1e262daeaf8b694699818bade82bf27, type: 3}

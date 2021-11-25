@@ -29,6 +29,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 		public BehaviourTree Tree;
 
 		public VisualEffect ChargingEffect;
+		public VisualEffect ChargingBulletEffect;
 
 		SpawnerBossSpawnSubsystem _spawnSubsystem;
 		SecondBossGunsSubsystem   _gunController;
@@ -66,7 +67,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 			_spawnSubsystem.Init(list, starter, SpawnParams);
 
 			_gunController = new SecondBossGunsSubsystem();
-			_gunController.Init(Gun, ChargingEffect, starter);
+			_gunController.Init(Gun, ChargingEffect, ChargingBulletEffect, starter);
 
 			MovementSubsystem.Init(OwnRigidbody, starter.Player.transform, HpSystemComponent);
 
