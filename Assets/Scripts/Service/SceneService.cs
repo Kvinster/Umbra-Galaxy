@@ -6,6 +6,8 @@ namespace STP.Service {
 		const string LevelSceneNamePrefix = "Level_";
 		const string CommonLevelSceneName = "Level_Common";
 
+		public static bool IsLevelCommonSceneLoaded => IsSceneLoaded(CommonLevelSceneName);
+
 		public static void LoadMainMenu() {
 			SceneManager.LoadScene("MainMenu");
 		}
@@ -35,10 +37,19 @@ namespace STP.Service {
 		public static void CheatLoadLevelCommonScene() {
 			SceneManager.LoadScene(CommonLevelSceneName, LoadSceneMode.Additive);
 		}
-
 		static bool IsLevelScene() {
 			var sceneName = SceneManager.GetActiveScene().name;
 			return sceneName.StartsWith(LevelSceneNamePrefix);
 		}
+		public static bool IsSceneLoaded(string sceneName) {
+			for ( var sceneIndex = 0; sceneIndex < SceneManager.sceneCount; sceneIndex++ ) {
+				var scene = SceneManager.GetSceneAt(sceneIndex);
+				if ( scene.name == sceneName ) {
+					return true;
+				}
+			}
+			return false;
+		}
+
 	}
 }

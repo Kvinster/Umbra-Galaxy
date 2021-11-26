@@ -63,7 +63,7 @@ namespace STP.Behaviour.Starter {
 		protected override void Awake() {
 			base.Awake();
 #if UNITY_EDITOR
-			if ( SceneManager.sceneCount == 1 ) {
+			if ( !SceneService.IsLevelCommonSceneLoaded  ) {
 				SceneService.CheatLoadLevelCommonScene();
 			}
 #endif
