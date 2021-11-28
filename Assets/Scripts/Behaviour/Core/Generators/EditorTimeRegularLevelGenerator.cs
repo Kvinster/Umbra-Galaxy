@@ -10,11 +10,12 @@ namespace STP.Behaviour.Core.Generators {
 		[Header("Parameters")]
 		public Vector2Int GeneratorsSideSize = new Vector2Int(5, 5);
 		[Header("Dependencies")]
-		public Transform LevelObjectsRoot;
 		public GameObject GeneratorBulletPrefab;
 		public GameObject MainGeneratorBulletPrefab;
 		[Space]
 		public List<GameObject> BulletPrefabs = new List<GameObject>();
+
+		Transform _levelObjectsRoot;
 
 		void Start() {
 			if ( Application.isPlaying ) {
@@ -25,23 +26,23 @@ namespace STP.Behaviour.Core.Generators {
 		public void GenerateLevel() {
 			ResetLevel();
 			var levelObjectsRootGo = new GameObject("LevelObjects");
-			LevelObjectsRoot = levelObjectsRootGo.transform;
-			LevelObjectsRoot.position = Vector3.zero;
+			_levelObjectsRoot = levelObjectsRootGo.transform;
+			_levelObjectsRoot.position = Vector3.zero;
 			var chunkCreator = new ChunkCreator(GeneratorBulletPrefab, MainGeneratorBulletPrefab);
 			var obj          = chunkCreator.CreateGeneratorChunk(GeneratorsSideSize);
-			obj.transform.SetParent(LevelObjectsRoot);
+			obj.transform.SetParent(_levelObjectsRoot);
 			obj.transform.localPosition = Vector3.zero;
 		}
 
 		public void ResetLevel() {
-			if ( LevelObjectsRoot ) {
-				DestroyImmediate(LevelObjectsRoot.gameObject);
-				LevelObjectsRoot = null;
+			if ( _levelObjectsRoot ) {
+				DestroyImmediate(_levelObjectsRoot.gameObject);
+				_levelObjectsRoot = null;
 			}
 		}
 
 		public void ResetField() {
-			LevelObjectsRoot = null;
+			_levelObjectsRoot = null;
 		}
 	}
 }
