@@ -2,14 +2,15 @@
 
 using STP.Behaviour.Starter;
 using STP.Config;
+using STP.Config.SpawnerSettings;
 
 namespace STP.Behaviour.Core.Enemy.Spawners {
 	public sealed class AsteroidSpawner : BaseSpawner {
 		CoreSpawnHelper         _spawnHelper;
 		AsteroidSpawnerSettings _spawnerSettings;
-		
+
 		protected override BaseSpawnerSettings Settings => _spawnerSettings;
-		
+
 		protected override void InitInternal(CoreStarter starter) {
 			_spawnHelper     = starter.SpawnHelper;
 			_spawnerSettings = starter.LevelController.CurLevelConfig.AsteroidSpawnerSettings;
@@ -24,7 +25,8 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
 			}
 			_spawnHelper.TryInitSpawnedObject(go);
 			var dirToPlayer = Player.transform.position - go.transform.position;
-			asteroid.SetParams(dirToPlayer.normalized, _spawnerSettings.AsteroidSpeed);
+			var speed       = Random.Range(_spawnerSettings.AsteroidMinSpeed, _spawnerSettings.AsteroidMaxSpeed);
+			asteroid.SetParams(dirToPlayer.normalized, speed);
 		}
 	}
 }

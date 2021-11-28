@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using STP.Config.SpawnerSettings;
+using UnityEngine;
 
 namespace STP.Config {
 	public abstract class BaseLevelInfo : ScriptableObject {
