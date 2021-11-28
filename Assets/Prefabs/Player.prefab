@@ -266,6 +266,7 @@ GameObject:
   - component: {fileID: 3968819455643430965}
   - component: {fileID: 1919486042972707917}
   - component: {fileID: 3765652816847201434}
+  - component: {fileID: 8476757396819752348}
   m_Layer: 0
   m_Name: PlayerPowerupShield
   m_TagString: Untagged
@@ -381,6 +382,21 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &8476757396819752348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295705638261645060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39027b112b084bbd9e1483e308701935, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Renderer: {fileID: 3765652816847201434}
+  SortingOrder: -1
+  SortingLayer: Default
 --- !u!1 &1171683287964724896
 GameObject:
   m_ObjectHideFlags: 0
