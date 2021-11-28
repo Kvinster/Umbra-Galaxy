@@ -84,9 +84,10 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 						new SequenceTask(
 							new AlwaysSuccessDecorator(_gunController.FireTask),
 							new WaitTask(1f),
-							new AlwaysSuccessDecorator(MovementSubsystem.DashTask),
-							new WaitTask(1f),
-							new AlwaysSuccessDecorator(_spawnSubsystem.SpawnTask)
+							new ParallelTask(
+								_spawnSubsystem.SpawnTask,
+								MovementSubsystem.DashTask
+							)
 						)
 					)
 				)
@@ -122,6 +123,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 			_cameraShake.Shake(1f, 4f).Forget();
 			Destroy(gameObject);
 
+			await UniTask.Delay(TimeSpan.FromSeconds(3f));
 			// win level
 			_levelGoalManager.Advance();
 			_levelManager.StartLevelWin();

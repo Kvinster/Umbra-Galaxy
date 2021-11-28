@@ -43,7 +43,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 
 		public void Deinit() {
 			_chargeEffect.Stop();
-			_chargeBulletEffect.Stop();
+			_chargeBulletEffect.gameObject.SetActive(false);
 		}
 	}
 }

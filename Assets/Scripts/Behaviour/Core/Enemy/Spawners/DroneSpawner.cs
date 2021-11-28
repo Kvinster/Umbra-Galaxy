@@ -19,7 +19,7 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
 		}
 
 		protected override void InitItem(GameObject go) {
-			var drone = go.GetComponent<Drone>();
+			var drone = go.GetComponent<BaseEnemy>();
 			Assert.IsTrue(drone);
 			drone.SetTarget(_playerTransform);
 		}

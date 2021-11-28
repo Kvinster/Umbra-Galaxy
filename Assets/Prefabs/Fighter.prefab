@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c448574a4f844d83a8ba2b7206c0d72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  KillOnTeleportation: 0
   BoxCollider2D: {fileID: 6727080091562599859}
   Rect:
     serializedVersion: 2
@@ -230,6 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Effects:
   - {fileID: 5178093559889622379}
+  StopOnStart: 1
 --- !u!2083052967 &5178093559889622379
 VisualEffect:
   m_ObjectHideFlags: 0
@@ -336,7 +338,7 @@ Transform:
   m_GameObject: {fileID: 6476260919088652975}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children:
   - {fileID: 1592291846104526375}
   - {fileID: 6829954610324802301}
@@ -361,18 +363,18 @@ MonoBehaviour:
   DeathSoundPlayer: {fileID: 4762935835220863288}
   DeathEffectRunner: {fileID: 1185227724114834442}
   DetachVfxOnDeath: 1
-  StartHp: 20
+  StartHp: 5
   ShootingParams:
     BulletPrefab: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
       type: 3}
     BulletOrigin: {fileID: 6476260919088652968}
     RotationSource: {fileID: 6476260919088652968}
-    BulletSpeed: 625
-    ReloadTime: 1
+    BulletSpeed: 1000
+    ReloadTime: 1.5
     BulletDamage: 10
     IgnoreColliders:
     - {fileID: 6476260919088652973}
-  MovementSpeed: 250
+  MovementSpeed: 300
   RotationSpeed: 0.1
   Rigidbody: {fileID: 6476260919088652974}
   ShotSoundPlayer: {fileID: 210714954719551330}
@@ -423,7 +425,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 1435.3617
+  m_Mass: 3229.564
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 0

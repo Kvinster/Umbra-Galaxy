@@ -24,8 +24,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6631905783988765889, guid: a90abbdf2f3803b42bb3214e1b9d5673,
         type: 3}
-      propertyPath: color.r
-      value: 0
+      propertyPath: color.b
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6631905783988765889, guid: a90abbdf2f3803b42bb3214e1b9d5673,
         type: 3}
@@ -34,8 +34,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6631905783988765889, guid: a90abbdf2f3803b42bb3214e1b9d5673,
         type: 3}
-      propertyPath: color.b
-      value: 1
+      propertyPath: color.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6631905783988765889, guid: a90abbdf2f3803b42bb3214e1b9d5673,
         type: 3}
@@ -44,18 +44,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6631905783988765890, guid: a90abbdf2f3803b42bb3214e1b9d5673,
         type: 3}
-      propertyPath: MovementSpeed
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 6631905783988765890, guid: a90abbdf2f3803b42bb3214e1b9d5673,
-        type: 3}
       propertyPath: Name
       value: SuicideDrone
       objectReference: {fileID: 0}
     - target: {fileID: 6631905783988765890, guid: a90abbdf2f3803b42bb3214e1b9d5673,
         type: 3}
+      propertyPath: StartHp
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6631905783988765890, guid: a90abbdf2f3803b42bb3214e1b9d5673,
+        type: 3}
+      propertyPath: MovementSpeed
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6631905783988765890, guid: a90abbdf2f3803b42bb3214e1b9d5673,
+        type: 3}
       propertyPath: RotationSpeed
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6631905783988765891, guid: a90abbdf2f3803b42bb3214e1b9d5673,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6631905783988765891, guid: a90abbdf2f3803b42bb3214e1b9d5673,
         type: 3}
@@ -74,6 +84,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6631905783988765891, guid: a90abbdf2f3803b42bb3214e1b9d5673,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6631905783988765891, guid: a90abbdf2f3803b42bb3214e1b9d5673,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -85,16 +100,6 @@ PrefabInstance:
     - target: {fileID: 6631905783988765891, guid: a90abbdf2f3803b42bb3214e1b9d5673,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6631905783988765891, guid: a90abbdf2f3803b42bb3214e1b9d5673,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6631905783988765891, guid: a90abbdf2f3803b42bb3214e1b9d5673,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6631905783988765891, guid: a90abbdf2f3803b42bb3214e1b9d5673,

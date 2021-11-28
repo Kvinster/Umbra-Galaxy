@@ -18,10 +18,11 @@ MonoBehaviour:
     SpawnRange: 1000
     Prefab: {fileID: 5909774503264953508, guid: d9285fea4909b3a478bacecef9d606b6,
       type: 3}
-    AsteroidSpeed: 300
+    AsteroidMinSpeed: 0
+    AsteroidMaxSpeed: 0
   DroneSpawnerSettings:
     Enabled: 1
-    SpawnPeriod: 2
-    SpawnRange: 1000
-    Prefab: {fileID: 6631905783988765892, guid: a90abbdf2f3803b42bb3214e1b9d5673,
+    SpawnPeriod: 5
+    SpawnRange: 800
+    Prefab: {fileID: 6476260919088652975, guid: 72ed1cd7b3ddbe24689473372804e610,
       type: 3}
