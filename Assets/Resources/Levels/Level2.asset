@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AsteroidSpawnerSettings:
     Enabled: 1
-    SpawnPeriod: 3
+    SpawnPeriod: 2
     SpawnRange: 1000
     Prefab: {fileID: 5909774503264953508, guid: d9285fea4909b3a478bacecef9d606b6,
       type: 3}
-    AsteroidSpeed: 300
+    AsteroidMinSpeed: 250
+    AsteroidMaxSpeed: 500
   DroneSpawnerSettings:
     Enabled: 0
     SpawnPeriod: 2
