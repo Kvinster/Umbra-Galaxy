@@ -1460,7 +1460,7 @@ MonoBehaviour:
     RotationSource: {fileID: 4550676000283674638}
     BulletSpeed: 5000
     ReloadTime: 3
-    BulletDamage: 0
+    BulletDamage: 50
     IgnoreColliders:
     - {fileID: 5916036517206224900}
 --- !u!4 &5679222593792275433
