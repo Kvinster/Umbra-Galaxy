@@ -382,7 +382,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartRadius: 5
+  MaxRadius: 5000
   GrowSpeed: 1000
+  RadiusTolerance: 10
   Collider: {fileID: 4711764143018213152}
   Disc: {fileID: 3681086827694962570}
 --- !u!58 &4711764143018213152
@@ -663,6 +665,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Effects:
   - {fileID: 7604071413656877636}
+  StopOnStart: 1
 --- !u!1 &6201028610891603490
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,6 +836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c448574a4f844d83a8ba2b7206c0d72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  KillOnTeleportation: 0
   BoxCollider2D: {fileID: 4315826363308984341}
   Rect:
     serializedVersion: 2
