@@ -3,8 +3,6 @@ using STP.Core;
 
 namespace STP.Behaviour.Core.PowerUps {
 	public sealed class AddLivesPowerUp : BasePickupable {
-		const int TempAddLivesValue = 1;
-
 		PlayerController _playerController;
 
 		protected override void InitInternal(CoreStarter starter) {
@@ -14,7 +12,7 @@ namespace STP.Behaviour.Core.PowerUps {
 		}
 
 		protected override bool OnPlayerEnter() {
-			_playerController.AddLives(TempAddLivesValue);
+			_playerController.AddLife();
 			return true;
 		}
 	}

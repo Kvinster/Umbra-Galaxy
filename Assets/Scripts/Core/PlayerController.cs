@@ -14,7 +14,6 @@ namespace STP.Core {
 		public readonly HpSystem HpSystem;
 
 		int  _curLives;
-		bool _isInvincible;
 
 		public int CurLives {
 			get => _curLives;
@@ -28,22 +27,12 @@ namespace STP.Core {
 			}
 		}
 
-		public bool IsInvincible {
-			get => _isInvincible;
-			set {
-				if ( _isInvincible == value ) {
-					return;
-				}
-				_isInvincible = value;
-				OnIsInvincibleChanged?.Invoke(_isInvincible);
-			}
-		}
+		public bool IsInvincible { get; set; }
 
 		public PlayerConfig Config => PlayerConfig.Instance;
 
-		public event Action<int>  OnCurLivesChanged;
-		public event Action<bool> OnIsInvincibleChanged;
-		public event Action       OnRespawned;
+		public event Action<int> OnCurLivesChanged;
+		public event Action      OnLifeAdded;
 
 		public PlayerController() {
 			CurLives     = StartPlayerLives;
@@ -65,7 +54,6 @@ namespace STP.Core {
 		public void Respawn() {
 			IsInvincible = false;
 			RestoreHp();
-			OnRespawned?.Invoke();
 		}
 
 		public void RestoreHp() {
@@ -91,18 +79,9 @@ namespace STP.Core {
 			CurLives -= 1;
 		}
 
-		public bool TrySubLives(int subLives = 1) {
-			if ( CurLives >= subLives ) {
-				CurLives -= subLives;
-				return true;
-			}
-
-			return false;
+		public void AddLife() {
+			++CurLives;
+			OnLifeAdded?.Invoke();
 		}
-
-		public void AddLives(int addLives = 1) {
-			CurLives += addLives;
-		}
-
 	}
 }

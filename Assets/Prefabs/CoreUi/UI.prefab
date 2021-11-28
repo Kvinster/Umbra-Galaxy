@@ -6672,7 +6672,7 @@ MonoBehaviour:
   UpscaleDuration: 0.5
   DisappearColor: {r: 1, g: 0, b: 0, a: 0}
   DisappearColorDuration: 0.3
-  AppearDuration: 0
+  AppearDuration: 0.5
   Root: {fileID: 7021024832588527977}
   Layout: {fileID: 3503503905088830646}
   Elements:
