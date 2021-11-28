@@ -27,3 +27,5 @@ MonoBehaviour:
     XpAmount: 0
   - EnemyName: SpawnerBoss
     XpAmount: 500
+  - EnemyName: SecondBoss
+    XpAmount: 250

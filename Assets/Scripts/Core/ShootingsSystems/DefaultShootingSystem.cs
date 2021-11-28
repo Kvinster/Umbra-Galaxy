@@ -5,7 +5,7 @@ using STP.Behaviour.Core;
 namespace STP.Core.ShootingsSystems {
 	public abstract class BaseShootingSystem<T> where T : ShootingSystemParams {
 		protected readonly T Params;
-		
+
 		protected readonly CoreSpawnHelper SpawnHelper;
 
 		float _leftReloadTime;
@@ -16,14 +16,18 @@ namespace STP.Core.ShootingsSystems {
 			Params      = shootingParams;
 			SpawnHelper = spawnHelper;
 		}
-		
+
 		public bool TryShoot() {
 			if ( !CanShoot ) {
 				return false;
 			}
 			Shoot();
-			_leftReloadTime = Params.ReloadTime;
+			ForceRecharge();
 			return true;
+		}
+
+		public void ForceRecharge() {
+			_leftReloadTime = Params.ReloadTime;
 		}
 
 		public void DeltaTick() {
@@ -32,12 +36,12 @@ namespace STP.Core.ShootingsSystems {
 
 		protected abstract void Shoot();
 	}
-	
+
 	// Default Shooting system
 	public sealed class DefaultShootingSystem : BaseShootingSystem<ShootingSystemParams> {
 		public DefaultShootingSystem(CoreSpawnHelper spawnHelper, ShootingSystemParams shootingParams) : base(spawnHelper,
 			shootingParams) { }
-		
+
 		protected override void Shoot() {
 			var angle = Params.RotationSource.rotation.eulerAngles.z;
 			var bulletGo = Object.Instantiate(Params.BulletPrefab, Params.BulletOrigin.position, Quaternion.AngleAxis(angle, Vector3.forward));

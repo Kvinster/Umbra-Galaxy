@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 using System.Collections.Generic;
-
+using Cysharp.Threading.Tasks;
 using STP.Behaviour.Core.Enemy.BossSpawner;
 using STP.Behaviour.Starter;
 using STP.Core;
@@ -25,6 +26,8 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 
 		[NotNull] public LevelExplosionZone DeathShockwave;
 
+		public float DeathEffectTime = 2f;
+
 		[Header("public for editor only")]
 		public BehaviourTree Tree;
 
@@ -36,6 +39,8 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 
 		LevelGoalManager _levelGoalManager;
 		LevelManager     _levelManager;
+
+		CameraShake _cameraShake;
 
 		public HpSystem HpSystemComponent => HpSystem;
 
@@ -61,6 +66,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 
 			_levelGoalManager = starter.LevelGoalManager;
 			_levelManager     = starter.LevelManager;
+			_cameraShake      = starter.CameraShake;
 
 			_spawnSubsystem = new SpawnerBossSpawnSubsystem();
 			var list = new List<ISpawner>(Spawners);
@@ -73,14 +79,18 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 
 			Tree = new BehaviourTree(
 				new SequenceTask(
-					new AlwaysSuccessDecorator(_gunController.FireTask),
-					new WaitTask(1f),
-					new AlwaysSuccessDecorator(MovementSubsystem.DashTask),
-					new WaitTask(1f),
-					new AlwaysSuccessDecorator(_spawnSubsystem.SpawnTask)
+					new WaitTask(3f),
+					new RepeatForeverTask(
+						new SequenceTask(
+							new AlwaysSuccessDecorator(_gunController.FireTask),
+							new WaitTask(1f),
+							new AlwaysSuccessDecorator(MovementSubsystem.DashTask),
+							new WaitTask(1f),
+							new AlwaysSuccessDecorator(_spawnSubsystem.SpawnTask)
+						)
+					)
 				)
 			);
-
 			DeathShockwave.gameObject.SetActive(false);
 		}
 
@@ -94,9 +104,27 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 		public override void Die(bool fromPlayer = true) {
 			base.Die(fromPlayer);
 			// win level
+			if ( Tree != null ) {
+				Tree = null;
+				_gunController.Deinit();
+				PlayDeathVfxs().Forget();
+			}
+		}
+
+		async UniTask PlayDeathVfxs() {
+			_cameraShake.Shake(DeathEffectTime, 1f).Forget();
+			await UniTask.Delay(TimeSpan.FromSeconds(DeathEffectTime));
+			DeathEffectRunner.StopVfx();
+
+			// Run last shockwave
+			DeathShockwave.gameObject.SetActive(true);
+			DeathShockwave.transform.parent = transform.parent;
+			_cameraShake.Shake(1f, 4f).Forget();
+			Destroy(gameObject);
+
+			// win level
 			_levelGoalManager.Advance();
 			_levelManager.StartLevelWin();
-			Tree = null;
 		}
 	}
 }

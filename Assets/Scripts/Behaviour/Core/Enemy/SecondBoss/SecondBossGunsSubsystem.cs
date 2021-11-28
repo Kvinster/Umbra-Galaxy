@@ -36,6 +36,14 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 			_chargeEffect       = chargeEffect;
 			_chargeBulletEffect = chargeBulletEffect;
 			_gun.Init(starter);
+			_gun.DefaultShootingSystem.ForceRecharge();
+			_chargeBulletEffect.gameObject.SetActive(false);
+			_chargeEffect.Stop();
+		}
+
+		public void Deinit() {
+			_chargeEffect.Stop();
+			_chargeBulletEffect.Stop();
 		}
 	}
 }
