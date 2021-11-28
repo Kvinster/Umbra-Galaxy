@@ -742,11 +742,11 @@ MonoBehaviour:
   DeathSoundPlayer: {fileID: 3273768617134339100}
   DeathEffectRunner: {fileID: 4259864055069289674}
   DetachVfxOnDeath: 0
-  StartHp: 100
+  StartHp: 1500
   MovementSubsystem: {fileID: 3133233052200271352}
   SpawnParams:
     EnemiesInWaveCount: 50
-    SpawnWaitTime: 0.01
+    SpawnWaitTime: 0.05
   Spawners:
   - {fileID: 6740961572623504739}
   - {fileID: 4317341544957443991}
@@ -1783,7 +1783,7 @@ GameObject:
   - component: {fileID: 318140004622272507}
   - component: {fileID: 5916036517206224900}
   m_Layer: 10
-  m_Name: SpawnerBoss
+  m_Name: SecondBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
