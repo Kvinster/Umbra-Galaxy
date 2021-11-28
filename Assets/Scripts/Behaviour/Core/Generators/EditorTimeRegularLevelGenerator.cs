@@ -23,9 +23,11 @@ namespace STP.Behaviour.Core.Generators {
 			}
 		}
 
-		public void GenerateLevel() {
-			ResetLevel();
-			var levelObjectsRootGo = new GameObject("LevelObjects");
+		public void GenerateChunk() {
+			var levelObjectsRootGo  = GameObject.Find("LevelObjects");
+			if ( !levelObjectsRootGo ) {
+				levelObjectsRootGo = new GameObject("LevelObjects");
+			}
 			_levelObjectsRoot = levelObjectsRootGo.transform;
 			_levelObjectsRoot.position = Vector3.zero;
 			var chunkCreator = new ChunkCreator(GeneratorBulletPrefab, MainGeneratorBulletPrefab);

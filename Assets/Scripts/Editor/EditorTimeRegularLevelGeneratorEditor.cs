@@ -46,7 +46,7 @@ namespace STP.Editor {
 			serializedObject.ApplyModifiedProperties();
 
 			if ( GUILayout.Button("Generate level") ) {
-				InvokeGeneratorMethod(nameof(EditorTimeRegularLevelGenerator.GenerateLevel));
+				InvokeGeneratorMethod(nameof(EditorTimeRegularLevelGenerator.GenerateChunk));
 			}
 			if ( GUILayout.Button("Reset level") ) {
 				InvokeGeneratorMethod(nameof(EditorTimeRegularLevelGenerator.ResetLevel));
