@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using STP.Behaviour.Core.Enemy;
 using STP.Behaviour.Core.Enemy.BossSpawner;
+using STP.Behaviour.Core.Enemy.SecondBoss;
 using STP.Behaviour.Starter;
 using STP.Utils.GameComponentAttributes;
 
@@ -15,7 +16,7 @@ namespace STP.Behaviour.Core {
 		static readonly HashSet<Type> MainEnemyTypes = new HashSet<Type> {
 			typeof(Generator),
 			typeof(SpawnerBossController),
-			typeof(SpawnerBossController)
+			typeof(SecondBossController)
 		};
 
 		[Header("Parameters")]
