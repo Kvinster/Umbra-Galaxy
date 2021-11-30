@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 using System.Collections.Generic;
 using System.Linq;
-
+using STP.Behaviour.Core;
 using STP.Behaviour.Core.Minimap;
 using STP.Behaviour.Core.UI;
 using STP.Behaviour.Core.UI.WinWindow;
@@ -21,7 +21,8 @@ namespace STP.Manager {
 		[NotNull] public LevelText         LevelText;
 		[NotNull] public PlayerLivesUi     LivesUi;
 		[NotNull] public DangerScreen      DangerScreen;
-		[Space]
+		[NotNull] public MinimapGrid       MinimapGrid;
+ 		[Space]
 		[NotNull] public DeathWindow DeathWindow;
 		[NotNull] public WinWindow   WinWindow;
 		[NotNull] public PauseWindow PauseWindow;
@@ -43,7 +44,7 @@ namespace STP.Manager {
 		public void Init(PauseManager pauseManager, LevelManager levelManager, LevelGoalManager levelGoalManager,
 			PlayerManager playerManager, MinimapManager minimapManager, LevelController levelController,
 			PlayerController playerController, ScoreController scoreController,
-			LeaderboardController leaderboardController) {
+			LeaderboardController leaderboardController, Player player) {
 			_pauseManager     = pauseManager;
 			_playerController = playerController;
 
@@ -57,6 +58,7 @@ namespace STP.Manager {
 			MinimapController.Init(minimapManager);
 			LevelText.Init(levelGoalManager, playerManager, playerController, scoreController);
 			LivesUi.Init(playerController);
+			MinimapGrid.Init(player, minimapManager);
 
 			DeathWindow.CommonInit(levelManager, playerManager, _playerController);
 			WinWindow.CommonInit(scoreController, leaderboardController, levelManager);

@@ -3575,6 +3575,7 @@ MonoBehaviour:
   LevelText: {fileID: 8178928667902628332}
   LivesUi: {fileID: 1841205280917107469}
   DangerScreen: {fileID: 8971351176453958192}
+  MinimapGrid: {fileID: 8178928667978994609}
   DeathWindow: {fileID: 8178928669014006705}
   WinWindow: {fileID: 8178928668701577292}
   PauseWindow: {fileID: 8178928668205477487}
