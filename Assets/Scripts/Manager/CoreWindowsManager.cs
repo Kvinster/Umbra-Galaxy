@@ -22,6 +22,7 @@ namespace STP.Manager {
 		[NotNull] public PlayerLivesUi     LivesUi;
 		[NotNull] public DangerScreen      DangerScreen;
 		[NotNull] public MinimapGrid       MinimapGrid;
+		[NotNull] public DamageScreen      DamageScreen;
  		[Space]
 		[NotNull] public DeathWindow DeathWindow;
 		[NotNull] public WinWindow   WinWindow;
@@ -59,6 +60,7 @@ namespace STP.Manager {
 			LevelText.Init(levelGoalManager, playerManager, playerController, scoreController);
 			LivesUi.Init(playerController);
 			MinimapGrid.Init(player, minimapManager);
+			DamageScreen.Init(playerController);
 
 			DeathWindow.CommonInit(levelManager, playerManager, _playerController);
 			WinWindow.CommonInit(scoreController, leaderboardController, levelManager);
