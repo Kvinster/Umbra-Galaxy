@@ -1154,6 +1154,7 @@ GameObject:
   - component: {fileID: 7664651382619864775}
   - component: {fileID: 456965896957304076}
   - component: {fileID: 8260586132325110407}
+  - component: {fileID: 3335223443033396452}
   m_Layer: 0
   m_Name: DamagePowerUp
   m_TagString: Untagged
@@ -1256,6 +1257,21 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &3335223443033396452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6670615556813006092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39027b112b084bbd9e1483e308701935, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Renderer: {fileID: 8260586132325110407}
+  SortingOrder: -1
+  SortingLayer: 
 --- !u!1 &6687908338199043058
 GameObject:
   m_ObjectHideFlags: 0
