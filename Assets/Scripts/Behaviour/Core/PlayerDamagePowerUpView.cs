@@ -28,7 +28,7 @@ namespace STP.Behaviour.Core {
 				_playerManager.OnPowerUpFinished -= OnPowerUpFinished;
 			}
 
-			_cancellationTokenSource.Cancel();
+			_cancellationTokenSource?.Cancel();
 		}
 
 		protected override void InitInternal(CoreStarter starter) {
