@@ -17,12 +17,13 @@ namespace STP.Manager {
 		[NotNull] public GameObject  UiRoot;
 		[Space]
 		[NotNull] public BossHealthBar BossHealthBar;
-		[NotNull] public MinimapController MinimapController;
-		[NotNull] public LevelText         LevelText;
-		[NotNull] public PlayerLivesUi     LivesUi;
-		[NotNull] public DangerScreen      DangerScreen;
-		[NotNull] public MinimapGrid       MinimapGrid;
-		[NotNull] public DamageScreen      DamageScreen;
+		[NotNull] public MinimapController      MinimapController;
+		[NotNull] public LevelText              LevelText;
+		[NotNull] public PlayerLivesUi          LivesUi;
+		[NotNull] public DangerScreen           DangerScreen;
+		[NotNull] public MinimapGrid            MinimapGrid;
+		[NotNull] public DamageScreen           DamageScreen;
+		[NotNull] public PowerUpTimerUisManager PowerUpTimerUisManager;
  		[Space]
 		[NotNull] public DeathWindow DeathWindow;
 		[NotNull] public WinWindow   WinWindow;
@@ -61,6 +62,7 @@ namespace STP.Manager {
 			LivesUi.Init(playerController);
 			MinimapGrid.Init(player, minimapManager);
 			DamageScreen.Init(playerController);
+			PowerUpTimerUisManager.Init(playerManager);
 
 			DeathWindow.CommonInit(levelManager, playerManager, _playerController);
 			WinWindow.CommonInit(scoreController, leaderboardController, levelManager);

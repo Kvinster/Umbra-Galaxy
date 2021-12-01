@@ -9,6 +9,8 @@ namespace STP.Manager {
 
 		public float TimeLeft => _timer.TimeLeft;
 
+		public float Interval => _timer.Interval;
+
 		public PowerUpState(PowerUpType type, float time) {
 			Type = type;
 			_timer.Start(time);
