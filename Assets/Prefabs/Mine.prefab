@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Effects:
   - {fileID: 1423777217998562887}
+  StopOnStart: 1
 --- !u!2083052967 &1423777217998562887
 VisualEffect:
   m_ObjectHideFlags: 0
@@ -246,7 +247,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: -1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!61 &1708001035894306437
 BoxCollider2D:
