@@ -16,6 +16,13 @@ namespace STP.Behaviour.Core.UI {
 
 		Sequence _animationSequence;
 
+		void OnDestroy() {
+			if ( _playerHpSystem != null) {
+				_playerHpSystem.OnHpChanged -= OnHpChanged;
+			}
+			_animationSequence.Kill();
+		}
+
 		public void Init(PlayerController playerController) {
 			_playerHpSystem             =  playerController.HpSystem;
 			_playerHpSystem.OnHpChanged += OnHpChanged;
