@@ -12,6 +12,8 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public float MinDistance = 100;
 		public float MaxDistance = 100;
 
+		public float DashVelocityMultiplier = 3;
+
 		public float MovingSpeed;
 		public float AngularSpeed;
 
@@ -23,22 +25,22 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			new WaitTask(DashTime),
 			new CustomActionTask("stop dash", EndDash)
 		);
-		
+
 
 
 		readonly Timer _timer = new Timer();
-		
+
 		float   _startAngularSpeed;
 		Vector2 _startSpeed;
 
 		bool _isDash;
-		
+
 		Transform _player;
 
 		Vector2 ForwardVector => (BossRigidbody.transform.rotation * Vector3.up).normalized;
 
 		HpSystem _hpSystem;
-		
+
 		public void Init(Rigidbody2D bossRigidbody, Transform player, HpSystem hpSystem) {
 			BossRigidbody    =  bossRigidbody;
 			_player          =  player;
@@ -46,7 +48,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			_hpSystem.OnDied += OnDied;
 			_timer.Reset(int.MaxValue);
 		}
-		
+
 		public void FixedUpdate() {
 			if ( !_hpSystem.IsAlive ) {
 				if ( _timer.DeltaTick() ) {
@@ -63,17 +65,17 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			LookToPlayer();
 		}
 
-		
+
 		public void Dash() {
 			var forward = ForwardVector;
-			BossRigidbody.velocity = forward * MovingSpeed * 3;
+			BossRigidbody.velocity = forward * MovingSpeed * DashVelocityMultiplier;
 			_isDash                = true;
 		}
 
 		public void EndDash() {
 			_isDash = false;
 		}
-		
+
 		void OnDied() {
 			_timer.Reset(SlowdownTime);
 			_startSpeed        =  BossRigidbody.velocity;
@@ -85,7 +87,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			AngularSpeed           = Mathf.Lerp(_startAngularSpeed, 0f, _timer.NormalizedProgress);
 			BossRigidbody.velocity = Vector2.Lerp(_startSpeed, Vector2.zero, _timer.NormalizedProgress);
 		}
-		
+
 		void KeepDistanceFromPlayer() {
 			if ( _isDash ) {
 				return;
@@ -95,7 +97,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			if ( distance.magnitude < MinDistance ) {
 				BossRigidbody.velocity = -forward * MovingSpeed / distance;
 				return;
-			} 
+			}
 			if ( distance.magnitude > MaxDistance ) {
 				BossRigidbody.velocity = forward * MovingSpeed;
 			}
@@ -115,7 +117,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			var newAngle          = oldAngle + Mathf.Sign(diff) * movementAmplitude;
 			BossRigidbody.transform.rotation = Quaternion.AngleAxis(newAngle, Vector3.forward);
 		}
-		
+
 		float GetAngleToPlayer() {
 			var diff = _player.position - BossRigidbody.transform.position;
 			diff.Normalize();

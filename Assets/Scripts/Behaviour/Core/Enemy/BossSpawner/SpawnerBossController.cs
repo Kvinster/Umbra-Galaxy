@@ -78,9 +78,16 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 			Tree = new BehaviourTree(
 				new SequenceTask(
-					new AlwaysSuccessDecorator(_gunsSubsystem.FireTask),
-					new AlwaysSuccessDecorator(MovementSubsystem.DashTask),
-					new AlwaysSuccessDecorator(_spawnSubsystem.SpawnTask)
+					new WaitTask(3f),
+					new RepeatForeverTask(
+						new SequenceTask(
+							new AlwaysSuccessDecorator(_gunsSubsystem.FireTask),
+							new WaitTask(1f),
+							new AlwaysSuccessDecorator(MovementSubsystem.DashTask),
+							new WaitTask(1f),
+							new AlwaysSuccessDecorator(_spawnSubsystem.SpawnTask)
+						)
+					)
 				)
 			);
 		}

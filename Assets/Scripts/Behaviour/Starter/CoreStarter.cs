@@ -120,7 +120,7 @@ namespace STP.Behaviour.Starter {
 			}
 			InitComponents();
 			WindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, MinimapManager, lc, pc, xc,
-				GameController.LeaderboardController);
+				GameController.LeaderboardController, Player);
 
 			// Settings for smooth gameplay
 			Application.targetFrameRate  =  Screen.currentResolution.refreshRate;

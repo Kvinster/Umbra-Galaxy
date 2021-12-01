@@ -5,19 +5,19 @@ using UnityEngine;
 using STP.Utils;
 
 namespace STP.Gameplay.Weapon.LaserWeapon {
-    
+
     public enum WeaponState {
         Idle,
         Charge,
         Charged,
         Fire
     }
-    
+
     public sealed class Laser {
         const float MaxDistance     = 10000f;
 
         float _laserDamage;
-        
+
         WeaponState _state;
 
         readonly Transform  _mountTrans;
@@ -26,10 +26,10 @@ namespace STP.Gameplay.Weapon.LaserWeapon {
         readonly RaycastHit2D[] _hits = new RaycastHit2D[10];
 
         public float CurHitDistance { get; private set; }
-        
-        
+
+
         public event Action<WeaponState> StateChanged;
-        
+
         public WeaponState CurState {
             get => _state;
             private set {
@@ -37,7 +37,7 @@ namespace STP.Gameplay.Weapon.LaserWeapon {
                 StateChanged?.Invoke(_state);
             }
         }
-        
+
         public Laser(Transform mountTrans, Collider2D ownerCollider, float damage) {
             _mountTrans    = mountTrans;
             _ownerCollider = ownerCollider;
@@ -69,7 +69,8 @@ namespace STP.Gameplay.Weapon.LaserWeapon {
 
         bool TryRaycast(out RaycastHit2D hit) {
             var hitsCount = Physics2D.RaycastNonAlloc(_mountTrans.position,
-                _mountTrans.TransformDirection(_mountTrans.localRotation * Vector2.up), _hits, MaxDistance);
+                _mountTrans.TransformDirection(_mountTrans.localRotation * Vector2.up), _hits, MaxDistance,
+                1 << LayerMask.NameToLayer("Default"));
             var hitIndex = FindNearestHitIndex(_hits, hitsCount);
             if ( hitIndex != -1 ) {
                 hit = _hits[hitIndex];

@@ -950,6 +950,7 @@ MonoBehaviour:
   BossRigidbody: {fileID: 318140004622272507}
   MinDistance: 500
   MaxDistance: 750
+  DashVelocityMultiplier: 3
   MovingSpeed: 200
   AngularSpeed: 60
   SlowdownTime: 1

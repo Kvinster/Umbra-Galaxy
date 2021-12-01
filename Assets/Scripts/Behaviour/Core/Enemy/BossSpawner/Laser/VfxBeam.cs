@@ -24,10 +24,10 @@ namespace STP.Gameplay.Weapon.Common {
         }
 
         public void SetLength(float length) {
-            length += 30f;
             _positions[0] = Vector3.zero;
-            var endPos = Vector2.up * length;
-            _positions[1] = endPos;
+            // Magic constant 30f fixes laser view lenght
+            var endPos = Vector2.up * (length / transform.lossyScale.x + 30f);
+            _positions[1]                        = endPos;
             HitParticleSystemTrans.localPosition = endPos;
             LineRenderer.SetPositions(_positions);
         }
