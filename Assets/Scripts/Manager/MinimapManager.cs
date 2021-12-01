@@ -37,7 +37,7 @@ namespace STP.Manager {
 
 		public MinimapManager(Camera minimapCamera) {
 			_minimapCamera = minimapCamera;
-			CameraSize     = StartCameraSize;
+			CameraSize     = 1500f;
 		}
 
 		public void ZoomIn() {
