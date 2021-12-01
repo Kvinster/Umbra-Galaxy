@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using STP.Behaviour.Core;
 using STP.Common;
@@ -67,6 +68,10 @@ namespace STP.Manager {
 		}
 
 		public float GetPowerUpTotalTime(PowerUpType powerUpType) {
+			var state = _powerUpStates.FirstOrDefault(x => x.Type == powerUpType);
+			if ( state != null ) {
+				return state.Interval;
+			}
 			if ( PowerUpTypeTimes.TryGetValue(powerUpType, out var time) ) {
 				return time;
 			}
