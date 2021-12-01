@@ -2592,8 +2592,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: -1000
     y: -1000
-    width: 2291
-    height: 2237.33
+    width: 2519
+    height: 2459
   Player: {fileID: 1024475111}
   PlayerStartPos: {fileID: 1640043516}
   LevelObjectsRoot: {fileID: 1528040157}

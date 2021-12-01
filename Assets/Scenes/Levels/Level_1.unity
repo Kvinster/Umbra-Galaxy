@@ -25250,10 +25250,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AreaRect:
     serializedVersion: 2
-    x: -2129.77
-    y: -1500
-    width: 4000
-    height: 3000
+    x: -2630
+    y: -2107
+    width: 5000
+    height: 4000
   Player: {fileID: 1024475111}
   PlayerStartPos: {fileID: 1640043516}
   LevelObjectsRoot: {fileID: 1528040157}

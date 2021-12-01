@@ -13075,9 +13075,9 @@ MonoBehaviour:
   AreaRect:
     serializedVersion: 2
     x: -1000
-    y: -2237.13
-    width: 2182
-    height: 4467
+    y: -2464
+    width: 2488
+    height: 4834
   Player: {fileID: 1024475111}
   PlayerStartPos: {fileID: 1640043516}
   LevelObjectsRoot: {fileID: 1528040157}
