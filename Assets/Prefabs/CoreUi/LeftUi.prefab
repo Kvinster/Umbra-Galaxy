@@ -100,7 +100,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +firerate
+  m_text: triple shot
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e40930e329dfc3d4faafb3b813011bcb, type: 2}
   m_sharedMaterial: {fileID: 7842081178795963837, guid: e40930e329dfc3d4faafb3b813011bcb,
@@ -128,8 +128,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -724,7 +724,7 @@ GameObject:
   - component: {fileID: 8624976592498157663}
   - component: {fileID: 6161479149436096188}
   m_Layer: 5
-  m_Name: FireratePowerUpTimer
+  m_Name: TripleShotPowerUpTimer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

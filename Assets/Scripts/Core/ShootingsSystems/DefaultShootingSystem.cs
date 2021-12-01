@@ -3,7 +3,15 @@
 using STP.Behaviour.Core;
 
 namespace STP.Core.ShootingsSystems {
-	public abstract class BaseShootingSystem<T> where T : ShootingSystemParams {
+	public abstract class BaseShootingSystem {
+		public abstract bool TryShoot();
+
+		public abstract void ForceRecharge();
+
+		public abstract void DeltaTick();
+	}
+
+	public abstract class BaseShootingSystem<T> : BaseShootingSystem where T : ShootingSystemParams {
 		protected readonly T Params;
 
 		protected readonly CoreSpawnHelper SpawnHelper;
@@ -12,12 +20,12 @@ namespace STP.Core.ShootingsSystems {
 
 		public virtual bool CanShoot => (_leftReloadTime <= 0);
 
-		public BaseShootingSystem(CoreSpawnHelper spawnHelper, T shootingParams) {
+		protected BaseShootingSystem(CoreSpawnHelper spawnHelper, T shootingParams) {
 			Params      = shootingParams;
 			SpawnHelper = spawnHelper;
 		}
 
-		public bool TryShoot() {
+		public override bool TryShoot() {
 			if ( !CanShoot ) {
 				return false;
 			}
@@ -26,11 +34,11 @@ namespace STP.Core.ShootingsSystems {
 			return true;
 		}
 
-		public void ForceRecharge() {
+		public override void ForceRecharge() {
 			_leftReloadTime = Params.ReloadTime;
 		}
 
-		public void DeltaTick() {
+		public override void DeltaTick() {
 			_leftReloadTime -= Time.deltaTime;
 		}
 
