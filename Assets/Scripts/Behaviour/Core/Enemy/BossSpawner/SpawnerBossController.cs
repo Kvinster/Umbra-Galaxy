@@ -93,8 +93,9 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		}
 
 		public void TakeDamage(float damage) {
+			var wasAlive = HpSystem.IsAlive;
 			HpSystem.TakeDamage(damage);
-			if ( !HpSystem.IsAlive ) {
+			if ( !HpSystem.IsAlive && wasAlive ) {
 				Die();
 			}
 		}
@@ -102,7 +103,6 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public override void Die(bool fromPlayer = true) {
 			base.Die(fromPlayer);
 			Tree = null;
-			_levelGoalManager.Advance();
 			_gunsSubsystem.Deinit();
 			PlayDeathVFXs().Forget();
 		}
@@ -112,9 +112,9 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		}
 
 		async UniTask PlayDeathVFXs() {
+
 			_cameraShake.Shake(DeathEffectTime, 1f).Forget();
 			await UniTask.Delay(TimeSpan.FromSeconds(DeathEffectTime));
-			DeathEffectRunner.StopVfx();
 
 			// Run last shockwave
 			Shockwave.gameObject.SetActive(true);
@@ -123,6 +123,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			Destroy(gameObject);
 
 			// win level
+			_levelGoalManager.Advance();
 			_levelManager.StartLevelWin();
 		}
 	}
