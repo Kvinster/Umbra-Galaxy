@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 using STP.Behaviour.Starter;
 using STP.Core.Leaderboards;
-using STP.Manager;
+using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.MainMenu {
-	public sealed class LeaderboardWindow : BaseMainMenuComponent {
+	public sealed class LeaderboardWindow : GameComponent, IScreen {
 		[NotNull]
 		public GameObject HaveLeaderboardEntriesRoot;
 		[NotNull]
@@ -21,7 +21,7 @@ namespace STP.Behaviour.MainMenu {
 		[NotNullOrEmpty]
 		public List<LeaderboardEntryView> Entries = new List<LeaderboardEntryView>();
 
-		MainMenuManager       _mainMenuManager;
+		IScreenShower         _screenShower;
 		LeaderboardController _leaderboardController;
 
 		void Reset() {
@@ -29,11 +29,11 @@ namespace STP.Behaviour.MainMenu {
 			GetComponentsInChildren(Entries);
 		}
 
-		protected override void InitInternal(MainMenuStarter starter) {
-			_mainMenuManager       = starter.MainMenuManager;
+		public void Init(MainMenuStarter starter) {
+			_screenShower          = starter.ScreensViewController;
 			_leaderboardController = starter.GameController.LeaderboardController;
 
-			BackButton.onClick.AddListener(ShowMain);
+			BackButton.onClick.AddListener(() => _screenShower.Show<MainScreen>());
 		}
 
 		public void Show() {
@@ -67,11 +67,6 @@ namespace STP.Behaviour.MainMenu {
 			HaveLeaderboardEntriesRoot.SetActive(haveScores);
 			NoLeaderboardEntriesRoot.SetActive(!haveScores);
 		}
-
-		void ShowMain() {
-			_mainMenuManager.ShowMain();
-		}
-
 
 		void ResetEntries() {
 			foreach ( var entry in Entries ) {

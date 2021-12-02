@@ -4,26 +4,20 @@ using STP.Behaviour.Starter;
 using STP.Core;
 using STP.Manager;
 using STP.Service;
+using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
-using TMPro;
-using UnityEngine;
-
 namespace STP.Behaviour.MainMenu {
-	public sealed class MainScreen : BaseMainMenuComponent {
-		const string TitleStr = "Welcome!";
-
-		[NotNull] public TMP_Text TitleText;
+	public sealed class MainScreen : GameComponent, IScreen {
 		[NotNull] public Button   PlayButton;
 		[NotNull] public Button   ShowLeaderboardWindowButton;
 		[NotNull] public Button   SettingsButton;
 		[NotNull] public Button   ExitButton;
 
-		MainMenuManager _mainMenuManager;
+		IScreenShower _screenShower;
 
-		protected override void InitInternal(MainMenuStarter starter) {
-			_mainMenuManager = starter.MainMenuManager;
-
+		public void Init(IScreenShower screenShower) {
+			_screenShower = screenShower;
 			PlayButton.onClick.AddListener(Play);
 			SettingsButton.onClick.AddListener(ShowSettingsWindow);
 			ShowLeaderboardWindowButton.onClick.AddListener(ShowLeaderboardWindow);
@@ -32,8 +26,6 @@ namespace STP.Behaviour.MainMenu {
 
 		public void Show() {
 			gameObject.SetActive(true);
-
-			TitleText.text = TitleStr;
 		}
 
 		public void Hide() {
@@ -41,7 +33,7 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void ShowSettingsWindow() {
-			_mainMenuManager.ShowSettingsScreen();
+			_screenShower.Show<SettingsScreen>();
 		}
 
 		void Play() {
@@ -50,7 +42,7 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void ShowLeaderboardWindow() {
-			_mainMenuManager.ShowLeaderboard();
+			_screenShower.Show<LeaderboardWindow>();
 		}
 
 		void Exit() {
