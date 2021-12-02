@@ -16,6 +16,8 @@ using NaughtyAttributes;
 namespace STP.Behaviour.Core {
 	public sealed class Player : BaseCoreComponent, IDestructible {
 		const float TmpIncFireRateMult = 4f;
+		const float TripleShotAngle    = 15f;
+
 		[NotNull]
 		public ShootingSystemParams DefaultShootingParams;
 		[NotNull]
@@ -37,8 +39,9 @@ namespace STP.Behaviour.Core {
 
 		Vector2 _input;
 
-		DefaultShootingSystem _defaultShootingSystem;
-		ShootingSystemParams  _actualParams;
+		DefaultShootingSystem    _defaultShootingSystem;
+		TripleShotShootingSystem _tripleShotShootingSystem;
+		ShootingSystemParams     _actualParams;
 
 		Camera            _camera;
 		CoreSpawnHelper   _spawnHelper;
@@ -57,6 +60,8 @@ namespace STP.Behaviour.Core {
 
 		bool CanMove => IsInit && _playerHpSystem.IsAlive && !_pauseManager.IsPaused && _levelManager.IsLevelActive &&
 		                !_movementDisabled;
+
+		BaseShootingSystem CurShootingSystem { get; set; }
 
 		public event Action OnPlayerTakeDamage;
 		public event Action OnPlayerRespawn;
@@ -82,7 +87,7 @@ namespace STP.Behaviour.Core {
 
 			_input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-			_defaultShootingSystem.DeltaTick();
+			CurShootingSystem.DeltaTick();
 			if ( Input.GetMouseButton(0) ) {
 				TryShoot();
 			}
@@ -115,7 +120,10 @@ namespace STP.Behaviour.Core {
 
 			_actualParams = DefaultShootingParams.ShallowCopy();
 			TryUpdateShootingParams();
-			_defaultShootingSystem = new DefaultShootingSystem(_spawnHelper, _actualParams);
+			_defaultShootingSystem    = new DefaultShootingSystem(_spawnHelper, _actualParams);
+			_tripleShotShootingSystem = new TripleShotShootingSystem(TripleShotAngle, _spawnHelper, _actualParams);
+
+			CurShootingSystem = _defaultShootingSystem;
 
 			_movementSpeed = _playerController.Config.MovementSpeed;
 
@@ -129,6 +137,9 @@ namespace STP.Behaviour.Core {
 				PlayerDeathAnimationController.Init(starter);
 			}
 			OnRespawn();
+
+			_playerManager.OnPowerUpStarted  += OnPowerUpStarted;
+			_playerManager.OnPowerUpFinished += OnPowerUpFinished;
 
 			Physics2D.IgnoreCollision(Collider, ShieldCollider);
 		}
@@ -182,6 +193,10 @@ namespace STP.Behaviour.Core {
 		void Deinit() {
 			_playerHpSystem.OnHpChanged -= OnCurHpChanged;
 			_playerHpSystem.OnDied      -= OnDied;
+			if ( _playerManager != null ) {
+				_playerManager.OnPowerUpStarted  -= OnPowerUpStarted;
+				_playerManager.OnPowerUpFinished -= OnPowerUpFinished;
+			}
 		}
 
 		void OnCurHpChanged(float curHp) {
@@ -190,8 +205,32 @@ namespace STP.Behaviour.Core {
 
 		void TryShoot() {
 			TryUpdateShootingParams();
-			if ( _defaultShootingSystem.TryShoot() ) {
+			if ( CurShootingSystem.TryShoot() ) {
 				ShotSoundPlayer.Play();
+			}
+		}
+
+		void OnPowerUpStarted(PowerUpType powerUpType) {
+			switch ( powerUpType ) {
+				case PowerUpType.TripleShot: {
+					CurShootingSystem = _tripleShotShootingSystem;
+					break;
+				}
+				default: {
+					break;
+				}
+			}
+		}
+
+		void OnPowerUpFinished(PowerUpType powerUpType) {
+			switch ( powerUpType ) {
+				case PowerUpType.TripleShot: {
+					CurShootingSystem = _defaultShootingSystem;
+					break;
+				}
+				default: {
+					break;
+				}
 			}
 		}
 
@@ -206,11 +245,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		float CalcReloadTime() {
-			var fireRateMultiplier = _playerManager.HasActivePowerUp(PowerUpType.IncFireRate)
-				? TmpIncFireRateMult
-				: 1f;
-			var fireRate = _playerController.Config.FireRate;
-			return 1f / (fireRate * fireRateMultiplier);
+			return 1f / _playerController.Config.FireRate;
 		}
 
 		float CalcDamage() {

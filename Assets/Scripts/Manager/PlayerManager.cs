@@ -17,7 +17,7 @@ namespace STP.Manager {
 	public sealed class PlayerManager {
 		static readonly Dictionary<PowerUpType, float> PowerUpTypeTimes = new Dictionary<PowerUpType, float> {
 			{ PowerUpType.Shield, 10f },
-			{ PowerUpType.IncFireRate, 10f },
+			{ PowerUpType.TripleShot, 10f },
 			{ PowerUpType.X2Damage, 10f },
 		};
 
@@ -123,7 +123,7 @@ namespace STP.Manager {
 					AddTimeToPowerUp(powerUpType, PowerUpTypeTimes[PowerUpType.Shield]);
 					break;
 				}
-				case PowerUpType.IncFireRate:
+				case PowerUpType.TripleShot:
 				case PowerUpType.X2Damage: {
 					AddTimeToPowerUp(powerUpType, PowerUpTypeTimes[powerUpType]);
 					break;
@@ -150,7 +150,7 @@ namespace STP.Manager {
 			switch ( powerUpType ) {
 				case PowerUpType.Shield:
 				case PowerUpType.X2Damage:
-				case PowerUpType.IncFireRate: {
+				case PowerUpType.TripleShot: {
 					break;
 				}
 				default: {
@@ -164,7 +164,7 @@ namespace STP.Manager {
 			var powerUpName = powerUpState.Type;
 			switch ( powerUpName ) {
 				case PowerUpType.X2Damage:
-				case PowerUpType.IncFireRate: {
+				case PowerUpType.TripleShot: {
 					break;
 				}
 				case PowerUpType.Shield: {
