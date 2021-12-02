@@ -23,7 +23,6 @@ namespace STP.Behaviour.MainMenu {
 
 		[NotNull] public Slider     VolumeSlider;
 		[NotNull] public AudioMixer AudioMixer;
-		[NotNull] public Button     CancelButton;
 		[NotNull] public Button     AcceptButton;
 
 		IScreenShower _screenShower;
@@ -41,11 +40,6 @@ namespace STP.Behaviour.MainMenu {
 
 		public void Show() {
 			VolumeSlider.onValueChanged.AddListener(UpdateVolume);
-			CancelButton.onClick.AddListener(() => {
-				DiscardChanges();
-				_screenShower.Show<MainScreen>();
-
-			});
 			AcceptButton.onClick.AddListener(() => {
 				ApplyChanges();
 				_screenShower.Show<MainScreen>();
@@ -56,7 +50,6 @@ namespace STP.Behaviour.MainMenu {
 
 		public void Hide() {
 			VolumeSlider.onValueChanged.RemoveAllListeners();
-			CancelButton.onClick.RemoveAllListeners();
 			AcceptButton.onClick.RemoveAllListeners();
 			gameObject.SetActive(false);
 		}
