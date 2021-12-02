@@ -4,10 +4,11 @@ using UnityEngine.UI;
 using STP.Behaviour.Starter;
 using STP.Core;
 using STP.Manager;
+using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.MainMenu {
-	public class SettingsScreen : BaseMainMenuComponent {
+	public class SettingsScreen : GameComponent, IScreen {
 		const string MasterVolumeId = SettingsController.MasterVolumeId;
 
 		const float VolMin = -80;
@@ -25,13 +26,13 @@ namespace STP.Behaviour.MainMenu {
 		[NotNull] public Button     CancelButton;
 		[NotNull] public Button     AcceptButton;
 
-		MainMenuManager _mainMenuManager;
+		IScreenShower _screenShower;
 
 		SettingsController _settingsController;
 
-		protected override void InitInternal(MainMenuStarter starter) {
+		public void Init(MainMenuStarter starter) {
 			_settingsController = starter.GameController.SettingsController;
-			_mainMenuManager    = starter.MainMenuManager;
+			_screenShower       = starter.ScreensViewController;
 
 			VolumeSlider.minValue = VolMin;
 			VolumeSlider.maxValue = VolMax;
@@ -42,12 +43,12 @@ namespace STP.Behaviour.MainMenu {
 			VolumeSlider.onValueChanged.AddListener(UpdateVolume);
 			CancelButton.onClick.AddListener(() => {
 				DiscardChanges();
-				_mainMenuManager.ShowMain();
+				_screenShower.Show<MainScreen>();
 
 			});
 			AcceptButton.onClick.AddListener(() => {
 				ApplyChanges();
-				_mainMenuManager.ShowMain();
+				_screenShower.Show<MainScreen>();
 			});
 			gameObject.SetActive(true);
 			UpdateView();

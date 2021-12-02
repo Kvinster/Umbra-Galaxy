@@ -14,7 +14,7 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public SettingsScreen    SettingsScreen;
 		[NotNull] public LeaderboardWindow LeaderboardWindow;
 
-		public MainMenuManager MainMenuManager { get; private set; }
+		[NotNull] public ScreensViewController ScreensViewController;
 
 		public GameController GameController => GameController.Instance;
 
@@ -22,14 +22,10 @@ namespace STP.Behaviour.Starter {
 			TryCreateGameState();
 			GameController.CreateGameController(GameState.ActiveInstance);
 
-			MainMenuManager = new MainMenuManager(MainScreen, SettingsScreen, LeaderboardWindow);
-
 			InitComponents();
 			// Settings for smooth gameplay
 			Application.targetFrameRate = Screen.currentResolution.refreshRate;
 			QualitySettings.vSyncCount  = 0;
-
-			MainMenuManager.Init();
 
 			DebugGuiController.Instance.SetDrawable(new MainMenuDebugDrawable(this));
 		}
