@@ -181,8 +181,7 @@ namespace STP.Manager {
 		}
 
 		void OnEnemyDestroyed(EnemyDestroyed e) {
-			var xpAmount = _scoreController.GetDestroyedEnemyXp(e.EnemyName);
-			_scoreController.AddLevelXp(xpAmount);
+			_scoreController.AddEnemyDestroyedXp(e.EnemyName);
 		}
 	}
 }

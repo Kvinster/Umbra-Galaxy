@@ -17,6 +17,7 @@ namespace STP.Manager {
 		[NotNull] public GameObject  UiRoot;
 		[Space]
 		[NotNull] public BossHealthBar BossHealthBar;
+		[NotNull] public PlayerScoreUi          ScoreUi;
 		[NotNull] public MinimapController      MinimapController;
 		[NotNull] public LevelText              LevelText;
 		[NotNull] public PlayerLivesUi          LivesUi;
@@ -57,6 +58,7 @@ namespace STP.Manager {
 			};
 
 			BossHealthBar.Init(levelController);
+			ScoreUi.Init(scoreController);
 			MinimapController.Init(minimapManager);
 			LevelText.Init(levelGoalManager, playerManager, playerController, scoreController);
 			LivesUi.Init(playerController);

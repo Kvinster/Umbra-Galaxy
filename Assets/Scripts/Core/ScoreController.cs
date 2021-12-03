@@ -28,8 +28,6 @@ namespace STP.Core {
 			public event Action<T> OnValueChanged;
 		}
 
-		readonly LevelController _levelController;
-
 		ScoreConfig _scoreConfig;
 
 		public readonly BoxedValue<int> Score = new BoxedValue<int>();
@@ -38,15 +36,16 @@ namespace STP.Core {
 			LoadConfig();
 		}
 
-		public void AddLevelXp(int value) {
-			if ( value < 0 ) {
+		public void AddEnemyDestroyedXp(string enemyName) {
+			var value = GetDestroyedEnemyXp(enemyName);
+			if ( value <= 0 ) {
 				Debug.LogWarning($"Strange xp amount {value}. Ignoring");
 				return;
 			}
 			Score.Value += value;
 		}
-		
-		public int GetDestroyedEnemyXp(string enemyName) {
+
+		int GetDestroyedEnemyXp(string enemyName) {
 			return _scoreConfig.GetDestroyedEnemyScore(enemyName);
 		}
 

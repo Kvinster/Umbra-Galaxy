@@ -3,8 +3,6 @@
 using System;
 using System.Collections.Generic;
 
-using STP.Behaviour.Core;
-
 namespace STP.Config {
 	[Serializable]
 	public class DestroyedEnemyScoreInfo {
@@ -13,9 +11,9 @@ namespace STP.Config {
 	}
 
 	[CreateAssetMenu(fileName = "XpConfig", menuName = "ScriptableObjects/XpConfig", order = 1)]
-	public class ScoreConfig : ScriptableObject {
+	public sealed class ScoreConfig : ScriptableObject {
 		public List<DestroyedEnemyScoreInfo> EnemyXpInfo;
-		
+
 		public int GetDestroyedEnemyScore(string enemyName) {
 			var item = EnemyXpInfo.Find(x => x.EnemyName == enemyName);
 			if ( item == null ) {
