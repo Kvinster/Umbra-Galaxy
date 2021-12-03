@@ -4,16 +4,11 @@ using UnityEngine.Assertions;
 using STP.Behaviour.MainMenu;
 using STP.Core;
 using STP.Core.State;
-using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 using STP.View.DebugGUI;
 
 namespace STP.Behaviour.Starter {
 	public sealed class MainMenuStarter : BaseStarter<MainMenuStarter> {
-		[NotNull] public MainScreen        MainScreen;
-		[NotNull] public SettingsScreen    SettingsScreen;
-		[NotNull] public LeaderboardWindow LeaderboardWindow;
-
 		[NotNull] public ScreensViewController ScreensViewController;
 
 		public GameController GameController => GameController.Instance;

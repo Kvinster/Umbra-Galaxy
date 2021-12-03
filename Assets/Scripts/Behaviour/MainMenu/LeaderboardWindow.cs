@@ -10,29 +10,23 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.MainMenu {
 	public sealed class LeaderboardWindow : GameComponent, IScreen {
-		[NotNull]
-		public GameObject HaveLeaderboardEntriesRoot;
-		[NotNull]
-		public GameObject NoLeaderboardEntriesRoot;
-		[NotNull]
-		public ScrollRect ScrollRect;
-		[NotNull]
-		public Button BackButton;
-		[NotNullOrEmpty]
-		public List<LeaderboardEntryView> Entries = new List<LeaderboardEntryView>();
+		[NotNull] public GameObject HaveLeaderboardEntriesRoot;
+		[NotNull] public GameObject NoLeaderboardEntriesRoot;
+		[NotNull] public Button     BackButton;
+		
+		[NotNullOrEmpty] public List<MainMenuLeaderboardEntryView> Entries = new List<MainMenuLeaderboardEntryView>();
 
 		IScreenShower         _screenShower;
 		LeaderboardController _leaderboardController;
 
 		void Reset() {
-			ScrollRect = GetComponentInChildren<ScrollRect>();
 			GetComponentsInChildren(Entries);
 		}
 
 		public void Init(MainMenuStarter starter) {
 			_screenShower          = starter.ScreensViewController;
 			_leaderboardController = starter.GameController.LeaderboardController;
-
+			
 			BackButton.onClick.AddListener(() => _screenShower.Show<MainScreen>());
 		}
 
@@ -61,7 +55,6 @@ namespace STP.Behaviour.MainMenu {
 				view.gameObject.SetActive(true);
 			}
 
-			ScrollRect.verticalNormalizedPosition = 1f;
 
 			var haveScores = (entries.Count > 0);
 			HaveLeaderboardEntriesRoot.SetActive(haveScores);
@@ -70,7 +63,6 @@ namespace STP.Behaviour.MainMenu {
 
 		void ResetEntries() {
 			foreach ( var entry in Entries ) {
-				entry.Deinit();
 				entry.gameObject.SetActive(false);
 			}
 		}
