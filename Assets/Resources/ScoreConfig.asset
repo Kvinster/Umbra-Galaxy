@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyXpInfo:
   - EnemyName: Glider
-    XpAmount: 1
+    XpAmount: 100
   - EnemyName: Drone
-    XpAmount: 2
+    XpAmount: 200
   - EnemyName: Fighter
-    XpAmount: 3
+    XpAmount: 300
   - EnemyName: Generator
-    XpAmount: 4
+    XpAmount: 400
   - EnemyName: SuicideDrone
-    XpAmount: 1
+    XpAmount: 100
   - EnemyName: Asteroid
     XpAmount: 0
-  - EnemyName: SpawnerBoss
-    XpAmount: 500
   - EnemyName: SecondBoss
-    XpAmount: 250
+    XpAmount: 25000
+  - EnemyName: SpawnerBoss
+    XpAmount: 50000
