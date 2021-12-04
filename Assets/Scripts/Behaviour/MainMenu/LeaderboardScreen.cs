@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 using System.Collections.Generic;
-
+using Cysharp.Threading.Tasks;
 using STP.Behaviour.Starter;
 using STP.Core.Leaderboards;
 using STP.Utils;
@@ -10,9 +10,13 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.MainMenu {
 	public sealed class LeaderboardScreen : GameComponent, IScreen {
+		[Header("Leaderboard stats")]
 		[NotNull] public GameObject HaveLeaderboardEntriesRoot;
 		[NotNull] public GameObject NoLeaderboardEntriesRoot;
 		[NotNull] public Button     BackButton;
+
+		[Header("Loading leaderboard")]
+		[NotNull] public RotationEffect LoadingEffect;
 
 		[NotNullOrEmpty] public List<MainMenuLeaderboardEntryView> Entries = new List<MainMenuLeaderboardEntryView>();
 
@@ -32,7 +36,8 @@ namespace STP.Behaviour.MainMenu {
 
 		public void Show() {
 			gameObject.SetActive(true);
-			UpdateView();
+			LoadingEffect.ShowEffect();
+			UpdateView().Forget();
 		}
 
 		public void Hide() {
@@ -40,7 +45,7 @@ namespace STP.Behaviour.MainMenu {
 			gameObject.SetActive(false);
 		}
 
-		async void UpdateView() {
+		async UniTask UpdateView() {
 			ResetEntries();
 
 			var entries    = await _leaderboardController.GetTopScores(Entries.Count);
@@ -59,6 +64,9 @@ namespace STP.Behaviour.MainMenu {
 			var haveScores = (entries.Count > 0);
 			HaveLeaderboardEntriesRoot.SetActive(haveScores);
 			NoLeaderboardEntriesRoot.SetActive(!haveScores);
+
+			// End loading effect
+			LoadingEffect.HideEffect();
 		}
 
 		void ResetEntries() {
