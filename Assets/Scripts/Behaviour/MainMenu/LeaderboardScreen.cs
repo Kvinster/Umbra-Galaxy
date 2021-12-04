@@ -9,11 +9,11 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.MainMenu {
-	public sealed class LeaderboardWindow : GameComponent, IScreen {
+	public sealed class LeaderboardScreen : GameComponent, IScreen {
 		[NotNull] public GameObject HaveLeaderboardEntriesRoot;
 		[NotNull] public GameObject NoLeaderboardEntriesRoot;
 		[NotNull] public Button     BackButton;
-		
+
 		[NotNullOrEmpty] public List<MainMenuLeaderboardEntryView> Entries = new List<MainMenuLeaderboardEntryView>();
 
 		IScreenShower         _screenShower;
@@ -26,7 +26,7 @@ namespace STP.Behaviour.MainMenu {
 		public void Init(MainMenuStarter starter) {
 			_screenShower          = starter.ScreensViewController;
 			_leaderboardController = starter.GameController.LeaderboardController;
-			
+
 			BackButton.onClick.AddListener(() => _screenShower.Show<MainScreen>());
 		}
 
