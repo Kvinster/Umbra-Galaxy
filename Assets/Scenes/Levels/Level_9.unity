@@ -456,6 +456,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3765652816847201434, guid: 23d602c749af09d4b94cdd7fd8346a19,
         type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3765652816847201434, guid: 23d602c749af09d4b94cdd7fd8346a19,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 0}
@@ -477,6 +482,21 @@ PrefabInstance:
     - target: {fileID: 8050788207281394817, guid: 23d602c749af09d4b94cdd7fd8346a19,
         type: 3}
       propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260586132325110407, guid: 23d602c749af09d4b94cdd7fd8346a19,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260586132325110407, guid: 23d602c749af09d4b94cdd7fd8346a19,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8260586132325110407, guid: 23d602c749af09d4b94cdd7fd8346a19,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1446,7 +1466,7 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
 --- !u!61 &5108185415757247114
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1718,7 +1738,7 @@ MonoBehaviour:
   DeathSoundPlayer: {fileID: 3273768616121114360}
   DeathEffectRunner: {fileID: 4259864053905196590}
   DetachVfxOnDeath: 0
-  StartHp: 1
+  StartHp: 1500
   CollisionDamage: 50
   DeathEffectTime: 1.8
   SpawnParams:

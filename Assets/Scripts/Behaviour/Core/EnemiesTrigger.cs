@@ -27,19 +27,13 @@ namespace STP.Behaviour.Core {
 		}
 
 		void TryRemoveTarget(GameObject obj) {
-			var enemyComp = obj.GetComponent<BaseEnemy>();
-			if ( !enemyComp ) {
-				return;
-			}
-			enemyComp.OnBecomeInvisibleForPlayer();
+			var enemyComp = obj.GetComponent<IVisibleHandler>();
+			enemyComp?.OnBecomeInvisibleForPlayer();
 		}
 
 		void TrySetTarget(GameObject obj) {
-			var enemyComp = obj.GetComponent<BaseEnemy>();
-			if ( !enemyComp ) {
-				return;
-			}
-			enemyComp.OnBecomeVisibleForPlayer(_playerTransform);
+			var enemyComp = obj.GetComponent<IVisibleHandler>();
+			enemyComp?.OnBecomeVisibleForPlayer(_playerTransform);
 		}
 	}
 }

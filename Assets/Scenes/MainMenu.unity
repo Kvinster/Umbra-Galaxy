@@ -1537,7 +1537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainScreen: {fileID: 1505533784}
   SettingsScreen: {fileID: 1884514085}
-  LeaderboardWindow: {fileID: 968081746}
+  LeaderboardScreen: {fileID: 968081746}
 --- !u!1 &1874926012
 GameObject:
   m_ObjectHideFlags: 0

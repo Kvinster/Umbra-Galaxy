@@ -42,7 +42,7 @@ namespace STP.Behaviour.MainMenu {
 		}
 
 		void ShowLeaderboardWindow() {
-			_screenShower.Show<LeaderboardWindow>();
+			_screenShower.Show<LeaderboardScreen>();
 		}
 
 		void Exit() {

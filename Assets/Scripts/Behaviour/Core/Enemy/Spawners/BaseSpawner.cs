@@ -14,18 +14,24 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
 
         protected abstract BaseSpawnerSettings Settings { get; }
 
-        LevelManager _levelManager;
+        LevelManager     _levelManager;
+        LevelGoalManager _levelGoalManager;
 
         bool _isStopped;
 
+        bool _isInited;
+        
+        bool IsLevelActiveAndNotWon => _isInited && _levelManager.IsLevelActive && !_levelGoalManager.IsLevelWon;
+        
         void OnDestroy() {
             if ( Player ) {
                 Player.OnPlayerDied -= OnPlayerDied;
             }
+            _isInited = false;
         }
 
         void Update() {
-            if ( !(_levelManager?.IsLevelActive ?? false) ) {
+            if ( !IsLevelActiveAndNotWon ) {
                 return;
             }
             if ( !_isStopped && _spawnTimer.DeltaTick() ) {
@@ -39,7 +45,10 @@ namespace STP.Behaviour.Core.Enemy.Spawners {
                 return;
             }
 
-            _levelManager = starter.LevelManager;
+            _isInited = true;
+
+            _levelManager     = starter.LevelManager;
+            _levelGoalManager = starter.LevelGoalManager;
 
             SpawnHelper = starter.SpawnHelper;
             _spawnTimer.Start(Settings.SpawnPeriod);

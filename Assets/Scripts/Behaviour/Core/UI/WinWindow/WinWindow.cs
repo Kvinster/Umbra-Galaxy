@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using Cysharp.Threading.Tasks;
+using STP.Behaviour.MainMenu;
 using STP.Core;
 using STP.Core.Leaderboards;
 using STP.Manager;
@@ -14,8 +15,11 @@ using IPromise = RSG.IPromise;
 namespace STP.Behaviour.Core.UI.WinWindow {
 	public sealed class WinWindow : BaseCoreWindow {
 		[NotNull] public List<LeaderboardEntryView> Entries;
-		
+		[NotNull] public GameObject                 EntriesRoot;
+
 		[NotNull] public Button     ContinueButton;
+
+		[NotNull] public RotationEffect LoadingEffect;
 
 		LeaderboardController _leaderboardController;
 		LevelManager          _levelManager;
@@ -24,7 +28,7 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 		List<Score> _scores;
 
 		LeaderboardEntryView _activePlayerView;
-		
+
 		public void CommonInit(ScoreController scoreController, LeaderboardController leaderboardController, LevelManager levelManager) {
 			_scoreController          = scoreController;
 			_leaderboardController = leaderboardController;
@@ -34,7 +38,9 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 
 		public override IPromise Show() {
 			var promise = base.Show();
-			UniTask.Void(UpdateLeaderboard);
+			LoadingEffect.ShowEffect();
+			EntriesRoot.SetActive(false);
+			UpdateLeaderboard().Forget();
 			return promise;
 		}
 
@@ -78,6 +84,8 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 			await UniTask.Delay(1000, DelayType.UnscaledDeltaTime);
 			_scores = await _leaderboardController.GetScoresAroundPlayerAsync(Entries.Count);
 			InitViews();
+			LoadingEffect.HideEffect();
+			EntriesRoot.SetActive(true);
 		}
 
 		void OnContinueClick() {

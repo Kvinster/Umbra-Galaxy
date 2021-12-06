@@ -7,15 +7,15 @@ namespace STP.Behaviour.MainMenu {
     public class ScreensViewController : BaseMainMenuComponent, IScreenShower {
         [NotNull] public MainScreen        MainScreen;
         [NotNull] public SettingsScreen    SettingsScreen;
-        [NotNull] public LeaderboardWindow LeaderboardWindow;
+        [NotNull] public LeaderboardScreen LeaderboardScreen;
 
         List<IScreen> _screens;
 
         protected override void InitInternal(MainMenuStarter starter) {
-            _screens = new List<IScreen>{ MainScreen, SettingsScreen, LeaderboardWindow };
+            _screens = new List<IScreen>{ MainScreen, SettingsScreen, LeaderboardScreen };
             MainScreen.Init(this);
             SettingsScreen.Init(starter);
-            LeaderboardWindow.Init(starter);
+            LeaderboardScreen.Init(starter);
 
             Show<MainScreen>();
         }

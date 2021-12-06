@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using STP.Behaviour.Core.Enemy;
+using UnityEngine;
 
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
-	public class Bullet : GameComponent, IBullet {
+	public class Bullet : GameComponent, IBullet, IVisibleHandler {
 		[NotNull] public Rigidbody2D Rigidbody;
 		[NotNull] public Collider2D  Collider;
 
@@ -24,9 +25,12 @@ namespace STP.Behaviour.Core {
 
 		public virtual bool NeedToDestroy => (_lifeTimer >= LifeTime);
 
+		bool _isVisible;
+		
+		
 		void Update() {
 			_lifeTimer += Time.deltaTime;
-			if ( NeedToDestroy ) {
+			if ( NeedToDestroy && !_isVisible ) {
 				Die();
 			}
 		}
@@ -39,6 +43,14 @@ namespace STP.Behaviour.Core {
 				rb.AddForce(movementDirection * PlayerPushForce, ForceMode2D.Impulse);
 			}
 			Die();
+		}
+
+		public void OnBecomeVisibleForPlayer(Transform playerTransform) {
+			_isVisible = true;
+		}
+
+		public void OnBecomeInvisibleForPlayer() {
+			_isVisible = false;
 		}
 
 		public void Init(float damage, float speed, params Collider2D[] ownerColliders) {
