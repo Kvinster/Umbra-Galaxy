@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
 using System.Collections.Generic;
-
+using STP.Behaviour.Core.Enemy;
 using STP.Behaviour.Starter;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
-	public sealed class FragBullet : BaseCoreComponent, IBullet {
+	public sealed class FragBullet : BaseCoreComponent, IBullet, IVisibleHandler {
 		[NotNullOrEmpty]
 		public List<Bullet> InnerBullets;
 		[NotNull]
@@ -23,10 +23,14 @@ namespace STP.Behaviour.Core {
 		float _damage;
 
 		Player _player;
+		
+		bool NeedToDestroy => (_lifeTimer >= LifeTime);
+		
+		bool _isVisible;
 
 		void Update() {
 			_lifeTimer += Time.deltaTime;
-			if ( _lifeTimer >= LifeTime ) {
+			if ( NeedToDestroy && !_isVisible ) {
 				Destroy(gameObject);
 			}
 		}
@@ -43,6 +47,14 @@ namespace STP.Behaviour.Core {
 			} else {
 				Die();
 			}
+		}
+
+		public void OnBecomeVisibleForPlayer(Transform playerTransform) {
+			_isVisible = true;
+		}
+
+		public void OnBecomeInvisibleForPlayer() {
+			_isVisible = false;
 		}
 
 		public void Init(float damage, float speed, params Collider2D[] ownerColliders) {

@@ -73,8 +73,8 @@ GameObject:
   - component: {fileID: 7414209777001645925}
   - component: {fileID: 1187418170565177369}
   - component: {fileID: 2067755589792766845}
-  - component: {fileID: 1398611728631014622}
   - component: {fileID: 8978576009502818329}
+  - component: {fileID: 6885086919656083203}
   m_Layer: 11
   m_Name: FragBullet
   m_TagString: Untagged
@@ -212,19 +212,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1398611728631014622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4765969172863325119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25903e0f436d4f42bd484d323be14ac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CircleTime: 1.5
 --- !u!114 &8978576009502818329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +225,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HdrColor: {r: 0, g: 3.0157065, b: 5.3403134, a: 1}
+--- !u!114 &6885086919656083203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4765969172863325119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5922b97305504e22813d1231c7eebc2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CircleTime: 1.5
+  Rigidbody2D: {fileID: 7414209777001645925}
 --- !u!1001 &131006320986193524
 PrefabInstance:
   m_ObjectHideFlags: 0
