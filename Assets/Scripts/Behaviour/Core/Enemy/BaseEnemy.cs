@@ -9,7 +9,7 @@ using STP.Utils.Events;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy {
-	public abstract class BaseEnemy : BaseCoreComponent {
+	public abstract class BaseEnemy : BaseCoreComponent, IVisibleHandler {
 		[NotNullOrEmpty] public string Name;
 		[Space]
 		public SimpleDeathSoundPlayer DeathSoundPlayer;
