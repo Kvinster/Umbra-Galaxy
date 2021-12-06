@@ -381,7 +381,7 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
 --- !u!114 &8476757396819752348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -864,9 +864,12 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.30004835, y: 27.78244}
-      - {x: 22.400387, y: -16.666666}
-      - {x: -22.400389, y: -16.666666}
+    - - {x: 6.6336584, y: -15.414925}
+      - {x: 0.46169454, y: -25.482426}
+      - {x: -6.2045393, y: -15.454519}
+      - {x: -22, y: -16.5}
+      - {x: 0, y: 25}
+      - {x: 22, y: -16.5}
 --- !u!50 &3127888978083334668
 Rigidbody2D:
   serializedVersion: 4
@@ -879,7 +882,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 99.56772
+  m_Mass: 94.723206
   m_LinearDrag: 10
   m_AngularDrag: 10
   m_GravityScale: 0
@@ -1501,6 +1504,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerDamagePowerUpView
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493969194448087260, guid: 211fbf06880dee04398f6123b24f924e,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5493969194448087260, guid: 211fbf06880dee04398f6123b24f924e,
         type: 3}

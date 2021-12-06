@@ -115,6 +115,8 @@ namespace STP.Behaviour.Core {
 			_pauseManager      = starter.PauseManager;
 			_prefabsController = starter.PrefabsController;
 			_playerController  = starter.PlayerController;
+			
+			Rigidbody.centerOfMass = Vector2.zero;
 
 			_playerHpSystem = _playerController.HpSystem;
 
