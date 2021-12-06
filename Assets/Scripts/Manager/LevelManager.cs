@@ -76,6 +76,7 @@ namespace STP.Manager {
 				return;
 			}
 			IsLevelActive = false;
+			_levelController.FinishLevel();
 			SceneService.LoadMainMenu();
 		}
 
