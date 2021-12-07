@@ -23,12 +23,12 @@ namespace STP.Core {
 			Assert.AreEqual(CurLevelIndex, -1);
 			_state.CurLevelIndex = levelIndex;
 			Assert.IsTrue(CurLevelConfig);
-			PlayfabAnalyticsService.LogEvent(new LevelStartedEvent(levelIndex));
+			AnalyticsService.LogEvent(new LevelStartedEvent(levelIndex));
 		}
 
 		public void FinishLevel() {
 			Assert.AreNotEqual(CurLevelIndex, -1);
-			PlayfabAnalyticsService.LogEvent(new LevelEndedEvent(CurLevelIndex));
+			AnalyticsService.LogEvent(new LevelEndedEvent(CurLevelIndex));
 			_state.CurLevelIndex = -1;
 		}
 	}

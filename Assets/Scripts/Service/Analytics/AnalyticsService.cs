@@ -3,7 +3,7 @@ using PlayFab.ClientModels;
 using UnityEngine;
 
 namespace STP.Service {
-    public class PlayfabAnalyticsService {
+    public class AnalyticsService {
         public static bool CanLogEvents => PlayFabClientAPI.IsClientLoggedIn();
         
         public static void LogEvent<T>(T e) where T : struct, IAnalyticsEvent {
