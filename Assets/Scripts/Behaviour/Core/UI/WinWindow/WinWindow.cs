@@ -79,7 +79,7 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 		}
 
 		async UniTaskVoid UpdateLeaderboard() {
-			await _leaderboardController.TryLoginAsync(false);
+			await _leaderboardController.TryLoginAsync();
 			await _leaderboardController.PublishScoreAsync(_scoreController.Score);
 			await UniTask.Delay(1000, DelayType.UnscaledDeltaTime);
 			_scores = await _leaderboardController.GetScoresAroundPlayerAsync(Entries.Count);

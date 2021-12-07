@@ -11,9 +11,7 @@ namespace STP.Core.Leaderboards {
 		const string LeaderBoardName = "Scores";
 
 		const string SharedUserName = "Anonymous";
-		
-		string _displayName;
-		
+
 		public string PlayerId { get; private set; }
 		
 		bool IsLoggedIn => PlayFabClientAPI.IsClientLoggedIn();
@@ -60,8 +58,8 @@ namespace STP.Core.Leaderboards {
 			return ConvertPlayFabInfoToOurFormat(results);
 		}
 
-		public async UniTask TryLoginAsync(bool isShared = true) {
-			var (id, displayName) = (isShared) ? await _loginOperation.SharedLoginAsync() : await _loginOperation.UniqueLoginAsync();
+		public async UniTask TryLoginAsync() {
+			var (id, displayName) = await _loginOperation.UniqueLoginAsync();
 			PlayerId = id;
 			if ( string.IsNullOrEmpty(displayName) ) {
 				await UpdateUserName(SharedUserName);
@@ -112,7 +110,8 @@ namespace STP.Core.Leaderboards {
 						StatisticName = LeaderBoardName,
 						Value         = score
 					}
-				}
+				},
+				
 			};
 		}
 		
