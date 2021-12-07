@@ -11,7 +11,7 @@ namespace STP.Behaviour.Core {
 		[NotNull] public VisualEffect VisualEffect;
 
 		protected override void InitInternal(CoreStarter starter) {
-			VisualEffect.SetVector2(AreaPosId, starter.AreaRect.center);
+			VisualEffect.SetVector2(AreaPosId, starter.AreaRect.min);
 			VisualEffect.SetVector2(AreaSizeId, starter.AreaRect.size);
 		}
 	}
