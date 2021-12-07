@@ -1101,7 +1101,7 @@ MonoBehaviour:
   colorMapping: 0
   uvMode: 0
   useSoftParticle: 0
-  sortPriority: 0
+  sortPriority: 10
   sort: 0
   indirectDraw: 0
   computeCulling: 0
@@ -2585,7 +2585,7 @@ MonoBehaviour:
   colorMapping: 0
   uvMode: 0
   useSoftParticle: 0
-  sortPriority: 1
+  sortPriority: 0
   sort: 0
   indirectDraw: 0
   computeCulling: 0
@@ -5984,7 +5984,7 @@ MonoBehaviour:
   colorMapping: 0
   uvMode: 0
   useSoftParticle: 0
-  sortPriority: 6
+  sortPriority: 9
   sort: 0
   indirectDraw: 0
   computeCulling: 0
@@ -7705,7 +7705,7 @@ MonoBehaviour:
   colorMapping: 0
   uvMode: 0
   useSoftParticle: 0
-  sortPriority: 4
+  sortPriority: 7
   sort: 0
   indirectDraw: 0
   computeCulling: 0
@@ -9588,7 +9588,7 @@ MonoBehaviour:
   colorMapping: 0
   uvMode: 0
   useSoftParticle: 0
-  sortPriority: 5
+  sortPriority: 8
   sort: 0
   indirectDraw: 0
   computeCulling: 0
@@ -10788,7 +10788,7 @@ MonoBehaviour:
   colorMapping: 0
   uvMode: 0
   useSoftParticle: 0
-  sortPriority: 3
+  sortPriority: 4
   sort: 0
   indirectDraw: 0
   computeCulling: 0
@@ -12701,7 +12701,7 @@ MonoBehaviour:
   colorMapping: 0
   uvMode: 0
   useSoftParticle: 0
-  sortPriority: 2
+  sortPriority: 3
   sort: 0
   indirectDraw: 0
   computeCulling: 0
@@ -13879,7 +13879,7 @@ MonoBehaviour:
   colorMapping: 0
   uvMode: 0
   useSoftParticle: 0
-  sortPriority: 3
+  sortPriority: 5
   sort: 0
   indirectDraw: 0
   computeCulling: 0
@@ -17595,7 +17595,7 @@ MonoBehaviour:
   colorMapping: 0
   uvMode: 0
   useSoftParticle: 0
-  sortPriority: 3
+  sortPriority: 6
   sort: 0
   indirectDraw: 0
   computeCulling: 0
@@ -19028,7 +19028,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615543}
   - {fileID: 8926484042661615547}
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
+  m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_MasterSlot: {fileID: 8926484042661615542}
   m_MasterData:
@@ -19264,7 +19264,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Sphere, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"center":{"x":0.0,"y":0.0,"z":0.0},"radius":1.0}'
+      m_SerializableObject: '{"center":{"x":0.0,"y":0.0,"z":0.0},"radius":15.0}'
     m_Space: 0
   m_Property:
     name: Sphere
