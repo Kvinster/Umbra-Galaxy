@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 using System;
-
 using STP.Behaviour.Core;
 using STP.Config;
 using STP.Core;
@@ -77,6 +76,7 @@ namespace STP.Manager {
 			}
 			IsLevelActive = false;
 			_levelController.FinishLevel();
+			AnalyticsService.LogEvent(new ReturnToMenuEvent());
 			SceneService.LoadMainMenu();
 		}
 

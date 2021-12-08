@@ -5,7 +5,6 @@ using STP.Behaviour.MainMenu;
 using STP.Core;
 using STP.Core.State;
 using STP.Utils.GameComponentAttributes;
-using STP.View.DebugGUI;
 
 namespace STP.Behaviour.Starter {
 	public sealed class MainMenuStarter : BaseStarter<MainMenuStarter> {
@@ -21,8 +20,6 @@ namespace STP.Behaviour.Starter {
 			// Settings for smooth gameplay
 			Application.targetFrameRate = Screen.currentResolution.refreshRate;
 			QualitySettings.vSyncCount  = 0;
-
-			DebugGuiController.Instance.SetDrawable(new MainMenuDebugDrawable(this));
 		}
 
 		void TryCreateGameState() {

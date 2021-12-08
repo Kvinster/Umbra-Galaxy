@@ -2,6 +2,8 @@
 
 using STP.Config;
 using STP.Core.State;
+using STP.Events.Analytics;
+using STP.Service;
 
 namespace STP.Core {
 	public sealed class LevelController : BaseStateController {
@@ -21,10 +23,12 @@ namespace STP.Core {
 			Assert.AreEqual(CurLevelIndex, -1);
 			_state.CurLevelIndex = levelIndex;
 			Assert.IsTrue(CurLevelConfig);
+			AnalyticsService.LogEvent(new LevelStartedEvent(levelIndex));
 		}
 
 		public void FinishLevel() {
 			Assert.AreNotEqual(CurLevelIndex, -1);
+			AnalyticsService.LogEvent(new LevelEndedEvent(CurLevelIndex));
 			_state.CurLevelIndex = -1;
 		}
 	}

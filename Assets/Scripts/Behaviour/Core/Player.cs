@@ -12,6 +12,7 @@ using STP.Utils.GameComponentAttributes;
 
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
+using STP.Service;
 
 namespace STP.Behaviour.Core {
 	public sealed class Player : BaseCoreComponent, IDestructible {
@@ -179,8 +180,10 @@ namespace STP.Behaviour.Core {
 			_playerController.SubLife();
 			if ( _playerController.CurLives == 0 ) {
 				OnFinalDeath();
+				AnalyticsService.LogEvent(new PlayerDiedEvent());
 			} else {
 				OnDeath();
+				AnalyticsService.LogEvent(new PlayerLostLifeEvent());
 			}
 		}
 

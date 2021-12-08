@@ -13,12 +13,8 @@ namespace STP.Core.Leaderboards.PlayfabOperations {
 			public string PlayerId;
 			public string DisplayName;
 		}
-		
-		const string SharedUserId = "__Anonymous__";
 
-		public UniTask<(string id, string displayName)> SharedLoginAsync() => Login(SharedUserId);
-
-		public UniTask<(string id, string displayName)> UniqueLoginAsync() => Login(Guid.NewGuid().ToString());
+		public UniTask<(string id, string displayName)> UniqueLoginAsync() => Login(SystemInfo.deviceUniqueIdentifier);
 
 		async UniTask<(string id, string displayName)> Login(string userId) {
 			var state = new OperationState();
