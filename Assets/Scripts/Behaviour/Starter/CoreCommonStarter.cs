@@ -6,7 +6,6 @@ using STP.Behaviour.Utils;
 using STP.Manager;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
-using STP.View.DebugGUI;
 
 namespace STP.Behaviour.Starter {
 	public sealed class CoreCommonStarter : GameComponent {
@@ -43,10 +42,5 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public Portal                      Portal;
 		[NotNull] public CameraShake                 CameraShake;
 
-		void OnDestroy() {
-			if ( DebugGuiController.HasInstance ) {
-				DebugGuiController.Instance.SetDrawable(null);
-			}
-		}
 	}
 }
