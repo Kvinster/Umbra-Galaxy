@@ -85,8 +85,8 @@ namespace STP.Manager {
 		}
 
 		public void FinishLevelWin() {
-			_levelController.FinishLevel();
 			if ( CurLevelIndex < LevelsConfig.Instance.TotalLevelsCount - 1 ) {
+				_levelController.FinishLevel();
 				GoToNextLevel();
 			} else {
 				OnLastLevelWon?.Invoke();
