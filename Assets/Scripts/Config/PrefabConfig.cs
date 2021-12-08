@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using STP.Behaviour.Core;
+
 using STP.Common;
 
 namespace STP.Config {
@@ -12,22 +12,14 @@ namespace STP.Config {
 			public T  Type;
 			public T1 Entry;
 		}
-		
-		[Serializable]
-		public class PowerUpEntry : EnumToEntry<PowerUpType, GameObject> { }
-		
-		[Serializable]
-		public class BulletEntry : EnumToEntry<BulletType, GameObject> { }
 
 		[Serializable]
-		public class ShipEntry {
-			public ShipType   Type;
-			public GameObject Entry;
-			public Sprite     PreviewSprite;
-		}
+		public sealed class PowerUpEntry : EnumToEntry<PowerUpType, GameObject> { }
+
+		[Serializable]
+		public sealed class BulletEntry : EnumToEntry<BulletType, GameObject> { }
 
 		public List<PowerUpEntry> PowerUps;
-		public List<ShipEntry>    Ships;
 		public List<BulletEntry>  PlayerBullets;
 
 		public GameObject GetPowerUpPrefab(PowerUpType powerUp) {
@@ -36,14 +28,6 @@ namespace STP.Config {
 
 		public GameObject GetBulletPrefab(BulletType bulletType) {
 			return PlayerBullets.Find(x => x.Type == bulletType)?.Entry;
-		} 
-		
-		public GameObject GetShipPrefab(ShipType ship) {
-			return Ships.Find(x => x.Type == ship)?.Entry;
 		}
-		
-		public Sprite GetShipPreviewSprite(ShipType ship) {
-			return Ships.Find(x => x.Type == ship)?.PreviewSprite;
-		}
- 	}
+	}
 }

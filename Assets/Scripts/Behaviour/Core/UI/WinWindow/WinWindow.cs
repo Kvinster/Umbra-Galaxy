@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using Cysharp.Threading.Tasks;
+﻿using UnityEngine;
+using UnityEngine.UI;
+
+using System.Collections.Generic;
+
 using STP.Behaviour.MainMenu;
 using STP.Core;
 using STP.Core.Leaderboards;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
-using TMPro;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+
+using Cysharp.Threading.Tasks;
+
 using IPromise = RSG.IPromise;
 
 namespace STP.Behaviour.Core.UI.WinWindow {
@@ -17,20 +18,20 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 		[NotNull] public List<LeaderboardEntryView> Entries;
 		[NotNull] public GameObject                 EntriesRoot;
 
-		[NotNull] public Button     ContinueButton;
+		[NotNull] public Button ContinueButton;
 
 		[NotNull] public RotationEffect LoadingEffect;
 
 		LeaderboardController _leaderboardController;
 		LevelManager          _levelManager;
-		ScoreController          _scoreController;
+		ScoreController       _scoreController;
 
 		List<Score> _scores;
 
 		LeaderboardEntryView _activePlayerView;
 
 		public void CommonInit(ScoreController scoreController, LeaderboardController leaderboardController, LevelManager levelManager) {
-			_scoreController          = scoreController;
+			_scoreController       = scoreController;
 			_leaderboardController = leaderboardController;
 			_levelManager          = levelManager;
 			ContinueButton.onClick.AddListener(OnContinueClick);
