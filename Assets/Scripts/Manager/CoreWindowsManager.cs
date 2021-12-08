@@ -62,7 +62,7 @@ namespace STP.Manager {
 			DamageScreen.Init(playerController);
 			PowerUpTimerUisManager.Init(playerManager);
 
-			DeathWindow.CommonInit(levelManager, playerManager, _playerController);
+			DeathWindow.CommonInit(levelManager);
 			WinWindow.CommonInit(scoreController, leaderboardController, levelManager);
 			PauseWindow.CommonInit(levelManager, levelGoalManager, scoreController, playerController);
 			PauseButton.onClick.AddListener(ShowPauseWindow);
@@ -81,7 +81,7 @@ namespace STP.Manager {
 		}
 
 		public void ShowDeathWindow() {
-			ShowWindow(DeathWindow, true);
+			ShowWindow(DeathWindow);
 		}
 
 		void ShowPauseWindow() {
