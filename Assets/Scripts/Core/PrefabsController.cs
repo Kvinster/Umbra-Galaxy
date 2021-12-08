@@ -13,6 +13,8 @@ namespace STP.Core {
 			Assert.IsNotNull(_config);
 		}
 
+		public GameObject GetLifePrefab() => _config.LifePrefab;
+
 		public GameObject GetPowerUpPrefab(PowerUpType type) {
 			return _config.GetPowerUpPrefab(type);
 		}

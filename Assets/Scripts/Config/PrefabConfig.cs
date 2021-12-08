@@ -19,6 +19,7 @@ namespace STP.Config {
 		[Serializable]
 		public sealed class BulletEntry : EnumToEntry<BulletType, GameObject> { }
 
+		public GameObject         LifePrefab;
 		public List<PowerUpEntry> PowerUps;
 		public List<BulletEntry>  PlayerBullets;
 

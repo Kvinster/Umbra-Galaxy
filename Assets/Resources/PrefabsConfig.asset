@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbf249d565748b89e08d9a97544d36b, type: 3}
   m_Name: PrefabsConfig
   m_EditorClassIdentifier: 
+  LifePrefab: {fileID: 8767781795942076468, guid: 46889018278b7e74e8f0e2bded88a81d,
+    type: 3}
   PowerUps:
   - Type: 1
     Entry: {fileID: 1451931016446855150, guid: 60df9e7e72a9ec94e9e3ab306e91a000, type: 3}

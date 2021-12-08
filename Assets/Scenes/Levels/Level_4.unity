@@ -199,7 +199,7 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
 --- !u!114 &309661331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -677,7 +677,7 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
 --- !u!1 &1666005314368711412
 GameObject:
   m_ObjectHideFlags: 0
@@ -1346,7 +1346,7 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
 --- !u!212 &4845797646873532744
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1783,6 +1783,7 @@ GameObject:
   - component: {fileID: 4845797646873532744}
   - component: {fileID: 318140004622272507}
   - component: {fileID: 5916036517206224900}
+  - component: {fileID: 7926404279718062760}
   m_Layer: 10
   m_Name: SecondBoss
   m_TagString: Untagged
@@ -1790,6 +1791,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &7926404279718062760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7926404279718062759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8c9e324b79e41f8903f1f1b259c628a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Enemy: {fileID: 1974672652298303608}
 --- !u!4 &7967329023813072882
 Transform:
   m_ObjectHideFlags: 0
