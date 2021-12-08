@@ -76,7 +76,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 24
+  m_SortingOrder: -1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5133781777169627483
 MonoBehaviour:
@@ -181,6 +181,7 @@ GameObject:
   - component: {fileID: 5133781778158054667}
   - component: {fileID: 5133781778158054901}
   - component: {fileID: 5133781778158054666}
+  - component: {fileID: 7494315859570254254}
   m_Layer: 0
   m_Name: Effect
   m_TagString: Untagged
@@ -283,7 +284,22 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
+--- !u!114 &7494315859570254254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5133781778158054664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39027b112b084bbd9e1483e308701935, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Renderer: {fileID: 5133781778158054666}
+  SortingOrder: -2
+  SortingLayer: Default
 --- !u!1 &5133781778191005287
 GameObject:
   m_ObjectHideFlags: 0
