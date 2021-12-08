@@ -16,6 +16,10 @@ namespace STP.Manager {
 			_timer.Start(time);
 		}
 
+		public void Reset() {
+			_timer.Reset();
+		}
+
 		public void AddTime(float time) {
 			_timer.Start(_timer.Interval + time, _timer.TimePassed);
 		}

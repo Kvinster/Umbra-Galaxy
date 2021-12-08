@@ -138,7 +138,7 @@ namespace STP.Manager {
 		void AddTimeToPowerUp(PowerUpType type, float time) {
 			var powerUpTimer = _powerUpStates.Find(x => x.Type == type);
 			if ( powerUpTimer != null ) {
-				powerUpTimer.AddTime(time);
+				powerUpTimer.Reset();
 			} else {
 				_powerUpStates.Add(new PowerUpState(type, time));
 				OnPowerUpStarted?.Invoke(type);
