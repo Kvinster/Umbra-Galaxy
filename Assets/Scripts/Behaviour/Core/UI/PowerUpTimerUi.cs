@@ -35,6 +35,10 @@ namespace STP.Behaviour.Core.UI {
 		public event Action<PowerUpTimerUi> OnBecameActive;
 		public event Action<PowerUpTimerUi> OnBecameInactive;
 
+		void OnDisable() {
+			_anim?.Kill();
+		}
+
 		void Update() {
 			if ( !IsActive ) {
 				return;
