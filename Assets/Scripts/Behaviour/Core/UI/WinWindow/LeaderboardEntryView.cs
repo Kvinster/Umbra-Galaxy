@@ -1,17 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using STP.Core.Leaderboards;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace STP.Behaviour.Core.UI.WinWindow {
 	public class LeaderboardEntryView : GameComponent {
-		[NotNull] public TMP_Text       PlaceText;
-		[NotNull] public TMP_Text       ScoreText;
-		[NotNull] public TMP_InputField PlayerNameText;
+		[NotNullOrEmpty] public List<Sprite> FirstPlacesImages;
 
+		// Place
+		[NotNull] public TMP_Text       PlayerPlaceText;
+		[NotNull] public Image          PlayerPlaceImage;
+		
+		[NotNull] public TMP_Text       ScoreText;
+		
+		[NotNull] public TMP_InputField PlayerNameText;
+		[NotNull] public TMP_Text       PlaceholderText;
+		
 		public event Action<string> OnEndNameEdition;
 		
 		public void Reset() {
@@ -21,9 +29,10 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 		}
 		
 		public void ShowEntry(Score score) {
-			PlaceText.text      = score.Rank.ToString();
-			ScoreText.text      = score.ScoreValue.ToString();
-			PlayerNameText.text = score.UserName;
+			ScoreText.text       = score.ScoreValue.ToString();
+			PlayerNameText.text  = score.UserName;
+			PlaceholderText.text = score.UserName;
+			SetPlace(score.Rank);
 			gameObject.SetActive(true);
 		}
 		
@@ -40,7 +49,7 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 		}
 		
 		void SetTextColor(Color color) {
-			PlaceText.color                    = color;
+			PlayerPlaceText.color              = color;
 			ScoreText.color                    = color;
 			PlayerNameText.textComponent.color = color;
 		}
@@ -51,7 +60,20 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 				return;
 			}
 			PlayerNameText.readOnly = true;
+			PlayerNameText.text     = string.IsNullOrEmpty(PlayerNameText.text) ? PlaceholderText.text : PlayerNameText.text;
 			OnEndNameEdition?.Invoke(PlayerNameText.text);
+		}
+		
+		void SetPlace(int leaderboardEntryRank) {
+			if ( leaderboardEntryRank <= FirstPlacesImages.Count ) {
+				PlayerPlaceImage.gameObject.SetActive(true);
+				PlayerPlaceText.gameObject.SetActive(false);
+				PlayerPlaceImage.sprite = FirstPlacesImages[leaderboardEntryRank-1];
+			} else {
+				PlayerPlaceImage.gameObject.SetActive(false);
+				PlayerPlaceText.gameObject.SetActive(true);
+				PlayerPlaceText.text = leaderboardEntryRank.ToString();
+			}
 		}
 	}
 }

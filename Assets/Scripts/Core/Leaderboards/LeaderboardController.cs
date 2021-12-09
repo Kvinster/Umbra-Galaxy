@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace STP.Core.Leaderboards {
 	public class LeaderboardController : BaseStateController  {
+		public const string SharedUserName = "Anonymous";
+		
 		const string LeaderBoardName = "Scores";
-
-		const string SharedUserName = "Anonymous";
-
+		
 		public string PlayerId { get; private set; }
 		
 		bool IsLoggedIn => PlayFabClientAPI.IsClientLoggedIn();

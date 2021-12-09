@@ -2,15 +2,13 @@
 using UnityEngine.UI;
 
 using System.Collections.Generic;
-
-using STP.Behaviour.MainMenu;
 using STP.Core;
 using STP.Core.Leaderboards;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 
 using Cysharp.Threading.Tasks;
-
+using DG.Tweening;
 using IPromise = RSG.IPromise;
 
 namespace STP.Behaviour.Core.UI.WinWindow {
@@ -20,7 +18,7 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 
 		[NotNull] public Button ContinueButton;
 
-		[NotNull] public RotationEffect LoadingEffect;
+		[NotNull] public GameObject LoadingRoot;
 
 		LeaderboardController _leaderboardController;
 		LevelManager          _levelManager;
@@ -39,7 +37,7 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 
 		public override IPromise Show() {
 			var promise = base.Show();
-			LoadingEffect.ShowEffect();
+			LoadingRoot.gameObject.SetActive(true);
 			EntriesRoot.SetActive(false);
 			UpdateLeaderboard().Forget();
 			return promise;
@@ -69,12 +67,20 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 				}
 				viewIndex++;
 			}
+			
 			// hide unnecessary views
 			for ( var i = viewIndex; i < Entries.Count; i++) {
 				Entries[i].Hide();
 			}
 		}
 
+		void SelectActivePlayerInputField() {
+			if ( !_activePlayerView ) {
+				return;
+			}
+			_activePlayerView.PlayerNameText.Select();
+		}
+		
 		void FinishUserNameInput(string lastResult) {
 			UniTask.Create(() => _leaderboardController.UpdateUserName(lastResult));
 		}
@@ -84,9 +90,9 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 			await _leaderboardController.PublishScoreAsync(_scoreController.Score);
 			await UniTask.Delay(1000, DelayType.UnscaledDeltaTime);
 			_scores = await _leaderboardController.GetScoresAroundPlayerAsync(Entries.Count);
-			InitViews();
-			LoadingEffect.HideEffect();
+			LoadingRoot.gameObject.SetActive(false);
 			EntriesRoot.SetActive(true);
+			InitViews();
 		}
 
 		void OnContinueClick() {
