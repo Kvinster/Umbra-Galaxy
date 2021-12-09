@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using STP.Behaviour.Core.UI.WinWindow;
 using STP.Behaviour.Starter;
 using STP.Core.Leaderboards;
 using STP.Utils;
@@ -18,7 +19,7 @@ namespace STP.Behaviour.MainMenu {
 		[Header("Loading leaderboard")]
 		[NotNull] public RotationEffect LoadingEffect;
 
-		[NotNullOrEmpty] public List<MainMenuLeaderboardEntryView> Entries = new List<MainMenuLeaderboardEntryView>();
+		[NotNullOrEmpty] public List<LeaderboardEntryView> Entries = new List<LeaderboardEntryView>();
 
 		IScreenShower         _screenShower;
 		LeaderboardController _leaderboardController;
@@ -56,7 +57,7 @@ namespace STP.Behaviour.MainMenu {
 					break;
 				}
 				var view = Entries[entryIndex++];
-				view.Init(entry);
+				view.ShowEntry(entry);
 				view.gameObject.SetActive(true);
 			}
 
