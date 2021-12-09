@@ -10,14 +10,14 @@ namespace STP.Behaviour.Core {
 		[NotNull] public Collider2D  Collider;
 
 		public bool KillParent;
-		
+
 		[Space]
 		public VfxRunner DeathEffectRunner;
-		
+
 		public TransformBulletMover TransformBulletMover;
 		public float                PlayerPushForce = 0f;
-		
-		
+
+
 		public float LifeTime = 3f;
 
 		float _lifeTimer;
@@ -25,12 +25,11 @@ namespace STP.Behaviour.Core {
 
 		public virtual bool NeedToDestroy => (_lifeTimer >= LifeTime);
 
-		bool _isVisible;
-		
-		
+		protected bool IsVisible;
+
 		void Update() {
 			_lifeTimer += Time.deltaTime;
-			if ( NeedToDestroy && !_isVisible ) {
+			if ( NeedToDestroy && !IsVisible ) {
 				Die();
 			}
 		}
@@ -46,11 +45,11 @@ namespace STP.Behaviour.Core {
 		}
 
 		public void OnBecomeVisibleForPlayer(Transform playerTransform) {
-			_isVisible = true;
+			IsVisible = true;
 		}
 
 		public void OnBecomeInvisibleForPlayer() {
-			_isVisible = false;
+			IsVisible = false;
 		}
 
 		public void Init(float damage, float speed, params Collider2D[] ownerColliders) {
@@ -68,7 +67,7 @@ namespace STP.Behaviour.Core {
 		}
 
 		public void Die() {
-			if ( DeathEffectRunner ) {
+			if ( DeathEffectRunner && IsVisible ) {
 				DeathEffectRunner.transform.parent = transform.parent;
 				DeathEffectRunner.RunVfx(true);
 			}
