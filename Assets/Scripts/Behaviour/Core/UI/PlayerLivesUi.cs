@@ -38,13 +38,6 @@ namespace STP.Behaviour.Core.UI {
 
 		Tween _appearAnim;
 
-		void OnDisable() {
-			if ( _playerController != null ) {
-				_playerController.OnLifeAdded -= OnPlayerGainLive;
-			}
-			_appearAnim?.Kill();
-		}
-
 		public void Init(PlayerController playerController) {
 			_playerController = playerController;
 
@@ -58,10 +51,11 @@ namespace STP.Behaviour.Core.UI {
 			_playerController.OnLifeAdded += OnPlayerGainLive;
 		}
 
-		void Update() {
-			if ( Input.GetKeyDown(KeyCode.Q) ) {
-				OnPlayerGainLive();
+		public void Deinit() {
+			if ( _playerController != null ) {
+				_playerController.OnLifeAdded -= OnPlayerGainLive;
 			}
+			_appearAnim?.Kill();
 		}
 
 		[NaughtyAttributes.Button("Test")]

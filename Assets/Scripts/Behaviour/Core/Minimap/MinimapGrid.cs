@@ -26,12 +26,6 @@ namespace STP.Behaviour.Core.Minimap {
 			RawImage.uvRect = new Rect((Vector2) _playerTransform.position * _speed + _offset, _size);
 		}
 
-		void OnDestroy() {
-			if ( _minimapManager != null ) {
-				_minimapManager.OnCurZoomChanged -= OnMinimapZoomChanged;
-			}
-		}
-
 		public void Init(Player player, MinimapManager minimapManager) {
 			_playerTransform = player.transform;
 			_minimapManager  = minimapManager;
@@ -43,6 +37,12 @@ namespace STP.Behaviour.Core.Minimap {
 			OnMinimapZoomChanged(_minimapManager.CurZoom);
 
 			_isInit = true;
+		}
+
+		public void Deinit() {
+			if ( _minimapManager != null ) {
+				_minimapManager.OnCurZoomChanged -= OnMinimapZoomChanged;
+			}
 		}
 
 		void OnMinimapZoomChanged(float zoom) {
