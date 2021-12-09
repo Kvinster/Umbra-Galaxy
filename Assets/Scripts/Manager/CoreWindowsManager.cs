@@ -42,7 +42,11 @@ namespace STP.Manager {
 		}
 
 		void OnDisable() {
+			ScoreUi.Deinit();
+			LivesUi.Deinit();
+			MinimapGrid.Deinit();
 			DamageScreen.Deinit();
+			PowerUpTimerUisManager.Deinit();
 		}
 
 		public void Init(PauseManager pauseManager, LevelManager levelManager, LevelGoalManager levelGoalManager,

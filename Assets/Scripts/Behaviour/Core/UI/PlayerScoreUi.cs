@@ -25,13 +25,6 @@ namespace STP.Behaviour.Core.UI {
 
 		int  _curScore;
 
-		void OnDisable() {
-			_anim?.Kill();
-			if ( _scoreController != null ) {
-				_scoreController.Score.OnValueChanged -= OnScoreChanged;
-			}
-		}
-
 		public void Init(ScoreController scoreController) {
 			_scoreController                      =  scoreController;
 			_scoreController.Score.OnValueChanged += OnScoreChanged;
@@ -41,6 +34,13 @@ namespace STP.Behaviour.Core.UI {
 			CanvasGroup.alpha = 0f;
 
 			UpdateScoreText();
+		}
+
+		public void Deinit() {
+			_anim?.Kill();
+			if ( _scoreController != null ) {
+				_scoreController.Score.OnValueChanged -= OnScoreChanged;
+			}
 		}
 
 		void OnScoreChanged(int score) {

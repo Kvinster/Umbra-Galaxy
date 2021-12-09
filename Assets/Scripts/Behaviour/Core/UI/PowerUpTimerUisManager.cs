@@ -21,7 +21,15 @@ namespace STP.Behaviour.Core.UI {
 
 		readonly HashSet<Tween> _activeAnims = new HashSet<Tween>();
 
-		void OnDisable() {
+		public void Init(PlayerManager playerManager) {
+			foreach ( var powerUpTimerUi in PowerUpTimerUis ) {
+				powerUpTimerUi.Init(playerManager);
+				powerUpTimerUi.OnBecameActive   += OnTimerBecameActive;
+				powerUpTimerUi.OnBecameInactive += OnTimerBecameInactive;
+			}
+		}
+
+		public void Deinit() {
 			foreach ( var powerUpTimerUi in PowerUpTimerUis ) {
 				if ( powerUpTimerUi ) {
 					powerUpTimerUi.OnBecameActive   -= OnTimerBecameActive;
@@ -29,14 +37,6 @@ namespace STP.Behaviour.Core.UI {
 				}
 			}
 			ResetActiveAnims();
-		}
-
-		public void Init(PlayerManager playerManager) {
-			foreach ( var powerUpTimerUi in PowerUpTimerUis ) {
-				powerUpTimerUi.Init(playerManager);
-				powerUpTimerUi.OnBecameActive   += OnTimerBecameActive;
-				powerUpTimerUi.OnBecameInactive += OnTimerBecameInactive;
-			}
 		}
 
 		void OnTimerBecameActive(PowerUpTimerUi powerUpTimerUi) {
