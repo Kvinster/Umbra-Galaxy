@@ -25,7 +25,7 @@ namespace STP.Behaviour.Core {
 
 		public virtual bool NeedToDestroy => (_lifeTimer >= LifeTime);
 
-		protected bool IsVisible;
+		protected bool IsVisible = true;
 
 		void Update() {
 			_lifeTimer += Time.deltaTime;
