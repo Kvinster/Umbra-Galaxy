@@ -16,19 +16,19 @@ namespace STP.Behaviour.Core.UI {
 
 		Sequence _animationSequence;
 
-		void OnDestroy() {
-			if ( _playerHpSystem != null) {
-				_playerHpSystem.OnHpChanged -= OnHpChanged;
-			}
-			_animationSequence.Kill();
-		}
-
 		public void Init(PlayerController playerController) {
 			_playerHpSystem             =  playerController.HpSystem;
 			_playerHpSystem.OnHpChanged += OnHpChanged;
 			DamageFlashVignette.alpha   =  0f;
 			_lastHp                     =  _playerHpSystem.Hp;
 			OnHpChanged(_playerHpSystem.Hp);
+		}
+
+		public void Deinit() {
+			if ( _playerHpSystem != null) {
+				_playerHpSystem.OnHpChanged -= OnHpChanged;
+			}
+			_animationSequence.Kill();
 		}
 
 		void OnHpChanged(float newHp) {

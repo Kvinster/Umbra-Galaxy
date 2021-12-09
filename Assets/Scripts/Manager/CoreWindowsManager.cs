@@ -29,8 +29,7 @@ namespace STP.Manager {
 		[NotNull] public PauseWindow PauseWindow;
 		[NotNull] public Button      PauseButton;
 
-		PauseManager     _pauseManager;
-		PlayerController _playerController;
+		PauseManager _pauseManager;
 
 		List<BaseCoreWindow> _windows;
 
@@ -42,12 +41,15 @@ namespace STP.Manager {
 			}
 		}
 
+		void OnDisable() {
+			DamageScreen.Deinit();
+		}
+
 		public void Init(PauseManager pauseManager, LevelManager levelManager, LevelGoalManager levelGoalManager,
 			PlayerManager playerManager, MinimapManager minimapManager, LevelController levelController,
 			PlayerController playerController, ScoreController scoreController,
 			LeaderboardController leaderboardController, Player player) {
-			_pauseManager     = pauseManager;
-			_playerController = playerController;
+			_pauseManager = pauseManager;
 
 			_windows = new List<BaseCoreWindow> {
 				DeathWindow,
