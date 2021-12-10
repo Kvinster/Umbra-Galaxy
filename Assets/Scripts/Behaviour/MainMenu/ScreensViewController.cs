@@ -8,26 +8,32 @@ namespace STP.Behaviour.MainMenu {
         [NotNull] public MainScreen        MainScreen;
         [NotNull] public SettingsScreen    SettingsScreen;
         [NotNull] public LeaderboardScreen LeaderboardScreen;
+        [NotNull] public QuitScreen        QuitScreen;
 
         List<IScreen> _screens;
 
         protected override void InitInternal(MainMenuStarter starter) {
-            _screens = new List<IScreen>{ MainScreen, SettingsScreen, LeaderboardScreen };
+            _screens = new List<IScreen>{ MainScreen, SettingsScreen, LeaderboardScreen, QuitScreen };
             MainScreen.Init(this);
             SettingsScreen.Init(starter);
             LeaderboardScreen.Init(starter);
+            QuitScreen.Init(this);
 
             Show<MainScreen>();
         }
 
-        public void Show<T>() where T : class, IScreen {
-            HideAll();
+        public void ShowWithoutHiding<T>() where T : class, IScreen {
             var neededScreen = TryGetScreen<T>();
             if ( neededScreen == null ) {
                 Debug.LogError($"Can't show screen {typeof(T).Name} - can't find screen");
                 return;
             }
             neededScreen.Show();
+        }
+         
+        public void Show<T>() where T : class, IScreen {
+            HideAll();
+            ShowWithoutHiding<T>();
         }
 
         void HideAll() {
