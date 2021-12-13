@@ -17,6 +17,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 		[Header("portal")]
 		[NotNull] public Portal Portal;
 		[NotNull] public Transform PortalAppearPosition;
+		public           float     StartDelay;
 		[Header("movement")]
 		[NotNull] public BossMovementSubsystem MovementSubsystem;
 		[Header("spawners")]
@@ -101,7 +102,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 						)
 					)
 				);
-			});
+			}, StartDelay);
 
 			DeathShockwave.gameObject.SetActive(false);
 		}

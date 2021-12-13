@@ -36,7 +36,8 @@ namespace STP.Behaviour.Core {
 			VisualEffect.Stop();
 		}
 
-		public void PlayTargetAppearAnim(Transform targetTransform, Transform appearPosition, Action onComplete = null) {
+		public void PlayTargetAppearAnim(Transform targetTransform, Transform appearPosition, Action onComplete = null,
+			float startDelay = 0f) {
 			gameObject.SetActive(true);
 			var pos          = appearPosition.position;
 			var appearTime   = VisualEffect.GetFloat(AppearTimeId);
@@ -47,11 +48,12 @@ namespace STP.Behaviour.Core {
 			targetTransform.position   = pos;
 			targetTransform.localScale = Vector3.zero;
 			_targetAppearAnim = DOTween.Sequence()
+				.AppendInterval(startDelay)
 				.AppendCallback(() => VisualEffect.SendEvent(AppearEventName))
 				.Join(DOTween.To(() => VisualEffect.GetFloat(AppearParticlesKillboxSizeId),
 					x => VisualEffect.SetFloat(AppearParticlesKillboxSizeId, x), 1f, appearTime).SetEase(Ease.Linear))
-				.Insert(appearTime, targetTransform.DOScale(Vector3.one, TargetScaleTime))
-				.Insert(appearTime + mainLifetime,
+				.Insert(startDelay + appearTime, targetTransform.DOScale(Vector3.one, TargetScaleTime))
+				.Insert(startDelay + appearTime + mainLifetime,
 					DOTween.To(() => VisualEffect.GetFloat(AppearParticlesKillboxSizeId),
 						x => VisualEffect.SetFloat(AppearParticlesKillboxSizeId, x), 0f,
 						VisualEffect.GetFloat(AppearDisappearTimeId)).SetEase(Ease.Linear))
@@ -61,7 +63,6 @@ namespace STP.Behaviour.Core {
 					gameObject.SetActive(false);
 					onComplete?.Invoke();
 				});
-
 		}
 	}
 }
