@@ -7,6 +7,13 @@
       "dependencies": {},
       "hash": "7d21a75ea8abbc3ed43afedeb450c8d44f244ece"
     },
+    "com.dbrizov.naughtyattributes": {
+      "version": "https://github.com/dbrizov/NaughtyAttributes.git#upm",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "6ff42768879f6d3721f27c1fc1ba0c1d145a3f27"
+    },
     "com.github.siccity.xnode": {
       "version": "https://github.com/siccity/xNode.git",
       "depth": 0,
