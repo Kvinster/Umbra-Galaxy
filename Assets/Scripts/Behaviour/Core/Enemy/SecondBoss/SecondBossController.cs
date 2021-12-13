@@ -13,7 +13,10 @@ using STP.Utils.GameComponentAttributes;
 using UnityEngine.VFX;
 
 namespace STP.Behaviour.Core.Enemy.SecondBoss {
-	public class SecondBossController : BaseEnemy, IHpSource, IDestructible {
+	public sealed class SecondBossController : BaseEnemy, IHpSource, IDestructible {
+		[Header("portal")]
+		[NotNull] public Portal Portal;
+		[NotNull] public Transform PortalAppearPosition;
 		[Header("movement")]
 		[NotNull] public BossMovementSubsystem MovementSubsystem;
 		[Header("spawners")]
@@ -46,8 +49,11 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 
 		public static SecondBossController Instance { get; private set; }
 
-		protected void Update() {
-			Tree?.Tick();
+		void Update() {
+			if ( Tree?.IsEmpty ?? true ) {
+				return;
+			}
+			Tree.Tick();
 		}
 
 		protected override void Awake() {
@@ -76,22 +82,27 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 			_gunController.Init(Gun, ChargingEffect, ChargingBulletEffect, starter);
 
 			MovementSubsystem.Init(OwnRigidbody, starter.Player.transform, HpSystemComponent);
+			MovementSubsystem.SetActive(false);
 
-			Tree = new BehaviourTree(
-				new SequenceTask(
-					new WaitTask(3f),
-					new RepeatForeverTask(
-						new SequenceTask(
-							new AlwaysSuccessDecorator(_gunController.FireTask),
-							new WaitTask(1f),
-							new ParallelTask(
-								_spawnSubsystem.SpawnTask,
-								MovementSubsystem.DashTask
+			Portal.PlayTargetAppearAnim(transform, PortalAppearPosition, () => {
+				MovementSubsystem.SetActive(true);
+				Tree = new BehaviourTree(
+					new SequenceTask(
+						new WaitTask(3f),
+						new RepeatForeverTask(
+							new SequenceTask(
+								new AlwaysSuccessDecorator(_gunController.FireTask),
+								new WaitTask(1f),
+								new ParallelTask(
+									_spawnSubsystem.SpawnTask,
+									MovementSubsystem.DashTask
+								)
 							)
 						)
 					)
-				)
-			);
+				);
+			});
+
 			DeathShockwave.gameObject.SetActive(false);
 		}
 

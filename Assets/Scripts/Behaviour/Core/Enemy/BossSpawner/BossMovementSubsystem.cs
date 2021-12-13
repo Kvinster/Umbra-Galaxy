@@ -26,8 +26,6 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			new CustomActionTask("stop dash", EndDash)
 		);
 
-
-
 		readonly Timer _timer = new Timer();
 
 		float   _startAngularSpeed;
@@ -41,6 +39,8 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 		HpSystem _hpSystem;
 
+		bool IsActive { get; set; }
+
 		public void Init(Rigidbody2D bossRigidbody, Transform player, HpSystem hpSystem) {
 			BossRigidbody    =  bossRigidbody;
 			_player          =  player;
@@ -50,6 +50,9 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		}
 
 		public void FixedUpdate() {
+			if ( !IsActive ) {
+				return;
+			}
 			if ( !_hpSystem.IsAlive ) {
 				if ( _timer.DeltaTick() ) {
 					BossRigidbody.bodyType = RigidbodyType2D.Static;
@@ -65,14 +68,18 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			LookToPlayer();
 		}
 
+		public void SetActive(bool isActive) {
+			IsActive = isActive;
+			BossRigidbody.bodyType = IsActive ? RigidbodyType2D.Dynamic : RigidbodyType2D.Static;
+		}
 
-		public void Dash() {
+		void Dash() {
 			var forward = ForwardVector;
-			BossRigidbody.velocity = forward * MovingSpeed * DashVelocityMultiplier;
+			BossRigidbody.velocity = forward * (MovingSpeed * DashVelocityMultiplier);
 			_isDash                = true;
 		}
 
-		public void EndDash() {
+		void EndDash() {
 			_isDash = false;
 		}
 

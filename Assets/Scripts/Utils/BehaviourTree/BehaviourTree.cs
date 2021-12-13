@@ -10,15 +10,20 @@ namespace STP.Utils.BehaviourTree {
 
 		public readonly BaseTask Root;
 
-		public event Action<BehaviourTree> OnBehaviourTreeUpdated; 
+		public bool IsEmpty => (Root == null);
+
+		public event Action<BehaviourTree> OnBehaviourTreeUpdated;
 
 		public BehaviourTree(BaseTask root) {
 			Root = root;
-			
+
 			Root.SetBlackboard(Blackboard);
 		}
 
 		public void Tick() {
+			if ( IsEmpty ) {
+				return;
+			}
 			var result = Root.Execute();
 			OnBehaviourTreeUpdated?.Invoke(this);
 			if ( (result == TaskStatus.Success) || (result == TaskStatus.Failure) ) {

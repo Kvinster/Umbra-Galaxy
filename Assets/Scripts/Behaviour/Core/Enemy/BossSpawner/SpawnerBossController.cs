@@ -19,10 +19,14 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 		public SpawnParams   SpawnParams;
 
-		[NotNull] public Rigidbody2D                  BossRigidbody;
+		[NotNull] public Rigidbody2D           BossRigidbody;
 		[NotNull] public BossMovementSubsystem MovementSubsystem;
-
+		[Space]
 		[NotNull] public LevelExplosionZone Shockwave;
+		[Space]
+		[NotNull] public Portal Portal;
+		[NotNull] public Transform PortalAppearPosition;
+
 
 		public List<BossGun> Guns;
 		public List<Spawner> Spawners;
@@ -53,7 +57,10 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		}
 
 		protected void Update() {
-			Tree?.Tick();
+			if ( Tree?.IsEmpty ?? true ) {
+				return;
+			}
+			Tree.Tick();
 		}
 
 		void OnDestroy() {
@@ -68,6 +75,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			_cameraShake      = starter.CameraShake;
 
 			MovementSubsystem.Init(BossRigidbody, starter.Player.transform, HpSystem);
+			MovementSubsystem.SetActive(false);
 
 			_gunsSubsystem = new SpawnerBossGunsSubsystem();
 			_gunsSubsystem.Init(Guns, starter);
@@ -76,20 +84,23 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			var list = new List<ISpawner>(Spawners);
 			_spawnSubsystem.Init(list, starter, SpawnParams);
 
-			Tree = new BehaviourTree(
-				new SequenceTask(
-					new WaitTask(3f),
-					new RepeatForeverTask(
-						new SequenceTask(
-							new AlwaysSuccessDecorator(_gunsSubsystem.FireTask),
-							new WaitTask(1f),
-							new AlwaysSuccessDecorator(MovementSubsystem.DashTask),
-							new WaitTask(1f),
-							new AlwaysSuccessDecorator(_spawnSubsystem.SpawnTask)
+			Portal.PlayTargetAppearAnim(transform, PortalAppearPosition, () => {
+				MovementSubsystem.SetActive(true);
+				Tree = new BehaviourTree(
+					new SequenceTask(
+						new WaitTask(3f),
+						new RepeatForeverTask(
+							new SequenceTask(
+								new AlwaysSuccessDecorator(_gunsSubsystem.FireTask),
+								new WaitTask(1f),
+								new AlwaysSuccessDecorator(MovementSubsystem.DashTask),
+								new WaitTask(1f),
+								new AlwaysSuccessDecorator(_spawnSubsystem.SpawnTask)
+							)
 						)
 					)
-				)
-			);
+				);
+			});
 		}
 
 		public void TakeDamage(float damage) {
