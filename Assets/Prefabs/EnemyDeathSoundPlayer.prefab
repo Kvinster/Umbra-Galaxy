@@ -62,7 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OverrideAudioSource: {fileID: 0}
   AudioClip: {fileID: 0}
-  VolumeScale: 0.4
+  VolumeScale: 1
 --- !u!114 &7051913505424528725
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20,9 +20,7 @@ namespace STP.Behaviour.Core.Enemy {
         public Transform ViewTransform;
         [NotNull]
         public BaseProgressBar HealthBar;
-        [Header("Sound")]
-        [NotNull]
-        public BaseSimpleSoundPlayer ShotSoundPlayer;
+        [Header("Sound")] [NotNull] public BaseSimpleSoundPlayer ShotSoundPlayer;
 
         GeneratorShootingSystem _shootingSystem;
 
