@@ -29,10 +29,10 @@ namespace STP.Behaviour.Core {
 		[Header("Dependencies")]
 		[Header("Not final death anim")]
 		[NotNull] public LevelExplosionZone ExplosionZone;
+		[NotNull] public BaseSimpleSoundPlayer DeathSoundPlayer;
 		[Header("Final death anim")]
 		[NotNull] public GameObject FinalDeathVisualEffectRoot;
-		[NotNull] public VisualEffect          FinalDeathVisualEffect;
-		[NotNull] public BaseSimpleSoundPlayer FinalDeathSoundPlayer;
+		[NotNull] public VisualEffect FinalDeathVisualEffect;
 
 		PauseManager       _pauseManager;
 		CoreWindowsManager _windowsManager;
@@ -64,6 +64,7 @@ namespace STP.Behaviour.Core {
 			Assert.IsNull(_cancellationTokenSource);
 			_cancellationTokenSource = new CancellationTokenSource();
 
+			DeathSoundPlayer.Play();
 			await _windowsManager.DangerScreen.Show(DangerScreenShowDuration)
 				.ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
 			await PlayDiscolorationAnim(DiscolorationInAnimDuration, false)
@@ -88,7 +89,6 @@ namespace STP.Behaviour.Core {
 			Assert.IsNull(_cancellationTokenSource);
 			_cancellationTokenSource = new CancellationTokenSource();
 
-			FinalDeathSoundPlayer.Play();
 			FinalDeathVisualEffectRoot.SetActive(true);
 			FinalDeathVisualEffect.Play();
 			await PlayDiscolorationAnim(FinalDiscolorationAnimDuration, false)
