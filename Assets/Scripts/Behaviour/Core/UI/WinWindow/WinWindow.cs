@@ -15,7 +15,7 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 	public sealed class WinWindow : BaseCoreWindow {
 		[NotNull] public Transform   Title;
 		[NotNull] public CanvasGroup TitleCanvasGroup;
-		
+
 		[NotNull] public List<LeaderboardEntryView> Entries;
 		[NotNull] public GameObject                 EntriesRoot;
 
@@ -23,8 +23,10 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 
 		[NotNull] public GameObject  LoadingRoot;
 		[NotNull] public CanvasGroup LoadingCanvasGroup;
-		
+
 		[NotNull] public CanvasGroup LeaderboardRootCanvasGroup;
+
+		[NotNull] public BaseSimpleSoundPlayer AppearSoundPlayer;
 
 		LeaderboardController _leaderboardController;
 		LevelManager          _levelManager;
@@ -35,7 +37,7 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 		LeaderboardEntryView _activePlayerView;
 
 		Sequence _activeSequence;
-		
+
 		public void CommonInit(ScoreController scoreController, LeaderboardController leaderboardController, LevelManager levelManager) {
 			_scoreController       = scoreController;
 			_leaderboardController = leaderboardController;
@@ -47,10 +49,11 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 			var promise = base.Show();
 
 			_activeSequence = CreateLoadingAnimation().AppendCallback(() => _activeSequence = null);
-			
+
 			LoadingRoot.gameObject.SetActive(true);
 			EntriesRoot.SetActive(false);
 			UpdateLeaderboard().Forget();
+			AppearSoundPlayer.Play();
 			return promise;
 		}
 
@@ -71,7 +74,7 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 
 		Sequence CreateShowLeaderboardAnimation() {
 			LeaderboardRootCanvasGroup.alpha = 0f;
-			
+
 			var seq = DOTween.Sequence()
 				.Append(LoadingCanvasGroup.DOFade(0f, 0.3f))
 				.AppendCallback(() => {
@@ -83,7 +86,7 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 				.SetUpdate(true);
 			return seq;
 		}
-		
+
 		void InitViews() {
 			if ( _scores == null ) {
 				return;
@@ -108,20 +111,13 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 				}
 				viewIndex++;
 			}
-			
+
 			// hide unnecessary views
 			for ( var i = viewIndex; i < Entries.Count; i++) {
 				Entries[i].Hide();
 			}
 		}
 
-		void SelectActivePlayerInputField() {
-			if ( !_activePlayerView ) {
-				return;
-			}
-			_activePlayerView.PlayerNameText.Select();
-		}
-		
 		void FinishUserNameInput(string lastResult) {
 			UniTask.Create(() => _leaderboardController.UpdateUserName(lastResult));
 		}
