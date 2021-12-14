@@ -16,6 +16,8 @@ namespace STP.Behaviour.Core {
 		public Collider2D  Collider;
 		[NotNull]
 		public TriggerNotifier Notifier;
+		[NotNull]
+		public BaseSimpleSoundPlayer DeathSoundPlayer;
 
 		public float LifeTime = 3f;
 
@@ -23,9 +25,9 @@ namespace STP.Behaviour.Core {
 		float _damage;
 
 		Player _player;
-		
+
 		bool NeedToDestroy => (_lifeTimer >= LifeTime);
-		
+
 		bool _isVisible;
 
 		void Update() {
@@ -102,6 +104,7 @@ namespace STP.Behaviour.Core {
 				bullet.Rigidbody.rotation = -baseAngle + -30 + index * 15;
 				bullet.Init(_damage, bulletSpeed, Collider);
 			}
+			DeathSoundPlayer.Play();
 			Destroy(gameObject);
 		}
 	}

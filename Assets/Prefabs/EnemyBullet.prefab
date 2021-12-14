@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Effects:
   - {fileID: 8574319232136702829}
+  StopOnStart: 1
 --- !u!2083052967 &8574319232136702829
 VisualEffect:
   m_ObjectHideFlags: 0
@@ -60,6 +61,7 @@ VisualEffect:
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
+  m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
       m_Array:
@@ -101,6 +103,7 @@ VFXRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -138,6 +141,7 @@ GameObject:
   - component: {fileID: 3852704616686126073}
   - component: {fileID: 6687193854482185786}
   - component: {fileID: 749580308368493590}
+  - component: {fileID: 96130596167402349}
   m_Layer: 11
   m_Name: EnemyBullet
   m_TagString: Untagged
@@ -174,7 +178,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rigidbody: {fileID: 6687193854482185786}
   Collider: {fileID: 3852704616686126073}
+  DeathSoundPlayer: {fileID: 96130596167402349}
   DeathEffectRunner: {fileID: 1712978182422031453}
+  TransformBulletMover: {fileID: 0}
+  PlayerPushForce: 0
   LifeTime: 3
 --- !u!60 &3852704616686126073
 PolygonCollider2D:
@@ -240,6 +247,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -275,3 +283,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &96130596167402349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4765969172863325119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263840edafcd4ababe665ec528fc618c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverrideAudioSource: {fileID: 0}
+  AudioClip: {fileID: 8300000, guid: 84d3436abb2f47241b50b47e7cef3a45, type: 3}
+  VolumeScale: 1

@@ -6,10 +6,9 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
 	public class Bullet : GameComponent, IBullet, IVisibleHandler {
-		[NotNull] public Rigidbody2D Rigidbody;
-		[NotNull] public Collider2D  Collider;
-
-		public bool KillParent;
+		[NotNull] public Rigidbody2D           Rigidbody;
+		[NotNull] public Collider2D            Collider;
+		[NotNull] public BaseSimpleSoundPlayer DeathSoundPlayer;
 
 		[Space]
 		public VfxRunner DeathEffectRunner;
@@ -70,9 +69,10 @@ namespace STP.Behaviour.Core {
 			if ( DeathEffectRunner && IsVisible ) {
 				DeathEffectRunner.transform.parent = transform.parent;
 				DeathEffectRunner.RunVfx(true);
+				DeathSoundPlayer.Play();
 			}
 
-			Destroy(KillParent ? transform.parent.gameObject : gameObject);
+			Destroy(gameObject);
 		}
 
 		void IgnoreCollider(Collider2D ignoreCollider) {

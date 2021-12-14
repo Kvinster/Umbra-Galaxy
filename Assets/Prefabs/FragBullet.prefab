@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 2067755589792766845}
   - component: {fileID: 8978576009502818329}
   - component: {fileID: 6885086919656083203}
+  - component: {fileID: 8964511190984343145}
   m_Layer: 11
   m_Name: FragBullet
   m_TagString: Untagged
@@ -123,6 +124,7 @@ MonoBehaviour:
   Rigidbody: {fileID: 7414209777001645925}
   Collider: {fileID: 1187418170565177369}
   Notifier: {fileID: 3592847936194751282}
+  DeathSoundPlayer: {fileID: 8964511190984343145}
   LifeTime: 3
 --- !u!50 &7414209777001645925
 Rigidbody2D:
@@ -239,6 +241,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CircleTime: 1.5
   Rigidbody2D: {fileID: 7414209777001645925}
+--- !u!114 &8964511190984343145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4765969172863325119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263840edafcd4ababe665ec528fc618c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverrideAudioSource: {fileID: 0}
+  AudioClip: {fileID: 8300000, guid: 7b85fb7bdb1140c4fa1a2d05bccebfdf, type: 3}
+  VolumeScale: 1
 --- !u!1001 &131006320986193524
 PrefabInstance:
   m_ObjectHideFlags: 0
