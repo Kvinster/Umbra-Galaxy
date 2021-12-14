@@ -7,13 +7,14 @@ using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 
 using RSG;
-using TMPro;
 
 namespace STP.Behaviour.Core.UI {
 	public sealed class DeathWindow : BaseCoreWindow {
 		[NotNull] public Button      QuitButton;
 		[NotNull] public CanvasGroup CanvasGroup;
-		
+		[Space]
+		[NotNull] public BaseSimpleSoundPlayer AppearSoundPlayer;
+
 		LevelManager     _levelManager;
 
 		public void CommonInit(LevelManager levelManager) {
@@ -26,6 +27,7 @@ namespace STP.Behaviour.Core.UI {
 			var promise = base.Show();
 			CanvasGroup.alpha = 0f;
 			CanvasGroup.DOFade(1f, 0.3f).SetUpdate(true);
+			AppearSoundPlayer.Play();
 			return promise;
 		}
 
