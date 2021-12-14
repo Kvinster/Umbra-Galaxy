@@ -10,7 +10,6 @@ namespace STP.Behaviour.Core {
 	public sealed class VisualEffectSortingOrderSetter : GameComponent {
 		[NotNull] public Renderer Renderer;
 
-		[Layer]
 		public string SortingLayer;
 		public int    SortingOrder;
 
