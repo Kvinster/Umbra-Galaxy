@@ -1218,7 +1218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BossRigidbody: {fileID: 318140004622272507}
-  MinDistance: 500
+  MinDistance: -1
   MaxDistance: 750
   DashVelocityMultiplier: 3
   MovingSpeed: 200

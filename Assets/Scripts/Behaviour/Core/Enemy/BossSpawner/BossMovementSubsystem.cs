@@ -71,6 +71,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public void SetActive(bool isActive) {
 			IsActive = isActive;
 			BossRigidbody.bodyType = IsActive ? RigidbodyType2D.Dynamic : RigidbodyType2D.Static;
+			BossRigidbody.velocity = Vector2.zero;
 		}
 
 		void Dash() {
@@ -99,14 +100,15 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			if ( _isDash ) {
 				return;
 			}
-			var distance = BossRigidbody.transform.position - _player.transform.position;
+			var distance = Vector2.Distance(BossRigidbody.transform.position, _player.transform.position);
 			var forward  = ForwardVector;
-			if ( distance.magnitude < MinDistance ) {
-				BossRigidbody.velocity = -forward * MovingSpeed / distance;
-				return;
-			}
-			if ( distance.magnitude > MaxDistance ) {
+			BossRigidbody.drag = 0f;
+			if ( distance < MinDistance ) {
+				BossRigidbody.velocity = -forward * MovingSpeed;
+			} else if ( distance > MaxDistance ) {
 				BossRigidbody.velocity = forward * MovingSpeed;
+			} else {
+				BossRigidbody.drag = 3f;
 			}
 		}
 
