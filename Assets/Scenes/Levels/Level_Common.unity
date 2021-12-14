@@ -2845,8 +2845,8 @@ VFXRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1088433995
+  m_SortingLayer: -1
   m_SortingOrder: 0
 --- !u!2083052967 &1814578144
 VisualEffect:
@@ -3010,7 +3010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Renderer: {fileID: 1814578143}
-  SortingLayer: Default
+  SortingLayer: Background
   SortingOrder: 0
 --- !u!1001 &1957122318
 PrefabInstance:
