@@ -22,6 +22,7 @@ namespace STP.Behaviour.Core.UI {
 			DamageFlashVignette.alpha   =  0f;
 			_lastHp                     =  _playerHpSystem.Hp;
 			OnHpChanged(_playerHpSystem.Hp);
+			gameObject.SetActive(true);
 		}
 
 		public void Deinit() {
