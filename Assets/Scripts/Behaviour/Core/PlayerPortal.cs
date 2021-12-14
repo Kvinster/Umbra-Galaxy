@@ -17,10 +17,12 @@ namespace STP.Behaviour.Core {
 		public float DistanceToPlayer;
 		public float ExplosionStartTime;
 		[Space]
-		public float LevelStartPortalSize = 1f;
 		public float LevelWinPortalSize = 1.5f;
 		[Header("Impl Dependencies")]
 		[NotNull] public LevelExplosionZone LevelWinExplosionZone;
+		[Space]
+		[NotNull] public BaseSimpleSoundPlayer PlayerEnterSoundPlayer;
+		[NotNull] public BaseSimpleSoundPlayer PlayerAppearSoundPlayer;
 
 		Player             _player;
 		Transform          _playerStartPos;
@@ -62,6 +64,7 @@ namespace STP.Behaviour.Core {
 
 		void PlayLevelStartAnim() {
 			_windowsManager.HideLevelUi();
+			PlayerAppearSoundPlayer.Play();
 			PlayTargetAppearAnim(_player.transform, _playerStartPos, () => {
 				_levelManager.ActivateLevel();
 				_windowsManager.ShowLevelUi();
@@ -119,6 +122,7 @@ namespace STP.Behaviour.Core {
 			if ( !_disappearStarted && other.TryGetComponent<Player>(out var player) ) {
 				player.DisableMovement();
 				FinishLevelWinAnim(player.transform);
+				PlayerEnterSoundPlayer.Play();
 			}
 		}
 	}
