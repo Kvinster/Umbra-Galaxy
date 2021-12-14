@@ -6,7 +6,8 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
 	public abstract class BasePickupable : BaseCoreComponent {
-		[NotNull] public TriggerNotifier Notifier;
+		[NotNull] public TriggerNotifier       Notifier;
+		[NotNull] public BaseSimpleSoundPlayer PickUpSoundPlayer;
 
 		protected void Reset() {
 			Notifier = GetComponentInChildren<TriggerNotifier>();
@@ -36,6 +37,7 @@ namespace STP.Behaviour.Core {
 				return;
 			}
 			if ( OnPlayerEnter() ) {
+				PickUpSoundPlayer.Play();
 				Destroy(gameObject);
 			}
 		}

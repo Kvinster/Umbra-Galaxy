@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 2448822076140544802}
   - component: {fileID: 3399350681610076664}
   - component: {fileID: 3399350681610076667}
+  - component: {fileID: 1610473067372036827}
   m_Layer: 0
   m_Name: X2DamagePowerUp
   m_TagString: Untagged
@@ -169,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Notifier: {fileID: 3399350681610076667}
+  PickUpSoundPlayer: {fileID: 1610473067372036827}
 --- !u!58 &3399350681610076664
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -197,6 +199,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b12f2cc80dd24e669d47b3269aee19af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1610473067372036827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3399350681610076671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263840edafcd4ababe665ec528fc618c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverrideAudioSource: {fileID: 0}
+  AudioClip: {fileID: 8300000, guid: 9a443510b40506f409a104c5a261ff13, type: 3}
+  VolumeScale: 1
 --- !u!1001 &859366986804751759
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 7365247548562279995}
   - component: {fileID: 3860606368657640375}
   - component: {fileID: 3860606368657640372}
+  - component: {fileID: 5226906364955021128}
   m_Layer: 0
   m_Name: IncFireRatePowerUp
   m_TagString: Untagged
@@ -144,6 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Notifier: {fileID: 3860606368657640372}
+  PickUpSoundPlayer: {fileID: 5226906364955021128}
 --- !u!58 &3860606368657640375
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -172,6 +174,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b12f2cc80dd24e669d47b3269aee19af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5226906364955021128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3860606368657640368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263840edafcd4ababe665ec528fc618c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverrideAudioSource: {fileID: 0}
+  AudioClip: {fileID: 8300000, guid: 9a443510b40506f409a104c5a261ff13, type: 3}
+  VolumeScale: 1
 --- !u!1 &6618282401115613190
 GameObject:
   m_ObjectHideFlags: 0

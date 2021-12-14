@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8029868237081675865}
   - component: {fileID: 1451931016446855145}
   - component: {fileID: 1451931016446855146}
+  - component: {fileID: 2311022204912263135}
   m_Layer: 0
   m_Name: ShieldPowerUp
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Notifier: {fileID: 1451931016446855146}
+  PickUpSoundPlayer: {fileID: 2311022204912263135}
 --- !u!58 &1451931016446855145
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -76,6 +78,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b12f2cc80dd24e669d47b3269aee19af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2311022204912263135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451931016446855150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263840edafcd4ababe665ec528fc618c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverrideAudioSource: {fileID: 0}
+  AudioClip: {fileID: 8300000, guid: 9a443510b40506f409a104c5a261ff13, type: 3}
+  VolumeScale: 1
 --- !u!1 &4318148573201208053
 GameObject:
   m_ObjectHideFlags: 0
