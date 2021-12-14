@@ -14,6 +14,8 @@ using UnityEngine.VFX;
 
 namespace STP.Behaviour.Core.Enemy.SecondBoss {
 	public sealed class SecondBossController : BaseEnemy, IHpSource, IDestructible {
+		public float CollisionDamage = 25f;
+
 		[Header("portal")]
 		[NotNull] public Portal Portal;
 		[NotNull] public Transform PortalAppearPosition;
@@ -112,6 +114,10 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 			if ( !HpSystem.IsAlive ) {
 				Die();
 			}
+		}
+
+		void OnCollisionEnter2D(Collision2D other) {
+			other.TryTakeDamage(CollisionDamage);
 		}
 
 		public override void Die(bool fromPlayer = true) {
