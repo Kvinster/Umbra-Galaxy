@@ -213,8 +213,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Renderer: {fileID: 309661330}
-  SortingOrder: 2
   SortingLayer: Default
+  SortingOrder: 2
 --- !u!224 &309661332
 RectTransform:
   m_ObjectHideFlags: 0
@@ -479,8 +479,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Renderer: {fileID: 1128806080}
-  SortingOrder: 0
   SortingLayer: Background
+  SortingOrder: 0
 --- !u!58 &1128806079
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -654,6 +654,66 @@ MonoBehaviour:
   TargetScaleTime: 1
   TargetAppearPortalSize: 1.5
   VisualEffect: {fileID: 1128806081}
+--- !u!1 &1200853133
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1200853136}
+  - component: {fileID: 1200853135}
+  - component: {fileID: 1200853134}
+  m_Layer: 0
+  m_Name: BossMusicPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1200853134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200853133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbdc28734a474be4b5531b93cac68225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MusicClip: {fileID: 8300000, guid: 5d1f5f5ea4d621646a7f2ecd6baaa71a, type: 3}
+  VolumeScale: 1
+--- !u!114 &1200853135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200853133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee029af33d63462183bf4496b5769cd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DisableOnBossLevel: 0
+  MusicPlayer: {fileID: 1200853134}
+--- !u!4 &1200853136
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200853133}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1528040156
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,8 +773,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Renderer: {fileID: 1659087466099057045}
-  SortingOrder: 1
   SortingLayer: Default
+  SortingOrder: 1
 --- !u!1 &1824008812
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,6 +1073,7 @@ MonoBehaviour:
   StartHp: 1500
   Portal: {fileID: 1128806082}
   PortalAppearPosition: {fileID: 1824008813}
+  StartDelay: 0
   MovementSubsystem: {fileID: 3133233052200271352}
   SpawnParams:
     EnemiesInWaveCount: 50
@@ -1551,8 +1612,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Renderer: {fileID: 4780008161616018928}
-  SortingOrder: 3
   SortingLayer: Default
+  SortingOrder: 3
 --- !u!61 &4755172630581192572
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -576,8 +576,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Renderer: {fileID: 117358642}
-  SortingOrder: -10000
   SortingLayer: Default
+  SortingOrder: -10000
 --- !u!1 &138536057
 GameObject:
   m_ObjectHideFlags: 0
@@ -2633,6 +2633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee029af33d63462183bf4496b5769cd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DisableOnBossLevel: 1
   MusicPlayer: {fileID: 1737151930}
 --- !u!114 &1737151930
 MonoBehaviour:
@@ -2646,7 +2647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbdc28734a474be4b5531b93cac68225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MusicClip: {fileID: 8300000, guid: 52baa32d6a34fb74d848dbbc98a44574, type: 3}
+  MusicClip: {fileID: 8300000, guid: bfd5a44b1d7b86044a35b546a1581393, type: 3}
   VolumeScale: 1
 --- !u!114 &1737151931
 MonoBehaviour:
@@ -2914,8 +2915,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Renderer: {fileID: 1814578143}
-  SortingOrder: 0
   SortingLayer: Background
+  SortingOrder: 0
 --- !u!1001 &1957122318
 PrefabInstance:
   m_ObjectHideFlags: 0

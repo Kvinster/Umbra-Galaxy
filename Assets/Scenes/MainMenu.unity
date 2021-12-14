@@ -1029,7 +1029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbdc28734a474be4b5531b93cac68225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MusicClip: {fileID: 8300000, guid: 463d232834b8be64493dc6738459bd57, type: 3}
+  MusicClip: {fileID: 8300000, guid: 2a1e75121e60eb243b74ba619f5f085a, type: 3}
   VolumeScale: 1
 --- !u!1001 &609377199
 PrefabInstance:
