@@ -16,8 +16,7 @@ using STP.Service;
 
 namespace STP.Behaviour.Core {
 	public sealed class Player : BaseCoreComponent, IDestructible {
-		const float TmpIncFireRateMult = 4f;
-		const float TripleShotAngle    = 15f;
+		const float TripleShotAngle = 15f;
 
 		[NotNull]
 		public ShootingSystemParams DefaultShootingParams;
