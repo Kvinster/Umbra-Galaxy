@@ -19,9 +19,9 @@ namespace STP.Behaviour.MainMenu {
 		public void Init(IScreenShower screenShower) {
 			_screenShower = screenShower;
 			PlayButton.onClick.AddListener(Play);
-			SettingsButton.onClick.AddListener(ShowSettingsWindow);
-			ShowLeaderboardWindowButton.onClick.AddListener(ShowLeaderboardWindow);
-			ExitButton.onClick.AddListener(Exit);
+			SettingsButton.onClick.AddListener(_screenShower.Show<SettingsScreen>);
+			ShowLeaderboardWindowButton.onClick.AddListener(_screenShower.Show<LeaderboardScreen>);
+			ExitButton.onClick.AddListener(_screenShower.ShowWithoutHiding<QuitScreen>);
 		}
 
 		public void Show() {
@@ -32,25 +32,9 @@ namespace STP.Behaviour.MainMenu {
 			gameObject.SetActive(false);
 		}
 
-		void ShowSettingsWindow() {
-			_screenShower.Show<SettingsScreen>();
-		}
-
 		void Play() {
 			GameController.Instance.LevelController.StartLevel(0);
 			SceneService.LoadLevel(0);
-		}
-
-		void ShowLeaderboardWindow() {
-			_screenShower.Show<LeaderboardScreen>();
-		}
-
-		void Exit() {
-#if UNITY_EDITOR
-			UnityEditor.EditorApplication.isPlaying = false;
-#else
-			Application.Quit();
-#endif
 		}
 	}
 }

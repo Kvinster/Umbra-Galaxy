@@ -2,6 +2,7 @@
 using STP.Utils.GameComponentAttributes;
 using UnityEngine;
 using UnityEngine.VFX;
+using NaughtyAttributes;
 
 namespace STP.Behaviour.Core {
 	[RequireComponent(typeof(VisualEffect))]
@@ -9,8 +10,9 @@ namespace STP.Behaviour.Core {
 	public sealed class VisualEffectSortingOrderSetter : GameComponent {
 		[NotNull] public Renderer Renderer;
 
-		public int    SortingOrder;
+		[Layer]
 		public string SortingLayer;
+		public int    SortingOrder;
 
 		void Reset() {
 			Renderer = gameObject.GetComponent<Renderer>();
