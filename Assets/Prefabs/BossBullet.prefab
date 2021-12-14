@@ -283,7 +283,7 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
 --- !u!114 &7666371298603338845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,8 +297,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Renderer: {fileID: 7952741336318963282}
-  SortingOrder: -1
   SortingLayer: Default
+  SortingOrder: -1
 --- !u!1 &4765969172863325119
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,6 +311,7 @@ GameObject:
   - component: {fileID: 6885457431205287203}
   - component: {fileID: 6800511085090734620}
   - component: {fileID: 7412130929302568114}
+  - component: {fileID: 552066253077959750}
   m_Layer: 11
   m_Name: BossBullet
   m_TagString: Untagged
@@ -348,7 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rigidbody: {fileID: 7412130929302568114}
   Collider: {fileID: 6800511085090734620}
-  KillParent: 0
+  DeathSoundPlayer: {fileID: 552066253077959750}
   DeathEffectRunner: {fileID: 4620627627865594737}
   TransformBulletMover: {fileID: 3266275736008187267}
   PlayerPushForce: 100000
@@ -402,6 +403,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &552066253077959750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4765969172863325119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263840edafcd4ababe665ec528fc618c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverrideAudioSource: {fileID: 0}
+  AudioClip: {fileID: 8300000, guid: 84d3436abb2f47241b50b47e7cef3a45, type: 3}
+  VolumeScale: 1
 --- !u!1 &7466488859247014858
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,7 +578,7 @@ VFXRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
 --- !u!114 &5877274990919413068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,5 +607,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Renderer: {fileID: 8842943113316486808}
-  SortingOrder: -1
   SortingLayer: Default
+  SortingOrder: -1
