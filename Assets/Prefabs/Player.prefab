@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3127888978083334663}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &6174636235558273996
 AudioSource:
@@ -395,8 +395,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Renderer: {fileID: 3765652816847201434}
-  SortingOrder: -1
   SortingLayer: Default
+  SortingOrder: -1
 --- !u!1 &1171683287964724896
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,7 +553,7 @@ Transform:
   m_Children:
   - {fileID: 6607574771950238609}
   m_Father: {fileID: 3127888978083334663}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6874216400439033633
 MonoBehaviour:
@@ -735,7 +735,7 @@ MonoBehaviour:
   OverrideAudioSource: {fileID: 0}
   VolumeScale: 0.8
   Clips:
-  - {fileID: 8300000, guid: cd51fe43dbd74b44890a42d6677834a8, type: 3}
+  - {fileID: 8300000, guid: 32051107508536349832dc5ff598af94, type: 3}
 --- !u!1 &3127888978083334669
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,6 +772,7 @@ Transform:
   - {fileID: 2613425142415396657}
   - {fileID: 8269483859924232889}
   - {fileID: 3117271717892815255}
+  - {fileID: 5074441285802257880}
   - {fileID: 2806362644056190440}
   - {fileID: 4639545893220496220}
   - {fileID: 1682024682484484221}
@@ -810,6 +811,7 @@ MonoBehaviour:
   PlayerDeathAnimationController: {fileID: 2615716648906306800}
   DamageSoundPlayer: {fileID: 6653595593194903652}
   ShotSoundPlayer: {fileID: 587117463023655764}
+  TripleShotSoundPlayer: {fileID: 5457520906410024001}
 --- !u!60 &3127888978083334667
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -913,7 +915,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3127888978083334663}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6653595593194903652
 MonoBehaviour:
@@ -930,7 +932,7 @@ MonoBehaviour:
   OverrideAudioSource: {fileID: 0}
   VolumeScale: 1
   Clips:
-  - {fileID: 8300000, guid: a2137bd55c5546848aeb48630b633f7c, type: 3}
+  - {fileID: 8300000, guid: 7ba80b1415212cc47846914d62a7eab0, type: 3}
 --- !u!1 &5098145204709111165
 GameObject:
   m_ObjectHideFlags: 0
@@ -1071,6 +1073,53 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 50
+--- !u!1 &5830826344465822588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5074441285802257880}
+  - component: {fileID: 5457520906410024001}
+  m_Layer: 0
+  m_Name: TripleShotSoundPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5074441285802257880
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830826344465822588}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3127888978083334663}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5457520906410024001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830826344465822588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ee4b2edf3e40f49abe2edd656d1ebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverrideAudioSource: {fileID: 0}
+  VolumeScale: 0.8
+  Clips:
+  - {fileID: 8300000, guid: 3df17f251992f9c4b9794b7d87d07b02, type: 3}
 --- !u!1 &6687908338199043058
 GameObject:
   m_ObjectHideFlags: 0
@@ -1101,7 +1150,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3127888978083334663}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!2083052967 &8940948242690298101
 VisualEffect:
@@ -1365,7 +1414,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3127888978083334663}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3002131637546299109
 SpriteRenderer:
@@ -1494,7 +1543,7 @@ PrefabInstance:
     - target: {fileID: 7726400619793762892, guid: 211fbf06880dee04398f6123b24f924e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7726400619793762892, guid: 211fbf06880dee04398f6123b24f924e,
         type: 3}

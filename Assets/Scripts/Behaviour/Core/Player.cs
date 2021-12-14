@@ -37,6 +37,7 @@ namespace STP.Behaviour.Core {
 
 		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer DamageSoundPlayer;
 		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer ShotSoundPlayer;
+		[BoxGroup("Sound")] [NotNull] public BaseSimpleSoundPlayer TripleShotSoundPlayer;
 
 		Vector2 _input;
 
@@ -116,7 +117,7 @@ namespace STP.Behaviour.Core {
 			_pauseManager      = starter.PauseManager;
 			_prefabsController = starter.PrefabsController;
 			_playerController  = starter.PlayerController;
-			
+
 			Rigidbody.centerOfMass = Vector2.zero;
 
 			_playerHpSystem = _playerController.HpSystem;
@@ -211,7 +212,11 @@ namespace STP.Behaviour.Core {
 		void TryShoot() {
 			TryUpdateShootingParams();
 			if ( CurShootingSystem.TryShoot() ) {
-				ShotSoundPlayer.Play();
+				if ( _playerManager.HasActivePowerUp(PowerUpType.TripleShot) ) {
+					TripleShotSoundPlayer.Play();
+				} else {
+					ShotSoundPlayer.Play();
+				}
 			}
 		}
 
