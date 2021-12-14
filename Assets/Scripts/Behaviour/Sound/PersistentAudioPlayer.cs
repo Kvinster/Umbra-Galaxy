@@ -52,6 +52,9 @@ namespace STP.Behaviour.Sound {
 				Debug.LogError("Clip is null");
 				return;
 			}
+			if ( _musicAudioSource.clip == clip ) {
+				return;
+			}
 			_musicAudioSource.volume = volumeScale;
 			_musicAudioSource.clip   = clip;
 			_musicAudioSource.Play();
