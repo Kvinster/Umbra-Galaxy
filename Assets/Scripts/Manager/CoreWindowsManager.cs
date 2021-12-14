@@ -27,7 +27,6 @@ namespace STP.Manager {
 		[NotNull] public DeathWindow DeathWindow;
 		[NotNull] public WinWindow   WinWindow;
 		[NotNull] public PauseWindow PauseWindow;
-		[NotNull] public Button      PauseButton;
 
 		PauseManager _pauseManager;
 
@@ -48,8 +47,8 @@ namespace STP.Manager {
 			DamageScreen.Deinit();
 			PowerUpTimerUisManager.Deinit();
 		}
-
-		public void Init(PauseManager pauseManager, LevelManager levelManager, LevelGoalManager levelGoalManager,
+		
+		public void Init(PauseManager pauseManager, LevelManager levelManager, 
 			PlayerManager playerManager, MinimapManager minimapManager, LevelController levelController,
 			PlayerController playerController, ScoreController scoreController,
 			LeaderboardController leaderboardController, Player player) {
@@ -70,8 +69,7 @@ namespace STP.Manager {
 
 			DeathWindow.CommonInit(levelManager);
 			WinWindow.CommonInit(scoreController, leaderboardController, levelManager);
-			PauseWindow.CommonInit(levelManager, levelGoalManager, scoreController, playerController);
-			PauseButton.onClick.AddListener(ShowPauseWindow);
+			PauseWindow.CommonInit(levelManager);
 
 			DangerScreen.Init();
 

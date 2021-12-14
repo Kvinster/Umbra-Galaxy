@@ -118,8 +118,7 @@ namespace STP.Behaviour.Starter {
 				_commonStarter.PlayerCameraFollower.Init(_commonStarter.MainCamera, Player.transform, AreaRect);
 			}
 			InitComponents();
-			WindowsManager.Init(PauseManager, LevelManager, LevelGoalManager, PlayerManager, MinimapManager, lc, pc, xc,
-				GameController.LeaderboardController, Player);
+			WindowsManager.Init(PauseManager, LevelManager, PlayerManager, MinimapManager, lc, pc, xc, GameController.LeaderboardController, Player);
 			_commonStarter.Portal.Init(this);
 
 			// Settings for smooth gameplay
