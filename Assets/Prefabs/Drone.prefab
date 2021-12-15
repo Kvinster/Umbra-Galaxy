@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Effects:
   - {fileID: 1423777217998562887}
+  StopOnStart: 1
 --- !u!2083052967 &1423777217998562887
 VisualEffect:
   m_ObjectHideFlags: 0
@@ -247,6 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c448574a4f844d83a8ba2b7206c0d72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  KillOnTeleportation: 0
   BoxCollider2D: {fileID: 4491573089355333234}
   Rect:
     serializedVersion: 2
@@ -369,11 +371,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6631905783988765891}
     m_Modifications:
-    - target: {fileID: 2665514832131900324, guid: 964f304fecd057148808b1c252542d97,
-        type: 3}
-      propertyPath: AudioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 25c31de147c57fc4ea441cebe91910d5, type: 3}
     - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
         type: 3}
       propertyPath: m_RootOrder
