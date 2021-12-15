@@ -45,6 +45,8 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 		public HpSystem HpSystemComponent => HpSystem;
 
+		public event Action OnBeginShooting;
+		public event Action OnFinishShooting;
 
 		protected override void Awake() {
 			base.Awake();
@@ -91,8 +93,11 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 						new WaitTask(3f),
 						new RepeatForeverTask(
 							new SequenceTask(
-								new AlwaysSuccessDecorator(_gunsSubsystem.FireTask),
 								new WaitTask(1f),
+								new CustomActionTask(() => OnBeginShooting?.Invoke()),
+								new AlwaysSuccessDecorator(_gunsSubsystem.FireTask),
+								new CustomActionTask(() => OnFinishShooting?.Invoke()),
+								new WaitTask(2f),
 								new AlwaysSuccessDecorator(MovementSubsystem.DashTask),
 								new WaitTask(1f),
 								new AlwaysSuccessDecorator(_spawnSubsystem.SpawnTask)
