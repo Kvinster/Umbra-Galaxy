@@ -78,6 +78,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			var forward = ForwardVector;
 			BossRigidbody.velocity = forward * (MovingSpeed * DashVelocityMultiplier);
 			_isDash                = true;
+			BossRigidbody.drag     = 0f;
 		}
 
 		void EndDash() {
