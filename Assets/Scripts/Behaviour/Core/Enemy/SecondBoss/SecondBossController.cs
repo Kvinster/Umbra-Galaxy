@@ -50,6 +50,9 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 
 		public HpSystem HpSystemComponent => HpSystem;
 
+		public event Action OnBeginChargingGun;
+		public event Action OnShootGun;
+
 		public static SecondBossController Instance { get; private set; }
 
 		void Update() {
@@ -94,7 +97,9 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 						new WaitTask(3f),
 						new RepeatForeverTask(
 							new SequenceTask(
+								new CustomActionTask(() => OnBeginChargingGun?.Invoke()),
 								new AlwaysSuccessDecorator(_gunController.FireTask),
+								new CustomActionTask(() => OnShootGun?.Invoke()),
 								new WaitTask(1f),
 								new ParallelTask(
 									_spawnSubsystem.SpawnTask,
