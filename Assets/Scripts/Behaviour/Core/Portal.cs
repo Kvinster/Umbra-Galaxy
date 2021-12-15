@@ -25,6 +25,8 @@ namespace STP.Behaviour.Core {
 		[Header("Base Dependencies")]
 		[NotNull] public VisualEffect VisualEffect;
 
+		public BaseSimpleSoundPlayer TargetAppearSoundPlayer;
+
 		Tween _targetAppearAnim;
 
 		protected virtual void OnDisable() {
@@ -49,7 +51,12 @@ namespace STP.Behaviour.Core {
 			targetTransform.localScale = Vector3.zero;
 			_targetAppearAnim = DOTween.Sequence()
 				.AppendInterval(startDelay)
-				.AppendCallback(() => VisualEffect.SendEvent(AppearEventName))
+				.AppendCallback(() => {
+					if ( TargetAppearSoundPlayer ) {
+						TargetAppearSoundPlayer.Play();
+					}
+					VisualEffect.SendEvent(AppearEventName);
+				})
 				.Join(DOTween.To(() => VisualEffect.GetFloat(AppearParticlesKillboxSizeId),
 					x => VisualEffect.SetFloat(AppearParticlesKillboxSizeId, x), 1f, appearTime).SetEase(Ease.Linear))
 				.Insert(startDelay + appearTime, targetTransform.DOScale(Vector3.one, TargetScaleTime))

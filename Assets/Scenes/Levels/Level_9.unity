@@ -208,6 +208,52 @@ MonoBehaviour:
   MountPoint: {fileID: 1072292505170450325}
   OwnCollider: {fileID: 5916036518374628064}
   LaserView: {fileID: 7807461136433560039}
+--- !u!1 &502120735
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 502120736}
+  - component: {fileID: 502120737}
+  m_Layer: 0
+  m_Name: AppearSoundPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &502120736
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502120735}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1717199787}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &502120737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502120735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263840edafcd4ababe665ec528fc618c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverrideAudioSource: {fileID: 0}
+  AudioClip: {fileID: 8300000, guid: 124ae4b72b7362f4e9015e293bd8b99a, type: 3}
+  VolumeScale: 1
 --- !u!1 &800921907
 GameObject:
   m_ObjectHideFlags: 0
@@ -912,7 +958,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
-  m_Children: []
+  m_Children:
+  - {fileID: 502120736}
   m_Father: {fileID: 4213705531275077244}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1104,6 +1151,7 @@ MonoBehaviour:
   TargetScaleTime: 1
   TargetAppearPortalSize: 2.5
   VisualEffect: {fileID: 1717199791}
+  TargetAppearSoundPlayer: {fileID: 502120737}
 --- !u!114 &241972972852078398
 MonoBehaviour:
   m_ObjectHideFlags: 0
