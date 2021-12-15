@@ -715,7 +715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OverrideAudioSource: {fileID: 0}
-  VolumeScale: 0.8
+  VolumeScale: 1
   Clips:
   - {fileID: 8300000, guid: 32051107508536349832dc5ff598af94, type: 3}
 --- !u!1 &3127888978083334669
@@ -913,7 +913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OverrideAudioSource: {fileID: 0}
-  VolumeScale: 1
+  VolumeScale: 0.5
   Clips:
   - {fileID: 8300000, guid: 7ba80b1415212cc47846914d62a7eab0, type: 3}
 --- !u!1 &4003431341385871752
