@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &482276258790149157
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 742984745716750682}
+  - component: {fileID: 2043046729450078247}
+  m_Layer: 10
+  m_Name: SpawnSoundPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &742984745716750682
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482276258790149157}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6631905783988765891}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2043046729450078247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482276258790149157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263840edafcd4ababe665ec528fc618c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OverrideAudioSource: {fileID: 0}
+  AudioClip: {fileID: 8300000, guid: f8541901802675142a4a45f15c2f5854, type: 3}
+  VolumeScale: 1
 --- !u!1 &2532848744712518969
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,6 +374,7 @@ Transform:
   - {fileID: 2345808160027986642}
   - {fileID: 6819130848262282604}
   - {fileID: 3213095483402624966}
+  - {fileID: 742984745716750682}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -401,6 +448,7 @@ MonoBehaviour:
   StartHp: 2.147484e+9
   DamageOnCollision: 2.1474836e+9
   Lifetime: 5
+  SpawnSoundPlayer: {fileID: 2043046729450078247}
 --- !u!1001 &8412508986639075712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -412,7 +460,7 @@ PrefabInstance:
         type: 3}
       propertyPath: AudioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 25c31de147c57fc4ea441cebe91910d5, type: 3}
+      objectReference: {fileID: 8300000, guid: 3d2887df3fbcd454f90307a535e29f75, type: 3}
     - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
         type: 3}
       propertyPath: m_RootOrder

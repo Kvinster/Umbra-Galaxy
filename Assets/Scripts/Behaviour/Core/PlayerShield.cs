@@ -8,7 +8,19 @@ namespace STP.Behaviour.Core {
 	[RequireComponent(typeof(Collider2D))]
 	public sealed class PlayerShield : BaseCoreComponent {
 		[NotNull] public BaseSimpleSoundPlayer ImpactSoundPlayer;
+		[NotNull] public AudioSource           ActiveAudioSource;
 		[NotNull] public VisualEffect          VisualEffect;
+
+		protected override void OnEnable() {
+			ActiveAudioSource.Play();
+		}
+
+		protected override void OnDisable() {
+			base.OnDisable();
+			if ( ActiveAudioSource ) {
+				ActiveAudioSource.Stop();
+			}
+		}
 
 		protected override void InitInternal(CoreStarter starter) { }
 

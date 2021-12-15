@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OverrideAudioSource: {fileID: 0}
-  AudioClip: {fileID: 0}
+  AudioClip: {fileID: 8300000, guid: 7c200e1fd91edf7439df161e92c278b0, type: 3}
   VolumeScale: 1
 --- !u!114 &7051913505424528725
 MonoBehaviour:

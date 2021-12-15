@@ -4,16 +4,12 @@ using STP.Utils.BehaviourTree.Tasks;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
 	public class SpawnerBossGunsSubsystem {
-		const float   FireTime   = 1f;
-		const float   ChargeTime = 1f;
+		const float FireTime = 1f;
 
 		List<BossGun> _guns;
 
 		public BaseTask FireTask =>
 			new SequenceTask(
-				new ParallelTask(
-					new WaitTask(ChargeTime)
-				),
 				new CustomActionTask("Start fire", () => {
 					foreach ( var gun in _guns ) {
 						gun.Laser.TryShoot();
@@ -38,10 +34,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 					foreach ( var gun in _guns ) {
 						gun.Laser.TryStopShoot();
 					}
-				}),
-				new ParallelTask(
-					new WaitTask(ChargeTime)
-				)
+				})
 			);
 
 

@@ -101,7 +101,8 @@ namespace STP.Behaviour.Core.UI {
 				Debug.LogErrorFormat("LivesUi.PlayLoseLiveAnim: can't find inactive element");
 				return;
 			}
-			element.color = new Color(NormalColor.r, NormalColor.g, NormalColor.b, 0f);
+			element.transform.localScale = Vector3.one;
+			element.color                = new Color(NormalColor.r, NormalColor.g, NormalColor.b, 0f);
 			_appearAnim?.Kill(true);
 			_appearAnim = DOTween.Sequence()
 				.AppendCallback(() => element.gameObject.SetActive(true))
