@@ -552,7 +552,7 @@ MonoBehaviour:
   StartRadius: 5
   MaxRadius: 10000
   GrowSpeed: 1000
-  RadiusTolerance: 50
+  RadiusTolerance: 150
   Collider: {fileID: 5048729778655334938}
   Disc: {fileID: 2384400802315583049}
 --- !u!58 &5048729778655334938

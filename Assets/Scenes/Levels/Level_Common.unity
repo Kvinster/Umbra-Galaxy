@@ -975,7 +975,7 @@ MonoBehaviour:
   StartRadius: 220
   MaxRadius: 10000
   GrowSpeed: 2000
-  RadiusTolerance: 10
+  RadiusTolerance: 150
   Collider: {fileID: 555993981}
   Disc: {fileID: 0}
 --- !u!1001 &616015479
@@ -2973,6 +2973,7 @@ MonoBehaviour:
   TargetScaleTime: 1
   TargetAppearPortalSize: 1
   VisualEffect: {fileID: 1814578144}
+  TargetAppearSoundPlayer: {fileID: 0}
   PlayerAnimTime: 1
   DisappearTime: 2
   DistanceToPlayer: 300
