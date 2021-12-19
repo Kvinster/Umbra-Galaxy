@@ -4,8 +4,8 @@ using STP.Behaviour.Starter;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy.SecondBoss {
-	public sealed class SecondBossGunSoundsPlayer : BaseCoreComponent {
-		[NotNull] public SecondBossController  BossController;
+	public sealed class RailgunBossGunSoundsPlayer : BaseCoreComponent {
+		[NotNull] public RailgunBossController  BossController;
 		[NotNull] public AudioSource           WeaponChargeAudioSource;
 		[NotNull] public BaseSimpleSoundPlayer WeaponShootSoundPlayer;
 

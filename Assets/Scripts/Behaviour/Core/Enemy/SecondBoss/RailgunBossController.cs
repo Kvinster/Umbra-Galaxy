@@ -13,7 +13,7 @@ using STP.Utils.GameComponentAttributes;
 using UnityEngine.VFX;
 
 namespace STP.Behaviour.Core.Enemy.SecondBoss {
-	public sealed class SecondBossController : BaseEnemy, IHpSource, IDestructible {
+	public sealed class RailgunBossController : BaseBoss {
 		public float CollisionDamage = 25f;
 
 		[Header("portal")]
@@ -26,7 +26,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 		[NotNull]        public SpawnParams   SpawnParams;
 		[NotNullOrEmpty] public List<MineSpawner> Spawners;
 		[Header("guns")]
-		[NotNull] public SecondBossGun Gun;
+		[NotNull] public BossRailgun Gun;
 
 		[NotNull] public Rigidbody2D OwnRigidbody;
 
@@ -48,12 +48,10 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 
 		CameraShake _cameraShake;
 
-		public HpSystem HpSystemComponent => HpSystem;
+		public override HpSystem HpSystemComponent => HpSystem;
 
 		public event Action OnBeginChargingGun;
 		public event Action OnShootGun;
-
-		public static SecondBossController Instance { get; private set; }
 
 		void Update() {
 			if ( Tree?.IsEmpty ?? true ) {
@@ -61,17 +59,6 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 			}
 			Tree.Tick();
 		}
-
-		protected override void Awake() {
-			base.Awake();
-			if ( Instance ) {
-				Debug.LogErrorFormat(this, "{0}.{1}: more than one {2} instance is not supported",
-					nameof(SecondBossController), nameof(Awake), nameof(SecondBossController));
-				return;
-			}
-			Instance = this;
-		}
-
 
 		protected override void InitInternal(CoreStarter starter) {
 			base.InitInternal(starter);
@@ -114,7 +101,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 			DeathShockwave.gameObject.SetActive(false);
 		}
 
-		public void TakeDamage(float damage) {
+		public override void TakeDamage(float damage) {
 			HpSystem.TakeDamage(damage);
 			if ( !HpSystem.IsAlive ) {
 				Die();

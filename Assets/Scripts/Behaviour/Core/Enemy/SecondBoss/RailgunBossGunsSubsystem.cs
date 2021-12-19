@@ -6,7 +6,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 	public class SecondBossGunsSubsystem {
 		VisualEffect  _chargeEffect;
 		VisualEffect  _chargeBulletEffect;
-		SecondBossGun _gun;
+		BossRailgun _gun;
 
 		public BaseTask FireTask =>
 			new SequenceTask(
@@ -31,7 +31,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 			);
 
 
-		public void Init(SecondBossGun gun, VisualEffect chargeEffect, VisualEffect chargeBulletEffect, CoreStarter starter) {
+		public void Init(BossRailgun gun, VisualEffect chargeEffect, VisualEffect chargeBulletEffect, CoreStarter starter) {
 			_gun                = gun;
 			_chargeEffect       = chargeEffect;
 			_chargeBulletEffect = chargeBulletEffect;

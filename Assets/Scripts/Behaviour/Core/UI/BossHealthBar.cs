@@ -1,33 +1,30 @@
 ﻿using STP.Behaviour.Core.Enemy;
-using UnityEngine;
-using STP.Behaviour.Core.Enemy.BossSpawner;
-using STP.Behaviour.Core.Enemy.SecondBoss;
 using STP.Behaviour.Utils.ProgressBar;
-using STP.Config;
 using STP.Core;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
+using UnityEngine;
 
 namespace STP.Behaviour.Core.UI {
 	public sealed class BossHealthBar : GameComponent {
 		[NotNull] public GameObject      Root;
 		[NotNull] public BaseProgressBar ProgressBar;
 
-		bool      _isBossLevel;
+		BaseBoss _baseBoss;
+
 		HpSystem _controllingHpSystem;
 
-		bool IsActive => (_isBossLevel && (_controllingHpSystem != null) && (_controllingHpSystem.Hp > 0)) ;
+		bool IsActive => (_baseBoss && (_controllingHpSystem != null) && (_controllingHpSystem.Hp > 0)) ;
 
 		void Reset() {
 			Root        = gameObject;
 			ProgressBar = GetComponentInChildren<BaseProgressBar>();
 		}
 
-		public void Init(LevelController levelController) {
-			_isBossLevel = (levelController.CurLevelType == LevelType.Boss);
+		public void Init(BaseBoss baseBoss) {
+			_baseBoss = baseBoss;
 
-			TrySubscribeToHpChanges(SpawnerBossController.Instance);
-			TrySubscribeToHpChanges(SecondBossController.Instance);
+			TrySubscribeToHpChanges(baseBoss);
 
 			UpdateView();
 		}

@@ -3,6 +3,7 @@ using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 using STP.Behaviour.Core;
+using STP.Behaviour.Core.Enemy;
 using STP.Behaviour.Utils;
 using STP.Config;
 using STP.Core;
@@ -21,6 +22,9 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public Player    Player;
 		[NotNull] public Transform PlayerStartPos;
 		[NotNull] public Transform LevelObjectsRoot;
+
+		[Header("optional dependencies")]
+		public BaseBoss Boss;
 
 		CoreCommonStarter _commonStarter;
 
@@ -118,7 +122,7 @@ namespace STP.Behaviour.Starter {
 				_commonStarter.PlayerCameraFollower.Init(_commonStarter.MainCamera, Player.transform, AreaRect);
 			}
 			InitComponents();
-			WindowsManager.Init(PauseManager, LevelManager, PlayerManager, MinimapManager, lc, pc, xc, GameController.LeaderboardController, Player);
+			WindowsManager.Init(PauseManager, LevelManager, PlayerManager, MinimapManager, lc, pc, xc, GameController.LeaderboardController, Player, Boss);
 			_commonStarter.Portal.Init(this);
 
 			// Settings for smooth gameplay

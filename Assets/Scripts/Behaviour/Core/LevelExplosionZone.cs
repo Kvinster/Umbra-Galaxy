@@ -16,7 +16,7 @@ namespace STP.Behaviour.Core {
 		static readonly HashSet<Type> MainEnemyTypes = new HashSet<Type> {
 			typeof(Generator),
 			typeof(SpawnerBossController),
-			typeof(SecondBossController)
+			typeof(RailgunBossController)
 		};
 
 		[Header("Parameters")]

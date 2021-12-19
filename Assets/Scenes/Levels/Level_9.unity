@@ -374,6 +374,7 @@ MonoBehaviour:
   Player: {fileID: 1024475111}
   PlayerStartPos: {fileID: 2276751006488254295}
   LevelObjectsRoot: {fileID: 1528040157}
+  Boss: {fileID: 7467633603671073760}
 --- !u!4 &983939232
 Transform:
   m_ObjectHideFlags: 0

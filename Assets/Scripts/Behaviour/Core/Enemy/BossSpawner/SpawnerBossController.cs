@@ -10,7 +10,7 @@ using STP.Utils.BehaviourTree.Tasks;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core.Enemy.BossSpawner {
-	public class SpawnerBossController : BaseEnemy, IHpSource, IDestructible {
+	public class SpawnerBossController : BaseBoss {
 		public BehaviourTree Tree;
 
 		public float CollisionDamage = 25f;
@@ -39,24 +39,13 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 		CameraShake _cameraShake;
 
-		public static SpawnerBossController Instance { get; private set; }
 
 		public override bool HighPriorityInit => true;
 
-		public HpSystem HpSystemComponent => HpSystem;
+		public override HpSystem HpSystemComponent => HpSystem;
 
 		public event Action OnBeginShooting;
 		public event Action OnFinishShooting;
-
-		protected override void Awake() {
-			base.Awake();
-			if ( Instance ) {
-				Debug.LogErrorFormat(this, "{0}.{1}: more than one {2} instance is not supported",
-					nameof(SpawnerBossController), nameof(Awake), nameof(SpawnerBossController));
-				return;
-			}
-			Instance = this;
-		}
 
 		protected void Update() {
 			if ( Tree?.IsEmpty ?? true ) {
@@ -108,7 +97,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			});
 		}
 
-		public void TakeDamage(float damage) {
+		public override void TakeDamage(float damage) {
 			var wasAlive = HpSystem.IsAlive;
 			HpSystem.TakeDamage(damage);
 			if ( !HpSystem.IsAlive && wasAlive ) {

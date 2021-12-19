@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
 using STP.Behaviour.Core;
+using STP.Behaviour.Core.Enemy;
 using STP.Behaviour.Core.Minimap;
 using STP.Behaviour.Core.UI;
 using STP.Behaviour.Core.UI.WinWindow;
@@ -47,11 +48,11 @@ namespace STP.Manager {
 			DamageScreen.Deinit();
 			PowerUpTimerUisManager.Deinit();
 		}
-		
-		public void Init(PauseManager pauseManager, LevelManager levelManager, 
+
+		public void Init(PauseManager pauseManager, LevelManager levelManager,
 			PlayerManager playerManager, MinimapManager minimapManager, LevelController levelController,
 			PlayerController playerController, ScoreController scoreController,
-			LeaderboardController leaderboardController, Player player) {
+			LeaderboardController leaderboardController, Player player, BaseBoss boss) {
 			_pauseManager = pauseManager;
 
 			_windows = new List<BaseCoreWindow> {
@@ -60,7 +61,7 @@ namespace STP.Manager {
 				PauseWindow,
 			};
 
-			BossHealthBar.Init(levelController);
+			BossHealthBar.Init(boss);
 			ScoreUi.Init(scoreController);
 			LivesUi.Init(playerController);
 			MinimapGrid.Init(player, minimapManager);

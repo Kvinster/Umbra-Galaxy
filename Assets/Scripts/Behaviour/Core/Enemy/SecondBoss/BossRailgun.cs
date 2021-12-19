@@ -3,10 +3,10 @@ using STP.Core.ShootingsSystems;
 using STP.Utils;
 
 namespace STP.Behaviour.Core.Enemy.SecondBoss {
-	public class SecondBossGun : GameComponent {
+	public class BossRailgun : GameComponent {
 		public ShootingSystemParams ShootingSystemParams;
-		
-		
+
+
 		public DefaultShootingSystem DefaultShootingSystem;
 
 
