@@ -64,6 +64,8 @@ namespace STP.Behaviour.Core {
 			Assert.IsNull(_cancellationTokenSource);
 			_cancellationTokenSource = new CancellationTokenSource();
 
+			_playerController.IsInvincible = true;
+
 			DeathSoundPlayer.Play();
 			await _windowsManager.DangerScreen.Show(DangerScreenShowDuration)
 				.ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
@@ -81,6 +83,8 @@ namespace STP.Behaviour.Core {
 			await UniTask.Delay(TimeSpan.FromSeconds(ExplosionWaitTime), true, PlayerLoopTiming.Update,
 				_cancellationTokenSource.Token);
 			ExplosionZone.SetActive(false);
+
+			_playerController.IsInvincible = false;
 
 			_cancellationTokenSource = null;
 		}
