@@ -10,8 +10,10 @@ using STP.Utils.GameComponentAttributes;
 using DG.Tweening;
 
 namespace STP.Behaviour.Core {
-	public class Portal : GameComponent {
+	public class Portal : GameComponent
+	{
 		protected const string PortalSizeId = "PortalSize";
+		protected const string IgnoreShockwaveId = "IgnoreShockwave";
 
 		const string AppearEventName              = "OnAppear";
 		const string AppearTimeId                 = "AppearBorder_AppearTime";

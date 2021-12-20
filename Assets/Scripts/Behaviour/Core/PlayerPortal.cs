@@ -8,6 +8,8 @@ using STP.Utils.GameComponentAttributes;
 using DG.Tweening;
 
 using STP.Behaviour.Starter;
+using STP.Config;
+using STP.Core;
 
 namespace STP.Behaviour.Core {
 	public sealed class PlayerPortal : Portal {
@@ -29,6 +31,8 @@ namespace STP.Behaviour.Core {
 		LevelGoalManager   _levelGoalManager;
 		LevelManager       _levelManager;
 		CoreWindowsManager _windowsManager;
+
+		LevelController _levelController;
 
 		Camera _camera;
 
@@ -52,12 +56,15 @@ namespace STP.Behaviour.Core {
 			_levelGoalManager = coreStarter.LevelGoalManager;
 			_levelManager     = coreStarter.LevelManager;
 			_windowsManager   = coreStarter.WindowsManager;
+			_levelController = coreStarter.LevelController;
 
 			_levelManager.OnLevelWinStarted += StartLevelWinAnim;
 
 			_camera = CameraUtility.Instance.Camera;
 
 			LevelWinExplosionZone.SetActive(false);
+
+			VisualEffect.SetBool(IgnoreShockwaveId, _levelController.CurLevelType == LevelType.Boss);
 
 			PlayLevelStartAnim();
 		}
@@ -77,9 +84,11 @@ namespace STP.Behaviour.Core {
 			transform.position = GetLevelWinPosition();
 			VisualEffect.SetFloat(PortalSizeId, LevelWinPortalSize);
 			VisualEffect.Play();
-			_levelWinStartAnim = DOTween.Sequence()
-				.AppendInterval(ExplosionStartTime)
-				.AppendCallback(() => LevelWinExplosionZone.SetActive(true));
+			if (_levelController.CurLevelType != LevelType.Boss) {
+				_levelWinStartAnim = DOTween.Sequence()
+					.AppendInterval(ExplosionStartTime)
+					.AppendCallback(() => LevelWinExplosionZone.SetActive(true));
+			}
 		}
 
 		Vector2 GetLevelWinPosition() {
