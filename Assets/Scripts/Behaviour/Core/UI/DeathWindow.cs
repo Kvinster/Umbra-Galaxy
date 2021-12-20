@@ -32,7 +32,6 @@ namespace STP.Behaviour.Core.UI {
 		}
 
 		void OnQuitClick() {
-			PersistentAudioPlayer.Instance.SetPitch(1f);
 			_levelManager.QuitToMenu();
 		}
 	}

@@ -17,13 +17,18 @@ namespace STP.Behaviour.Sound {
 		protected override void Awake() {
 			base.Awake();
 
+			var audioMixer = Resources.Load<AudioMixerGroup>("AudioMixer").audioMixer;
+			Assert.IsTrue(audioMixer);
+
 			_musicAudioSource                       = gameObject.AddComponent<AudioSource>();
-			_musicAudioSource.outputAudioMixerGroup = Resources.Load<AudioMixerGroup>("AudioMixer");
+			_musicAudioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("BGM")[0];
 			_musicAudioSource.loop                  = true;
+			Assert.IsTrue(_musicAudioSource.outputAudioMixerGroup);
 
 			_soundAudioSource                       = gameObject.AddComponent<AudioSource>();
-			_soundAudioSource.outputAudioMixerGroup = Resources.Load<AudioMixerGroup>("AudioMixer");
+			_soundAudioSource.outputAudioMixerGroup = audioMixer.FindMatchingGroups("SFX")[0];
 			_soundAudioSource.loop                  = false;
+			Assert.IsTrue(_soundAudioSource.outputAudioMixerGroup);
 
 			_cameraUtility = CameraUtility.Instance;
 
@@ -58,12 +63,6 @@ namespace STP.Behaviour.Sound {
 			_musicAudioSource.volume = volumeScale;
 			_musicAudioSource.clip   = clip;
 			_musicAudioSource.Play();
-		}
-
-		public void SetPitch(float pitch) {
-			pitch                   = Mathf.Clamp01(pitch);
-			_musicAudioSource.pitch = pitch;
-			_soundAudioSource.pitch = pitch;
 		}
 	}
 }
