@@ -55,6 +55,7 @@ namespace STP.Behaviour.Core {
 			v.profile.TryGet(out _colorAdjustments);
 			ExplosionZone.IgnoreMainEnemies = true;
 			ExplosionZone.UseUnscaledTime   = true;
+			ExplosionZone.transform.parent = transform.parent;
 			ExplosionZone.SetActive(false);
 
 			FinalDeathVisualEffectRoot.SetActive(false);
@@ -64,6 +65,8 @@ namespace STP.Behaviour.Core {
 			Assert.IsNull(_cancellationTokenSource);
 			_cancellationTokenSource = new CancellationTokenSource();
 
+			ExplosionZone.transform.position = transform.position;
+			
 			_playerController.IsInvincible = true;
 
 			DeathSoundPlayer.Play();
