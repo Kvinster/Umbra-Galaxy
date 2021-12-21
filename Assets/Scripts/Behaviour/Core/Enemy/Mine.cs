@@ -31,6 +31,7 @@ namespace STP.Behaviour.Core.Enemy {
 
 		public void OnCollisionEnter2D(Collision2D other) {
 			other.TryTakeDamage(DamageOnCollision);
+			Die(false);
 		}
 	}
 }
