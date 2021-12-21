@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using STP.Behaviour.Core;
 using STP.Behaviour.Core.Enemy;
 using STP.Behaviour.Core.Minimap;
@@ -16,6 +17,7 @@ using STP.Utils.GameComponentAttributes;
 namespace STP.Manager {
 	public sealed class CoreWindowsManager : GameComponent {
 		[NotNull] public GameObject  UiRoot;
+
 		[Space]
 		[NotNull] public BossHealthBar BossHealthBar;
 		[NotNull] public PlayerScoreUi          ScoreUi;
@@ -29,9 +31,13 @@ namespace STP.Manager {
 		[NotNull] public WinWindow   WinWindow;
 		[NotNull] public PauseWindow PauseWindow;
 
+		[NotNull] public CanvasGroup UiCanvasGroup;
+
 		PauseManager _pauseManager;
 
 		List<BaseCoreWindow> _windows;
+
+		Tween _tween;
 
 		bool IsAnyWindowShown => _windows.Any(x => x.IsShown);
 
@@ -47,6 +53,7 @@ namespace STP.Manager {
 			MinimapGrid.Deinit();
 			DamageScreen.Deinit();
 			PowerUpTimerUisManager.Deinit();
+			_tween?.Kill(true);
 		}
 
 		public void Init(PauseManager pauseManager, LevelManager levelManager,
@@ -87,6 +94,11 @@ namespace STP.Manager {
 
 		public void ShowDeathWindow() {
 			ShowWindow(DeathWindow);
+		}
+
+		public void FadeInUi() {
+			UiCanvasGroup.alpha = 0f;
+			_tween = UiCanvasGroup.DOFade(1f, 0.5f);
 		}
 
 		void ShowPauseWindow() {

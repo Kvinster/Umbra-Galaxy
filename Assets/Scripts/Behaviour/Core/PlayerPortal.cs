@@ -75,6 +75,7 @@ namespace STP.Behaviour.Core {
 			PlayTargetAppearAnim(_player.transform, _playerStartPos, () => {
 				_levelManager.ActivateLevel();
 				_windowsManager.ShowLevelUi();
+				_windowsManager.FadeInUi();
 			});
 		}
 
