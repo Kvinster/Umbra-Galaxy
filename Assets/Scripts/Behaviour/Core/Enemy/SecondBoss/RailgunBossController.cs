@@ -74,7 +74,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 			_gunController = new SecondBossGunsSubsystem();
 			_gunController.Init(Gun, ChargingEffect, ChargingBulletEffect, starter);
 
-			MovementSubsystem.Init(OwnRigidbody, starter.Player.transform, HpSystemComponent);
+			MovementSubsystem.Init(OwnRigidbody, starter.Player.transform, HpSystemComponent, starter.AreaRect);
 			MovementSubsystem.SetActive(false);
 
 			Portal.PlayTargetAppearAnim(transform, PortalAppearPosition, () => {

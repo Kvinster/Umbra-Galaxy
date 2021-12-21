@@ -1,4 +1,5 @@
-﻿using STP.Core;
+﻿using System;
+using STP.Core;
 using STP.Utils;
 using STP.Utils.BehaviourTree;
 using STP.Utils.BehaviourTree.Tasks;
@@ -17,13 +18,22 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public float MovingSpeed;
 		public float AngularSpeed;
 
+		public float DashAngularSpeed = 15;
+
 		public float SlowdownTime = 2f;
 		public float DashTime     = 2f;
+
+		Rect _dashEndArea;
 
 		public BaseTask DashTask => new SequenceTask(
 			new CustomActionTask("set dash speed", Dash),
 			new WaitTask(DashTime),
-			new CustomActionTask("stop dash", EndDash)
+			new RepeatUntilSuccess(
+				new SequenceTask(
+					new ConditionTask(() => _dashEndArea.Contains(BossRigidbody.transform.position)),
+					new CustomActionTask("stop dash", EndDash)
+				)
+			)
 		);
 
 		readonly Timer _timer = new Timer();
@@ -41,11 +51,12 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 
 		bool IsActive { get; set; }
 
-		public void Init(Rigidbody2D bossRigidbody, Transform player, HpSystem hpSystem) {
+		public void Init(Rigidbody2D bossRigidbody, Transform player, HpSystem hpSystem, Rect playArea) {
 			BossRigidbody    =  bossRigidbody;
 			_player          =  player;
 			_hpSystem        =  hpSystem;
 			_hpSystem.OnDied += OnDied;
+			CalcDashEndArea(playArea);
 			_timer.Reset(int.MaxValue);
 		}
 
@@ -65,7 +76,13 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			else {
 				KeepDistanceFromPlayer();
 			}
-			LookToPlayer();
+			if (_isDash) {
+				LookAtObject(Vector3.zero, DashAngularSpeed);
+				SetDashVelocity();
+			}
+			else {
+				LookAtObject(_player.position, AngularSpeed);
+			}
 		}
 
 		public void SetActive(bool isActive) {
@@ -74,15 +91,27 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			BossRigidbody.velocity = Vector2.zero;
 		}
 
+		void CalcDashEndArea(Rect playArea) {
+			// Restricting dash end area as half from the play area
+			var center = playArea.center;
+			playArea.size /= 2;
+			playArea.center = center;
+			_dashEndArea = playArea;
+		}
+
 		void Dash() {
-			var forward = ForwardVector;
-			BossRigidbody.velocity = forward * (MovingSpeed * DashVelocityMultiplier);
+			SetDashVelocity();
 			_isDash                = true;
 			BossRigidbody.drag     = 0f;
 		}
 
 		void EndDash() {
 			_isDash = false;
+		}
+
+		void SetDashVelocity() {
+			var forward = ForwardVector;
+			BossRigidbody.velocity = forward * (MovingSpeed * DashVelocityMultiplier);
 		}
 
 		void OnDied() {
@@ -113,26 +142,32 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			}
 		}
 
-		void LookToPlayer() {
-			if ( _isDash ) {
-				return;
-			}
-			var targetAngle       = GetAngleToPlayer();
-			var oldAngle          = BossRigidbody.rotation;
-			var diff              = targetAngle - oldAngle;
+		void LookAtObject(Vector3 objPosition, float angularSpeed) {
+			var targetAngle = GetAngleToObject(objPosition);
+			var currentAngle = BossRigidbody.rotation;
+			var diff = targetAngle - currentAngle;
+			// rotate in the shortest direction
 			if ( Mathf.Abs(diff) > 180 ) {
 				diff = -diff;
 			}
-			var movementAmplitude = Mathf.Clamp(AngularSpeed * Time.deltaTime, 0, Mathf.Abs(diff));
-			var newAngle          = oldAngle + Mathf.Sign(diff) * movementAmplitude;
+			var angleAmplitude = Mathf.Clamp(angularSpeed * Time.deltaTime, 0, Mathf.Abs(diff));
+			var newAngle = currentAngle + Mathf.Sign(diff) * angleAmplitude;
 			BossRigidbody.transform.rotation = Quaternion.AngleAxis(newAngle, Vector3.forward);
 		}
 
-		float GetAngleToPlayer() {
-			var diff = _player.position - BossRigidbody.transform.position;
+		float GetAngleToObject(Vector3 objPosition) {
+			var diff = objPosition - BossRigidbody.transform.position;
 			diff.Normalize();
 			var angle = Mathf.Atan2(diff.x, diff.y) * Mathf.Rad2Deg;
 			return -angle;
+		}
+
+		void OnDrawGizmos() {
+			// drawing future dash area
+			var color = Gizmos.color;
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawWireCube(_dashEndArea.center, _dashEndArea.size);
+			Gizmos.color = color;
 		}
 	}
 }

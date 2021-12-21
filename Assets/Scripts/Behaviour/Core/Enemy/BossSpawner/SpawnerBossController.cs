@@ -65,7 +65,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			_levelManager     = starter.LevelManager;
 			_cameraShake      = starter.CameraShake;
 
-			MovementSubsystem.Init(BossRigidbody, starter.Player.transform, HpSystem);
+			MovementSubsystem.Init(BossRigidbody, starter.Player.transform, HpSystem, starter.AreaRect);
 			MovementSubsystem.SetActive(false);
 
 			_gunsSubsystem = new SpawnerBossGunsSubsystem();

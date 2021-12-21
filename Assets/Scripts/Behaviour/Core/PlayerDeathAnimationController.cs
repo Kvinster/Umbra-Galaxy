@@ -66,7 +66,7 @@ namespace STP.Behaviour.Core {
 			_cancellationTokenSource = new CancellationTokenSource();
 
 			ExplosionZone.transform.position = transform.position;
-			
+
 			_playerController.IsInvincible = true;
 
 			DeathSoundPlayer.Play();

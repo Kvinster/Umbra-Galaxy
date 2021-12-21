@@ -121,6 +121,7 @@ namespace STP.Behaviour.Starter {
 			if ( LevelController.CurLevelType == LevelType.Regular ) {
 				_commonStarter.PlayerCameraFollower.Init(_commonStarter.MainCamera, Player.transform, AreaRect);
 			}
+			TryRecalcArea();
 			InitComponents();
 			WindowsManager.Init(PauseManager, LevelManager, PlayerManager, MinimapManager, lc, pc, xc, GameController.LeaderboardController, Player, Boss);
 			_commonStarter.Portal.Init(this);
@@ -139,6 +140,16 @@ namespace STP.Behaviour.Starter {
 				comp.enabled = false;
 			}
 			MiniMapObject.SetActive(false);
+		}
+
+		void TryRecalcArea() {
+			if (LevelController.CurLevelType != LevelType.Boss) {
+				return;
+			}
+			var cam        = MainCamera;
+			var areaHeight = cam.orthographicSize * 2;
+			var areaWidth  = cam.aspect * areaHeight;
+			AreaRect = new Rect(new Vector2(-areaWidth / 2, -areaHeight / 2), new Vector2(areaWidth, areaHeight));
 		}
 
 		void OnDestroy() {
