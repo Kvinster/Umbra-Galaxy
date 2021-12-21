@@ -19,6 +19,9 @@ namespace STP.Behaviour.Core {
 		[NotNull]
 		public BaseSimpleSoundPlayer DeathSoundPlayer;
 
+		[NotNull]
+		public VfxRunner DeathEffectRunner;
+
 		public float LifeTime = 3f;
 
 		float _lifeTimer;
@@ -73,6 +76,12 @@ namespace STP.Behaviour.Core {
 		}
 
 		public void Die() {
+			if ( DeathEffectRunner && _isVisible ) {
+				DeathEffectRunner.transform.parent = transform.parent;
+				DeathEffectRunner.RunVfx(true);
+				DeathSoundPlayer.Play();
+			}
+
 			Destroy(gameObject);
 		}
 
@@ -105,7 +114,7 @@ namespace STP.Behaviour.Core {
 				bullet.Init(_damage, bulletSpeed, Collider);
 			}
 			DeathSoundPlayer.Play();
-			Destroy(gameObject);
+			Die();
 		}
 	}
 }
