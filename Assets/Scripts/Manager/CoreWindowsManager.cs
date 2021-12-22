@@ -26,6 +26,7 @@ namespace STP.Manager {
 		[NotNull] public MinimapGrid            MinimapGrid;
 		[NotNull] public DamageScreen           DamageScreen;
 		[NotNull] public PowerUpTimerUisManager PowerUpTimerUisManager;
+		[NotNull] public BossLevelDialog        BossLevelDialog;
  		[Space]
 		[NotNull] public DeathWindow DeathWindow;
 		[NotNull] public WinWindow   WinWindow;
@@ -52,6 +53,7 @@ namespace STP.Manager {
 			LivesUi.Deinit();
 			MinimapGrid.Deinit();
 			DamageScreen.Deinit();
+			BossLevelDialog.Deinit();
 			PowerUpTimerUisManager.Deinit();
 			_tween?.Kill(true);
 		}
@@ -74,6 +76,7 @@ namespace STP.Manager {
 			MinimapGrid.Init(player, minimapManager);
 			DamageScreen.Init(playerController);
 			PowerUpTimerUisManager.Init(playerManager);
+			BossLevelDialog.Init(levelController);
 
 			DeathWindow.CommonInit(levelManager);
 			WinWindow.CommonInit(scoreController, leaderboardController, levelManager);
