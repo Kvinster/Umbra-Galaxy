@@ -4,7 +4,7 @@ using UnityEngine.Assertions;
 using System;
 using System.Collections.Generic;
 using System.IO;
-
+using NaughtyAttributes;
 using STP.Common;
 
 namespace STP.Config {
@@ -24,36 +24,27 @@ namespace STP.Config {
 			}
 		}
 
-		public List<BaseLevelInfo> Levels;
+		[Expandable]
+		public List<BaseLevelInfo> LevelScenes;
 
-		public int TotalLevelsCount => Levels.Count;
+		public int TotalLevelsCount => LevelScenes.Count;
 
 		public BaseLevelInfo GetLevelConfig(int levelIndex) {
-			if ( (levelIndex < 0) || (levelIndex >= Levels.Count) ) {
+			if ( (levelIndex < 0) || (levelIndex >= LevelScenes.Count) ) {
 				Debug.LogErrorFormat("Invalid level index '{0}'", levelIndex);
 				return null;
 			}
-			return Levels[levelIndex];
+			return LevelScenes[levelIndex];
 		}
 
-#if UNITY_EDITOR
-		[ContextMenu("Populate from csv")]
-		public void PopulateFromConfig() {
-			var config = Resources.Load<TextAsset>("Balance");
-			Levels.Clear();
-			using ( var reader = new StringReader(config.text) ) {
-				for ( var line = reader.ReadLine(); line != null; line = reader.ReadLine() ) {
-					var levelInfo = CreateInstance<RegularLevelInfo>();
-					UnityEditor.AssetDatabase.CreateAsset(levelInfo, "Assets/Resources/NewLevel.asset");
-					Levels.Add(levelInfo);
+		public int FindLevelIndexByName(string sceneName) {
+			for (var i = 0; i < LevelScenes.Count; i++ ) {
+				if (sceneName == LevelScenes[i].SceneName) {
+					return i;
 				}
 			}
-			UnityEditor.AssetDatabase.SaveAssets();
-			UnityEditor.AssetDatabase.Refresh();
-			UnityEditor.EditorUtility.SetDirty(this);
-
+			return -1;
 		}
-#endif
 	}
 
 }

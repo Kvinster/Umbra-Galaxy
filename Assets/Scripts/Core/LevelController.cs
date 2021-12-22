@@ -4,6 +4,7 @@ using STP.Config;
 using STP.Core.State;
 using STP.Events.Analytics;
 using STP.Service;
+using UnityEngine.SceneManagement;
 
 namespace STP.Core {
 	public sealed class LevelController : BaseStateController {
@@ -25,6 +26,14 @@ namespace STP.Core {
 			Assert.IsTrue(CurLevelConfig);
 			AnalyticsService.LogEvent(new LevelStartedEvent(levelIndex));
 		}
+
+		#if UNITY_EDITOR
+		public void StartLevelFromEditor() {
+			var activeScene = SceneManager.GetActiveScene().name;
+			var levelIndex = LevelsConfig.Instance.FindLevelIndexByName(activeScene);
+			StartLevel(levelIndex);
+		}
+		#endif
 
 		public void FinishLevel() {
 			Assert.AreNotEqual(CurLevelIndex, -1);

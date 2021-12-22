@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using NaughtyAttributes;
+using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
@@ -22,6 +23,7 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public Player    Player;
 		[NotNull] public Transform PlayerStartPos;
 		[NotNull] public Transform LevelObjectsRoot;
+
 
 		[Header("optional dependencies")]
 		public BaseBoss Boss;
@@ -92,6 +94,7 @@ namespace STP.Behaviour.Starter {
 			BordersRoot.position     = AreaRect.center;
 			BordersRoot.localScale   = new Vector3(AreaRect.width, AreaRect.height, 1);
 
+
 #if UNITY_EDITOR
 			if ( !GameState.IsActiveInstanceExists ) {
 				Debug.Log("Trying to load GameState instance");
@@ -101,7 +104,7 @@ namespace STP.Behaviour.Starter {
 					GameState.CreateNewActiveGameState();
 				}
 				GameController.CreateGameController(GameState.ActiveInstance);
-				LevelController.StartLevel(SceneService.GetLevelIndexFromSceneName());
+				LevelController.StartLevelFromEditor();
 			}
 #endif
 

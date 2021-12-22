@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d70edd4b6b240deac7c799287e78219, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
+  SceneName: Level_1
   AsteroidSpawnerSettings:
     Enabled: 0
     SpawnPeriod: 7
     SpawnRange: 1000
     Prefab: {fileID: 5909774503264953508, guid: d9285fea4909b3a478bacecef9d606b6,
       type: 3}
-    AsteroidSpeed: 300
+    AsteroidMinSpeed: 0
+    AsteroidMaxSpeed: 0
   DroneSpawnerSettings:
     Enabled: 1
     SpawnPeriod: 5

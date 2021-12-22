@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be429f81efb443558f408c3348ed44e8, type: 3}
   m_Name: Level4
   m_EditorClassIdentifier: 
+  SceneName: Level_4
   AsteroidSpawnerSettings:
     Enabled: 0
     SpawnPeriod: 1
     SpawnRange: 1000
     Prefab: {fileID: 0}
-    AsteroidSpeed: 0
+    AsteroidMinSpeed: 0
+    AsteroidMaxSpeed: 0
   DroneSpawnerSettings:
     Enabled: 0
     SpawnPeriod: 1

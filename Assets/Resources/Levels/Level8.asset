@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d70edd4b6b240deac7c799287e78219, type: 3}
   m_Name: Level8
   m_EditorClassIdentifier: 
+  SceneName: Level_8
   AsteroidSpawnerSettings:
     Enabled: 1
     SpawnPeriod: 5
