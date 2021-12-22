@@ -1355,7 +1355,7 @@ MonoBehaviour:
   CollisionDamage: 25
   Portal: {fileID: 1128806082}
   PortalAppearPosition: {fileID: 1824008813}
-  StartDelay: 0
+  StartDelay: 10
   MovementSubsystem: {fileID: 3133233052200271352}
   SpawnParams:
     EnemiesInWaveCount: 50
@@ -1566,6 +1566,7 @@ MonoBehaviour:
   DashVelocityMultiplier: 3
   MovingSpeed: 200
   AngularSpeed: 60
+  DashAngularSpeed: 15
   SlowdownTime: 1
   DashTime: 2
 --- !u!224 &3176290969640014167

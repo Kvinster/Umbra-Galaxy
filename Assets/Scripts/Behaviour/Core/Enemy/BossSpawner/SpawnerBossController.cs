@@ -26,6 +26,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		[Space]
 		[NotNull] public Portal Portal;
 		[NotNull] public Transform PortalAppearPosition;
+		public           float     StartDelay;
 
 
 		public List<BossGun> Guns;
@@ -94,7 +95,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 						)
 					)
 				);
-			});
+			}, StartDelay);
 		}
 
 		public override void TakeDamage(float damage) {

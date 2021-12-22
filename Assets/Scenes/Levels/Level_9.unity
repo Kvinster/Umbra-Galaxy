@@ -1567,6 +1567,7 @@ MonoBehaviour:
   DashVelocityMultiplier: 4
   MovingSpeed: 200
   AngularSpeed: 60
+  DashAngularSpeed: 15
   SlowdownTime: 1
   DashTime: 2
 --- !u!1001 &3268961785498000053
@@ -2274,6 +2275,7 @@ MonoBehaviour:
   Shockwave: {fileID: 7789080672318237155}
   Portal: {fileID: 1717199792}
   PortalAppearPosition: {fileID: 194544505}
+  StartDelay: 10
   Guns:
   - {fileID: 313286363}
   Spawners:
