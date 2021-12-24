@@ -7,8 +7,6 @@ using STP.Core;
 using STP.Service;
 using STP.Utils;
 
-using Cysharp.Threading.Tasks;
-
 namespace STP.Manager {
 	public sealed class LevelManager {
 		const float LevelWinDelay = 2f;
@@ -56,19 +54,8 @@ namespace STP.Manager {
 		void GoToNextLevel() {
 			_pauseManager.Pause(this);
 			_levelController.StartLevel(CurLevelIndex + 1);
-			SceneService.LoadLevel(CurLevelIndex + 1);
+			SceneService.LoadLevel(_levelController.CurLevelConfig.SceneName);
 		}
-
-		public bool TryReloadLevel() {
-			if ( !IsLevelActive ) {
-				Debug.LogError("Can't reload level — level not active");
-				return false;
-			}
-			IsLevelActive = false;
-			UniTask.Void(SceneTransition);
-			return true;
-		}
-
 		public void QuitToMenu() {
 			if ( !IsLevelActive ) {
 				Debug.LogError("Can't quit level — level not active");
@@ -95,14 +82,6 @@ namespace STP.Manager {
 
 		public void ActivateLevel() {
 			IsLevelActive = true;
-		}
-
-		async UniTaskVoid SceneTransition() {
-			_pauseManager.Pause(this);
-
-			await _sceneTransitionController.PlayHideAnim(_playerTransform.position);
-
-			SceneService.ReloadScene();
 		}
 	}
 }

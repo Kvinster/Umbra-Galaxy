@@ -34,7 +34,7 @@ namespace STP.Behaviour.MainMenu {
 
 		void Play() {
 			GameController.Instance.LevelController.StartLevel(0);
-			SceneService.LoadLevel(0);
+			SceneService.LoadLevel(GameController.Instance.LevelController.CurLevelConfig.SceneName);
 		}
 	}
 }
