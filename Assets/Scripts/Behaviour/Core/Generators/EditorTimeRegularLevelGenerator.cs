@@ -1,7 +1,7 @@
 using UnityEngine;
 
 using System.Collections.Generic;
-
+using STP.Behaviour.Core.Enemy;
 using STP.Behaviour.Core.Enemy.GeneratorEditor;
 using STP.Utils;
 
@@ -11,7 +11,10 @@ namespace STP.Behaviour.Core.Generators {
 		public Vector2Int GeneratorsSideSize = new Vector2Int(5, 5);
 		[Header("Dependencies")]
 		public GameObject GeneratorBulletPrefab;
+		public float GeneratorReloadTime = 1f;
+
 		public GameObject MainGeneratorBulletPrefab;
+		public float MainGeneratorReloadTime = 0.5f;
 		[Space]
 		public List<GameObject> BulletPrefabs = new List<GameObject>();
 
@@ -32,6 +35,11 @@ namespace STP.Behaviour.Core.Generators {
 			_levelObjectsRoot.position = Vector3.zero;
 			var chunkCreator = new ChunkCreator(GeneratorBulletPrefab, MainGeneratorBulletPrefab);
 			var obj          = chunkCreator.CreateGeneratorChunk(GeneratorsSideSize);
+			foreach (var generator in obj.GetComponentsInChildren<Generator>()) {
+				generator.ShootingParams.ReloadTime =
+					(generator.IsMainGenerator) ? MainGeneratorReloadTime : GeneratorReloadTime;
+			}
+
 			obj.transform.SetParent(_levelObjectsRoot);
 			obj.transform.localPosition = Vector3.zero;
 		}
