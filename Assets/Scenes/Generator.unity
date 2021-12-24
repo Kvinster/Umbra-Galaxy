@@ -43,7 +43,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 11
+  serializedVersion: 12
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -98,7 +98,8 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 7f410b7446180e3449244b18a9710178,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -118,6 +119,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -150,16 +153,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967b6609e3b041939a1d7c1a177cbcae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GeneratorsSideSize: {x: 10, y: 10}
-  LevelObjectsRoot: {fileID: 0}
+  GeneratorsSideSize: {x: 9, y: 9}
   GeneratorBulletPrefab: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
     type: 3}
-  MainGeneratorBulletPrefab: {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922,
+  GeneratorReloadTime: 1
+  MainGeneratorBulletPrefab: {fileID: 4765969172863325119, guid: ab1d312752a993d438182489cb73d4a3,
     type: 3}
+  MainGeneratorReloadTime: 0.5
   BulletPrefabs:
   - {fileID: 4765969172863325119, guid: dee46161708a3234aa1d930651519922, type: 3}
   - {fileID: 4765969172863325119, guid: 89faa3303a93b0941af9c078aad27d7e, type: 3}
   - {fileID: 347348299669463199, guid: 1908074338af77047b08f2adb77fde73, type: 3}
+  - {fileID: 4765969172863325119, guid: ab1d312752a993d438182489cb73d4a3, type: 3}
+  - {fileID: 6476260919088652975, guid: 72ed1cd7b3ddbe24689473372804e610, type: 3}
 --- !u!4 &1897825082
 Transform:
   m_ObjectHideFlags: 0

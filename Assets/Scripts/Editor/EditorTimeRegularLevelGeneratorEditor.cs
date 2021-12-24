@@ -48,11 +48,8 @@ namespace STP.Editor {
 			if ( GUILayout.Button("Generate level") ) {
 				InvokeGeneratorMethod(nameof(EditorTimeRegularLevelGenerator.GenerateChunk));
 			}
-			if ( GUILayout.Button("Reset level") ) {
-				InvokeGeneratorMethod(nameof(EditorTimeRegularLevelGenerator.ResetLevel));
-			}
-			if ( GUILayout.Button("Reset field") ) {
-				InvokeGeneratorMethod(nameof(EditorTimeRegularLevelGenerator.ResetField));
+			if ( GUILayout.Button("Calculate play area") ) {
+				InvokeGeneratorMethod(nameof(EditorTimeRegularLevelGenerator.RecalculateArea));
 			}
 		}
 

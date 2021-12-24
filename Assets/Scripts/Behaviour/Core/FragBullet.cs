@@ -8,7 +8,6 @@ using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Core {
 	public sealed class FragBullet : BaseCoreComponent, IBullet, IVisibleHandler {
-		[NotNullOrEmpty]
 		public List<Bullet> InnerBullets;
 		[NotNull]
 		public Rigidbody2D Rigidbody;
@@ -70,7 +69,9 @@ namespace STP.Behaviour.Core {
 			}
 
 			foreach ( var bullet in InnerBullets ) {
-				bullet.gameObject.SetActive(false);
+				if (bullet) {
+					bullet.gameObject.SetActive(false);
+				}
 			}
 			Notifier.OnTriggerEnter += OnRangeEnter;
 		}
@@ -106,6 +107,9 @@ namespace STP.Behaviour.Core {
 			var baseAngle   = Vector2.SignedAngle(toPlayerDir, Vector2.right) + 90;
 			for ( var index = 0; index < InnerBullets.Count; index++ ) {
 				var bullet = InnerBullets[index];
+				if (!bullet) {
+					continue;
+				}
 				bullet.gameObject.SetActive(true);
 				bullet.transform.SetParent(transform.parent);
 				bullet.transform.rotation = Quaternion.AngleAxis(-baseAngle + -30 + index * 15, Vector3.forward);
