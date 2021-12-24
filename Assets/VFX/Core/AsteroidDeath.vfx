@@ -17,10 +17,10 @@ MonoBehaviour:
   categories: []
   uiBounds:
     serializedVersion: 2
-    x: 235
+    x: 171
     y: -99
-    width: 1132
-    height: 1767
+    width: 1196
+    height: 1898
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -68,7 +68,7 @@ VisualEffectResource:
       receiveShadows: 0
       reflectionProbeUsage: 0
       lightProbeUsage: 0
-    m_CullingFlags: 0
+    m_CullingFlags: 3
     m_UpdateMode: 0
     m_PreWarmDeltaTime: 0.05
     m_PreWarmStepCount: 0
@@ -125,7 +125,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614560}
   - {fileID: 8926484042661614564}
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
+  m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_MasterSlot: {fileID: 8926484042661614559}
   m_MasterData:
@@ -134,7 +134,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.AABox, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"center":{"x":0.0,"y":1.0,"z":0.0},"size":{"x":5.0,"y":5.0,"z":2.0}}'
+      m_SerializableObject: '{"center":{"x":0.0,"y":0.0,"z":0.0},"size":{"x":100.0,"y":100.0,"z":2.0}}'
     m_Space: 0
   m_Property:
     name: bounds
@@ -1264,7 +1264,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614598}
   m_ExposedName: VelocitySpread
   m_Exposed: 0
-  m_Order: 1
+  m_Order: 0
   m_Category: 
   m_Min:
     m_Type:
@@ -1285,7 +1285,7 @@ MonoBehaviour:
       inputSlot: {fileID: 8926484042661614601}
     - outputSlot: {fileID: 8926484042661614598}
       inputSlot: {fileID: 8926484042661614602}
-    position: {x: 235, y: 471}
+    position: {x: 171, y: 509}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661614598
@@ -1339,7 +1339,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: 426, y: 419}
+  m_UIPosition: {x: 368, y: 457}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -1640,7 +1640,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: 688, y: 358}
+  m_UIPosition: {x: 659, y: 402}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
