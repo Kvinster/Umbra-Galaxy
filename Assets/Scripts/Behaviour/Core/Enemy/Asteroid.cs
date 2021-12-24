@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 using STP.Behaviour.Starter;
 using STP.Utils;
@@ -19,7 +18,6 @@ namespace STP.Behaviour.Core.Enemy {
 
         void OnCollisionEnter2D(Collision2D other) {
             other.TryTakeDamage(float.MaxValue);
-            Die(false);
         }
 
         void Update() {
