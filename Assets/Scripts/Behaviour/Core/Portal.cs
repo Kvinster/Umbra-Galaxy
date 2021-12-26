@@ -27,6 +27,9 @@ namespace STP.Behaviour.Core {
 		[Header("Base Dependencies")]
 		[NotNull] public VisualEffect VisualEffect;
 
+		[Header("Optional dependencies")]
+		public CircleCollider2D PortalCollider;
+
 		public BaseSimpleSoundPlayer TargetAppearSoundPlayer;
 
 		Tween _targetAppearAnim;
@@ -61,6 +64,7 @@ namespace STP.Behaviour.Core {
 				})
 				.Join(DOTween.To(() => VisualEffect.GetFloat(AppearParticlesKillboxSizeId),
 					x => VisualEffect.SetFloat(AppearParticlesKillboxSizeId, x), 1f, appearTime).SetEase(Ease.Linear))
+				.Join(CreatePortalColliderResizeTween(appearTime))
 				.Insert(startDelay + appearTime, targetTransform.DOScale(Vector3.one, TargetScaleTime))
 				.Insert(startDelay + appearTime + mainLifetime,
 					DOTween.To(() => VisualEffect.GetFloat(AppearParticlesKillboxSizeId),
@@ -72,6 +76,22 @@ namespace STP.Behaviour.Core {
 					gameObject.SetActive(false);
 					onComplete?.Invoke();
 				});
+		}
+
+		Tween CreatePortalColliderResizeTween(float appearTime) {
+			if ( !PortalCollider ) {
+				return null;
+			}
+			var normalPortalColliderRadius = PortalCollider.radius;
+			PortalCollider.radius       = 0f;
+			PortalCollider.enabled      = false;
+			return DOTween.To(() => PortalCollider.radius,
+				x => {
+					PortalCollider.radius = x;
+					if ( !PortalCollider.enabled ) {
+						PortalCollider.enabled = true;
+					}
+				}, normalPortalColliderRadius, appearTime).SetEase(Ease.Linear);
 		}
 	}
 }
