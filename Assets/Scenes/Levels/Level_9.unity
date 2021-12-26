@@ -1152,6 +1152,7 @@ MonoBehaviour:
   TargetScaleTime: 1
   TargetAppearPortalSize: 2.5
   VisualEffect: {fileID: 1717199791}
+  PortalCollider: {fileID: 1717199789}
   TargetAppearSoundPlayer: {fileID: 502120737}
 --- !u!114 &241972972852078398
 MonoBehaviour:

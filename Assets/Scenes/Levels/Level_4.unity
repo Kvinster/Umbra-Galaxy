@@ -615,7 +615,7 @@ VisualEffect:
       - m_Value: 1
         m_Name: AppearBorder_MainLifetime
         m_Overridden: 1
-      - m_Value: 0.5
+      - m_Value: 99
         m_Name: AppearBorder_AppearTime
         m_Overridden: 1
       - m_Value: 0.5
@@ -702,6 +702,7 @@ MonoBehaviour:
   TargetScaleTime: 1
   TargetAppearPortalSize: 1.5
   VisualEffect: {fileID: 1128806081}
+  PortalCollider: {fileID: 1128806079}
   TargetAppearSoundPlayer: {fileID: 30090985}
 --- !u!1 &1200853133
 GameObject:
