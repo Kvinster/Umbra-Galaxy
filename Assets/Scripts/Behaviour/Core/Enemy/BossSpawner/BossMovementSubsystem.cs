@@ -88,7 +88,9 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		public void SetActive(bool isActive) {
 			IsActive = isActive;
 			BossRigidbody.bodyType = IsActive ? RigidbodyType2D.Dynamic : RigidbodyType2D.Static;
-			BossRigidbody.velocity = Vector2.zero;
+			if ( IsActive ) {
+				BossRigidbody.velocity = Vector2.zero;
+			}
 		}
 
 		void CalcDashEndArea(Rect playArea) {
