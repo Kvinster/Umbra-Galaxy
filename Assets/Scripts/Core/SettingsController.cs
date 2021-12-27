@@ -9,10 +9,24 @@ namespace STP.Core {
 		public const string MusicVolumeId  = "MusicVolume";
 		public const string SfxVolumeId    = "SfxVolume";
 
+		const string JinglesVolumeId = "JinglesVolume";
+
 		readonly GameState     _gameState;
 		readonly SettingsState _state;
 
 		readonly AudioMixer _audioMixer;
+
+		bool _overrideJinglesVolume;
+
+		public bool OverrideJinglesVolume {
+			get => _overrideJinglesVolume;
+			set {
+				_overrideJinglesVolume = value;
+				if ( !_overrideJinglesVolume ) {
+					UpdateVolume();
+				}
+			}
+		}
 
 		public float MasterVolume {
 			get => _state.MasterVolume;
@@ -62,6 +76,9 @@ namespace STP.Core {
 			_audioMixer.SetFloat(MasterVolumeId, MasterVolume);
 			_audioMixer.SetFloat(MusicVolumeId, MusicVolume);
 			_audioMixer.SetFloat(SfxVolumeId, SfxVolume);
+			if ( !OverrideJinglesVolume ) {
+				_audioMixer.SetFloat(JinglesVolumeId, MusicVolume);
+			}
 		}
 	}
 }

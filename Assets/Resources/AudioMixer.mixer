@@ -60,6 +60,7 @@ AudioMixerController:
     - fd4eccd88c628bd4d8f7537c41c63054
     - af801f09c7c56d5489eff45c0e28fef3
     - dc8c41dc269309f428920bd67acb8e4d
+    - 532b9f1e059b31d428ae9864766a21bc
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -73,6 +74,7 @@ AudioMixerGroupController:
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: fd4eccd88c628bd4d8f7537c41c63054
   m_Children:
+  - {fileID: 2956299717421756088}
   - {fileID: -5640300594344902752}
   - {fileID: 192740186886929681}
   m_Volume: d96c45b7a3c3fd14a883e82ebe381a94
@@ -131,6 +133,39 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!243 &2956299717421756088
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Jingles
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 532b9f1e059b31d428ae9864766a21bc
+  m_Children: []
+  m_Volume: 324beb946ac0818418dfb9c014b3ebeb
+  m_Pitch: 532fcbebe350ae64492fa6667946b71a
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 4438728438651797062}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!244 &4438728438651797062
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 235fd8fbe1e06244a8de494f0b16963e
+  m_EffectName: Attenuation
+  m_MixLevel: 327aebeb37d548d4194c948f7f950330
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &6805079725049993345
 AudioMixerEffectController:
   m_ObjectHideFlags: 3

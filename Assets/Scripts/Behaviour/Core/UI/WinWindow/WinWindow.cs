@@ -26,7 +26,7 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 
 		[NotNull] public CanvasGroup LeaderboardRootCanvasGroup;
 
-		[NotNull] public BaseSimpleSoundPlayer AppearSoundPlayer;
+		[NotNull] public JinglePlayer AppearSoundPlayer;
 
 		LeaderboardController _leaderboardController;
 		LevelManager          _levelManager;

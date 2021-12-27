@@ -1,11 +1,10 @@
-﻿using DG.Tweening;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-using STP.Behaviour.Sound;
 using STP.Manager;
 using STP.Utils.GameComponentAttributes;
 
+using DG.Tweening;
 using RSG;
 
 namespace STP.Behaviour.Core.UI {
@@ -13,7 +12,7 @@ namespace STP.Behaviour.Core.UI {
 		[NotNull] public Button      QuitButton;
 		[NotNull] public CanvasGroup CanvasGroup;
 		[Space]
-		[NotNull] public BaseSimpleSoundPlayer AppearSoundPlayer;
+		[NotNull] public JinglePlayer AppearSoundPlayer;
 
 		LevelManager     _levelManager;
 
