@@ -1,6 +1,6 @@
-﻿using System;
-using UnityEngine;
-
+﻿using UnityEngine;
+using UnityEngine.VFX;
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using STP.Behaviour.Core.Enemy.BossSpawner;
@@ -10,16 +10,11 @@ using STP.Manager;
 using STP.Utils.BehaviourTree;
 using STP.Utils.BehaviourTree.Tasks;
 using STP.Utils.GameComponentAttributes;
-using UnityEngine.VFX;
 
 namespace STP.Behaviour.Core.Enemy.SecondBoss {
 	public sealed class RailgunBossController : BaseBoss {
 		public float CollisionDamage = 25f;
 
-		[Header("portal")]
-		[NotNull] public Portal Portal;
-		[NotNull] public Transform PortalAppearPosition;
-		public           float     StartDelay;
 		[Header("movement")]
 		[NotNull] public BossMovementSubsystem MovementSubsystem;
 		[Header("spawners")]
@@ -77,27 +72,6 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 			MovementSubsystem.Init(OwnRigidbody, starter.Player.transform, HpSystemComponent, starter.AreaRect);
 			MovementSubsystem.SetActive(false);
 
-			Portal.PlayTargetAppearAnim(transform, PortalAppearPosition, () => {
-				MovementSubsystem.SetActive(true);
-				Tree = new BehaviourTree(
-					new SequenceTask(
-						new WaitTask(3f),
-						new RepeatForeverTask(
-							new SequenceTask(
-								new CustomActionTask(() => OnBeginChargingGun?.Invoke()),
-								new AlwaysSuccessDecorator(_gunController.FireTask),
-								new CustomActionTask(() => OnShootGun?.Invoke()),
-								new WaitTask(1f),
-								new ParallelTask(
-									_spawnSubsystem.SpawnTask,
-									MovementSubsystem.DashTask
-								)
-							)
-						)
-					)
-				);
-			}, StartDelay);
-
 			DeathShockwave.gameObject.SetActive(false);
 		}
 
@@ -120,6 +94,27 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 				_gunController.Deinit();
 				PlayDeathVfxs().Forget();
 			}
+		}
+
+		protected override void Activate() {
+			MovementSubsystem.SetActive(true);
+			Tree = new BehaviourTree(
+				new SequenceTask(
+					new WaitTask(3f),
+					new RepeatForeverTask(
+						new SequenceTask(
+							new CustomActionTask(() => OnBeginChargingGun?.Invoke()),
+							new AlwaysSuccessDecorator(_gunController.FireTask),
+							new CustomActionTask(() => OnShootGun?.Invoke()),
+							new WaitTask(1f),
+							new ParallelTask(
+								_spawnSubsystem.SpawnTask,
+								MovementSubsystem.DashTask
+							)
+						)
+					)
+				)
+			);
 		}
 
 		async UniTask PlayDeathVfxs() {

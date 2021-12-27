@@ -58,10 +58,8 @@ namespace STP.Manager {
 			_tween?.Kill(true);
 		}
 
-		public void Init(PauseManager pauseManager, LevelManager levelManager,
-			PlayerManager playerManager, MinimapManager minimapManager, LevelController levelController,
-			PlayerController playerController, ScoreController scoreController,
-			LeaderboardController leaderboardController, Player player, BaseBoss boss) {
+		public void Init(PauseManager pauseManager, LevelManager levelManager, PlayerManager playerManager, MinimapManager minimapManager, LevelController levelController, PlayerController playerController, ScoreController scoreController, LeaderboardController leaderboardController, Player player,
+			BaseBoss boss) {
 			_pauseManager = pauseManager;
 
 			_windows = new List<BaseCoreWindow> {
@@ -76,7 +74,7 @@ namespace STP.Manager {
 			MinimapGrid.Init(player, minimapManager);
 			DamageScreen.Init(playerController);
 			PowerUpTimerUisManager.Init(playerManager);
-			BossLevelDialog.Init(levelController);
+			BossLevelDialog.Init(boss, levelController);
 
 			DeathWindow.CommonInit(levelManager);
 			WinWindow.CommonInit(scoreController, leaderboardController, levelManager);

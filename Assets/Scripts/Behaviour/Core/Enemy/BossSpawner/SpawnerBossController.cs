@@ -23,10 +23,6 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		[NotNull] public BossMovementSubsystem MovementSubsystem;
 		[Space]
 		[NotNull] public LevelExplosionZone Shockwave;
-		[Space]
-		[NotNull] public Portal Portal;
-		[NotNull] public Transform PortalAppearPosition;
-		public           float     StartDelay;
 
 
 		public List<BossGun> Guns;
@@ -75,27 +71,6 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			_spawnSubsystem = new SpawnerBossSpawnSubsystem();
 			var list = new List<ISpawner>(Spawners);
 			_spawnSubsystem.Init(list, starter, SpawnParams);
-
-			Portal.PlayTargetAppearAnim(transform, PortalAppearPosition, () => {
-				MovementSubsystem.SetActive(true);
-				Tree = new BehaviourTree(
-					new SequenceTask(
-						new WaitTask(3f),
-						new RepeatForeverTask(
-							new SequenceTask(
-								new WaitTask(1f),
-								new CustomActionTask(() => OnBeginShooting?.Invoke()),
-								new AlwaysSuccessDecorator(_gunsSubsystem.FireTask),
-								new CustomActionTask(() => OnFinishShooting?.Invoke()),
-								new WaitTask(2f),
-								new AlwaysSuccessDecorator(MovementSubsystem.DashTask),
-								new WaitTask(1f),
-								new AlwaysSuccessDecorator(_spawnSubsystem.SpawnTask)
-							)
-						)
-					)
-				);
-			}, StartDelay);
 		}
 
 		public override void TakeDamage(float damage) {
@@ -111,6 +86,27 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			Tree = null;
 			_gunsSubsystem.Deinit();
 			PlayDeathVFXs().Forget();
+		}
+
+		protected override void Activate() {
+			MovementSubsystem.SetActive(true);
+			Tree = new BehaviourTree(
+				new SequenceTask(
+					new WaitTask(3f),
+					new RepeatForeverTask(
+						new SequenceTask(
+							new WaitTask(1f),
+							new CustomActionTask(() => OnBeginShooting?.Invoke()),
+							new AlwaysSuccessDecorator(_gunsSubsystem.FireTask),
+							new CustomActionTask(() => OnFinishShooting?.Invoke()),
+							new WaitTask(2f),
+							new AlwaysSuccessDecorator(MovementSubsystem.DashTask),
+							new WaitTask(1f),
+							new AlwaysSuccessDecorator(_spawnSubsystem.SpawnTask)
+						)
+					)
+				)
+			);
 		}
 
 		void OnCollisionEnter2D(Collision2D other) {

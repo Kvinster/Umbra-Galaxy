@@ -10,8 +10,7 @@ using STP.Utils.GameComponentAttributes;
 using DG.Tweening;
 
 namespace STP.Behaviour.Core {
-	public class Portal : GameComponent
-	{
+	public class Portal : GameComponent {
 		protected const string PortalSizeId = "PortalSize";
 		protected const string IgnoreShockwaveId = "IgnoreShockwave";
 
@@ -43,17 +42,21 @@ namespace STP.Behaviour.Core {
 			VisualEffect.Stop();
 		}
 
-		public void PlayTargetAppearAnim(Transform targetTransform, Transform appearPosition, Action onComplete = null,
-			float startDelay = 0f) {
+		public void PrepareTargetAppearAnim(Transform targetTransform, Transform appearPosition) {
 			gameObject.SetActive(true);
-			var pos          = appearPosition.position;
-			var appearTime   = VisualEffect.GetFloat(AppearTimeId);
-			var mainLifetime = VisualEffect.GetFloat(AppearMainLifetimeId);
-			VisualEffect.SetFloat(AppearParticlesKillboxSizeId, 0f);
-			VisualEffect.SetFloat(PortalSizeId, TargetAppearPortalSize);
+			var pos = appearPosition.position;
 			transform.position         = pos;
 			targetTransform.position   = pos;
 			targetTransform.localScale = Vector3.zero;
+			PreparePortalCollider();
+		}
+
+		public void PlayTargetAppearAnim(Transform targetTransform, Transform appearPosition, Action onComplete = null, float startDelay = 0f) {
+			var appearTime   = VisualEffect.GetFloat(AppearTimeId);
+			var mainLifetime = VisualEffect.GetFloat(AppearMainLifetimeId);
+			PrepareTargetAppearAnim(targetTransform, appearPosition);
+			VisualEffect.SetFloat(AppearParticlesKillboxSizeId, 0f);
+			VisualEffect.SetFloat(PortalSizeId, TargetAppearPortalSize);
 			_targetAppearAnim = DOTween.Sequence()
 				.AppendInterval(startDelay)
 				.AppendCallback(() => {
@@ -76,6 +79,13 @@ namespace STP.Behaviour.Core {
 					gameObject.SetActive(false);
 					onComplete?.Invoke();
 				});
+		}
+
+		void PreparePortalCollider() {
+			if ( !PortalCollider ) {
+				return;
+			}
+			PortalCollider.enabled = false;
 		}
 
 		Tween CreatePortalColliderResizeTween(float appearTime) {

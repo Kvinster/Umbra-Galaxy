@@ -24,7 +24,6 @@ namespace STP.Behaviour.Starter {
 		[NotNull] public Transform PlayerStartPos;
 		[NotNull] public Transform LevelObjectsRoot;
 
-
 		[Header("optional dependencies")]
 		public BaseBoss Boss;
 

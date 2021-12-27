@@ -977,12 +977,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cd2b22e0746440287619771b5232039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartDelay: 2
-  DialogBoxAppearDuration: 1
-  DialogBoxPresentDuration: 4
+  StartDelay: 1
+  DialogBoxAppearDuration: 0.5
+  DialogBoxPresentDurations:
+  - 2
+  - 3
   DialogBoxDisappearDuration: 0.5
   DialogBoxesInterval: 3
   DialogBoxVerticalMoveDuration: 0.4
+  BossStartAppearTime: 8
   Root: {fileID: 1899298089413808713}
   HorizontalShowPos: {fileID: 6402575047577065050}
   HorizontalHidePos: {fileID: 1622962567273468375}

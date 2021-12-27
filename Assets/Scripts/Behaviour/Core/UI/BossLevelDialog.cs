@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 
+using STP.Behaviour.Core.Enemy;
 using STP.Config;
 using STP.Core;
 using STP.Utils;
@@ -13,11 +14,12 @@ namespace STP.Behaviour.Core.UI {
 	public sealed class BossLevelDialog : GameComponent {
 		[Header("Parameters")]
 		public float StartDelay = 2f;
-		public float DialogBoxAppearDuration       = 0.5f;
-		public float DialogBoxPresentDuration      = 3f;
-		public float DialogBoxDisappearDuration    = 0.5f;
-		public float DialogBoxesInterval           = 2f;
-		public float DialogBoxVerticalMoveDuration = 0.2f;
+		public float       DialogBoxAppearDuration       = 0.5f;
+		public List<float> DialogBoxPresentDurations     = new List<float>();
+		public float       DialogBoxDisappearDuration    = 0.5f;
+		public float       DialogBoxesInterval           = 2f;
+		public float       DialogBoxVerticalMoveDuration = 0.2f;
+		public float       BossStartAppearTime           = 10f;
 
 		[Header("Dependencies")]
 		[NotNull] public GameObject Root;
@@ -25,6 +27,8 @@ namespace STP.Behaviour.Core.UI {
 		[NotNull]        public Transform       HorizontalHidePos;
 		[NotNullOrEmpty] public List<Transform> VerticalPositions = new List<Transform>();
 		[NotNullOrEmpty] public List<Transform> DialogBoxes       = new List<Transform>();
+
+		BaseBoss _boss;
 
 		bool _needPlayAnim;
 
@@ -41,14 +45,17 @@ namespace STP.Behaviour.Core.UI {
 			}
 		}
 
-		public void Init(LevelController levelController) {
+		public void Init(BaseBoss boss, LevelController levelController) {
 			if ( levelController.CurLevelConfig.LevelType != LevelType.Boss ) {
 				_needPlayAnim = false;
 				Root.SetActive(false);
 				return;
 			}
+			_boss         = boss;
 			_needPlayAnim = true;
 			Root.SetActive(true);
+
+			_boss.PrepareAppear();
 
 			var initialPos = new Vector3(HorizontalHidePos.localPosition.x, VerticalPositions[0].localPosition.y, 0);
 			foreach ( var dialogBox in DialogBoxes ) {
@@ -68,7 +75,7 @@ namespace STP.Behaviour.Core.UI {
 				var time      = StartDelay + i * DialogBoxesInterval;
 				var dialogBoxSeq = DOTween.Sequence()
 					.Append(dialogBox.DOLocalMoveX(HorizontalShowPos.localPosition.x, DialogBoxAppearDuration))
-					.AppendInterval(DialogBoxPresentDuration)
+					.AppendInterval(DialogBoxPresentDurations[i])
 					.Append(dialogBox.DOLocalMoveX(HorizontalHidePos.localPosition.x, DialogBoxDisappearDuration));
 				_anim.Insert(time, dialogBoxSeq);
 				for ( var j = 0; j < i; ++j ) {
@@ -76,6 +83,7 @@ namespace STP.Behaviour.Core.UI {
 					_anim.Insert(time, otherDialogBox.DOLocalMoveY(VerticalPositions[i + j].localPosition.y, DialogBoxVerticalMoveDuration));
 				}
 			}
+			_anim.InsertCallback(BossStartAppearTime, _boss.Appear);
 			_anim.OnComplete(() => {
 				Root.SetActive(false);
 				_anim = null;
