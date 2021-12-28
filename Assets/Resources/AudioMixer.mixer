@@ -51,6 +51,8 @@ AudioMixerController:
   m_ExposedParameters:
   - guid: 50c32e8e46cd3ef49b6b012abd053e6c
     name: MusicVolume
+  - guid: 324beb946ac0818418dfb9c014b3ebeb
+    name: JinglesVolume
   - guid: d96c45b7a3c3fd14a883e82ebe381a94
     name: MasterVolume
   - guid: fe19fac77a4ca794baa00aa3e7e3a2f7
