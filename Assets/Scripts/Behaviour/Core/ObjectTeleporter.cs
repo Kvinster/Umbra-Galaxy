@@ -55,29 +55,32 @@ namespace STP.Behaviour.Core {
 			var objectPos                 = (Vector2) obj.position;
 			var vectorFromCenterAreaToObj = (objectPos - _battleArea.center);
 
-			var rect = teleportationColliderController.Rect;
-
+			var aabbRect = teleportationColliderController.CalcAABBRect();
+			if (aabbRect == Rect.zero) {
+				return objectPos;
+			}
+			
 			var res = objectPos;
-
-			if ( Mathf.Abs(vectorFromCenterAreaToObj.y) >= _battleArea.height / 2 + rect.height / 2) {
+			if ( Mathf.Abs(vectorFromCenterAreaToObj.y) >= _battleArea.height / 2 ) {
 				// y > 0 => upper. otherwise - bottom.
 				var newY = ( vectorFromCenterAreaToObj.y > 0 )
-					? _battleArea.yMin - rect.height / 2f + 2f
-					: _battleArea.yMax + rect.height / 2f - 2f;
+					? _battleArea.yMin - aabbRect.height / 2f
+					: _battleArea.yMax + aabbRect.height / 2f;
 				res.y = newY;
 			}
-			if ( Mathf.Abs(vectorFromCenterAreaToObj.x) >= _battleArea.width / 2 + rect.width / 2) {
+			if ( Mathf.Abs(vectorFromCenterAreaToObj.x) >= _battleArea.width / 2) {
 				// x > 0 => left. otherwise - right.
 				var newX = ( vectorFromCenterAreaToObj.x > 0 )
-					? _battleArea.xMin - rect.width / 2f + 2f
-					: _battleArea.xMax + rect.width / 2f - 2f;
+					? _battleArea.xMin - aabbRect.width / 2f 
+					: _battleArea.xMax + aabbRect.width / 2f ;
 				res.x = newX;
 			}
-			return res;
-		}
 
-		bool IsNeedToBeTeleported(Transform obj) {
-			return !_battleArea.Contains(obj.position);
+			if (res == objectPos) {
+				Debug.LogError("Something went wrong. Position didn't change.");
+			}
+
+			return res;
 		}
 	}
 }
