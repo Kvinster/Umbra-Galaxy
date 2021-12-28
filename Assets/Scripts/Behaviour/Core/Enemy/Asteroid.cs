@@ -17,7 +17,11 @@ namespace STP.Behaviour.Core.Enemy {
         readonly Timer _lifeTimer = new Timer();
 
         void OnCollisionEnter2D(Collision2D other) {
-            other.TryTakeDamage(float.MaxValue);
+            if ( other.collider.gameObject.GetComponent<PlayerShield>() ) {
+                Die();
+            } else {
+                other.TryTakeDamage(float.MaxValue);
+            }
         }
 
         void Update() {
