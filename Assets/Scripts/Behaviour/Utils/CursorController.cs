@@ -21,7 +21,8 @@ namespace STP.Behaviour.Utils {
 		}
 
 		void UpdateCursor() {
-			Cursor.SetCursor(SceneService.IsSceneLoaded("MainMenu") ? MainMenuCursor : CoreCursor, Vector2.zero, CursorMode.Auto);
+			var isMainMenu = SceneService.IsSceneLoaded("MainMenu");
+			Cursor.SetCursor(isMainMenu ? MainMenuCursor : CoreCursor, isMainMenu ? new Vector2(0, 0) : new Vector2(32, 32), CursorMode.Auto);
 		}
 
 		[RuntimeInitializeOnLoadMethod]
