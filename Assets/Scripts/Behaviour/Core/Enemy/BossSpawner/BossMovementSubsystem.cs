@@ -51,43 +51,23 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		HpSystem _hpSystem;
 
 		bool IsActive { get; set; }
-
-		Rect _playArea;
-
-		Vector2 _testDirection;
-		Vector2 _maxPoint;
-
+		
 		public void Init(Rigidbody2D bossRigidbody, Transform player, HpSystem hpSystem, Rect playArea) {
 			BossRigidbody    =  bossRigidbody;
 			_player          =  player;
 			_hpSystem        =  hpSystem;
-			_playArea        =  playArea;
 			_hpSystem.OnDied += OnDied;
 			CalcDashEndArea(playArea);
 			_timer.Reset(int.MaxValue);
 			transform.position = Vector2.zero;
 
-			TestRunPrepare();
 		}
-
-		void TestRunPrepare() {
-			_maxPoint  = new Vector2(_playArea.xMax, _playArea.yMin);
-			_testDirection = (_maxPoint - BossRigidbody.position).normalized;
-		}
-
-		void TestRun() {
-			BossRigidbody.velocity =  _testDirection * 1000;
-			BossRigidbody.drag     =  0f;
-			LookAtObject(_maxPoint, 9999);
-		}
-
+		
 		public void FixedUpdate() {
 			if ( !IsActive ) {
 				return;
 			}
 
-			TestRun();
-			return;
 			if ( !_hpSystem.IsAlive ) {
 				if ( _timer.DeltaTick() ) {
 					BossRigidbody.bodyType = RigidbodyType2D.Static;
