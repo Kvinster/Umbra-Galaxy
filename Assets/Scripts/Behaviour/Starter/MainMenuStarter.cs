@@ -4,6 +4,7 @@ using UnityEngine.Assertions;
 using STP.Behaviour.MainMenu;
 using STP.Core;
 using STP.Core.State;
+using STP.Service.Achievements;
 using STP.Utils.GameComponentAttributes;
 
 namespace STP.Behaviour.Starter {
@@ -20,6 +21,9 @@ namespace STP.Behaviour.Starter {
 			// Settings for smooth gameplay
 			Application.targetFrameRate = Screen.currentResolution.refreshRate;
 			QualitySettings.vSyncCount  = 0;
+			
+			AchievementServiceProvider.Implementation.ResetAllStats();
+			AchievementServiceProvider.Implementation.SetAchievement(AchievementType.CompleteGameAchievement);
 		}
 
 		void TryCreateGameState() {
