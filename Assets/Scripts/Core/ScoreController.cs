@@ -45,6 +45,10 @@ namespace STP.Core {
 			Score.Value += value;
 		}
 
+		public bool IsBossEnemy(string enemyName) {
+			return _scoreConfig.IsBossEnemy(enemyName);
+		}
+
 		int GetDestroyedEnemyXp(string enemyName) {
 			return _scoreConfig.GetDestroyedEnemyScore(enemyName);
 		}

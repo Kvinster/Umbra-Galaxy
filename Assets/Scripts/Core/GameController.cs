@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using STP.Core.Achievements;
 using STP.Core.Leaderboards;
 using STP.Core.State;
 
@@ -19,6 +20,8 @@ namespace STP.Core {
 		public ScoreController      ScoreController      { get; }
 		public PrefabsController PrefabsController { get; }
 		public LeaderboardController LeaderboardController { get; }
+		
+		public AchievementsController AchievementsController { get; }
 
 		public static void CreateGameController(GameState gameState) {
 			Instance = new GameController(gameState);
@@ -38,6 +41,7 @@ namespace STP.Core {
 			PrefabsController     = AddController(new PrefabsController());
 			SettingsController    = AddController(new SettingsController(gameState));
 			LeaderboardController = AddController(new LeaderboardController());
+			AchievementsController = AddController(new AchievementsController(ScoreController));
 			if ( Instance == null ) {
 				Instance = this;
 			}

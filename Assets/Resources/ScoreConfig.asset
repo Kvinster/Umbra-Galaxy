@@ -15,17 +15,25 @@ MonoBehaviour:
   EnemyXpInfo:
   - EnemyName: Glider
     XpAmount: 100
+    IsBoss: 0
   - EnemyName: Drone
     XpAmount: 200
+    IsBoss: 0
   - EnemyName: Fighter
     XpAmount: 300
+    IsBoss: 0
   - EnemyName: Generator
     XpAmount: 400
+    IsBoss: 0
   - EnemyName: SuicideDrone
     XpAmount: 100
+    IsBoss: 0
   - EnemyName: Asteroid
     XpAmount: 0
+    IsBoss: 0
   - EnemyName: SecondBoss
     XpAmount: 25000
+    IsBoss: 1
   - EnemyName: SpawnerBoss
     XpAmount: 50000
+    IsBoss: 1

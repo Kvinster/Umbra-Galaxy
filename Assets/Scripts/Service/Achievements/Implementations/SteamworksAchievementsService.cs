@@ -21,6 +21,20 @@ namespace STP.Service.Achievements.Implementations {
 			
 			SteamUserStats.ResetAllStats(true);
 		}
+
+		public int GetStatValue(string statName) {
+			return SteamUserStats.GetStat(statName, out int res) ? res : 0;
+		}
+
+		public void SetStatValue(string statName, int value) {
+			SteamUserStats.SetStat(statName, value);
+		}
+
+		public void IncrementStatValue(string statName, int value) {
+			var statValue = GetStatValue(statName);
+			SetStatValue(statName, statValue + value);
+			SteamUserStats.StoreStats();
+		}
 	}
 }
 #endif
