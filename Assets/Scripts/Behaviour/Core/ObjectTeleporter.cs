@@ -76,10 +76,6 @@ namespace STP.Behaviour.Core {
 				res.x = newX;
 			}
 
-			if (res == objectPos) {
-				Debug.LogError("Something went wrong. Position didn't change.");
-			}
-
 			return res;
 		}
 	}

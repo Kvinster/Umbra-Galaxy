@@ -12,6 +12,7 @@ using STP.Utils.GameComponentAttributes;
 
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
+using STP.Core.Achievements;
 using STP.Service;
 
 namespace STP.Behaviour.Core {
@@ -53,6 +54,7 @@ namespace STP.Behaviour.Core {
 		PauseManager      _pauseManager;
 		PrefabsController _prefabsController;
 		PlayerController  _playerController;
+		AchievementsController _achievementsController;
 
 		float _movementSpeed;
 		bool  _movementDisabled;
@@ -116,6 +118,7 @@ namespace STP.Behaviour.Core {
 			_pauseManager      = starter.PauseManager;
 			_prefabsController = starter.PrefabsController;
 			_playerController  = starter.PlayerController;
+			_achievementsController = starter.AchievementsController;
 
 			Rigidbody.centerOfMass = Vector2.zero;
 
@@ -178,6 +181,7 @@ namespace STP.Behaviour.Core {
 
 		void OnDied() {
 			_playerController.SubLife();
+			_achievementsController.OnPlayerDied();
 			if ( _playerController.CurLives == 0 ) {
 				OnFinalDeath();
 				AnalyticsService.LogEvent(new PlayerDiedEvent());

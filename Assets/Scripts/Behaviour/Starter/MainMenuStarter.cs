@@ -29,6 +29,10 @@ namespace STP.Behaviour.Starter {
 			if ( GameState.IsActiveInstanceExists ) {
 				return;
 			}
+#if UNITY_EDITOR
+			// reset stats only for debugging
+			AchievementServiceProvider.Implementation.ResetAllStats();
+#endif
 			var gs = GameState.TryLoadActiveGameState() ?? GameState.CreateNewActiveGameState();
 			Assert.IsNotNull(gs);
 		}

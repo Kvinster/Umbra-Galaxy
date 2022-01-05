@@ -31,7 +31,7 @@ MonoBehaviour:
   - EnemyName: Asteroid
     XpAmount: 0
     IsBoss: 0
-  - EnemyName: SecondBoss
+  - EnemyName: RailgunBoss
     XpAmount: 25000
     IsBoss: 1
   - EnemyName: SpawnerBoss

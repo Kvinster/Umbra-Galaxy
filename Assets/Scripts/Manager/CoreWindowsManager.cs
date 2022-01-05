@@ -10,6 +10,7 @@ using STP.Behaviour.Core.Minimap;
 using STP.Behaviour.Core.UI;
 using STP.Behaviour.Core.UI.WinWindow;
 using STP.Core;
+using STP.Core.Achievements;
 using STP.Core.Leaderboards;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
@@ -58,7 +59,7 @@ namespace STP.Manager {
 			_tween?.Kill(true);
 		}
 
-		public void Init(PauseManager pauseManager, LevelManager levelManager, PlayerManager playerManager, MinimapManager minimapManager, LevelController levelController, PlayerController playerController, ScoreController scoreController, LeaderboardController leaderboardController, Player player,
+		public void Init(PauseManager pauseManager, LevelManager levelManager, PlayerManager playerManager, MinimapManager minimapManager, AchievementsController achievementsController, LevelController levelController, PlayerController playerController, ScoreController scoreController, LeaderboardController leaderboardController, Player player,
 			BaseBoss boss) {
 			_pauseManager = pauseManager;
 
@@ -77,7 +78,7 @@ namespace STP.Manager {
 			BossLevelDialog.Init(boss, levelController);
 
 			DeathWindow.CommonInit(levelManager);
-			WinWindow.CommonInit(scoreController, leaderboardController, levelManager);
+			WinWindow.CommonInit(scoreController, leaderboardController, achievementsController, levelManager);
 			PauseWindow.CommonInit(levelManager);
 
 			DangerScreen.Init();

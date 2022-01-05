@@ -24,6 +24,7 @@ namespace STP.Core {
 		public AchievementsController AchievementsController { get; }
 
 		public static void CreateGameController(GameState gameState) {
+			Instance?.Deinit();
 			Instance = new GameController(gameState);
 		}
 
@@ -41,7 +42,7 @@ namespace STP.Core {
 			PrefabsController     = AddController(new PrefabsController());
 			SettingsController    = AddController(new SettingsController(gameState));
 			LeaderboardController = AddController(new LeaderboardController());
-			AchievementsController = AddController(new AchievementsController(ScoreController));
+			AchievementsController = AddController(new AchievementsController());
 			if ( Instance == null ) {
 				Instance = this;
 			}

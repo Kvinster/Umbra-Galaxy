@@ -9,6 +9,7 @@ using STP.Utils.GameComponentAttributes;
 
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using STP.Core.Achievements;
 using IPromise = RSG.IPromise;
 
 namespace STP.Behaviour.Core.UI.WinWindow {
@@ -38,8 +39,11 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 
 		Sequence _activeSequence;
 
-		public void CommonInit(ScoreController scoreController, LeaderboardController leaderboardController, LevelManager levelManager) {
+		AchievementsController _achievementsController;
+
+		public void CommonInit(ScoreController scoreController, LeaderboardController leaderboardController, AchievementsController achievementsController, LevelManager levelManager) {
 			_scoreController       = scoreController;
+			_achievementsController = achievementsController;
 			_leaderboardController = leaderboardController;
 			_levelManager          = levelManager;
 			ContinueButton.onClick.AddListener(OnContinueClick);
@@ -48,6 +52,7 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 		public override IPromise Show() {
 			var promise = base.Show();
 
+			_achievementsController.OnGameCompleted();
 			_activeSequence = CreateLoadingAnimation().AppendCallback(() => _activeSequence = null);
 
 			LoadingRoot.gameObject.SetActive(true);
@@ -108,6 +113,8 @@ namespace STP.Behaviour.Core.UI.WinWindow {
 					_activePlayerView = view;
 					_activePlayerView.SetAsCurrentPlayerView();
 					_activePlayerView.OnEndNameEdition += FinishUserNameInput;
+					// log achievements progress
+					_achievementsController.OnLeaderboardPlaceDetected(score.Rank);
 				}
 				viewIndex++;
 			}

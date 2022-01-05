@@ -8,6 +8,7 @@ using STP.Behaviour.Core.Enemy;
 using STP.Behaviour.Utils;
 using STP.Config;
 using STP.Core;
+using STP.Core.Achievements;
 using STP.Core.State;
 using STP.Manager;
 using STP.Service;
@@ -51,6 +52,7 @@ namespace STP.Behaviour.Starter {
 		public ScoreController   ScoreController   => GameController.ScoreController;
 		public PrefabsController PrefabsController => GameController.PrefabsController;
 		public LevelController   LevelController   => GameController.LevelController;
+		public AchievementsController AchievementsController   => GameController.AchievementsController;
 
 		public Rect CameraArea {
 			get {
@@ -61,7 +63,6 @@ namespace STP.Behaviour.Starter {
 		}
 
 		void OnDisable() {
-			GameController.Deinit();
 			LevelGoalManager.Deinit();
 		}
 
@@ -125,7 +126,7 @@ namespace STP.Behaviour.Starter {
 			}
 			TryRecalcArea();
 			InitComponents();
-			WindowsManager.Init(PauseManager, LevelManager, PlayerManager, MinimapManager, lc, pc, xc, GameController.LeaderboardController, Player, Boss);
+			WindowsManager.Init(PauseManager, LevelManager, PlayerManager, MinimapManager, GameController.AchievementsController, lc, pc, xc, GameController.LeaderboardController, Player, Boss);
 			_commonStarter.Portal.Init(this);
 
 			// Settings for smooth gameplay
