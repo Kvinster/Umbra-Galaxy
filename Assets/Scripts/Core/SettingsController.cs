@@ -23,7 +23,7 @@ namespace STP.Core {
 			set {
 				_overrideJinglesVolume = value;
 				if ( !_overrideJinglesVolume ) {
-					UpdateVolume();
+					InitVolume();
 				}
 			}
 		}
@@ -35,7 +35,7 @@ namespace STP.Core {
 					return;
 				}
 				_state.MasterVolume = value;
-				UpdateVolume();
+				_audioMixer.SetFloat(MasterVolumeId, MasterVolume);
 				_gameState.Save();
 			}
 		}
@@ -47,7 +47,10 @@ namespace STP.Core {
 					return;
 				}
 				_state.MusicVolume = value;
-				UpdateVolume();
+				_audioMixer.SetFloat(MusicVolumeId, MusicVolume);
+				if ( !OverrideJinglesVolume ) {
+					_audioMixer.SetFloat(JinglesVolumeId, MusicVolume);
+				}
 				_gameState.Save();
 			}
 		}
@@ -59,7 +62,7 @@ namespace STP.Core {
 					return;
 				}
 				_state.SfxVolume = value;
-				UpdateVolume();
+				_audioMixer.SetFloat(SfxVolumeId, SfxVolume);
 				_gameState.Save();
 			}
 		}
@@ -69,10 +72,11 @@ namespace STP.Core {
 			_gameState = gameState;
 
 			_audioMixer = Resources.Load<AudioMixerGroup>("AudioMixer").audioMixer;
-			UpdateVolume();
+			InitVolume();
 		}
 
-		void UpdateVolume() {
+		
+		void InitVolume() {
 			_audioMixer.SetFloat(MasterVolumeId, MasterVolume);
 			_audioMixer.SetFloat(MusicVolumeId, MusicVolume);
 			_audioMixer.SetFloat(SfxVolumeId, SfxVolume);

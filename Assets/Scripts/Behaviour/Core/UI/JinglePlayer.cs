@@ -23,7 +23,7 @@ namespace STP.Behaviour.Core.UI {
 
 		void OnDestroy() {
 			if ( _anim != null ) {
-				_anim.Kill();
+				_anim.Kill(true);
 				SettingsController.MasterVolume          = _cachedMusicVolume;
 				SettingsController.OverrideJinglesVolume = false;
 			}
