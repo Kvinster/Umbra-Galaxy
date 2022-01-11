@@ -37,3 +37,6 @@ MonoBehaviour:
   - EnemyName: SpawnerBoss
     XpAmount: 50000
     IsBoss: 1
+  - EnemyName: MainGenerator
+    XpAmount: 800
+    IsBoss: 0
