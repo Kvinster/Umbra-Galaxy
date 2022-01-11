@@ -18,7 +18,7 @@ namespace STP.Config {
 
 		public int GetDestroyedEnemyScore(string enemyName) {
 			var item = GetConfigItem(enemyName);
-			return item?.XpAmount ?? 0;
+			return item?.XpAmount ?? -1;
 		}
 
 		public bool IsBossEnemy(string enemyName) {

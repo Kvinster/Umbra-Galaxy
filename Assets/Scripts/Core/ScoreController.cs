@@ -38,7 +38,7 @@ namespace STP.Core {
 
 		public void AddEnemyDestroyedXp(string enemyName) {
 			var value = GetDestroyedEnemyXp(enemyName);
-			if ( value <= 0 ) {
+			if ( value < 0 ) {
 				Debug.LogWarning($"Strange xp amount {value}. Ignoring");
 				return;
 			}
