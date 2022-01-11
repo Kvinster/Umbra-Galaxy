@@ -2266,6 +2266,8 @@ MonoBehaviour:
   DeathEffectRunner: {fileID: 4259864053905196590}
   DetachVfxOnDeath: 0
   StartHp: 1500
+  Portal: {fileID: 1717199792}
+  PortalAppearPosition: {fileID: 194544505}
   CollisionDamage: 50
   DeathEffectTime: 1.8
   SpawnParams:
@@ -2274,9 +2276,6 @@ MonoBehaviour:
   BossRigidbody: {fileID: 318140005790756127}
   MovementSubsystem: {fileID: 3133233051602867996}
   Shockwave: {fileID: 7789080672318237155}
-  Portal: {fileID: 1717199792}
-  PortalAppearPosition: {fileID: 194544505}
-  StartDelay: 10
   Guns:
   - {fileID: 313286363}
   Spawners:
@@ -2353,9 +2352,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartRadius: 5
-  MaxRadius: 5000
-  GrowSpeed: 1000
-  RadiusTolerance: 10
+  MaxRadius: 10000
+  GrowSpeed: 2000
+  RadiusTolerance: 1000
   Collider: {fileID: 4711764143585467123}
   Disc: {fileID: 3681086826114765401}
 --- !u!114 &7807461136433560039 stripped

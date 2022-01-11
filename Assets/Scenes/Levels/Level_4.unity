@@ -1352,10 +1352,10 @@ MonoBehaviour:
   DeathSoundPlayer: {fileID: 1433396069}
   DeathEffectRunner: {fileID: 4259864055069289674}
   DetachVfxOnDeath: 0
-  StartHp: 1500
+  StartHp: 1
   Portal: {fileID: 1128806082}
   PortalAppearPosition: {fileID: 1824008813}
-  CollisionDamage: 25
+  CollisionDamage: 35
   MovementSubsystem: {fileID: 3133233052200271352}
   SpawnParams:
     EnemiesInWaveCount: 50
@@ -1402,7 +1402,7 @@ RectTransform:
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &2308940230013984956
 MeshRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1790,7 +1790,7 @@ MonoBehaviour:
   StopOnStart: 1
 --- !u!33 &4291122490697149183
 MeshFilter:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2334,9 +2334,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartRadius: 5
-  MaxRadius: 5000
-  GrowSpeed: 1000
-  RadiusTolerance: 10
+  MaxRadius: 10000
+  GrowSpeed: 2500
+  RadiusTolerance: 1000
   Collider: {fileID: 4711764142689628183}
   Disc: {fileID: 3681086827094440125}
 --- !u!1 &7926404279718062759
