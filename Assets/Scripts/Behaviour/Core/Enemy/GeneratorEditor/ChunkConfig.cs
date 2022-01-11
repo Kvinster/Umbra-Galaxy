@@ -21,6 +21,5 @@ namespace STP.Behaviour.Core.Enemy.GeneratorEditor {
 
 		[Header("Specific chunks")]
 		public List<GameObject> IdleChunks;
-		public List<GameObject> BossChunks;
 	}
 }
