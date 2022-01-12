@@ -996,6 +996,8 @@ MonoBehaviour:
   DialogBoxes:
   - {fileID: 2879559522496795047}
   - {fileID: 6679985077302868637}
+  DialogBoxAppearSound: {fileID: 8300000, guid: e4cba24a81cc2cb499c3cb4342df25b4,
+    type: 3}
 --- !u!1 &2034173348227073893
 GameObject:
   m_ObjectHideFlags: 0
