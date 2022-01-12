@@ -20,7 +20,12 @@ namespace STP.Behaviour.Core {
 		public float ExplosionStartTime;
 		[Space]
 		public float LevelWinPortalSize = 1.5f;
+		[Space]
+		public float LoopSoundStartDelay = 1f;
 		[Header("Impl Dependencies")]
+		[NotNull] public AudioSource AudioSource;
+		[NotNull] public AudioClip          AppearSound;
+		[NotNull] public AudioClip          LoopSound;
 		[NotNull] public LevelExplosionZone LevelWinExplosionZone;
 		[Space]
 		[NotNull] public BaseSimpleSoundPlayer PlayerEnterSoundPlayer;
@@ -38,8 +43,8 @@ namespace STP.Behaviour.Core {
 
 		bool _disappearStarted;
 
-		Tween _levelWinStartAnim;
-		Tween _levelWinFinishAnim;
+		Sequence _levelWinStartAnim;
+		Tween    _levelWinFinishAnim;
 
 		bool IsInit => (_levelManager != null);
 
@@ -47,6 +52,9 @@ namespace STP.Behaviour.Core {
 			base.OnDisable();
 			_levelWinStartAnim?.Kill();
 			_levelWinFinishAnim?.Kill();
+			if ( AudioSource ) {
+				AudioSource.Stop();
+			}
 		}
 
 		public override void Init(CoreStarter coreStarter) {
@@ -85,10 +93,20 @@ namespace STP.Behaviour.Core {
 			transform.position = GetLevelWinPosition();
 			VisualEffect.SetFloat(PortalSizeId, LevelWinPortalSize);
 			VisualEffect.Play();
+			_levelWinStartAnim = DOTween.Sequence()
+				.AppendCallback(() => {
+					AudioSource.volume = 1f;
+					AudioSource.clip   = AppearSound;
+					AudioSource.loop   = false;
+					AudioSource.Play();
+				})
+				.InsertCallback(LoopSoundStartDelay, () => {
+					AudioSource.clip = LoopSound;
+					AudioSource.loop = true;
+					AudioSource.Play();
+				});
 			if (_levelController.CurLevelType != LevelType.Boss) {
-				_levelWinStartAnim = DOTween.Sequence()
-					.AppendInterval(ExplosionStartTime)
-					.AppendCallback(() => LevelWinExplosionZone.SetActive(true));
+				_levelWinStartAnim.InsertCallback( ExplosionStartTime, () => LevelWinExplosionZone.SetActive(true));
 			}
 		}
 
@@ -122,6 +140,7 @@ namespace STP.Behaviour.Core {
 				.Join(playerTransform.DOScale(Vector3.zero, PlayerAnimTime))
 				.Join(DOTween.To(() => VisualEffect.GetFloat(PortalSizeId), x => VisualEffect.SetFloat(PortalSizeId, x),
 					0f, DisappearTime))
+				.Join(DOTween.To(() => AudioSource.volume, x => AudioSource.volume = x, 0f, PlayerAnimTime))
 				.OnComplete(_levelManager.FinishLevelWin);
 		}
 
