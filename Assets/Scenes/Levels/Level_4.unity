@@ -1357,7 +1357,7 @@ MonoBehaviour:
   DeathSoundPlayer: {fileID: 1433396069}
   DeathEffectRunner: {fileID: 4259864055069289674}
   DetachVfxOnDeath: 0
-  StartHp: 1
+  StartHp: 1500
   Portal: {fileID: 1128806082}
   PortalAppearPosition: {fileID: 1824008813}
   CollisionDamage: 35
