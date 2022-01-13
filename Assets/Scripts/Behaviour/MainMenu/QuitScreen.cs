@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine.UI;
 using STP.Utils;
 using STP.Utils.GameComponentAttributes;
@@ -19,6 +20,12 @@ namespace STP.Behaviour.MainMenu {
 		
 		IScreenShower _screenShower;
 
+		Sequence _activeSequence;
+		
+		void OnDestroy() {
+			_activeSequence?.Kill(true);
+		}
+
 		public void Init(IScreenShower screenShower) {
 			_screenShower = screenShower;
 			CancelButton.onClick.AddListener(_screenShower.Show<MainScreen>);
@@ -32,18 +39,24 @@ namespace STP.Behaviour.MainMenu {
 
 			WindowRoot.position         = AnimationBottomPosition.position;
 			BackgroundCanvasGroup.alpha = 0f;
-
-			DOTween.Sequence()
+			
+			_activeSequence?.Kill(true);
+			_activeSequence = DOTween.Sequence()
 				.Append(WindowRoot.DOMove(Vector3.zero, AnimationDuration))
 				.Join(BackgroundCanvasGroup.DOFade(1f, AnimationDuration))
 				.SetEase(Ease.OutSine);
 		}
 
 		public void Hide() {
+			if ( !gameObject.activeSelf ) {
+				return;
+			}
+			
 			WindowRoot.position         = Vector3.zero;
 			BackgroundCanvasGroup.alpha = 0f;
 			
-			DOTween.Sequence()
+			_activeSequence?.Kill(true);
+			_activeSequence = DOTween.Sequence()
 				.Append(WindowRoot.DOMove(AnimationBottomPosition.position, AnimationDuration))
 				.Join(BackgroundCanvasGroup.DOFade(0f, AnimationDuration))
 				.AppendCallback(() => gameObject.SetActive(false));
