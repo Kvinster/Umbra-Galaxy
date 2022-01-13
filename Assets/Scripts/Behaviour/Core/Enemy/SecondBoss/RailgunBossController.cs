@@ -25,6 +25,8 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 
 		[NotNull] public Rigidbody2D OwnRigidbody;
 
+		[NotNull] public AudioSource        DeathShockwaveAudioSource;
+		[NotNull] public AudioClip          DeathShockwaveStartSound;
 		[NotNull] public LevelExplosionZone DeathShockwave;
 
 		public float DeathEffectTime = 2f;
@@ -72,6 +74,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 			MovementSubsystem.Init(OwnRigidbody, starter.Player.transform, HpSystemComponent, starter.AreaRect);
 			MovementSubsystem.SetActive(false);
 
+			DeathShockwaveAudioSource.ignoreListenerPause = true;
 			DeathShockwave.gameObject.SetActive(false);
 		}
 
@@ -124,6 +127,7 @@ namespace STP.Behaviour.Core.Enemy.SecondBoss {
 
 			// Run last shockwave
 			DeathShockwave.gameObject.SetActive(true);
+			DeathShockwaveAudioSource.PlayOneShot(DeathShockwaveStartSound);
 			DeathShockwave.transform.parent = transform.parent;
 			_cameraShake.Shake(1f, 4f).Forget();
 			Destroy(gameObject);
