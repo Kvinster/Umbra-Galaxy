@@ -994,7 +994,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 1}
   serializedVersion: 2
-  m_Radius: 115
+  m_Radius: 195
 --- !u!73398921 &1717199790
 VFXRenderer:
   m_ObjectHideFlags: 2
