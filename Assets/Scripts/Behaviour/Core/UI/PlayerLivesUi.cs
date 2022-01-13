@@ -33,6 +33,10 @@ namespace STP.Behaviour.Core.UI {
 		public HorizontalLayoutGroup Layout;
 		[NotNullOrEmpty]
 		public List<Image> Elements;
+		[Header("Sound")]
+		[NotNull] public AudioSource AudioSource;
+		[NotNull] public AudioClip LiveLoseStartSound;
+		[NotNull] public AudioClip LiveElementBreakSound;
 
 		PlayerController _playerController;
 
@@ -47,6 +51,8 @@ namespace STP.Behaviour.Core.UI {
 				element.transform.localScale = Vector3.one;
 				element.gameObject.SetActive(i < playerController.CurLives - 1);
 			}
+
+			AudioSource.ignoreListenerPause = true;
 
 			_playerController.OnLifeAdded += OnPlayerGainLive;
 		}
@@ -75,12 +81,14 @@ namespace STP.Behaviour.Core.UI {
 			var seq                = DOTween.Sequence();
 			var shakeProgress      = 0f;
 			var elementOriginalPos = element.transform.localPosition;
-			seq.Append(DOTween.To(() => shakeProgress, x => {
+			seq.AppendCallback(() => AudioSource.PlayOneShot(LiveLoseStartSound))
+				.Append(DOTween.To(() => shakeProgress, x => {
 					shakeProgress = x;
 					element.transform.localPosition = elementOriginalPos + (Vector3) Random.insideUnitCircle *
 						(Mathf.Sin(shakeProgress * Mathf.PI) * ShakeMagnitude);
 				}, 1f, ShakeDuration))
 				.AppendCallback(() => element.transform.localPosition = elementOriginalPos)
+				.AppendCallback(() => AudioSource.PlayOneShot(LiveElementBreakSound))
 				.Append(element.transform.DOScale(Vector3.one * UpscaleAmount, UpscaleDuration))
 				.Join(element.DOColor(DisappearColor, DisappearColorDuration))
 				.OnComplete(() => element.gameObject.SetActive(false))

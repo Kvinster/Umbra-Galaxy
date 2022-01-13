@@ -30,6 +30,8 @@ namespace STP.Behaviour.Core {
 		[Header("Not final death anim")]
 		[NotNull] public LevelExplosionZone ExplosionZone;
 		[NotNull] public BaseSimpleSoundPlayer DeathSoundPlayer;
+		[NotNull] public AudioSource           AudioSource;
+		[NotNull] public AudioClip             ShockwaveStartSound;
 		[Header("Final death anim")]
 		[NotNull] public GameObject FinalDeathVisualEffectRoot;
 		[NotNull] public VisualEffect FinalDeathVisualEffect;
@@ -59,6 +61,8 @@ namespace STP.Behaviour.Core {
 			ExplosionZone.SetActive(false);
 
 			FinalDeathVisualEffectRoot.SetActive(false);
+
+			AudioSource.ignoreListenerPause = true;
 		}
 
 		public async UniTask PlayPlayerDeathAnim() {
@@ -70,21 +74,17 @@ namespace STP.Behaviour.Core {
 			_playerController.IsInvincible = true;
 
 			DeathSoundPlayer.Play();
-			await _windowsManager.DangerScreen.Show(DangerScreenShowDuration)
-				.ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
-			await PlayDiscolorationAnim(DiscolorationInAnimDuration, false)
-				.ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+			await _windowsManager.DangerScreen.Show(DangerScreenShowDuration).ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+			await PlayDiscolorationAnim(DiscolorationInAnimDuration, false).ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
 			await _windowsManager.LivesUi.PlayLoseLiveAnim();
-			await PlayDiscolorationAnim(DiscolorationOutAnimDuration, true)
-				.ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+			await PlayDiscolorationAnim(DiscolorationOutAnimDuration, true).ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
 			ExplosionZone.ResetToStart();
 			ExplosionZone.SetActive(true);
 			_playerController.RestoreHp();
 
-			await _windowsManager.DangerScreen.Hide(DangerScreenHideDuration)
-				.ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
-			await UniTask.Delay(TimeSpan.FromSeconds(ExplosionWaitTime), true, PlayerLoopTiming.Update,
-				_cancellationTokenSource.Token);
+			AudioSource.PlayOneShot(ShockwaveStartSound);
+			await _windowsManager.DangerScreen.Hide(DangerScreenHideDuration).ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+			await UniTask.Delay(TimeSpan.FromSeconds(ExplosionWaitTime), true, PlayerLoopTiming.Update, _cancellationTokenSource.Token);
 			ExplosionZone.SetActive(false);
 
 			_playerController.IsInvincible = false;
