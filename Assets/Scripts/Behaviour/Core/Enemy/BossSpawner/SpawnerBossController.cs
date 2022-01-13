@@ -22,6 +22,8 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 		[NotNull] public Rigidbody2D           BossRigidbody;
 		[NotNull] public BossMovementSubsystem MovementSubsystem;
 		[Space]
+		[NotNull] public AudioSource ShockwaveAudioSource;
+		[NotNull] public AudioClip          ShockwaveStartSound;
 		[NotNull] public LevelExplosionZone Shockwave;
 
 
@@ -71,6 +73,8 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			_spawnSubsystem = new SpawnerBossSpawnSubsystem();
 			var list = new List<ISpawner>(Spawners);
 			_spawnSubsystem.Init(list, starter, SpawnParams);
+
+			ShockwaveAudioSource.ignoreListenerPause = true;
 		}
 
 		public override void TakeDamage(float damage) {
@@ -121,6 +125,7 @@ namespace STP.Behaviour.Core.Enemy.BossSpawner {
 			// Run last shockwave
 			Shockwave.gameObject.SetActive(true);
 			Shockwave.transform.parent = transform.parent;
+			ShockwaveAudioSource.PlayOneShot(ShockwaveStartSound);
 			_cameraShake.Shake(1f, 4f).Forget();
 			Destroy(gameObject);
 
