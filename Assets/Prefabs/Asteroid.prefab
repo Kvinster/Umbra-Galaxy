@@ -239,6 +239,7 @@ Transform:
   m_Children:
   - {fileID: 1803493486617624898}
   - {fileID: 6607700754746742095}
+  - {fileID: 8013617158821948781}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -255,7 +256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Asteroid
-  DeathSoundPlayer: {fileID: 0}
+  DeathSoundPlayer: {fileID: 4267084017436748402}
   DeathEffectRunner: {fileID: 4164522279224287434}
   DetachVfxOnDeath: 1
   StartHp: 999
@@ -317,3 +318,95 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!1001 &4252759332858867263
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5909774503264953506}
+    m_Modifications:
+    - target: {fileID: 2665514832131900324, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: AudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5bcde8e4780ac374aa279932e6a9e9db, type: 3}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9084179322580691190, guid: 964f304fecd057148808b1c252542d97,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyDeathSoundPlayer
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 964f304fecd057148808b1c252542d97, type: 3}
+--- !u!4 &8013617158821948781 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6067123088519660370, guid: 964f304fecd057148808b1c252542d97,
+    type: 3}
+  m_PrefabInstance: {fileID: 4252759332858867263}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4267084017436748402 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 14474359902553165, guid: 964f304fecd057148808b1c252542d97,
+    type: 3}
+  m_PrefabInstance: {fileID: 4252759332858867263}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50eee101e20f42b39d2abc44aa636468, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
