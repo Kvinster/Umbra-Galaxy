@@ -35,6 +35,7 @@ namespace STP.Behaviour.Core {
 		[Header("Final death anim")]
 		[NotNull] public GameObject FinalDeathVisualEffectRoot;
 		[NotNull] public VisualEffect FinalDeathVisualEffect;
+		[NotNull] public AudioClip    FinalDeathSound;
 
 		PauseManager       _pauseManager;
 		CoreWindowsManager _windowsManager;
@@ -98,8 +99,8 @@ namespace STP.Behaviour.Core {
 
 			FinalDeathVisualEffectRoot.SetActive(true);
 			FinalDeathVisualEffect.Play();
-			await PlayDiscolorationAnim(FinalDiscolorationAnimDuration, false)
-				.ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+			AudioSource.PlayOneShot(FinalDeathSound);
+			await PlayDiscolorationAnim(FinalDiscolorationAnimDuration, false).ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
 
 			_windowsManager.ShowDeathWindow();
 

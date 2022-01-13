@@ -872,6 +872,7 @@ MonoBehaviour:
   ShockwaveStartSound: {fileID: 8300000, guid: cec569698bf9e004698e4f8f37c0e74f, type: 3}
   FinalDeathVisualEffectRoot: {fileID: 6687908338199043058}
   FinalDeathVisualEffect: {fileID: 8940948242690298101}
+  FinalDeathSound: {fileID: 8300000, guid: 7c56aa694037e8845b7dc035d1903a16, type: 3}
 --- !u!82 &4747515431681068403
 AudioSource:
   m_ObjectHideFlags: 0
