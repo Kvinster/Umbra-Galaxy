@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 
 using STP.Behaviour.Core.Enemy;
+using STP.Behaviour.Sound;
 using STP.Config;
 using STP.Core;
 using STP.Utils;
@@ -27,6 +28,8 @@ namespace STP.Behaviour.Core.UI {
 		[NotNull]        public Transform       HorizontalHidePos;
 		[NotNullOrEmpty] public List<Transform> VerticalPositions = new List<Transform>();
 		[NotNullOrEmpty] public List<Transform> DialogBoxes       = new List<Transform>();
+		[Space]
+		[NotNull] public AudioClip DialogBoxAppearSound;
 
 		BaseBoss _boss;
 
@@ -74,6 +77,7 @@ namespace STP.Behaviour.Core.UI {
 				var dialogBox = DialogBoxes[i];
 				var time      = StartDelay + i * DialogBoxesInterval;
 				var dialogBoxSeq = DOTween.Sequence()
+					.AppendCallback(() => PersistentAudioPlayer.Instance.PlayOneShot(DialogBoxAppearSound))
 					.Append(dialogBox.DOLocalMoveX(HorizontalShowPos.localPosition.x, DialogBoxAppearDuration))
 					.AppendInterval(DialogBoxPresentDurations[i])
 					.Append(dialogBox.DOLocalMoveX(HorizontalHidePos.localPosition.x, DialogBoxDisappearDuration));
