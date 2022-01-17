@@ -70,7 +70,7 @@ namespace STP.Behaviour.Core.Enemy {
 				if ( DetachVfxOnDeath ) {
 					DeathEffectRunner.transform.parent = transform.parent;
 				}
-				DeathEffectRunner.RunVfx(true);
+				DeathEffectRunner.RunVfx(true, true);
 			}
 		}
 	}

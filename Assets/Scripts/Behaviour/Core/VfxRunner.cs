@@ -58,12 +58,28 @@ namespace STP.Behaviour.Core {
 			_timer.Start(secDelay);
 		}
 
-		public void RunVfx(bool destroyOnEnd) {
-			foreach ( var effect in Effects ) {
-				effect.Play();
+		public void RunVfx(bool destroyOnEnd, bool skipCulled = false) {
+			bool allCulled;
+			if ( skipCulled ) {
+				allCulled = true;
+				foreach ( var effect in Effects ) {
+					if ( !effect.culled ) {
+						effect.Play();
+						allCulled = false;
+					}
+				}
+			} else {
+				allCulled = false;
+				foreach ( var effect in Effects ) {
+					effect.Play();
+				}
 			}
-			Running       = true;
-			_destroyOnEnd = destroyOnEnd;
+			if ( allCulled ) {
+				Destroy(gameObject);
+			} else {
+				Running       = true;
+				_destroyOnEnd = destroyOnEnd;
+			}
 		}
 
 		public void StopVfx() {
