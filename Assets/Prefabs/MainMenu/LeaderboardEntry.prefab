@@ -270,7 +270,7 @@ MonoBehaviour:
   m_Text: 
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
-  m_ReadOnly: 0
+  m_ReadOnly: 1
   m_RichText: 1
   m_GlobalFontAsset: {fileID: 11400000, guid: e40930e329dfc3d4faafb3b813011bcb, type: 2}
   m_OnFocusSelectAll: 0

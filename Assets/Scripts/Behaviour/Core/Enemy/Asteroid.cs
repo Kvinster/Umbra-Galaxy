@@ -9,8 +9,6 @@ namespace STP.Behaviour.Core.Enemy {
         public float LifeTime         = 10f;
         public float RotationVelocity = 500;
 
-        public VfxRunner vfxRunner;
-
         [NotNull]
         public Rigidbody2D Rigidbody;
 
@@ -36,10 +34,6 @@ namespace STP.Behaviour.Core.Enemy {
         }
 
         public override void Die(bool fromPlayer) {
-            if (vfxRunner) {
-                vfxRunner.transform.parent = transform.parent;
-                vfxRunner.RunVfx(true);
-            }
             base.Die(fromPlayer);
             Destroy(gameObject);
         }
