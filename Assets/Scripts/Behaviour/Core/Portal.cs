@@ -8,6 +8,7 @@ using STP.Utils;
 using STP.Utils.GameComponentAttributes;
 
 using DG.Tweening;
+using STP.Manager;
 
 namespace STP.Behaviour.Core {
 	public class Portal : GameComponent {
@@ -33,13 +34,18 @@ namespace STP.Behaviour.Core {
 
 		Tween _targetAppearAnim;
 
+		PauseManager _pauseManager;
+
 		protected virtual void OnDisable() {
 			_targetAppearAnim?.Kill();
 		}
 
 		public virtual void Init(CoreStarter coreStarter) {
+			_pauseManager = coreStarter.PauseManager;
 			gameObject.SetActive(false);
 			VisualEffect.Stop();
+			_pauseManager.OnIsPausedChanged += OnIsPausedChanged;
+			OnIsPausedChanged(_pauseManager.IsPaused);
 		}
 
 		public void PrepareTargetAppearAnim(Transform targetTransform, Transform appearPosition) {
@@ -78,7 +84,12 @@ namespace STP.Behaviour.Core {
 					VisualEffect.Stop();
 					gameObject.SetActive(false);
 					onComplete?.Invoke();
-				});
+				})
+				.SetUpdate(UpdateType.Manual);
+		}
+
+		void OnIsPausedChanged(bool isPaused) {
+			VisualEffect.pause = isPaused;
 		}
 
 		void PreparePortalCollider() {

@@ -80,7 +80,8 @@ namespace STP.Behaviour.Core.UI {
 					.AppendCallback(() => PersistentAudioPlayer.Instance.PlayOneShot(DialogBoxAppearSound))
 					.Append(dialogBox.DOLocalMoveX(HorizontalShowPos.localPosition.x, DialogBoxAppearDuration))
 					.AppendInterval(DialogBoxPresentDurations[i])
-					.Append(dialogBox.DOLocalMoveX(HorizontalHidePos.localPosition.x, DialogBoxDisappearDuration));
+					.Append(dialogBox.DOLocalMoveX(HorizontalHidePos.localPosition.x, DialogBoxDisappearDuration))
+					.SetUpdate(UpdateType.Manual);
 				_anim.Insert(time, dialogBoxSeq);
 				for ( var j = 0; j < i; ++j ) {
 					var otherDialogBox = DialogBoxes[j];
@@ -89,9 +90,10 @@ namespace STP.Behaviour.Core.UI {
 			}
 			_anim.InsertCallback(BossStartAppearTime, _boss.Appear);
 			_anim.OnComplete(() => {
-				Root.SetActive(false);
-				_anim = null;
-			});
+					Root.SetActive(false);
+					_anim = null;
+				})
+				.SetUpdate(UpdateType.Manual);
 		}
 	}
 }

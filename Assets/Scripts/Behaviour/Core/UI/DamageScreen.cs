@@ -46,7 +46,8 @@ namespace STP.Behaviour.Core.UI {
 			DamageFlashVignette.alpha = 0f;
 			_animationSequence = DOTween.Sequence()
 				.Append(DamageFlashVignette.DOFade(1f, DamageFlashTime))
-				.Append(DamageFlashVignette.DOFade(0f, DamageFlashTime));
+				.Append(DamageFlashVignette.DOFade(0f, DamageFlashTime))
+				.SetUpdate(UpdateType.Manual);
 		}
 	}
 }

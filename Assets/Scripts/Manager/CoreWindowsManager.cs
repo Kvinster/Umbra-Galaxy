@@ -41,10 +41,12 @@ namespace STP.Manager {
 
 		Tween _tween;
 
+		public bool IsPauseBlocked { get; set; }
+		
 		bool IsAnyWindowShown => _windows.Any(x => x.IsShown);
 
 		void Update() {
-			if ( Input.GetKeyDown(KeyCode.Escape) && !IsAnyWindowShown ) {
+			if ( Input.GetKeyDown(KeyCode.Escape) && !IsAnyWindowShown && !IsPauseBlocked ) {
 				ShowPauseWindow();
 			}
 		}

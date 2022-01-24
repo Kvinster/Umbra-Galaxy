@@ -83,7 +83,8 @@ namespace STP.Behaviour.Core.UI {
 			_anim = DOTween.Sequence()
 				.AppendInterval(StartDelay)
 				.Append(AnimTarget.DOLocalMove(ShowPos.localPosition, AnimDuration))
-				.OnComplete(() => _anim = null);
+				.OnComplete(() => _anim = null)
+				.SetUpdate(UpdateType.Manual);
 		}
 
 		void OnDied() {

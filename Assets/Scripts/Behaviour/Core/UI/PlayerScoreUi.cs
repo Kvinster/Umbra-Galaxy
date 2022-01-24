@@ -49,14 +49,17 @@ namespace STP.Behaviour.Core.UI {
 				.Append(PlayFadeAnim(true, false))
 				.Append(PlayTextChangeAnim(score))
 				.AppendInterval(ShowDuration - ScoreChangeDuration)
-				.Append(PlayFadeAnim(false, true));
+				.Append(PlayFadeAnim(false, true))
+				.SetUpdate(UpdateType.Manual);;
 		}
 
 		Tween PlayFadeAnim(bool appear, bool delayedStart) {
 			var endValue = appear ? 1f : 0f;
 			var curAlpha = delayedStart ? (appear ? 0f : 1f) : CanvasGroup.alpha;
 			var duration = appear ? ((1f - curAlpha) * FadeDuration) : (curAlpha * FadeDuration);
-			return DOTween.Sequence().Append(CanvasGroup.DOFade(endValue, duration));
+			return DOTween.Sequence()
+				.Append(CanvasGroup.DOFade(endValue, duration))
+				.SetUpdate(UpdateType.Manual);;
 		}
 
 		Tween PlayTextChangeAnim(int score) {
@@ -65,7 +68,8 @@ namespace STP.Behaviour.Core.UI {
 						_curScore = x;
 						UpdateScoreText();
 					}, score, ScoreChangeDuration)
-					.SetEase(Ease.Linear));
+					.SetEase(Ease.Linear))
+				.SetUpdate(UpdateType.Manual);
 		}
 
 		void UpdateScoreText() {
