@@ -64,15 +64,15 @@ namespace STP.Behaviour.Core {
 			if ( Mathf.Abs(vectorFromCenterAreaToObj.y) >= _battleArea.height / 2 ) {
 				// y > 0 => upper. otherwise - bottom.
 				var newY = ( vectorFromCenterAreaToObj.y > 0 )
-					? _battleArea.yMin - aabbRect.height / 2f
-					: _battleArea.yMax + aabbRect.height / 2f;
+					? _battleArea.yMin - aabbRect.height / 4f
+					: _battleArea.yMax + aabbRect.height / 4f;
 				res.y = newY;
 			}
 			if ( Mathf.Abs(vectorFromCenterAreaToObj.x) >= _battleArea.width / 2) {
 				// x > 0 => left. otherwise - right.
 				var newX = ( vectorFromCenterAreaToObj.x > 0 )
-					? _battleArea.xMin - aabbRect.width / 2f 
-					: _battleArea.xMax + aabbRect.width / 2f ;
+					? _battleArea.xMin - aabbRect.width / 4f 
+					: _battleArea.xMax + aabbRect.width / 4f ;
 				res.x = newX;
 			}
 

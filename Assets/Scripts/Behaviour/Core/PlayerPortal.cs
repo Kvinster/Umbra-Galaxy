@@ -78,12 +78,14 @@ namespace STP.Behaviour.Core {
 		}
 
 		void PlayLevelStartAnim() {
+			_windowsManager.IsPauseBlocked = true;
 			_windowsManager.HideLevelUi();
 			PlayerAppearSoundPlayer.Play();
 			PlayTargetAppearAnim(_player.transform, _playerStartPos, () => {
 				_levelManager.ActivateLevel();
 				_windowsManager.ShowLevelUi();
 				_windowsManager.FadeInUi();
+				_windowsManager.IsPauseBlocked = false;
 			});
 		}
 
@@ -134,14 +136,18 @@ namespace STP.Behaviour.Core {
 		void FinishLevelWinAnim(Transform playerTransform) {
 			Assert.IsTrue(IsInit);
 			Assert.IsFalse(_disappearStarted);
-			_disappearStarted = true;
+			_windowsManager.IsPauseBlocked = true;
+			_disappearStarted              = true;
 			_levelWinFinishAnim = DOTween.Sequence()
 				.Append(playerTransform.DOMove(VisualEffect.transform.position, PlayerAnimTime))
 				.Join(playerTransform.DOScale(Vector3.zero, PlayerAnimTime))
 				.Join(DOTween.To(() => VisualEffect.GetFloat(PortalSizeId), x => VisualEffect.SetFloat(PortalSizeId, x),
 					0f, DisappearTime))
 				.Join(DOTween.To(() => AudioSource.volume, x => AudioSource.volume = x, 0f, PlayerAnimTime))
-				.OnComplete(_levelManager.FinishLevelWin);
+				.OnComplete(() => {
+					_windowsManager.IsPauseBlocked = false;
+					_levelManager.FinishLevelWin();
+				});
 		}
 
 		void OnTriggerEnter2D(Collider2D other) {

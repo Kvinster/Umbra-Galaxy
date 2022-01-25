@@ -73,7 +73,8 @@ namespace STP.Behaviour.Core.UI {
 			_anim?.Kill();
 			_anim = DOTween.Sequence()
 				.Append(GetAnimTo(ShowPosition))
-				.OnComplete(() => _anim = null);
+				.OnComplete(() => _anim = null)
+				.SetUpdate(UpdateType.Manual);
 			OnBecameActive?.Invoke(this);
 		}
 
@@ -92,7 +93,8 @@ namespace STP.Behaviour.Core.UI {
 					Root.SetActive(false);
 					_anim = null;
 					OnBecameInactive?.Invoke(this);
-				});
+				})
+				.SetUpdate(UpdateType.Manual);
 		}
 
 		Tween GetAnimTo(Transform dst) {

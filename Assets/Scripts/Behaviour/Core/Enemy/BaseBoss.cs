@@ -1,5 +1,6 @@
 using UnityEngine;
 
+using STP.Behaviour.Starter;
 using STP.Core;
 using STP.Utils.GameComponentAttributes;
 
@@ -12,6 +13,11 @@ namespace STP.Behaviour.Core.Enemy {
 
 		public abstract HpSystem HpSystemComponent { get; }
 
+		protected override void InitInternal(CoreStarter starter) {
+			base.InitInternal(starter);
+			Portal.Init(starter);
+		}
+		
 		public abstract void TakeDamage(float damage);
 
 		public void PrepareAppear() {

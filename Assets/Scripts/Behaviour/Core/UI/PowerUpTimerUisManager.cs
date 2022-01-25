@@ -61,7 +61,8 @@ namespace STP.Behaviour.Core.UI {
 				var position = Positions[i];
 				var anim = DOTween.Sequence().AppendInterval(DropInterval * (i - index))
 					.Append(timer.transform.DOLocalMove(position.localPosition, VerticalMoveAnimDuration)
-						.SetEase(Ease.Linear));
+						.SetEase(Ease.Linear))
+					.SetUpdate(UpdateType.Manual);
 				anim.OnComplete(() => _activeAnims.Remove(anim));
 				_activeAnims.Add(anim);
 			}

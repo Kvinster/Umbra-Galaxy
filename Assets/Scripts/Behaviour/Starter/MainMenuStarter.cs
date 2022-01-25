@@ -3,7 +3,6 @@ using UnityEngine.Assertions;
 
 using STP.Behaviour.MainMenu;
 using STP.Core;
-using STP.Core.Achievements;
 using STP.Core.State;
 using STP.Service.Achievements;
 using STP.Utils.GameComponentAttributes;

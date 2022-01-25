@@ -70,25 +70,47 @@ namespace STP.Behaviour.Core {
 			Assert.IsNull(_cancellationTokenSource);
 			_cancellationTokenSource = new CancellationTokenSource();
 
+			_windowsManager.IsPauseBlocked = true;
+
 			ExplosionZone.transform.position = transform.position;
 
 			_playerController.IsInvincible = true;
 
 			DeathSoundPlayer.Play();
 			await _windowsManager.DangerScreen.Show(DangerScreenShowDuration).ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+			if ( _cancellationTokenSource.IsCancellationRequested ) {
+				return;
+			}
 			await PlayDiscolorationAnim(DiscolorationInAnimDuration, false).ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+			if ( _cancellationTokenSource.IsCancellationRequested ) {
+				return;
+			}
 			await _windowsManager.LivesUi.PlayLoseLiveAnim();
+			if ( _cancellationTokenSource.IsCancellationRequested ) {
+				return;
+			}
 			await PlayDiscolorationAnim(DiscolorationOutAnimDuration, true).ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+			if ( _cancellationTokenSource.IsCancellationRequested ) {
+				return;
+			}
 			ExplosionZone.ResetToStart();
 			ExplosionZone.SetActive(true);
 			_playerController.RestoreHp();
 
 			AudioSource.PlayOneShot(ShockwaveStartSound);
 			await _windowsManager.DangerScreen.Hide(DangerScreenHideDuration).ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
+			if ( _cancellationTokenSource.IsCancellationRequested ) {
+				return;
+			}
 			await UniTask.Delay(TimeSpan.FromSeconds(ExplosionWaitTime), true, PlayerLoopTiming.Update, _cancellationTokenSource.Token);
+			if ( _cancellationTokenSource.IsCancellationRequested ) {
+				return;
+			}
 			ExplosionZone.SetActive(false);
 
 			_playerController.IsInvincible = false;
+
+			_windowsManager.IsPauseBlocked = false;
 
 			_cancellationTokenSource = null;
 		}
@@ -97,12 +119,16 @@ namespace STP.Behaviour.Core {
 			Assert.IsNull(_cancellationTokenSource);
 			_cancellationTokenSource = new CancellationTokenSource();
 
+			_windowsManager.IsPauseBlocked = true;
+
 			FinalDeathVisualEffectRoot.SetActive(true);
 			FinalDeathVisualEffect.Play();
 			AudioSource.PlayOneShot(FinalDeathSound);
 			await PlayDiscolorationAnim(FinalDiscolorationAnimDuration, false).ToUniTask(TweenCancelBehaviour.Kill, _cancellationTokenSource.Token);
 
 			_windowsManager.ShowDeathWindow();
+
+			_windowsManager.IsPauseBlocked = false;
 
 			_cancellationTokenSource = null;
 		}
